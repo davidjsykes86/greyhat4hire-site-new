@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tested by Greyhat4Hire — Badge Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--pink:#ff1493;--pink2:#ff69b4;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Rajdhani',sans-serif;
+  background:#0a0a0a;
+  color:#e0e0e0;
+  min-height:100vh;
+  padding:60px 24px;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 20% 50%, rgba(255,20,147,0.04) 0%, transparent 60%),
+             radial-gradient(ellipse at 80% 20%, rgba(255,20,147,0.03) 0%, transparent 50%);
+}
+
+h1{
+  font-family:'Orbitron',monospace;font-size:clamp(1rem,3vw,1.5rem);
+  font-weight:900;letter-spacing:.12em;color:#fff;
+  text-align:center;margin-bottom:8px;
+  text-shadow:0 0 30px rgba(255,20,147,0.5);
+}
+.subtitle{
+  font-family:'Share Tech Mono',monospace;font-size:.75rem;
+  letter-spacing:.2em;color:#555;text-align:center;
+  margin-bottom:60px;text-transform:uppercase;
+}
+
+/* SECTIONS */
+.section{
+  max-width:900px;margin:0 auto 70px;
+  position:relative;z-index:1;
+}
+.section-label{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.6rem;letter-spacing:.3em;color:var(--pink);
+  text-transform:uppercase;margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-label::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,rgba(255,20,147,0.3),transparent);
+}
+
+.preview-bg{
+  border-radius:16px;
+  padding:50px 30px;
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:30px;
+  margin-bottom:16px;
+}
+.preview-bg.dark{background:#000;border:1px solid rgba(255,255,255,0.05);}
+.preview-bg.light{background:#f0f0f0;border:1px solid rgba(0,0,0,0.08);}
+.preview-bg.mid{background:#1a1a1a;border:1px solid rgba(255,255,255,0.05);}
+
+.code-box{
+  background:rgba(255,20,147,0.04);
+  border:1px solid rgba(255,20,147,0.12);
+  border-radius:10px;
+  padding:14px 18px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.68rem;
+  color:#777;
+  line-height:1.6;
+  word-break:break-all;
+  cursor:pointer;
+  transition:all .2s;
+  position:relative;
+}
+.code-box:hover{border-color:rgba(255,20,147,0.3);color:#aaa;}
+.code-box .copy-hint{
+  position:absolute;top:10px;right:12px;
+  font-size:.55rem;letter-spacing:.15em;
+  color:var(--pink);opacity:0;
+  transition:opacity .2s;
+  text-transform:uppercase;
+}
+.code-box:hover .copy-hint{opacity:1;}
+.copied{color:var(--pink) !important;border-color:rgba(255,20,147,0.5) !important;}
+
+/* ═══════════════════════════════════════
+   BADGE VARIANT 1 — GLASSMORPHIC NEON
+═══════════════════════════════════════ */
+.badge-glass{
+  display:inline-flex;align-items:center;gap:12px;
+  background:rgba(8,8,8,0.85);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,20,147,0.35);
+  border-radius:14px;
+  padding:10px 18px 10px 12px;
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(255,20,147,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition:all .3s ease;
+  cursor:pointer;
+}
+.badge-glass::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,20,147,0.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+.badge-glass:hover{
+  box-shadow:0 0 50px rgba(255,20,147,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  border-color:rgba(255,20,147,0.6);
+  transform:translateY(-2px);
+}
+.badge-glass .logo-wrap{
+  width:36px;height:36px;
+  background:rgba(255,20,147,0.1);
+  border:1px solid rgba(255,20,147,0.25);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  position:relative;
+}
+.badge-glass .logo-wrap::after{
+  content:'';position:absolute;inset:0;border-radius:8px;
+  background:linear-gradient(135deg,rgba(255,20,147,0.2),transparent);
+}
+.badge-glass .logo-wrap img{width:26px;height:26px;object-fit:contain;position:relative;z-index:1;}
+.badge-glass .text-wrap{display:flex;flex-direction:column;gap:1px;}
+.badge-glass .top-line{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.52rem;letter-spacing:.22em;
+  color:rgba(255,20,147,0.7);text-transform:uppercase;
+  line-height:1;
+}
+.badge-glass .main-line{
+  font-family:'Orbitron',monospace;
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;
+  color:#fff;text-transform:uppercase;
+  text-shadow:0 0 15px rgba(255,255,255,0.3);
+  line-height:1.2;
+}
+.badge-glass .main-line span{color:var(--pink);text-shadow:0 0 15px rgba(255,20,147,0.8);}
+.badge-glass .bottom-line{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.48rem;letter-spacing:.18em;
+  color:#444;text-transform:uppercase;line-height:1;
+}
+.badge-glass .shield-icon{
+  margin-left:4px;font-size:.9rem;
+  color:var(--pink);
+  text-shadow:0 0 12px rgba(255,20,147,0.8);
+  flex-shrink:0;
+}
+/* pulse dot */
+.badge-glass .live-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--pink);flex-shrink:0;
+  box-shadow:0 0 8px var(--pink);
+  animation:dotPulse 2s infinite;
+}
+@keyframes dotPulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--pink)}50%{opacity:.4;box-shadow:0 0 0 0 transparent}}
+
+/* ═══════════════════════════════════════
+   BADGE VARIANT 2 — COMPACT PILL
+═══════════════════════════════════════ */
+.badge-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#0d0d0d,#1a0010);
+  border:1px solid rgba(255,20,147,0.4);
+  border-radius:100px;
+  padding:7px 16px 7px 9px;
+  text-decoration:none;cursor:pointer;
+  box-shadow:0 0 20px rgba(255,20,147,0.1);
+  transition:all .3s;
+}
+.badge-pill:hover{
+  box-shadow:0 0 35px rgba(255,20,147,0.3);
+  border-color:rgba(255,20,147,0.7);
+  transform:translateY(-1px);
+}
+.badge-pill .pill-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--pink);
+  box-shadow:0 0 10px var(--pink);
+  animation:dotPulse 2s infinite;flex-shrink:0;
+}
+.badge-pill .pill-logo{
+  width:20px;height:20px;object-fit:contain;
+  filter:drop-shadow(0 0 4px rgba(255,20,147,0.5));
+}
+.badge-pill .pill-text{
+  font-family:'Orbitron',monospace;
+  font-size:.6rem;font-weight:700;letter-spacing:.1em;
+  color:#fff;text-transform:uppercase;white-space:nowrap;
+}
+.badge-pill .pill-text span{color:var(--pink);}
+.badge-pill .pill-check{
+  font-size:.75rem;color:#00ff88;
+  text-shadow:0 0 8px rgba(0,255,136,0.8);
+}
+
+/* ═══════════════════════════════════════
+   BADGE VARIANT 3 — STAMP / SEAL
+═══════════════════════════════════════ */
+.badge-stamp{
+  display:inline-flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  width:110px;height:110px;
+  background:rgba(0,0,0,0.9);
+  border:2px solid rgba(255,20,147,0.5);
+  border-radius:50%;
+  position:relative;cursor:pointer;
+  box-shadow:0 0 30px rgba(255,20,147,0.15),
+             inset 0 0 30px rgba(255,20,147,0.03);
+  transition:all .3s;
+  text-decoration:none;
+}
+.badge-stamp::before{
+  content:'';position:absolute;inset:4px;
+  border:1px dashed rgba(255,20,147,0.25);
+  border-radius:50%;
+  animation:stampSpin 20s linear infinite;
+}
+.badge-stamp::after{
+  content:'';position:absolute;inset:8px;
+  border:1px solid rgba(255,20,147,0.1);
+  border-radius:50%;
+}
+@keyframes stampSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.badge-stamp:hover{
+  box-shadow:0 0 50px rgba(255,20,147,0.35),inset 0 0 30px rgba(255,20,147,0.05);
+  border-color:rgba(255,20,147,0.8);
+  transform:scale(1.05);
+}
+.badge-stamp img{width:30px;height:30px;object-fit:contain;position:relative;z-index:1;}
+.badge-stamp .stamp-tested{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.38rem;letter-spacing:.2em;
+  color:rgba(255,20,147,0.7);text-transform:uppercase;
+  position:relative;z-index:1;margin-top:4px;
+}
+.badge-stamp .stamp-brand{
+  font-family:'Orbitron',monospace;
+  font-size:.42rem;font-weight:900;letter-spacing:.05em;
+  color:#fff;text-transform:uppercase;
+  position:relative;z-index:1;text-align:center;
+  line-height:1.3;
+}
+.badge-stamp .stamp-brand span{color:var(--pink);}
+.badge-stamp .stamp-year{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.38rem;letter-spacing:.15em;
+  color:#444;position:relative;z-index:1;margin-top:3px;
+}
+
+/* ═══════════════════════════════════════
+   BADGE VARIANT 4 — WIDE BANNER
+═══════════════════════════════════════ */
+.badge-banner{
+  display:inline-flex;align-items:center;gap:0;
+  border:1px solid rgba(255,20,147,0.3);
+  border-radius:12px;overflow:hidden;
+  cursor:pointer;text-decoration:none;
+  transition:all .3s;
+  box-shadow:0 0 20px rgba(255,20,147,0.08);
+}
+.badge-banner:hover{
+  box-shadow:0 0 40px rgba(255,20,147,0.25);
+  border-color:rgba(255,20,147,0.6);
+  transform:translateY(-2px);
+}
+.badge-banner .banner-left{
+  background:linear-gradient(135deg,rgba(255,20,147,0.15),rgba(255,20,147,0.05));
+  border-right:1px solid rgba(255,20,147,0.2);
+  padding:12px 14px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.badge-banner .banner-left::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at center,rgba(255,20,147,0.2),transparent 70%);
+}
+.badge-banner .banner-left img{
+  width:32px;height:32px;object-fit:contain;
+  filter:drop-shadow(0 0 8px rgba(255,20,147,0.6));
+  position:relative;z-index:1;
+}
+.badge-banner .banner-right{
+  background:rgba(6,6,6,0.95);
+  padding:10px 16px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.badge-banner .banner-top{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.5rem;letter-spacing:.25em;
+  color:var(--pink);text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+}
+.badge-banner .banner-top .vdot{
+  width:4px;height:4px;border-radius:50%;
+  background:#00ff88;box-shadow:0 0 6px #00ff88;
+  animation:dotPulse 2s infinite;
+}
+.badge-banner .banner-mid{
+  font-family:'Orbitron',monospace;
+  font-size:.7rem;font-weight:700;letter-spacing:.06em;
+  color:#fff;text-transform:uppercase;
+  text-shadow:0 0 10px rgba(255,255,255,0.2);
+}
+.badge-banner .banner-mid span{color:var(--pink);text-shadow:0 0 10px rgba(255,20,147,0.7);}
+.badge-banner .banner-bot{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.45rem;letter-spacing:.15em;
+  color:#333;text-transform:uppercase;
+}
+
+/* ═══════════════════════════════════════
+   BADGE VARIANT 5 — LIGHT VERSION
+═══════════════════════════════════════ */
+.badge-light{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#fff;
+  border:1.5px solid rgba(255,20,147,0.3);
+  border-radius:12px;
+  padding:9px 16px 9px 10px;
+  cursor:pointer;text-decoration:none;
+  box-shadow:0 2px 20px rgba(255,20,147,0.08),0 1px 0 rgba(255,20,147,0.05);
+  transition:all .3s;
+}
+.badge-light:hover{
+  box-shadow:0 4px 30px rgba(255,20,147,0.2);
+  border-color:rgba(255,20,147,0.6);
+  transform:translateY(-2px);
+}
+.badge-light .light-icon{
+  width:32px;height:32px;border-radius:7px;
+  background:linear-gradient(135deg,rgba(255,20,147,0.08),rgba(255,20,147,0.03));
+  border:1px solid rgba(255,20,147,0.15);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.badge-light .light-icon img{width:22px;height:22px;object-fit:contain;}
+.badge-light .light-text{display:flex;flex-direction:column;gap:1px;}
+.badge-light .light-top{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.48rem;letter-spacing:.2em;
+  color:rgba(255,20,147,0.7);text-transform:uppercase;
+}
+.badge-light .light-main{
+  font-family:'Orbitron',monospace;
+  font-size:.65rem;font-weight:700;letter-spacing:.06em;
+  color:#111;text-transform:uppercase;
+}
+.badge-light .light-main span{color:var(--pink);}
+.badge-light .light-sub{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.42rem;letter-spacing:.15em;
+  color:#bbb;text-transform:uppercase;
+}
+.badge-light .light-check{
+  margin-left:auto;font-size:1rem;
+  color:var(--pink);flex-shrink:0;
+}
+
+/* PAGE LAYOUT */
+.page-title-wrap{text-align:center;margin-bottom:60px;position:relative;z-index:1;}
+.divider{
+  height:1px;max-width:900px;margin:0 auto 60px;
+  background:linear-gradient(90deg,transparent,rgba(255,20,147,0.2),transparent);
+}
+
+/* COPY TOAST */
+#toast{
+  position:fixed;bottom:30px;right:30px;
+  background:rgba(255,20,147,0.1);
+  border:1px solid rgba(255,20,147,0.4);
+  backdrop-filter:blur(20px);
+  color:var(--pink);
+  font-family:'Share Tech Mono',monospace;
+  font-size:.7rem;letter-spacing:.15em;
+  padding:12px 20px;border-radius:10px;
+  z-index:9999;pointer-events:none;
+  opacity:0;transform:translateY(10px);
+  transition:all .3s;
+}
+#toast.show{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div id="toast">// CODE COPIED ✓</div>
+
+<div class="page-title-wrap">
+  <p style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--pink);text-transform:uppercase;margin-bottom:12px;">// badge kit v1.0</p>
+  <h1 style="font-family:'Orbitron',monospace;font-size:clamp(1.1rem,3vw,1.8rem);font-weight:900;letter-spacing:.1em;color:#fff;text-shadow:0 0 40px rgba(255,20,147,0.4);">TESTED BY <span style="color:var(--pink)">GREYHAT4HIRE</span></h1>
+  <p style="font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:#444;margin-top:10px;">CLICK ANY BADGE TO COPY EMBED CODE</p>
+</div>
+
+<!-- ═══ VARIANT 1 — GLASSMORPHIC ═══ -->
+<div class="section">
+  <div class="section-label">01 // Glassmorphic Neon — recommended for dark sites</div>
+  <div class="preview-bg dark">
+    <a class="badge-glass" href="https://greyhat4hire.com" target="_blank" onclick="copyCode(event,'code1')">
+      <div class="logo-wrap">
+        <img src="logo.png" alt="GH"/>
+      </div>
+      <div class="text-wrap">
+        <span class="top-line">security verified</span>
+        <span class="main-line">Tested by <span>Greyhat4Hire</span></span>
+        <span class="bottom-line">greyhat4hire.com &nbsp;// RSA</span>
+      </div>
+      <div class="live-dot"></div>
+      <span class="shield-icon">🛡</span>
+    </a>
+  </div>
+  <div class="code-box" onclick="copyCode(event,'code1')" id="code1">
+    <span class="copy-hint">copy</span>
+&lt;a href="https://greyhat4hire.com" target="_blank" style="display:inline-flex;align-items:center;gap:12px;background:rgba(8,8,8,0.85);backdrop-filter:blur(20px);border:1px solid rgba(255,20,147,0.35);border-radius:14px;padding:10px 18px 10px 12px;text-decoration:none;box-shadow:0 0 30px rgba(255,20,147,0.15);"&gt;
+  &lt;div style="width:36px;height:36px;background:rgba(255,20,147,0.1);border:1px solid rgba(255,20,147,0.25);border-radius:8px;display:flex;align-items:center;justify-content:center;"&gt;
+    &lt;img src="https://greyhat4hire.com/logo.png" width="26" height="26" alt="Greyhat4Hire"/&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;gap:1px;"&gt;
+    &lt;span style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(255,20,147,0.7);text-transform:uppercase;"&gt;SECURITY VERIFIED&lt;/span&gt;
+    &lt;span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:1px;color:#fff;text-transform:uppercase;"&gt;Tested by &lt;span style="color:#ff1493;"&gt;Greyhat4Hire&lt;/span&gt;&lt;/span&gt;
+    &lt;span style="font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;color:#444;text-transform:uppercase;"&gt;greyhat4hire.com // RSA&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span style="font-size:18px;"&gt;🛡&lt;/span&gt;
+&lt;/a&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/&gt;
+  </div>
+</div>
+
+<!-- ═══ VARIANT 2 — PILL ═══ -->
+<div class="section">
+  <div class="section-label">02 // Compact Pill — great for footers with limited space</div>
+  <div class="preview-bg dark">
+    <a class="badge-pill" href="https://greyhat4hire.com" target="_blank" onclick="copyCode(event,'code2')">
+      <span class="pill-dot"></span>
+      <img class="pill-logo" src="logo.png" alt="GH"/>
+      <span class="pill-text">Tested by <span>Greyhat4Hire</span></span>
+      <span class="pill-check">✓</span>
+    </a>
+  </div>
+  <div class="code-box" onclick="copyCode(event,'code2')" id="code2">
+    <span class="copy-hint">copy</span>
+&lt;a href="https://greyhat4hire.com" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#0d0d0d,#1a0010);border:1px solid rgba(255,20,147,0.4);border-radius:100px;padding:7px 16px 7px 9px;text-decoration:none;box-shadow:0 0 20px rgba(255,20,147,0.1);"&gt;
+  &lt;span style="width:8px;height:8px;border-radius:50%;background:#ff1493;box-shadow:0 0 10px #ff1493;display:inline-block;"&gt;&lt;/span&gt;
+  &lt;img src="https://greyhat4hire.com/logo.png" width="20" height="20" alt="GH" style="object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,20,147,0.5));"/&gt;
+  &lt;span style="font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1px;color:#fff;text-transform:uppercase;white-space:nowrap;"&gt;Tested by &lt;span style="color:#ff1493;"&gt;Greyhat4Hire&lt;/span&gt;&lt;/span&gt;
+  &lt;span style="color:#00ff88;font-size:12px;"&gt;✓&lt;/span&gt;
+&lt;/a&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"/&gt;
+  </div>
+</div>
+
+<!-- ═══ VARIANT 3 — SEAL ═══ -->
+<div class="section">
+  <div class="section-label">03 // Seal / Stamp — sidebar widget or corner placement</div>
+  <div class="preview-bg dark">
+    <a class="badge-stamp" href="https://greyhat4hire.com" target="_blank" onclick="copyCode(event,'code3')">
+      <img src="logo.png" alt="GH"/>
+      <span class="stamp-tested">security tested</span>
+      <span class="stamp-brand">GREY<span>HAT</span><br/>4HIRE</span>
+      <span class="stamp-year">RSA // 2025</span>
+    </a>
+  </div>
+  <div class="code-box" onclick="copyCode(event,'code3')" id="code3">
+    <span class="copy-hint">copy</span>
+&lt;style&gt;@keyframes stampSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}&lt;/style&gt;
+&lt;a href="https://greyhat4hire.com" target="_blank" style="display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:110px;height:110px;background:rgba(0,0,0,0.9);border:2px solid rgba(255,20,147,0.5);border-radius:50%;position:relative;text-decoration:none;box-shadow:0 0 30px rgba(255,20,147,0.15);"&gt;
+  &lt;span style="position:absolute;inset:4px;border:1px dashed rgba(255,20,147,0.25);border-radius:50%;animation:stampSpin 20s linear infinite;display:block;"&gt;&lt;/span&gt;
+  &lt;img src="https://greyhat4hire.com/logo.png" width="30" height="30" alt="GH" style="position:relative;z-index:1;object-fit:contain;"/&gt;
+  &lt;span style="font-family:'Share Tech Mono',monospace;font-size:6px;letter-spacing:3px;color:rgba(255,20,147,0.7);text-transform:uppercase;position:relative;z-index:1;margin-top:4px;"&gt;SECURITY TESTED&lt;/span&gt;
+  &lt;span style="font-family:'Orbitron',monospace;font-size:7px;font-weight:900;letter-spacing:1px;color:#fff;text-transform:uppercase;position:relative;z-index:1;text-align:center;line-height:1.3;"&gt;GREY&lt;span style="color:#ff1493;"&gt;HAT&lt;/span&gt;&lt;br/&gt;4HIRE&lt;/span&gt;
+  &lt;span style="font-family:'Share Tech Mono',monospace;font-size:6px;letter-spacing:2px;color:#444;position:relative;z-index:1;margin-top:3px;"&gt;RSA // 2025&lt;/span&gt;
+&lt;/a&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/&gt;
+  </div>
+</div>
+
+<!-- ═══ VARIANT 4 — BANNER ═══ -->
+<div class="section">
+  <div class="section-label">04 // Wide Banner — full footer strip</div>
+  <div class="preview-bg dark">
+    <a class="badge-banner" href="https://greyhat4hire.com" target="_blank" onclick="copyCode(event,'code4')">
+      <div class="banner-left">
+        <img src="logo.png" alt="GH"/>
+      </div>
+      <div class="banner-right">
+        <span class="banner-top"><span class="vdot"></span>SECURITY VERIFIED</span>
+        <span class="banner-mid">Tested by <span>Greyhat4Hire</span></span>
+        <span class="banner-bot">Independent Security Assurance // RSA</span>
+      </div>
+    </a>
+  </div>
+  <div class="code-box" onclick="copyCode(event,'code4')" id="code4">
+    <span class="copy-hint">copy</span>
+&lt;a href="https://greyhat4hire.com" target="_blank" style="display:inline-flex;align-items:center;border:1px solid rgba(255,20,147,0.3);border-radius:12px;overflow:hidden;text-decoration:none;box-shadow:0 0 20px rgba(255,20,147,0.08);"&gt;
+  &lt;div style="background:linear-gradient(135deg,rgba(255,20,147,0.15),rgba(255,20,147,0.05));border-right:1px solid rgba(255,20,147,0.2);padding:12px 14px;display:flex;align-items:center;justify-content:center;"&gt;
+    &lt;img src="https://greyhat4hire.com/logo.png" width="32" height="32" alt="GH" style="object-fit:contain;filter:drop-shadow(0 0 8px rgba(255,20,147,0.6));"/&gt;
+  &lt;/div&gt;
+  &lt;div style="background:rgba(6,6,6,0.95);padding:10px 16px;display:flex;flex-direction:column;gap:2px;"&gt;
+    &lt;span style="font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:4px;color:#ff1493;text-transform:uppercase;"&gt;● SECURITY VERIFIED&lt;/span&gt;
+    &lt;span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:1px;color:#fff;text-transform:uppercase;"&gt;Tested by &lt;span style="color:#ff1493;"&gt;Greyhat4Hire&lt;/span&gt;&lt;/span&gt;
+    &lt;span style="font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:2px;color:#333;text-transform:uppercase;"&gt;Independent Security Assurance // RSA&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/&gt;
+  </div>
+</div>
+
+<!-- ═══ VARIANT 5 — LIGHT ═══ -->
+<div class="section">
+  <div class="section-label">05 // Light Version — for clients with white/light websites</div>
+  <div class="preview-bg light">
+    <a class="badge-light" href="https://greyhat4hire.com" target="_blank" onclick="copyCode(event,'code5')">
+      <div class="light-icon">
+        <img src="logo.png" alt="GH"/>
+      </div>
+      <div class="light-text">
+        <span class="light-top">security verified</span>
+        <span class="light-main">Tested by <span>Greyhat4Hire</span></span>
+        <span class="light-sub">greyhat4hire.com // RSA</span>
+      </div>
+      <span class="light-check">🛡</span>
+    </a>
+  </div>
+  <div class="code-box" onclick="copyCode(event,'code5')" id="code5">
+    <span class="copy-hint">copy</span>
+&lt;a href="https://greyhat4hire.com" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#fff;border:1.5px solid rgba(255,20,147,0.3);border-radius:12px;padding:9px 16px 9px 10px;text-decoration:none;box-shadow:0 2px 20px rgba(255,20,147,0.08);"&gt;
+  &lt;div style="width:32px;height:32px;border-radius:7px;background:rgba(255,20,147,0.06);border:1px solid rgba(255,20,147,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"&gt;
+    &lt;img src="https://greyhat4hire.com/logo.png" width="22" height="22" alt="GH" style="object-fit:contain;"/&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;gap:1px;"&gt;
+    &lt;span style="font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:3px;color:rgba(255,20,147,0.7);text-transform:uppercase;"&gt;SECURITY VERIFIED&lt;/span&gt;
+    &lt;span style="font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1px;color:#111;text-transform:uppercase;"&gt;Tested by &lt;span style="color:#ff1493;"&gt;Greyhat4Hire&lt;/span&gt;&lt;/span&gt;
+    &lt;span style="font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:2px;color:#bbb;text-transform:uppercase;"&gt;greyhat4hire.com // RSA&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span style="margin-left:auto;font-size:16px;color:#ff1493;"&gt;🛡&lt;/span&gt;
+&lt;/a&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/&gt;
+  </div>
+</div>
+
+<script>
+function copyCode(e, id){
+  e.preventDefault();
+  const el = document.getElementById(id);
+  const code = el.innerText.replace('copy','').trim();
+  navigator.clipboard.writeText(code).then(()=>{
+    el.classList.add('copied');
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(()=>{el.classList.remove('copied');toast.classList.remove('show');},2000);
+  });
+}
+</script>
+</body>
+</html>
