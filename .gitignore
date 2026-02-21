@@ -1,0 +1,9 @@
+# Windows junk
+Thumbs.db
+desktop.ini
+
+# Build artifacts (adjust if needed)
+node_modules/
+dist/
+build/
+.env

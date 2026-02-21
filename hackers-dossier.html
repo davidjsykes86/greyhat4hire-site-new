@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Hacker's Dossier — Greyhat4Hire | Live Threat Intelligence</title>
+  <meta name="description" content="Enter a domain. We run real OSINT — live DNS, certificate transparency, Shodan, WHOIS — then compile the intelligence file an attacker would build on you."/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&family=Special+Elite&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --pink: #ff1493;
+      --pink-dim: rgba(255,20,147,0.55);
+      --pink-faint: rgba(255,20,147,0.1);
+      --green: #00ff41;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', system-ui, sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── CURSOR ── */
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
+
+    .font-display { font-family: 'Orbitron', monospace; }
+    .font-mono    { font-family: 'Share Tech Mono', monospace; }
+
+    /* ── GLASS ── */
+    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
+    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+
+    /* ── NEON ── */
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+    .neon-text { color:var(--pink);text-shadow:0 0 16px rgba(255,20,147,.6); }
+    .neon-green { color:var(--green);text-shadow:0 0 15px rgba(0,255,65,.8); }
+
+    /* ── NAV ── */
+    nav { transition:all .4s ease; }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover::after { width:100%; }
+    .desktop-link.active { color:#ff1493; }
+    .desktop-link.active::after { width:100%; }
+    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+    #mobile-menu.open { transform:translateY(0); }
+    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel {
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon {
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header {
+      padding:10px 16px 8px;margin-bottom:4px;
+      border-bottom:1px solid rgba(255,20,147,.12);
+    }
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+    .btn-ghost {
+      display:inline-flex;align-items:center;gap:8px;
+      border:2px solid var(--pink);color:var(--pink);
+      font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
+      padding:16px 32px;border-radius:14px;cursor:none;
+      background:transparent;transition:all .3s ease;text-decoration:none;
+    }
+    .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
+
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+    .pulse-glow { animation:pulseGlow 2.8s infinite; }
+
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+
+    /* ── HERO GRID ── */
+    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
+    .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
+    .marquee { animation:marqueeScroll 55s linear infinite; }
+    @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
+    .marquee-sep { color:rgba(255,20,147,.25); }
+
+    /* ── TYPEWRITER ── */
+    .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── PAGE SECTIONS ── */
+    .page-section { display:none; }
+    .page-section.active { display:block; }
+
+    /* ── FORM INPUTS ── */
+    .form-input {
+      background:rgba(0,0,0,.6);border:2px solid rgba(255,20,147,.22);
+      border-radius:14px;padding:16px 20px;color:#fff;
+      font-family:'Rajdhani',sans-serif;font-size:1.05rem;width:100%;
+      transition:all .3s ease;
+    }
+    .form-input:focus { outline:none;border-color:var(--pink);box-shadow:0 0 32px rgba(255,20,147,.3); }
+    .form-input::placeholder { color:rgba(255,255,255,.25); }
+    select.form-input option { background:#0a0a0a;color:#fff; }
+
+    /* ── WHATSAPP BTN ── */
+    .whatsapp-btn {
+      position:fixed;bottom:24px;right:24px;
+      background:linear-gradient(135deg,#25D366,#128C7E);
+      color:white;width:62px;height:62px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);
+      z-index:998;transition:all .4s ease;text-decoration:none;
+    }
+    .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
+
+    /* ── TERMINAL ── */
+    .terminal-window { background:rgba(0,8,0,.97);border:1px solid rgba(0,255,65,.3);border-radius:16px;overflow:hidden;box-shadow:0 0 60px rgba(0,255,65,.12),inset 0 0 40px rgba(0,255,65,.03); }
+    .terminal-bar { background:rgba(0,255,65,.06);border-bottom:1px solid rgba(0,255,65,.15);padding:14px 20px;display:flex;align-items:center;gap:8px; }
+    .t-dot { width:13px;height:13px;border-radius:50%; }
+    .terminal-body { padding:24px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.75;color:#00cc35;max-height:520px;overflow-y:auto;position:relative;scroll-behavior:smooth; }
+    .terminal-body::after { content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,.012) 2px,rgba(0,255,65,.012) 4px);pointer-events:none; }
+    .t-prompt{color:rgba(0,255,65,.4)} .t-cmd{color:#00ff41} .t-out{color:rgba(0,204,53,.85)}
+    .t-warn{color:#f59e0b} .t-danger{color:#ef4444} .t-success{color:#00ff41}
+    .t-dim{color:rgba(0,204,53,.35)} .t-white{color:#e8e8e8} .t-pink{color:#ff1493}
+    .t-data{color:#7dd3fc} .t-label{color:rgba(0,204,53,.55)} .t-indent{margin-left:16px}
+    .progress-track { background:rgba(0,255,65,.1);border-radius:2px;height:5px;overflow:hidden; }
+    .progress-fill-green { height:100%;background:linear-gradient(90deg,#00cc35,#00ff41);border-radius:2px;transition:width .6s ease;box-shadow:0 0 8px rgba(0,255,65,.8); }
+
+    /* ── CLASSIFIED DOC ── */
+    .classified-doc {
+      background:#f0e8d0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)' opacity='0.07'/%3E%3C/svg%3E");
+      color:#1a1008;font-family:'Special Elite',cursive;padding:50px 60px;position:relative;
+      box-shadow:0 0 100px rgba(0,0,0,.9),inset 0 0 40px rgba(0,0,0,.08);border-radius:4px;
+    }
+    .classified-doc::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(139,90,40,.15) 0%,transparent 40%),radial-gradient(ellipse at 100% 0%,rgba(139,90,40,.12) 0%,transparent 35%),radial-gradient(ellipse at 0% 100%,rgba(139,90,40,.18) 0%,transparent 40%),radial-gradient(ellipse at 100% 100%,rgba(139,90,40,.15) 0%,transparent 35%);pointer-events:none;border-radius:4px; }
+    .stamp-top { text-align:center;font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:.28em;color:#c00000;border:4px solid #c00000;display:inline-block;padding:6px 22px;transform:rotate(-1.5deg);opacity:.9;position:relative; }
+    .stamp-top::before { content:'';position:absolute;inset:-3px;border:1px solid rgba(192,0,0,.25); }
+    .doc-hr { border:none;border-top:2px solid #1a1008;margin:14px 0;opacity:.45; }
+    .doc-hr-thin { border:none;border-top:1px solid #1a1008;margin:7px 0;opacity:.2; }
+    .doc-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.16em;color:#4a3010;text-transform:uppercase; }
+    .doc-value { font-family:'Special Elite',cursive;color:#1a1008;font-size:.92rem; }
+    .doc-section-header { font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.18em;color:#1a1008;border-bottom:2px solid #1a1008;padding-bottom:6px;margin:28px 0 14px;display:flex;justify-content:space-between;align-items:center; }
+    .doc-section-num { font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(26,16,8,.38); }
+    .redact { background:#1a1008;display:inline-block;border-radius:2px;vertical-align:middle; }
+    .rx-sm { height:13px;width:70px; }
+    .rx-md { height:13px;width:130px; }
+    .attack-row { display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(26,16,8,.13);align-items:flex-start; }
+    .attack-num { font-family:'Orbitron',monospace;font-size:.68rem;color:#c00000;flex-shrink:0;width:22px;padding-top:2px; }
+    .attack-title { font-family:'Orbitron',monospace;font-size:.68rem;letter-spacing:.1em;color:#1a1008;margin-bottom:3px; }
+    .attack-desc { font-family:'Special Elite',cursive;font-size:.83rem;color:#2a1a08;line-height:1.5; }
+    .attack-body { flex:1; }
+    .sev-tag { font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.12em;padding:3px 7px;border:1px solid;border-radius:2px;flex-shrink:0;white-space:nowrap; }
+    .sev-c { color:#c00000;border-color:#c00000;background:rgba(192,0,0,.08); }
+    .sev-h { color:#8B4000;border-color:#8B4000;background:rgba(139,64,0,.08); }
+    .sev-m { color:#4a3010;border-color:#4a3010;background:rgba(74,48,16,.08); }
+    .threat-box { border:2px solid #1a1008;padding:12px 16px;margin:12px 0;position:relative; }
+    .threat-box[data-label]::before { content:attr(data-label);position:absolute;top:-9px;left:10px;background:#f0e8d0;padding:0 5px;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.12em;color:#4a3010; }
+    .threat-box.threat-high { border-color:#c00000; }
+    .threat-box.threat-high[data-label]::before { color:#c00000; }
+    .narrative-box { background:rgba(26,16,8,.055);border-left:4px solid #c00000;padding:16px 18px;margin:12px 0;font-family:'Special Elite',cursive;font-size:.9rem;line-height:1.85;color:#1a1008;position:relative; }
+    .narrative-box::before { content:'"';font-size:3.5rem;color:rgba(192,0,0,.1);position:absolute;top:-8px;left:6px;font-family:Georgia,serif;line-height:1; }
+    .doc-footer { margin-top:36px;padding-top:14px;border-top:2px solid #1a1008;display:flex;justify-content:space-between;align-items:flex-end; }
+    .stamp-bottom { font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;letter-spacing:.22em;color:#c00000;border:3px solid #c00000;padding:5px 16px;transform:rotate(2deg);opacity:.82;display:inline-block; }
+    .watermark { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;letter-spacing:.3em;color:rgba(192,0,0,.055);white-space:nowrap;pointer-events:none;user-select:none; }
+    .real-badge { display:inline-flex;align-items:center;gap:4px;background:rgba(0,255,65,.1);border:1px solid rgba(0,255,65,.3);border-radius:4px;padding:1px 7px;font-family:'Orbitron',monospace;font-size:.56rem;letter-spacing:.1em;color:#00cc35;margin-left:6px;vertical-align:middle; }
+    .port-chip { display:inline-block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:4px;padding:1px 6px;font-family:'Share Tech Mono',monospace;font-size:.72rem;margin:2px; }
+    .cve-chip { display:inline-block;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:#f59e0b;border-radius:4px;padding:1px 6px;font-family:'Share Tech Mono',monospace;font-size:.7rem;margin:2px; }
+    .subdomain-chip { display:inline-block;background:rgba(125,211,252,.1);border:1px solid rgba(125,211,252,.3);color:#7dd3fc;border-radius:4px;padding:1px 7px;font-family:'Share Tech Mono',monospace;font-size:.68rem;margin:2px; }
+    @keyframes typeReveal { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+    .doc-reveal { opacity:0; }
+    .doc-reveal.revealed { animation:typeReveal .45s ease forwards; }
+    .dossier-spinner { border:3px solid rgba(26,16,8,.15);border-top:3px solid #c00000;border-radius:50%;width:28px;height:28px;animation:spin .9s linear infinite;margin:12px auto; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* ── CTA PANEL ── */
+    .cta-panel { background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(255,20,147,.03));border:2px solid rgba(255,20,147,.3);border-radius:24px;position:relative;overflow:hidden; }
+    .cta-panel::before { content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.07),transparent 60%);animation:panelPulse 4s infinite; }
+    @keyframes panelPulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.04)} }
+
+    /* ── TRUST BADGES ── */
+    .trust-badge { display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6); }
+
+    /* ── FADE UP ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    .fu { opacity:0; }
+    .fu.vis { animation:fadeUp .55s ease forwards; }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+
+    @media(max-width:640px) {
+      .classified-doc { padding:28px 20px; }
+      .stamp-top { font-size:1rem;letter-spacing:.18em; }
+      .watermark { font-size:1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+  <div id="cur2"></div>
+  <canvas id="three-canvas"></canvas>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- ══ NAV ══ -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+      <a href="index.html">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-7 text-sm">
+        <a href="index.html"            class="desktop-link">Home</a>
+        <a href="about.html"            class="desktop-link">About</a>
+        <a href="services.html"         class="desktop-link">Services</a>
+
+        <!-- FREE TOOLS DROPDOWN -->
+        <div class="tools-dropdown-wrap">
+          <button class="tools-dropdown-btn" type="button">
+            <span class="tools-live-dot"></span>
+            Free Tools
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+
+          <div class="tools-dropdown-panel">
+            <div class="tools-panel-header">
+              <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+            </div>
+
+            <!-- Tool 1: Risk Assessment -->
+            <a href="risk-assessment.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+                <i class="fas fa-shield-halved"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+                <div class="tool-nav-name">Risk Self-Assessment</div>
+                <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+              </div>
+            </a>
+
+            <!-- Tool 2: Hacker's Dossier -->
+            <a href="hackers-dossier.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+                <i class="fas fa-file-circle-exclamation"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+                <div class="tool-nav-name">The Hacker's Dossier</div>
+                <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+              </div>
+            </a>
+
+            <!-- Tool 3: Breach Cost Clock -->
+            <a href="breach-cost-clock.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+                <div class="tool-nav-name">Breach Cost Clock</div>
+                <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- END FREE TOOLS DROPDOWN -->
+
+        <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+        <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+        <a href="pricing.html"          class="desktop-link">Pricing</a>
+        <a href="contact.html"          class="desktop-link">Contact</a>
+      </div>
+
+      <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+        <i class="fas fa-shield-alt"></i> Get a Quote
+      </a>
+
+      <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+  </nav>
+
+  <!-- Mobile Menu (outside nav to avoid backdrop-filter containing block issue) -->
+  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+    <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+    <div class="flex flex-col items-center w-full max-w-xs">
+      <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+      <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+      <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+      <!-- Mobile Free Tools -->
+      <a href="risk-assessment.html"  class="mobile-tool-link">
+        <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+        <span style="font-size:1rem;">Risk Self-Assessment</span>
+      </a>
+      <a href="hackers-dossier.html"  class="mobile-tool-link">
+        <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+        <span style="font-size:1rem;">Hacker's Dossier</span>
+      </a>
+      <a href="breach-cost-clock.html" class="mobile-tool-link">
+        <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+        <span style="font-size:1rem;">Breach Cost Clock</span>
+      </a>
+      <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+      <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+      <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — ENTRY FORM
+  ══════════════════════════════════════════ -->
+  <section id="entry-section" class="page-section active min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden">
+    <div class="hero-grid"></div>
+    <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-100px;right:-200px;pointer-events:none;"></div>
+    <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,20,147,.05) 0%,transparent 70%);bottom:0;left:-120px;pointer-events:none;"></div>
+
+    <div class="max-w-2xl mx-auto w-full z-10 relative">
+      <div class="text-center mb-10">
+        <div class="section-tag mb-6 flex items-center justify-center gap-3 fu fu-1">
+          <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse inline-block"></span>
+          LIVE THREAT INTELLIGENCE
+          <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+        </div>
+        <h1 class="font-display font-black neon-pink mb-4 leading-tight fu fu-2" style="font-size:clamp(2.4rem,7vw,4.8rem);text-shadow:0 0 40px rgba(255,20,147,.7);">
+          THE HACKER'S<br>DOSSIER
+        </h1>
+        <p class="text-gray-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed mb-2 fu fu-3" style="font-weight:300;">
+          Enter a domain. We run <span class="text-pink-400 font-bold">real OSINT</span> — live DNS, certificate transparency, Shodan port data, WHOIS — then generate the intelligence file an attacker compiles on you.
+        </p>
+        <div class="font-mono text-pink-400/60 text-sm mb-6 tracking-widest fu fu-3">
+          <span id="typed-text"></span><span class="typewriter-cursor text-pink-400">█</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 mt-5 fu fu-3">
+          <span class="glass px-4 py-1.5 rounded-full text-xs font-semibold text-green-400 border border-green-500/25"><i class="fas fa-circle-dot mr-1.5 animate-pulse"></i>Live DNS lookups</span>
+          <span class="glass px-4 py-1.5 rounded-full text-xs font-semibold text-green-400 border border-green-500/25"><i class="fas fa-circle-dot mr-1.5 animate-pulse"></i>Real subdomain enum</span>
+          <span class="glass px-4 py-1.5 rounded-full text-xs font-semibold text-green-400 border border-green-500/25"><i class="fas fa-circle-dot mr-1.5 animate-pulse"></i>Shodan port data</span>
+          <span class="glass px-4 py-1.5 rounded-full text-xs font-semibold text-green-400 border border-green-500/25"><i class="fas fa-circle-dot mr-1.5 animate-pulse"></i>RDAP WHOIS</span>
+        </div>
+      </div>
+
+      <div class="glass-strong rounded-3xl p-8 sm:p-10 fu fu-4">
+        <div class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Company Name</label>
+              <input type="text" id="inp-company" class="form-input" placeholder="e.g. Acme Corp"/>
+            </div>
+            <div>
+              <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Domain <span class="text-red-400">*</span></label>
+              <input type="text" id="inp-domain" class="form-input" placeholder="e.g. acmecorp.co.za"/>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Industry</label>
+              <select id="inp-industry" class="form-input">
+                <option value="">Select industry…</option>
+                <option>Financial Services / Banking</option><option>Healthcare / Medical</option>
+                <option>Legal / Law Firm</option><option>Retail / eCommerce</option>
+                <option>Manufacturing</option><option>Government / Public Sector</option>
+                <option>Technology / SaaS</option><option>Education</option>
+                <option>Logistics / Supply Chain</option><option>Professional Services</option>
+                <option>Energy / Utilities</option><option>Non-profit / NGO</option><option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Company Size</label>
+              <select id="inp-size" class="form-input">
+                <option value="">Select size…</option>
+                <option>1–10 employees (Startup)</option><option>11–50 employees (Small)</option>
+                <option>51–200 employees (Medium)</option><option>201–500 employees (Mid-Market)</option>
+                <option>500–2000 employees (Enterprise)</option><option>2000+ employees (Large Enterprise)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="form-error" class="hidden mt-4 p-3 rounded-lg text-red-400 text-sm" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)">
+          <i class="fas fa-triangle-exclamation mr-2"></i><span id="form-error-msg"></span>
+        </div>
+        <div class="mt-8 text-center">
+          <button onclick="startCompile()" class="btn-primary pulse-glow w-full sm:w-auto justify-center" style="font-size:.85rem;">
+            <i class="fas fa-crosshairs"></i> COMPILE LIVE DOSSIER <i class="fas fa-chevron-right text-xs"></i>
+          </button>
+          <p class="mt-4 text-xs text-gray-600"><i class="fas fa-shield-halved text-pink-400 mr-1"></i>Passive recon only — no active scanning or intrusion. Educational &amp; awareness purposes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MARQUEE (shown below entry form in all states) ══ -->
+  <div id="marquee-bar" class="py-5 border-y border-pink-500/10 overflow-hidden">
+    <div class="marquee-wrap">
+      <div class="marquee flex whitespace-nowrap">
+        <span class="marquee-item"><i class="fas fa-crosshairs"></i> LIVE OSINT</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-network-wired"></i> DNS ENUMERATION</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-certificate"></i> CERT TRANSPARENCY</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-satellite-dish"></i> SHODAN INTEL</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-envelope-open-text"></i> MAIL SECURITY AUDIT</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-globe"></i> RDAP WHOIS</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-robot"></i> AI THREAT ANALYSIS</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-file-shield"></i> CLASSIFIED DOSSIER</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-crosshairs"></i> LIVE OSINT</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-network-wired"></i> DNS ENUMERATION</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-certificate"></i> CERT TRANSPARENCY</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-satellite-dish"></i> SHODAN INTEL</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-envelope-open-text"></i> MAIL SECURITY AUDIT</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-globe"></i> RDAP WHOIS</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-robot"></i> AI THREAT ANALYSIS</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-file-shield"></i> CLASSIFIED DOSSIER</span>
+        <span class="marquee-sep">◆</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — LIVE TERMINAL
+  ══════════════════════════════════════════ -->
+  <section id="terminal-section" class="page-section min-h-screen flex flex-col justify-center pt-24 pb-16 px-4 sm:px-6">
+    <div class="max-w-2xl mx-auto w-full">
+      <div class="text-center mb-8">
+        <div class="section-tag mb-4 flex items-center justify-center gap-3">
+          <span class="inline-block w-6 h-px bg-green-500 opacity-60"></span>
+          LIVE OSINT RECONNAISSANCE
+          <span class="inline-block w-6 h-px bg-green-500 opacity-60"></span>
+        </div>
+        <h2 class="font-display font-bold neon-green text-2xl sm:text-3xl mb-2">Compiling Intelligence File</h2>
+        <p class="text-gray-500 text-sm font-mono">TARGET: <span id="t-target" class="text-green-400">—</span></p>
+      </div>
+      <div class="terminal-window">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ef4444"></div>
+          <div class="t-dot" style="background:#f59e0b"></div>
+          <div class="t-dot" style="background:#22c55e"></div>
+          <span class="font-mono text-xs ml-3" style="color:rgba(0,255,65,.4)">greyhat@recon:~$ osint-engine — LIVE MODE</span>
+          <span class="ml-auto font-mono text-xs" style="color:rgba(0,255,65,.3)" id="t-clock">00:00</span>
+        </div>
+        <div class="terminal-body" id="tbody"></div>
+      </div>
+      <div class="mt-4 glass rounded-xl p-4">
+        <div class="flex justify-between mb-2">
+          <span class="font-mono text-xs text-green-400">RECON PROGRESS</span>
+          <span class="font-mono text-xs text-green-400" id="t-pct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill-green" id="t-bar" style="width:0%"></div></div>
+        <div class="font-mono text-xs mt-2" style="color:rgba(0,255,65,.4)" id="t-status">Initialising…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — CLASSIFIED DOSSIER
+  ══════════════════════════════════════════ -->
+  <section id="dossier-section" class="page-section pt-24 pb-20 px-4 sm:px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-10 fu fu-1">
+        <div class="section-tag mb-5 flex items-center justify-center gap-3">
+          <span class="inline-block w-8 h-px bg-red-500 opacity-60"></span>
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse inline-block"></span>
+          INTELLIGENCE FILE COMPILED — LIVE DATA
+          <span class="inline-block w-8 h-px bg-red-500 opacity-60"></span>
+        </div>
+        <h2 class="font-display font-black text-white text-3xl sm:text-4xl mb-3">Your Attacker's <span class="neon-pink">Dossier</span></h2>
+        <p class="text-gray-400 max-w-lg mx-auto text-sm leading-relaxed">Generated from real open-source intelligence gathered live — DNS, WHOIS, certificate transparency, and Shodan.</p>
+      </div>
+
+      <div class="fu fu-2">
+        <div class="classified-doc" id="classified-doc">
+          <div class="watermark">THREAT INTEL</div>
+          <div class="text-center mb-5">
+            <div class="stamp-top">⚠ CLASSIFIED ⚠</div>
+          </div>
+          <hr class="doc-hr">
+          <div class="grid grid-cols-2 gap-x-6 gap-y-3 mb-4 doc-reveal">
+            <div><div class="doc-label">File Reference</div><div class="doc-value">GH4H-2026-<span id="doc-ref">----</span></div></div>
+            <div><div class="doc-label">Classification</div><div class="doc-value" style="color:#c00000;font-weight:bold">TOP SECRET // NOFORN</div></div>
+            <div><div class="doc-label">Compiled</div><div class="doc-value" id="doc-date">—</div></div>
+            <div><div class="doc-label">Compiled By</div><div class="doc-value">Operator: <span class="redact rx-md"></span></div></div>
+            <div><div class="doc-label">Target Domain</div><div class="doc-value font-bold" id="doc-target">—</div></div>
+            <div><div class="doc-label">Data Source</div><div class="doc-value text-green-700 font-bold">LIVE OSINT <span class="real-badge">✓ REAL</span></div></div>
+          </div>
+          <hr class="doc-hr"><hr class="doc-hr-thin">
+
+          <div class="doc-section-header doc-reveal"><span>SECTION I — INFRASTRUCTURE EXPOSURE</span><span class="doc-section-num">REF: S1/INFRA</span></div>
+          <div class="doc-reveal" id="doc-infra"><div class="dossier-spinner"></div></div>
+
+          <div class="doc-section-header doc-reveal"><span>SECTION II — CERTIFICATE TRANSPARENCY / SUBDOMAINS</span><span class="doc-section-num">REF: S2/CERT</span></div>
+          <div class="doc-reveal" id="doc-certs"><div class="dossier-spinner"></div></div>
+
+          <div class="doc-section-header doc-reveal" style="color:#c00000;border-color:#c00000"><span style="color:#c00000">SECTION III — OPEN PORTS &amp; KNOWN VULNERABILITIES</span><span class="doc-section-num" style="color:#c00000">REF: S3/PORTS</span></div>
+          <div class="doc-reveal" id="doc-ports"><div class="dossier-spinner"></div></div>
+
+          <div class="doc-section-header doc-reveal"><span>SECTION IV — IDENTIFIED ATTACK VECTORS</span><span class="doc-section-num">REF: S4/VECTOR</span></div>
+          <div class="doc-reveal" id="doc-vectors"><div class="dossier-spinner"></div></div>
+
+          <div class="doc-section-header doc-reveal"><span>SECTION V — LIKELY THREAT ACTOR PROFILE</span><span class="doc-section-num">REF: S5/ACTOR</span></div>
+          <div class="doc-reveal" id="doc-actor"><div class="dossier-spinner"></div></div>
+
+          <div class="doc-section-header doc-reveal" style="color:#c00000;border-color:#c00000"><span style="color:#c00000">⚠ SECTION VI — SIMULATED BREACH NARRATIVE</span><span class="doc-section-num" style="color:#c00000">REF: S6/NARR</span></div>
+          <div class="threat-box threat-high doc-reveal" data-label="SIMULATED SCENARIO — BASED ON REAL OSINT FINDINGS">
+            <div id="doc-narrative"><div class="dossier-spinner"></div></div>
+          </div>
+
+          <div class="doc-footer doc-reveal">
+            <div>
+              <div class="doc-label mb-1">Prepared for</div>
+              <div class="doc-value text-sm">Greyhat4Hire Intelligence Division</div>
+              <div style="font-family:'Orbitron',monospace;font-size:.52rem;color:#4a3010;letter-spacing:.12em;margin-top:3px">INDEPENDENT · ETHICAL · EFFECTIVE</div>
+            </div>
+            <div class="text-right"><div class="stamp-bottom">CLASSIFIED</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-panel mt-12 p-8 sm:p-12 text-center fu fu-3">
+        <div class="relative z-10">
+          <div class="section-tag mb-4">THE NEXT STEP</div>
+          <h3 class="font-display font-black text-white text-2xl sm:text-3xl mb-4">This is what they see<br><span class="neon-pink">before they knock.</span></h3>
+          <p class="text-gray-300 max-w-xl mx-auto leading-relaxed mb-8" style="font-weight:300;">This dossier was generated from real, publicly available data — the same sources an attacker uses for free before spending a single rand on tools. A Greyhat4Hire penetration test goes further, finding what passive recon can't.</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <a href="contact.html" class="btn-primary justify-center"><i class="fas fa-shield-halved"></i> REQUEST PENTEST</a>
+            <button onclick="resetDossier()" class="btn-ghost justify-center"><i class="fas fa-rotate-right"></i> NEW TARGET</button>
+          </div>
+          <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
+            <a href="tel:+27846353581" class="hover:text-pink-400 transition"><i class="fas fa-phone text-pink-400 mr-1.5"></i>+27 84 635 3581</a>
+            <a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition"><i class="fab fa-whatsapp text-pink-400 mr-1.5"></i>WhatsApp</a>
+            <span class="text-pink-400/50"><i class="fas fa-envelope mr-1.5"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aac3c4ccc5eacdd8cfd3c2cbde9ec2c3d8cf84c9c584d0cb">[email&#160;protected]</a></span>
+          </div>
+          <div class="mt-8 flex flex-wrap justify-center gap-3">
+            <span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span>
+            <span class="trust-badge"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</span>
+            <span class="trust-badge"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+
+        <div class="lg:col-span-1">
+          <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+            onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+          <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
+          <div class="flex gap-4">
+            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">SERVICES</h3>
+          <ul class="space-y-3">
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">COMPANY</h3>
+          <ul class="space-y-3">
+            <li><a href="index.html#about" class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
+            <li><a href="index.html#industries" class="text-gray-500 hover:text-pink-400 transition text-sm">Industries</a></li>
+            <li><a href="cyber-awareness.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+            <li><a href="pricing.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
+            <li><a href="contact.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
+          <ul class="space-y-3">
+            <li><span class="text-gray-500 text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3f565159507f584d5a46575e4b0b57564d5a115c5011455e">[email&#160;protected]</a></span></li>
+            <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581</a></li>
+            <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-t border-gray-800 pt-8">
+        <div class="glass p-5 rounded-2xl mb-8">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+            <p class="text-sm text-gray-400">
+              <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+          <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+          <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+
+    // ── CURSOR ────────────────────────────────────
+    const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+    document.addEventListener('mousemove',e=>{
+      cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
+      setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
+    });
+    document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
+    document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+
+    // ── NAV ──────────────────────────────────────
+    window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+    const hamburger=document.getElementById('hamburger');
+    const mobileMenu=document.getElementById('mobile-menu');
+    const closeMenu=document.getElementById('close-menu');
+
+    function openMenu(){
+      mobileMenu.classList.remove('hidden');
+      setTimeout(()=>mobileMenu.classList.add('open'),10);
+    }
+    function closeMenuFn(){
+      mobileMenu.classList.remove('open');
+      setTimeout(()=>mobileMenu.classList.add('hidden'),400);
+    }
+
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+
+    // ── TYPEWRITER ───────────────────────────────
+    const phrases=['DNS ENUMERATION','CERTIFICATE TRANSPARENCY','SHODAN PORT RECON','RDAP WHOIS LOOKUP','AI THREAT ANALYSIS','CLASSIFIED DOSSIER'];
+    let pIdx=0,cIdx=0,del=false;
+    const typedEl=document.getElementById('typed-text');
+    function typeWriter(){
+      const p=phrases[pIdx];
+      if(!del){ typedEl.textContent=p.substring(0,cIdx+1); cIdx++; if(cIdx===p.length){setTimeout(()=>{del=true;typeWriter()},2200);return;} setTimeout(typeWriter,cIdx<5?120:48); }
+      else { typedEl.textContent=p.substring(0,cIdx-1); cIdx--; if(cIdx===0){del=false;pIdx=(pIdx+1)%phrases.length;setTimeout(typeWriter,400);return;} setTimeout(typeWriter,28); }
+    }
+    setTimeout(typeWriter,1200);
+
+    // ── FADE-UP ENTRY SECTION ────────────────────
+    setTimeout(()=>document.querySelectorAll('#entry-section .fu').forEach((el,i)=>setTimeout(()=>el.classList.add('vis'),i*120)),100);
+
+    // ── SECTION SWITCHING ────────────────────────
+    function showSection(id){
+      document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+      setTimeout(()=>document.querySelectorAll('#'+id+' .fu').forEach(el=>el.classList.add('vis')),100);
+    }
+
+    // ── TERMINAL HELPERS ─────────────────────────
+    const tb=()=>document.getElementById('tbody');
+    function tLine(html,cls=''){const d=document.createElement('div');d.className='font-mono text-xs leading-relaxed '+(cls||'');d.innerHTML=html;tb().appendChild(d);tb().scrollTop=tb().scrollHeight;return d;}
+    function tBlank(){tLine('')}
+    function tSep(){tLine('<span class="t-dim">─────────────────────────────────────────────────────────</span>')}
+    function setProgress(pct,label){document.getElementById('t-bar').style.width=pct+'%';document.getElementById('t-pct').textContent=pct+'%';if(label)document.getElementById('t-status').textContent=label;}
+    function tCmd(cmd){tLine(`<span class="t-prompt">$</span> <span class="t-cmd">${cmd}</span>`)}
+    function tOk(msg){tLine(`  <span class="t-success">✓</span> <span class="t-out">${msg}</span>`)}
+    function tWarn(msg){tLine(`  <span class="t-warn">⚠</span> <span class="t-warn">${msg}</span>`)}
+    function tFail(msg){tLine(`  <span class="t-danger">✗</span> <span class="t-danger">${msg}</span>`)}
+    function tData(label,val){tLine(`  <span class="t-label">${label}</span> <span class="t-data">${val}</span>`)}
+
+    let RECON={};
+
+    function startCompile(){
+      const company=document.getElementById('inp-company').value.trim();
+      const domain=document.getElementById('inp-domain').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\//g,'');
+      const industry=document.getElementById('inp-industry').value;
+      const size=document.getElementById('inp-size').value;
+      const errEl=document.getElementById('form-error');
+      if(!domain){errEl.classList.remove('hidden');document.getElementById('form-error-msg').textContent='Please enter a domain to scan.';return}
+      errEl.classList.add('hidden');
+      RECON={company:company||domain,domain,industry:industry||'Unknown',size:size||'Unknown',findings:{}};
+      document.getElementById('t-target').textContent=domain.toUpperCase();
+      document.getElementById('tbody').innerHTML='';
+      showSection('terminal-section');
+      setTimeout(()=>{ document.getElementById('terminal-section').scrollIntoView({behavior:'smooth'}); }, 150);
+      runLiveRecon();
+    }
+
+    // ── CLOCK ─────────────────────────────────────
+    let clockInterval;
+    function startClock(){let s=0;clockInterval=setInterval(()=>{s++;document.getElementById('t-clock').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');},1000);}
+    function stopClock(){clearInterval(clockInterval)}
+    const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+    // ── MAIN RECON ORCHESTRATOR ──────────────────
+    async function runLiveRecon(){
+      startClock();
+      const d=RECON.domain;
+      tSep();
+      tLine(`<span class="t-pink">  GREYHAT4HIRE // LIVE OSINT ENGINE</span>`);
+      tLine(`<span class="t-dim">  Target: </span><span class="t-success">${d}</span><span class="t-dim"> | Mode: PASSIVE RECON</span>`);
+      tSep(); tBlank();
+
+      setProgress(5,'Resolving DNS records…');
+      tCmd(`dig +short A ${d} @8.8.8.8`);
+      await sleep(400);
+      const aRecords=await dnsLookup(d,'A');
+      RECON.findings.ips=aRecords.map(r=>r.data).filter(Boolean);
+      if(RECON.findings.ips.length){RECON.findings.ips.forEach(ip=>tOk(`A → <span class="t-data">${ip}</span>`));}
+      else{tWarn('No A records returned (may be behind CDN/proxy)');}
+      await sleep(300);
+
+      setProgress(14,'Enumerating mail servers…');
+      tBlank();tCmd(`dig +short MX ${d}`);
+      await sleep(300);
+      const mxRecords=await dnsLookup(d,'MX');
+      RECON.findings.mx=mxRecords.map(r=>r.data).filter(Boolean);
+      if(RECON.findings.mx.length){
+        RECON.findings.mx.slice(0,4).forEach(mx=>{
+          tOk(`MX → <span class="t-data">${mx}</span>`);
+          const mxl=mx.toLowerCase();
+          if(mxl.includes('google')||mxl.includes('gmail'))tWarn(`Mail provider: <span class="t-warn">Google Workspace</span> — phishing kit templates exist`);
+          else if(mxl.includes('microsoft')||mxl.includes('outlook')||mxl.includes('protection.outlook'))tWarn(`Mail provider: <span class="t-warn">Microsoft 365</span> — password spray vectors known`);
+          else if(mxl.includes('zoho'))tWarn(`Mail provider: <span class="t-warn">Zoho Mail</span>`);
+          else if(mxl.includes('mimecast'))tOk(`Email gateway: Mimecast detected`);
+          else if(mxl.includes('proofpoint'))tOk(`Email gateway: Proofpoint detected`);
+        });
+        RECON.findings.mailProvider=detectMailProvider(RECON.findings.mx);
+      } else {tWarn('No MX records found');}
+      await sleep(300);
+
+      setProgress(20,'Enumerating nameservers…');
+      tBlank();tCmd(`dig +short NS ${d}`);
+      await sleep(250);
+      const nsRecords=await dnsLookup(d,'NS');
+      RECON.findings.ns=nsRecords.map(r=>r.data).filter(Boolean);
+      RECON.findings.ns.slice(0,3).forEach(ns=>tOk(`NS → <span class="t-data">${ns}</span>`));
+      await sleep(250);
+
+      setProgress(27,'Checking email security posture…');
+      tBlank();tCmd(`dig +short TXT ${d} && dig +short TXT _dmarc.${d}`);
+      await sleep(400);
+      const txtRecords=await dnsLookup(d,'TXT');
+      const dmarcRecords=await dnsLookup('_dmarc.'+d,'TXT');
+      RECON.findings.spf=null;RECON.findings.dmarc=null;
+      txtRecords.forEach(r=>{
+        if(r.data&&r.data.includes('v=spf1')){
+          RECON.findings.spf=r.data;
+          tOk(`SPF found: <span class="t-data">${r.data.substring(0,80)}${r.data.length>80?'…':''}</span>`);
+          if(r.data.includes('~all'))tWarn(`SPF uses <span class="t-warn">~all (softfail)</span> — spoofing partially possible`);
+          else if(r.data.includes('-all'))tOk(`SPF uses -all (hardfail) ✓`);
+          else if(r.data.includes('?all'))tFail(`SPF uses <span class="t-danger">?all (neutral)</span> — domain can be spoofed`);
+        }
+      });
+      if(!RECON.findings.spf){tFail(`No SPF record found — <span class="t-danger">domain spoofing likely possible</span>`)}
+      dmarcRecords.forEach(r=>{
+        if(r.data&&r.data.includes('v=DMARC1')){
+          RECON.findings.dmarc=r.data;
+          tOk(`DMARC found: <span class="t-data">${r.data.substring(0,80)}…</span>`);
+          if(r.data.includes('p=none'))tWarn(`DMARC policy: <span class="t-warn">p=none (monitoring only)</span>`);
+          else if(r.data.includes('p=quarantine'))tOk(`DMARC policy: p=quarantine`);
+          else if(r.data.includes('p=reject'))tOk(`DMARC policy: p=reject ✓`);
+        }
+      });
+      if(!RECON.findings.dmarc){tFail(`No DMARC record found — <span class="t-danger">phishing protection absent</span>`)}
+      await sleep(400);
+
+      setProgress(38,'Querying certificate transparency logs (crt.sh)…');
+      tBlank();tCmd(`curl -s "https://crt.sh/?q=%.${d}&output=json" | jq '[.[].name_value] | unique'`);
+      await sleep(500);
+      const subdomains=await getCertSubdomains(d);
+      RECON.findings.subdomains=subdomains;
+      if(subdomains.length){
+        tOk(`<span class="t-success">${subdomains.length}</span> unique subdomains via certificate transparency`);
+        const interesting=['mail','webmail','remote','vpn','owa','portal','admin','login','stage','staging','dev','test','api','ftp','sftp','rdp','citrix','jira','confluence','gitlab','jenkins','backup','db','database','monitoring'];
+        const flags=subdomains.filter(s=>interesting.some(k=>s.toLowerCase().includes(k)));
+        if(flags.length){tFail(`<span class="t-danger">HIGH-VALUE subdomains exposed:</span>`);flags.slice(0,8).forEach(s=>tLine(`  <span class="t-danger">→ ${s}</span>`));}
+        tLine(`  <span class="t-dim">Sample: ${subdomains.slice(0,5).join(', ')}${subdomains.length>5?'…':''}</span>`);
+      } else {tWarn('crt.sh returned no results');}
+      await sleep(400);
+
+      setProgress(50,'RDAP WHOIS lookup…');
+      tBlank();tCmd(`curl -s "https://rdap.org/domain/${d}"`);
+      await sleep(500);
+      const whois=await getRDAP(d);
+      RECON.findings.whois=whois;
+      if(whois){
+        if(whois.registrar)tOk(`Registrar: <span class="t-data">${whois.registrar}</span>`);
+        if(whois.registered)tOk(`Registered: <span class="t-data">${whois.registered}</span>`);
+        if(whois.expiry){
+          tOk(`Expiry: <span class="t-data">${whois.expiry}</span>`);
+          const daysLeft=Math.floor((new Date(whois.expiry)-new Date())/(1000*60*60*24));
+          if(daysLeft<90&&daysLeft>0)tWarn(`Domain expires in <span class="t-warn">${daysLeft} days</span> — domain hijack window`);
+        }
+        if(whois.privacyProtected)tOk('WHOIS privacy: Enabled');
+        else tWarn('WHOIS privacy: Disabled — registrant data exposed');
+      } else {tWarn('RDAP lookup failed');}
+      await sleep(400);
+
+      setProgress(64,'Shodan InternetDB — port &amp; vulnerability scan…');
+      tBlank();
+      RECON.findings.shodanData=[];
+      if(RECON.findings.ips&&RECON.findings.ips.length){
+        for(const ip of RECON.findings.ips.slice(0,3)){
+          tCmd(`curl -s "https://internetdb.shodan.io/${ip}"`);
+          await sleep(600);
+          const sh=await getShodan(ip);
+          if(sh&&sh.ports&&sh.ports.length){
+            RECON.findings.shodanData.push({ip,...sh});
+            tOk(`IP <span class="t-data">${ip}</span> — <span class="t-danger">${sh.ports.length} open ports</span>`);
+            tData('Ports:',sh.ports.join(', '));
+            const dangerPorts={22:'SSH',23:'Telnet',25:'SMTP',3389:'RDP',5900:'VNC',21:'FTP',3306:'MySQL',5432:'PostgreSQL',27017:'MongoDB',6379:'Redis',9200:'Elasticsearch',445:'SMB',135:'RPC'};
+            sh.ports.forEach(p=>{if(dangerPorts[p])tFail(`Port <span class="t-danger">${p}/tcp ${dangerPorts[p]}</span> — internet-exposed`)});
+            if(sh.vulns&&sh.vulns.length){tFail(`<span class="t-danger">${sh.vulns.length} known CVEs</span> on this IP`);sh.vulns.slice(0,5).forEach(cve=>tLine(`  <span class="t-danger">CVE: ${cve}</span>`));}
+          } else if(sh&&sh.detail){tWarn(`IP ${ip}: ${sh.detail} (CDN/proxy)`);} else {tWarn(`IP ${ip}: No Shodan data`);}
+          await sleep(300);
+        }
+      } else {tWarn('No IPs to query — domain likely behind CDN/proxy');}
+      await sleep(400);
+
+      setProgress(76,'IP geolocation &amp; ASN lookup…');
+      tBlank();
+      if(RECON.findings.ips&&RECON.findings.ips.length){
+        const ip=RECON.findings.ips[0];
+        tCmd(`curl -s "https://ipinfo.io/${ip}/json"`);
+        await sleep(500);
+        const geo=await getIPInfo(ip);
+        RECON.findings.geo=geo;
+        if(geo){
+          if(geo.org)tOk(`ASN/Org: <span class="t-data">${geo.org}</span>`);
+          if(geo.city||geo.country)tOk(`Location: <span class="t-data">${[geo.city,geo.region,geo.country].filter(Boolean).join(', ')}</span>`);
+          if(geo.org){const o=geo.org.toLowerCase();if(o.includes('amazon')||o.includes('aws'))tWarn('Hosting: AWS — S3 misconfig &amp; SSRF vectors common');else if(o.includes('microsoft')||o.includes('azure'))tWarn('Hosting: Azure — token theft &amp; AD integration risks');else if(o.includes('google'))tWarn('Hosting: Google Cloud — metadata endpoint exposure possible');else if(o.includes('cloudflare'))tOk('Hosting: Cloudflare — real origin IP may be discoverable via DNS history');}
+        }
+      }
+      await sleep(400);
+
+      setProgress(86,'Analysing HTTP security headers via Mozilla Observatory…');
+      tBlank();tCmd(`curl -X POST "https://http-observatory.security.mozilla.org/api/v1/analyze?host=${d}"`);
+      await sleep(800);
+      const obs=await getMozillaObservatory(d);
+      RECON.findings.observatory=obs;
+      if(obs&&obs.grade){
+        const gc=obs.grade.startsWith('A')?'t-success':obs.grade.startsWith('B')?'t-out':obs.grade.startsWith('C')?'t-warn':'t-danger';
+        tOk(`Security headers grade: <span class="${gc}">${obs.grade}</span> (score: ${obs.score}/100)`);
+        if(obs.grade==='F'||obs.grade==='D')tFail('Critical headers missing — XSS, clickjacking vectors open');
+      } else {tWarn('Observatory returned no grade');}
+      await sleep(400);
+
+      setProgress(95,'Packaging intelligence file…');
+      tBlank();tSep();
+      tLine(`<span class="t-pink">  RECON COMPLETE — ${countFindings()} findings across ${Object.keys(RECON.findings).length} data sources</span>`);
+      tLine(`<span class="t-dim">  Handing off to AI analyst for dossier generation…</span>`);
+      tSep();
+      await sleep(600);
+      stopClock();
+      setProgress(100,'Intelligence file compiled');
+      await sleep(500);
+      showSection('dossier-section');
+      populateDossierMeta();
+      await callClaudeAPI();
+    }
+
+    // ── API WRAPPERS ──────────────────────────────
+    async function dnsLookup(name,type){try{const r=await fetch(`https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${type}`);const j=await r.json();return j.Answer||[];}catch(e){return[]}}
+    async function getCertSubdomains(domain){try{const r=await fetch(`https://crt.sh/?q=%25.${domain}&output=json`);if(!r.ok)return[];const j=await r.json();const names=new Set();j.forEach(c=>{(c.name_value||'').split('\n').forEach(n=>{const clean=n.trim().replace(/^\*/,'').replace(/^\./,'');if(clean&&clean.endsWith(domain)&&clean!==domain)names.add(clean);});});return[...names].sort().slice(0,50);}catch(e){return[]}}
+    async function getRDAP(domain){try{const r=await fetch(`https://rdap.org/domain/${domain}`);if(!r.ok)return null;const j=await r.json();const out={};if(j.entities){const reg=j.entities.find(e=>e.roles&&e.roles.includes('registrar'));if(reg&&reg.vcardArray){const fn=reg.vcardArray[1]&&reg.vcardArray[1].find(v=>v[0]==='fn');if(fn)out.registrar=fn[3];}}if(j.events){j.events.forEach(ev=>{if(ev.eventAction==='registration')out.registered=ev.eventDate?ev.eventDate.substring(0,10):'?';if(ev.eventAction==='expiration')out.expiry=ev.eventDate?ev.eventDate.substring(0,10):'?';});}if(j.nameservers)out.nameservers=j.nameservers.map(n=>n.ldhName||'').filter(Boolean);out.privacyProtected=JSON.stringify(j).toLowerCase().includes('redacted for privacy')||JSON.stringify(j).toLowerCase().includes('privacy');return out;}catch(e){return null}}
+    async function getShodan(ip){try{const r=await fetch(`https://internetdb.shodan.io/${ip}`);if(!r.ok)return null;return await r.json();}catch(e){return null}}
+    async function getIPInfo(ip){try{const r=await fetch(`https://ipinfo.io/${ip}/json`);if(!r.ok)return null;return await r.json();}catch(e){return null}}
+    async function getMozillaObservatory(domain){try{const r=await fetch(`https://http-observatory.security.mozilla.org/api/v1/analyze?host=${domain}`,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'rescan=false'});if(!r.ok)return null;const j=await r.json();if(j.state==='RUNNING'||j.state==='PENDING'){await sleep(3000);const r2=await fetch(`https://http-observatory.security.mozilla.org/api/v1/analyze?host=${domain}`);return r2.ok?await r2.json():j;}return j;}catch(e){return null}}
+    function detectMailProvider(mxList){const mx=mxList.join(' ').toLowerCase();if(mx.includes('google')||mx.includes('gmail'))return'Google Workspace';if(mx.includes('microsoft')||mx.includes('outlook')||mx.includes('protection'))return'Microsoft 365';if(mx.includes('zoho'))return'Zoho Mail';if(mx.includes('mimecast'))return'Mimecast';if(mx.includes('proofpoint'))return'Proofpoint';if(mx.includes('amazon')||mx.includes('ses'))return'Amazon SES';return'Custom/Unknown';}
+    function countFindings(){let n=0;const f=RECON.findings;if(f.ips&&f.ips.length)n++;if(f.mx&&f.mx.length)n++;if(f.subdomains&&f.subdomains.length)n+=f.subdomains.length;if(f.shodanData&&f.shodanData.length)n+=f.shodanData.reduce((s,d)=>s+(d.ports||[]).length+(d.vulns||[]).length,0);if(!f.spf||!f.dmarc)n++;return n;}
+
+    // ── POPULATE DOSSIER ─────────────────────────
+    function populateDossierMeta(){
+      document.getElementById('doc-ref').textContent=Math.floor(Math.random()*90000+10000);
+      document.getElementById('doc-date').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+      document.getElementById('doc-target').textContent=(RECON.company.toUpperCase())+' // '+RECON.domain.toUpperCase();
+      document.querySelectorAll('.doc-reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('revealed'),i*70));
+      renderInfraSection();
+      renderCertSection();
+      renderPortsSection();
+    }
+
+    function renderInfraSection(){
+      const f=RECON.findings;let html='';
+      if(f.ips&&f.ips.length){html+=`<div class="attack-row"><div class="attack-num">01</div><div class="attack-body"><div class="attack-title">PUBLIC IP ADDRESSES <span class="real-badge">✓ LIVE</span></div><div class="attack-desc">${f.ips.map(ip=>`<span class="subdomain-chip">${ip}</span>`).join('')}</div></div><div class="sev-tag sev-h">HIGH</div></div>`;}
+      if(f.geo&&f.geo.org){const isCloud=/(amazon|aws|azure|microsoft|google|cloudflare|digitalocean|linode|vultr)/i.test(f.geo.org);html+=`<div class="attack-row"><div class="attack-num">02</div><div class="attack-body"><div class="attack-title">HOSTING PROVIDER / ASN <span class="real-badge">✓ LIVE</span></div><div class="attack-desc">${f.geo.org} · ${[f.geo.city,f.geo.country].filter(Boolean).join(', ')}${isCloud?' — Cloud-hosted: metadata service &amp; misconfiguration vectors possible':''}</div></div><div class="sev-tag ${isCloud?'sev-m':'sev-h'}">${isCloud?'MEDIUM':'HIGH'}</div></div>`;}
+      if(f.mx&&f.mx.length){const noSpf=!f.spf;const noDmarc=!f.dmarc;const spoof=noSpf||noDmarc||(f.spf&&f.spf.includes('~all'))||(f.spf&&f.spf.includes('?all'));html+=`<div class="attack-row"><div class="attack-num">03</div><div class="attack-body"><div class="attack-title">MAIL INFRASTRUCTURE <span class="real-badge">✓ LIVE</span></div><div class="attack-desc">Provider: ${f.mailProvider||'Unknown'} — ${f.mx[0]}${noSpf?'<br><strong style="color:#c00000">⚠ No SPF record — domain spoofing possible</strong>':''}${noDmarc?'<br><strong style="color:#c00000">⚠ No DMARC record — phishing protection absent</strong>':''}${f.spf&&f.spf.includes('~all')?'<br><strong style="color:#8B4000">⚠ SPF softfail (~all) — partial spoofing possible</strong>':''}</div></div><div class="sev-tag ${spoof?'sev-c':'sev-m'}">${spoof?'CRITICAL':'MEDIUM'}</div></div>`;}
+      if(f.whois){const wh=f.whois;html+=`<div class="attack-row"><div class="attack-num">04</div><div class="attack-body"><div class="attack-title">WHOIS / RDAP DATA <span class="real-badge">✓ LIVE</span></div><div class="attack-desc">${wh.registrar?`Registrar: ${wh.registrar}`:''}${wh.registered?` · Registered: ${wh.registered}`:''}${wh.expiry?` · Expires: ${wh.expiry}`:''}${wh.privacyProtected?'<br>Privacy shield: Active':'<br><strong style="color:#8B4000">Privacy shield: Not active — registrant data exposed</strong>'}</div></div><div class="sev-tag ${wh.privacyProtected?'sev-m':'sev-h'}">${wh.privacyProtected?'MEDIUM':'HIGH'}</div></div>`;}
+      if(f.observatory&&f.observatory.grade){const g=f.observatory.grade;const bad=g==='F'||g==='D'||g==='C';html+=`<div class="attack-row"><div class="attack-num">05</div><div class="attack-body"><div class="attack-title">SECURITY HEADERS (MOZILLA OBSERVATORY) <span class="real-badge">✓ LIVE</span></div><div class="attack-desc">Grade: <strong style="color:${bad?'#c00000':'#2a6010'}">${g}</strong> (${f.observatory.score}/100)${bad?' — XSS, clickjacking, and content injection vectors likely present':' — Acceptable header configuration'}</div></div><div class="sev-tag ${bad?'sev-c':'sev-m'}">${bad?'CRITICAL':'MEDIUM'}</div></div>`;}
+      if(!html)html='<div class="attack-desc" style="padding:8px 0;color:#4a3010">No infrastructure data could be gathered for this domain.</div>';
+      document.getElementById('doc-infra').innerHTML=html;
+    }
+
+    function renderCertSection(){
+      const subs=RECON.findings.subdomains||[];
+      if(!subs.length){document.getElementById('doc-certs').innerHTML='<div class="attack-desc" style="padding:8px 0;color:#4a3010">No certificates found in transparency logs.</div>';return;}
+      const interesting=['mail','webmail','remote','vpn','owa','portal','admin','login','stage','staging','dev','test','api','ftp','sftp','rdp','citrix','jira','confluence','gitlab','jenkins','backup','db','database'];
+      const flagged=subs.filter(s=>interesting.some(k=>s.toLowerCase().includes(k)));
+      const regular=subs.filter(s=>!interesting.some(k=>s.toLowerCase().includes(k)));
+      let html=`<div style="margin-bottom:10px"><div class="attack-title" style="margin-bottom:6px">DISCOVERED SUBDOMAINS (${subs.length} total) <span class="real-badge">✓ LIVE — crt.sh</span></div>`;
+      if(flagged.length){html+=`<div class="attack-desc" style="margin-bottom:8px"><strong style="color:#c00000">⚠ High-value targets (${flagged.length}):</strong><br>`;flagged.slice(0,12).forEach(s=>{html+=`<span class="port-chip">${s}</span>`});html+='</div>';}
+      if(regular.length){html+=`<div class="attack-desc"><span style="color:#4a3010">All subdomains (sample):</span><br>`;regular.slice(0,20).forEach(s=>{html+=`<span class="subdomain-chip">${s}</span>`});if(subs.length>32)html+=`<span style="color:rgba(26,16,8,.5);font-size:.78rem"> +${subs.length-32} more in full report</span>`;html+='</div>';}
+      html+='</div>';
+      document.getElementById('doc-certs').innerHTML=html;
+    }
+
+    function renderPortsSection(){
+      const shodanData=RECON.findings.shodanData||[];
+      if(!shodanData.length){document.getElementById('doc-ports').innerHTML='<div class="attack-desc" style="padding:8px 0;color:#4a3010">No Shodan data available — IP may be behind CDN/proxy. This is itself useful: the domain is proxied, meaning real host IP requires further OSINT.</div>';return;}
+      let html='';
+      const dangerPorts={22:'SSH',23:'Telnet',25:'SMTP',3389:'RDP',5900:'VNC',21:'FTP',3306:'MySQL',5432:'PostgreSQL',27017:'MongoDB',6379:'Redis',9200:'Elasticsearch',445:'SMB',135:'RPC',1433:'MSSQL',8080:'HTTP-Alt'};
+      shodanData.forEach((d,i)=>{
+        const dangerFound=(d.ports||[]).filter(p=>dangerPorts[p]);
+        html+=`<div class="attack-row"><div class="attack-num">0${i+1}</div><div class="attack-body"><div class="attack-title">${d.ip} <span class="real-badge">✓ LIVE — Shodan</span>${d.hostnames&&d.hostnames.length?` <span style="color:#4a3010;font-size:.7rem">(${d.hostnames[0]})</span>`:''}</div><div class="attack-desc"><strong>Open ports:</strong><br>${(d.ports||[]).map(p=>`<span class="${dangerPorts[p]?'port-chip':'subdomain-chip'}">${p}${dangerPorts[p]?'/'+dangerPorts[p]:''}</span>`).join('')}${dangerFound.length?`<br><strong style="color:#c00000">⚠ Dangerous services exposed: ${dangerFound.map(p=>dangerPorts[p]).join(', ')}</strong>`:''}${d.vulns&&d.vulns.length?`<br><strong style="color:#c00000">CVEs (${d.vulns.length}):</strong><br>${d.vulns.slice(0,6).map(c=>`<span class="cve-chip">${c}</span>`).join('')}${d.vulns.length>6?`<span style="color:#8B4000;font-size:.7rem"> +${d.vulns.length-6} more</span>`:''}`:''}</div></div><div class="sev-tag ${(d.vulns&&d.vulns.length)||dangerFound.length?'sev-c':'sev-m'}">${(d.vulns&&d.vulns.length)||dangerFound.length?'CRITICAL':'MEDIUM'}</div></div>`;
+      });
+      document.getElementById('doc-ports').innerHTML=html;
+    }
+
+    // ── CLAUDE API ────────────────────────────────
+    async function callClaudeAPI(){
+      const f=RECON.findings;
+      const reconSummary=buildReconSummary(f);
+      const prompt=`You are a senior cybersecurity threat intelligence analyst at Greyhat4Hire. You have just completed live OSINT reconnaissance on a target. Here are the REAL findings:\n\nTARGET: ${RECON.domain} (${RECON.company})\nINDUSTRY: ${RECON.industry}\nSIZE: ${RECON.size}\n\nREAL OSINT FINDINGS:\n${reconSummary}\n\nBased SPECIFICALLY on these real findings, generate sections IV, V, and VI of the classified intelligence dossier. Tailor every sentence to the actual data above — reference specific ports found, CVEs, subdomains, mail provider, SPF/DMARC status. Do NOT be generic.\n\nRespond ONLY with valid JSON, no preamble, no markdown backticks:\n\n{\n  "vectors": [\n    { "title": "Short attack vector title referencing real findings", "description": "2 sentences using specific findings from the recon above.", "severity": "CRITICAL|HIGH|MEDIUM" },\n    { "title": "...", "description": "...", "severity": "..." },\n    { "title": "...", "description": "...", "severity": "..." }\n  ],\n  "actor": {\n    "codename": "Creative threat actor codename (APT-style, 2 words in caps)",\n    "type": "Ransomware affiliate | Nation-state | Opportunistic cybercriminal | Insider threat | BEC group",\n    "motivation": "Primary motivation",\n    "ttps": "2 sentences of TTPs specific to this industry and the actual services exposed.",\n    "dwell_time": "Realistic average dwell time e.g. 34 days"\n  },\n  "narrative": "Write 5 sentences in past tense as if a breach occurred 6 months from now. Reference SPECIFIC findings: use the actual mail provider found, reference actual subdomains or ports discovered, mention actual CVEs if present. Make it viscerally specific and alarming. Include how they got in, how long undetected, what was taken, financial impact in ZAR. End on the human cost."\n}`;
+
+      try{
+        const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+        const data=await r.json();
+        const text=data.content.map(b=>b.text||'').join('');
+        const clean=text.replace(/```json|```/g,'').trim();
+        const dossier=JSON.parse(clean);
+        renderAISections(dossier);
+      }catch(e){console.error(e);renderAIFallback();}
+    }
+
+    function buildReconSummary(f){
+      const lines=[];
+      if(f.ips&&f.ips.length)lines.push(`IPs: ${f.ips.join(', ')}`);
+      if(f.geo&&f.geo.org)lines.push(`Hosting: ${f.geo.org}, ${f.geo.country||''}`);
+      if(f.mailProvider)lines.push(`Mail provider: ${f.mailProvider}`);
+      if(!f.spf)lines.push('SPF: MISSING — domain spoofing possible');
+      else if(f.spf.includes('~all'))lines.push('SPF: softfail (~all) — partial spoofing');
+      else lines.push('SPF: present with hardfail');
+      if(!f.dmarc)lines.push('DMARC: MISSING — no phishing protection');
+      else lines.push('DMARC: present, policy='+((f.dmarc.match(/p=(\w+)/)||[])[1]||'?'));
+      if(f.subdomains&&f.subdomains.length)lines.push(`Subdomains (${f.subdomains.length} total, sample): ${f.subdomains.slice(0,10).join(', ')}`);
+      if(f.shodanData&&f.shodanData.length){f.shodanData.forEach(d=>{if(d.ports&&d.ports.length)lines.push(`IP ${d.ip} open ports: ${d.ports.join(', ')}`);if(d.vulns&&d.vulns.length)lines.push(`IP ${d.ip} CVEs: ${d.vulns.slice(0,5).join(', ')}`);});}
+      if(f.observatory&&f.observatory.grade)lines.push(`Security headers grade: ${f.observatory.grade} (${f.observatory.score}/100)`);
+      if(f.whois){if(f.whois.registrar)lines.push(`Registrar: ${f.whois.registrar}`);if(f.whois.expiry)lines.push(`Domain expiry: ${f.whois.expiry}`);}
+      if(f.ns&&f.ns.length)lines.push(`Nameservers: ${f.ns.slice(0,2).join(', ')}`);
+      return lines.join('\n');
+    }
+
+    function renderAISections(d){
+      const sv=(s)=>s==='CRITICAL'?'sev-c':s==='HIGH'?'sev-h':'sev-m';
+      document.getElementById('doc-vectors').innerHTML=(d.vectors||[]).map((v,i)=>
+        `<div class="attack-row" style="opacity:0;animation:typeReveal .45s ${i*150}ms ease forwards">
+          <div class="attack-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="attack-body"><div class="attack-title">${v.title}</div><div class="attack-desc">${v.description}</div></div>
+          <div class="sev-tag ${sv(v.severity)}">${v.severity}</div>
+        </div>`).join('');
+      const a=d.actor||{};
+      document.getElementById('doc-actor').innerHTML=
+        `<div class="grid grid-cols-2 gap-x-6 gap-y-3 mb-3" style="opacity:0;animation:typeReveal .45s .15s ease forwards">
+          <div><div class="doc-label">Threat Actor Codename</div><div class="doc-value font-bold" style="color:#c00000;font-size:1.05rem">${a.codename||'UNKNOWN'}</div></div>
+          <div><div class="doc-label">Actor Type</div><div class="doc-value">${a.type||'—'}</div></div>
+          <div><div class="doc-label">Primary Motivation</div><div class="doc-value">${a.motivation||'—'}</div></div>
+          <div><div class="doc-label">Avg. Dwell Time</div><div class="doc-value font-bold" style="color:#8B4000">${a.dwell_time||'—'}</div></div>
+        </div>
+        <div class="threat-box" data-label="TACTICS, TECHNIQUES &amp; PROCEDURES" style="opacity:0;animation:typeReveal .45s .3s ease forwards">
+          <div class="doc-value" style="font-size:.86rem;line-height:1.7">${a.ttps||'—'}</div>
+        </div>`;
+      document.getElementById('doc-narrative').innerHTML=
+        `<div class="narrative-box" style="opacity:0;animation:typeReveal .6s .2s ease forwards">${d.narrative||'—'}</div>`;
+    }
+
+    function renderAIFallback(){
+      const f=RECON.findings;
+      const hasRDP=f.shodanData&&f.shodanData.some(d=>d.ports&&d.ports.includes(3389));
+      const noSpf=!f.spf;const noDmarc=!f.dmarc;
+      const mailProv=f.mailProvider||'their mail system';
+      const hasDangerSubs=f.subdomains&&f.subdomains.some(s=>['vpn','remote','rdp','admin','portal'].some(k=>s.includes(k)));
+      document.getElementById('doc-vectors').innerHTML=[
+        {t:`${noSpf||noDmarc?'Domain Spoofing / BEC via Missing Email Controls':'Spear Phishing via '+mailProv}`,d:`${noSpf?'The absence of a valid SPF record means adversaries can send email appearing to originate from '+RECON.domain+' — indistinguishable from legitimate internal communications. ':''}${noDmarc?'Without DMARC enforcement, phishing emails impersonating executives will reach employees inboxes unfiltered.':''}`,s:'CRITICAL'},
+        {t:hasDangerSubs?`Exposed Remote Access (${f.subdomains.filter(s=>['vpn','remote','rdp','admin','portal'].some(k=>s.includes(k)))[0]||'portal subdomain'})`:`${hasRDP?'Exposed RDP — Brute Force &amp; Credential Stuffing':'External Attack Surface Exploitation'}`,d:hasDangerSubs?`Certificate transparency logs confirm a remote access portal at ${f.subdomains.filter(s=>['vpn','remote','rdp','admin','portal'].some(k=>s.includes(k)))[0]} is publicly resolvable.`:hasRDP?`Shodan confirms RDP (port 3389) is internet-exposed. Automated credential stuffing tools cycle through billions of leaked credentials against such endpoints 24 hours a day.`:`The ${f.subdomains&&f.subdomains.length?f.subdomains.length+' discovered subdomains include':'domain includes'} authentication portals discoverable via certificate transparency logs.`,s:'CRITICAL'},
+        {t:'Supply Chain &amp; Third-Party Exposure',d:`${RECON.industry} organisations depend on a chain of software vendors and managed service providers, each representing a trusted network entry point. A compromised third-party with privileged access bypasses perimeter controls entirely.`,s:'HIGH'}
+      ].map((v,i)=>`<div class="attack-row" style="opacity:0;animation:typeReveal .45s ${i*150}ms ease forwards"><div class="attack-num">0${i+1}</div><div class="attack-body"><div class="attack-title">${v.t}</div><div class="attack-desc">${v.d}</div></div><div class="sev-tag ${v.s==='CRITICAL'?'sev-c':v.s==='HIGH'?'sev-h':'sev-m'}">${v.s}</div></div>`).join('');
+      document.getElementById('doc-actor').innerHTML=`<div class="grid grid-cols-2 gap-x-6 gap-y-3 mb-3"><div><div class="doc-label">Codename</div><div class="doc-value font-bold" style="color:#c00000">PHANTOM LEDGER</div></div><div><div class="doc-label">Type</div><div class="doc-value">Ransomware-as-a-Service affiliate</div></div><div><div class="doc-label">Motivation</div><div class="doc-value">Financial — ransom &amp; data resale</div></div><div><div class="doc-label">Avg. Dwell Time</div><div class="doc-value font-bold" style="color:#8B4000">${Math.floor(Math.random()*30)+18} days</div></div></div><div class="threat-box" data-label="TACTICS, TECHNIQUES &amp; PROCEDURES"><div class="doc-value" style="font-size:.86rem;line-height:1.7">Operators leverage ${noSpf?'domain spoofing via absent email controls':'phishing via the identified '+mailProv+' environment'} for initial access, deploying a commercial RAT for persistence before exfiltrating data and detonating ransomware. ${RECON.industry} targets are prioritised for high ransom compliance rates and regulatory leverage.</div></div>`;
+      document.getElementById('doc-narrative').innerHTML=`<div class="narrative-box">Six months from today, a threat actor who had been watching ${RECON.domain} since identifying its ${noSpf?'absent SPF record':hasDangerSubs?'exposed remote access portal':'external attack surface'} deployed a targeted attack that would cost ${RECON.company} everything. ${noSpf?'A spoofed email appearing to come from the CEO':'A credential stuffing campaign against the exposed portal'} gained the initial foothold, and for ${Math.floor(Math.random()*25)+15} days the operator moved laterally through an insufficiently segmented network — invisible, patient, and methodical. Every financial record, client database, and operational document was staged and exfiltrated before ransomware detonated at 03:14 on a Sunday morning, encrypting ${Math.floor(Math.random()*800)+200} systems simultaneously. Recovery took ${Math.floor(Math.random()*5)+3} weeks and cost an estimated R${Math.floor(Math.random()*4)+2}.${Math.floor(Math.random()*8)+1}M in downtime, incident response retainers, and regulatory penalties. Three employees were dismissed, one resigned, and the company lost its largest enterprise client within 90 days of the incident becoming public.</div>`;
+    }
+
+    function resetDossier(){
+      showSection('entry-section');
+      document.querySelectorAll('#entry-section .fu').forEach(el=>el.classList.add('vis'));
+    }
+
+    // ── THREE.JS PARTICLES ───────────────────────
+    (function(){
+      const canvas=document.getElementById('three-canvas');
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
+      camera.position.z=80;
+      const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+      renderer.setSize(innerWidth,innerHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+      const count=500,geo=new THREE.BufferGeometry();
+      const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+      for(let i=0;i<count;i++){
+        const i3=i*3;
+        pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
+        col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
+      }
+      geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+      const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+      const pts=new THREE.Points(geo,mat);
+      scene.add(pts);
+      let f=0;
+      function animate(){
+        requestAnimationFrame(animate);
+        if(++f%2)return;
+        const p=pts.geometry.attributes.position.array;
+        for(let i=1;i<p.length;i+=3){ p[i]+=.022+Math.random()*.028; p[i-1]+=Math.sin(Date.now()*.00008+i)*.003; if(p[i]>130)p[i]=-120; }
+        pts.geometry.attributes.position.needsUpdate=true;
+        pts.rotation.y+=.00015;
+        renderer.render(scene,camera);
+      }
+      animate();
+      window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+    })();
+  </script>
+</body>
+</html>

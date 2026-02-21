@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greyhat Protocol</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@600;700;900&display=swap');
+
+:root {
+  --pink:#ff1493; --pink2:#ff69b4; --cyan:#00d4ff; --green:#00ff88;
+  --yellow:#ffcc00; --red:#ff3333; --orange:#ff6600;
+  --bg:#020409; --bg2:#050810;
+  --font-mono:'Share Tech Mono','Courier New',monospace;
+  --font-head:'Rajdhani',sans-serif;
+  --font-game:'Orbitron',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);font-family:var(--font-mono);color:#bbb;overflow-x:hidden;}
+
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.1) 2px,rgba(0,0,0,.1) 3px);}
+.scan-sweep{position:fixed;left:0;right:0;height:2px;pointer-events:none;z-index:9998;background:linear-gradient(transparent,rgba(0,212,255,.07),rgba(255,20,147,.05),transparent);animation:scanSweep 10s linear infinite;}
+
+/* KEYFRAMES */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes pulseStrong{0%,100%{opacity:.9}50%{opacity:.2}}
+@keyframes ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+@keyframes ring2{0%{transform:scale(1);opacity:.4}100%{transform:scale(2.4);opacity:0}}
+@keyframes scanSweep{0%{top:-2px}100%{top:100vh}}
+@keyframes logFadeIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes cardAppear{from{opacity:0;transform:translateY(22px) scale(0.88) rotateX(18deg)}to{opacity:1;transform:translateY(0) scale(1) rotateX(0)}}
+@keyframes titleReveal{from{opacity:0;letter-spacing:36px;filter:blur(18px)}to{opacity:1;letter-spacing:8px;filter:blur(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes timerBlink{0%,100%{opacity:1}50%{opacity:.1}}
+@keyframes redPulse{0%,100%{background:transparent}40%,60%{background:rgba(255,40,40,.14)}}
+@keyframes nodeIn{from{transform:translate(-50%,-50%) scale(0.55);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes scanningPulse{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-13px) rotate(-.5deg)}30%{transform:translateX(13px) rotate(.5deg)}45%{transform:translateX(-7px)}60%{transform:translateX(7px)}75%{transform:translateX(-3px)}}
+@keyframes glitch-main{0%,88%,100%{transform:skewX(0);color:var(--red);text-shadow:0 0 40px rgba(255,51,51,.7)}90%{transform:skewX(-5deg);color:var(--pink);text-shadow:7px 0 var(--red),-7px 0 var(--pink)}93%{transform:skewX(4deg)}96%{transform:skewX(-2deg);color:var(--red)}}
+@keyframes glitch-clip1{0%,100%{clip-path:inset(0 0 72% 0);transform:translateX(7px)}50%{clip-path:inset(8% 0 58% 0);transform:translateX(-7px)}}
+@keyframes glitch-clip2{0%,100%{clip-path:inset(62% 0 0 0);transform:translateX(-5px)}50%{clip-path:inset(48% 0 18% 0);transform:translateX(5px)}}
+@keyframes levelIn{from{opacity:0;transform:scale(0.88) translateY(26px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.5),0 0 60px rgba(255,20,147,.2)}50%{box-shadow:0 0 70px rgba(255,20,147,1),0 0 130px rgba(255,20,147,.4)}}
+@keyframes hudTopLine{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes crtFlicker{0%,100%{opacity:1}97%{opacity:.99}98.5%{opacity:.97}}
+@keyframes dataPacket{0%{opacity:0;offset-distance:0%}10%{opacity:1}90%{opacity:1}100%{opacity:0;offset-distance:100%}}
+@keyframes borderSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes winZoom{from{opacity:0;transform:scale(0.7);filter:blur(10px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+@keyframes winGlow{0%,100%{box-shadow:0 0 60px rgba(0,255,136,.2),0 0 120px rgba(0,255,136,.08)}50%{box-shadow:0 0 100px rgba(0,255,136,.5),0 0 200px rgba(0,255,136,.2)}}
+@keyframes failGlow{0%,100%{box-shadow:0 0 60px rgba(255,51,51,.2)}50%{box-shadow:0 0 100px rgba(255,51,51,.5)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* NAV */
+nav{transition:all .4s ease;}
+.nav-scrolled{background:rgba(2,4,9,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(255,20,147,.15),0 4px 40px rgba(0,0,0,.7);}
+.desktop-link{position:relative;transition:all .3s;font-family:var(--font-head);font-weight:700;letter-spacing:.06em;color:#666;text-decoration:none;font-size:.88rem;}
+.desktop-link:hover{color:var(--cyan);text-shadow:0 0 20px var(--cyan);}
+.desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:linear-gradient(90deg,var(--pink),var(--cyan));transition:width .3s;}
+.desktop-link:hover::after{width:100%;}
+.desktop-link.active{color:var(--pink);}
+.desktop-link.active::after{width:100%;}
+#mobile-menu{transform:translateY(-100%);transition:transform .4s;}
+#mobile-menu.open{transform:translateY(0);}
+.mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.06);transition:all .3s;}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#ff1493,#c4006e);
+  color:#fff;font-family:var(--font-game);font-size:.72rem;font-weight:700;letter-spacing:.12em;
+  padding:13px 26px;border:none;cursor:pointer;transition:all .3s;text-decoration:none;position:relative;overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);
+}
+.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .4s;}
+.btn-primary:hover::after{left:150%;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(255,20,147,.7),0 0 0 1px rgba(255,20,147,.4);}
+.pulse-glow{animation:pulseGlow 2.4s infinite;}
+
+/* INTRO */
+#intro{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;padding:100px 20px 40px;text-align:center;
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 20% 20%,rgba(0,212,255,.04) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 80%,rgba(255,20,147,.06) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 30%,rgba(255,20,147,.08) 0%,var(--bg) 70%);
+}
+#matrix-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.6;}
+.intro-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
+.classified{
+  font-family:var(--font-game);font-size:8px;letter-spacing:5px;color:var(--pink);
+  border:1px solid rgba(255,20,147,.5);padding:7px 22px;margin-bottom:28px;
+  animation:pulse 2s infinite,fadeUp .7s ease .2s both;display:inline-block;
+  background:rgba(255,20,147,.06);
+  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+}
+.t1{
+  font-family:var(--font-head);font-size:clamp(3.5rem,10vw,7rem);font-weight:900;
+  letter-spacing:8px;line-height:1;
+  background:linear-gradient(180deg,#fff 0%,var(--pink) 60%,#ff006b 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 30px rgba(255,20,147,.8)) drop-shadow(0 0 80px rgba(255,20,147,.4));
+  animation:titleReveal 1s ease .4s both;
+}
+.t2{
+  font-family:var(--font-game);font-size:clamp(.9rem,2.5vw,1.6rem);font-weight:700;
+  color:rgba(0,212,255,.65);letter-spacing:14px;line-height:1;margin-top:6px;
+  animation:titleReveal 1s ease .6s both;
+  text-shadow:0 0 30px rgba(0,212,255,.6);
+}
+.t3{font-family:var(--font-game);font-size:8px;letter-spacing:8px;color:rgba(255,20,147,.3);margin:14px 0 24px;animation:fadeUp .7s ease .8s both;}
+.brief{
+  max-width:560px;border:1px solid rgba(255,20,147,.18);
+  background:rgba(5,8,18,.8);backdrop-filter:blur(12px);
+  padding:22px 26px;text-align:left;margin-bottom:18px;font-size:13px;line-height:1.9;color:#4a4a4a;
+  animation:fadeUp .7s ease 1s both;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+  position:relative;
+}
+.brief::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,20,147,.05),transparent 50%);pointer-events:none;}
+.brief-hdr{font-family:var(--font-game);font-size:8px;letter-spacing:4px;color:var(--pink);margin-bottom:12px;}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.tag{
+  font-family:var(--font-game);font-size:8px;padding:5px 12px;
+  background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.2);
+  color:var(--cyan);
+  clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);
+}
+.how-wrap{max-width:560px;width:100%;margin-bottom:18px;animation:fadeUp .7s ease 1.1s both;}
+.how-hdr{font-family:var(--font-game);font-size:8px;letter-spacing:4px;color:rgba(0,212,255,.4);margin-bottom:12px;text-align:left;}
+.how-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.how-step{
+  padding:12px 14px;border:1px solid rgba(0,212,255,.1);
+  background:rgba(0,212,255,.02);
+  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
+}
+.how-num{font-family:var(--font-game);font-size:20px;font-weight:900;color:rgba(0,212,255,.28);line-height:1;margin-bottom:5px;}
+.how-txt{font-size:9px;color:#303030;line-height:1.75;}
+.how-txt strong{color:rgba(0,212,255,.6);}
+.diff-wrap{max-width:560px;width:100%;margin-bottom:18px;animation:fadeUp .7s ease 1.2s both;}
+.diff-hdr{font-family:var(--font-game);font-size:8px;letter-spacing:4px;color:rgba(255,20,147,.4);margin-bottom:12px;text-align:left;}
+.diff-btns{display:flex;gap:10px;}
+.diff-btn{
+  flex:1;padding:14px 8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,20,147,.15);
+  cursor:pointer;font-family:var(--font-mono);transition:all .3s;text-align:center;
+  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
+}
+.diff-btn:hover{border-color:rgba(255,20,147,.4);background:rgba(255,20,147,.04);}
+.diff-btn.active{border-color:var(--pink);background:rgba(255,20,147,.08);box-shadow:0 0 30px rgba(255,20,147,.25),inset 0 0 20px rgba(255,20,147,.05);}
+.diff-name{font-family:var(--font-game);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--pink);}
+.diff-info{font-size:9px;color:#2e2e2e;margin-top:5px;line-height:1.7;}
+#best-score{font-family:var(--font-game);font-size:9px;color:#222;letter-spacing:3px;margin-bottom:16px;animation:fadeUp .7s ease 1.3s both;height:16px;}
+.btn{
+  font-family:var(--font-game);font-size:13px;font-weight:700;letter-spacing:6px;
+  padding:18px 64px;background:transparent;border:1px solid var(--pink);color:var(--pink);
+  cursor:pointer;transition:all .35s;
+  animation:fadeUp .7s ease 1.4s both;position:relative;overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));
+}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--pink),#c4006e);transform:translateX(-101%);transition:transform .35s;}
+.btn::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left 0s;}
+.btn:hover::before{transform:translateX(0);}
+.btn:hover::after{left:120%;transition:left .5s;}
+.btn:hover{color:#000;box-shadow:0 0 50px rgba(255,20,147,.6);}
+.btn span{position:relative;z-index:1;}
+
+/* LEVEL SELECT */
+#levelselect{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;padding:40px 20px;text-align:center;position:relative;
+  background:radial-gradient(ellipse at 50% 30%,rgba(255,20,147,.05) 0%,var(--bg) 65%);
+}
+.ls-hdr{
+  font-family:var(--font-game);font-size:clamp(1.3rem,4vw,2.2rem);font-weight:900;
+  color:var(--pink);letter-spacing:8px;
+  text-shadow:0 0 40px rgba(255,20,147,.8),0 0 80px rgba(255,20,147,.3);
+  margin-bottom:6px;animation:titleReveal .7s ease both;
+}
+.ls-sub{font-family:var(--font-game);font-size:8px;letter-spacing:5px;color:rgba(0,212,255,.3);margin-bottom:32px;animation:fadeUp .5s ease .2s both;}
+.level-grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:620px;width:100%;animation:fadeUp .6s ease .3s both;}
+.level-card{
+  padding:24px 28px;border:1px solid rgba(255,20,147,.12);
+  background:rgba(4,7,14,.95);backdrop-filter:blur(10px);
+  cursor:pointer;text-align:left;transition:all .35s;
+  position:relative;overflow:hidden;animation:levelIn .5s ease both;
+  clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));
+}
+.level-card::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,20,147,.07),rgba(0,212,255,.03) 50%,transparent);opacity:0;transition:opacity .3s;}
+.level-card:hover::before{opacity:1;}
+.level-card:hover{border-color:rgba(255,20,147,.4);transform:translateX(8px);box-shadow:0 0 40px rgba(255,20,147,.1),4px 0 0 rgba(255,20,147,.3);}
+.level-card.locked{opacity:.3;cursor:not-allowed;}
+.level-card.locked:hover{transform:none;border-color:rgba(255,20,147,.12);box-shadow:none;}
+.lc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.lc-num{font-family:var(--font-game);font-size:9px;letter-spacing:4px;color:rgba(0,212,255,.4);}
+.lc-badge{font-family:var(--font-game);font-size:7px;letter-spacing:2px;padding:3px 10px;}
+.lc-badge.unlocked{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.3);color:var(--green);}
+.lc-badge.locked{background:rgba(255,51,51,.06);border:1px solid rgba(255,51,51,.2);color:#ff3333;}
+.lc-badge.complete{background:rgba(255,204,0,.08);border:1px solid rgba(255,204,0,.3);color:var(--yellow);}
+.lc-title{font-family:var(--font-game);font-size:.95rem;font-weight:700;letter-spacing:4px;color:var(--pink);margin-bottom:4px;}
+.lc-org{font-family:var(--font-game);font-size:8px;letter-spacing:2px;color:#2a2a2a;margin-bottom:10px;}
+.lc-desc{font-size:10px;color:#2a2a2a;line-height:1.8;margin-bottom:14px;}
+.lc-nodes{display:flex;flex-wrap:wrap;gap:6px;}
+.lc-node{font-family:var(--font-game);font-size:7px;padding:3px 9px;background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.1);color:rgba(0,212,255,.4);}
+.lc-score{position:absolute;top:22px;right:22px;text-align:right;}
+.lc-score-val{font-family:var(--font-game);font-size:16px;font-weight:700;color:var(--yellow);text-shadow:0 0 20px rgba(255,204,0,.5);}
+.lc-score-lbl{font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:#2a2a2a;}
+.ls-back{font-family:var(--font-game);margin-top:24px;font-size:9px;letter-spacing:4px;color:#1a1a1a;cursor:pointer;transition:color .3s;animation:fadeUp .5s ease .5s both;}
+.ls-back:hover{color:rgba(255,20,147,.5);}
+
+/* ALERT */
+#alert-overlay{position:fixed;inset:0;pointer-events:none;z-index:100;}
+#alert-overlay.flashing{animation:redPulse .4s ease 3;}
+
+/* ═══════════════ GAME SCREEN ═══════════════ */
+#game{display:none;flex-direction:column;height:100vh;width:100%;overflow:hidden;}
+
+/* HUD — XBOX GRADE */
+#hud{
+  display:flex;align-items:center;gap:14px;padding:0 20px;height:58px;flex-shrink:0;
+  background:linear-gradient(180deg,rgba(3,5,12,.99) 0%,rgba(2,4,9,.98) 100%);
+  border-bottom:1px solid transparent;
+  position:relative;z-index:20;
+  box-shadow:0 4px 40px rgba(0,0,0,.9),inset 0 -1px 0 rgba(255,20,147,.08);
+}
+#hud::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,20,147,.7) 20%,rgba(0,212,255,.5) 50%,rgba(255,20,147,.4) 80%,transparent 100%);
+  animation:hudTopLine 3s ease infinite;
+}
+@keyframes hudTopLine{0%,100%{opacity:.7}50%{opacity:1}}
+#hud-logo{
+  font-family:var(--font-game);font-weight:900;font-size:11px;
+  color:var(--pink);letter-spacing:3px;white-space:nowrap;
+  text-shadow:0 0 20px rgba(255,20,147,.9),0 0 50px rgba(255,20,147,.3);
+}
+#det-row{display:flex;align-items:center;gap:8px;flex:1;max-width:250px;}
+.dlbl{font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:#2a2a2a;white-space:nowrap;}
+#det-bg{
+  flex:1;height:8px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,51,51,.2);overflow:hidden;position:relative;
+}
+#det-bg::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(0,0,0,.25) 8px,rgba(0,0,0,.25) 9px);}
+#det-fill{height:100%;width:0;transition:width .5s;position:relative;}
+#det-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.7);filter:blur(3px);}
+#det-pct{font-family:var(--font-game);font-size:11px;color:var(--red);min-width:36px;font-weight:700;}
+#timer-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0;border-left:1px solid rgba(255,20,147,.1);padding-left:16px;}
+#timer-ring{position:relative;width:44px;height:44px;flex-shrink:0;}
+#timer-ring svg{position:absolute;inset:0;}
+#timer-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-game);font-size:11px;color:var(--pink);font-weight:700;}
+.tlbl{font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:#1e1e1e;line-height:1.8;}
+#hud-diff{
+  font-family:var(--font-game);font-size:8px;letter-spacing:3px;padding:4px 10px;
+  border:1px solid rgba(255,20,147,.25);color:rgba(255,20,147,.6);flex-shrink:0;
+  clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);
+}
+#hud-level{
+  font-family:var(--font-game);font-size:8px;letter-spacing:3px;padding:4px 10px;
+  border:1px solid rgba(0,212,255,.2);color:rgba(0,212,255,.6);flex-shrink:0;
+  clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);
+}
+#hud-right{display:flex;gap:22px;margin-left:auto;align-items:center;}
+.hstat{text-align:center;position:relative;}
+.hstat::after{content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:80%;height:1px;background:rgba(0,255,136,.15);}
+.hsv{font-family:var(--font-game);font-size:17px;font-weight:700;color:var(--green);text-shadow:0 0 20px rgba(0,255,136,.7),0 0 40px rgba(0,255,136,.3);}
+.hsl{font-family:var(--font-game);font-size:6px;letter-spacing:2px;color:#1a1a1a;}
+#exit-btn{
+  font-family:var(--font-game);font-size:8px;font-weight:700;letter-spacing:3px;
+  padding:7px 14px;background:transparent;border:1px solid rgba(255,20,147,.3);
+  color:rgba(255,20,147,.6);cursor:pointer;transition:all .3s;white-space:nowrap;
+  clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);
+}
+#exit-btn:hover{border-color:var(--pink);color:var(--pink);background:rgba(255,20,147,.1);box-shadow:0 0 20px rgba(255,20,147,.35);}
+
+#mid{display:flex;flex:1;overflow:hidden;min-height:0;}
+
+/* SCAN TERMINAL */
+#log{
+  width:310px;flex-shrink:0;
+  background:linear-gradient(180deg,rgba(0,5,2,.98) 0%,rgba(0,8,4,.97) 100%);
+  border-right:2px solid rgba(0,212,255,.2);
+  padding:16px 14px 10px;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:4px 0 50px rgba(0,212,255,.08),8px 0 80px rgba(0,212,255,.04),inset -1px 0 0 rgba(0,212,255,.06),inset 0 0 60px rgba(0,20,0,.6);
+  position:relative;z-index:10;
+  animation:crtFlicker 8s infinite;
+}
+#log::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,.3),transparent);}
+#log::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,100,.007) 2px,rgba(0,255,100,.007) 3px);}
+.phdr{
+  font-family:var(--font-game);font-size:8px;letter-spacing:4px;color:var(--cyan);
+  border-bottom:1px solid rgba(0,212,255,.15);
+  padding-bottom:9px;margin-bottom:9px;flex-shrink:0;
+  text-shadow:0 0 15px rgba(0,212,255,.8);
+  display:flex;align-items:center;gap:8px;
+}
+.phdr::before{content:'▶';font-size:6px;color:var(--pink);opacity:.9;}
+#log-lines{flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+.ll{font-size:10px;line-height:2.1;animation:logFadeIn .2s ease forwards;letter-spacing:.4px;}
+
+#scan-status{flex-shrink:0;margin-top:10px;padding:10px 12px;border:1px solid rgba(0,212,255,.35);background:rgba(0,212,255,.04);display:none;box-shadow:0 0 20px rgba(0,212,255,.08);}
+.scan-bar-wrap{height:6px;background:rgba(0,212,255,.07);margin-top:8px;overflow:hidden;}
+.scan-bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,.6));transition:width .1s linear;box-shadow:0 0 14px rgba(0,212,255,.9),0 0 28px rgba(0,212,255,.3);}
+.scan-label{font-family:var(--font-game);font-size:8px;letter-spacing:4px;color:rgba(0,212,255,.9);animation:scanningPulse .8s ease infinite;text-shadow:0 0 12px rgba(0,212,255,.7);}
+
+/* MAP */
+#map{
+  flex:1;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 30% 40%,rgba(0,212,255,.025) 0%,transparent 50%),
+    radial-gradient(ellipse at 70% 60%,rgba(255,20,147,.02) 0%,transparent 50%),
+    var(--bg);
+}
+#map-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.022) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+#map-grid::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.055) 1px,transparent 1px);
+  background-size:250px 250px;
+}
+#map-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+
+/* NODES — HEXAGONAL */
+.mnode{
+  position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:5;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  animation:nodeIn .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.mnode:hover{transform:translate(-50%,-50%) scale(1.12);z-index:10;}
+.mnode:hover .mbox{filter:brightness(1.4);}
+.mring{position:absolute;inset:-16px;border-radius:50%;border:1px solid rgba(255,20,147,.45);animation:ring 2.2s infinite;pointer-events:none;}
+.mring2{position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(255,20,147,.18);animation:ring2 2.8s .7s infinite;pointer-events:none;}
+.mbox{
+  width:86px;height:86px;
+  background:rgba(2,5,14,.97);
+  border:2px solid rgba(255,20,147,.12);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;position:relative;transition:all .3s;
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+}
+.mico{font-size:22px;line-height:1;position:relative;z-index:1;}
+.mlbl{font-family:var(--font-game);font-size:6.5px;text-align:center;line-height:1.35;padding:0 5px;color:#252525;position:relative;z-index:1;}
+.mnode:hover .mlbl{color:#777;}
+.mbadge{
+  position:absolute;top:-14px;right:-8px;
+  background:linear-gradient(135deg,var(--yellow),#cc9900);
+  color:#000;font-family:var(--font-game);font-size:6px;font-weight:bold;
+  padding:3px 6px;white-space:nowrap;
+  box-shadow:0 0 14px rgba(255,204,0,.7);
+  clip-path:polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,0 100%);
+}
+
+/* TARGET INTEL */
+#info{
+  width:260px;flex-shrink:0;
+  background:linear-gradient(180deg,rgba(2,4,14,.97) 0%,rgba(1,3,10,.96) 100%);
+  border-left:2px solid rgba(0,212,255,.18);
+  padding:16px 14px 10px;overflow-y:auto;display:flex;flex-direction:column;
+  box-shadow:-4px 0 50px rgba(0,212,255,.07),-8px 0 80px rgba(0,212,255,.03),inset 1px 0 0 rgba(0,212,255,.06);
+  position:relative;z-index:10;
+}
+#info::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.4),rgba(0,212,255,.1));}
+.ik{font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:rgba(0,212,255,.5);margin-top:12px;margin-bottom:3px;text-transform:uppercase;}
+.iv{font-size:10px;color:#606070;line-height:1.75;}
+.istatus{font-family:var(--font-game);font-size:8px;letter-spacing:1px;padding:8px 12px;margin:10px 0;text-align:center;font-weight:bold;}
+.iedu{font-size:9px;color:#454545;line-height:1.9;margin-top:12px;padding:10px 12px;border:1px solid rgba(255,204,0,.18);background:rgba(255,204,0,.03);}
+#hint-btn{
+  margin-top:12px;padding:10px 12px;background:transparent;
+  border:1px solid rgba(255,204,0,.35);color:rgba(255,204,0,.75);
+  font-family:var(--font-game);font-size:8px;letter-spacing:2px;cursor:pointer;transition:all .3s;display:none;width:100%;text-align:center;
+}
+#hint-btn:hover{background:rgba(255,204,0,.08);border-color:rgba(255,204,0,.65);color:var(--yellow);box-shadow:0 0 20px rgba(255,204,0,.15);}
+#hint-btn:disabled{opacity:.3;cursor:not-allowed;}
+#hint-reveal{display:none;margin-top:10px;padding:12px;border:1px solid rgba(255,204,0,.3);background:rgba(255,204,0,.05);font-size:10px;color:var(--yellow);line-height:1.9;box-shadow:0 0 24px rgba(255,204,0,.08);}
+
+/* EXPLOIT CARDS */
+#cards{
+  display:flex;align-items:center;gap:14px;padding:14px 20px;min-height:130px;flex-shrink:0;
+  background:linear-gradient(180deg,rgba(3,5,12,.99) 0%,rgba(2,4,9,.98) 100%);
+  border-top:1px solid rgba(255,20,147,.22);
+  box-shadow:0 -8px 40px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,20,147,.1);
+  position:relative;
+}
+#cards::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.5),rgba(0,212,255,.3),transparent);}
+#cards-lbl{font-family:var(--font-game);font-size:7px;letter-spacing:3px;color:#282828;white-space:nowrap;min-width:58px;line-height:2;}
+#cards-wrap{display:flex;gap:12px;flex:1;justify-content:center;flex-wrap:wrap;}
+
+.card{
+  background:rgba(6,10,22,.98);
+  border:1px solid rgba(255,20,147,.22);
+  padding:12px 14px;cursor:pointer;text-align:center;
+  min-width:120px;max-width:152px;
+  user-select:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  animation:cardAppear .4s ease backwards;position:relative;overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,20,147,.07),transparent 60%);opacity:0;transition:opacity .3s;}
+.card::after{
+  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  transition:left 0s;
+}
+.card:hover::before{opacity:1;}
+.card:hover::after{left:120%;transition:left .45s;}
+.card:hover{
+  transform:translateY(-8px) scale(1.03);
+  border-color:rgba(255,20,147,.7);
+  box-shadow:0 14px 40px rgba(255,20,147,.3),0 0 0 1px rgba(255,20,147,.2),0 0 60px rgba(255,20,147,.1);
+}
+.cico{font-size:24px;margin-bottom:6px;}
+.cnm{font-family:var(--font-game);font-size:10px;letter-spacing:2px;color:var(--pink);margin-bottom:4px;font-weight:700;text-shadow:0 0 12px rgba(255,20,147,.5);}
+.cds{font-size:8px;color:#555;line-height:1.6;}
+.cwhen{font-size:8px;color:#3a3a3a;line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,20,147,.1);}
+
+#scanning-msg{display:none;flex:1;justify-content:center;align-items:center;}
+.scan-wait{font-family:var(--font-game);font-size:10px;color:#2a2a2a;letter-spacing:4px;animation:pulse 1s infinite;}
+
+#feedback-toast{
+  position:fixed;bottom:148px;left:50%;transform:translateX(-50%);
+  background:rgba(255,51,51,.12);border:1px solid rgba(255,51,51,.5);
+  color:#ff6666;font-size:10px;letter-spacing:1px;padding:10px 22px;
+  pointer-events:none;opacity:0;transition:opacity .25s;z-index:500;
+  max-width:420px;text-align:center;line-height:1.75;
+  box-shadow:0 0 30px rgba(255,51,51,.1);
+  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+}
+#feedback-toast.show{opacity:1;}
+
+/* WIN / FAIL SCREENS */
+#win,#fail{display:none;align-items:center;justify-content:center;min-height:100vh;width:100%;position:relative;}
+#win{background:radial-gradient(ellipse at 50% 40%,rgba(0,255,136,.06) 0%,var(--bg) 65%);}
+#fail{background:radial-gradient(ellipse at 50% 40%,rgba(255,51,51,.07) 0%,var(--bg) 65%);}
+
+.ebox{
+  background:rgba(3,5,14,.98);backdrop-filter:blur(20px);
+  padding:48px 44px;text-align:center;max-width:520px;width:90%;
+  border:1px solid rgba(255,20,147,.12);
+  box-shadow:0 0 80px rgba(255,20,147,.06),0 40px 80px rgba(0,0,0,.8);
+  clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px));
+  position:relative;overflow:hidden;
+  animation:winZoom .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+#win .ebox{
+  border-color:rgba(0,255,136,.15);
+  box-shadow:0 0 80px rgba(0,255,136,.08),0 40px 80px rgba(0,0,0,.8);
+  animation:winZoom .6s cubic-bezier(.34,1.56,.64,1) both,winGlow 2s 1s infinite;
+}
+#fail .ebox{
+  border-color:rgba(255,51,51,.2);
+  animation:winZoom .6s cubic-bezier(.34,1.56,.64,1) both,failGlow 1.5s 1s infinite;
+}
+.ebox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.6),rgba(0,212,255,.4),transparent);}
+#fail .ebox::before{background:linear-gradient(90deg,transparent,rgba(255,51,51,.6),rgba(255,100,0,.4),transparent);}
+.eico{font-size:60px;margin-bottom:18px;animation:float 3s ease infinite;}
+.etitle{font-family:var(--font-game);font-size:2.2rem;font-weight:900;letter-spacing:6px;margin-bottom:10px;}
+.esub{font-family:var(--font-mono);font-size:11px;color:#3a3a3a;line-height:1.9;margin-bottom:22px;}
+.estats{display:flex;gap:32px;justify-content:center;margin-bottom:20px;}
+.esv{font-family:var(--font-game);font-size:2rem;color:var(--pink);font-weight:700;text-shadow:0 0 20px rgba(255,20,147,.6);}
+.esl{font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:#242424;margin-top:2px;}
+.erank{font-family:var(--font-game);font-size:9px;color:#454545;letter-spacing:2px;margin-bottom:20px;padding:8px 16px;border:1px solid rgba(255,20,147,.1);display:inline-block;}
+.achievements{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;}
+.ach{display:flex;align-items:center;gap:7px;padding:6px 13px;border:1px solid rgba(255,204,0,.22);background:rgba(255,204,0,.03);font-family:var(--font-game);font-size:8px;color:var(--yellow);letter-spacing:1px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);}
+#w-bestscore{font-family:var(--font-game);font-size:9px;color:#242424;letter-spacing:3px;margin-bottom:20px;height:16px;}
+
+.ebtn{
+  font-family:var(--font-game);font-size:11px;letter-spacing:3px;font-weight:700;
+  padding:12px 28px;background:transparent;border:1px solid var(--pink);color:var(--pink);
+  cursor:pointer;margin:0 5px;transition:all .3s;position:relative;overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
+}
+.ebtn::before{content:'';position:absolute;inset:0;background:var(--pink);transform:translateX(-101%);transition:transform .3s;}
+.ebtn:hover::before{transform:translateX(0);}
+.ebtn:hover{color:#000;}
+.ebtn span{position:relative;z-index:1;}
+.ebtn.next-level{border-color:var(--green);color:var(--green);}
+.ebtn.next-level::before{background:var(--green);}
+
+.glitch-title{position:relative;display:inline-block;animation:glitch-main .9s infinite;}
+.glitch-title::before,.glitch-title::after{content:attr(data-text);position:absolute;inset:0;font-family:var(--font-game);font-size:2.2rem;font-weight:900;letter-spacing:6px;}
+.glitch-title::before{color:var(--pink);animation:glitch-clip1 .45s infinite;left:5px;}
+.glitch-title::after{color:var(--red);animation:glitch-clip2 .45s infinite .08s;left:-5px;}
+
+@keyframes logGlow{0%,100%{box-shadow:4px 0 50px rgba(0,212,255,.08),8px 0 80px rgba(0,212,255,.04)}50%{box-shadow:4px 0 70px rgba(0,212,255,.2),8px 0 100px rgba(0,212,255,.1)}}
+#log.scanning-active{animation:logGlow 1s ease infinite;border-right-color:rgba(0,212,255,.5);}
+
+/* Flow indicator */
+#flow-indicator{position:absolute;bottom:145px;left:314px;font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:rgba(0,212,255,.35);writing-mode:vertical-rl;text-orientation:mixed;pointer-events:none;z-index:20;display:flex;flex-direction:column;align-items:center;gap:4px;}
+#flow-indicator .fi-arrow{font-size:10px;animation:pulse 1.8s ease infinite;}
+
+/* STEP STRIP */
+#step-strip{
+  background:rgba(2,4,9,.99);
+  border-top:1px solid rgba(255,20,147,.08);
+  padding:5px 20px;flex-shrink:0;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,.25);border-radius:1px;}
+
+@media(max-height:700px){#intro{padding:14px}.t1{font-size:clamp(2rem,8vw,3.5rem)}.brief{padding:14px 18px;margin-bottom:12px}.btn{padding:12px 40px}}
+@media(max-width:650px){#log,#info{display:none}}
+</style>
+</head>
+<body>
+
+<div class="scan-sweep"></div>
+<div id="alert-overlay"></div>
+<div id="feedback-toast"></div>
+
+<!-- ── NAV ── -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex gap-8 text-sm">
+      <a href="index.html"            class="desktop-link">Home</a>
+      <a href="about.html"            class="desktop-link">About</a>
+      <a href="services.html"         class="desktop-link">Services</a>
+      <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="desktop-link active">The Protocol</a>
+      <a href="pricing.html"          class="desktop-link">Pricing</a>
+      <a href="contact.html"          class="desktop-link">Contact</a>
+    </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:pointer;">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+    <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;"><i class="fas fa-times"></i></button>
+    <div class="flex flex-col items-center w-full max-w-xs">
+      <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+      <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+      <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+      <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+      <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+      <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<div id="intro">
+  <canvas id="matrix-canvas"></canvas>
+  <div class="intro-inner">
+    <div class="classified">CLASSIFIED // AUTHORIZED PENTEST // GREYHAT4HIRE</div>
+    <div class="t1">GREYHAT</div>
+    <div class="t2">PROTOCOL</div>
+    <div class="t3">PENETRATION TEST SIMULATOR v3.0</div>
+
+    <div class="brief">
+      <div class="brief-hdr">// MISSION BRIEFING</div>
+      You are a contracted red-team operative. <strong style="color:#ddd">Three clients. Three networks.</strong>
+      Each engagement gets harder. Read terminal scan output carefully — it always contains the answer.
+      Use the right exploit on each node. Hit 100% IDS and you're burned.
+      <div class="tags">
+        <span class="tag">🏥 LEVEL 1 — MEDCORE HOSPITAL</span>
+        <span class="tag">🏦 LEVEL 2 — FINVAULT BANK</span>
+        <span class="tag">🎖️ LEVEL 3 — GOVSEC MILITARY</span>
+      </div>
+    </div>
+
+    <div class="how-wrap">
+      <div class="how-hdr">// HOW TO PLAY</div>
+      <div class="how-steps">
+        <div class="how-step"><div class="how-num">01</div><div class="how-txt"><strong>Node activates</strong> — terminal runs an auto-scan and prints realistic recon findings</div></div>
+        <div class="how-step"><div class="how-num">02</div><div class="how-txt"><strong>Read the clues</strong> — open ports, OS info, user logs, config mismatches. <strong>TRAINEE mode highlights the key finding.</strong></div></div>
+        <div class="how-step"><div class="how-num">03</div><div class="how-txt"><strong>Pick the exploit</strong> that fits the evidence. Cards unlock after scanning completes</div></div>
+        <div class="how-step"><div class="how-num">04</div><div class="how-txt"><strong>Stuck?</strong> Hit 💡 Hint in the Intel panel — costs +8% IDS. Use sparingly</div></div>
+      </div>
+    </div>
+
+    <div class="diff-wrap">
+      <div class="diff-hdr">// SELECT DIFFICULTY</div>
+      <div class="diff-btns">
+        <button class="diff-btn" onclick="setDiff('easy')"><div class="diff-name">TRAINEE</div><div class="diff-info">+15% IDS/error<br>60s timer · 1× score<br><span style="color:rgba(0,255,136,.5)">Key scan clue highlighted</span></div></button>
+        <button class="diff-btn active" onclick="setDiff('normal')"><div class="diff-name">HACKER</div><div class="diff-info">+22% IDS/error<br>45s timer · 1.5× score<br><span style="color:rgba(255,204,0,.5)">[!] marker on key clue</span></div></button>
+        <button class="diff-btn" onclick="setDiff('ghost')"><div class="diff-name">GHOST</div><div class="diff-info">+30% IDS/error<br>30s timer · 2× score<br><span style="color:rgba(255,51,51,.5)">Raw data only. No markers.</span></div></button>
+      </div>
+    </div>
+
+    <div id="best-score"></div>
+    <button class="btn" onclick="showScreen('levelselect')"><span>▶ SELECT OPERATION</span></button>
+  </div>
+</div>
+
+<!-- LEVEL SELECT -->
+<div id="levelselect">
+  <div class="ls-hdr">SELECT OPERATION</div>
+  <div class="ls-sub">// THREE TARGETS. ESCALATING THREAT LEVEL.</div>
+  <div class="level-grid" id="level-grid"></div>
+  <div class="ls-back" onclick="showScreen('intro')">← BACK TO BRIEFING</div>
+</div>
+
+<!-- GAME -->
+<div id="game">
+  <div id="hud">
+    <div id="hud-logo">GREYHAT PROTOCOL</div>
+    <div id="det-row">
+      <span class="dlbl">IDS DETECT</span>
+      <div id="det-bg"><div id="det-fill"></div></div>
+      <span id="det-pct">0%</span>
+    </div>
+    <div id="timer-wrap">
+      <div id="timer-ring">
+        <svg width="38" height="38" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="2.5"/>
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="#ff1493" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="100 100" id="timer-arc" style="transform:rotate(-90deg);transform-origin:50% 50%"/>
+        </svg>
+        <div id="timer-val">45</div>
+      </div>
+      <div class="tlbl">NODE<br>TIMER</div>
+    </div>
+    <div id="hud-diff">HACKER</div>
+    <div id="hud-level">LVL 1</div>
+    <div id="hud-right">
+      <div class="hstat"><div class="hsv" id="hud-score">0</div><div class="hsl">SCORE</div></div>
+      <div class="hstat"><div class="hsv" id="hud-nodes">0/5</div><div class="hsl">NODES</div></div>
+      <div class="hstat"><div class="hsv" id="hud-errors">0</div><div class="hsl">ERRORS</div></div>
+      <button id="exit-btn" onclick="showScreen('intro')" title="Exit to main menu">⬡ EXIT</button>
+    </div>
+  </div>
+
+  <div id="mid" style="position:relative;">
+    <div id="flow-indicator"><span class="fi-arrow">→</span></div>
+    <div id="log">
+      <div class="phdr">SCAN TERMINAL</div>
+      <div id="log-lines"></div>
+      <div id="scan-status">
+        <div class="scan-label">▶ SCANNING TARGET...</div>
+        <div class="scan-bar-wrap"><div class="scan-bar" id="scan-bar-fill"></div></div>
+      </div>
+    </div>
+    <div id="map"><div id="map-grid"></div><canvas id="ambient-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.6;z-index:1;"></canvas><svg id="map-svg" style="z-index:2;"></svg></div>
+    <div id="info">
+      <div class="phdr">TARGET INTEL</div>
+      <div id="info-body"></div>
+      <button id="hint-btn" onclick="useHint()">💡 REQUEST HINT [+8% IDS]</button>
+      <div id="hint-reveal"></div>
+    </div>
+  </div>
+
+  <div id="step-strip" style="display:flex;align-items:center;gap:0;background:rgba(2,4,9,.99);border-top:1px solid rgba(255,20,147,.08);padding:5px 20px;flex-shrink:0;position:relative;">
+    <span style="font-family:var(--font-game);font-size:7px;letter-spacing:3px;color:rgba(0,212,255,.4);">01</span>
+    <span style="font-size:7px;letter-spacing:2px;color:rgba(255,20,147,.45);margin:0 10px;font-family:var(--font-game);">READ SCAN TERMINAL</span>
+    <span style="font-size:8px;color:rgba(0,212,255,.2);margin:0 10px;letter-spacing:2px;">──────────────</span>
+    <span style="font-family:var(--font-game);font-size:7px;letter-spacing:3px;color:rgba(0,212,255,.4);">02</span>
+    <span style="font-size:7px;letter-spacing:2px;color:rgba(255,20,147,.3);margin-left:10px;font-family:var(--font-game);">SELECT MATCHING EXPLOIT</span>
+  </div>
+  <div id="cards">
+    <div id="cards-lbl">EXPLOIT<br>TOOLKIT</div>
+    <div id="cards-wrap"></div>
+    <div id="scanning-msg"><div class="scan-wait">⟳ SCANNING...</div></div>
+    <div id="hint" style="color:#181818;text-align:center;min-width:80px;line-height:1.75;font-size:9px;letter-spacing:1px"></div>
+  </div>
+</div>
+
+<!-- WIN -->
+<div id="win">
+  <div class="ebox">
+    <div style="font-family:var(--font-game);font-size:8px;letter-spacing:5px;color:rgba(0,255,136,.4);margin-bottom:16px;">// OPERATION COMPLETE //</div>
+    <div class="eico">🏆</div>
+    <div class="etitle" style="color:var(--green);text-shadow:0 0 40px rgba(0,255,136,.8),0 0 80px rgba(0,255,136,.3);">COMPROMISED</div>
+    <div class="esub" id="w-sub">Target database exfiltrated. Pentest report delivered.</div>
+    <div class="estats">
+      <div><div class="esv" id="w-score" style="color:var(--green)">0</div><div class="esl">SCORE</div></div>
+      <div><div class="esv" id="w-errors" style="color:var(--pink)">0</div><div class="esl">ERRORS</div></div>
+      <div><div class="esv" id="w-detect" style="color:var(--cyan)">0%</div><div class="esl">DETECT</div></div>
+    </div>
+    <div class="erank" id="w-rank"></div>
+    <div id="w-achievements" class="achievements"></div>
+    <div id="w-bestscore"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
+      <button class="ebtn" onclick="showScreen('levelselect')"><span>RETRY / LEVELS</span></button>
+      <button class="ebtn next-level" id="next-level-btn" onclick="startNextLevel()" style="display:none"><span>NEXT LEVEL ▶</span></button>
+      <button class="ebtn" onclick="showScreen('intro')"><span>MENU</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- FAIL -->
+<div id="fail">
+  <div class="ebox">
+    <div style="font-family:var(--font-game);font-size:8px;letter-spacing:5px;color:rgba(255,51,51,.4);margin-bottom:16px;">// SESSION TERMINATED //</div>
+    <div class="eico">🚨</div>
+    <div class="etitle"><span class="glitch-title" data-text="BURNED">BURNED</span></div>
+    <div class="esub" id="f-nodes"></div>
+    <div class="erank" style="border-color:rgba(255,51,51,.2);color:rgba(255,51,51,.4);">IDS reached 100% — session terminated.</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+      <button class="ebtn" style="border-color:var(--red);color:var(--red);" onclick="startGame(currentLevelIdx)"><span>RETRY</span></button>
+      <button class="ebtn" onclick="showScreen('levelselect')"><span>LEVELS</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   LEVEL DATA
+═══════════════════════════════════════════════════ */
+
+const ALL_LEVELS = [
+
+/* ── LEVEL 1: MEDCORE HOSPITAL ── */
+{
+  id: 'hospital',
+  name: 'MEDCORE HOSPITAL',
+  org: 'Healthcare — Internal LAN',
+  desc: 'Red-team engagement at a major hospital. Breach patient systems by compromising staff endpoints and medical IoT devices.',
+  tags: ['🖥️ RECEPTION','🏥 IOT HUB','🩺 WORKSTATION','💊 PHARMACY','🔧 ADMIN SERVER','🗄️ DATABASE ★'],
+  winMsg: 'MedCore Patient Database exfiltrated. 2.4M HIPAA records compromised. Report delivered.',
+  nodes: [
+    { id:"reception", label:"RECEPTION\nTERMINAL", ico:"🖥️", correct:"phishing",
+      system:"Win10 Kiosk", os:"Windows 10 [KB4577586 missing]", ports:"RDP:3389 / HTTP:80 / SMTP:25",
+      desc:"Public-facing staff terminal in the hospital lobby. Connected to the internal mail server.",
+      hint:"Staff reported clicking an unknown 'IT support' link 3 days ago. Webmail has no MFA enabled.",
+      edu:"Phishing is the #1 initial access vector worldwide. Even security-aware employees fall for convincing IT impersonation. Always verify sender domains and enforce MFA.",
+      keyClueIdx: 7,
+      weakPoint: "SOCIAL ENGINEERING SURFACE — webmail + no MFA + confirmed phishing click on record",
+      scanClues:[
+        "> Resolving 10.0.1.12...",
+        "> PORT 80   OPEN  [HTTP - Apache 2.4.38]",
+        "> PORT 3389 OPEN  [RDP  - Windows]",
+        "> PORT 25   OPEN  [SMTP - Postfix]",
+        "> OS: Windows 10, unpatched since 2023-11",
+        "> Webmail: Outlook Web App detected",
+        "> MFA status: NOT CONFIGURED",
+        "> Auth log: login from 185.220.x.x — 3d ago",
+        "> HTTP referer in log: fake-itsupport.net/login",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        defaultcreds:"No admin console or embedded firmware exposed — no factory defaults apply here.",
+        bruteforce:  "RDP lockout is active after 3 attempts on this kiosk. Brute force would instantly lock you out.",
+        sqli:        "Port 80 serves a static HTML page. No database input fields exist on this host.",
+        privesc:     "You don't have a shell yet — privilege escalation requires an existing foothold first.",
+        mitm:        "No active traffic to intercept here. You need an initial foothold on the network first.",
+        xss:         "This kiosk has no multi-user web interface. XSS won't yield useful credentials.",
+        overflow:    "No vulnerable services with known buffer overflow CVEs are exposed on this host.",
+      }, x:18, y:25 },
+
+    { id:"iot", label:"MEDICAL\nIOT HUB", ico:"🏥", correct:"defaultcreds",
+      system:"MedDevice Hub v2.1", os:"Linux Embedded 4.4.0", ports:"Telnet:23 / HTTP:8080 / SSH:22",
+      desc:"Central hub connecting bedside monitors, infusion pumps, and radiology equipment to the LAN.",
+      hint:"The device was installed in 2019. The vendor's setup guide was found in the IT room — it lists default login credentials that have never been changed.",
+      edu:"Over 40% of IoT devices still use default credentials post-install. Shodan exposes millions of such devices daily. Change creds and disable Telnet on every embedded device.",
+      keyClueIdx: 6,
+      weakPoint: "NEVER-ROTATED CREDENTIALS — Telnet login active, credential change date: NEVER",
+      scanClues:[
+        "> Resolving 10.0.1.44...",
+        "> PORT 23   OPEN  [Telnet - login prompt active]",
+        "> PORT 8080 OPEN  [HTTP   - MedDevice Admin UI]",
+        "> PORT 22   OPEN  [SSH    - OpenSSH 7.4p1]",
+        "> OS: Linux 4.4.0-embedded [MedDevice v2.1]",
+        "> HTTP banner: 'MedDevice Hub – Administration'",
+        "> Telnet banner: 'MedDevice v2.1 – Login as:'",
+        "> Last credential change: NEVER (since 2019-03-11)",
+        "> Setup guide found at: /var/meddev/setup.conf",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "No interactive user or email client on this embedded device — social engineering won't work.",
+        bruteforce:  "Telnet has no lockout but cracking it would take too long and be noisy. There's a simpler path here.",
+        sqli:        "The admin UI is a static status dashboard — no SQL-backed input fields exist.",
+        privesc:     "You need to be authenticated first. You haven't got a shell on this device yet.",
+        mitm:        "Telnet is cleartext, but you need to be on the LAN segment first — you're not pivoted there yet.",
+        xss:         "The admin panel has no user-facing input forms. XSS is a dead end on this device.",
+        overflow:    "No public buffer overflow CVEs match the Linux 4.4 embedded kernel and services exposed here.",
+      }, x:38, y:55 },
+
+    { id:"workstation", label:"DOCTOR\nWORKSTATION", ico:"🩺", correct:"bruteforce",
+      system:"Clinical Workstation v4", os:"Windows 11 Pro [22H2]", ports:"RDP:3389 / SMB:445 / WinRM:5985",
+      desc:"Physician's domain-joined workstation. No screen lock policy. RDP is open to the internal subnet.",
+      hint:"AD query confirms the user's password is 8 characters old and hasn't been rotated in 1,107 days. The domain has lockoutThreshold = 0 — account lockout is completely disabled.",
+      edu:"Without lockout policies, attackers spray thousands of passwords per second via RDP. MFA + a lockout threshold of 3-5 attempts completely neutralises this attack vector.",
+      keyClueIdx: 7,
+      weakPoint: "NO LOCKOUT POLICY — lockoutThreshold = 0 and RDP exposed means unlimited password attempts",
+      scanClues:[
+        "> Resolving 10.0.1.88...",
+        "> PORT 3389 OPEN  [RDP   - CredSSP enabled]",
+        "> PORT 445  OPEN  [SMB   - Windows 11]",
+        "> PORT 5985 OPEN  [WinRM - PowerShell Remoting]",
+        "> OS: Windows 11 Pro 22H2, domain: MEDCORE",
+        "> AD query: user 'drsmith' found",
+        "> AD query: passwordLastSet = 1107 days ago",
+        "> AD query: lockoutThreshold = 0 [DISABLED]",
+        "> AD query: MFA enrolled = FALSE",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "You're already pivoting via the network — a phishing email would be too slow and detectable.",
+        defaultcreds:"Domain-joined Windows accounts are AD-managed. No vendor factory defaults apply.",
+        sqli:        "No web application or database input interface is running on this workstation.",
+        privesc:     "You have no shell on this machine yet. Escalation requires prior access.",
+        mitm:        "RDP uses NLA/CredSSP with TLS. MITM won't capture credentials without a cert in the chain.",
+        xss:         "No multi-user web app is running on this host. XSS has no attack surface here.",
+        overflow:    "Windows 11 22H2 is fully patched at this point. No matching local overflow CVEs apply.",
+      }, x:64, y:25 },
+
+    { id:"pharmacy", label:"PHARMACY\nSYSTEM", ico:"💊", correct:"sqli",
+      system:"PharmTrack v3.4", os:"Ubuntu 18.04.6 LTS", ports:"HTTPS:443 / MySQL:3306 / SSH:22",
+      desc:"Web-based prescription management system used by 40+ pharmacists across the building.",
+      hint:"The /api/search endpoint builds queries via string concat: 'SELECT * FROM rx WHERE patient=' + userInput. A test with a single-quote returned HTTP 500 — classic SQLi indicator.",
+      edu:"SQL injection exploits unsanitised input merged directly into queries. Parameterised statements (prepared statements) eliminate this completely — yet SQLi remains in OWASP Top 10 after two decades.",
+      keyClueIdx: 7,
+      weakPoint: "UNSANITISED INPUT — HTTP 500 returned on quote test, no WAF present",
+      scanClues:[
+        "> Resolving 10.0.1.101...",
+        "> PORT 443  OPEN  [HTTPS - nginx/1.14.0]",
+        "> PORT 3306 OPEN  [MySQL - 5.7.38]",
+        "> PORT 22   OPEN  [SSH   - OpenSSH 7.6p1]",
+        "> OS: Ubuntu 18.04.6 LTS",
+        "> Web app: PharmTrack v3.4 (login + search UI)",
+        "> robots.txt exposes: /api/search?patient=",
+        "> Test request: patient=' → HTTP 500 returned",
+        "> No WAF detected. Input not sanitised.",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "Pharmacy staff aren't reachable through the current pivot. A technical attack is needed.",
+        defaultcreds:"Login enforces a strong credential policy. No factory defaults match this app.",
+        bruteforce:  "The login form has rate-limiting and CAPTCHA. Brute force attempts would be blocked and logged.",
+        privesc:     "No existing shell on this server yet. Privilege escalation needs a prior foothold.",
+        mitm:        "Traffic is TLS-encrypted with a valid cert. MITM won't yield clean credentials here.",
+        xss:         "XSS could target other users in theory, but won't give you database access or a server shell.",
+        overflow:    "nginx and MySQL versions here have no matching public buffer overflow CVEs in the database.",
+      }, x:56, y:70 },
+
+    { id:"admin", label:"IT ADMIN\nSERVER", ico:"🔧", correct:"privesc",
+      system:"Domain Controller [DC01]", os:"Windows Server 2019 [Build 17763]", ports:"LDAP:389 / WinRM:5985 / RPC:135",
+      desc:"Primary domain controller managing all MEDCORE user accounts, group policies, and trust relationships.",
+      hint:"Service 'svc_backup' runs as NT AUTHORITY\\SYSTEM. It has SeDebugPrivilege enabled and a GPO misconfiguration (AllowSystemServiceLogin=1) — a low-priv shell can impersonate it.",
+      edu:"Misconfigured service accounts with excess privileges are the most common path to full domain compromise. The Principle of Least Privilege mandates that services run with only the rights they strictly need.",
+      keyClueIdx: 6,
+      weakPoint: "PRIVILEGE MISCONFIGURATION — SYSTEM service with SeDebugPrivilege and impersonation-able GPO",
+      scanClues:[
+        "> Resolving 10.0.1.10...",
+        "> PORT 389  OPEN  [LDAP  - Active Directory]",
+        "> PORT 5985 OPEN  [WinRM - PowerShell Remoting]",
+        "> PORT 135  OPEN  [RPC   - DCE/RPC endpoint]",
+        "> OS: Windows Server 2019 Build 17763",
+        "> Domain: MEDCORE.LOCAL  DC: dc01.medcore.local",
+        "> Service: svc_backup — running as SYSTEM",
+        "> Token: SeDebugPrivilege = ENABLED",
+        "> GPO: AllowSystemServiceLogin = 1 [misconfigured]",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "No interactive email users on this server — it's an automated domain controller.",
+        defaultcreds:"Domain Controller accounts are centrally managed by AD. No factory defaults apply.",
+        bruteforce:  "WinRM and LDAP enforce domain-level lockout policies. Brute force would instantly lock accounts.",
+        sqli:        "No web application or database query interface is running on this server.",
+        mitm:        "LDAP is signed/sealed and WinRM uses Kerberos. MITM requires a cert in the trust chain.",
+        xss:         "No browser-facing web application is running on this host.",
+        overflow:    "This OS build is fully patched. No local overflow CVEs apply to the services exposed here.",
+      }, x:82, y:48 },
+
+    { id:"database", label:"PATIENT\nDATABASE", ico:"🗄️", correct:null, isGoal:true,
+      system:"MedCore DB v8.2", os:"Oracle Linux 8.6", ports:"Oracle:1521",
+      desc:"2.4 million HIPAA-protected patient records. The final objective.",
+      hint:null, edu:"Attackers ransom this type of data for millions. A Greyhat4Hire pentest finds the path before they do.",
+      scanClues:[], wrongFeedback:{}, x:82, y:75 },
+  ],
+  edges: [
+    ["reception","iot"],["reception","workstation"],
+    ["iot","workstation"],["iot","pharmacy"],
+    ["workstation","admin"],["pharmacy","admin"],
+    ["admin","database"]
+  ]
+},
+
+/* ── LEVEL 2: FINVAULT BANK ── */
+{
+  id: 'bank',
+  name: 'FINVAULT BANK',
+  org: 'Financial Services — Corporate Network',
+  desc: 'Red-team engagement at a major financial institution. Navigate through trading systems, HR portals, and VPN infrastructure to reach the core banking database.',
+  tags: ['🏧 LOBBY KIOSK','📡 VPN GATEWAY','📊 TRADING TERMINAL','👥 HR PORTAL','🖥️ SYSADMIN SERVER','💳 CORE BANKING DB ★'],
+  winMsg: 'FinVault Core Banking Database accessed. 8.7M account records exfiltrated. Report delivered.',
+  nodes: [
+    { id:"kiosk", label:"LOBBY\nKIOSK", ico:"🏧", correct:"phishing",
+      system:"Win10 Kiosk [BranchLink v2]", os:"Windows 10 LTSC 2019", ports:"HTTP:80 / SMTP:25 / RDP:3389",
+      desc:"Customer-facing lobby terminal. Bank tellers check messages and internal alerts from this station.",
+      hint:"Three tellers received an internal 'IT Security Alert' email last week from a spoofed @finvault-secure.com domain. Two clicked it. Webmail has no MFA.",
+      edu:"Spear-phishing targeting bank employees is one of the most common banking intrusion vectors. The SWIFT banking heists of 2016 all began with phishing emails to bank employees.",
+      keyClueIdx: 7,
+      weakPoint: "CONFIRMED PHISHING CLICK — spoofed domain in auth log, no MFA on webmail",
+      scanClues:[
+        "> Resolving 10.10.0.4...",
+        "> PORT 80   OPEN  [HTTP  - IIS 10.0]",
+        "> PORT 25   OPEN  [SMTP  - Exchange 2016]",
+        "> PORT 3389 OPEN  [RDP   - Windows LTSC]",
+        "> OS: Windows 10 LTSC 2019, domain: FINVAULT",
+        "> Webmail: Outlook Web App — MFA: NOT CONFIGURED",
+        "> Auth log: login from 91.108.x.x — 2d ago",
+        "> Auth log referer: finvault-secure.com/alert",
+        "> DNS: finvault-secure.com NOT in corp domain",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        defaultcreds:"No embedded device or admin console exposed. Factory defaults don't apply here.",
+        bruteforce:  "RDP has lockout after 5 attempts on this domain. Spraying would lock out teller accounts.",
+        sqli:        "Port 80 serves an internal notice board — static content, no SQL input fields.",
+        privesc:     "No shell yet. Privilege escalation requires an existing authenticated foothold.",
+        mitm:        "No interceptable real-time traffic on this segment yet. Need a network foothold first.",
+        xss:         "This kiosk has a single-user context. Injecting scripts won't reach other sessions.",
+        overflow:    "IIS 10.0 on current Windows LTSC has no matching unpatched overflow CVEs.",
+      }, x:15, y:20 },
+
+    { id:"vpn", label:"VPN\nGATEWAY", ico:"📡", correct:"overflow",
+      system:"Cisco ASA 9.8(2)", os:"Cisco ASA OS", ports:"HTTPS:443 / IKE:500 / ESP:4500",
+      desc:"Primary VPN concentrator routing all remote employee traffic into the corporate network.",
+      hint:"This is Cisco ASA 9.8(2). CVE-2018-0101 is a pre-auth buffer overflow in the WebVPN service. The HTTPS port 443 is exposed and webvpn is enabled — this exact version is vulnerable.",
+      edu:"CVE-2018-0101 allowed unauthenticated remote code execution on Cisco ASA. Unpatched network devices are a common entry point for nation-state actors. Patch cycle discipline is critical on perimeter devices.",
+      keyClueIdx: 5,
+      weakPoint: "KNOWN CVE — Cisco ASA 9.8(2) with WebVPN enabled matches CVE-2018-0101 (pre-auth RCE)",
+      scanClues:[
+        "> Resolving 10.10.0.1...",
+        "> PORT 443  OPEN  [HTTPS - Cisco WebVPN portal]",
+        "> PORT 500  OPEN  [IKE   - IPSec VPN]",
+        "> PORT 4500 OPEN  [ESP   - NAT-T]",
+        "> Banner: Cisco Adaptive Security Appliance v9.8(2)",
+        "> WebVPN: ENABLED on port 443",
+        "> CVE match: CVE-2018-0101 [CRITICAL — pre-auth heap overflow]",
+        "> Patch level: NONE applied since firmware install",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "This is a network appliance with no email user. Social engineering doesn't apply.",
+        defaultcreds:"ASA admin creds are enterprise-managed. No vendor defaults are active on perimeter devices.",
+        bruteforce:  "ASA enforces lockout after failed auth attempts. Credential stuffing would trigger IDS immediately.",
+        sqli:        "Cisco ASA firmware has no user-facing SQL input surfaces. SQLi has no attack surface here.",
+        privesc:     "No shell on this device. Privilege escalation requires prior authenticated access.",
+        mitm:        "The VPN itself encrypts all traffic. MITM here without a cert in the chain yields nothing.",
+        xss:         "The WebVPN portal doesn't render user-supplied content back to other users.",
+      }, x:38, y:20 },
+
+    { id:"trading", label:"TRADING\nTERMINAL", ico:"📊", correct:"mitm",
+      system:"TradeDesk Pro v5.1", os:"Ubuntu 20.04 LTS", ports:"HTTP:8080 / TCP:9001 / SSH:22",
+      desc:"Real-time trading dashboard connecting analysts to live market feeds. Shared by 12 traders on the floor.",
+      hint:"The dashboard streams live prices over HTTP port 8080 with no TLS. Trader credentials are posted in plaintext. ARP spoofing on the LAN segment would capture them passively.",
+      edu:"Cleartext protocols like HTTP transmit credentials in plain sight. Any device on the same network segment can capture this traffic with ARP poisoning. TLS is non-negotiable for any authenticated session.",
+      keyClueIdx: 5,
+      weakPoint: "CLEARTEXT CREDENTIALS IN TRANSIT — HTTP:8080 with auth, no TLS, ARP-poisonable segment",
+      scanClues:[
+        "> Resolving 10.10.0.22...",
+        "> PORT 8080 OPEN  [HTTP  - TradeDesk v5.1 dashboard]",
+        "> PORT 9001 OPEN  [TCP   - live feed socket]",
+        "> PORT 22   OPEN  [SSH   - OpenSSH 8.2p1]",
+        "> OS: Ubuntu 20.04 LTS",
+        "> TradeDesk auth: HTTP Basic over plaintext port 8080",
+        "> TLS: NOT CONFIGURED on application layer",
+        "> ARP table: shared /24 segment, no dynamic ARP inspection",
+        "> Active sessions: 12 traders currently logged in",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "Traders are busy but unreachable via email at this point in the op — too much noise.",
+        defaultcreds:"TradeDesk uses individually provisioned accounts. No factory defaults are present.",
+        bruteforce:  "SSH has key-only auth enabled. HTTP dashboard has session throttling. Brute force won't work.",
+        sqli:        "The dashboard is a read-only display layer with no SQL-backed user input endpoints.",
+        privesc:     "No shell on this host yet. Privilege escalation requires a prior foothold.",
+        xss:         "While the dashboard has shared users, XSS won't yield credentials as cleanly as the cleartext issue.",
+        overflow:    "Ubuntu 20.04 LTS is current. No matching overflow CVEs for OpenSSH 8.2 or TradeDesk.",
+      }, x:62, y:42 },
+
+    { id:"hr", label:"HR\nPORTAL", ico:"👥", correct:"sqli",
+      system:"PeopleCore HR v6.2", os:"CentOS 7.9", ports:"HTTPS:443 / MySQL:3306 / SSH:22",
+      desc:"Internal HR portal storing employee records, payroll data, and onboarding workflows for 3,200 staff.",
+      hint:"The /api/employee/search endpoint constructs raw SQL using string formatting. Testing with a trailing single quote returns HTTP 500 Internal Server Error — strong SQLi indicator. No WAF is present.",
+      edu:"SQL injection via HR systems is extremely high-value for attackers: employee PII, payroll data, and org-chart intelligence can be exfiltrated in minutes. Parameterised queries and an ORM prevent this entirely.",
+      keyClueIdx: 7,
+      weakPoint: "RAW SQL CONSTRUCTION — HTTP 500 on quote test, no WAF, MySQL exposed internally",
+      scanClues:[
+        "> Resolving 10.10.0.35...",
+        "> PORT 443  OPEN  [HTTPS - Apache/2.4 + PeopleCore]",
+        "> PORT 3306 OPEN  [MySQL - 5.7.36]",
+        "> PORT 22   OPEN  [SSH   - OpenSSH 7.4p1]",
+        "> OS: CentOS 7.9.2009",
+        "> App: PeopleCore HR v6.2 — search + profile UI",
+        "> robots.txt: /api/employee/search?name=",
+        "> Test: name=' → HTTP 500 [stack trace leaked]",
+        "> No WAF detected. String-formatted SQL confirmed.",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "HR staff aren't accessible from the current pivot. A direct technical attack is required.",
+        defaultcreds:"PeopleCore enforces strong LDAP-backed auth. No factory defaults apply.",
+        bruteforce:  "Login has CAPTCHA and IP rate-limiting. Brute force would be blocked and logged.",
+        privesc:     "No foothold on this server yet. You need code execution before escalating.",
+        mitm:        "HTTPS with a valid corporate cert. MITM would require inserting into the cert chain.",
+        xss:         "Shared HR portal does have multiple users, but won't give you database dump access.",
+        overflow:    "Apache 2.4 and MySQL 5.7.36 on CentOS 7.9 have no matching unpatched overflow CVEs.",
+      }, x:38, y:65 },
+
+    { id:"sysadmin", label:"SYSADMIN\nSERVER", ico:"🖥️", correct:"privesc",
+      system:"FinVault DC02", os:"Windows Server 2022 [Build 20348]", ports:"LDAP:389 / WinRM:5985 / SMB:445",
+      desc:"Secondary domain controller for FinVault corporate network. Manages all service accounts and backup jobs.",
+      hint:"Service 'svc_finbackup' runs as NT AUTHORITY\\SYSTEM with SeImpersonatePrivilege enabled. A JuicyPotato-style token impersonation attack from a low-priv shell will yield SYSTEM access.",
+      edu:"SeImpersonatePrivilege on a service account is one of the most reliable privilege escalation paths in Active Directory environments. Running backup services as SYSTEM with this privilege is a critical misconfiguration.",
+      keyClueIdx: 6,
+      weakPoint: "SEIMPERSONATEPRIVILEGE ENABLED — SYSTEM-level service account exploitable via token impersonation",
+      scanClues:[
+        "> Resolving 10.10.0.5...",
+        "> PORT 389  OPEN  [LDAP  - Active Directory]",
+        "> PORT 5985 OPEN  [WinRM - PowerShell Remoting]",
+        "> PORT 445  OPEN  [SMB   - Windows Server 2022]",
+        "> OS: Windows Server 2022 Build 20348",
+        "> Domain: FINVAULT.LOCAL  DC: dc02.finvault.local",
+        "> Service: svc_finbackup — running as SYSTEM",
+        "> Token: SeImpersonatePrivilege = ENABLED",
+        "> Token: SeAssignPrimaryTokenPrivilege = ENABLED",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "Automated domain controller — no interactive email users to target.",
+        defaultcreds:"Domain accounts are centrally managed. No factory credentials apply.",
+        bruteforce:  "Domain lockout policy is active. Brute force would trigger instant account lockouts.",
+        sqli:        "No web application is running on this server. No SQL surface exists.",
+        mitm:        "WinRM uses Kerberos and SMB signing is enforced. MITM won't work here.",
+        xss:         "No browser-facing web application running on this host.",
+        overflow:    "Windows Server 2022 is fully patched. No matching overflow CVEs apply.",
+      }, x:82, y:35 },
+
+    { id:"coredb", label:"CORE\nBANKING DB", ico:"💳", correct:null, isGoal:true,
+      system:"Oracle DB 19c (RAC)", os:"Oracle Linux 7.9", ports:"Oracle:1521 / EM:5500",
+      desc:"Core banking database — 8.7M account records, SWIFT transaction logs, and inter-bank settlement data.",
+      hint:null, edu:"Banking databases are among the highest-value targets for financially motivated threat actors globally.",
+      scanClues:[], wrongFeedback:{}, x:82, y:68 },
+  ],
+  edges: [
+    ["kiosk","vpn"],["kiosk","trading"],
+    ["vpn","trading"],["vpn","sysadmin"],
+    ["trading","hr"],
+    ["hr","sysadmin"],
+    ["sysadmin","coredb"]
+  ]
+},
+
+/* ── LEVEL 3: GOVSEC MILITARY BASE ── */
+{
+  id: 'military',
+  name: 'GOVSEC MILITARY',
+  org: 'Government / Defense — Classified Network',
+  desc: 'Top-tier red-team clearance. Penetrate a military base network — badge readers, comms relays, intelligence wikis — to reach classified intelligence archives.',
+  tags: ['🪖 GUARD TERMINAL','🔒 BADGE READER HUB','📻 COMMS RELAY','📖 INTEL WIKI','🚚 SUPPLY CHAIN','👑 SYSADMIN DC','🗂️ CLASSIFIED DB ★'],
+  winMsg: 'GovSec Classified Intel Archives accessed. Top-secret documents exfiltrated. Full domain compromise. Report delivered.',
+  nodes: [
+    { id:"guard", label:"GUARD\nTERMINAL", ico:"🪖", correct:"phishing",
+      system:"SecureStation v3", os:"Windows 10 IoT Enterprise", ports:"HTTP:80 / SMTP:587 / RDP:3389",
+      desc:"Security checkpoint terminal used by base guards to validate personnel and check threat alerts.",
+      hint:"A 'URGENT: Badge System Update Required' email was sent from alerts@govsec-updates.net — not the real .mil domain. Two guards confirmed they clicked the link. No MFA on the internal webmail.",
+      edu:"Military and government networks are prime targets for spear-phishing. Attackers register convincing lookalike domains. Domain verification + MFA + security awareness training is the only reliable defence.",
+      keyClueIdx: 6,
+      weakPoint: "LOOKALIKE DOMAIN PHISH CONFIRMED — non-.mil domain in auth log, no MFA on guard webmail",
+      scanClues:[
+        "> Resolving 172.16.0.3...",
+        "> PORT 80   OPEN  [HTTP  - Apache 2.4.51 — internal portal]",
+        "> PORT 587  OPEN  [SMTP  - Postfix — outbound mail]",
+        "> PORT 3389 OPEN  [RDP   - Windows IoT Enterprise]",
+        "> OS: Windows 10 IoT Enterprise, domain: GOVSEC.MIL",
+        "> Webmail: OWA detected — MFA: NOT ENROLLED",
+        "> Auth log: click from 203.0.113.x — 1d ago",
+        "> HTTP referer: govsec-updates.net/badge-update [non-mil]",
+        "> Email subject: 'URGENT: Badge System Update Required'",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        defaultcreds:"No embedded admin panel exposed. Factory defaults don't apply to this endpoint.",
+        bruteforce:  "RDP has account lockout after 3 attempts (DoD policy). Brute force triggers immediate alert.",
+        sqli:        "Port 80 portal is a read-only status board. No SQL input fields.",
+        privesc:     "No foothold yet. Privilege escalation requires an authenticated shell.",
+        mitm:        "No interceptable traffic on this segment. Need initial access first.",
+        xss:         "Single-user terminal context. XSS won't propagate to other sessions.",
+        overflow:    "Apache 2.4.51 on patched Windows IoT has no matching CVEs.",
+      }, x:12, y:22 },
+
+    { id:"badge", label:"BADGE READER\nHUB", ico:"🔒", correct:"defaultcreds",
+      system:"HIDGlobal BadgeNet v4", os:"Linux Embedded 3.18", ports:"Telnet:23 / HTTP:8080 / SSH:22",
+      desc:"Central badge reader controller managing access to all secured areas of the base. Runs 24/7.",
+      hint:"HIDGlobal BadgeNet v4 ships with default credentials admin:admin on both Telnet and the HTTP management panel. The install date shows 2017 and no credential rotation has ever been logged.",
+      edu:"Physical access control systems are rarely patched or reconfigured after installation. Default credentials on badge controllers can give attackers the ability to unlock doors — not just access data.",
+      keyClueIdx: 7,
+      weakPoint: "DEFAULT CREDENTIALS NEVER CHANGED — embedded system install 2017, no rotation on record",
+      scanClues:[
+        "> Resolving 172.16.0.8...",
+        "> PORT 23   OPEN  [Telnet - BadgeNet management]",
+        "> PORT 8080 OPEN  [HTTP   - HIDGlobal Admin UI]",
+        "> PORT 22   OPEN  [SSH    - Dropbear 2014.63]",
+        "> OS: Linux 3.18 embedded [HIDGlobal BadgeNet v4]",
+        "> HTTP banner: 'BadgeNet v4 — Facility Management'",
+        "> Telnet banner: 'BadgeNet v4 login:'",
+        "> Last credential change: NEVER (installed 2017-06-14)",
+        "> Vendor default creds documented in product manual",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "No interactive email user on this embedded controller. Social engineering won't work.",
+        bruteforce:  "Brute forcing would work but is noisy. A simpler, quieter path is available.",
+        sqli:        "Admin UI is a status dashboard — no SQL-backed search or input fields.",
+        privesc:     "Not authenticated yet. Privilege escalation requires a prior shell.",
+        mitm:        "Telnet is cleartext but you'd need to already be on the LAN segment.",
+        xss:         "No multi-user web interface rendering user input back to others.",
+        overflow:    "No matching public buffer overflow CVEs for Dropbear 2014 or BadgeNet v4.",
+      }, x:32, y:48 },
+
+    { id:"comms", label:"COMMS\nRELAY", ico:"📻", correct:"overflow",
+      system:"Motorola MTR3000 Repeater", os:"VxWorks 6.9", ports:"HTTPS:443 / SNMP:161 / Telnet:23",
+      desc:"Radio communications relay server bridging encrypted tactical channels to the base network backbone.",
+      hint:"VxWorks 6.9 is affected by URGENT/11 — a suite of 11 vulnerabilities (CVE-2019-12255 through CVE-2019-12264). CVE-2019-12255 is a pre-auth buffer overflow in the TCP/IP stack. Port 443 is reachable.",
+      edu:"URGENT/11 exposed millions of critical infrastructure devices running VxWorks. Embedded OS vulnerabilities are uniquely dangerous because these devices rarely get patched and run critical physical systems.",
+      keyClueIdx: 5,
+      weakPoint: "CRITICAL CVE MATCH — VxWorks 6.9 + reachable TCP = URGENT/11 pre-auth buffer overflow",
+      scanClues:[
+        "> Resolving 172.16.0.15...",
+        "> PORT 443  OPEN  [HTTPS  - device management portal]",
+        "> PORT 161  OPEN  [SNMP   - community string: public]",
+        "> PORT 23   OPEN  [Telnet - restricted console]",
+        "> OS: Wind River VxWorks 6.9 [Motorola MTR3000]",
+        "> CVE match: URGENT/11 — CVE-2019-12255 [pre-auth buffer overflow]",
+        "> SNMP: READ community string 'public' accepted",
+        "> Patch status: NO UPDATES applied — firmware 2019-03",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "No interactive user on this hardware device. Social engineering has no attack surface.",
+        defaultcreds:"Device management credentials are base-managed, not vendor defaults.",
+        bruteforce:  "Telnet console has lockout. SNMP is read-only. Brute force won't yield a shell.",
+        sqli:        "No web application with SQL-backed input on this device. SQLi doesn't apply.",
+        privesc:     "No shell yet. Privilege escalation is a post-exploitation technique.",
+        mitm:        "All traffic is encrypted. MITM here would require inserting into the TLS chain.",
+        xss:         "Device management portal has no multi-user shared session context.",
+      }, x:58, y:22 },
+
+    { id:"wiki", label:"INTEL\nWIKI", ico:"📖", correct:"xss",
+      system:"Confluence Server 7.4.0", os:"RHEL 8.4", ports:"HTTPS:8443 / PostgreSQL:5432 / SSH:22",
+      desc:"Internal intelligence wiki used by 200+ analysts to share tactical notes, mission reports, and source intelligence.",
+      hint:"Confluence 7.4.0 has stored XSS in the page editor. Injecting a malicious script payload into a shared wiki page will execute in the browser of every analyst who views that page — capturing their session tokens.",
+      edu:"Stored XSS in collaboration tools like Confluence or Wikis is especially powerful because it persists and executes for every user who visits. Session tokens captured this way give full account takeover.",
+      keyClueIdx: 6,
+      weakPoint: "MULTI-USER STORED XSS SURFACE — Confluence 7.4.0 with 200+ active analysts viewing shared pages",
+      scanClues:[
+        "> Resolving 172.16.0.28...",
+        "> PORT 8443 OPEN  [HTTPS - Confluence 7.4.0]",
+        "> PORT 5432 OPEN  [PostgreSQL - 13.4]",
+        "> PORT 22   OPEN  [SSH   - OpenSSH 8.0p1]",
+        "> OS: Red Hat Enterprise Linux 8.4",
+        "> App: Atlassian Confluence 7.4.0 — shared wiki",
+        "> Active users: 200+ analysts (high-traffic pages)",
+        "> XSS test: script tag in page body — not sanitised",
+        "> No CSP header detected. Cookies: HttpOnly NOT set.",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "Analysts are reachable but a direct technical attack on their shared platform is more reliable.",
+        defaultcreds:"Confluence uses LDAP-backed auth. No factory defaults.",
+        bruteforce:  "Login has rate limiting and Kerberos-backed auth. Brute force would be blocked.",
+        sqli:        "PostgreSQL is backend-only. Confluence's public search has parameterised queries.",
+        privesc:     "No shell on this server yet. Need initial access first.",
+        mitm:        "HTTPS with valid cert. MITM here would require being in the cert trust chain.",
+        overflow:    "PostgreSQL 13.4 and Confluence 7.4.0 have no matching unpatched pre-auth overflow CVEs.",
+      }, x:74, y:50 },
+
+    { id:"supply", label:"SUPPLY\nCHAIN DB", ico:"🚚", correct:"sqli",
+      system:"LogiTrack v2.9", os:"Debian 10.13", ports:"HTTP:80 / MariaDB:3306 / SSH:22",
+      desc:"Logistics and supply tracking system managing procurement for weapons, vehicles, and base infrastructure.",
+      hint:"The /track/search endpoint uses raw string interpolation to build SQL queries. Testing with a single quote returns a MariaDB error trace in the HTTP response. No WAF is configured.",
+      edu:"Supply chain systems in military and government contexts hold acquisition data, contract values, and procurement schedules — all highly sensitive. SQLi on these systems is both common and catastrophic.",
+      keyClueIdx: 6,
+      weakPoint: "SQL ERROR TRACE EXPOSED — MariaDB error returned on quote test, no WAF",
+      scanClues:[
+        "> Resolving 172.16.0.42...",
+        "> PORT 80   OPEN  [HTTP  - Apache 2.4.38 + LogiTrack]",
+        "> PORT 3306 OPEN  [MariaDB - 10.3.32]",
+        "> PORT 22   OPEN  [SSH   - OpenSSH 7.9p1]",
+        "> OS: Debian 10.13 (Buster)",
+        "> App: LogiTrack v2.9 — search + manifest viewer",
+        "> robots.txt: /track/search?item=",
+        "> Test: item=' → MariaDB error trace in response",
+        "> No WAF. Error verbosity: FULL (stacktrace exposed).",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "No reachable user at this system via email from this pivot point.",
+        defaultcreds:"LogiTrack uses custom auth. No vendor factory credentials in use.",
+        bruteforce:  "HTTP login has CAPTCHA and IP rate-limiting. Brute force is blocked.",
+        privesc:     "No code execution yet. Privilege escalation requires an authenticated shell.",
+        mitm:        "HTTP is cleartext but you need a LAN segment pivot first, and you're not there yet.",
+        xss:         "LogiTrack is a single-user lookup tool — no shared session context for XSS propagation.",
+        overflow:    "Apache 2.4.38 and MariaDB 10.3 have no matching unpatched overflow CVEs.",
+      }, x:48, y:72 },
+
+    { id:"dc", label:"SYSADMIN\nDC", ico:"👑", correct:"privesc",
+      system:"GovSec DC01 [CLASSIFIED]", os:"Windows Server 2019 [Build 17763.3406]", ports:"LDAP:389 / Kerberos:88 / WinRM:5985",
+      desc:"Primary domain controller for GOVSEC.MIL. Controls all user accounts, classified file access, and group policies.",
+      hint:"Service 'svc_classified_backup' runs as NT AUTHORITY\\SYSTEM with both SeDebugPrivilege and SeImpersonatePrivilege. A GPO misconfiguration (RestrictedAdminMode=0) allows token impersonation from a low-priv WinRM shell.",
+      edu:"Domain controllers with over-privileged service accounts are a single point of total network failure. Compromising a DC gives an attacker access to every user account, every file share, and every GPO in the domain.",
+      keyClueIdx: 6,
+      weakPoint: "SYSTEM SERVICE WITH IMPERSONATION — SeDebugPrivilege + SeImpersonatePrivilege both enabled",
+      scanClues:[
+        "> Resolving 172.16.0.2...",
+        "> PORT 389  OPEN  [LDAP      - Active Directory]",
+        "> PORT 88   OPEN  [Kerberos  - KDC]",
+        "> PORT 5985 OPEN  [WinRM     - PowerShell Remoting]",
+        "> OS: Windows Server 2019 Build 17763.3406",
+        "> Domain: GOVSEC.MIL  DC: dc01.govsec.mil",
+        "> Service: svc_classified_backup — running as SYSTEM",
+        "> Token: SeDebugPrivilege = ENABLED",
+        "> Token: SeImpersonatePrivilege = ENABLED",
+        "> GPO: RestrictedAdminMode = 0 [misconfigured]",
+        "> RECON COMPLETE ─────────────────────────────",
+      ],
+      wrongFeedback:{
+        phishing:    "Fully automated domain controller — no interactive users to target via email.",
+        defaultcreds:"AD accounts are enterprise-managed. No factory defaults.",
+        bruteforce:  "Domain lockout policy active (DoD standard: 3 attempts). Brute force triggers instant alert.",
+        sqli:        "No web application on this server. No SQL attack surface.",
+        mitm:        "Kerberos uses ticket-based auth and LDAP signing is enforced. MITM is ineffective.",
+        xss:         "No browser-facing web app running on this domain controller.",
+        overflow:    "Windows Server 2019 at this build is fully patched. No overflow CVEs apply.",
+      }, x:84, y:50 },
+
+    { id:"classified", label:"CLASSIFIED\nINTEL DB", ico:"🗂️", correct:null, isGoal:true,
+      system:"SIPR Archive v11", os:"Oracle Linux 8 [Hardened]", ports:"Oracle:1521 [restricted]",
+      desc:"Top-secret intelligence archive. Mission reports, asset identities, and classified strategic documents.",
+      hint:null, edu:"Nation-state actors target classified military databases to compromise intelligence sources and methods.",
+      scanClues:[], wrongFeedback:{}, x:84, y:78 },
+  ],
+  edges: [
+    ["guard","badge"],["guard","comms"],
+    ["badge","comms"],["badge","supply"],
+    ["comms","wiki"],
+    ["wiki","dc"],
+    ["supply","dc"],
+    ["dc","classified"]
+  ]
+}
+
+]; // end ALL_LEVELS
+
+/* Exploit cards */
+const EXPLOITS = [
+  {id:"phishing",     ico:"🎣", name:"PHISHING LURE",    desc:"Craft convincing email as IT staff", when:"Signs: email client, no MFA, user clicked unknown links"},
+  {id:"defaultcreds", ico:"🔑", name:"DEFAULT CREDS",    desc:"Try factory admin login never changed", when:"Signs: IoT/embedded, admin portal, never-rotated credentials"},
+  {id:"bruteforce",   ico:"💥", name:"BRUTE FORCE",      desc:"Automated password spray over RDP/SSH", when:"Signs: no lockout policy, weak password age, RDP/SSH open"},
+  {id:"sqli",         ico:"💉", name:"SQL INJECTION",    desc:"Inject into unsanitised DB queries", when:"Signs: web app search input, no WAF, HTTP 500 on quote test"},
+  {id:"privesc",      ico:"⬆️", name:"PRIV ESCALATION",  desc:"Abuse misconfigured service for SYSTEM", when:"Signs: SYSTEM service, SeDebugPrivilege, GPO misconfig"},
+  {id:"mitm",         ico:"📡", name:"MAN-IN-MIDDLE",    desc:"Intercept and replay unencrypted traffic", when:"Signs: HTTP/Telnet in use, ARP-poisonable LAN segment"},
+  {id:"xss",          ico:"🕷️", name:"XSS ATTACK",       desc:"Inject scripts into shared web interface", when:"Signs: multi-user web app, unescaped input rendered to others"},
+  {id:"overflow",     ico:"🌊", name:"BUFFER OVERFLOW",  desc:"Corrupt memory of an unpatched process", when:"Signs: old firmware, known CVE, no ASLR/DEP, pre-auth"},
+];
+
+const AMBIENT = [
+  "> nmap -sV 10.0.1.0/24","> netstat -ano","> whoami /priv",
+  "> Intercepting ARP...","> Rotating proxy chain","> Metasploit initialized",
+  "> Wordlist loaded [14M]","> LDAP enum running","> NTLM hash captured",
+  "> Beacon established","> Event logs cleared","> Kerberos TGT received",
+  "> SMB relay configured","> Payload encoded [x86/shikata]","> SSH tunnel active",
+  "> CVE-2024-1337 matched","> Firewall rule bypassed","> Shellcode staged",
+];
+
+const DIFF = {
+  easy:   {penalty:15, timer:60, mult:1.0,  label:'TRAINEE'},
+  normal: {penalty:22, timer:45, mult:1.5,  label:'HACKER'},
+  ghost:  {penalty:30, timer:30, mult:2.0,  label:'GHOST'},
+};
+
+/* ══ STATE ══ */
+var step=0, breached=[], detect=0, score=0, errors=0, hand=[], logs=[];
+var ticker=null, diff='normal', hintUsed=false, scanning=false;
+var nodeTimerVal=45, nodeTimerTotal=45, nodeTimerInterval=null;
+var currentLevelIdx=0;
+
+function NODES(){ return ALL_LEVELS[currentLevelIdx].nodes; }
+function EDGES(){ return ALL_LEVELS[currentLevelIdx].edges; }
+function nodeCount(){ return NODES().filter(n=>!n.isGoal).length; }
+
+/* ══ HELPERS ══ */
+function shuffle(a){ return [...a].sort(()=>Math.random()-.5); }
+function get(id)   { return document.getElementById(id); }
+function nodeById(id){ return NODES().find(n=>n.id===id)||null; }
+
+/* ══ DIFF ══ */
+function setDiff(d){
+  diff=d;
+  document.querySelectorAll('.diff-btn').forEach((b,i)=>b.classList.toggle('active',['easy','normal','ghost'][i]===d));
+}
+
+/* ══ SCREENS ══ */
+function showScreen(id){
+  ['intro','levelselect','game','win','fail'].forEach(s=>{ var el=get(s); if(el) el.style.display=s===id?'flex':'none'; });
+  // Hide nav on game screen so it doesn't overlay the HUD; show it everywhere else
+  var navEl=document.getElementById('nav');
+  if(navEl) navEl.style.display=id==='game'?'none':'block';
+  if(id==='intro'){ setTimeout(initMatrix,50); loadBestScore(); }
+  if(id==='levelselect'){ renderLevelSelect(); }
+}
+
+/* ══ LEVEL SELECT ══ */
+function getLevelBestScore(lvlIdx){
+  try{var b=localStorage.getItem('gh_best_l'+lvlIdx);return b?JSON.parse(b):null;}catch(e){return null;}
+}
+function isLevelUnlocked(lvlIdx){
+  if(lvlIdx===0) return true;
+  return !!getLevelBestScore(lvlIdx-1);
+}
+function renderLevelSelect(){
+  var grid=get('level-grid'); if(!grid) return;
+  grid.innerHTML='';
+  ALL_LEVELS.forEach(function(lv,i){
+    var unlocked=isLevelUnlocked(i);
+    var best=getLevelBestScore(i);
+    var card=document.createElement('div');
+    card.className='level-card'+(unlocked?'':' locked');
+    card.style.animationDelay=(i*.1)+'s';
+    var badgeClass=best?'complete':unlocked?'unlocked':'locked';
+    var badgeText=best?'★ COMPLETE':unlocked?'AVAILABLE':'🔒 LOCKED';
+    var scoreHtml=best?'<div class="lc-score"><div class="lc-score-val">'+best.score+'</div><div class="lc-score-lbl">BEST PTS</div></div>':'';
+    var nodeTagsHtml=lv.tags.map(t=>'<span class="lc-node">'+t+'</span>').join('');
+    card.innerHTML=
+      '<div class="lc-top"><span class="lc-num">OPERATION '+(i+1).toString().padStart(2,'0')+'</span><span class="lc-badge '+badgeClass+'">'+badgeText+'</span></div>'+
+      scoreHtml+
+      '<div class="lc-title">'+lv.name+'</div>'+
+      '<div class="lc-org">'+lv.org+'</div>'+
+      '<div class="lc-desc">'+lv.desc+'</div>'+
+      '<div class="lc-nodes">'+nodeTagsHtml+'</div>';
+    if(unlocked){ card.onclick=function(){ startGame(i); }; }
+    grid.appendChild(card);
+  });
+}
+
+/* ══ AUDIO ══ */
+var _ctx=null;
+function getCtx(){ if(!_ctx) _ctx=new(window.AudioContext||window.webkitAudioContext)(); return _ctx; }
+function beep(f,d,t,v){ try{var c=getCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t||'square';o.frequency.value=f;g.gain.setValueAtTime(v||.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start(c.currentTime);o.stop(c.currentTime+d);}catch(e){}}
+function playSuccess(){ [523,659,784].forEach((f,i)=>setTimeout(()=>beep(f,.12,'sine',.1),i*80)); }
+function playError()  { [220,165].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sawtooth',.07),i*100)); }
+function playWin()    { [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.22,'sine',.1),i*160)); }
+function playBurn()   { [380,280,180].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sawtooth',.08),i*100)); }
+function playTick()   { beep(880,.04,'sine',.04); }
+function playScan()   { beep(660,.05,'sine',.035); }
+
+/* ══ MATRIX ══ */
+var _matrixInt=null;
+function initMatrix(){
+  var canvas=get('matrix-canvas'); if(!canvas) return;
+  if(_matrixInt) clearInterval(_matrixInt);
+  canvas.width=canvas.offsetWidth||window.innerWidth;
+  canvas.height=canvas.offsetHeight||window.innerHeight;
+  var ctx=canvas.getContext('2d'),cols=Math.floor(canvas.width/18);
+  var drops=Array.from({length:cols},()=>Math.random()*-60);
+  var chars='01アイウカキクサシスタチ#$!%><{}[]|';
+  _matrixInt=setInterval(function(){
+    if(!get('intro')||get('intro').style.display==='none'){clearInterval(_matrixInt);return;}
+    ctx.fillStyle='rgba(0,0,0,0.055)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(var i=0;i<drops.length;i++){
+      ctx.fillStyle=Math.random()>.94?'rgba(0,212,255,0.8)':Math.random()>.88?'rgba(255,20,147,0.75)':'rgba(0,212,255,0.14)';
+      ctx.font='13px Share Tech Mono,monospace';
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*18,drops[i]*18);
+      if(drops[i]*18>canvas.height&&Math.random()>.975) drops[i]=0;
+      drops[i]++;
+    }
+  },50);
+}
+
+/* ══ AMBIENT MAP PARTICLES ══ */
+var _ambientInt=null;
+function initAmbientParticles(){
+  var canvas=get('ambient-canvas'); if(!canvas) return;
+  if(_ambientInt) cancelAnimationFrame(_ambientInt);
+  canvas.width=canvas.offsetWidth||800;
+  canvas.height=canvas.offsetHeight||500;
+  var ctx=canvas.getContext('2d');
+  var particles=[];
+  for(var i=0;i<60;i++){
+    particles.push({
+      x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+      vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+      r:Math.random()*2+.5,
+      color:Math.random()>.6?'rgba(0,212,255,':'rgba(255,20,147,',
+      alpha:Math.random()*.4+.1
+    });
+  }
+  function anim(){
+    if(!get('game')||get('game').style.display==='none'){return;}
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(function(p){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0) p.x=canvas.width;
+      if(p.x>canvas.width) p.x=0;
+      if(p.y<0) p.y=canvas.height;
+      if(p.y>canvas.height) p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.color+p.alpha+')';
+      ctx.shadowBlur=p.r*8;
+      ctx.shadowColor=p.color+'0.8)';
+      ctx.fill();
+      ctx.shadowBlur=0;
+    });
+    _ambientInt=requestAnimationFrame(anim);
+  }
+  anim();
+}
+
+/* ══ SCORE ══ */
+function loadBestScore(){ try{var b=localStorage.getItem('gh_best');if(b){var d=JSON.parse(b);get('best-score').textContent='BEST: '+d.score+' PTS — '+d.diff.toUpperCase()+' MODE';}}catch(e){} }
+function saveBestScore(){
+  try{
+    var b=localStorage.getItem('gh_best'),cur=b?JSON.parse(b):null;
+    if(!cur||score>cur.score)localStorage.setItem('gh_best',JSON.stringify({score:score,diff:diff}));
+    var lb=localStorage.getItem('gh_best_l'+currentLevelIdx),lc=lb?JSON.parse(lb):null;
+    if(!lc||score>lc.score)localStorage.setItem('gh_best_l'+currentLevelIdx,JSON.stringify({score:score,diff:diff}));
+  }catch(e){}
+}
+
+/* ══ LOG ══ */
+function addLog(msg,type){
+  var logEl=get('log-lines'); if(!logEl) return;
+  var line=document.createElement('div'); line.className='ll'; line.textContent=msg;
+  var cols={green:'#00ff88',red:'#ff4444',yellow:'#ffcc00',pink:'#ff1493',cyan:'#22ddff',dim:'#666655',hotclue:'#ffaa22'};
+  line.style.color=cols[type]||'#1a1a1a';
+  logEl.appendChild(line);
+  while(logEl.children.length>28) logEl.removeChild(logEl.firstChild);
+  logEl.scrollTop=logEl.scrollHeight;
+}
+
+function runScan(node, onComplete){
+  scanning=true; lockCards(true);
+  var ss=get('scan-status'),sf=get('scan-bar-fill'),logEl=get('log');
+  if(ss) ss.style.display='block';
+  if(logEl) logEl.classList.add('scanning-active');
+  addLog('','dim');
+  addLog('> TARGET: '+node.label.replace('\n',' '),'pink');
+  addLog('> Initiating recon scan...','pink');
+  var clues=node.scanClues, i=0, total=clues.length;
+  var iv=setInterval(function(){
+    if(i>=total){
+      clearInterval(iv);
+      if(ss) ss.style.display='none';
+      if(logEl) logEl.classList.remove('scanning-active');
+      /* ── Difficulty clue injection ── */
+      if(diff==='easy' && node.weakPoint){
+        addLog('','dim');
+        addLog('> ⚠ WEAK POINT IDENTIFIED:','yellow');
+        addLog('>   '+node.weakPoint,'yellow');
+      }
+      scanning=false; lockCards(false);
+      if(onComplete) onComplete();
+      return;
+    }
+    var isLast=i===total-1;
+    var isKeyClue=(node.keyClueIdx!==undefined && i===node.keyClueIdx);
+    /* HACKER mode: mark key clue with [!] */
+    var displayClue=clues[i];
+    if(diff==='normal' && isKeyClue){
+      displayClue=clues[i].replace('> ','> [!] ');
+    }
+    var clueType=isLast?'cyan':(isKeyClue&&diff==='normal'?'hotclue':'dim');
+    addLog(displayClue, clueType);
+    playScan();
+    if(sf) sf.style.width=Math.round(((i+1)/total)*100)+'%';
+    i++;
+  },270);
+}
+
+/* ══ HINT ══ */
+function useHint(){
+  var cur=NODES()[step]; if(!cur||cur.isGoal) return;
+  if(hintUsed) return;
+  hintUsed=true;
+  detect=Math.min(detect+8,100);
+  var btn=get('hint-btn'); if(btn){btn.disabled=true;btn.textContent='💡 HINT USED [+8% IDS]';}
+  var hr=get('hint-reveal'); if(hr){hr.style.display='block';hr.textContent='HINT: '+cur.hint;}
+  addLog('> Hint requested — IDS +8%','yellow');
+  updateHUD();
+}
+
+/* ══ EFFECTS ══ */
+function shakeGame(){ var g=get('game');g.style.animation='none';g.offsetHeight;g.style.animation='shake .45s ease';setTimeout(()=>g.style.animation='',450); }
+function flashAlert(){ var o=get('alert-overlay');o.classList.remove('flashing');o.offsetHeight;o.classList.add('flashing');setTimeout(()=>o.classList.remove('flashing'),1300); }
+function showToast(msg){ var t=get('feedback-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3400); }
+function spawnParticles(nodeEl){
+  if(!nodeEl) return;
+  var rect=nodeEl.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  var colors=['#00ff88','#ff1493','#00d4ff','#ffcc00'];
+  for(var i=0;i<26;i++){
+    var p=document.createElement('div'),ang=(i/26)*Math.PI*2,dist=50+Math.random()*60;
+    var sz=2+Math.random()*5;
+    var col=colors[Math.floor(Math.random()*colors.length)];
+    p.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;width:${sz}px;height:${sz}px;background:${col};border-radius:50%;pointer-events:none;z-index:9990;transform:translate(-50%,-50%);box-shadow:0 0 ${sz*3}px ${col}`;
+    document.body.appendChild(p);
+    var delay=Math.random()*120;
+    setTimeout(function(el,ang2,dist2,col2){
+      el.animate([
+        {transform:'translate(-50%,-50%) scale(1.5)',opacity:1,filter:`blur(0px) drop-shadow(0 0 6px ${col2})`},
+        {transform:`translate(calc(-50% + ${Math.cos(ang2)*dist2}px),calc(-50% + ${Math.sin(ang2)*dist2}px)) scale(0)`,opacity:0,filter:'blur(2px)'}
+      ],{duration:700+Math.random()*300,easing:'cubic-bezier(0,.4,.2,1)'}).onfinish=()=>el.remove();
+    },delay,p,ang,dist,col);
+  }
+}
+
+/* ══ HUD ══ */
+function updateHUD(){
+  get('det-fill').style.width=detect+'%'; get('det-pct').textContent=detect+'%';
+  var dc=detect<50?'#ffcc00':detect<80?'#ff6600':'#ff3333';
+  get('det-pct').style.color=dc; get('det-fill').style.background='linear-gradient(90deg,'+dc+','+dc+'cc)';
+  get('hud-score').textContent=score;
+  get('hud-nodes').textContent=countBreached()+'/'+nodeCount();
+  get('hud-errors').textContent=errors;
+  get('hud').style.borderBottomColor=detect>=70?'rgba(255,51,51,.45)':'rgba(255,20,147,.14)';
+}
+function countBreached(){ return breached.filter(b=>!nodeById(b)||!nodeById(b).isGoal).length; }
+function isBreached(id) { return breached.includes(id); }
+
+/* ══ TIMER ══ */
+function startNodeTimer(){ stopNodeTimer(); nodeTimerTotal=DIFF[diff].timer; nodeTimerVal=nodeTimerTotal; updateTimer(); nodeTimerInterval=setInterval(tickTimer,1000); }
+function stopNodeTimer() { if(nodeTimerInterval){clearInterval(nodeTimerInterval);nodeTimerInterval=null;} }
+function tickTimer(){
+  if(scanning) return;
+  nodeTimerVal--; updateTimer();
+  if(nodeTimerVal<=5&&nodeTimerVal>0) playTick();
+  if(nodeTimerVal<=0){ detect=Math.min(detect+25,100); addLog('> ⏰ TIMEOUT — IDS spike +25%','red'); shakeGame(); flashAlert(); updateHUD(); if(detect>=100){stopNodeTimer();setTimeout(doFail,700);return;} nodeTimerVal=nodeTimerTotal; }
+}
+function updateTimer(){
+  var arc=get('timer-arc'),val=get('timer-val'); if(!arc||!val) return;
+  arc.setAttribute('stroke-dasharray',Math.max(0,(nodeTimerVal/nodeTimerTotal)*100)+' 100');
+  var color=nodeTimerVal<=10?'#ff3333':nodeTimerVal<=20?'#ffcc00':'#ff1493';
+  arc.setAttribute('stroke',color); val.textContent=nodeTimerVal; val.style.color=color;
+  val.style.animation=nodeTimerVal<=10?'timerBlink .5s infinite':'';
+}
+
+/* ══ MAP ══ */
+function renderMap(){
+  var mapEl=get('map'); if(!mapEl) return;
+  var W=mapEl.offsetWidth,H=mapEl.offsetHeight; if(W<10||H<10){setTimeout(renderMap,100);return;}
+  var svg=get('map-svg'); svg.innerHTML='';
+  // Add glow filter
+  var defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  var filter=document.createElementNS('http://www.w3.org/2000/svg','filter');
+  filter.setAttribute('id','glow');filter.setAttribute('x','-50%');filter.setAttribute('y','-50%');filter.setAttribute('width','200%');filter.setAttribute('height','200%');
+  var fe=document.createElementNS('http://www.w3.org/2000/svg','feGaussianBlur');
+  fe.setAttribute('stdDeviation','3');fe.setAttribute('result','blur');
+  var feMerge=document.createElementNS('http://www.w3.org/2000/svg','feMerge');
+  var n1=document.createElementNS('http://www.w3.org/2000/svg','feMergeNode');n1.setAttribute('in','blur');
+  var n2=document.createElementNS('http://www.w3.org/2000/svg','feMergeNode');n2.setAttribute('in','SourceGraphic');
+  feMerge.appendChild(n1);feMerge.appendChild(n2);
+  filter.appendChild(fe);filter.appendChild(feMerge);
+  defs.appendChild(filter);svg.appendChild(defs);
+  var curId=NODES()[step]?NODES()[step].id:'';
+
+  EDGES().forEach(function(e){
+    var a=e[0],b=e[1],na=nodeById(a),nb=nodeById(b);
+    if(!na||!nb) return;
+    var x1=na.x/100*W,y1=na.y/100*H,x2=nb.x/100*W,y2=nb.y/100*H;
+    var done=isBreached(a)&&isBreached(b),hot=!done&&(a===curId||b===curId);
+    // Glow line (blurred copy behind)
+    var glowLn=document.createElementNS('http://www.w3.org/2000/svg','line');
+    glowLn.setAttribute('x1',x1);glowLn.setAttribute('y1',y1);glowLn.setAttribute('x2',x2);glowLn.setAttribute('y2',y2);
+    glowLn.setAttribute('stroke',done?'rgba(0,255,136,.15)':hot?'rgba(255,20,147,.2)':'rgba(0,212,255,.04)');
+    glowLn.setAttribute('stroke-width',done?'6':hot?'6':'4');
+    glowLn.setAttribute('filter','blur(3px)');
+    svg.appendChild(glowLn);
+    // Main line
+    var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1',x1);ln.setAttribute('y1',y1);ln.setAttribute('x2',x2);ln.setAttribute('y2',y2);
+    ln.setAttribute('stroke',done?'rgba(0,255,136,.55)':hot?'rgba(255,20,147,.75)':'rgba(0,212,255,.12)');
+    ln.setAttribute('stroke-width',hot?'2':'1.5'); ln.setAttribute('stroke-dasharray',done?'':'6 6');
+    svg.appendChild(ln);
+    if(done||hot){
+      // Multiple packets for more visual data flow
+      var numPkts=done?2:1;
+      for(var p=0;p<numPkts;p++){
+        var pkt=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        var pktSize=done?4:3;
+        pkt.setAttribute('r',pktSize); pkt.setAttribute('fill',done?'rgba(0,255,136,1)':'rgba(255,20,147,1)');
+        pkt.setAttribute('filter','url(#glow)');
+        var anim=document.createElementNS('http://www.w3.org/2000/svg','animateMotion');
+        var dur=(0.8+Math.random()*0.8);
+        anim.setAttribute('path','M'+x1+','+y1+' L'+x2+','+y2);
+        anim.setAttribute('dur',dur+'s');
+        anim.setAttribute('begin',(p*dur/numPkts)+'s');
+        anim.setAttribute('repeatCount','indefinite');
+        pkt.appendChild(anim); svg.appendChild(pkt);
+      }
+    }
+  });
+
+  /* clear stale nodes */
+  document.querySelectorAll('.mnode').forEach(el=>el.remove());
+
+  NODES().forEach(function(nd){
+    var el=document.createElement('div');
+    el.className='mnode';el.id='mn-'+nd.id;el.setAttribute('data-id',nd.id);
+    el.onclick=(function(node){return function(){renderInfo(node);};})(nd);
+    mapEl.appendChild(el);
+    el.style.left=nd.x+'%'; el.style.top=nd.y+'%';
+    var done=isBreached(nd.id),isCur=NODES()[step]&&NODES()[step].id===nd.id&&!nd.isGoal;
+    var bc=done?'#00ff88':isCur?'#ff1493':nd.isGoal?'rgba(255,204,0,.38)':'rgba(255,20,147,.12)';
+    var sh=done?'0 0 20px rgba(0,255,136,.32)':isCur?'0 0 38px rgba(255,20,147,.75),0 0 65px rgba(255,20,147,.22)':'none';
+    var lc=done?'#00ff88':isCur?'#ccc':nd.isGoal?'rgba(255,204,0,.7)':'#2a2a2a';
+    el.innerHTML=
+      (isCur?'<div class="mring"></div><div class="mring2"></div>':'')+
+      '<div class="mbox" style="background:'+(done?'rgba(0,40,20,.97)':'rgba(2,5,14,.97)')+';border:2px solid '+bc+';box-shadow:'+sh+'">'+
+        '<div class="mico">'+nd.ico+'</div>'+
+        '<div class="mlbl" style="color:'+lc+'">'+nd.label.replace('\n','<br>')+'</div>'+
+      '</div>'+
+      (nd.isGoal&&!done?'<div class="mbadge">★ GOAL</div>':'');
+  });
+}
+
+/* ══ INFO PANEL ══ */
+function renderInfo(nd){
+  var el=get('info-body'),hb=get('hint-btn'),hr=get('hint-reveal');
+  if(!nd){
+    el.innerHTML='<p style="font-size:10px;color:#1c1c1c;line-height:1.9">Click any node to inspect.<br><br><span style="color:var(--pink)">Glowing node</span> = current target.</p>';
+    if(hb) hb.style.display='none'; return;
+  }
+  var done=isBreached(nd.id),cur=NODES()[step]&&NODES()[step].id===nd.id;
+  var sc=done?'#00ff88':nd.isGoal?'#ffcc00':'#ff1493';
+  var sb=done?'rgba(0,255,136,.28)':nd.isGoal?'rgba(255,204,0,.28)':'rgba(255,20,147,.28)';
+  var sbg=done?'rgba(0,255,136,.04)':nd.isGoal?'rgba(255,204,0,.03)':'rgba(255,20,147,.04)';
+  var st=done?'✅ COMPROMISED':nd.isGoal?'★ FINAL TARGET':(cur?'🎯 ACTIVE TARGET':'🔒 SECURED');
+  el.innerHTML=
+    '<div style="color:var(--pink);font-family:var(--font-head);font-weight:700;letter-spacing:2px;font-size:12px;margin-bottom:10px">'+nd.ico+' '+nd.label.replace('\n',' ')+'</div>'+
+    '<div class="ik">SYSTEM</div><div class="iv">'+nd.system+'</div>'+
+    '<div class="ik">OS</div><div class="iv">'+nd.os+'</div>'+
+    '<div class="ik">OPEN PORTS</div><div class="iv">'+nd.ports+'</div>'+
+    '<div class="istatus" style="color:'+sc+';border:1px solid '+sb+';background:'+sbg+'">'+st+'</div>'+
+    '<div class="ik">INTEL</div><div class="iv">'+nd.desc+'</div>'+
+    '<div class="iedu"><span style="color:#ffcc00">💡 EDU:</span> '+nd.edu+'</div>';
+  if(hb){
+    hb.style.display=(cur&&!done&&!nd.isGoal)?'block':'none';
+    hb.disabled=hintUsed; hb.textContent=hintUsed?'💡 HINT USED [+8% IDS]':'💡 REQUEST HINT [+8% IDS]';
+  }
+  if(hr){ hr.style.display='none'; hr.textContent=''; }
+}
+
+/* ══ CARDS ══ */
+function lockCards(locked){
+  var wrap=get('cards-wrap'),msg=get('scanning-msg'),hint=get('hint');
+  if(!wrap) return;
+  if(locked){ wrap.style.opacity='.2'; wrap.style.pointerEvents='none'; if(msg) msg.style.display='flex'; if(hint) hint.textContent=''; }
+  else { wrap.style.opacity='1'; wrap.style.pointerEvents=''; if(msg) msg.style.display='none'; if(hint) hint.textContent='← READ SCAN\nTHEN PICK'; }
+}
+function dealHand(){
+  var cur=NODES()[step]; if(!cur||cur.isGoal){hand=[];renderCards();return;}
+  hand=shuffle([EXPLOITS.find(e=>e.id===cur.correct),...shuffle(EXPLOITS.filter(e=>e.id!==cur.correct)).slice(0,3)]);
+  renderCards();
+}
+function renderCards(){
+  var wrap=get('cards-wrap'); if(!wrap) return; wrap.innerHTML='';
+  hand.forEach(function(ex,i){
+    var d=document.createElement('div'); d.className='card'; d.dataset.id=ex.id; d.style.animationDelay=(i*.07)+'s';
+    d.innerHTML='<div class="cico">'+ex.ico+'</div><div class="cnm">'+ex.name+'</div><div class="cds">'+ex.desc+'</div><div class="cwhen">'+ex.when+'</div>';
+    d.onclick=function(){onCard(ex);};
+    wrap.appendChild(d);
+  });
+}
+
+/* ══ CARD CLICK ══ */
+function onCard(ex){
+  if(scanning) return;
+  var cur=NODES()[step]; if(!cur||cur.isGoal) return;
+  var cardEl=document.querySelector('.card[data-id="'+ex.id+'"]');
+  if(ex.id===cur.correct){
+    playSuccess();
+    if(cardEl){cardEl.style.background='rgba(0,255,136,.07)';cardEl.style.border='1px solid #00ff88';cardEl.style.boxShadow='0 0 30px rgba(0,255,136,.5)';cardEl.style.transform='translateY(-9px) scale(1.04)';}
+    breached.push(cur.id);
+    score+=Math.round(Math.max(120-errors*12,25)*DIFF[diff].mult);
+    addLog('> ✓ '+ex.name+' executed','green');
+    addLog('> '+cur.label.replace('\n',' ')+' — COMPROMISED','green');
+    stopNodeTimer(); spawnParticles(get('mn-'+cur.id)); updateHUD(); renderMap(); renderInfo(cur);
+    hintUsed=false;
+    setTimeout(function(){
+      var next=step+1;
+      var ns=NODES();
+      if(next>=ns.length-1){
+        breached.push(ns[ns.length-1].id);
+        addLog('> ████████████ 100%','green');
+        addLog('> '+ALL_LEVELS[currentLevelIdx].name+' — COMPROMISED','green');
+        addLog('> Exfiltration complete.','pink');
+        updateHUD(); renderMap(); playWin(); setTimeout(doWin,1200);
+      } else {
+        step=next; dealHand(); renderMap(); renderInfo(NODES()[step]);
+        runScan(NODES()[step],function(){startNodeTimer();});
+      }
+    },700);
+  } else {
+    playError(); shakeGame();
+    if(cardEl){cardEl.style.background='rgba(255,51,51,.07)';cardEl.style.border='1px solid #ff3333';cardEl.style.boxShadow='0 0 22px rgba(255,51,51,.4)';setTimeout(function(){if(cardEl){cardEl.style.background='';cardEl.style.border='';cardEl.style.boxShadow='';}},700);}
+    errors++;
+    var penalty=DIFF[diff].penalty;
+    detect=Math.min(detect+penalty,100);
+    var reason=(cur.wrongFeedback&&cur.wrongFeedback[ex.id])||'Incorrect technique for this target.';
+    addLog('> ✗ '+ex.name+' failed','red');
+    addLog('> Reason: '+reason,'yellow');
+    showToast('✗ '+ex.name+' — '+reason);
+    updateHUD();
+    if(detect>=70) flashAlert();
+    if(detect>=100){stopNodeTimer();setTimeout(doFail,700);}
+  }
+}
+
+/* ══ START ══ */
+function startGame(lvlIdx){
+  currentLevelIdx=lvlIdx||0;
+  if(ticker) clearInterval(ticker); stopNodeTimer();
+  step=0;breached=[];detect=0;score=0;errors=0;logs=[];hand=[];hintUsed=false;scanning=false;
+  get('log-lines').innerHTML='';
+  document.querySelectorAll('.mnode').forEach(el=>el.remove());
+  showScreen('game');
+  setTimeout(initAmbientParticles, 100);
+  var lv=ALL_LEVELS[currentLevelIdx];
+  get('hud-diff').textContent=DIFF[diff].label;
+  get('hud-level').textContent='LVL '+(currentLevelIdx+1);
+  updateHUD(); renderMap(); dealHand();
+  ticker=setInterval(function(){addLog(AMBIENT[Math.floor(Math.random()*AMBIENT.length)],'dim');},1400);
+  addLog('> Session started — '+DIFF[diff].label+' mode','pink');
+  addLog('> Target: '+lv.name,'pink');
+  addLog('> Read scan output carefully...','yellow');
+  if(diff==='easy') addLog('> [TRAINEE] Yellow lines = key findings','yellow');
+  if(diff==='normal') addLog('> [HACKER] [!] marks the critical clue','hotclue');
+  window.onresize=renderMap;
+  renderInfo(NODES()[0]);
+  setTimeout(function(){runScan(NODES()[0],function(){startNodeTimer();});},400);
+}
+
+/* ══ WIN / FAIL ══ */
+function doWin(){
+  stopNodeTimer();if(ticker)clearInterval(ticker);saveBestScore();
+  var lv=ALL_LEVELS[currentLevelIdx];
+  get('w-sub').textContent=lv.winMsg;
+  get('w-score').textContent=score;get('w-errors').textContent=errors;get('w-detect').textContent=detect+'%';
+  get('w-rank').textContent=errors===0?'RANK: GHOST — Perfect. Zero noise.':errors<=2?'RANK: ELITE — Clean op, minor slips.':errors<=4?'RANK: HACKER — Noisy but successful.':'RANK: SCRIPT KIDDIE — You made it. Barely.';
+  var achs=[];
+  if(errors===0&&diff==='ghost') achs=[{ico:'🌐',name:'APEX THREAT'}];
+  else { if(errors===0)achs.push({ico:'👻',name:'SILENT RUN'}); if(detect<30)achs.push({ico:'🕵️',name:'GHOST TRACE'}); if(diff==='ghost')achs.push({ico:'💀',name:'GHOST MODE'}); if(currentLevelIdx===ALL_LEVELS.length-1)achs.push({ico:'🎖️',name:'FULL SPECTRUM'}); }
+  get('w-achievements').innerHTML=achs.map(a=>'<div class="ach"><span>'+a.ico+'</span><span>'+a.name+'</span></div>').join('');
+  try{var b=localStorage.getItem('gh_best');if(b){var d=JSON.parse(b);get('w-bestscore').textContent=d.score===score?'★ NEW BEST SCORE!':'BEST: '+d.score+' PTS';}}catch(e){}
+  var nextBtn=get('next-level-btn');
+  if(nextBtn){
+    var hasNext=currentLevelIdx<ALL_LEVELS.length-1;
+    nextBtn.style.display=hasNext?'inline-block':'none';
+  }
+  showScreen('win');
+}
+function doFail(){
+  stopNodeTimer();if(ticker)clearInterval(ticker);playBurn();
+  get('f-nodes').textContent='You breached '+countBreached()+'/'+nodeCount()+' nodes before detection.';
+  showScreen('fail');
+}
+function startNextLevel(){
+  startGame(currentLevelIdx+1);
+}
+
+showScreen('intro');
+
+// ── NAV ──
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobile-menu');
+const closeMenu=document.getElementById('close-menu');
+
+function openMenu(){
+  mobileMenu.classList.remove('hidden');
+  setTimeout(()=>mobileMenu.classList.add('open'),10);
+}
+function closeMenuFn(){
+  mobileMenu.classList.remove('open');
+  setTimeout(()=>mobileMenu.classList.add('hidden'),400);
+}
+
+hamburger.addEventListener('click', openMenu);
+closeMenu.addEventListener('click', closeMenuFn);
+document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+</script>
+</body>
+</html>
