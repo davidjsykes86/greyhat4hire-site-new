@@ -62,19 +62,9 @@
     .desktop-link:hover::after { width:100%; }
     .desktop-link.active { color:#ff1493; }
     .desktop-link.active::after { width:100%; }
-<<<<<<< HEAD
 
     /* ── MOBILE MENU — background set in CSS so it's guaranteed regardless of Tailwind CDN opacity utilities ── */
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
-=======
-<<<<<<< HEAD
-
-    /* ── MOBILE MENU — background set in CSS so it's guaranteed regardless of Tailwind CDN opacity utilities ── */
-    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
-=======
-    #mobile-menu { transform:translateY(-100%);transition:transform .4s ease; }
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     #mobile-menu.open { transform:translateY(0); }
     .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
 
@@ -132,18 +122,8 @@
     }
     .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
     .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
-<<<<<<< HEAD
     .tool-nav-name  { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
     .tool-nav-desc  { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
-=======
-<<<<<<< HEAD
-    .tool-nav-name  { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
-    .tool-nav-desc  { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
-=======
-    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
-    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     .tools-panel-header {
       padding:10px 16px 8px;margin-bottom:4px;
       border-bottom:1px solid rgba(255,20,147,.12);
@@ -222,17 +202,7 @@
     .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
 
     /* ── TIMELINE ── */
-<<<<<<< HEAD
     .tl-item { position:relative;padding-left:48px; }
-=======
-<<<<<<< HEAD
-    .tl-item { position:relative;padding-left:48px; }
-=======
-    .tl-item {
-      position:relative;padding-left:48px;
-    }
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     .tl-item::before {
       content:'';position:absolute;left:20px;top:0;bottom:-32px;
       width:1px;background:linear-gradient(180deg,rgba(255,20,147,.5),rgba(255,20,147,.05));
@@ -304,15 +274,7 @@
     }
     .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
 
-<<<<<<< HEAD
     /* ── SCROLLBAR ── */
-=======
-<<<<<<< HEAD
-    /* ── SCROLLBAR ── */
-=======
-    /* SCROLLBAR */
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:#000; }
     ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
@@ -413,10 +375,6 @@
       <i class="fas fa-bars"></i>
     </button>
   </div>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 </nav>
 
 <!-- ══ MOBILE MENU — placed OUTSIDE <nav> so backdrop-filter on nav cannot
@@ -449,42 +407,6 @@
     <i class="fas fa-shield-alt"></i> Get a Quote
   </a>
 </div>
-<<<<<<< HEAD
-=======
-=======
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
-    <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
-    <div class="flex flex-col items-center w-full max-w-xs">
-      <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
-      <a href="about.html"            class="mobile-link desktop-link neon-pink">About</a>
-      <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
-      <!-- Mobile Free Tools -->
-      <a href="risk-assessment.html"  class="mobile-tool-link">
-        <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
-        <span style="font-size:1rem;">Risk Self-Assessment</span>
-      </a>
-      <a href="hackers-dossier.html"  class="mobile-tool-link">
-        <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
-        <span style="font-size:1rem;">Hacker's Dossier</span>
-      </a>
-      <a href="breach-cost-clock.html" class="mobile-tool-link">
-        <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
-        <span style="font-size:1rem;">Breach Cost Clock</span>
-      </a>
-      <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
-      <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
-      <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
-      <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
-    </div>
-    <a href="contact.html" class="btn-primary mt-8 pulse-glow">
-      <i class="fas fa-shield-alt"></i> Get a Quote
-    </a>
-  </div>
-</nav>
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 
 <!-- ══ HERO ══ -->
 <section class="min-h-[92vh] flex items-center justify-center relative px-4 sm:px-6 pt-32 pb-20 overflow-hidden">
@@ -535,17 +457,8 @@
       <!-- Portrait side -->
       <div id="hero-portrait" class="relative">
         <div class="portrait-wrap">
-<<<<<<< HEAD
           <img src="portrait.jpg" alt="Dr David Sykes"
             onerror="this.parentElement.innerHTML='<div style=\'width:100%;padding-bottom:115%;background:rgba(255,20,147,.06);display:flex;align-items:center;justify-content:center;\'><i class=\'fas fa-user-secret\' style=\'font-size:6rem;color:rgba(255,20,147,.3);\'></i></div>'"/>
-=======
-<<<<<<< HEAD
-          <img src="portrait.jpg" alt="Dr David Sykes"
-            onerror="this.parentElement.innerHTML='<div style=\'width:100%;padding-bottom:115%;background:rgba(255,20,147,.06);display:flex;align-items:center;justify-content:center;\'><i class=\'fas fa-user-secret\' style=\'font-size:6rem;color:rgba(255,20,147,.3);\'></i></div>'"/>
-=======
-          <img src="portrait.jpg" alt="Dr David Sykes" onerror="this.parentElement.innerHTML='<div style=\'width:100%;padding-bottom:115%;background:rgba(255,20,147,.06);display:flex;align-items:center;justify-content:center;\'><i class=\'fas fa-user-secret\' style=\'font-size:6rem;color:rgba(255,20,147,.3);\'></i></div>'"/>
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         </div>
         <!-- floating badge -->
         <div class="absolute -bottom-5 -left-5 glass rounded-2xl p-4 flex items-center gap-3">
@@ -974,15 +887,7 @@
       </div>
 
       <div>
-<<<<<<< HEAD
         <h3 class="font-display text-white text-sm tracking-widests mb-5">SERVICES</h3>
-=======
-<<<<<<< HEAD
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">SERVICES</h3>
-=======
-        <h3 class="font-display text-white text-sm tracking-widest mb-5">SERVICES</h3>
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <ul class="space-y-3">
           <li><a href="services.html#s1" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
           <li><a href="services.html#s2" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
@@ -994,15 +899,7 @@
       </div>
 
       <div>
-<<<<<<< HEAD
         <h3 class="font-display text-white text-sm tracking-widests mb-5">COMPANY</h3>
-=======
-<<<<<<< HEAD
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">COMPANY</h3>
-=======
-        <h3 class="font-display text-white text-sm tracking-widest mb-5">COMPANY</h3>
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <ul class="space-y-3">
           <li><a href="index.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">Home</a></li>
           <li><a href="about.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
@@ -1016,10 +913,6 @@
       <div>
         <h3 class="font-display text-white text-sm tracking-widests mb-5">GET IN TOUCH</h3>
         <ul class="space-y-3">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
           <li>
             <a href="mailto:info@greyhat4hire.co.za" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
               <i class="fas fa-envelope text-pink-400 mt-0.5"></i> info@greyhat4hire.co.za
@@ -1035,14 +928,6 @@
               <i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat
             </a>
           </li>
-<<<<<<< HEAD
-=======
-=======
-          <li><a href="mailto:info@greyhat4hire.com" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i> info@greyhat4hire.com</a></li>
-          <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581</a></li>
-          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat</a></li>
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         </ul>
       </div>
 
@@ -1068,10 +953,6 @@
 <script>
   tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
   // ── CURSOR ──
   const cur  = document.getElementById('cur');
   const cur2 = document.getElementById('cur2');
@@ -1222,125 +1103,6 @@
       camera.aspect = innerWidth / innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(innerWidth, innerHeight);
-<<<<<<< HEAD
-=======
-=======
-  // ── CURSOR ────────────────────────────────────
-  const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-  document.addEventListener('mousemove',e=>{
-    cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
-    setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
-  });
-  document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
-  document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
-
-  // ── NAV ──────────────────────────────────────
-  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
-
-  const hamburger=document.getElementById('hamburger');
-  const mobileMenu=document.getElementById('mobile-menu');
-  const closeMenu=document.getElementById('close-menu');
-
-  function openMenu(){
-    mobileMenu.classList.remove('hidden');
-    setTimeout(()=>mobileMenu.classList.add('open'),10);
-  }
-  function closeMenuFn(){
-    mobileMenu.classList.remove('open');
-    setTimeout(()=>mobileMenu.classList.add('hidden'),400);
-  }
-
-  hamburger.addEventListener('click', openMenu);
-  closeMenu.addEventListener('click', closeMenuFn);
-  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
-
-  // ── TYPEWRITER ───────────────────────────────
-  const phrases=['DENTIST. HACKER. CONSULTANT.','CLINICAL PRECISION. DIGITAL DEFENCE.','AUTHORIZED ACCESS ONLY.','UMHLANGA · SOUTH AFRICA','INDEPENDENT SECURITY RESEARCH'];
-  let pIdx=0,cIdx=0,del=false;
-  const typedEl=document.getElementById('typed-text');
-  function typeWriter(){
-    const p=phrases[pIdx];
-    if(!del){ typedEl.textContent=p.substring(0,cIdx+1); cIdx++; if(cIdx===p.length){setTimeout(()=>{del=true;typeWriter()},2400);return;} setTimeout(typeWriter,cIdx<5?120:52); }
-    else { typedEl.textContent=p.substring(0,cIdx-1); cIdx--; if(cIdx===0){del=false;pIdx=(pIdx+1)%phrases.length;setTimeout(typeWriter,500);return;} setTimeout(typeWriter,30); }
-  }
-  setTimeout(typeWriter,1200);
-
-  // ── STAT COUNTERS ────────────────────────────
-  function animateCounter(el,target,suffix=''){
-    if(target===0){ el.textContent='0'+(suffix||''); return; }
-    let cur=0; const steps=60,dur=2000,inc=target/steps;
-    const iv=setInterval(()=>{ cur=Math.min(cur+inc,target); el.textContent=Math.round(cur)+(suffix||''); if(cur>=target)clearInterval(iv); },dur/steps);
-  }
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('[data-target]').forEach(el=>{
-      animateCounter(el,parseInt(el.dataset.target),el.dataset.suffix||'');
-    }); obs.unobserve(e.target); } });
-  },{threshold:.4});
-  document.querySelectorAll('.stat-item').forEach(el=>obs.observe(el.parentElement));
-
-  // ── GSAP ─────────────────────────────────────
-  gsap.registerPlugin(ScrollTrigger);
-
-  const tl=gsap.timeline();
-  tl.fromTo('#hero-eyebrow',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},0.3)
-    .fromTo('#hero-heading',{y:50,opacity:0},{y:0,opacity:1,duration:.9,ease:'back.out(1.2)'},0.5)
-    .fromTo('#hero-mono',{opacity:0},{opacity:1,duration:.5},1.0)
-    .fromTo('#hero-sub',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.1)
-    .fromTo('#hero-btns',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.4)
-    .fromTo('#hero-loc',{y:20,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out'},1.6)
-    .fromTo('#hero-portrait',{x:40,opacity:0},{x:0,opacity:1,duration:1,ease:'power3.out'},0.4);
-
-  gsap.utils.toArray('.gsap-card').forEach((card,i)=>{
-    gsap.fromTo(card,{y:60,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
-      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:(i%3)*0.12});
-  });
-
-  gsap.utils.toArray('.gsap-hidden').forEach((el,i)=>{
-    gsap.fromTo(el,{y:40,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
-      scrollTrigger:{trigger:el,start:'top 88%',once:true},delay:parseFloat(el.style.getPropertyValue('--delay')||0)});
-  });
-
-  // ── THREE.JS PARTICLES ──────────────────────
-  (function(){
-    const canvas=document.getElementById('three-canvas');
-    const scene=new THREE.Scene();
-    const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
-    camera.position.z=80;
-    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-    renderer.setSize(innerWidth,innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
-
-    const count=500,geo=new THREE.BufferGeometry();
-    const pos=new Float32Array(count*3),col=new Float32Array(count*3);
-    for(let i=0;i<count;i++){
-      const i3=i*3;
-      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
-      col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
-    }
-    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
-    const pts=new THREE.Points(geo,mat);
-    scene.add(pts);
-
-    let f=0;
-    function animate(){
-      requestAnimationFrame(animate);
-      if(++f%2)return;
-      const p=pts.geometry.attributes.position.array;
-      for(let i=1;i<p.length;i+=3){ p[i]+=.022+Math.random()*.028; p[i-1]+=Math.sin(Date.now()*.00008+i)*.003; if(p[i]>130)p[i]=-120; }
-      pts.geometry.attributes.position.needsUpdate=true;
-      pts.rotation.y+=.00015;
-      renderer.render(scene,camera);
-    }
-    animate();
-
-    window.addEventListener('resize',()=>{
-      camera.aspect=innerWidth/innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth,innerHeight);
->>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
->>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     });
   })();
 </script>
