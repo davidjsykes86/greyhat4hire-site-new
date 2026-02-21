@@ -65,7 +65,15 @@
     .desktop-link:hover::after { width:100%; }
     .desktop-link.active { color:#ff1493; }
     .desktop-link.active::after { width:100%; }
+<<<<<<< HEAD
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+=======
+<<<<<<< HEAD
+    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+=======
+    #mobile-menu { transform:translateY(-100%);transition:transform .4s ease; }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     #mobile-menu.open { transform:translateY(0); }
     .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
 
@@ -160,7 +168,17 @@
     @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
     .pulse-glow { animation:pulseGlow 2.8s infinite; }
 
+<<<<<<< HEAD
     /* ── (typewriter removed — static hero) ── */
+=======
+<<<<<<< HEAD
+    /* ── (typewriter removed — static hero) ── */
+=======
+    /* ── HERO TYPEWRITER ── */
+    .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 
     /* ── HERO GRID ── */
     .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
@@ -304,6 +322,10 @@
       transition:all .4s ease;
     }
     .industry-card:hover { border-color:rgba(255,20,147,.45);transform:translateY(-8px);box-shadow:0 16px 50px rgba(255,20,147,.2); }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     .industry-icon {
       width:72px;height:72px;margin:0 auto 18px;
       display:flex;align-items:center;justify-content:center;
@@ -324,6 +346,13 @@
       transform:scale(1.08) rotate(3deg);
     }
     .industry-card:hover .industry-icon svg { filter:drop-shadow(0 0 8px rgba(255,20,147,.9)); }
+<<<<<<< HEAD
+=======
+=======
+    .industry-icon { font-size:2.8rem;margin-bottom:14px;transition:all .4s ease;display:block; }
+    .industry-card:hover .industry-icon { transform:scale(1.15);filter:drop-shadow(0 0 12px rgba(255,20,147,.7)); }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 
     /* ── CASE STUDY CARDS ── */
     .case-card {
@@ -348,11 +377,25 @@
     .price-card {
       background:rgba(8,8,8,.75);border:1px solid rgba(255,20,147,.15);
       border-radius:24px;padding:36px 28px;text-align:center;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
       transition:all .4s ease;position:relative;overflow:visible;
     }
     .price-card:hover { transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
     .price-card.featured { border-color:rgba(255,20,147,.55);box-shadow:0 0 40px rgba(255,20,147,.18);padding-top:52px; }
     .price-card.featured::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent,var(--pink),transparent); }
+<<<<<<< HEAD
+=======
+=======
+      transition:all .4s ease;position:relative;overflow:hidden;
+    }
+    .price-card:hover { transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
+    .price-card.featured { border-color:rgba(255,20,147,.55);box-shadow:0 0 40px rgba(255,20,147,.18); }
+    .price-card.featured::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--pink),transparent); }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     .price-amount { font-family:'Orbitron',monospace;font-weight:900;font-size:2.8rem;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.5); }
     .price-feature { display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.9rem;color:#ccc; }
 
@@ -493,11 +536,22 @@
     </button>
   </div>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 </nav>
 
   <!-- Mobile Menu — moved OUTSIDE <nav> so fixed inset-0 is always viewport-relative,
        unaffected by backdrop-filter creating a new containing block on the nav -->
   <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+<<<<<<< HEAD
+=======
+=======
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
     <div class="flex flex-col items-center w-full max-w-xs">
       <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
@@ -525,6 +579,10 @@
       <i class="fas fa-shield-alt"></i> Get a Quote
     </a>
   </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 
 <!-- ══ HERO ══ -->
 <section class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden" style="position:relative;z-index:2;">
@@ -558,6 +616,41 @@
     </div>
 
     <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16" id="hero-btns">
+<<<<<<< HEAD
+=======
+=======
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-20" style="position:relative;z-index:2;overflow:hidden;">
+  <div class="hero-grid"></div>
+  <div class="max-w-5xl mx-auto text-center" style="position:relative;z-index:1;">
+    <div class="inline-flex items-center gap-2 px-5 py-2 glass rounded-full border border-pink-500/25 mb-8" id="hero-eyebrow">
+      <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+      <span class="font-display text-xs tracking-widest text-pink-400">INDEPENDENT · ETHICAL · EFFECTIVE</span>
+    </div>
+
+    <div class="mb-8" id="hero-logo">
+      <img src="logo.png" alt="Greyhat4Hire" class="mx-auto h-28 sm:h-40 md:h-52 drop-shadow-2xl"
+        onerror="this.style.display='none'">
+    </div>
+
+    <h1 class="font-display font-black neon-pink mb-6 leading-tight" id="hero-h1"
+        style="font-size:clamp(2.4rem,7vw,5rem)">
+      <span id="typed-text"></span><span class="typewriter-cursor" id="typed-cursor">|</span>
+    </h1>
+
+    <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4" id="hero-sub">
+      Controlled penetration testing. Executive-ready reports. Actionable remediation that actually works.
+    </p>
+
+    <div class="font-mono text-xs text-pink-400/60 mb-10 tracking-wider" id="hero-mono">
+      &gt; target.acquire() → scope.confirm() → attack.simulate() → report.generate() → threat.eliminated
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center" id="hero-btns">
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
       <a href="contact.html" class="btn-primary pulse-glow justify-center">
         <i class="fas fa-shield-halved"></i> Request Confidential Assessment
       </a>
@@ -567,6 +660,10 @@
     </div>
 
     <!-- Hero Stats -->
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto" id="hero-stats">
       <div class="glass rounded-2xl py-5 px-3 stat-card">
         <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="194" data-suffix="">0</span></div>
@@ -586,6 +683,30 @@
   <div id="hero-scroll" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 pointer-events-none">
     <span class="font-mono text-xs text-pink-400 tracking-widest">SCROLL</span>
     <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent);"></div>
+<<<<<<< HEAD
+=======
+=======
+    <div class="grid grid-cols-3 gap-4 mt-16 max-w-2xl mx-auto" id="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num text-3xl font-black mb-1"><span data-target="194" data-suffix="">0</span></div>
+        <div class="text-gray-500 text-xs leading-relaxed">Days avg. attacker<br>dwell time undetected</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num text-3xl font-black mb-1"><span data-target="89" data-suffix="M">0</span>M</div>
+        <div class="text-gray-500 text-xs leading-relaxed">Avg. breach cost ZAR<br>SA 2024 (IBM)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num text-3xl font-black mb-1"><span data-target="100" data-suffix="%">0</span>%</div>
+        <div class="text-gray-500 text-xs leading-relaxed">Engagements<br>under strict NDA</div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-center gap-2 opacity-30" id="hero-scroll">
+      <span class="font-display text-xs tracking-widest text-pink-400">SCROLL</span>
+      <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent)"></div>
+    </div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
   </div>
 </section>
 
@@ -1182,16 +1303,30 @@
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M16 4C10 4 7 8 7 12c0 2.5.8 4.5 1.5 6.5L10 26c.5 2 1.5 3 3 3s2-1.5 2.5-3L16 22l.5 4c.5 1.5 1.5 3 2.5 3s2.5-1 3-3l1.5-7.5C24.2 16.5 25 14.5 25 12c0-4-3-8-9-8z"/>
             <path d="M12 10c1.5-1.5 4.5-2 7 0" stroke-opacity=".6"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">🦷</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Dental Practices</h3>
         <p class="text-gray-500 text-xs leading-relaxed">HIPAA-focused assessments for patient data, imaging systems, and practice management software.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 16h4l3-8 5 16 3-10 2 6h7" stroke-opacity=".9"/>
@@ -1200,10 +1335,20 @@
             <path d="M16 5v4M14 7h4" stroke-opacity=".4"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">🏥</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Healthcare</h3>
         <p class="text-gray-500 text-xs leading-relaxed">Clinics, telehealth platforms, and EHR system security against the #1 targeted sector.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="16" y1="4" x2="16" y2="28"/>
@@ -1215,10 +1360,20 @@
             <ellipse cx="24" cy="17" rx="5" ry="3.5" stroke-opacity=".85"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">⚖️</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Legal</h3>
         <p class="text-gray-500 text-xs leading-relaxed">Client confidentiality, privileged communications, and ransomware resilience for law firms.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="4" y="6" width="24" height="18" rx="2"/>
@@ -1228,10 +1383,20 @@
             <path d="M17 17h5" stroke-opacity=".9"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">💻</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Tech Startups</h3>
         <p class="text-gray-500 text-xs leading-relaxed">SaaS platforms, fintech, and API-driven products secured pre- and post-launch for investor readiness.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 28h24"/>
@@ -1242,10 +1407,20 @@
             <circle cx="24" cy="6" r="1.5" fill="#ff1493" stroke="none"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">🏦</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Financial Services</h3>
         <p class="text-gray-500 text-xs leading-relaxed">PCI DSS compliance, fraud prevention, and transaction security for financial operators.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="16" cy="16" r="4"/>
@@ -1254,10 +1429,20 @@
             <path d="M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8" stroke-opacity=".6"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">🏭</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Manufacturing</h3>
         <p class="text-gray-500 text-xs leading-relaxed">OT/IT convergence, SCADA security, and supply chain risk in connected industrial environments.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 28V14M10 28V14M15 28V14M19 28V14M24 28V14"/>
@@ -1267,10 +1452,20 @@
             <circle cx="16" cy="8" r="1.5" fill="#ff1493" stroke="none"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">🏛️</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Government</h3>
         <p class="text-gray-500 text-xs leading-relaxed">Public sector compliance, critical infrastructure protection, and citizen data security.</p>
       </div>
       <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="industry-icon">
           <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="12" width="26" height="16" rx="2"/>
@@ -1279,6 +1474,12 @@
             <circle cx="16" cy="20" r="2.5" stroke-opacity=".9"/>
           </svg>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <span class="industry-icon">💼</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <h3 class="font-display font-bold text-white text-sm mb-2">Professional Services</h3>
         <p class="text-gray-500 text-xs leading-relaxed">Consulting, accounting, and advisory firms handling sensitive client and commercial data.</p>
       </div>
@@ -1352,10 +1553,23 @@
       <p class="text-gray-400 max-w-xl mx-auto">No surprise invoices. No scope creep fees. Every engagement includes a full retest and certification report.</p>
     </div>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     <div class="grid md:grid-cols-3 gap-6 pt-8 items-start">
       <div class="price-card gsap-hidden">
         <div class="font-display text-xs text-gray-500 tracking-widest uppercase mb-4">Single Assessment</div>
         <div class="price-amount mb-1">R6,600</div>
+<<<<<<< HEAD
+=======
+=======
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="price-card gsap-hidden">
+        <div class="font-display text-xs text-gray-500 tracking-widest uppercase mb-4">Single Assessment</div>
+        <div class="price-amount mb-1">$4,900</div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="text-gray-500 text-xs mb-6">one-time engagement</div>
         <div class="space-y-0 text-left mb-8">
           <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Full penetration test or VA</div>
@@ -1368,9 +1582,21 @@
       </div>
 
       <div class="price-card featured gsap-hidden">
+<<<<<<< HEAD
         <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-pink-500 text-white text-xs font-display font-bold px-6 py-2 rounded-full tracking-widest shadow-lg shadow-pink-500/40 border border-pink-400/50 whitespace-nowrap z-10">⭐ MOST POPULAR</div>
         <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-4">Annual Assurance</div>
         <div class="price-amount mb-1">R10,000</div>
+=======
+<<<<<<< HEAD
+        <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-pink-500 text-white text-xs font-display font-bold px-6 py-2 rounded-full tracking-widest shadow-lg shadow-pink-500/40 border border-pink-400/50 whitespace-nowrap z-10">⭐ MOST POPULAR</div>
+        <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-4">Annual Assurance</div>
+        <div class="price-amount mb-1">R10,000</div>
+=======
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-pink-500 text-white text-xs font-display font-bold px-6 py-1.5 rounded-full tracking-widest">MOST POPULAR</div>
+        <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-4">Annual Assurance</div>
+        <div class="price-amount mb-1">$9,900</div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="text-gray-500 text-xs mb-6">per year</div>
         <div class="space-y-0 text-left mb-8">
           <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Quarterly penetration tests</div>
@@ -1385,7 +1611,15 @@
 
       <div class="price-card gsap-hidden">
         <div class="font-display text-xs text-gray-500 tracking-widest uppercase mb-4">Retest Only</div>
+<<<<<<< HEAD
         <div class="price-amount mb-1">R15,500</div>
+=======
+<<<<<<< HEAD
+        <div class="price-amount mb-1">R15,500</div>
+=======
+        <div class="price-amount mb-1">$1,900</div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
         <div class="text-gray-500 text-xs mb-6">after your remediation</div>
         <div class="space-y-0 text-left mb-8">
           <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Verify all fixes are closed</div>
@@ -1398,7 +1632,15 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <p class="text-center text-gray-600 text-sm mt-8 gsap-hidden">All pricing in South African Rand (ZAR). Custom enterprise scoping available — <a href="contact.html" class="text-pink-400/70 hover:text-pink-400 transition">contact us</a>. <a href="pricing.html" class="text-pink-400/70 hover:text-pink-400 transition ml-2">View full pricing details →</a></p>
+=======
+<<<<<<< HEAD
+    <p class="text-center text-gray-600 text-sm mt-8 gsap-hidden">All pricing in South African Rand (ZAR). Custom enterprise scoping available — <a href="contact.html" class="text-pink-400/70 hover:text-pink-400 transition">contact us</a>. <a href="pricing.html" class="text-pink-400/70 hover:text-pink-400 transition ml-2">View full pricing details →</a></p>
+=======
+    <p class="text-center text-gray-600 text-sm mt-8 gsap-hidden">All pricing in USD. ZAR equivalents available on request. Custom enterprise scoping available — <a href="contact.html" class="text-pink-400/70 hover:text-pink-400 transition">contact us</a>. <a href="pricing.html" class="text-pink-400/70 hover:text-pink-400 transition ml-2">View full pricing details →</a></p>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
   </div>
 </section>
 
@@ -1506,7 +1748,15 @@
       <div>
         <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
         <ul class="space-y-3">
+<<<<<<< HEAD
           <li><a href="/cdn-cgi/l/email-protection#630a0d050c230411061a0b0217570b0a11064d000c0e" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i><span class="__cf_email__" data-cfemail="147d7a727b547366716d7c7560207c7d66713a777b79">[email&#160;protected]</span></a></li>
+=======
+<<<<<<< HEAD
+          <li><a href="/cdn-cgi/l/email-protection#630a0d050c230411061a0b0217570b0a11064d000c0e" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i><span class="__cf_email__" data-cfemail="147d7a727b547366716d7c7560207c7d66713a777b79">[email&#160;protected]</span></a></li>
+=======
+          <li><a href="mailto:info@greyhat4hire.com" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i>info@greyhat4hire.com</a></li>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
           <li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i>+27 84 635 3581</a></li>
           <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i>WhatsApp Chat</a></li>
           <li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i>Book Consultation</a></li>
@@ -1530,7 +1780,15 @@
   </div>
 </footer>
 
+<<<<<<< HEAD
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+=======
+<<<<<<< HEAD
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+=======
+<script>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
   tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
   // ── CURSOR ────────────────────────────────────
@@ -1562,7 +1820,24 @@
   closeMenu.addEventListener('click', closeMenuFn);
   document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
 
+<<<<<<< HEAD
   // ── (typewriter removed — static hero) ──
+=======
+<<<<<<< HEAD
+  // ── (typewriter removed — static hero) ──
+=======
+  // ── TYPEWRITER ───────────────────────────────
+  const phrases=['Independent Security Assurance','Penetration Testing Experts','We Find What Attackers Find.','Your Breach. Before It Happens.','Zero Spray-and-Pray. 100% Expert.'];
+  let pIdx=0,cIdx=0,del=false;
+  const typedEl=document.getElementById('typed-text');
+  function typeWriter(){
+    const p=phrases[pIdx];
+    if(!del){ typedEl.textContent=p.substring(0,cIdx+1); cIdx++; if(cIdx===p.length){setTimeout(()=>{del=true;typeWriter()},2800);return;} setTimeout(typeWriter,cIdx<5?120:55); }
+    else { typedEl.textContent=p.substring(0,cIdx-1); cIdx--; if(cIdx===0){del=false;pIdx=(pIdx+1)%phrases.length;setTimeout(typeWriter,400);return;} setTimeout(typeWriter,28); }
+  }
+  setTimeout(typeWriter,800);
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
 
   // ── STAT COUNTERS ────────────────────────────
   function animateCounter(el,target){
@@ -1671,6 +1946,13 @@
       renderer.render(scene,camera);
     }
     animate();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
     window.addEventListener('resize',()=>{
       camera.aspect=innerWidth/innerHeight;
       camera.updateProjectionMatrix();
@@ -1679,4 +1961,12 @@
   })();
 </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+<<<<<<< HEAD
+</html>
+=======
+</html>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+>>>>>>> 258fb53115cbc4b7890aed686a8e98bf46818db7
