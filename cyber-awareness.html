@@ -1,0 +1,3035 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Awareness Hub — Greyhat4Hire | Stay Secure Online</title>
+  <meta name="description" content="Check if your email has been breached, test password strength, and learn essential cybersecurity practices. Free tools from Greyhat4Hire."/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --pink: #ff1493;
+      --pink-dim: rgba(255,20,147,0.55);
+      --pink-faint: rgba(255,20,147,0.1);
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', system-ui, sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── CURSOR ── */
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
+
+    /* ── FONTS ── */
+    .font-display { font-family: 'Orbitron', monospace; }
+    .font-mono    { font-family: 'Share Tech Mono', monospace; }
+
+    /* ── GLASS ── */
+    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
+    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+
+    /* ── NEON ── */
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+    .neon-text { color:var(--pink);text-shadow:0 0 16px rgba(255,20,147,.6); }
+
+    /* ── NAV ── */
+    nav { transition:all .4s ease; }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover::after { width:100%; }
+    .desktop-link.active { color:#ff1493; }
+    .desktop-link.active::after { width:100%; }
+
+    /* ── MOBILE MENU — background set in CSS so it's guaranteed regardless of Tailwind CDN opacity utilities ── */
+    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+    #mobile-menu.open { transform:translateY(0); }
+    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel {
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon {
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name  { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc  { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header {
+      padding:10px 16px 8px;margin-bottom:4px;
+      border-bottom:1px solid rgba(255,20,147,.12);
+    }
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+    .btn-ghost {
+      display:inline-flex;align-items:center;gap:8px;
+      border:2px solid var(--pink);color:var(--pink);
+      font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
+      padding:16px 32px;border-radius:14px;cursor:none;
+      background:transparent;transition:all .3s ease;text-decoration:none;
+    }
+    .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
+
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+    .pulse-glow { animation:pulseGlow 2.8s infinite; }
+
+    /* ── SECTION TAG ── */
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
+    .marquee { animation:marqueeScroll 55s linear infinite; }
+    @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
+    .marquee-sep { color:rgba(255,20,147,.25); }
+
+    /* ── TYPEWRITER ── */
+    .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── HERO GRID ── */
+    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
+    .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
+
+    /* ── CHECKER TOOL ── */
+    .checker-tool {
+      background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(255,20,147,.04));
+      border:2px solid rgba(255,20,147,.3);
+      border-radius:28px;padding:48px 40px;
+      position:relative;overflow:hidden;
+    }
+    .checker-tool::before {
+      content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;
+      background:radial-gradient(circle,rgba(255,20,147,.08),transparent);
+      animation:pulseBg 4s infinite;pointer-events:none;
+    }
+    @keyframes pulseBg { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.1);opacity:.8} }
+
+    .checker-input {
+      background:rgba(0,0,0,.6);
+      border:2px solid rgba(255,20,147,.3);
+      padding:16px 22px;border-radius:14px;
+      color:#fff;font-size:1rem;font-family:'Rajdhani',sans-serif;font-weight:500;
+      transition:all .3s ease;width:100%;
+    }
+    .checker-input:focus { outline:none;border-color:var(--pink);box-shadow:0 0 30px rgba(255,20,147,.3); }
+    .checker-input::placeholder { color:rgba(255,255,255,.35); }
+
+    .check-btn {
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      padding:16px 36px;border-radius:14px;font-family:'Orbitron',monospace;
+      font-weight:700;font-size:.8rem;letter-spacing:.08em;
+      border:none;cursor:none;color:white;white-space:nowrap;
+      transition:all .3s ease;
+    }
+    .check-btn:hover { transform:translateY(-3px);box-shadow:0 10px 40px rgba(255,20,147,.6); }
+    .check-btn:disabled { opacity:.5;cursor:not-allowed;transform:none; }
+
+    /* Results */
+    .result-safe {
+      background:rgba(34,197,94,.08);border:2px solid rgba(34,197,94,.4);
+      border-radius:18px;padding:28px;animation:slideIn .5s ease;
+    }
+    .result-danger {
+      background:rgba(239,68,68,.08);border:2px solid rgba(239,68,68,.4);
+      border-radius:18px;padding:28px;animation:slideIn .5s ease;
+    }
+    @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .breach-item {
+      background:rgba(0,0,0,.4);padding:18px;border-radius:14px;margin-bottom:12px;
+      border-left:4px solid #ef4444;transition:all .3s ease;
+    }
+    .breach-item:hover { background:rgba(239,68,68,.1);transform:translateX(4px); }
+
+    .spinner { border:3px solid rgba(255,20,147,.3);border-top:3px solid #ff1493;border-radius:50%;width:44px;height:44px;animation:spin 1s linear infinite;margin:0 auto; }
+    @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+    /* ── PASSWORD CHECKER ── */
+    .pw-input-wrap {
+      background:rgba(0,0,0,.6);
+      border:2px solid rgba(255,20,147,.3);
+      border-radius:14px;overflow:hidden;
+      transition:all .3s ease;
+    }
+    .pw-input-wrap:focus-within { border-color:var(--pink);box-shadow:0 0 30px rgba(255,20,147,.25); }
+    .pw-input {
+      background:transparent;padding:18px 22px;
+      color:#fff;font-size:1rem;font-family:'Rajdhani',sans-serif;font-weight:500;
+      width:calc(100% - 56px);border:none;outline:none;
+    }
+    .pw-input::placeholder { color:rgba(255,255,255,.35); }
+    .pw-toggle { background:transparent;border:none;color:rgba(255,255,255,.4);cursor:none;padding:18px 16px;transition:color .2s ease; }
+    .pw-toggle:hover { color:var(--pink); }
+
+    .strength-bar { height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:14px; }
+    .strength-fill { height:100%;transition:width .35s ease,background .35s ease; }
+    .strength-weak   { background:linear-gradient(90deg,#ef4444,#f97316);width:25%; }
+    .strength-fair   { background:linear-gradient(90deg,#f97316,#f59e0b);width:50%; }
+    .strength-medium { background:linear-gradient(90deg,#f59e0b,#eab308);width:66%; }
+    .strength-strong { background:linear-gradient(90deg,#22c55e,#10b981);width:100%; }
+
+    /* ── PHISHING SIMULATOR ── */
+    .email-client {
+      background:rgba(4,4,4,.95);backdrop-filter:blur(24px);
+      border:1px solid rgba(255,20,147,.25);border-radius:24px;
+      overflow:hidden;position:relative;
+    }
+    .email-titlebar {
+      background:rgba(255,20,147,.06);border-bottom:1px solid rgba(255,20,147,.15);
+      padding:14px 20px;display:flex;align-items:center;gap:10px;
+    }
+    .email-dot { width:10px;height:10px;border-radius:50%; }
+    .email-header-row { padding:12px 24px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:10px; }
+    .email-header-label { font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.15em;color:rgba(255,20,147,.5);width:52px;flex-shrink:0; }
+    .email-header-value { color:#ccc;font-size:.9rem; }
+    .email-body { padding:28px 24px;color:#d0d0d0;font-size:.92rem;line-height:1.75; }
+    .email-body a, .email-body .phish-link { color:#4ea8de;text-decoration:underline;word-break:break-all; }
+    .email-attachment {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 16px;background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);border-radius:10px;
+      font-size:.82rem;color:#bbb;margin-top:12px;
+    }
+
+    .phish-verdict-btn {
+      padding:16px 36px;border-radius:14px;font-family:'Orbitron',monospace;
+      font-weight:700;font-size:.78rem;letter-spacing:.08em;
+      border:2px solid;cursor:none;transition:all .3s ease;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .phish-verdict-btn:hover { transform:translateY(-3px); }
+    .phish-btn-legit { border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.06); }
+    .phish-btn-legit:hover { background:rgba(34,197,94,.15);box-shadow:0 10px 40px rgba(34,197,94,.3); }
+    .phish-btn-phish { border-color:#ef4444;color:#ef4444;background:rgba(239,68,68,.06); }
+    .phish-btn-phish:hover { background:rgba(239,68,68,.15);box-shadow:0 10px 40px rgba(239,68,68,.3); }
+
+    .redflags-reveal {
+      animation:slideIn .5s ease;
+      background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);
+      border-radius:16px;padding:24px;margin-top:20px;
+    }
+    .redflag-item {
+      display:flex;align-items:flex-start;gap:12px;
+      padding:10px 14px;margin-bottom:8px;
+      background:rgba(0,0,0,.3);border-radius:10px;
+      border-left:3px solid #ef4444;
+    }
+
+    .phish-progress-bar { height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:20px; }
+    .phish-progress-fill { height:100%;background:linear-gradient(90deg,#ff1493,#ff69b4);transition:width .5s ease;border-radius:2px; }
+    #phish-feedback, #phish-email-card, #phish-final { scroll-margin-top:100px; }
+
+    .phish-score-card {
+      background:linear-gradient(135deg,rgba(255,20,147,.12),rgba(255,20,147,.04));
+      border:2px solid rgba(255,20,147,.35);border-radius:28px;
+      padding:48px 32px;text-align:center;animation:slideIn .6s ease;
+      position:relative;overflow:hidden;
+    }
+    .phish-score-card::before {
+      content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;
+      background:radial-gradient(circle,rgba(255,20,147,.08),transparent);
+      pointer-events:none;
+    }
+    .phish-grade { font-family:'Orbitron',monospace;font-size:5rem;font-weight:900;line-height:1; }
+
+    /* ── TIP CARDS ── */
+    .tip-card {
+      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,20,147,.15);
+      border-radius:22px;padding:32px 28px;
+      transition:all .4s ease;position:relative;overflow:hidden;
+    }
+    .tip-card::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent,var(--pink),transparent);
+      opacity:0;transition:opacity .4s ease;
+    }
+    .tip-card:hover { border-color:rgba(255,20,147,.45);transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.15); }
+    .tip-card:hover::before { opacity:1; }
+
+    .tip-icon {
+      width:60px;height:60px;border-radius:16px;
+      background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.4rem;color:var(--pink);
+      margin-bottom:20px;transition:all .4s ease;
+    }
+    .tip-card:hover .tip-icon { background:rgba(255,20,147,.2);box-shadow:0 0 28px rgba(255,20,147,.45);transform:scale(1.1) rotate(5deg); }
+
+    .pro-tip-box {
+      background:rgba(255,20,147,.05);
+      border:1px solid rgba(255,20,147,.2);
+      border-radius:12px;padding:16px;margin-top:20px;
+    }
+
+    .security-badge {
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 14px;background:rgba(255,20,147,.08);
+      border:1px solid rgba(255,20,147,.25);border-radius:50px;
+      font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.08em;
+      color:rgba(255,20,147,.8);margin:3px;transition:all .3s ease;
+    }
+    .security-badge:hover { background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5); }
+
+    /* ── THREAT CARDS ── */
+    .threat-card {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
+      border-radius:22px;padding:32px 28px;text-align:center;
+      transition:all .4s ease;position:relative;overflow:hidden;
+    }
+    .threat-card::after {
+      content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent,var(--pink),transparent);
+      opacity:0;transition:opacity .4s ease;
+    }
+    .threat-card:hover { border-color:rgba(255,20,147,.4);transform:translateY(-8px);box-shadow:0 16px 50px rgba(255,20,147,.18); }
+    .threat-card:hover::after { opacity:1; }
+    .threat-pct { font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:900;color:var(--pink);text-shadow:0 0 24px rgba(255,20,147,.6);line-height:1; }
+
+    /* ── STAT COUNTERS ── */
+    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
+
+    /* ── WHATSAPP BTN ── */
+    .whatsapp-btn {
+      position:fixed;bottom:24px;right:24px;
+      background:linear-gradient(135deg,#25D366,#128C7E);
+      color:white;width:62px;height:62px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);
+      z-index:998;transition:all .4s ease;text-decoration:none;
+    }
+    .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+
+    .gsap-hidden { opacity:0; }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html"            class="desktop-link text-white">Home</a>
+      <a href="about.html"            class="desktop-link text-white">About</a>
+      <a href="services.html"         class="desktop-link text-white">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+              <i class="fas fa-file-circle-exclamation"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
+      <a href="cyber-awareness.html"  class="desktop-link active">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="desktop-link text-white">The Protocol</a>
+      <a href="pricing.html"          class="desktop-link text-white">Pricing</a>
+      <a href="contact.html"          class="desktop-link text-white">Contact</a>
+    </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE MENU — placed OUTSIDE <nav> so backdrop-filter on nav cannot
+     create a new containing block and break fixed inset-0 positioning ══ -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html"             class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"          class="mobile-link desktop-link text-white">Services</a>
+    <!-- Mobile Free Tools -->
+    <a href="risk-assessment.html"  class="mobile-tool-link">
+      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+      <span style="font-size:1rem;">Risk Self-Assessment</span>
+    </a>
+    <a href="hackers-dossier.html"  class="mobile-tool-link">
+      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+      <span style="font-size:1rem;">Hacker's Dossier</span>
+    </a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link">
+      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+      <span style="font-size:1rem;">Breach Cost Clock</span>
+    </a>
+    <a href="cyber-awareness.html"  class="mobile-link desktop-link neon-pink">Cyber Awareness</a>
+    <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+    <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+    <i class="fas fa-shield-alt"></i> Get a Quote
+  </a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="min-h-[88vh] flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden">
+  <div class="hero-grid"></div>
+  <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-120px;right:-180px;pointer-events:none;"></div>
+  <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,20,147,.05) 0%,transparent 70%);bottom:0;left:-100px;pointer-events:none;"></div>
+
+  <div class="max-w-5xl mx-auto text-center z-10 relative">
+    <div id="hero-eyebrow" class="section-tag mb-6 flex items-center justify-center gap-3">
+      <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      FREE SECURITY TOOLS &amp; EDUCATION
+      <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+    </div>
+
+    <h1 id="hero-heading" class="font-display font-black leading-none tracking-tight mb-6">
+      <span class="text-white" style="font-size:clamp(2.8rem,8vw,7rem);">CYBER</span>
+      <br>
+      <span class="neon-pink" style="font-size:clamp(2.8rem,8vw,7rem);">AWARENESS</span>
+      <br>
+      <span class="text-white" style="font-size:clamp(2.8rem,8vw,7rem);">HUB<span class="neon-pink">.</span></span>
+    </h1>
+
+    <p id="hero-sub" class="text-gray-300 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-5" style="font-weight:300;">
+      Check if your email has been compromised. Test your passwords. Learn to think like an attacker — so one can never surprise you.
+    </p>
+
+    <div id="hero-mono" class="font-mono text-pink-400/60 text-sm mb-10 tracking-widest">
+      <span id="typed-text"></span><span class="typewriter-cursor text-pink-400">█</span>
+    </div>
+
+    <div id="hero-btns" class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+      <a href="#breach-checker" class="btn-primary">
+        <i class="fas fa-search"></i> Check Email Breach
+      </a>
+      <a href="#tips-section" class="btn-ghost">
+        <i class="fas fa-shield-alt"></i> Security Tips
+      </a>
+    </div>
+
+    <!-- Quick stat strip -->
+    <div id="hero-stats" class="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+      <div class="glass rounded-2xl py-5 px-4 stat-item">
+        <div class="stat-num text-3xl sm:text-4xl" data-target="90">0</div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">% BREACHES VIA PHISHING</div>
+      </div>
+      <div class="glass rounded-2xl py-5 px-4 stat-item">
+        <div class="stat-num text-3xl sm:text-4xl" data-target="15" data-suffix="B+">0</div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">CREDENTIALS LEAKED</div>
+      </div>
+      <div class="glass rounded-2xl py-5 px-4 stat-item">
+        <div class="stat-num text-3xl sm:text-4xl" data-target="60" data-suffix="%">0</div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">SMEs CLOSE AFTER BREACH</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hero-scroll" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 pointer-events-none">
+    <span class="font-mono text-xs text-pink-400 tracking-widest">SCROLL</span>
+    <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent);"></div>
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="py-5 border-y border-pink-500/10 overflow-hidden">
+  <div class="marquee-wrap">
+    <div class="marquee flex whitespace-nowrap">
+      <span class="marquee-item"><i class="fas fa-lock"></i> BREACH DATABASE</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-key"></i> PASSWORD STRENGTH TESTER</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-fish"></i> PHISHING AWARENESS</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-database"></i> 3-2-1 BACKUP RULE</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-mobile-alt"></i> 2FA PROTECTION</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-wifi"></i> VPN &amp; SAFE BROWSING</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-fish"></i> PHISHING SIMULATOR</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-lock"></i> BREACH DATABASE</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-key"></i> PASSWORD STRENGTH TESTER</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-fish"></i> PHISHING AWARENESS</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-database"></i> 3-2-1 BACKUP RULE</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-mobile-alt"></i> 2FA PROTECTION</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-wifi"></i> VPN &amp; SAFE BROWSING</span>
+      <span class="marquee-sep">◆</span>
+      <span class="marquee-item"><i class="fas fa-fish"></i> PHISHING SIMULATOR</span>
+      <span class="marquee-sep">◆</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BREACH CHECKER ══ -->
+<section id="breach-checker" class="py-20 sm:py-28 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="section-tag mb-4">TOOL 01</div>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+        Have You Been <span class="neon-pink">Pwned?</span>
+      </h2>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">Check if your email has appeared in any known data breach. Powered by HaveIBeenPwned.com</p>
+    </div>
+
+    <div class="checker-tool gsap-hidden">
+      <!-- Animated corner accents -->
+      <div style="position:absolute;top:16px;left:16px;width:20px;height:20px;border-top:2px solid rgba(255,20,147,.5);border-left:2px solid rgba(255,20,147,.5);"></div>
+      <div style="position:absolute;top:16px;right:16px;width:20px;height:20px;border-top:2px solid rgba(255,20,147,.5);border-right:2px solid rgba(255,20,147,.5);"></div>
+      <div style="position:absolute;bottom:16px;left:16px;width:20px;height:20px;border-bottom:2px solid rgba(255,20,147,.5);border-left:2px solid rgba(255,20,147,.5);"></div>
+      <div style="position:absolute;bottom:16px;right:16px;width:20px;height:20px;border-bottom:2px solid rgba(255,20,147,.5);border-right:2px solid rgba(255,20,147,.5);"></div>
+
+      <div class="max-w-2xl mx-auto relative z-10">
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+          <input type="email" id="email-input" class="checker-input flex-1"
+            placeholder="Enter your email address..."
+            onkeypress="if(event.key==='Enter') checkEmail()">
+          <button class="check-btn" onclick="checkEmail()" id="check-btn">
+            <i class="fas fa-search mr-2"></i>CHECK NOW
+          </button>
+        </div>
+
+        <div id="loading" class="hidden text-center py-10">
+          <div class="spinner"></div>
+          <p class="text-gray-400 mt-5 font-mono text-sm tracking-wider">SCANNING BREACH DATABASES...</p>
+        </div>
+
+        <div id="results"></div>
+
+        <div class="mt-6 text-center">
+          <p class="font-mono text-xs text-gray-600">
+            <i class="fas fa-shield-alt mr-1 text-pink-400/40"></i>
+            Your search is anonymous. We never store email addresses.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PASSWORD CHECKER ══ -->
+<section class="py-16 sm:py-20 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="section-tag mb-4">TOOL 02</div>
+      <h2 class="font-display text-3xl sm:text-4xl font-black text-white mb-4">
+        Password <span class="neon-pink">Strength</span> Checker
+      </h2>
+      <p class="text-gray-400 text-lg">100% private — your password never leaves your device.</p>
+    </div>
+
+    <div class="glass-strong rounded-3xl p-8 sm:p-12 gsap-hidden">
+      <div class="max-w-2xl mx-auto">
+        <div class="pw-input-wrap flex items-center mb-3">
+          <input type="password" id="password-input" class="pw-input"
+            placeholder="Type a password to test its strength..."
+            oninput="checkPasswordStrength()">
+          <button class="pw-toggle" onclick="togglePasswordVisibility()">
+            <i class="fas fa-eye" id="eye-icon"></i>
+          </button>
+        </div>
+
+        <div class="strength-bar">
+          <div class="strength-fill" id="strength-fill" style="width:0;"></div>
+        </div>
+
+        <div id="password-feedback" class="mt-4 text-sm font-semibold text-gray-400 min-h-[1.5rem]"></div>
+
+        <!-- Criteria checklist -->
+        <div class="mt-6 grid grid-cols-2 gap-3" id="pw-criteria">
+          <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="length">
+            <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-length"></i> 12+ characters
+          </div>
+          <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="upper">
+            <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-upper"></i> Uppercase letter
+          </div>
+          <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="lower">
+            <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-lower"></i> Lowercase letter
+          </div>
+          <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="number">
+            <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-number"></i> Number
+          </div>
+          <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="special">
+            <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-special"></i> Special character
+          </div>
+          <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="long">
+            <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-long"></i> 16+ characters (ideal)
+          </div>
+        </div>
+
+        <div class="mt-8 p-4 rounded-xl flex items-start gap-3" style="background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);">
+          <i class="fas fa-lock text-pink-400/50 text-sm mt-1 flex-shrink-0"></i>
+          <p class="text-xs text-gray-500 font-mono">PRIVACY NOTE — This check runs entirely in your browser. No data is transmitted or logged.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PHISHING SIMULATOR ══ -->
+<section id="phishing-sim" class="py-20 sm:py-28 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="section-tag mb-4">TOOL 03 — INTERACTIVE</div>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+        Can You Spot the <span class="neon-pink">Phish?</span>
+      </h2>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">Real-world phishing emails test even the sharpest eyes. See if you can tell fake from legitimate across 5 rounds.</p>
+    </div>
+
+    <div id="phish-game" class="gsap-hidden">
+      <!-- Progress -->
+      <div class="flex items-center justify-between mb-3">
+        <span class="font-mono text-xs text-gray-500" id="phish-round-label">EMAIL 1 OF 5</span>
+        <span class="font-mono text-xs text-pink-400/60" id="phish-score-label">SCORE: 0 / 0</span>
+      </div>
+      <div class="phish-progress-bar"><div class="phish-progress-fill" id="phish-progress" style="width:0%;"></div></div>
+
+      <!-- Email viewport -->
+      <div id="phish-email-viewport">
+        <!-- Email client mock -->
+        <div class="email-client" id="phish-email-card">
+          <div class="email-titlebar">
+            <div class="email-dot" style="background:#ff5f56;"></div>
+            <div class="email-dot" style="background:#ffbd2e;"></div>
+            <div class="email-dot" style="background:#27c93f;"></div>
+            <span class="font-mono text-xs text-gray-500 ml-3">Inbox</span>
+          </div>
+          <div class="email-header-row">
+            <span class="email-header-label">FROM</span>
+            <span class="email-header-value" id="phish-from"></span>
+          </div>
+          <div class="email-header-row">
+            <span class="email-header-label">SUBJ</span>
+            <span class="email-header-value font-semibold text-white" id="phish-subject"></span>
+          </div>
+          <div class="email-body" id="phish-body"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8" id="phish-buttons">
+          <button class="phish-verdict-btn phish-btn-legit" onclick="phishAnswer(true)">
+            <i class="fas fa-check-circle"></i> LEGITIMATE
+          </button>
+          <button class="phish-verdict-btn phish-btn-phish" onclick="phishAnswer(false)">
+            <i class="fas fa-skull-crossbones"></i> PHISHING
+          </button>
+        </div>
+
+        <!-- Feedback area -->
+        <div id="phish-feedback"></div>
+      </div>
+
+      <!-- Final score card (hidden until end) -->
+      <div id="phish-final" class="hidden"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THREAT LANDSCAPE ══ -->
+<section class="py-16 sm:py-20 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-4">KNOW YOUR ENEMY</div>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+        Current <span class="neon-pink">Threat</span> Landscape
+      </h2>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">The three most dangerous attack categories targeting South African organisations right now.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="threat-card gsap-hidden">
+        <div class="text-4xl mb-5">🎣</div>
+        <div class="threat-pct mb-2">90%</div>
+        <div class="font-mono text-xs text-gray-500 tracking-wider mb-4">OF DATA BREACHES</div>
+        <h3 class="font-display text-xl font-black text-white mb-4">Phishing</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">
+          Attackers impersonate trusted entities via email, SMS, or fake websites to steal credentials and financial data. The #1 attack vector worldwide.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2 justify-center">
+          <span class="security-badge">Email Spoofing</span>
+          <span class="security-badge">BEC Scams</span>
+        </div>
+      </div>
+
+      <div class="threat-card gsap-hidden">
+        <div class="text-4xl mb-5">🔐</div>
+        <div class="threat-pct mb-2">R3M+</div>
+        <div class="font-mono text-xs text-gray-500 tracking-wider mb-4">AVG RANSOM DEMAND</div>
+        <h3 class="font-display text-xl font-black text-white mb-4">Ransomware</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">
+          Encrypts all your files and demands payment for the decryption key. Proper backups are the only reliable defence — paying rarely works.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2 justify-center">
+          <span class="security-badge">File Encryption</span>
+          <span class="security-badge">Data Exfil</span>
+        </div>
+      </div>
+
+      <div class="threat-card gsap-hidden">
+        <div class="text-4xl mb-5">🕵️</div>
+        <div class="threat-pct mb-2">82%</div>
+        <div class="font-mono text-xs text-gray-500 tracking-wider mb-4">INVOLVE HUMAN ERROR</div>
+        <h3 class="font-display text-xl font-black text-white mb-4">Social Engineering</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">
+          Manipulates people — not machines — into revealing confidential info or granting access. No firewall stops a trusting employee.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2 justify-center">
+          <span class="security-badge">Pretexting</span>
+          <span class="security-badge">Vishing</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ ESSENTIAL TIPS — 9 DETAILED CARDS ══ -->
+<section id="tips-section" class="py-20 sm:py-28 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-4">YOUR SECURITY PLAYBOOK</div>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+        Essential <span class="neon-pink">Security</span> Tips
+      </h2>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+        Practical, immediately actionable advice. Each one closes a real attack vector. Follow them all.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+      <!-- 1 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-lock"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Strong Passwords</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Create passwords with 16+ characters mixing uppercase, lowercase, numbers, and symbols. Never reuse passwords across different sites or services.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Use a password manager like Bitwarden, 1Password, or LastPass to generate and securely store complex passwords.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Password Manager</span>
+          <span class="security-badge">16+ Chars</span>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Enable 2FA Everywhere</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Add a second verification layer to every account you care about. Even if your password is stolen, 2FA stops attackers in their tracks.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Use an authenticator app (Google Authenticator, Authy, or Microsoft Authenticator) — not SMS. SIM-swapping defeats SMS codes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Authenticator App</span>
+          <span class="security-badge">TOTP</span>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-fish"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Watch for Phishing</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Be suspicious of unexpected emails, texts, or calls asking for personal information. Verify the sender before clicking any links or attachments.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Hover over links to preview the real URL. Legitimate companies never ask for passwords via email — ever.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Check Links</span>
+          <span class="security-badge">Verify Sender</span>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-sync-alt"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Keep Software Updated</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Updates aren't just new features — they're security patches for vulnerabilities that attackers are actively exploiting right now.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Enable auto-updates on your OS, browser, and all apps. Most exploits target known vulnerabilities with patches already available.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Auto-Update</span>
+          <span class="security-badge">Patch Fast</span>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-wifi"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Secure Your Network</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Avoid sensitive tasks on public WiFi. At home, use WPA3 encryption and change your router's default credentials immediately.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Use a reputable VPN (Mullvad or ProtonVPN) when on public networks to encrypt all your traffic from eavesdroppers.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">VPN</span>
+          <span class="security-badge">WPA3</span>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-database"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Back Up Your Data</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Backups are your last line of defence against ransomware. A good backup makes a ransomware attack an inconvenience, not a catastrophe.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Follow the 3-2-1 rule: 3 copies, on 2 different media types, with 1 stored offsite (or in the cloud).</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">3-2-1 Rule</span>
+          <span class="security-badge">Cloud Backup</span>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-user-shield"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Review Privacy Settings</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Regularly audit privacy settings on social media and online accounts. Limit publicly visible info — attackers use it for targeted social engineering.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Google yourself occasionally to see what information about you is publicly accessible — and then remove or restrict it.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Data Minimisation</span>
+          <span class="security-badge">OSINT Aware</span>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-shield-virus"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Use Antivirus Software</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Reputable antivirus catches known malware before it executes. It's not a silver bullet, but it closes off a large category of opportunistic attacks.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Windows Defender is genuinely good for most users. For Macs, Malwarebytes offers solid supplementary protection.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Real-time Scan</span>
+          <span class="security-badge">Malware Removal</span>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="tip-card gsap-hidden">
+        <div class="tip-icon"><i class="fas fa-credit-card"></i></div>
+        <h3 class="font-display text-lg font-bold text-white mb-3">Monitor Your Accounts</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+          Check bank and credit card statements regularly for suspicious activity. Set up instant transaction alerts — catch fraud before it compounds.
+        </p>
+        <div class="pro-tip-box">
+          <div class="flex items-start gap-2">
+            <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+              <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+              <p class="text-xs text-gray-400">Consider placing a credit freeze to prevent identity thieves opening new accounts in your name — it's free and reversible.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap">
+          <span class="security-badge">Transaction Alerts</span>
+          <span class="security-badge">Credit Freeze</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,20,147,.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <div class="max-w-4xl mx-auto text-center relative z-10">
+    <div class="glass-strong rounded-3xl p-12 sm:p-16 pulse-glow gsap-hidden">
+      <div class="section-tag mb-5">GO BEYOND SELF-SERVICE</div>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6">
+        Need a <span class="neon-pink">Professional</span> Assessment?
+      </h2>
+      <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+        Free tools give you awareness. A professional penetration test gives you certainty. Let our experts find what attackers find — before they do.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="contact.html" class="btn-primary">
+          <i class="fas fa-shield-alt"></i> Request Assessment
+        </a>
+        <a href="services.html" class="btn-ghost">
+          <i class="fas fa-arrow-right"></i> View All Services
+        </a>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3 justify-center">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+          <i class="fas fa-clock text-pink-400/50"></i> 24h Response
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+          <i class="fas fa-file-signature text-pink-400/50"></i> NDA First
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+          <i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-18">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-display text-white text-sm tracking-widest mb-5">SERVICES</h3>
+        <ul class="space-y-3">
+          <li><a href="services.html#s1" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
+          <li><a href="services.html#s2" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
+          <li><a href="services.html#s3" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
+          <li><a href="services.html#s4" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
+          <li><a href="services.html#s5" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
+          <li><a href="services.html#s6" class="text-gray-500 hover:text-pink-400 transition text-sm">Remediation &amp; Retest</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-display text-white text-sm tracking-widest mb-5">COMPANY</h3>
+        <ul class="space-y-3">
+          <li><a href="index.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">Home</a></li>
+          <li><a href="about.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
+          <li><a href="greyhat-protocol.html" class="text-gray-500 hover:text-pink-400 transition text-sm">The Greyhat Protocol</a></li>
+          <li><a href="cyber-awareness.html"  class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="pricing.html"          class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
+          <li><a href="contact.html"          class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href="/cdn-cgi/l/email-protection#87eee9e1e8c7e0f5e2feefe6f3b3efeef5e2a9e4e8a9fde6" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
+              <i class="fas fa-envelope text-pink-400 mt-0.5"></i> <span class="__cf_email__" data-cfemail="d0b9beb6bf90b7a2b5a9b8b1a4e4b8b9a2b5feb3bffeaab1">[email&#160;protected]</span>
+            </a>
+          </li>
+          <li>
+            <a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
+              <i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581
+            </a>
+          </li>
+          <li>
+            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
+              <i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-gray-800 pt-8">
+      <div class="glass p-5 rounded-2xl mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+          <p class="text-sm text-gray-400">
+            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+
+  // ── CURSOR ──
+  const cur  = document.getElementById('cur');
+  const cur2 = document.getElementById('cur2');
+  document.addEventListener('mousemove', e => {
+    cur2.style.left = (e.clientX - 2) + 'px';
+    cur2.style.top  = (e.clientY - 2) + 'px';
+    setTimeout(() => {
+      cur.style.left = (e.clientX - 7) + 'px';
+      cur.style.top  = (e.clientY - 7) + 'px';
+    }, 80);
+  });
+  document.addEventListener('mousedown', () => cur.style.transform = 'scale(1.8)');
+  document.addEventListener('mouseup',   () => cur.style.transform = 'scale(1)');
+
+  // ── NAV ──
+  window.addEventListener('scroll', () =>
+    document.getElementById('nav').classList.toggle('nav-scrolled', scrollY > 50)
+  );
+
+  const hamburger    = document.getElementById('hamburger');
+  const mobileMenu   = document.getElementById('mobile-menu');
+  const closeMenuBtn = document.getElementById('close-menu');
+
+  function openMenu() {
+    mobileMenu.classList.remove('hidden');
+    setTimeout(() => mobileMenu.classList.add('open'), 10);
+  }
+  function closeMenuFn() {
+    mobileMenu.classList.remove('open');
+    setTimeout(() => mobileMenu.classList.add('hidden'), 400);
+  }
+
+  hamburger.addEventListener('click', openMenu);
+  closeMenuBtn.addEventListener('click', closeMenuFn);
+  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l => l.addEventListener('click', closeMenuFn));
+
+  // ── TYPEWRITER ──
+  const phrases = ["CHECK IF YOU'VE BEEN PWNED", "TEST YOUR PASSWORD STRENGTH", "KNOW YOUR THREAT LANDSCAPE", "THINK LIKE AN ATTACKER"];
+  let pIdx = 0, cIdx = 0, del = false;
+  const typedEl = document.getElementById('typed-text');
+  function typeWriter() {
+    const p = phrases[pIdx];
+    if (!del) {
+      typedEl.textContent = p.substring(0, cIdx + 1); cIdx++;
+      if (cIdx === p.length) { setTimeout(() => { del = true; typeWriter(); }, 2400); return; }
+      setTimeout(typeWriter, cIdx < 5 ? 120 : 50);
+    } else {
+      typedEl.textContent = p.substring(0, cIdx - 1); cIdx--;
+      if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(typeWriter, 400); return; }
+      setTimeout(typeWriter, 28);
+    }
+  }
+  setTimeout(typeWriter, 1200);
+
+  // ── STAT COUNTERS ──
+  function animateCounter(el, target, suffix) {
+    let current = 0;
+    const steps = 60, duration = 2000;
+    const inc = target / steps;
+    const iv = setInterval(() => {
+      current = Math.min(current + inc, target);
+      el.textContent = Math.round(current) + (suffix || '');
+      if (current >= target) clearInterval(iv);
+    }, duration / steps);
+  }
+  const statsObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('[data-target]').forEach(el => {
+          const t = parseInt(el.dataset.target);
+          const s = el.dataset.suffix || '%';
+          animateCounter(el, t, s);
+        });
+        statsObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: .4 });
+  document.querySelectorAll('.stat-item').forEach(el => statsObs.observe(el.parentElement));
+
+  // ── GSAP ──
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline();
+  tl.fromTo('#hero-eyebrow', { y:30, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 0.3)
+    .fromTo('#hero-heading', { y:50, opacity:0 }, { y:0, opacity:1, duration:.9, ease:'back.out(1.2)' }, 0.5)
+    .fromTo('#hero-sub',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.0)
+    .fromTo('#hero-mono',    { opacity:0 },       { opacity:1, duration:.5 }, 1.4)
+    .fromTo('#hero-btns',    { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.5)
+    .fromTo('#hero-stats',   { y:30, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.8)
+    .fromTo('#hero-scroll',  { opacity:0 },       { opacity:.3, duration:.8 }, 2.2);
+
+  // Tip cards staggered
+  gsap.utils.toArray('.tip-card').forEach((card, i) => {
+    gsap.fromTo(card, { y:60, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out',
+      scrollTrigger:{ trigger:card, start:'top 90%', once:true }, delay:(i % 3) * 0.1 });
+  });
+
+  // Threat cards
+  gsap.utils.toArray('.threat-card').forEach((card, i) => {
+    gsap.fromTo(card, { y:50, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out',
+      scrollTrigger:{ trigger:card, start:'top 88%', once:true }, delay:i * 0.12 });
+  });
+
+  // Phishing simulator
+  const phishGame = document.getElementById('phish-game');
+  if (phishGame) {
+    gsap.fromTo(phishGame, { y:50, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
+      scrollTrigger:{ trigger:phishGame, start:'top 88%', once:true } });
+  }
+
+  // Generic gsap-hidden
+  gsap.utils.toArray('.gsap-hidden').forEach(el => {
+    if (!el.classList.contains('tip-card') && !el.classList.contains('threat-card')) {
+      gsap.fromTo(el, { y:40, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 88%', once:true } });
+    }
+  });
+
+  // ── BREACH CHECKER ──
+  async function checkEmail() {
+    const email   = document.getElementById('email-input').value.trim();
+    const results = document.getElementById('results');
+    const loading = document.getElementById('loading');
+    const btn     = document.getElementById('check-btn');
+
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      results.innerHTML = `
+        <div class="result-danger mt-4">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-exclamation-circle text-red-400 text-2xl"></i>
+            <p class="font-display text-sm text-white tracking-wide">PLEASE ENTER A VALID EMAIL ADDRESS.</p>
+          </div>
+        </div>`;
+      return;
+    }
+
+    btn.disabled = true; results.innerHTML = ''; loading.classList.remove('hidden');
+
+    try {
+      const response = await fetch(
+        `https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(email)}?truncateResponse=false`,
+        { headers: { 'User-Agent': 'Greyhat4Hire-Breach-Checker' } }
+      );
+      loading.classList.add('hidden');
+
+      if (response.status === 404) {
+        results.innerHTML = `
+          <div class="result-safe mt-4">
+            <div class="flex items-start gap-4">
+              <i class="fas fa-check-circle text-green-400 text-4xl flex-shrink-0 mt-1"></i>
+              <div>
+                <h3 class="font-display text-lg text-white mb-2 tracking-wide">ALL CLEAR</h3>
+                <p class="text-gray-300 text-sm"><strong>${email}</strong> has not appeared in any known data breaches.</p>
+                <p class="text-xs text-gray-500 mt-3 font-mono">Keep following security best practices to stay protected. Breach databases update regularly — check again periodically.</p>
+              </div>
+            </div>
+          </div>`;
+      } else if (response.ok) {
+        const breaches = await response.json();
+        let list = breaches.slice(0, 5).map(b => `
+          <div class="breach-item">
+            <div class="flex items-start gap-3">
+              <i class="fas fa-exclamation-triangle text-red-400 text-lg flex-shrink-0 mt-0.5"></i>
+              <div>
+                <h4 class="font-display text-sm text-white tracking-wide">${b.Name}</h4>
+                <p class="text-xs text-gray-400 mt-1 leading-relaxed">${b.Description}</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <span class="text-xs px-2 py-1 rounded-md" style="background:rgba(239,68,68,.15);color:#f87171;">${new Date(b.BreachDate).toLocaleDateString()}</span>
+                  <span class="text-xs px-2 py-1 rounded-md" style="background:rgba(239,68,68,.15);color:#f87171;">${b.PwnCount.toLocaleString()} accounts</span>
+                </div>
+              </div>
+            </div>
+          </div>`).join('');
+
+        results.innerHTML = `
+          <div class="result-danger mt-4">
+            <div class="flex items-start gap-4 mb-5">
+              <i class="fas fa-exclamation-circle text-red-400 text-4xl flex-shrink-0 mt-1"></i>
+              <div>
+                <h3 class="font-display text-lg text-white mb-2 tracking-wide">BREACHES FOUND</h3>
+                <p class="text-gray-300 text-sm"><strong>${email}</strong> was found in <strong>${breaches.length}</strong> data breach${breaches.length > 1 ? 'es' : ''}.
+                ${breaches.length > 5 ? ' Showing the 5 most notable:' : ''}</p>
+              </div>
+            </div>
+            ${list}
+            ${breaches.length > 5 ? `<p class="text-gray-500 text-xs mt-2 font-mono">+ ${breaches.length - 5} more breaches not shown.</p>` : ''}
+            <div class="mt-5 p-4 rounded-xl" style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);">
+              <p class="font-display text-xs text-yellow-300 tracking-wide mb-3">⚡ IMMEDIATE ACTIONS REQUIRED:</p>
+              <ol class="text-xs text-gray-300 space-y-1 font-mono leading-relaxed">
+                <li>1. Change your password on this account immediately</li>
+                <li>2. Enable two-factor authentication</li>
+                <li>3. Check if you reused this password anywhere else</li>
+                <li>4. Monitor accounts for suspicious activity</li>
+              </ol>
+            </div>
+          </div>`;
+      } else if (response.status === 429) {
+        results.innerHTML = `<div class="result-danger mt-4"><p class="text-center text-gray-300 font-mono text-sm">Too many requests. Please wait a moment and try again.</p></div>`;
+      } else {
+        throw new Error('Unexpected response');
+      }
+
+    } catch (err) {
+      loading.classList.add('hidden');
+      results.innerHTML = `
+        <div class="result-danger mt-4">
+          <p class="text-center text-gray-300 text-sm">
+            <i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i>
+            Unable to check at this time. Please try again later.
+          </p>
+        </div>`;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // ── PASSWORD CHECKER ──
+  function checkPasswordStrength() {
+    const pw       = document.getElementById('password-input').value;
+    const fill     = document.getElementById('strength-fill');
+    const feedback = document.getElementById('password-feedback');
+
+    const setCrit = (id, pass) => {
+      const icon = document.getElementById('c-' + id);
+      if (pass) { icon.className = 'fas fa-circle-check text-xs text-green-400'; icon.parentElement.style.color = 'rgba(34,197,94,.8)'; }
+      else       { icon.className = 'fas fa-circle-xmark text-xs text-gray-700'; icon.parentElement.style.color = 'rgba(107,114,128,.6)'; }
+    };
+
+    if (!pw) {
+      fill.className = 'strength-fill'; fill.style.width = '0'; feedback.innerHTML = '';
+      ['length','upper','lower','number','special','long'].forEach(c => setCrit(c, false));
+      return;
+    }
+
+    const hasLen     = pw.length >= 12;
+    const hasUpper   = /[A-Z]/.test(pw);
+    const hasLower   = /[a-z]/.test(pw);
+    const hasNum     = /[0-9]/.test(pw);
+    const hasSpecial = /[^a-zA-Z0-9]/.test(pw);
+    const hasLong    = pw.length >= 16;
+
+    setCrit('length',  hasLen);
+    setCrit('upper',   hasUpper);
+    setCrit('lower',   hasLower);
+    setCrit('number',  hasNum);
+    setCrit('special', hasSpecial);
+    setCrit('long',    hasLong);
+
+    const score = [hasLen, hasUpper, hasLower, hasNum, hasSpecial, hasLong].filter(Boolean).length;
+
+    fill.className = 'strength-fill';
+    if      (score <= 2) { fill.classList.add('strength-weak');   feedback.innerHTML = '<span style="color:#ef4444;">Weak</span> — Add more character types and length.'; }
+    else if (score === 3) { fill.classList.add('strength-fair');   feedback.innerHTML = '<span style="color:#f97316;">Fair</span> — Getting there. Keep improving.'; }
+    else if (score <= 4) { fill.classList.add('strength-medium'); feedback.innerHTML = '<span style="color:#eab308;">Medium</span> — Good, but aim for 16+ characters.'; }
+    else                  { fill.classList.add('strength-strong'); feedback.innerHTML = '<span style="color:#22c55e;">Strong!</span> Excellent password. Store it in a password manager.'; }
+  }
+
+  function togglePasswordVisibility() {
+    const input = document.getElementById('password-input');
+    const icon  = document.getElementById('eye-icon');
+    if (input.type === 'password') { input.type = 'text';     icon.className = 'fas fa-eye-slash'; }
+    else                           { input.type = 'password'; icon.className = 'fas fa-eye'; }
+  }
+
+  // ── PHISHING SIMULATOR ──
+  const phishEmails = [
+    {
+      from: 'security@paypa1.com <no-reply@paypa1-alerts.com>',
+      subject: 'Unusual Activity Detected — Verify Your Account Now',
+      body: `<p>Dear Valued Customer,</p>
+<p>We detected unusual sign-in activity on your PayPal account from an unrecognized device in <strong>Lagos, Nigeria</strong>.</p>
+<p>If this wasn't you, please verify your identity immediately to prevent your account from being permanently limited:</p>
+<p style="margin:20px 0;"><span class="phish-link">https://paypa1-secure.verify-accounts.com/login</span></p>
+<p>You have <strong>24 hours</strong> to respond or your account will be suspended.</p>
+<p>Thank you,<br>PayPal Security Team</p>`,
+      isPhish: true,
+      redflags: [
+        '"paypa1.com" uses the number 1 instead of the letter L — a classic lookalike domain.',
+        'The reply address "paypa1-alerts.com" is not a real PayPal domain.',
+        'The link goes to "verify-accounts.com" — not paypal.com.',
+        'Creates extreme urgency with a 24-hour deadline to pressure you into acting fast.',
+        'Generic greeting "Dear Valued Customer" instead of your actual name.'
+      ]
+    },
+    {
+      from: 'noreply@accounts.google.com',
+      subject: 'Security alert: new sign-in from Windows',
+      body: `<p>Hi John,</p>
+<p>Your Google Account <strong>john.smith@gmail.com</strong> was just signed in to from a new Windows device.</p>
+<p style="margin:16px 0;padding:16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.08);"><strong>New device sign-in</strong><br><span style="color:#888;">Windows · Johannesburg, South Africa<br>Friday, February 14, 2026 at 3:42 PM</span></p>
+<p>If this was you, you can ignore this message. If you don't recognize this activity, please review your recently used devices.</p>
+<p style="color:#888;font-size:.82rem;margin-top:20px;">You received this email to let you know about important changes to your Google Account and services.<br>© 2026 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043</p>`,
+      isPhish: false,
+      redflags: [
+        'This email is legitimate. The sender domain "accounts.google.com" is genuine.',
+        'Uses the recipient\'s actual name and email address — not a generic greeting.',
+        'Does NOT contain urgent threats or demand immediate action.',
+        'No suspicious links — it says to "review your devices" rather than providing a disguised URL.',
+        'Includes a real Google corporate footer with proper address.'
+      ]
+    },
+    {
+      from: 'HR Department <hr-benefits@company-portal.net>',
+      subject: 'ACTION REQUIRED: Updated Employee Benefits — Sign by EOD',
+      body: `<p>Hi Team,</p>
+<p>As part of our annual benefits review, all employees are required to review and electronically sign the updated benefits package before end of business today.</p>
+<p>Failure to sign will result in <strong>automatic enrolment in the default plan</strong> and loss of your current selections.</p>
+<p>Please click below to access the secure HR portal and complete your signature:</p>
+<p style="margin:20px 0;"><span class="phish-link">https://company-portal.net/hr/benefits-sign?emp=2847</span></p>
+<div class="email-attachment"><i class="fas fa-paperclip text-gray-500"></i> Updated_Benefits_2026.pdf.exe (284 KB)</div>
+<p style="margin-top:16px;">Best regards,<br>Human Resources</p>`,
+      isPhish: true,
+      redflags: [
+        'External domain "company-portal.net" — real HR emails come from your actual company domain.',
+        'The attachment "Updated_Benefits_2026.pdf.exe" is a disguised executable (.exe) pretending to be a PDF.',
+        '"Sign by EOD" creates artificial urgency — legitimate HR processes give reasonable deadlines.',
+        'Generic "Hi Team" with no company name, department, or HR contact details.',
+        'The link domain doesn\'t match any recognizable company — a hallmark of credential harvesting.'
+      ]
+    },
+    {
+      from: 'FNB Digital Banking <alerts@fnb.co.za>',
+      subject: 'Payment confirmation: R1,250.00 to Vodacom',
+      body: `<p>Dear Client,</p>
+<p>This confirms a payment from your FNB cheque account:</p>
+<p style="margin:16px 0;padding:16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.08);">
+<strong>Amount:</strong> R1,250.00<br>
+<strong>To:</strong> Vodacom (Pty) Ltd<br>
+<strong>Date:</strong> 21 February 2026<br>
+<strong>Reference:</strong> VOD-0827456321<br>
+<strong>Account:</strong> ****4829</p>
+<p>If you did not authorise this transaction, call us immediately on <strong>087 575 9406</strong>.</p>
+<p style="color:#888;font-size:.82rem;margin-top:20px;">First National Bank — a division of FirstRand Bank Limited. An Authorised Financial Services and Credit Provider (NCRCP20).</p>`,
+      isPhish: false,
+      redflags: [
+        'This email is legitimate. "fnb.co.za" is the real FNB domain.',
+        'Contains specific account details (last 4 digits) rather than asking you to "verify" them.',
+        'Provides a phone number to call — doesn\'t push you to click a link.',
+        'No urgent threats or countdown timers demanding action.',
+        'Includes proper South African financial services disclosure and registration number.'
+      ]
+    },
+    {
+      from: 'Microsoft 365 <admin@microsoft-365-security.com>',
+      subject: '⚠ Your mailbox is 97% full — storage will be disabled in 2 hours',
+      body: `<p>Dear User,</p>
+<p>Your Microsoft 365 mailbox has reached <strong>97% capacity</strong>. To prevent disruption to your email service, you must upgrade your storage allocation immediately.</p>
+<p><strong>Current usage:</strong> 48.5 GB of 50 GB</p>
+<p>If you do not take action within <strong style="color:#ef4444;">2 hours</strong>, incoming emails will be rejected and sent items will be permanently deleted.</p>
+<p style="margin:20px 0;"><span class="phish-link">https://microsoft-365-security.com/upgrade-storage?user=admin</span></p>
+<p>Sincerely,<br>Microsoft 365 Support Team</p>
+<p style="color:#888;font-size:.82rem;">Microsoft Corporation, One Microsoft Way, Redmond, WA 98052</p>`,
+      isPhish: true,
+      redflags: [
+        '"microsoft-365-security.com" is NOT a Microsoft domain — real emails come from microsoft.com.',
+        'Microsoft never threatens to delete sent items for storage reasons.',
+        'The 2-hour deadline creates panic — real storage warnings give days, not hours.',
+        '"Dear User" — Microsoft always uses your name or organization in alerts.',
+        'The "upgrade" link would harvest your Microsoft credentials on a fake login page.'
+      ]
+    }
+  ];
+
+  let phishCurrent = 0, phishCorrect = 0, phishTotal = phishEmails.length;
+
+  function loadPhishEmail() {
+    const e = phishEmails[phishCurrent];
+    document.getElementById('phish-from').textContent = e.from;
+    document.getElementById('phish-subject').textContent = e.subject;
+    document.getElementById('phish-body').innerHTML = e.body;
+    document.getElementById('phish-round-label').textContent = `EMAIL ${phishCurrent + 1} OF ${phishTotal}`;
+    document.getElementById('phish-score-label').textContent = `SCORE: ${phishCorrect} / ${phishCurrent}`;
+    document.getElementById('phish-progress').style.width = ((phishCurrent / phishTotal) * 100) + '%';
+    document.getElementById('phish-buttons').classList.remove('hidden');
+    document.getElementById('phish-feedback').innerHTML = '';
+    document.getElementById('phish-email-card').style.opacity = '1';
+  }
+
+  function phishAnswer(saidLegit) {
+    const e = phishEmails[phishCurrent];
+    const correct = saidLegit === !e.isPhish;
+    if (correct) phishCorrect++;
+
+    document.getElementById('phish-buttons').classList.add('hidden');
+
+    const isPhishText = e.isPhish ? 'PHISHING' : 'LEGITIMATE';
+    const isPhishColor = e.isPhish ? '#ef4444' : '#22c55e';
+    const isPhishIcon = e.isPhish ? 'fa-skull-crossbones' : 'fa-check-circle';
+    const verdictText = correct
+      ? `<span style="color:#22c55e;"><i class="fas fa-trophy"></i> Correct!</span> This email was <strong style="color:${isPhishColor};">${isPhishText}</strong>.`
+      : `<span style="color:#ef4444;"><i class="fas fa-times-circle"></i> Wrong!</span> This email was actually <strong style="color:${isPhishColor};">${isPhishText}</strong>.`;
+
+    const flagsHTML = e.redflags.map(f => `
+      <div class="redflag-item">
+        <i class="fas ${e.isPhish ? 'fa-exclamation-triangle text-red-400' : 'fa-info-circle text-green-400'} flex-shrink-0 mt-0.5"></i>
+        <span class="text-sm text-gray-300">${f}</span>
+      </div>`).join('');
+
+    document.getElementById('phish-feedback').innerHTML = `
+      <div class="redflags-reveal">
+        <div class="flex items-center gap-3 mb-5">
+          <i class="fas ${isPhishIcon} text-3xl" style="color:${isPhishColor};"></i>
+          <div>
+            <p class="font-display text-sm text-white tracking-wide">${verdictText}</p>
+          </div>
+        </div>
+        <div class="font-display text-xs text-pink-400/70 tracking-widest mb-4">${e.isPhish ? 'RED FLAGS TO WATCH FOR' : 'WHY THIS ONE IS SAFE'}</div>
+        ${flagsHTML}
+        <div class="text-center mt-6">
+          <button class="phish-verdict-btn" style="border-color:var(--pink);color:var(--pink);background:rgba(255,20,147,.06);" onclick="phishNext()">
+            <i class="fas fa-arrow-right"></i> ${phishCurrent < phishTotal - 1 ? 'NEXT EMAIL' : 'SEE MY SCORE'}
+          </button>
+        </div>
+      </div>`;
+
+    // Scroll directly to the verdict
+    setTimeout(() => {
+      document.getElementById('phish-feedback').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 80);
+  }
+
+  function phishNext() {
+    phishCurrent++;
+    if (phishCurrent >= phishTotal) {
+      showPhishScore();
+      setTimeout(() => {
+        document.getElementById('phish-final').scrollIntoView({ behavior:'smooth', block:'start' });
+      }, 80);
+    } else {
+      loadPhishEmail();
+      setTimeout(() => {
+        document.getElementById('phish-email-card').scrollIntoView({ behavior:'smooth', block:'start' });
+      }, 80);
+    }
+  }
+
+  function showPhishScore() {
+    const pct = Math.round((phishCorrect / phishTotal) * 100);
+    let grade, gradeColor, comment;
+    if (pct === 100)     { grade = 'A+'; gradeColor = '#22c55e'; comment = 'Flawless. You have an exceptionally trained eye — attackers would struggle to fool you.'; }
+    else if (pct >= 80)  { grade = 'A';  gradeColor = '#22c55e'; comment = 'Excellent awareness. You caught nearly everything — keep that skepticism sharp.'; }
+    else if (pct >= 60)  { grade = 'B';  gradeColor = '#eab308'; comment = 'Good instincts, but a few slipped through. In a real scenario, one mistake is all it takes.'; }
+    else if (pct >= 40)  { grade = 'C';  gradeColor = '#f97316'; comment = 'Room for improvement. Review the red flags above — attackers rely on people missing these.'; }
+    else                 { grade = 'D';  gradeColor = '#ef4444'; comment = 'You\'d be highly vulnerable to a real phishing campaign. Time to study the warning signs.'; }
+
+    document.getElementById('phish-email-viewport').classList.add('hidden');
+    document.getElementById('phish-progress').style.width = '100%';
+    document.getElementById('phish-round-label').textContent = 'COMPLETE';
+    document.getElementById('phish-score-label').textContent = `FINAL: ${phishCorrect} / ${phishTotal}`;
+
+    document.getElementById('phish-final').classList.remove('hidden');
+    document.getElementById('phish-final').innerHTML = `
+      <div class="phish-score-card">
+        <div class="relative z-10">
+          <div class="font-display text-xs tracking-widest text-pink-400/60 mb-6">YOUR PHISHING DETECTION SCORE</div>
+          <div class="phish-grade" style="color:${gradeColor};text-shadow:0 0 40px ${gradeColor};">${grade}</div>
+          <div class="mt-4 mb-6">
+            <span class="font-display text-4xl font-black text-white">${phishCorrect}</span>
+            <span class="text-gray-500 text-lg"> / ${phishTotal} correct</span>
+          </div>
+          <p class="text-gray-300 text-base max-w-md mx-auto leading-relaxed mb-8">${comment}</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button class="phish-verdict-btn" style="border-color:var(--pink);color:var(--pink);background:rgba(255,20,147,.06);" onclick="phishRestart()">
+              <i class="fas fa-redo"></i> TRY AGAIN
+            </button>
+            <a href="contact.html" class="btn-primary" style="padding:16px 32px;font-size:.78rem;">
+              <i class="fas fa-shield-alt"></i> GET PHISHING TRAINING
+            </a>
+          </div>
+          <p class="text-gray-600 text-xs mt-8 font-mono">90% of data breaches begin with a phishing email. Training your team is the single most effective defence.</p>
+        </div>
+      </div>`;
+  }
+
+  function phishRestart() {
+    phishCurrent = 0; phishCorrect = 0;
+    document.getElementById('phish-email-viewport').classList.remove('hidden');
+    document.getElementById('phish-final').classList.add('hidden');
+    document.getElementById('phish-final').innerHTML = '';
+    loadPhishEmail();
+    setTimeout(() => {
+      document.getElementById('phish-email-card').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 80);
+  }
+
+  // Init first email
+  loadPhishEmail();
+
+  // ── THREE.JS PARTICLES ──
+  (function() {
+    const canvas   = document.getElementById('three-canvas');
+    const scene    = new THREE.Scene();
+    const camera   = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, .1, 400);
+    camera.position.z = 80;
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+
+    const count = 500, geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(count * 3), col = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      pos[i3]   = (Math.random() - .5) * 180;
+      pos[i3+1] = (Math.random() - .5) * 260 - 80;
+      pos[i3+2] = (Math.random() - .5) * 50;
+      col[i3]   = .98 + (Math.random() - .5) * .08;
+      col[i3+1] = .08 + (Math.random() - .5) * .04;
+      col[i3+2] = .58 + (Math.random() - .5) * .1;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+    const mat = new THREE.PointsMaterial({
+      size:.82, vertexColors:true, transparent:true, opacity:.28,
+      blending:THREE.AdditiveBlending, depthTest:false
+    });
+    const pts = new THREE.Points(geo, mat);
+    scene.add(pts);
+
+    let f = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      if (++f % 2) return;
+      const p = pts.geometry.attributes.position.array;
+      for (let i = 1; i < p.length; i += 3) {
+        p[i]   += .022 + Math.random() * .028;
+        p[i-1] += Math.sin(Date.now() * .00008 + i) * .003;
+        if (p[i] > 130) p[i] = -120;
+      }
+      pts.geometry.attributes.position.needsUpdate = true;
+      pts.rotation.y += .00015;
+      renderer.render(scene, camera);
+    }
+    animate();
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  })();
+</script>
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Awareness Hub — Greyhat4Hire | Stay Secure Online</title>
+  <meta name="description" content="Check if your email has been breached, test password strength, and learn essential cybersecurity practices. Free tools from Greyhat4Hire."/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --pink: #ff1493;
+      --pink-dim: rgba(255,20,147,0.55);
+      --pink-faint: rgba(255,20,147,0.1);
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', system-ui, sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── CURSOR ── */
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
+
+    /* ── FONTS ── */
+    .font-display { font-family: 'Orbitron', monospace; }
+    .font-mono    { font-family: 'Share Tech Mono', monospace; }
+
+    /* ── GLASS ── */
+    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
+    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+
+    /* ── NEON ── */
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+    .neon-text { color:var(--pink);text-shadow:0 0 16px rgba(255,20,147,.6); }
+
+    /* ── NAV ── */
+    nav { transition:all .4s ease; }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover::after { width:100%; }
+    .desktop-link.active { color:#ff1493; }
+    .desktop-link.active::after { width:100%; }
+    #mobile-menu { transform:translateY(-100%);transition:transform .4s ease; }
+    #mobile-menu.open { transform:translateY(0); }
+    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel {
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon {
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header {
+      padding:10px 16px 8px;margin-bottom:4px;
+      border-bottom:1px solid rgba(255,20,147,.12);
+    }
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+    .btn-ghost {
+      display:inline-flex;align-items:center;gap:8px;
+      border:2px solid var(--pink);color:var(--pink);
+      font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
+      padding:16px 32px;border-radius:14px;cursor:none;
+      background:transparent;transition:all .3s ease;text-decoration:none;
+    }
+    .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
+
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+    .pulse-glow { animation:pulseGlow 2.8s infinite; }
+
+    /* ── SECTION TAG ── */
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
+    .marquee { animation:marqueeScroll 55s linear infinite; }
+    @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
+    .marquee-sep { color:rgba(255,20,147,.25); }
+
+    /* ── TYPEWRITER ── */
+    .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── HERO GRID ── */
+    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
+    .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
+
+    /* ── CHECKER TOOL ── */
+    .checker-tool {
+      background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(255,20,147,.04));
+      border:2px solid rgba(255,20,147,.3);
+      border-radius:28px;padding:48px 40px;
+      position:relative;overflow:hidden;
+    }
+    .checker-tool::before {
+      content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;
+      background:radial-gradient(circle,rgba(255,20,147,.08),transparent);
+      animation:pulseBg 4s infinite;pointer-events:none;
+    }
+    @keyframes pulseBg { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.1);opacity:.8} }
+
+    .checker-input {
+      background:rgba(0,0,0,.6);
+      border:2px solid rgba(255,20,147,.3);
+      padding:16px 22px;border-radius:14px;
+      color:#fff;font-size:1rem;font-family:'Rajdhani',sans-serif;font-weight:500;
+      transition:all .3s ease;width:100%;
+    }
+    .checker-input:focus { outline:none;border-color:var(--pink);box-shadow:0 0 30px rgba(255,20,147,.3); }
+    .checker-input::placeholder { color:rgba(255,255,255,.35); }
+
+    .check-btn {
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      padding:16px 36px;border-radius:14px;font-family:'Orbitron',monospace;
+      font-weight:700;font-size:.8rem;letter-spacing:.08em;
+      border:none;cursor:none;color:white;white-space:nowrap;
+      transition:all .3s ease;
+    }
+    .check-btn:hover { transform:translateY(-3px);box-shadow:0 10px 40px rgba(255,20,147,.6); }
+    .check-btn:disabled { opacity:.5;cursor:not-allowed;transform:none; }
+
+    /* Results */
+    .result-safe {
+      background:rgba(34,197,94,.08);border:2px solid rgba(34,197,94,.4);
+      border-radius:18px;padding:28px;animation:slideIn .5s ease;
+    }
+    .result-danger {
+      background:rgba(239,68,68,.08);border:2px solid rgba(239,68,68,.4);
+      border-radius:18px;padding:28px;animation:slideIn .5s ease;
+    }
+    @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .breach-item {
+      background:rgba(0,0,0,.4);padding:18px;border-radius:14px;margin-bottom:12px;
+      border-left:4px solid #ef4444;transition:all .3s ease;
+    }
+    .breach-item:hover { background:rgba(239,68,68,.1);transform:translateX(4px); }
+
+    .spinner { border:3px solid rgba(255,20,147,.3);border-top:3px solid #ff1493;border-radius:50%;width:44px;height:44px;animation:spin 1s linear infinite;margin:0 auto; }
+    @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+    /* ── PASSWORD CHECKER ── */
+    .pw-input-wrap {
+      background:rgba(0,0,0,.6);
+      border:2px solid rgba(255,20,147,.3);
+      border-radius:14px;overflow:hidden;
+      transition:all .3s ease;
+    }
+    .pw-input-wrap:focus-within { border-color:var(--pink);box-shadow:0 0 30px rgba(255,20,147,.25); }
+    .pw-input {
+      background:transparent;padding:18px 22px;
+      color:#fff;font-size:1rem;font-family:'Rajdhani',sans-serif;font-weight:500;
+      width:calc(100% - 56px);border:none;outline:none;
+    }
+    .pw-input::placeholder { color:rgba(255,255,255,.35); }
+    .pw-toggle { background:transparent;border:none;color:rgba(255,255,255,.4);cursor:none;padding:18px 16px;transition:color .2s ease; }
+    .pw-toggle:hover { color:var(--pink); }
+
+    .strength-bar { height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:14px; }
+    .strength-fill { height:100%;transition:width .35s ease,background .35s ease; }
+    .strength-weak   { background:linear-gradient(90deg,#ef4444,#f97316);width:25%; }
+    .strength-fair   { background:linear-gradient(90deg,#f97316,#f59e0b);width:50%; }
+    .strength-medium { background:linear-gradient(90deg,#f59e0b,#eab308);width:66%; }
+    .strength-strong { background:linear-gradient(90deg,#22c55e,#10b981);width:100%; }
+
+    /* ── TIP CARDS ── */
+    .tip-card {
+      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,20,147,.15);
+      border-radius:22px;padding:32px 28px;
+      transition:all .4s ease;position:relative;overflow:hidden;
+    }
+    .tip-card::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent,var(--pink),transparent);
+      opacity:0;transition:opacity .4s ease;
+    }
+    .tip-card:hover { border-color:rgba(255,20,147,.45);transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.15); }
+    .tip-card:hover::before { opacity:1; }
+
+    .tip-icon {
+      width:60px;height:60px;border-radius:16px;
+      background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.4rem;color:var(--pink);
+      margin-bottom:20px;transition:all .4s ease;
+    }
+    .tip-card:hover .tip-icon { background:rgba(255,20,147,.2);box-shadow:0 0 28px rgba(255,20,147,.45);transform:scale(1.1) rotate(5deg); }
+
+    .pro-tip-box {
+      background:rgba(255,20,147,.05);
+      border:1px solid rgba(255,20,147,.2);
+      border-radius:12px;padding:16px;margin-top:20px;
+    }
+
+    .security-badge {
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 14px;background:rgba(255,20,147,.08);
+      border:1px solid rgba(255,20,147,.25);border-radius:50px;
+      font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.08em;
+      color:rgba(255,20,147,.8);margin:3px;transition:all .3s ease;
+    }
+    .security-badge:hover { background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5); }
+
+    /* ── THREAT CARDS ── */
+    .threat-card {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
+      border-radius:22px;padding:32px 28px;text-align:center;
+      transition:all .4s ease;position:relative;overflow:hidden;
+    }
+    .threat-card::after {
+      content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent,var(--pink),transparent);
+      opacity:0;transition:opacity .4s ease;
+    }
+    .threat-card:hover { border-color:rgba(255,20,147,.4);transform:translateY(-8px);box-shadow:0 16px 50px rgba(255,20,147,.18); }
+    .threat-card:hover::after { opacity:1; }
+    .threat-pct { font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:900;color:var(--pink);text-shadow:0 0 24px rgba(255,20,147,.6);line-height:1; }
+
+    /* ── STAT COUNTERS ── */
+    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
+
+    /* ── WHATSAPP BTN ── */
+    .whatsapp-btn {
+      position:fixed;bottom:24px;right:24px;
+      background:linear-gradient(135deg,#25D366,#128C7E);
+      color:white;width:62px;height:62px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);
+      z-index:998;transition:all .4s ease;text-decoration:none;
+    }
+    .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cur"></div>
+  <div id="cur2"></div>
+
+  <canvas id="three-canvas"></canvas>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- ══ NAV ══ -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+      <a href="index.html">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-7 text-sm">
+        <a href="index.html"            class="desktop-link">Home</a>
+        <a href="about.html"            class="desktop-link">About</a>
+        <a href="services.html"         class="desktop-link">Services</a>
+
+        <!-- FREE TOOLS DROPDOWN -->
+        <div class="tools-dropdown-wrap">
+          <button class="tools-dropdown-btn" type="button">
+            <span class="tools-live-dot"></span>
+            Free Tools
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+
+          <div class="tools-dropdown-panel">
+            <div class="tools-panel-header">
+              <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+            </div>
+
+            <!-- Tool 1: Risk Assessment -->
+            <a href="risk-assessment.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+                <i class="fas fa-shield-halved"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+                <div class="tool-nav-name">Risk Self-Assessment</div>
+                <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+              </div>
+            </a>
+
+            <!-- Tool 2: Hacker's Dossier -->
+            <a href="hackers-dossier.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+                <i class="fas fa-file-circle-exclamation"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+                <div class="tool-nav-name">The Hacker's Dossier</div>
+                <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+              </div>
+            </a>
+
+            <!-- Tool 3: Breach Cost Clock -->
+            <a href="breach-cost-clock.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+                <div class="tool-nav-name">Breach Cost Clock</div>
+                <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- END FREE TOOLS DROPDOWN -->
+
+        <a href="cyber-awareness.html"  class="desktop-link active">Cyber Awareness</a>
+        <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+        <a href="pricing.html"          class="desktop-link">Pricing</a>
+        <a href="contact.html"          class="desktop-link">Contact</a>
+      </div>
+
+      <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+        <i class="fas fa-shield-alt"></i> Get a Quote
+      </a>
+
+      <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+      <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+      <div class="flex flex-col items-center w-full max-w-xs">
+        <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+        <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+        <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+        <!-- Mobile Free Tools -->
+        <a href="risk-assessment.html"  class="mobile-tool-link">
+          <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+          <span style="font-size:1rem;">Risk Self-Assessment</span>
+        </a>
+        <a href="hackers-dossier.html"  class="mobile-tool-link">
+          <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+          <span style="font-size:1rem;">Hacker's Dossier</span>
+        </a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link">
+          <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+          <span style="font-size:1rem;">Breach Cost Clock</span>
+        </a>
+        <a href="cyber-awareness.html"  class="mobile-link desktop-link neon-pink">Cyber Awareness</a>
+        <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+        <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+        <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+      </div>
+      <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+        <i class="fas fa-shield-alt"></i> Get a Quote
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="min-h-[88vh] flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden">
+    <div class="hero-grid"></div>
+    <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-120px;right:-180px;pointer-events:none;"></div>
+    <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,20,147,.05) 0%,transparent 70%);bottom:0;left:-100px;pointer-events:none;"></div>
+
+    <div class="max-w-5xl mx-auto text-center z-10 relative">
+      <div id="hero-eyebrow" class="section-tag mb-6 flex items-center justify-center gap-3">
+        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+        FREE SECURITY TOOLS &amp; EDUCATION
+        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      </div>
+
+      <h1 id="hero-heading" class="font-display font-black leading-none tracking-tight mb-6">
+        <span class="text-white" style="font-size:clamp(2.8rem,8vw,7rem);">CYBER</span>
+        <br>
+        <span class="neon-pink" style="font-size:clamp(2.8rem,8vw,7rem);">AWARENESS</span>
+        <br>
+        <span class="text-white" style="font-size:clamp(2.8rem,8vw,7rem);">HUB<span class="neon-pink">.</span></span>
+      </h1>
+
+      <p id="hero-sub" class="text-gray-300 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-5" style="font-weight:300;">
+        Check if your email has been compromised. Test your passwords. Learn to think like an attacker — so one can never surprise you.
+      </p>
+
+      <div id="hero-mono" class="font-mono text-pink-400/60 text-sm mb-10 tracking-widest">
+        <span id="typed-text"></span><span class="typewriter-cursor text-pink-400">█</span>
+      </div>
+
+      <div id="hero-btns" class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+        <a href="#breach-checker" class="btn-primary">
+          <i class="fas fa-search"></i> Check Email Breach
+        </a>
+        <a href="#tips-section" class="btn-ghost">
+          <i class="fas fa-shield-alt"></i> Security Tips
+        </a>
+      </div>
+
+      <!-- Quick stat strip -->
+      <div id="hero-stats" class="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+        <div class="glass rounded-2xl py-5 px-4 stat-item">
+          <div class="stat-num text-3xl sm:text-4xl" data-target="90">0</div>
+          <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">% BREACHES VIA PHISHING</div>
+        </div>
+        <div class="glass rounded-2xl py-5 px-4 stat-item">
+          <div class="stat-num text-3xl sm:text-4xl" data-target="15" data-suffix="B+">0</div>
+          <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">CREDENTIALS LEAKED</div>
+        </div>
+        <div class="glass rounded-2xl py-5 px-4 stat-item">
+          <div class="stat-num text-3xl sm:text-4xl" data-target="60" data-suffix="%">0</div>
+          <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">SMEs CLOSE AFTER BREACH</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="hero-scroll" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 pointer-events-none">
+      <span class="font-mono text-xs text-pink-400 tracking-widest">SCROLL</span>
+      <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent);"></div>
+    </div>
+  </section>
+
+  <!-- ══ MARQUEE ══ -->
+  <div class="py-5 border-y border-pink-500/10 overflow-hidden">
+    <div class="marquee-wrap">
+      <div class="marquee flex whitespace-nowrap">
+        <span class="marquee-item"><i class="fas fa-lock"></i> BREACH DATABASE</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-key"></i> PASSWORD STRENGTH TESTER</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-fish"></i> PHISHING AWARENESS</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-database"></i> 3-2-1 BACKUP RULE</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-mobile-alt"></i> 2FA PROTECTION</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-wifi"></i> VPN & SAFE BROWSING</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-lock"></i> BREACH DATABASE</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-key"></i> PASSWORD STRENGTH TESTER</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-fish"></i> PHISHING AWARENESS</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-database"></i> 3-2-1 BACKUP RULE</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-mobile-alt"></i> 2FA PROTECTION</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item"><i class="fas fa-wifi"></i> VPN & SAFE BROWSING</span>
+        <span class="marquee-sep">◆</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BREACH CHECKER ══ -->
+  <section id="breach-checker" class="py-20 sm:py-28 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 gsap-hidden">
+        <div class="section-tag mb-4">TOOL 01</div>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          Have You Been <span class="neon-pink">Pwned?</span>
+        </h2>
+        <p class="text-gray-400 text-lg max-w-xl mx-auto">Check if your email has appeared in any known data breach. Powered by HaveIBeenPwned.com</p>
+      </div>
+
+      <div class="checker-tool gsap-hidden">
+        <!-- Animated corner accents -->
+        <div style="position:absolute;top:16px;left:16px;width:20px;height:20px;border-top:2px solid rgba(255,20,147,.5);border-left:2px solid rgba(255,20,147,.5);"></div>
+        <div style="position:absolute;top:16px;right:16px;width:20px;height:20px;border-top:2px solid rgba(255,20,147,.5);border-right:2px solid rgba(255,20,147,.5);"></div>
+        <div style="position:absolute;bottom:16px;left:16px;width:20px;height:20px;border-bottom:2px solid rgba(255,20,147,.5);border-left:2px solid rgba(255,20,147,.5);"></div>
+        <div style="position:absolute;bottom:16px;right:16px;width:20px;height:20px;border-bottom:2px solid rgba(255,20,147,.5);border-right:2px solid rgba(255,20,147,.5);"></div>
+
+        <div class="max-w-2xl mx-auto relative z-10">
+          <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <input type="email" id="email-input" class="checker-input flex-1"
+              placeholder="Enter your email address..."
+              onkeypress="if(event.key==='Enter') checkEmail()">
+            <button class="check-btn" onclick="checkEmail()" id="check-btn">
+              <i class="fas fa-search mr-2"></i>CHECK NOW
+            </button>
+          </div>
+
+          <div id="loading" class="hidden text-center py-10">
+            <div class="spinner"></div>
+            <p class="text-gray-400 mt-5 font-mono text-sm tracking-wider">SCANNING BREACH DATABASES...</p>
+          </div>
+
+          <div id="results"></div>
+
+          <div class="mt-6 text-center">
+            <p class="font-mono text-xs text-gray-600">
+              <i class="fas fa-shield-alt mr-1 text-pink-400/40"></i>
+              Your search is anonymous. We never store email addresses.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PASSWORD CHECKER ══ -->
+  <section class="py-16 sm:py-20 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 gsap-hidden">
+        <div class="section-tag mb-4">TOOL 02</div>
+        <h2 class="font-display text-3xl sm:text-4xl font-black text-white mb-4">
+          Password <span class="neon-pink">Strength</span> Checker
+        </h2>
+        <p class="text-gray-400 text-lg">100% private — your password never leaves your device.</p>
+      </div>
+
+      <div class="glass-strong rounded-3xl p-8 sm:p-12 gsap-hidden">
+        <div class="max-w-2xl mx-auto">
+          <div class="pw-input-wrap flex items-center mb-3">
+            <input type="password" id="password-input" class="pw-input" placeholder="Type a password to test its strength..." oninput="checkPasswordStrength()">
+            <button class="pw-toggle" onclick="togglePasswordVisibility()">
+              <i class="fas fa-eye" id="eye-icon"></i>
+            </button>
+          </div>
+
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill" style="width:0;"></div>
+          </div>
+
+          <div id="password-feedback" class="mt-4 text-sm font-semibold text-gray-400 min-h-[1.5rem]"></div>
+
+          <!-- Criteria checklist -->
+          <div class="mt-6 grid grid-cols-2 gap-3" id="pw-criteria">
+            <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="length">
+              <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-length"></i> 12+ characters
+            </div>
+            <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="upper">
+              <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-upper"></i> Uppercase letter
+            </div>
+            <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="lower">
+              <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-lower"></i> Lowercase letter
+            </div>
+            <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="number">
+              <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-number"></i> Number
+            </div>
+            <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="special">
+              <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-special"></i> Special character
+            </div>
+            <div class="pw-crit flex items-center gap-2 text-sm text-gray-500" data-crit="long">
+              <i class="fas fa-circle-xmark text-xs text-gray-700" id="c-long"></i> 16+ characters (ideal)
+            </div>
+          </div>
+
+          <div class="mt-8 p-4 rounded-xl flex items-start gap-3" style="background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);">
+            <i class="fas fa-lock text-pink-400/50 text-sm mt-1 flex-shrink-0"></i>
+            <p class="text-xs text-gray-500 font-mono">PRIVACY NOTE — This check runs entirely in your browser. No data is transmitted or logged.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ THREAT LANDSCAPE ══ -->
+  <section class="py-16 sm:py-20 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14 gsap-hidden">
+        <div class="section-tag mb-4">KNOW YOUR ENEMY</div>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          Current <span class="neon-pink">Threat</span> Landscape
+        </h2>
+        <p class="text-gray-400 text-lg max-w-xl mx-auto">The three most dangerous attack categories targeting South African organisations right now.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <div class="threat-card gsap-hidden">
+          <div class="text-4xl mb-5">🎣</div>
+          <div class="threat-pct mb-2">90%</div>
+          <div class="font-mono text-xs text-gray-500 tracking-wider mb-4">OF DATA BREACHES</div>
+          <h3 class="font-display text-xl font-black text-white mb-4">Phishing</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Attackers impersonate trusted entities via email, SMS, or fake websites to steal credentials and financial data. The #1 attack vector worldwide.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2 justify-center">
+            <span class="security-badge">Email Spoofing</span>
+            <span class="security-badge">BEC Scams</span>
+          </div>
+        </div>
+
+        <div class="threat-card gsap-hidden">
+          <div class="text-4xl mb-5">🔐</div>
+          <div class="threat-pct mb-2">R3M+</div>
+          <div class="font-mono text-xs text-gray-500 tracking-wider mb-4">AVG RANSOM DEMAND</div>
+          <h3 class="font-display text-xl font-black text-white mb-4">Ransomware</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Encrypts all your files and demands payment for the decryption key. Proper backups are the only reliable defence — paying rarely works.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2 justify-center">
+            <span class="security-badge">File Encryption</span>
+            <span class="security-badge">Data Exfil</span>
+          </div>
+        </div>
+
+        <div class="threat-card gsap-hidden">
+          <div class="text-4xl mb-5">🕵️</div>
+          <div class="threat-pct mb-2">82%</div>
+          <div class="font-mono text-xs text-gray-500 tracking-wider mb-4">INVOLVE HUMAN ERROR</div>
+          <h3 class="font-display text-xl font-black text-white mb-4">Social Engineering</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Manipulates people — not machines — into revealing confidential info or granting access. No firewall stops a trusting employee.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2 justify-center">
+            <span class="security-badge">Pretexting</span>
+            <span class="security-badge">Vishing</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ESSENTIAL TIPS — 9 DETAILED CARDS ══ -->
+  <section id="tips-section" class="py-20 sm:py-28 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 gsap-hidden">
+        <div class="section-tag mb-4">YOUR SECURITY PLAYBOOK</div>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          Essential <span class="neon-pink">Security</span> Tips
+        </h2>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+          Practical, immediately actionable advice. Each one closes a real attack vector. Follow them all.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+        <!-- 1 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-lock"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Strong Passwords</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Create passwords with 16+ characters mixing uppercase, lowercase, numbers, and symbols. Never reuse passwords across different sites or services.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Use a password manager like Bitwarden, 1Password, or LastPass to generate and securely store complex passwords.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Password Manager</span>
+            <span class="security-badge">16+ Chars</span>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Enable 2FA Everywhere</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Add a second verification layer to every account you care about. Even if your password is stolen, 2FA stops attackers in their tracks.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Use an authenticator app (Google Authenticator, Authy, or Microsoft Authenticator) — not SMS. SIM-swapping defeats SMS codes.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Authenticator App</span>
+            <span class="security-badge">TOTP</span>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-fish"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Watch for Phishing</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Be suspicious of unexpected emails, texts, or calls asking for personal information. Verify the sender before clicking any links or attachments.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Hover over links to preview the real URL. Legitimate companies never ask for passwords via email — ever.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Check Links</span>
+            <span class="security-badge">Verify Sender</span>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-sync-alt"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Keep Software Updated</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Updates aren't just new features — they're security patches for vulnerabilities that attackers are actively exploiting right now.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Enable auto-updates on your OS, browser, and all apps. Most exploits target known vulnerabilities with patches already available.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Auto-Update</span>
+            <span class="security-badge">Patch Fast</span>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-wifi"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Secure Your Network</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Avoid sensitive tasks on public WiFi. At home, use WPA3 encryption and change your router's default credentials immediately.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Use a reputable VPN (Mullvad or ProtonVPN) when on public networks to encrypt all your traffic from eavesdroppers.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">VPN</span>
+            <span class="security-badge">WPA3</span>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-database"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Back Up Your Data</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Backups are your last line of defence against ransomware. A good backup makes a ransomware attack an inconvenience, not a catastrophe.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Follow the 3-2-1 rule: 3 copies, on 2 different media types, with 1 stored offsite (or in the cloud).</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">3-2-1 Rule</span>
+            <span class="security-badge">Cloud Backup</span>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-user-shield"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Review Privacy Settings</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Regularly audit privacy settings on social media and online accounts. Limit publicly visible info — attackers use it for targeted social engineering.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Google yourself occasionally to see what information about you is publicly accessible — and then remove or restrict it.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Data Minimisation</span>
+            <span class="security-badge">OSINT Aware</span>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-shield-virus"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Use Antivirus Software</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Reputable antivirus catches known malware before it executes. It's not a silver bullet, but it closes off a large category of opportunistic attacks.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Windows Defender is genuinely good for most users. For Macs, Malwarebytes offers solid supplementary protection.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Real-time Scan</span>
+            <span class="security-badge">Malware Removal</span>
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="tip-card gsap-hidden">
+          <div class="tip-icon"><i class="fas fa-credit-card"></i></div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">Monitor Your Accounts</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            Check bank and credit card statements regularly for suspicious activity. Set up instant transaction alerts — catch fraud before it compounds.
+          </p>
+          <div class="pro-tip-box">
+            <div class="flex items-start gap-2">
+              <i class="fas fa-lightbulb text-yellow-400 mt-0.5 flex-shrink-0 text-sm"></i>
+              <div>
+                <p class="font-display text-xs text-yellow-300 mb-1 tracking-wide">PRO TIP</p>
+                <p class="text-xs text-gray-400">Consider placing a credit freeze to prevent identity thieves opening new accounts in your name — it's free and reversible.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap">
+            <span class="security-badge">Transaction Alerts</span>
+            <span class="security-badge">Credit Freeze</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,20,147,.06) 0%,transparent 70%);pointer-events:none;"></div>
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <div class="glass-strong rounded-3xl p-12 sm:p-16 pulse-glow gsap-hidden">
+        <div class="section-tag mb-5">GO BEYOND SELF-SERVICE</div>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6">
+          Need a <span class="neon-pink">Professional</span> Assessment?
+        </h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+          Free tools give you awareness. A professional penetration test gives you certainty. Let our experts find what attackers find — before they do.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="contact.html" class="btn-primary">
+            <i class="fas fa-shield-alt"></i> Request Assessment
+          </a>
+          <a href="services.html" class="btn-ghost">
+            <i class="fas fa-arrow-right"></i> View All Services
+          </a>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3 justify-center">
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+            <i class="fas fa-clock text-pink-400/50"></i> 24h Response
+          </div>
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+            <i class="fas fa-file-signature text-pink-400/50"></i> NDA First
+          </div>
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+            <i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-18">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+
+        <div class="lg:col-span-1">
+          <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5">
+          <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
+          <div class="flex gap-4">
+            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">SERVICES</h3>
+          <ul class="space-y-3">
+            <li><a href="services.html#s1" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
+            <li><a href="services.html#s2" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
+            <li><a href="services.html#s3" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
+            <li><a href="services.html#s4" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
+            <li><a href="services.html#s5" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
+            <li><a href="services.html#s6" class="text-gray-500 hover:text-pink-400 transition text-sm">Remediation &amp; Retest</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">COMPANY</h3>
+          <ul class="space-y-3">
+            <li><a href="index.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Home</a></li>
+            <li><a href="about.html" class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
+            <li><a href="greyhat-protocol.html" class="text-gray-500 hover:text-pink-400 transition text-sm">The Greyhat Protocol</a></li>
+            <li><a href="cyber-awareness.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+            <li><a href="pricing.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
+            <li><a href="contact.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
+          <ul class="space-y-3">
+            <li><a href="/cdn-cgi/l/email-protection#c2abaca4ad82a5b0a7bbaaa3b6f6aaabb0a7eca1adaf" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i> <span class="__cf_email__" data-cfemail="472e292128072035223e2f2633732f2e35226924282a">[email&#160;protected]</span></a></li>
+            <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581</a></li>
+            <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-t border-gray-800 pt-8">
+        <div class="glass p-5 rounded-2xl mb-8">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+            <p class="text-sm text-gray-400">
+              <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+          <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+          <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+
+    // ── CURSOR ────────────────────────────────────
+    const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+    document.addEventListener('mousemove',e=>{
+      cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
+      setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
+    });
+    document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
+    document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+
+    // ── NAV ──────────────────────────────────────
+    window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+    const hamburger=document.getElementById('hamburger');
+    const mobileMenu=document.getElementById('mobile-menu');
+    const closeMenu=document.getElementById('close-menu');
+
+    function openMenu(){
+      mobileMenu.classList.remove('hidden');
+      setTimeout(()=>mobileMenu.classList.add('open'),10);
+    }
+    function closeMenuFn(){
+      mobileMenu.classList.remove('open');
+      setTimeout(()=>mobileMenu.classList.add('hidden'),400);
+    }
+
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+
+    // ── TYPEWRITER ───────────────────────────────
+    const phrases=['CHECK IF YOU\'VE BEEN PWNED','TEST YOUR PASSWORD STRENGTH','KNOW YOUR THREAT LANDSCAPE','THINK LIKE AN ATTACKER'];
+    let pIdx=0,cIdx=0,del=false;
+    const typedEl=document.getElementById('typed-text');
+    function typeWriter(){
+      const p=phrases[pIdx];
+      if(!del){
+        typedEl.textContent=p.substring(0,cIdx+1); cIdx++;
+        if(cIdx===p.length){ setTimeout(()=>{del=true;typeWriter()},2400);return; }
+        setTimeout(typeWriter,cIdx<5?120:50);
+      } else {
+        typedEl.textContent=p.substring(0,cIdx-1); cIdx--;
+        if(cIdx===0){ del=false; pIdx=(pIdx+1)%phrases.length; setTimeout(typeWriter,400);return; }
+        setTimeout(typeWriter,28);
+      }
+    }
+    setTimeout(typeWriter,1200);
+
+    // ── STAT COUNTERS ────────────────────────────
+    function animateCounter(el,target,suffix=''){
+      let current=0;
+      const steps=60,duration=2000;
+      const inc=target/steps;
+      const iv=setInterval(()=>{
+        current=Math.min(current+inc,target);
+        el.textContent=Math.round(current)+(suffix||'');
+        if(current>=target) clearInterval(iv);
+      },duration/steps);
+    }
+    const statsObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.querySelectorAll('[data-target]').forEach(el=>{
+            const t=parseInt(el.dataset.target);
+            const s=el.dataset.suffix||'%';
+            animateCounter(el,t,s);
+          });
+          statsObs.unobserve(e.target);
+        }
+      });
+    },{threshold:.4});
+    document.querySelectorAll('.stat-item').forEach(el=>statsObs.observe(el.parentElement));
+
+    // ── GSAP ─────────────────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero entrance
+    const tl=gsap.timeline();
+    tl.fromTo('#hero-eyebrow',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},0.3)
+      .fromTo('#hero-heading',{y:50,opacity:0},{y:0,opacity:1,duration:.9,ease:'back.out(1.2)'},0.5)
+      .fromTo('#hero-sub',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.0)
+      .fromTo('#hero-mono',{opacity:0},{opacity:1,duration:.5},1.4)
+      .fromTo('#hero-btns',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.5)
+      .fromTo('#hero-stats',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.8)
+      .fromTo('#hero-scroll',{opacity:0},{opacity:.3,duration:.8},2.2);
+
+    // Tip cards staggered
+    gsap.utils.toArray('.tip-card').forEach((card,i)=>{
+      gsap.fromTo(card,{y:60,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out',
+        scrollTrigger:{trigger:card,start:'top 90%',once:true},delay:(i%3)*0.1});
+    });
+
+    // Threat cards
+    gsap.utils.toArray('.threat-card').forEach((card,i)=>{
+      gsap.fromTo(card,{y:50,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out',
+        scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:i*0.12});
+    });
+
+    // Generic gsap-hidden
+    gsap.utils.toArray('.gsap-hidden').forEach(el=>{
+      if(!el.classList.contains('tip-card')&&!el.classList.contains('threat-card')){
+        gsap.fromTo(el,{y:40,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
+          scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+      }
+    });
+
+    // ── BREACH CHECKER ───────────────────────────
+    async function checkEmail(){
+      const email=document.getElementById('email-input').value.trim();
+      const results=document.getElementById('results');
+      const loading=document.getElementById('loading');
+      const btn=document.getElementById('check-btn');
+
+      if(!email||!email.includes('@')||!email.includes('.')){
+        results.innerHTML=`
+          <div class="result-danger mt-4">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-exclamation-circle text-red-400 text-2xl"></i>
+              <p class="font-display text-sm text-white tracking-wide">PLEASE ENTER A VALID EMAIL ADDRESS.</p>
+            </div>
+          </div>`;
+        return;
+      }
+
+      btn.disabled=true; results.innerHTML=''; loading.classList.remove('hidden');
+
+      try {
+        const response=await fetch(`https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(email)}?truncateResponse=false`,{
+          headers:{'User-Agent':'Greyhat4Hire-Breach-Checker'}
+        });
+        loading.classList.add('hidden');
+
+        if(response.status===404){
+          results.innerHTML=`
+            <div class="result-safe mt-4">
+              <div class="flex items-start gap-4">
+                <i class="fas fa-check-circle text-green-400 text-4xl flex-shrink-0 mt-1"></i>
+                <div>
+                  <h3 class="font-display text-lg text-white mb-2 tracking-wide">ALL CLEAR</h3>
+                  <p class="text-gray-300 text-sm"><strong>${email}</strong> has not appeared in any known data breaches.</p>
+                  <p class="text-xs text-gray-500 mt-3 font-mono">Keep following security best practices to stay protected. Breach databases update regularly — check again periodically.</p>
+                </div>
+              </div>
+            </div>`;
+        } else if(response.ok){
+          const breaches=await response.json();
+          let list=breaches.slice(0,5).map(b=>`
+            <div class="breach-item">
+              <div class="flex items-start gap-3">
+                <i class="fas fa-exclamation-triangle text-red-400 text-lg flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="font-display text-sm text-white tracking-wide">${b.Name}</h4>
+                  <p class="text-xs text-gray-400 mt-1 leading-relaxed">${b.Description}</p>
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    <span class="text-xs px-2 py-1 rounded-md" style="background:rgba(239,68,68,.15);color:#f87171;">${new Date(b.BreachDate).toLocaleDateString()}</span>
+                    <span class="text-xs px-2 py-1 rounded-md" style="background:rgba(239,68,68,.15);color:#f87171;">${b.PwnCount.toLocaleString()} accounts</span>
+                  </div>
+                </div>
+              </div>
+            </div>`).join('');
+
+          results.innerHTML=`
+            <div class="result-danger mt-4">
+              <div class="flex items-start gap-4 mb-5">
+                <i class="fas fa-exclamation-circle text-red-400 text-4xl flex-shrink-0 mt-1"></i>
+                <div>
+                  <h3 class="font-display text-lg text-white mb-2 tracking-wide">BREACHES FOUND</h3>
+                  <p class="text-gray-300 text-sm"><strong>${email}</strong> was found in <strong>${breaches.length}</strong> data breach${breaches.length>1?'es':''}.
+                  ${breaches.length>5?' Showing the 5 most notable:':''}</p>
+                </div>
+              </div>
+              ${list}
+              ${breaches.length>5?`<p class="text-gray-500 text-xs mt-2 font-mono">+ ${breaches.length-5} more breaches not shown.</p>`:''}
+              <div class="mt-5 p-4 rounded-xl" style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);">
+                <p class="font-display text-xs text-yellow-300 tracking-wide mb-3">⚡ IMMEDIATE ACTIONS REQUIRED:</p>
+                <ol class="text-xs text-gray-300 space-y-1 font-mono leading-relaxed">
+                  <li>1. Change your password on this account immediately</li>
+                  <li>2. Enable two-factor authentication</li>
+                  <li>3. Check if you reused this password anywhere else</li>
+                  <li>4. Monitor accounts for suspicious activity</li>
+                </ol>
+              </div>
+            </div>`;
+        } else if(response.status===429){
+          results.innerHTML=`<div class="result-danger mt-4"><p class="text-center text-gray-300 font-mono text-sm">Too many requests. Please wait a moment and try again.</p></div>`;
+        } else { throw new Error('Unexpected response'); }
+
+      } catch(err){
+        loading.classList.add('hidden');
+        results.innerHTML=`
+          <div class="result-danger mt-4">
+            <p class="text-center text-gray-300 text-sm">
+              <i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i>
+              Unable to check at this time. Please try again later.
+            </p>
+          </div>`;
+      } finally { btn.disabled=false; }
+    }
+
+    // ── PASSWORD CHECKER ─────────────────────────
+    function checkPasswordStrength(){
+      const pw=document.getElementById('password-input').value;
+      const fill=document.getElementById('strength-fill');
+      const feedback=document.getElementById('password-feedback');
+
+      const setCrit=(id,pass)=>{
+        const icon=document.getElementById('c-'+id);
+        if(pass){ icon.className='fas fa-circle-check text-xs text-green-400'; icon.parentElement.style.color='rgba(34,197,94,.8)'; }
+        else { icon.className='fas fa-circle-xmark text-xs text-gray-700'; icon.parentElement.style.color='rgba(107,114,128,.6)'; }
+      };
+
+      if(!pw){ fill.className='strength-fill'; fill.style.width='0'; feedback.innerHTML=''; ['length','upper','lower','number','special','long'].forEach(c=>setCrit(c,false)); return; }
+
+      const hasLen=pw.length>=12, hasUpper=/[A-Z]/.test(pw), hasLower=/[a-z]/.test(pw),
+            hasNum=/[0-9]/.test(pw), hasSpecial=/[^a-zA-Z0-9]/.test(pw), hasLong=pw.length>=16;
+
+      setCrit('length',hasLen); setCrit('upper',hasUpper); setCrit('lower',hasLower);
+      setCrit('number',hasNum); setCrit('special',hasSpecial); setCrit('long',hasLong);
+
+      let score=[hasLen,hasUpper,hasLower,hasNum,hasSpecial,hasLong].filter(Boolean).length;
+
+      fill.className='strength-fill';
+      if(score<=2){ fill.classList.add('strength-weak'); feedback.innerHTML='<span style="color:#ef4444;">Weak</span> — Add more character types and length.'; }
+      else if(score===3){ fill.classList.add('strength-fair'); feedback.innerHTML='<span style="color:#f97316;">Fair</span> — Getting there. Keep improving.'; }
+      else if(score<=4){ fill.classList.add('strength-medium'); feedback.innerHTML='<span style="color:#eab308;">Medium</span> — Good, but aim for 16+ characters.'; }
+      else { fill.classList.add('strength-strong'); feedback.innerHTML='<span style="color:#22c55e;">Strong!</span> Excellent password. Store it in a password manager.'; }
+    }
+
+    function togglePasswordVisibility(){
+      const input=document.getElementById('password-input');
+      const icon=document.getElementById('eye-icon');
+      if(input.type==='password'){ input.type='text'; icon.className='fas fa-eye-slash'; }
+      else { input.type='password'; icon.className='fas fa-eye'; }
+    }
+
+    // ── THREE.JS PARTICLES ──────────────────────
+    (function(){
+      const canvas=document.getElementById('three-canvas');
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
+      camera.position.z=80;
+      const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+      renderer.setSize(innerWidth,innerHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+
+      const count=500,geo=new THREE.BufferGeometry();
+      const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+      for(let i=0;i<count;i++){
+        const i3=i*3;
+        pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
+        col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
+      }
+      geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+      const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+      const pts=new THREE.Points(geo,mat);
+      scene.add(pts);
+
+      let f=0;
+      function animate(){
+        requestAnimationFrame(animate);
+        if(++f%2)return;
+        const p=pts.geometry.attributes.position.array;
+        for(let i=1;i<p.length;i+=3){
+          p[i]+=.022+Math.random()*.028;
+          p[i-1]+=Math.sin(Date.now()*.00008+i)*.003;
+          if(p[i]>130) p[i]=-120;
+        }
+        pts.geometry.attributes.position.needsUpdate=true;
+        pts.rotation.y+=.00015;
+        renderer.render(scene,camera);
+      }
+      animate();
+
+      window.addEventListener('resize',()=>{
+        camera.aspect=innerWidth/innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth,innerHeight);
+      });
+    })();
+  </script>
+</body>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+</html>

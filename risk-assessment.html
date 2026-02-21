@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Cybersecurity Risk Assessment — Greyhat4Hire</title>
+  <meta name="description" content="Discover your organisation's breach exposure in under 2 minutes. Get an executive-grade cybersecurity risk score across 12 critical domains — free, instant, no sign-up."/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --pink: #ff1493;
+      --pink-dim: rgba(255,20,147,0.55);
+      --pink-faint: rgba(255,20,147,0.1);
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', system-ui, sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── CURSOR ── */
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
+
+    .font-display { font-family: 'Orbitron', monospace; }
+    .font-mono    { font-family: 'Share Tech Mono', monospace; }
+
+    /* ── GLASS ── */
+    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
+    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+
+    /* ── NEON ── */
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+
+    /* ── NAV ── */
+    nav { transition:all .4s ease; }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover::after { width:100%; }
+    .desktop-link.active { color:#ff1493; }
+    .desktop-link.active::after { width:100%; }
+<<<<<<< HEAD
+    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+=======
+    #mobile-menu { transform:translateY(-100%);transition:transform .4s ease; }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+    #mobile-menu.open { transform:translateY(0); }
+    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel {
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon {
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header {
+      padding:10px 16px 8px;margin-bottom:4px;
+      border-bottom:1px solid rgba(255,20,147,.12);
+    }
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+    .btn-primary:disabled { opacity:.4;cursor:not-allowed;transform:none;box-shadow:none; }
+    .btn-ghost {
+      display:inline-flex;align-items:center;gap:8px;
+      border:2px solid var(--pink);color:var(--pink);
+      font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
+      padding:16px 32px;border-radius:14px;cursor:none;
+      background:transparent;transition:all .3s ease;text-decoration:none;
+    }
+    .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
+
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+    .pulse-glow { animation:pulseGlow 2.8s infinite; }
+
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+
+    /* ── HERO GRID ── */
+    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
+    .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
+    .marquee { animation:marqueeScroll 55s linear infinite; }
+    @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
+    .marquee-sep { color:rgba(255,20,147,.25); }
+
+    /* ── WHATSAPP BTN ── */
+    .whatsapp-btn { position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none; }
+    .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
+
+    /* ── STEPS ── */
+    .step { display:none; }
+    .step.active { display:block; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-track { background:rgba(255,20,147,.12);border-radius:99px;height:6px;overflow:hidden; }
+    .progress-fill { height:100%;background:linear-gradient(90deg,#ff1493,#ff69b4);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(255,20,147,.7); }
+
+    /* ── QUESTION CARD ── */
+    .q-card {
+      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,20,147,.15);
+      border-radius:20px;padding:28px 32px;margin-bottom:16px;
+      transition:all .35s ease;position:relative;overflow:hidden;
+    }
+    .q-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--pink),transparent);opacity:0;transition:opacity .4s ease; }
+    .q-card:hover { border-color:rgba(255,20,147,.35); }
+    .q-card:hover::before { opacity:1; }
+    .q-card.answered-yes { border-color:rgba(34,197,94,.4);background:rgba(8,8,8,.8); }
+    .q-card.answered-no  { border-color:rgba(239,68,68,.4);background:rgba(8,8,8,.8); }
+
+    /* ── ANSWER BUTTONS ── */
+    .answer-btn {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 20px;border-radius:14px;
+      border:2px solid rgba(255,20,147,.22);
+      background:rgba(0,0,0,.5);
+      color:#ccc;font-family:'Rajdhani',sans-serif;
+      font-size:1rem;font-weight:600;cursor:none;
+      transition:all .25s ease;width:100%;
+    }
+    .answer-btn:hover { border-color:rgba(255,20,147,.55);color:#fff;background:rgba(255,20,147,.07); }
+    .answer-btn.selected-yes { border-color:#22c55e;background:rgba(34,197,94,.12);color:#22c55e;box-shadow:0 0 16px rgba(34,197,94,.2); }
+    .answer-btn.selected-no  { border-color:#ef4444;background:rgba(239,68,68,.12);color:#ef4444;box-shadow:0 0 16px rgba(239,68,68,.2); }
+
+    /* ── LIVE SCORE HUD ── */
+    .score-hud {
+      position:fixed;top:88px;right:20px;z-index:100;
+      background:rgba(4,4,4,.95);backdrop-filter:blur(20px);
+      border:1px solid rgba(255,20,147,.35);
+      border-radius:16px;padding:14px 18px;
+      min-width:130px;text-align:center;
+      box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 20px rgba(255,20,147,.1);
+      transition:all .4s ease;
+    }
+    .score-hud.hidden { opacity:0;pointer-events:none;transform:translateX(20px); }
+
+    /* ── RISK BADGES ── */
+    .badge-high     { background:rgba(239,68,68,.15);border:2px solid rgba(239,68,68,.6);color:#ef4444;text-shadow:0 0 20px rgba(239,68,68,.7); }
+    .badge-moderate { background:rgba(245,158,11,.15);border:2px solid rgba(245,158,11,.6);color:#f59e0b;text-shadow:0 0 20px rgba(245,158,11,.7); }
+    .badge-low      { background:rgba(34,197,94,.15);border:2px solid rgba(34,197,94,.6);color:#22c55e;text-shadow:0 0 20px rgba(34,197,94,.7); }
+
+    /* ── GAUGE ── */
+    .gauge-ring { transform-origin:center;transform:rotate(-90deg); }
+    #gauge-arc { transition:stroke-dashoffset 2s cubic-bezier(.4,0,.2,1); }
+
+    /* ── METRIC CARD ── */
+    .metric-card {
+      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,20,147,.15);border-radius:18px;
+      padding:22px 18px;text-align:center;
+      transition:all .3s ease;
+    }
+    .metric-card:hover { border-color:rgba(255,20,147,.4);transform:translateY(-4px);box-shadow:0 12px 40px rgba(255,20,147,.12); }
+
+    /* ── RECOMMENDATION ITEM ── */
+    .rec-item {
+      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,20,147,.1);
+      border-left:4px solid var(--pink);
+      border-radius:14px;padding:18px 22px;margin-bottom:12px;
+      transition:all .3s ease;
+    }
+    .rec-item:hover { background:rgba(255,20,147,.04);transform:translateX(5px); }
+    .rec-item.critical { border-left-color:#ef4444; }
+    .rec-item.warn     { border-left-color:#f59e0b; }
+    .rec-item.good     { border-left-color:#22c55e; }
+
+    /* ── THREAT TAGS ── */
+    .threat-tag { display:inline-block;padding:3px 10px;border-radius:99px;font-size:.72rem;font-weight:700;letter-spacing:.06em;font-family:'Orbitron',monospace; }
+    .threat-critical { background:rgba(239,68,68,.18);color:#ef4444;border:1px solid rgba(239,68,68,.4); }
+    .threat-warn     { background:rgba(245,158,11,.18);color:#f59e0b;border:1px solid rgba(245,158,11,.4); }
+    .threat-safe     { background:rgba(34,197,94,.18);color:#22c55e;border:1px solid rgba(34,197,94,.4); }
+
+    /* ── CAT BARS ── */
+    .cat-bar  { height:8px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:6px; }
+    .cat-fill { height:100%;border-radius:4px;transition:width 1.5s cubic-bezier(.4,0,.2,1) .8s; }
+
+    /* ── CTA PANEL ── */
+    .cta-panel { background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(255,20,147,.03));border:2px solid rgba(255,20,147,.3);border-radius:24px;position:relative;overflow:hidden; }
+    .cta-panel::before { content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.07),transparent 60%);animation:panelPulse 4s infinite; }
+    @keyframes panelPulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.04)} }
+
+    /* ── EMAIL INPUT ── */
+    .form-input {
+      background:rgba(0,0,0,.6);border:2px solid rgba(255,20,147,.22);
+      border-radius:14px;padding:16px 20px;color:#fff;
+      font-family:'Rajdhani',sans-serif;font-size:1.05rem;width:100%;
+      transition:all .3s ease;
+    }
+    .form-input:focus { outline:none;border-color:var(--pink);box-shadow:0 0 32px rgba(255,20,147,.3); }
+    .form-input::placeholder { color:rgba(255,255,255,.25); }
+
+    /* ── TRUST BADGE ── */
+    .trust-badge { display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6); }
+
+    /* ── SPINNER ── */
+    .spinner-pink { border:3px solid rgba(255,20,147,.2);border-top:3px solid #ff1493;border-radius:50%;width:48px;height:48px;animation:spin .9s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeSlideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up   { animation:fadeSlideUp .5s ease forwards; }
+    .fade-up-1 { animation:fadeSlideUp .5s .1s ease both; }
+    .fade-up-2 { animation:fadeSlideUp .5s .2s ease both; }
+    .fade-up-3 { animation:fadeSlideUp .5s .35s ease both; }
+    .fade-up-4 { animation:fadeSlideUp .5s .5s ease both; }
+    .fade-up-5 { animation:fadeSlideUp .5s .65s ease both; }
+
+    @keyframes glitch {
+      0%,90%,100% { transform:translate(0); }
+      92% { transform:translate(-3px,1px); }
+      94% { transform:translate(3px,-1px); }
+      96% { transform:translate(-2px,2px); }
+      98% { transform:translate(2px,-2px); }
+    }
+    .glitch:hover { animation:glitch .4s steps(1) infinite; }
+
+    /* ── RADAR CHART ── */
+    .radar-spoke { stroke:rgba(255,20,147,.12);stroke-width:1; }
+    .radar-ring  { stroke:rgba(255,20,147,.08);fill:none;stroke-width:1; }
+    .radar-fill  { fill:rgba(255,20,147,.25);stroke:var(--pink);stroke-width:1.5;transition:all 1s ease; }
+    .radar-dot   { fill:var(--pink);filter:drop-shadow(0 0 4px rgba(255,20,147,.8)); }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+  <div id="cur2"></div>
+  <canvas id="three-canvas"></canvas>
+
+  <!-- ══ LIVE SCORE HUD (visible during questions) ══ -->
+  <div id="score-hud" class="score-hud hidden">
+    <div class="font-mono text-xs text-gray-500 mb-1 tracking-widest">LIVE SCORE</div>
+    <div class="font-display text-2xl font-black neon-pink" id="hud-score">0</div>
+    <div class="text-gray-600 text-xs font-mono">/ 100</div>
+    <div class="mt-2 progress-track" style="height:3px;">
+      <div class="progress-fill" id="hud-bar" style="width:0%"></div>
+    </div>
+    <div class="font-mono text-xs mt-1.5" id="hud-level" style="color:rgba(255,20,147,.6)">CALCULATING</div>
+  </div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- ══ NAV ══ -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+      <a href="index.html">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-7 text-sm">
+        <a href="index.html"            class="desktop-link">Home</a>
+        <a href="about.html"            class="desktop-link">About</a>
+        <a href="services.html"         class="desktop-link">Services</a>
+
+        <!-- FREE TOOLS DROPDOWN -->
+        <div class="tools-dropdown-wrap">
+          <button class="tools-dropdown-btn" type="button">
+            <span class="tools-live-dot"></span>
+            Free Tools
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+
+          <div class="tools-dropdown-panel">
+            <div class="tools-panel-header">
+              <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+            </div>
+
+            <!-- Tool 1: Risk Assessment -->
+            <a href="risk-assessment.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+                <i class="fas fa-shield-halved"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+                <div class="tool-nav-name">Risk Self-Assessment</div>
+                <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+              </div>
+            </a>
+
+            <!-- Tool 2: Hacker's Dossier -->
+            <a href="hackers-dossier.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+                <i class="fas fa-file-circle-exclamation"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+                <div class="tool-nav-name">The Hacker's Dossier</div>
+                <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+              </div>
+            </a>
+
+            <!-- Tool 3: Breach Cost Clock -->
+            <a href="breach-cost-clock.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+                <div class="tool-nav-name">Breach Cost Clock</div>
+                <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- END FREE TOOLS DROPDOWN -->
+
+        <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+        <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+        <a href="pricing.html"          class="desktop-link">Pricing</a>
+        <a href="contact.html"          class="desktop-link">Contact</a>
+      </div>
+
+      <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+        <i class="fas fa-shield-alt"></i> Get a Quote
+      </a>
+
+      <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+<<<<<<< HEAD
+  </nav>
+
+  <!-- Mobile Menu (outside nav to avoid backdrop-filter containing block issue) -->
+  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+    <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+    <div class="flex flex-col items-center w-full max-w-xs">
+      <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+      <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+      <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+      <!-- Mobile Free Tools -->
+      <a href="risk-assessment.html"  class="mobile-tool-link">
+        <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+        <span style="font-size:1rem;">Risk Self-Assessment</span>
+      </a>
+      <a href="hackers-dossier.html"  class="mobile-tool-link">
+        <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+        <span style="font-size:1rem;">Hacker's Dossier</span>
+      </a>
+      <a href="breach-cost-clock.html" class="mobile-tool-link">
+        <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+        <span style="font-size:1rem;">Breach Cost Clock</span>
+      </a>
+      <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+      <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+      <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+  </div>
+=======
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+      <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+      <div class="flex flex-col items-center w-full max-w-xs">
+        <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+        <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+        <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+        <!-- Mobile Free Tools -->
+        <a href="risk-assessment.html"  class="mobile-tool-link">
+          <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+          <span style="font-size:1rem;">Risk Self-Assessment</span>
+        </a>
+        <a href="hackers-dossier.html"  class="mobile-tool-link">
+          <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+          <span style="font-size:1rem;">Hacker's Dossier</span>
+        </a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link">
+          <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+          <span style="font-size:1rem;">Breach Cost Clock</span>
+        </a>
+        <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+        <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+        <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+        <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+      </div>
+      <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+        <i class="fas fa-shield-alt"></i> Get a Quote
+      </a>
+    </div>
+  </nav>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+
+  <!-- ══ MAIN ══ -->
+  <main class="min-h-screen pt-24 pb-20 px-4 sm:px-6 relative z-10">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- ─── STEP 0: LANDING ─── -->
+      <div id="step-0" class="step active">
+
+        <!-- Hero -->
+        <section class="text-center mb-10 pt-10 relative">
+          <div class="hero-grid" style="border-radius:24px;"></div>
+          <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-80px;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
+
+          <div class="relative z-10">
+            <div class="section-tag mb-6 flex items-center justify-center gap-3 fade-up">
+              <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+              FREE EXECUTIVE ASSESSMENT
+              <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+            </div>
+
+            <h1 class="font-display font-black neon-pink mb-5 leading-tight glitch fade-up-1"
+                style="font-size:clamp(2.8rem,8vw,5.5rem);text-shadow:0 0 40px rgba(255,20,147,.7);">
+              CYBER RISK<br>SCORE
+            </h1>
+
+            <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-3 fade-up-2" style="font-weight:300;">
+              Discover your organisation's breach exposure in <strong class="text-white">under 2 minutes</strong>. Get an executive-grade risk snapshot across 12 critical security domains — completely free.
+            </p>
+            <div class="font-mono text-pink-400/50 text-sm mb-8 tracking-widest fade-up-2">
+              IDENTITY · BACKUP · ENDPOINTS · DETECTION
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3 mb-10 fade-up-3">
+              <div class="glass px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300"><i class="fas fa-clock text-pink-400 mr-2"></i>~90 seconds</div>
+              <div class="glass px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300"><i class="fas fa-list-check text-pink-400 mr-2"></i>12 risk domains</div>
+              <div class="glass px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300"><i class="fas fa-shield-alt text-pink-400 mr-2"></i>No data stored</div>
+              <div class="glass px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300"><i class="fas fa-file-alt text-pink-400 mr-2"></i>Instant report</div>
+            </div>
+
+            <button onclick="startAssessment()" class="btn-primary pulse-glow fade-up-4" style="font-size:.9rem;padding:20px 48px;">
+              <i class="fas fa-shield-halved"></i> START ASSESSMENT <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+            <p class="mt-4 text-xs text-gray-600 fade-up-4">No sign-up required — results delivered instantly on screen</p>
+          </div>
+        </section>
+
+        <!-- Marquee -->
+        <div class="py-5 border-y border-pink-500/10 overflow-hidden mb-10">
+          <div class="marquee-wrap">
+            <div class="marquee flex whitespace-nowrap">
+              <span class="marquee-item"><i class="fas fa-mobile-screen"></i> MFA CONTROLS</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-hard-drive"></i> BACKUP STRATEGY</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-virus-slash"></i> ENDPOINT DETECTION</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-magnifying-glass"></i> THREAT MONITORING</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-wifi"></i> NETWORK SEGMENTATION</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-graduation-cap"></i> SECURITY TRAINING</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-user-shield"></i> ADMIN CONTROLS</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-key"></i> PASSWORD POLICY</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-mobile-screen"></i> MFA CONTROLS</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-hard-drive"></i> BACKUP STRATEGY</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-virus-slash"></i> ENDPOINT DETECTION</span>
+              <span class="marquee-sep">◆</span>
+              <span class="marquee-item"><i class="fas fa-magnifying-glass"></i> THREAT MONITORING</span>
+              <span class="marquee-sep">◆</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- What we assess grid -->
+        <div class="glass rounded-2xl p-6 sm:p-8">
+          <h2 class="font-display text-base font-bold text-white mb-6 text-center tracking-wider">WHAT WE ASSESS</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-mobile-screen text-pink-400 text-xs"></i></div>Multi-Factor Auth</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-user-shield text-pink-400 text-xs"></i></div>Admin Controls</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-key text-pink-400 text-xs"></i></div>Password Policy</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-hard-drive text-pink-400 text-xs"></i></div>Backup Strategy</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-plug-circle-xmark text-pink-400 text-xs"></i></div>Offline Backups</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-vial-circle-check text-pink-400 text-xs"></i></div>Recovery Testing</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-arrows-rotate text-pink-400 text-xs"></i></div>Patch Management</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-virus-slash text-pink-400 text-xs"></i></div>Endpoint Detection</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-wifi text-pink-400 text-xs"></i></div>Network Segments</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-graduation-cap text-pink-400 text-xs"></i></div>Security Training</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-bell text-pink-400 text-xs"></i></div>Incident Reporting</div>
+            <div class="flex items-center gap-2.5 text-gray-400"><div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2)"><i class="fas fa-magnifying-glass text-pink-400 text-xs"></i></div>Threat Detection</div>
+          </div>
+        </div>
+
+      </div><!-- /step-0 -->
+
+      <!-- ─── STEP 1: QUESTIONS ─── -->
+      <div id="step-questions" class="step">
+        <div class="mb-8 pt-4">
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <div class="font-display text-xs text-pink-400 tracking-widest uppercase mb-0.5" id="section-label">Identity &amp; Access</div>
+              <div class="font-mono text-gray-500 text-xs" id="q-counter">Section 1 of 4</div>
+            </div>
+            <div class="font-display text-2xl font-black neon-pink" id="progress-pct">0%</div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+          <div class="flex gap-2 mt-3 justify-center" id="section-dots"></div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div class="flex gap-4 mt-6">
+          <button id="btn-prev" onclick="prevSection()" class="btn-ghost flex-shrink-0" style="display:none;padding:14px 24px;font-size:.75rem;">
+            <i class="fas fa-chevron-left text-xs"></i> BACK
+          </button>
+          <button id="btn-next" onclick="nextSection()" class="btn-primary flex-1 justify-center" style="font-size:.82rem;" disabled>
+            NEXT <i class="fas fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 2: EMAIL ─── -->
+      <div id="step-email" class="step">
+        <div class="glass-strong rounded-3xl p-8 sm:p-12 text-center mt-16">
+          <div class="w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center pulse-glow"
+               style="background:linear-gradient(135deg,rgba(255,20,147,.2),rgba(255,20,147,.05));border:2px solid rgba(255,20,147,.4);">
+            <i class="fas fa-envelope-open text-4xl" style="color:var(--pink)"></i>
+          </div>
+          <div class="section-tag mb-4 flex items-center justify-center gap-3">
+            <span class="inline-block w-6 h-px bg-pink-500 opacity-60"></span>
+            ALMOST THERE
+            <span class="inline-block w-6 h-px bg-pink-500 opacity-60"></span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-black text-white mb-3">Your Risk Score Is Ready</h2>
+          <p class="text-gray-300 mb-2 leading-relaxed" style="font-weight:300;">Enter your email to receive a full executive-grade PDF report with your results.</p>
+          <p class="text-gray-500 text-sm mb-8">No spam, ever. Unsubscribe instantly. Your results appear on-screen either way.</p>
+
+          <div class="max-w-sm mx-auto">
+            <input type="email" id="user-email" class="form-input mb-4" placeholder="your@email.com"/>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button onclick="submitWithEmail()" class="btn-primary flex-1 justify-center">
+                <i class="fas fa-paper-plane"></i> SEND REPORT
+              </button>
+              <button onclick="submitNoEmail()" class="btn-ghost flex-1 justify-center" style="padding:16px 20px;">
+                SKIP →
+              </button>
+            </div>
+          </div>
+          <p class="mt-5 text-xs text-gray-600 flex items-center justify-center gap-1.5">
+            <i class="fas fa-lock text-pink-400"></i>
+            Encrypted &amp; never shared with third parties
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── STEP 3: CALCULATING ─── -->
+      <div id="step-loading" class="step">
+        <div class="text-center py-24">
+          <div class="spinner-pink mx-auto mb-8"></div>
+          <div class="section-tag mb-4 flex items-center justify-center gap-3">
+            <span class="inline-block w-6 h-px bg-pink-500 opacity-60"></span>
+            ANALYSING POSTURE
+            <span class="inline-block w-6 h-px bg-pink-500 opacity-60"></span>
+          </div>
+          <div class="font-display text-xl font-bold text-white mb-2" id="loading-label">Analysing security posture…</div>
+          <p class="text-gray-500 text-sm font-mono">Cross-referencing 12 risk vectors</p>
+          <div class="mt-8 max-w-xs mx-auto glass rounded-xl p-5">
+            <div class="progress-track mb-2"><div class="progress-fill" id="calc-bar" style="width:0%"></div></div>
+            <div class="font-display text-pink-400 text-sm text-center" id="calc-pct">0%</div>
+          </div>
+          <!-- Loading steps list -->
+          <div class="mt-8 max-w-sm mx-auto space-y-2" id="loading-steps">
+            <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-1"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Identity &amp; access controls</div>
+            <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-2"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Backup &amp; recovery posture</div>
+            <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-3"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Endpoint defences</div>
+            <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-4"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Detection &amp; culture</div>
+            <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-5"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Financial exposure estimate</div>
+            <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-6"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Generating recommendations</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── STEP 4: RESULTS ─── -->
+      <div id="step-results" class="step">
+
+        <!-- Header -->
+        <div class="text-center mb-10 pt-6">
+          <div class="inline-flex items-center gap-2 px-5 py-2 glass rounded-full border border-pink-500/30 mb-6 fade-up">
+            <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+            <span class="text-pink-400 text-sm font-semibold tracking-widest uppercase font-display">Assessment Complete</span>
+          </div>
+          <h2 class="font-display text-4xl sm:text-5xl font-black text-white mb-2 fade-up-1">Your Risk Profile</h2>
+          <p class="text-gray-500 text-sm font-mono fade-up-1">Generated <span id="result-timestamp">—</span></p>
+        </div>
+
+        <!-- GAUGE + SCORE -->
+        <div class="glass-strong rounded-3xl p-8 mb-6 text-center fade-up-2 pulse-glow">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-8">
+            <div class="relative flex-shrink-0" style="width:190px;height:190px;">
+              <svg width="190" height="190" viewBox="0 0 190 190">
+                <circle cx="95" cy="95" r="80" fill="none" stroke="rgba(255,20,147,0.08)" stroke-width="14" stroke-dasharray="502" stroke-dashoffset="126" class="gauge-ring"/>
+                <circle id="gauge-arc" cx="95" cy="95" r="80" fill="none" stroke="url(#gaugeGrad)" stroke-width="14"
+                  stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round" class="gauge-ring"/>
+                <defs>
+                  <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ef4444"/>
+                    <stop offset="50%" stop-color="#f59e0b"/>
+                    <stop offset="100%" stop-color="#22c55e"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <div class="font-display text-5xl font-black neon-pink" id="result-score">--</div>
+                <div class="text-gray-400 text-xs tracking-widest font-mono">/ 100</div>
+              </div>
+            </div>
+
+            <div class="text-left flex-1">
+              <div class="mb-4">
+                <div class="font-mono text-gray-500 text-xs uppercase tracking-wider mb-1">Risk Level</div>
+                <div class="font-display text-3xl font-black px-5 py-2 rounded-xl inline-block" id="risk-level-badge">—</div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <div class="font-mono text-gray-500 text-xs uppercase tracking-wider">Primary Threat</div>
+                  <div class="text-white font-bold text-sm mt-1" id="primary-threat">—</div>
+                </div>
+                <div>
+                  <div class="font-mono text-gray-500 text-xs uppercase tracking-wider">Recovery Time</div>
+                  <div class="text-white font-bold text-sm mt-1" id="downtime-band">—</div>
+                </div>
+                <div>
+                  <div class="font-mono text-gray-500 text-xs uppercase tracking-wider">Est. Breach Cost</div>
+                  <div class="font-bold text-sm mt-1 neon-pink" id="cost-estimate">—</div>
+                </div>
+                <div>
+                  <div class="font-mono text-gray-500 text-xs uppercase tracking-wider">Industry Avg</div>
+                  <div class="text-gray-300 font-bold text-sm mt-1" id="industry-avg">62 / 100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Critical flag -->
+          <div id="critical-flag" class="hidden mt-6 p-4 rounded-xl" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);">
+            <div class="flex items-start gap-3">
+              <i class="fas fa-triangle-exclamation text-red-400 text-xl flex-shrink-0 mt-0.5"></i>
+              <div>
+                <div class="text-red-400 font-bold font-display text-sm mb-1">⚠ CRITICAL CONTROL FAILURE DETECTED</div>
+                <p class="text-gray-300 text-sm">One or more critical security controls are missing (MFA, offline backups, or backup testing). These are the top 3 enablers of ransomware and total data loss. Immediate action required.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- METRIC CARDS -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 fade-up-2">
+          <div class="metric-card">
+            <div class="text-2xl mb-1" id="mc-score-icon">🔴</div>
+            <div class="font-display text-xl font-black" id="mc-score" style="color:var(--pink)">--</div>
+            <div class="font-mono text-gray-500 text-xs mt-1">Risk Score</div>
+          </div>
+          <div class="metric-card">
+            <div class="text-2xl mb-1">⏱</div>
+            <div class="font-display text-sm font-black text-white" id="mc-dwell">207 days</div>
+            <div class="font-mono text-gray-500 text-xs mt-1">Avg Dwell Time</div>
+          </div>
+          <div class="metric-card">
+            <div class="text-2xl mb-1">💸</div>
+            <div class="font-display text-sm font-black text-white" id="mc-cost">R4.2M</div>
+            <div class="font-mono text-gray-500 text-xs mt-1">Avg SA Breach Cost</div>
+          </div>
+          <div class="metric-card">
+            <div class="text-2xl mb-1">🏢</div>
+            <div class="font-display text-sm font-black text-white">62/100</div>
+            <div class="font-mono text-gray-500 text-xs mt-1">Industry Average</div>
+          </div>
+        </div>
+
+        <!-- RADAR + BREAKDOWN (side by side on desktop) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 fade-up-3">
+
+          <!-- Radar Chart -->
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-display text-sm font-bold text-white mb-4 flex items-center gap-2">
+              <i class="fas fa-chart-radar text-pink-400"></i> Security Posture Radar
+            </h3>
+            <svg id="radar-svg" viewBox="0 0 240 240" class="w-full max-w-[220px] mx-auto block">
+              <!-- rings -->
+              <polygon id="r-ring4" points="" class="radar-ring" style="stroke:rgba(255,20,147,.06)"/>
+              <polygon id="r-ring3" points="" class="radar-ring" style="stroke:rgba(255,20,147,.09)"/>
+              <polygon id="r-ring2" points="" class="radar-ring" style="stroke:rgba(255,20,147,.12)"/>
+              <polygon id="r-ring1" points="" class="radar-ring" style="stroke:rgba(255,20,147,.18)"/>
+              <!-- spokes -->
+              <line id="r-spoke0" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
+              <line id="r-spoke1" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
+              <line id="r-spoke2" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
+              <line id="r-spoke3" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
+              <!-- fill -->
+              <polygon id="r-fill" points="" class="radar-fill"/>
+              <!-- dots -->
+              <circle id="r-dot0" cx="120" cy="120" r="4" class="radar-dot"/>
+              <circle id="r-dot1" cx="120" cy="120" r="4" class="radar-dot"/>
+              <circle id="r-dot2" cx="120" cy="120" r="4" class="radar-dot"/>
+              <circle id="r-dot3" cx="120" cy="120" r="4" class="radar-dot"/>
+              <!-- labels -->
+              <text id="r-lbl0" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">IDENTITY</text>
+              <text id="r-lbl1" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">BACKUP</text>
+              <text id="r-lbl2" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">ENDPOINTS</text>
+              <text id="r-lbl3" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">DETECTION</text>
+            </svg>
+          </div>
+
+          <!-- Category Breakdown -->
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-display text-sm font-bold text-white mb-4 flex items-center gap-2">
+              <i class="fas fa-chart-bar text-pink-400"></i> Score by Domain
+            </h3>
+            <div id="category-breakdown" class="space-y-4"></div>
+          </div>
+        </div>
+
+        <!-- RECOMMENDATIONS -->
+        <div class="glass rounded-2xl p-6 mb-6 fade-up-4">
+          <h3 class="font-display text-sm font-bold text-white mb-2 flex items-center gap-2">
+            <i class="fas fa-list-check text-pink-400"></i> Prioritised Remediation Plan
+          </h3>
+          <p class="font-mono text-xs text-gray-500 mb-5">Sorted by risk impact — address these in order</p>
+          <div id="recommendations"></div>
+        </div>
+
+        <!-- FINANCIAL EXPOSURE BLOCK -->
+        <div id="financial-block" class="glass rounded-2xl p-6 mb-6 fade-up-4" style="border-color:rgba(239,68,68,.2);">
+          <h3 class="font-display text-sm font-bold text-white mb-4 flex items-center gap-2">
+            <i class="fas fa-coins text-red-400"></i> Estimated Financial Exposure
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            <div class="text-center p-4 rounded-xl" style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2)">
+              <div class="font-mono text-xs text-gray-500 mb-1">Incident Response</div>
+              <div class="font-display text-lg font-black" style="color:#ef4444" id="cost-ir">—</div>
+            </div>
+            <div class="text-center p-4 rounded-xl" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2)">
+              <div class="font-mono text-xs text-gray-500 mb-1">Downtime Cost</div>
+              <div class="font-display text-lg font-black" style="color:#f59e0b" id="cost-downtime">—</div>
+            </div>
+            <div class="text-center p-4 rounded-xl" style="background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.2)">
+              <div class="font-mono text-xs text-gray-500 mb-1">Reputational / Legal</div>
+              <div class="font-display text-lg font-black neon-pink" id="cost-rep">—</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(0,0,0,.4)">
+            <i class="fas fa-info-circle text-pink-400 text-sm flex-shrink-0"></i>
+            <p class="font-mono text-xs text-gray-500" id="cost-note">Based on IBM Cost of a Data Breach 2024 and SA-specific incident response benchmarks.</p>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-panel p-8 sm:p-12 text-center fade-up-5">
+          <div class="relative z-10">
+            <div class="section-tag mb-4">THE NEXT STEP</div>
+            <h3 class="font-display font-black text-white text-2xl sm:text-3xl mb-4">Want the Full Picture?<br><span class="neon-pink">We'll Find What This Can't.</span></h3>
+            <p class="text-gray-300 max-w-xl mx-auto leading-relaxed mb-8" style="font-weight:300;">
+              This self-assessment shows your policy posture. A Greyhat4Hire penetration test uncovers the vulnerabilities attackers will actually exploit — credentials, misconfigs, weak trust chains — before they do.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <a href="contact.html" class="btn-primary justify-center"><i class="fas fa-shield-halved"></i> REQUEST PENTEST</a>
+              <button onclick="resetAssessment()" class="btn-ghost justify-center"><i class="fas fa-rotate-right"></i> RETAKE</button>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-500 mb-6">
+              <a href="tel:+27846353581" class="hover:text-pink-400 transition"><i class="fas fa-phone text-pink-400 mr-1.5"></i>+27 84 635 3581</a>
+              <a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition"><i class="fab fa-whatsapp text-pink-400 mr-1.5"></i>WhatsApp</a>
+              <span><i class="fas fa-envelope text-pink-400 mr-1.5"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="670e090108270015021e0f0613530f0e1502490408491d06">[email&#160;protected]</a></span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-3">
+              <span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span>
+              <span class="trust-badge"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</span>
+              <span class="trust-badge"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /step-results -->
+
+    </div><!-- /max-w-3xl -->
+  </main>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+
+        <div class="lg:col-span-1">
+          <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+            onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+          <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
+          <div class="flex gap-4">
+            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">SERVICES</h3>
+          <ul class="space-y-3">
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
+            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">COMPANY</h3>
+          <ul class="space-y-3">
+            <li><a href="index.html#about" class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
+            <li><a href="index.html#industries" class="text-gray-500 hover:text-pink-400 transition text-sm">Industries</a></li>
+            <li><a href="cyber-awareness.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+            <li><a href="pricing.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
+            <li><a href="contact.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
+          <ul class="space-y-3">
+            <li><span class="text-gray-500 text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c2abaca4ad82a5b0a7bbaaa3b6f6aaabb0a7eca1adecb8a3">[email&#160;protected]</a></span></li>
+            <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i>+27 84 635 3581</a></li>
+            <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i>WhatsApp Chat</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-8">
+        <div class="glass p-5 rounded-2xl mb-8">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+            <p class="text-sm text-gray-400">
+              <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+          <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+          <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+
+    // ── CURSOR ────────────────────────────────────
+    const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+    document.addEventListener('mousemove',e=>{
+      cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
+      setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
+    });
+    document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
+    document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+
+    // ── NAV ──────────────────────────────────────
+    window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+    const hamburger=document.getElementById('hamburger');
+    const mobileMenu=document.getElementById('mobile-menu');
+    const closeMenu=document.getElementById('close-menu');
+
+    function openMenu(){
+      mobileMenu.classList.remove('hidden');
+      setTimeout(()=>mobileMenu.classList.add('open'),10);
+    }
+    function closeMenuFn(){
+      mobileMenu.classList.remove('open');
+      setTimeout(()=>mobileMenu.classList.add('hidden'),400);
+    }
+
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+
+    // ── LANDING ANIMATIONS ────────────────────────
+    gsap.fromTo('.fade-up',  {y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.2});
+    gsap.fromTo('.fade-up-1',{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.35});
+    gsap.fromTo('.fade-up-2',{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.5});
+    gsap.fromTo('.fade-up-3',{y:20,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.65});
+    gsap.fromTo('.fade-up-4',{y:20,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.8});
+
+    // ─────────────────────────────────────────────────────────────────
+    // DATA — 12 scored questions in 4 sections
+    // ─────────────────────────────────────────────────────────────────
+    const SECTIONS = [
+      {
+        id:'identity', label:'Identity & Access', icon:'fa-id-badge', color:'#ff1493',
+        questions:[
+          { key:'mfa', weight:15, text:'Is multi-factor authentication (MFA) enforced on all user accounts and critical systems?', sub:'Includes email, VPN, admin portals, cloud services, and business apps.', threat:'No MFA = #1 cause of account takeover. Attackers use credential stuffing 24/7.', yes:'MFA blocks 99.9% of automated credential attacks.', icon:'fa-mobile-screen' },
+          { key:'admin', weight:7, text:'Are privileged / admin accounts separate from standard user accounts?', sub:'Admin rights should never be used for day-to-day tasks like email and browsing.', threat:'Blended admin accounts allow lateral movement across your entire network.', yes:'Principle of least privilege limits blast radius of any breach.', icon:'fa-user-shield' },
+          { key:'password', weight:6, text:'Does your organisation enforce a password policy with minimum complexity requirements?', sub:'E.g. minimum length, rotation rules, or mandatory use of a password manager.', threat:'Weak passwords are cracked in seconds using GPU-accelerated brute force.', yes:'Strong password policy eliminates a primary initial access vector.', icon:'fa-key' }
+        ]
+      },
+      {
+        id:'backup', label:'Backup & Recovery', icon:'fa-hard-drive', color:'#a855f7',
+        questions:[
+          { key:'backups', weight:10, text:'Are automated, regular backups in place for all critical business data and systems?', sub:'Backups should run at least daily for critical systems.', threat:'Without backups, ransomware demands become impossible to refuse.', yes:'Automated backups are the foundation of ransomware resilience.', icon:'fa-hard-drive' },
+          { key:'offline', weight:12, text:'Are backup copies stored offline or air-gapped from your main network?', sub:'Cloud-only or network-attached backups can be encrypted by ransomware too.', threat:'Ransomware actively seeks and destroys connected backups before encrypting.', yes:'Offline backups survive even the most aggressive ransomware deployment.', icon:'fa-plug-circle-xmark' },
+          { key:'tested', weight:8, text:'Are your backups and disaster recovery (DR) plan regularly tested and verified?', sub:'An untested backup is not a backup. Testing should occur at least quarterly.', threat:'Corrupted or incomplete backups are discovered at the worst possible moment.', yes:'Tested DR plans cut recovery time from weeks to hours.', icon:'fa-vial-circle-check' }
+        ]
+      },
+      {
+        id:'endpoint', label:'Endpoints & Network', icon:'fa-laptop-code', color:'#06b6d4',
+        questions:[
+          { key:'patched', weight:8, text:'Are operating systems and critical software patched within 30 days of release?', sub:'This includes Windows, MacOS, browsers, Office, and third-party software.', threat:'60% of breaches exploit known vulnerabilities with patches already available.', yes:'Timely patching eliminates the most commonly exploited attack surface.', icon:'fa-arrows-rotate' },
+          { key:'edr', weight:7, text:'Do you have Endpoint Detection & Response (EDR) or next-gen antivirus deployed?', sub:'Traditional AV alone does not stop modern fileless malware and LOLBin attacks.', threat:'Modern malware evades legacy AV by living off the land without malicious files.', yes:'EDR detects behavioural anomalies that signature-based AV misses entirely.', icon:'fa-virus-slash' },
+          { key:'wifi', weight:5, text:'Is your corporate WiFi network segmented from guest or personal device networks?', sub:'Flat networks allow a compromised IoT device to reach your file server.', threat:'Unsegmented networks let any device pivot to your most sensitive systems.', yes:'Network segmentation contains breaches and limits lateral movement.', icon:'fa-wifi' }
+        ]
+      },
+      {
+        id:'culture', label:'People & Detection', icon:'fa-users-gear', color:'#22c55e',
+        questions:[
+          { key:'training', weight:6, text:'Do employees receive regular cybersecurity awareness training (at least annually)?', sub:'Includes phishing simulations, social engineering awareness, and incident reporting.', threat:'Human error is the #1 root cause of breaches. Training is the only mitigation.', yes:'Trained employees become your most effective last line of defence.', icon:'fa-graduation-cap' },
+          { key:'reporting', weight:4, text:'Is there a clear process for staff to report suspected security incidents?', sub:'Employees should know exactly who to call and what to do if something looks wrong.', threat:'Incidents go undetected for months when staff don\'t know how to report them.', yes:'Clear reporting channels slash attacker dwell time from months to days.', icon:'fa-bell' },
+          { key:'detection', weight:15, text:'Do you have 24/7 threat monitoring, a SIEM, or a managed detection service in place?', sub:'Attacks happen at 2am on public holidays. Automated detection is essential.', threat:'The average attacker goes undetected for 207 days without active monitoring.', yes:'Continuous monitoring turns undetected breaches into immediate incident response.', icon:'fa-magnifying-glass' }
+        ]
+      }
+    ];
+
+    let answers = {};
+    let currentSection = 0;
+    const totalQuestions = 12;
+
+    // ─────────────────────────────────────────────────────────────────
+    // HELPERS
+    // ─────────────────────────────────────────────────────────────────
+    function showStep(id) {
+      document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function getAnsweredCount() { return Object.keys(answers).length; }
+    function allSectionAnswered(sIdx) { return SECTIONS[sIdx].questions.every(q=>answers[q.key]!==undefined); }
+
+    // ─────────────────────────────────────────────────────────────────
+    // LIVE SCORE (updates HUD in real-time)
+    // ─────────────────────────────────────────────────────────────────
+    function getLiveScore() {
+      let s=0;
+      SECTIONS.forEach(sec=>sec.questions.forEach(q=>{ if(answers[q.key]===true) s+=q.weight; }));
+      return s;
+    }
+    function updateHUD() {
+      const score = getLiveScore();
+      const hud = document.getElementById('score-hud');
+      hud.classList.remove('hidden');
+      document.getElementById('hud-score').textContent = score;
+      document.getElementById('hud-bar').style.width = score+'%';
+      const lvl = score>=80?'LOW RISK':score>=50?'MODERATE':'HIGH RISK';
+      const col = score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
+      const lv = document.getElementById('hud-level');
+      lv.textContent = lvl;
+      lv.style.color = col;
+      document.getElementById('hud-score').style.color = col;
+      document.getElementById('hud-score').style.textShadow = `0 0 20px ${col}`;
+    }
+    function hideHUD() { document.getElementById('score-hud').classList.add('hidden'); }
+
+    // ─────────────────────────────────────────────────────────────────
+    // SCORING
+    // ─────────────────────────────────────────────────────────────────
+    function calculateRisk() {
+      let score=0;
+      SECTIONS.forEach(sec=>sec.questions.forEach(q=>{ if(answers[q.key]===true) score+=q.weight; }));
+      const criticalFail = !answers.mfa||!answers.offline||!answers.tested;
+      let level = score>=80?'LOW':score>=50?'MODERATE':'HIGH';
+      if(criticalFail) level='HIGH';
+      let threat='General Exposure';
+      if(!answers.offline||!answers.tested) threat='Ransomware';
+      else if(!answers.mfa) threat='Credential Compromise';
+      else if(!answers.detection) threat='Undetected Breach';
+      const downtime = answers.offline&&answers.tested?'Hours':answers.backups?'Days':'Extended / Indefinite';
+
+      // Cost estimates (ZAR)
+      const baseIR  = level==='HIGH'?850000:level==='MODERATE'?450000:150000;
+      const baseDT  = level==='HIGH'?1800000:level==='MODERATE'?700000:200000;
+      const baseRep = level==='HIGH'?1200000:level==='MODERATE'?500000:100000;
+      const total   = baseIR+baseDT+baseRep;
+
+      return { score, level, threat, downtime, criticalFail, baseIR, baseDT, baseRep, total };
+    }
+
+    function buildRecommendations(result) {
+      const recs=[];
+      if(!answers.mfa)       recs.push({level:'critical',icon:'fa-mobile-screen',title:'Enable MFA Immediately',body:'Enforce multi-factor authentication on all accounts. Use authenticator apps (not SMS). This single control blocks the vast majority of credential-based attacks.',tag:'CRITICAL',weight:15});
+      if(!answers.offline)   recs.push({level:'critical',icon:'fa-plug-circle-xmark',title:'Create Offline Backups',body:'Establish at least one backup copy completely disconnected from your network. Test it. Ransomware specifically targets and destroys connected backups before encrypting.',tag:'CRITICAL',weight:12});
+      if(!answers.detection) recs.push({level:'critical',icon:'fa-magnifying-glass',title:'Deploy 24/7 Threat Monitoring',body:'Implement a SIEM or engage a managed detection & response (MDR) provider. Attackers dwell undetected for 207 days on average without active monitoring.',tag:'CRITICAL',weight:15});
+      if(!answers.tested)    recs.push({level:'critical',icon:'fa-vial-circle-check',title:'Test Your Disaster Recovery Plan',body:'An untested backup is not a backup. Conduct a full DR rehearsal quarterly. Verify backup integrity and document recovery times.',tag:'CRITICAL',weight:8});
+      if(!answers.backups)   recs.push({level:'warn',icon:'fa-hard-drive',title:'Implement Automated Backups',body:'Deploy automated daily backups for all critical data. Follow the 3-2-1 rule: 3 copies, 2 media types, 1 offsite.',tag:'HIGH',weight:10});
+      if(!answers.edr)       recs.push({level:'warn',icon:'fa-virus-slash',title:'Deploy Endpoint Detection & Response',body:'Replace legacy antivirus with a modern EDR solution. Modern malware uses fileless techniques that traditional AV cannot detect.',tag:'HIGH',weight:7});
+      if(!answers.admin)     recs.push({level:'warn',icon:'fa-user-shield',title:'Segregate Admin Accounts',body:'Create dedicated privileged accounts used exclusively for admin tasks. Never use admin accounts for email, browsing, or daily work.',tag:'HIGH',weight:7});
+      if(!answers.patched)   recs.push({level:'warn',icon:'fa-arrows-rotate',title:'Enforce Patch Management',body:'Establish a formal patch process targeting 30-day remediation for critical vulnerabilities. Automate where possible.',tag:'MEDIUM',weight:8});
+      if(!answers.training)  recs.push({level:'warn',icon:'fa-graduation-cap',title:'Launch Security Awareness Training',body:'Implement quarterly security training including phishing simulations. Employees are your most targeted attack vector.',tag:'MEDIUM',weight:6});
+      if(!answers.password)  recs.push({level:'warn',icon:'fa-key',title:'Enforce a Password Policy',body:'Mandate minimum 14-character passwords and deploy a company-wide password manager. Eliminate password reuse.',tag:'MEDIUM',weight:6});
+      if(!answers.wifi)      recs.push({level:'warn',icon:'fa-wifi',title:'Segment Your Network',body:'Separate corporate, guest, and IoT networks using VLANs. Prevent a compromised device from reaching your critical systems.',tag:'MEDIUM',weight:5});
+      if(!answers.reporting) recs.push({level:'warn',icon:'fa-bell',title:'Create an Incident Reporting Process',body:'Document and communicate a clear procedure for reporting suspicious activity. Every minute of delay extends attacker dwell time.',tag:'LOW',weight:4});
+      if(answers.mfa&&answers.offline&&answers.tested&&answers.detection&&answers.backups) {
+        recs.push({level:'good',icon:'fa-circle-check',title:'Core Controls Solid',body:'You have the most critical controls in place. Focus on maturing detection capabilities and reducing mean-time-to-respond.',tag:'GOOD',weight:0});
+      }
+      return recs.slice(0,7);
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // RENDER QUESTIONS
+    // ─────────────────────────────────────────────────────────────────
+    function renderSection(sIdx) {
+      const sec=SECTIONS[sIdx];
+      const container=document.getElementById('questions-container');
+      container.innerHTML='';
+
+      sec.questions.forEach((q,i)=>{
+        const answered=answers[q.key];
+        const div=document.createElement('div');
+        div.className='q-card fade-up '+(answered===true?'answered-yes':answered===false?'answered-no':'');
+        div.style.animationDelay=(i*0.08)+'s';
+        div.innerHTML=`
+          <div class="flex items-start gap-4 mb-5">
+            <div class="w-11 h-11 rounded-xl flex-shrink-0 flex items-center justify-center"
+                 style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3)">
+              <i class="fas ${q.icon} text-sm" style="color:var(--pink)"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-white font-semibold text-base leading-snug mb-1">${q.text}</p>
+              <p class="text-gray-500 text-sm leading-relaxed">${q.sub}</p>
+            </div>
+            <div class="threat-tag ${answered===true?'threat-safe':answered===false?'threat-critical':'threat-warn'} hidden sm:block flex-shrink-0" style="font-size:.6rem">
+              ${answered===true?'✓ PASS':answered===false?'✗ RISK':`+${q.weight}pts`}
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <button class="answer-btn ${answered===true?'selected-yes':''}" id="btn-yes-${q.key}" onclick="setAnswer('${q.key}',true,${sIdx})">
+              <i class="fas fa-check text-sm"></i> Yes, in place
+            </button>
+            <button class="answer-btn ${answered===false?'selected-no':''}" id="btn-no-${q.key}" onclick="setAnswer('${q.key}',false,${sIdx})">
+              <i class="fas fa-times text-sm"></i> Not yet
+            </button>
+          </div>
+          ${answered===false?`<div class="mt-4 p-3 rounded-xl" style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18)"><p class="text-xs text-red-400"><i class="fas fa-triangle-exclamation mr-1.5"></i>${q.threat}</p></div>`:''}
+          ${answered===true?`<div class="mt-4 p-3 rounded-xl" style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.18)"><p class="text-xs text-green-400"><i class="fas fa-circle-check mr-1.5"></i>${q.yes}</p></div>`:''}
+        `;
+        container.appendChild(div);
+      });
+
+      // progress
+      const totalDone=getAnsweredCount();
+      const pct=Math.round((totalDone/totalQuestions)*100);
+      document.getElementById('progress-fill').style.width=pct+'%';
+      document.getElementById('progress-pct').textContent=pct+'%';
+      document.getElementById('section-label').textContent=sec.label;
+      document.getElementById('q-counter').textContent=`Section ${sIdx+1} of ${SECTIONS.length} — ${sec.questions.length} questions`;
+
+      // section dots
+      const dots=document.getElementById('section-dots');
+      dots.innerHTML=SECTIONS.map((s,i)=>`
+        <div class="flex items-center gap-1">
+          <div style="width:10px;height:10px;border-radius:50%;
+            background:${i<=sIdx?'var(--pink)':'rgba(255,255,255,0.1)'};
+            opacity:${i===sIdx?1:i<sIdx?0.6:0.3};
+            box-shadow:${i===sIdx?'0 0 10px var(--pink)':'none'};
+            transition:all .3s ease"></div>
+          ${i<SECTIONS.length-1?'<div style="width:24px;height:2px;background:rgba(255,20,147,0.18);border-radius:1px"></div>':''}
+        </div>
+      `).join('');
+
+      document.getElementById('btn-prev').style.display=sIdx>0?'flex':'none';
+      updateNextBtn(sIdx);
+      updateHUD();
+    }
+
+    function updateNextBtn(sIdx) {
+      const btn=document.getElementById('btn-next');
+      const allDone=allSectionAnswered(sIdx);
+      btn.disabled=!allDone;
+      const isLast=sIdx===SECTIONS.length-1;
+      btn.innerHTML=isLast
+        ?'<i class="fas fa-chart-bar text-xs"></i> VIEW MY RESULTS <i class="fas fa-chevron-right text-xs"></i>'
+        :'NEXT SECTION <i class="fas fa-chevron-right text-xs"></i>';
+    }
+
+    function setAnswer(key,val,sIdx) {
+      answers[key]=val;
+      renderSection(sIdx);
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // NAVIGATION
+    // ─────────────────────────────────────────────────────────────────
+    function startAssessment() { showStep('step-questions'); currentSection=0; renderSection(0); }
+
+    function nextSection() {
+      if(currentSection<SECTIONS.length-1) {
+        currentSection++;
+        renderSection(currentSection);
+        window.scrollTo({top:0,behavior:'smooth'});
+      } else {
+        showStep('step-email');
+        hideHUD();
+      }
+    }
+
+    function prevSection() {
+      if(currentSection>0) { currentSection--; renderSection(currentSection); }
+    }
+
+    function submitWithEmail() {
+      const email=document.getElementById('user-email').value.trim();
+      if(email&&!email.includes('@')) { document.getElementById('user-email').focus(); return; }
+      runCalculation();
+    }
+    function submitNoEmail() { runCalculation(); }
+
+    // ─────────────────────────────────────────────────────────────────
+    // CALCULATION LOADING SCREEN
+    // ─────────────────────────────────────────────────────────────────
+    function runCalculation() {
+      showStep('step-loading');
+      const labels=['Analysing identity controls…','Evaluating backup posture…','Scanning endpoint defences…','Assessing detection capability…','Calculating financial exposure…','Generating recommendations…','Compiling risk report…'];
+      const steps=['ls-1','ls-2','ls-3','ls-4','ls-5','ls-6'];
+      let pct=0,labelIdx=0,stepIdx=0;
+      const bar=document.getElementById('calc-bar');
+      const pctEl=document.getElementById('calc-pct');
+      const lblEl=document.getElementById('loading-label');
+
+      // animate loading steps
+      const stepTimer=setInterval(()=>{
+        if(stepIdx<steps.length){
+          const el=document.getElementById(steps[stepIdx]);
+          if(el){ el.style.color='#ff1493'; el.querySelector('i').style.color='#22c55e'; el.innerHTML=el.innerHTML.replace('fa-circle','fa-circle-check'); }
+          stepIdx++;
+        } else { clearInterval(stepTimer); }
+      },350);
+
+      const interval=setInterval(()=>{
+        pct+=Math.random()*18+5;
+        if(pct>100) pct=100;
+        bar.style.width=pct+'%';
+        pctEl.textContent=Math.round(pct)+'%';
+        if(pct>(labelIdx+1)*14&&labelIdx<labels.length-1){ labelIdx++; lblEl.textContent=labels[labelIdx]; }
+        if(pct>=100){ clearInterval(interval); setTimeout(showResults,400); }
+      },200);
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // SHOW RESULTS
+    // ─────────────────────────────────────────────────────────────────
+    function showResults() {
+      const result=calculateRisk();
+      showStep('step-results');
+
+      // timestamp
+      document.getElementById('result-timestamp').textContent=new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+      // score counter
+      let displayScore=0;
+      const scoreEl=document.getElementById('result-score');
+      const scoreInterval=setInterval(()=>{
+        displayScore+=2;
+        if(displayScore>=result.score){displayScore=result.score;clearInterval(scoreInterval);}
+        scoreEl.textContent=displayScore;
+      },30);
+
+      // gauge
+      const arcLen=376; // approx 3/4 circle
+      setTimeout(()=>{
+        const arc=document.getElementById('gauge-arc');
+        const color=result.level==='HIGH'?'#ef4444':result.level==='MODERATE'?'#f59e0b':'#22c55e';
+        arc.style.stroke=color;
+        arc.style.strokeDashoffset=126+(arcLen-(arcLen*(result.score/100)));
+      },300);
+
+      // badge
+      const badge=document.getElementById('risk-level-badge');
+      badge.textContent=result.level;
+      badge.className='font-display text-3xl font-black px-5 py-2 rounded-xl inline-block '+(result.level==='HIGH'?'badge-high':result.level==='MODERATE'?'badge-moderate':'badge-low');
+
+      // meta
+      document.getElementById('primary-threat').textContent=result.threat;
+      document.getElementById('downtime-band').textContent=result.downtime+' to recover';
+      document.getElementById('cost-estimate').textContent='R'+formatZAR(result.total)+' est.';
+      document.getElementById('mc-score').textContent=result.score+'/100';
+      document.getElementById('mc-score-icon').textContent=result.level==='HIGH'?'🔴':result.level==='MODERATE'?'🟡':'🟢';
+
+      // critical flag
+      if(result.criticalFail) document.getElementById('critical-flag').classList.remove('hidden');
+
+      // financial block
+      document.getElementById('cost-ir').textContent='R'+formatZAR(result.baseIR);
+      document.getElementById('cost-downtime').textContent='R'+formatZAR(result.baseDT);
+      document.getElementById('cost-rep').textContent='R'+formatZAR(result.baseRep);
+
+      // category breakdown + radar
+      renderBreakdownAndRadar();
+
+      // recommendations
+      const recs=buildRecommendations(result);
+      const recContainer=document.getElementById('recommendations');
+      recContainer.innerHTML='';
+      if(recs.length===0){
+        recContainer.innerHTML='<p class="text-green-400 text-sm font-semibold"><i class="fas fa-circle-check mr-2"></i>Outstanding! All critical controls are in place. Consider a professional pentest to verify depth.</p>';
+      } else {
+        recs.forEach((r,i)=>{
+          const tagClass=r.tag==='CRITICAL'?'threat-critical':r.tag==='GOOD'?'threat-safe':r.tag==='HIGH'?'threat-critical':'threat-warn';
+          recContainer.innerHTML+=`
+            <div class="rec-item ${r.level}" style="animation-delay:${i*0.07}s">
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center mt-0.5"
+                     style="background:${r.level==='critical'?'rgba(239,68,68,.12)':r.level==='good'?'rgba(34,197,94,.12)':'rgba(245,158,11,.12)'};border:1px solid ${r.level==='critical'?'rgba(239,68,68,.3)':r.level==='good'?'rgba(34,197,94,.3)':'rgba(245,158,11,.3)'}">
+                  <i class="fas ${r.icon} text-xs" style="color:${r.level==='critical'?'#ef4444':r.level==='good'?'#22c55e':'#f59e0b'}"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-white font-bold text-sm">${r.title}</span>
+                    <span class="threat-tag ${tagClass}">${r.tag}</span>
+                  </div>
+                  <p class="text-gray-400 text-sm leading-relaxed">${r.body}</p>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+    }
+
+    function formatZAR(n) {
+      if(n>=1000000) return (n/1000000).toFixed(1)+'M';
+      if(n>=1000) return Math.round(n/1000)+'K';
+      return n.toString();
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // RENDER BREAKDOWN + RADAR
+    // ─────────────────────────────────────────────────────────────────
+    function renderBreakdownAndRadar() {
+      const catContainer=document.getElementById('category-breakdown');
+      catContainer.innerHTML='';
+      const sectionPcts=[];
+
+      SECTIONS.forEach(sec=>{
+        const secMax=sec.questions.reduce((s,q)=>s+q.weight,0);
+        const secGot=sec.questions.reduce((s,q)=>s+(answers[q.key]?q.weight:0),0);
+        const pct=Math.round((secGot/secMax)*100);
+        sectionPcts.push(pct);
+        const color=pct>=80?'#22c55e':pct>=50?'#f59e0b':'#ef4444';
+        catContainer.innerHTML+=`
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <div class="flex items-center gap-2 text-sm text-gray-300 font-semibold">
+                <i class="fas ${sec.icon} text-xs" style="color:${sec.color}"></i>
+                ${sec.label}
+              </div>
+              <div class="text-xs font-bold font-display" style="color:${color}">${secGot}/${secMax}</div>
+            </div>
+            <div class="cat-bar">
+              <div class="cat-fill" style="width:0%;background:${color}" data-target="${pct}"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      setTimeout(()=>document.querySelectorAll('.cat-fill').forEach(el=>el.style.width=el.dataset.target+'%'),600);
+
+      // Draw radar
+      drawRadar(sectionPcts);
+    }
+
+    function drawRadar(pcts) {
+      const cx=120,cy=120,r=85;
+      const n=4;
+      const angles=[];
+      for(let i=0;i<n;i++) angles.push((i*(2*Math.PI/n))-(Math.PI/2));
+
+      // rings
+      [1,.75,.5,.25].forEach((frac,ri)=>{
+        const pts=angles.map(a=>`${cx+r*frac*Math.cos(a)},${cy+r*frac*Math.sin(a)}`).join(' ');
+        document.getElementById(`r-ring${ri+1}`).setAttribute('points',pts);
+      });
+      // spokes
+      angles.forEach((a,i)=>{
+        const el=document.getElementById(`r-spoke${i}`);
+        el.setAttribute('x2',cx+r*Math.cos(a));
+        el.setAttribute('y2',cy+r*Math.sin(a));
+      });
+      // fill (start at center, animate outward)
+      const fillPts=angles.map((a,i)=>{
+        const frac=pcts[i]/100;
+        return `${cx+r*frac*Math.cos(a)},${cy+r*frac*Math.sin(a)}`;
+      }).join(' ');
+      const fill=document.getElementById('r-fill');
+      fill.setAttribute('points',angles.map(a=>`${cx},${cy}`).join(' '));
+      setTimeout(()=>fill.setAttribute('points',fillPts),100);
+      // dots
+      angles.forEach((a,i)=>{
+        const frac=pcts[i]/100;
+        const dot=document.getElementById(`r-dot${i}`);
+        dot.setAttribute('cx',cx+r*frac*Math.cos(a));
+        dot.setAttribute('cy',cy+r*frac*Math.sin(a));
+      });
+      // labels
+      const lblOffset=16;
+      const lblData=[{lx:cx,ly:cy-r-lblOffset},{lx:cx+r+lblOffset+8,ly:cy+6},{lx:cx,ly:cy+r+lblOffset},{lx:cx-r-lblOffset-8,ly:cy+6}];
+      lblData.forEach((d,i)=>{
+        const lbl=document.getElementById(`r-lbl${i}`);
+        lbl.setAttribute('x',d.lx);
+        lbl.setAttribute('y',d.ly);
+      });
+    }
+
+    function resetAssessment() { answers={}; currentSection=0; showStep('step-0'); hideHUD(); }
+
+    // ─────────────────────────────────────────────────────────────────
+    // THREE.JS PARTICLES
+    // ─────────────────────────────────────────────────────────────────
+    (function(){
+      const canvas=document.getElementById('three-canvas');
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
+      camera.position.z=80;
+      const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+      renderer.setSize(innerWidth,innerHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+      const count=500,geo=new THREE.BufferGeometry();
+      const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+      for(let i=0;i<count;i++){
+        const i3=i*3;
+        pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
+        col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
+      }
+      geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+      const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.25,blending:THREE.AdditiveBlending,depthTest:false});
+      const pts=new THREE.Points(geo,mat);
+      scene.add(pts);
+      let f=0;
+      function animate(){
+        requestAnimationFrame(animate);
+        if(++f%2)return;
+        const p=pts.geometry.attributes.position.array;
+        for(let i=1;i<p.length;i+=3){ p[i]+=.022+Math.random()*.028; p[i-1]+=Math.sin(Date.now()*.00008+i)*.003; if(p[i]>130)p[i]=-120; }
+        pts.geometry.attributes.position.needsUpdate=true;
+        pts.rotation.y+=.00015;
+        renderer.render(scene,camera);
+      }
+      animate();
+      window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+    })();
+  </script>
+</body>
+</html>

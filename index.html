@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Greyhat4Hire — Independent Security Assurance</title>
+  <meta name="description" content="Elite, independent penetration testing, risk assessments, and remediation for healthcare, dental practices, SMEs, and professionals. South Africa."/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --pink: #ff1493;
+      --pink-dim: rgba(255,20,147,0.55);
+      --pink-faint: rgba(255,20,147,0.1);
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', system-ui, sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── CURSOR ── */
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
+
+    /* ── FONTS ── */
+    .font-display { font-family: 'Orbitron', monospace; }
+    .font-mono    { font-family: 'Share Tech Mono', monospace; }
+
+    /* ── GLASS ── */
+    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
+    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+    .glass-hover  { transition:all .35s ease; }
+    .glass-hover:hover { border-color:rgba(255,20,147,.5);box-shadow:0 0 50px rgba(255,20,147,.18);transform:translateY(-6px); }
+
+    /* ── NEON ── */
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+    .neon-text { color:var(--pink);text-shadow:0 0 16px rgba(255,20,147,.6); }
+
+    /* ── NAV ── */
+    nav { transition:all .4s ease; }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover::after { width:100%; }
+    .desktop-link.active { color:#ff1493; }
+    .desktop-link.active::after { width:100%; }
+<<<<<<< HEAD
+    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+=======
+    #mobile-menu { transform:translateY(-100%);transition:transform .4s ease; }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+    #mobile-menu.open { transform:translateY(0); }
+    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel {
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon {
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header {
+      padding:10px 16px 8px;margin-bottom:4px;
+      border-bottom:1px solid rgba(255,20,147,.12);
+    }
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+    .btn-ghost {
+      display:inline-flex;align-items:center;gap:8px;
+      border:2px solid var(--pink);color:var(--pink);
+      font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
+      padding:16px 32px;border-radius:14px;cursor:none;
+      background:transparent;transition:all .3s ease;text-decoration:none;
+    }
+    .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
+
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+    .pulse-glow { animation:pulseGlow 2.8s infinite; }
+
+<<<<<<< HEAD
+    /* ── (typewriter removed — static hero) ── */
+=======
+    /* ── HERO TYPEWRITER ── */
+    .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+
+    /* ── HERO GRID ── */
+    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
+    .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
+    .marquee { animation:marqueeScroll 55s linear infinite; }
+    @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
+    .marquee-sep { color:rgba(255,20,147,.25); }
+
+    /* ── STAT COUNTERS ── */
+    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
+
+    /* ── SECTION HEADERS ── */
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+
+    /* ── SERVICE CARDS ── */
+    .service-card {
+      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+      border:1px solid rgba(255,20,147,.15);
+      border-radius:24px;
+      position:relative;overflow:hidden;
+      transition:border-color .4s ease, box-shadow .4s ease;
+    }
+    .service-card::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,transparent,var(--pink),transparent);
+      opacity:0;transition:opacity .4s ease;
+    }
+    .service-card:hover { border-color:rgba(255,20,147,.45);box-shadow:0 20px 70px rgba(255,20,147,.14); }
+    .service-card:hover::before { opacity:1; }
+    .service-card::after {
+      content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,20,147,.06),transparent);
+      transition:left .7s ease;pointer-events:none;
+    }
+    .service-card:hover::after { left:100%; }
+
+    /* ── SERVICE ICON ── */
+    .svc-icon-wrap {
+      width:72px;height:72px;border-radius:18px;flex-shrink:0;
+      background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);
+      display:flex;align-items:center;justify-content:center;font-size:1.7rem;
+      color:var(--pink);transition:all .4s ease;
+    }
+    .service-card:hover .svc-icon-wrap { background:rgba(255,20,147,.18);box-shadow:0 0 30px rgba(255,20,147,.4);transform:scale(1.08) rotate(4deg); }
+    .svc-number { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(255,20,147,.45);font-weight:700; }
+
+    /* ── EXPANDABLE DETAILS ── */
+    .service-details {
+      max-height:0;overflow:hidden;
+      transition:max-height .6s cubic-bezier(.4,0,.2,1), opacity .5s ease;
+      opacity:0;
+    }
+    .service-details.expanded { max-height:3200px;opacity:1; }
+
+    /* ── TOGGLE BUTTON ── */
+    .toggle-btn {
+      display:inline-flex;align-items:center;gap:8px;
+      background:transparent;border:2px solid rgba(255,20,147,.35);
+      color:var(--pink);font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+      padding:12px 28px;border-radius:12px;cursor:none;
+      transition:all .3s ease;
+    }
+    .toggle-btn:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.65);box-shadow:0 0 24px rgba(255,20,147,.25); }
+    .toggle-icon { transition:transform .35s ease;display:inline-block; }
+    .toggle-icon.rotated { transform:rotate(180deg); }
+
+    /* ── BENEFIT PILLS ── */
+    .benefit-pill {
+      display:inline-flex;align-items:center;gap:6px;
+      padding:7px 16px;background:rgba(255,20,147,.07);
+      border:1px solid rgba(255,20,147,.25);border-radius:50px;
+      font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:600;
+      color:rgba(255,255,255,.8);margin:4px;
+      transition:all .3s ease;
+    }
+    .benefit-pill:hover { background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5);transform:translateY(-2px); }
+
+    /* ── TOOL TAGS ── */
+    .tool-tag {
+      display:inline-flex;align-items:center;gap:5px;
+      padding:5px 13px;background:rgba(0,0,0,.5);
+      border:1px solid rgba(255,255,255,.08);border-radius:8px;
+      font-family:'Share Tech Mono',monospace;font-size:.72rem;
+      color:rgba(255,255,255,.5);margin:3px;
+    }
+
+    /* ── OUTCOME ITEMS ── */
+    .outcome-item {
+      display:flex;align-items:flex-start;gap:14px;
+      padding:16px 18px;
+      background:rgba(255,20,147,.04);
+      border-left:3px solid rgba(255,20,147,.5);
+      border-radius:0 12px 12px 0;
+      margin-bottom:10px;
+      transition:all .3s ease;
+    }
+    .outcome-item:hover { background:rgba(255,20,147,.09);transform:translateX(6px); }
+
+    /* ── ATTACK SCENARIO BOX ── */
+    .attack-box {
+      background:rgba(239,68,68,.06);
+      border:1px solid rgba(239,68,68,.3);
+      border-radius:14px;padding:20px 22px;
+      position:relative;overflow:hidden;
+    }
+    .attack-box::before {
+      content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+      background:linear-gradient(180deg,#ef4444,#ff1493);
+    }
+
+    /* ── DEEP-DIVE TWO-COL ── */
+    .deep-dive-grid { display:grid;grid-template-columns:1fr;gap:24px; }
+    @media(min-width:900px){ .deep-dive-grid { grid-template-columns:1fr 1fr; } }
+
+    /* ── METHODOLOGY TIMELINE ── */
+    .timeline-step {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
+      border-radius:20px;padding:28px;position:relative;
+      transition:all .4s ease;
+    }
+    .timeline-step:hover { border-color:rgba(255,20,147,.4);box-shadow:0 10px 44px rgba(255,20,147,.15);transform:translateY(-5px); }
+    .step-badge {
+      width:52px;height:52px;border-radius:14px;
+      background:linear-gradient(135deg,rgba(255,20,147,.2),rgba(255,20,147,.05));
+      border:2px solid rgba(255,20,147,.4);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;
+      color:var(--pink);margin-bottom:18px;
+      transition:all .4s ease;
+    }
+    .timeline-step:hover .step-badge { transform:scale(1.1);box-shadow:0 0 28px rgba(255,20,147,.5); }
+
+    /* ── INDUSTRY CARDS ── */
+    .industry-card {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.12);
+      border-radius:20px;padding:28px 20px;text-align:center;
+      transition:all .4s ease;
+    }
+    .industry-card:hover { border-color:rgba(255,20,147,.45);transform:translateY(-8px);box-shadow:0 16px 50px rgba(255,20,147,.2); }
+<<<<<<< HEAD
+    .industry-icon {
+      width:72px;height:72px;margin:0 auto 18px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(255,20,147,.03));
+      border:1px solid rgba(255,20,147,.25);border-radius:18px;
+      transition:all .4s ease;position:relative;flex-shrink:0;
+    }
+    .industry-icon::after {
+      content:'';position:absolute;inset:0;border-radius:18px;
+      background:radial-gradient(circle at 30% 30%,rgba(255,20,147,.12),transparent 70%);
+      pointer-events:none;
+    }
+    .industry-icon svg { width:32px;height:32px;transition:all .4s ease; }
+    .industry-card:hover .industry-icon {
+      background:linear-gradient(135deg,rgba(255,20,147,.18),rgba(255,20,147,.07));
+      border-color:rgba(255,20,147,.6);
+      box-shadow:0 0 30px rgba(255,20,147,.35),inset 0 0 20px rgba(255,20,147,.08);
+      transform:scale(1.08) rotate(3deg);
+    }
+    .industry-card:hover .industry-icon svg { filter:drop-shadow(0 0 8px rgba(255,20,147,.9)); }
+=======
+    .industry-icon { font-size:2.8rem;margin-bottom:14px;transition:all .4s ease;display:block; }
+    .industry-card:hover .industry-icon { transform:scale(1.15);filter:drop-shadow(0 0 12px rgba(255,20,147,.7)); }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+
+    /* ── CASE STUDY CARDS ── */
+    .case-card {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
+      border-radius:20px;padding:32px 36px;
+      transition:all .4s ease;position:relative;
+    }
+    .case-card::before { content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:2px;background:var(--pink);opacity:.4;transition:all .4s ease; }
+    .case-card:hover { border-color:rgba(255,20,147,.38);transform:translateX(6px);box-shadow:-4px 0 40px rgba(255,20,147,.12); }
+    .case-card:hover::before { opacity:1;box-shadow:0 0 12px var(--pink); }
+    .case-result { display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:8px;color:#22c55e;font-weight:700;font-size:.82rem;margin-top:14px; }
+
+    /* ── STAT CARDS ── */
+    .stat-card {
+      text-align:center;padding:28px 20px;
+      background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.18);
+      border-radius:18px;transition:all .4s ease;
+    }
+    .stat-card:hover { background:rgba(255,20,147,.09);border-color:rgba(255,20,147,.4);transform:translateY(-6px);box-shadow:0 14px 40px rgba(255,20,147,.15); }
+
+    /* ── PRICING CARDS ── */
+    .price-card {
+      background:rgba(8,8,8,.75);border:1px solid rgba(255,20,147,.15);
+      border-radius:24px;padding:36px 28px;text-align:center;
+<<<<<<< HEAD
+      transition:all .4s ease;position:relative;overflow:visible;
+    }
+    .price-card:hover { transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
+    .price-card.featured { border-color:rgba(255,20,147,.55);box-shadow:0 0 40px rgba(255,20,147,.18);padding-top:52px; }
+    .price-card.featured::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent,var(--pink),transparent); }
+=======
+      transition:all .4s ease;position:relative;overflow:hidden;
+    }
+    .price-card:hover { transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
+    .price-card.featured { border-color:rgba(255,20,147,.55);box-shadow:0 0 40px rgba(255,20,147,.18); }
+    .price-card.featured::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--pink),transparent); }
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+    .price-amount { font-family:'Orbitron',monospace;font-weight:900;font-size:2.8rem;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.5); }
+    .price-feature { display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.9rem;color:#ccc; }
+
+    /* ── TOOL PROMO CARDS ── */
+    .tool-card {
+      background:rgba(8,8,8,.78);border:1px solid rgba(255,20,147,.2);
+      border-radius:24px;padding:36px;position:relative;overflow:hidden;
+      transition:all .4s ease;
+    }
+    .tool-card::after { content:'';position:absolute;top:-60%;right:-40%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.06),transparent 60%);pointer-events:none; }
+    .tool-card:hover { border-color:rgba(255,20,147,.5);transform:translateY(-6px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
+    .tool-badge { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,20,147,.12);border:1px solid rgba(255,20,147,.3);border-radius:99px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--pink);margin-bottom:14px; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(255,20,147,.03));
+      border:1px solid rgba(255,20,147,.25);
+      border-radius:32px;position:relative;overflow:hidden;
+    }
+    .cta-section::before { content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;background:radial-gradient(ellipse,rgba(255,20,147,.07),transparent 60%);pointer-events:none;animation:ctaPulse 5s infinite; }
+    @keyframes ctaPulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.04)} }
+
+    /* ── WHATSAPP BUTTON ── */
+    .whatsapp-btn {
+      position:fixed;bottom:24px;right:24px;
+      background:linear-gradient(135deg,#25D366,#128C7E);
+      color:white;width:62px;height:62px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);
+      z-index:998;transition:all .4s ease;text-decoration:none;
+    }
+    .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+
+    /* ── DIVIDER ── */
+    .pink-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent); }
+
+    .gsap-hidden { opacity:0;transform:translateY(40px); }
+
+    @media(max-width:640px) {
+      .price-amount { font-size:2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html"            class="desktop-link active">Home</a>
+      <a href="about.html"            class="desktop-link">About</a>
+      <a href="services.html"         class="desktop-link">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+
+          <!-- Tool 1: Risk Assessment -->
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+
+          <!-- Tool 2: Hacker's Dossier -->
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+              <i class="fas fa-file-circle-exclamation"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+
+          <!-- Tool 3: Breach Cost Clock -->
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
+      <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+      <a href="pricing.html"          class="desktop-link">Pricing</a>
+      <a href="contact.html"          class="desktop-link">Contact</a>
+    </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+<<<<<<< HEAD
+</nav>
+
+  <!-- Mobile Menu — moved OUTSIDE <nav> so fixed inset-0 is always viewport-relative,
+       unaffected by backdrop-filter creating a new containing block on the nav -->
+  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+=======
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+    <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+    <div class="flex flex-col items-center w-full max-w-xs">
+      <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+      <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+      <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+      <!-- Mobile Free Tools -->
+      <a href="risk-assessment.html"  class="mobile-tool-link">
+        <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+        <span style="font-size:1rem;">Risk Self-Assessment</span>
+      </a>
+      <a href="hackers-dossier.html"  class="mobile-tool-link">
+        <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+        <span style="font-size:1rem;">Hacker's Dossier</span>
+      </a>
+      <a href="breach-cost-clock.html" class="mobile-tool-link">
+        <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+        <span style="font-size:1rem;">Breach Cost Clock</span>
+      </a>
+      <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+      <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+      <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+  </div>
+<<<<<<< HEAD
+
+<!-- ══ HERO ══ -->
+<section class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden" style="position:relative;z-index:2;">
+  <div class="hero-grid"></div>
+  <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-100px;right:-200px;pointer-events:none;"></div>
+  <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,20,147,.05) 0%,transparent 70%);bottom:0;left:-120px;pointer-events:none;"></div>
+
+  <div class="max-w-5xl mx-auto text-center z-10 relative">
+    <div id="hero-eyebrow" class="section-tag mb-6 flex items-center justify-center gap-3">
+      <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      INDEPENDENT · ETHICAL · EFFECTIVE
+      <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+    </div>
+
+    <div class="mb-6" id="hero-logo">
+      <img src="logo.png" alt="Greyhat4Hire" class="mx-auto h-28 sm:h-40 md:h-48 drop-shadow-2xl"
+        onerror="this.style.display='none'">
+    </div>
+
+    <h1 id="hero-h1" class="font-display font-black leading-none tracking-tight mb-6">
+      <span class="text-white" style="font-size:clamp(2.4rem,7.5vw,5.8rem);">WE BREACH YOU</span><br>
+      <span class="neon-pink" style="font-size:clamp(2.4rem,7.5vw,5.8rem);">BEFORE THEY DO</span><span class="text-white" style="font-size:clamp(2.4rem,7.5vw,5.8rem);">.</span>
+    </h1>
+
+    <p id="hero-sub" class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-5" style="font-weight:300;">
+      Controlled penetration testing. Executive-ready reports. Actionable remediation that actually works.
+    </p>
+
+    <div id="hero-mono" class="font-mono text-sm text-pink-400/60 mb-10 tracking-widest">
+      &gt; target.acquire() → scope.confirm() → attack.simulate() → report.generate() → threat.eliminated
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16" id="hero-btns">
+=======
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-20" style="position:relative;z-index:2;overflow:hidden;">
+  <div class="hero-grid"></div>
+  <div class="max-w-5xl mx-auto text-center" style="position:relative;z-index:1;">
+    <div class="inline-flex items-center gap-2 px-5 py-2 glass rounded-full border border-pink-500/25 mb-8" id="hero-eyebrow">
+      <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+      <span class="font-display text-xs tracking-widest text-pink-400">INDEPENDENT · ETHICAL · EFFECTIVE</span>
+    </div>
+
+    <div class="mb-8" id="hero-logo">
+      <img src="logo.png" alt="Greyhat4Hire" class="mx-auto h-28 sm:h-40 md:h-52 drop-shadow-2xl"
+        onerror="this.style.display='none'">
+    </div>
+
+    <h1 class="font-display font-black neon-pink mb-6 leading-tight" id="hero-h1"
+        style="font-size:clamp(2.4rem,7vw,5rem)">
+      <span id="typed-text"></span><span class="typewriter-cursor" id="typed-cursor">|</span>
+    </h1>
+
+    <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4" id="hero-sub">
+      Controlled penetration testing. Executive-ready reports. Actionable remediation that actually works.
+    </p>
+
+    <div class="font-mono text-xs text-pink-400/60 mb-10 tracking-wider" id="hero-mono">
+      &gt; target.acquire() → scope.confirm() → attack.simulate() → report.generate() → threat.eliminated
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center" id="hero-btns">
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+      <a href="contact.html" class="btn-primary pulse-glow justify-center">
+        <i class="fas fa-shield-halved"></i> Request Confidential Assessment
+      </a>
+      <a href="#services" class="btn-ghost justify-center">
+        View Our Services <i class="fas fa-chevron-down text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Hero Stats -->
+<<<<<<< HEAD
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto" id="hero-stats">
+      <div class="glass rounded-2xl py-5 px-3 stat-card">
+        <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="194" data-suffix="">0</span></div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">DAYS AVG. ATTACKER<br>DWELL TIME</div>
+      </div>
+      <div class="glass rounded-2xl py-5 px-3 stat-card">
+        <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="89" data-suffix="M">0</span></div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">AVG. BREACH COST ZAR<br>SA 2024 (IBM)</div>
+      </div>
+      <div class="glass rounded-2xl py-5 px-3 stat-card md:col-span-1 col-span-2">
+        <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="100" data-suffix="%">0</span></div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">ENGAGEMENTS<br>UNDER STRICT NDA</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hero-scroll" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 pointer-events-none">
+    <span class="font-mono text-xs text-pink-400 tracking-widest">SCROLL</span>
+    <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent);"></div>
+=======
+    <div class="grid grid-cols-3 gap-4 mt-16 max-w-2xl mx-auto" id="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num text-3xl font-black mb-1"><span data-target="194" data-suffix="">0</span></div>
+        <div class="text-gray-500 text-xs leading-relaxed">Days avg. attacker<br>dwell time undetected</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num text-3xl font-black mb-1"><span data-target="89" data-suffix="M">0</span>M</div>
+        <div class="text-gray-500 text-xs leading-relaxed">Avg. breach cost ZAR<br>SA 2024 (IBM)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num text-3xl font-black mb-1"><span data-target="100" data-suffix="%">0</span>%</div>
+        <div class="text-gray-500 text-xs leading-relaxed">Engagements<br>under strict NDA</div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-center gap-2 opacity-30" id="hero-scroll">
+      <span class="font-display text-xs tracking-widest text-pink-400">SCROLL</span>
+      <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent)"></div>
+    </div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+  </div>
+</section>
+
+<!-- ══ STANDARDS MARQUEE ══ -->
+<div class="py-6 border-t border-b border-pink-500/10 marquee-wrap" style="position:relative;z-index:2">
+  <div class="marquee flex whitespace-nowrap">
+    <div class="flex">
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27001</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>NIST CSF</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>OWASP Top 10</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>PCI DSS</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>HIPAA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>GDPR</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>POPIA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>SOC 2 Type II</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>MITRE ATT&amp;CK</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CIS Controls</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27701</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CCPA</span>
+    </div>
+    <div class="flex" aria-hidden="true">
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27001</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>NIST CSF</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>OWASP Top 10</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>PCI DSS</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>HIPAA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>GDPR</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>POPIA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>SOC 2 Type II</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>MITRE ATT&amp;CK</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CIS Controls</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27701</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CCPA</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-3">What We Do</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Our Services</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">Manual, expert-led security testing that goes far beyond automated scanners. Every engagement is scoped precisely, executed methodically, and delivered with clarity. Click any service to open a full deep-dive.</p>
+    </div>
+
+    <!-- SERVICE 1: Penetration Testing -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-crosshairs"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 01</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Penetration Testing</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">We think like attackers, operate like operators, and report like executives.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Our penetration tests simulate real adversary techniques across web applications, internal networks, external perimeters, cloud infrastructure, and APIs. We don't run a scanner and call it a pentest — every finding is manually validated, chained, and contextualised for your business. You get proof of impact, not just a list of CVEs.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d1')">
+              <span id="btn-label-d1">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d1"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d1" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">WHAT WE TEST</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications — OWASP Top 10 and beyond (auth bypass, IDOR, SSRF, XXE, race conditions)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>External network — perimeter, internet-facing services, VPNs, firewalls, exposed admin panels</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Internal network — lateral movement, privilege escalation, domain compromise, AD attacks</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>API security — REST, GraphQL, SOAP — authentication flaws, injection, mass assignment</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Cloud misconfigurations — AWS, Azure, GCP IAM roles, storage buckets, exposed secrets</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Social engineering &amp; phishing simulation — targeted campaigns with metrics</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Find what attackers find — before they do</span>
+                <span class="benefit-pill">Manual, expert validation</span>
+                <span class="benefit-pill">MITRE ATT&amp;CK mapped</span>
+                <span class="benefit-pill">Executive + dev reports</span>
+                <span class="benefit-pill">Retest included</span>
+              </div>
+              <div class="section-tag mb-4">TOOLS &amp; TECHNIQUES</div>
+              <div class="flex flex-wrap mb-2">
+                <span class="tool-tag">Burp Suite Pro</span><span class="tool-tag">Metasploit</span><span class="tool-tag">BloodHound</span><span class="tool-tag">Cobalt Strike TTPs</span><span class="tool-tag">Impacket</span><span class="tool-tag">Responder</span><span class="tool-tag">FFUF</span><span class="tool-tag">Nuclei</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">An attacker identifies a forgotten dev subdomain with a debug endpoint enabled. They use it to enumerate internal API routes, find a JWT with a static secret, forge admin tokens, and exfiltrate 40,000 patient records — all within 72 hours of initial access. This subdomain existed for 11 months before anyone noticed. We find these.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Executive Summary Report</p><p class="text-xs text-gray-400 mt-0.5">Board-ready: risk posture, key findings, business impact</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-terminal text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Full Technical Report</p><p class="text-xs text-gray-400 mt-0.5">Every finding: proof-of-concept, CVSS, exploitability, fix instructions</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-tools text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Developer Remediation Guide</p><p class="text-xs text-gray-400 mt-0.5">Step-by-step fix instructions, code-level examples where applicable</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-users text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Live Debrief Session</p><p class="text-xs text-gray-400 mt-0.5">Expert walkthrough of every critical finding with your team</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-rotate text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Full Retest Included</p><p class="text-xs text-gray-400 mt-0.5">We verify every fix is genuine — not just patched on paper</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="services.html#s1" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-arrow-right"></i> FULL SERVICE DETAILS
+            </a>
+            <a href="contact.html" class="btn-ghost ml-4" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST PENTEST
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 2: Vulnerability Assessment -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-search"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 02</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Vulnerability Assessment</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">A systematic, broad scan of your entire attack surface — every weakness catalogued and ranked.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Unlike a pentest, a vulnerability assessment is about breadth over depth — mapping every security weakness across your networks, servers, applications, and cloud services. Prioritised by real-world exploitability (not just CVSS), this is the foundation of a strong security programme and a prerequisite for most compliance frameworks.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d2')">
+              <span id="btn-label-d2">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d2"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d2" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">SCOPE COVERAGE</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Network devices: routers, firewalls, switches, WAPs</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Servers: Windows, Linux, ESXi hypervisors, container hosts</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications and all public-facing services</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Exposed cloud storage and misconfigured cloud services</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Email security: SPF, DKIM, DMARC gaps and spoofing risk</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Endpoint software inventory and unpatched CVEs</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Full attack surface overview</span>
+                <span class="benefit-pill">Early detection</span>
+                <span class="benefit-pill">Better patch management</span>
+                <span class="benefit-pill">Compliance foundation</span>
+                <span class="benefit-pill">Cost-effective</span>
+              </div>
+              <div class="section-tag mb-4">TOOLS USED</div>
+              <div class="flex flex-wrap">
+                <span class="tool-tag">Nessus Pro</span><span class="tool-tag">OpenVAS</span><span class="tool-tag">Nmap</span><span class="tool-tag">Nuclei</span><span class="tool-tag">Shodan</span><span class="tool-tag">OWASP ZAP</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A critical unpatched vulnerability in a legacy VPN appliance sits undetected for 9 months. Automated threat actors exploit it to gain initial access, establish persistence, and quietly harvest credentials before triggering ransomware. A quarterly VA catches this before the window opens — estimated damage avoided: R12M+.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Comprehensive Scan Report</p><p class="text-xs text-gray-400 mt-0.5">Full inventory of all identified vulnerabilities</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-sort-amount-down text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Risk-Ranked Vulnerability List</p><p class="text-xs text-gray-400 mt-0.5">CVSS scores with real-world business context applied</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-lightbulb text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Expert Remediation Guidance</p><p class="text-xs text-gray-400 mt-0.5">Prioritised next steps for every critical and high finding</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST VULNERABILITY ASSESSMENT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 3: Healthcare Risk Assessments -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-heart-pulse"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 03</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Healthcare Risk Assessments</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">Tailored for dental practices, clinics, and medical SMEs protecting patient data.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Healthcare is the #1 most targeted industry for cyber attacks. Patient data is worth 25x more than financial data on the dark web — and the regulatory consequences of a breach are severe. We understand HIPAA, POPIA, and the specific threat landscape facing medical practices, telehealth platforms, EHR systems, and dental software.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d3')">
+              <span id="btn-label-d3">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d3"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d3" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">WHAT WE ASSESS</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>EHR and practice management software security</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Dental imaging systems (X-ray, CBCT) network exposure</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Reception desk &amp; booking system vulnerabilities</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>PHI storage: on-prem, cloud, and backups</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Staff access controls and MFA compliance</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>HIPAA / POPIA gap analysis and remediation roadmap</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Avoid POPIA/HIPAA fines</span>
+                <span class="benefit-pill">Protect patient data</span>
+                <span class="benefit-pill">Ransomware resilience</span>
+                <span class="benefit-pill">Insurance readiness</span>
+                <span class="benefit-pill">Certification roadmap</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A single phishing email compromises a receptionist account at a dental practice. The attacker pivots to the imaging server — which was on the same flat network — encrypts all patient X-rays, and demands a R500K ransom. Backups were on a network share accessible from the compromised account. Practice is down for 3 weeks. Total cost: R1.8M. We prevent this.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-clipboard-check text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">HIPAA/POPIA Gap Analysis</p><p class="text-xs text-gray-400 mt-0.5">Control mapping, gaps identified, penalties quantified</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-map-signs text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Compliance Roadmap</p><p class="text-xs text-gray-400 mt-0.5">Prioritised remediation plan with estimated effort and cost</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-shield-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Patient Data Protection Plan</p><p class="text-xs text-gray-400 mt-0.5">Specific guidance for PHI security, backups, and access control</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST HEALTHCARE ASSESSMENT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 4: Security Audits & Compliance -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-clipboard-list"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 04</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Security Audits &amp; Compliance</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">Know exactly where you stand against ISO 27001, POPIA, GDPR, HIPAA, and NIST.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              We map your current security controls against target frameworks, identify every gap, and produce a structured roadmap to close them. Our audits aren't just checkbox exercises — we translate compliance requirements into practical, implementable controls that actually reduce your risk posture.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d4')">
+              <span id="btn-label-d4">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d4" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">FRAMEWORKS COVERED</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>ISO 27001 / ISO 27002 — Information Security Management</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>POPIA — Protection of Personal Information Act (SA)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>GDPR — General Data Protection Regulation (EU)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>HIPAA — Healthcare data protection (US)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>NIST Cybersecurity Framework</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>PCI DSS — Payment Card Industry Standards</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Avoid compliance penalties</span>
+                <span class="benefit-pill">Build customer trust</span>
+                <span class="benefit-pill">Certification roadmap</span>
+                <span class="benefit-pill">Risk reduction</span>
+                <span class="benefit-pill">Data governance</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL REGULATORY RISK</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A South African SME processes customer financial data without a documented information officer, no data breach notification policy, and retention periods exceeding POPIA guidelines. Following a routine data leak, the Information Regulator opens an investigation. Potential fine: R10M. A POPIA audit 6 months earlier would have cost under R20K and prevented this entirely.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-map text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Framework Gap Analysis</p><p class="text-xs text-gray-400 mt-0.5">Control-by-control mapping against your target standard</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-road text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Compliance Roadmap</p><p class="text-xs text-gray-400 mt-0.5">Phased remediation plan with realistic timelines and ownership</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-file-contract text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Policy Templates</p><p class="text-xs text-gray-400 mt-0.5">Draft policies for the gaps identified in your audit</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST COMPLIANCE AUDIT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 5: Incident Response & Remediation -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-shield-virus"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 05</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Incident Response &amp; Remediation</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">When it's happening right now — or after the smoke clears — we help you take back control.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Whether you've detected a breach, suspect an intrusion, or are recovering from ransomware — we provide forensic investigation, containment guidance, and hardening that prevents recurrence. We're also available for proactive IR planning before incidents occur, helping you build playbooks and response capabilities that mean you're never starting from zero.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d5')">
+              <span id="btn-label-d5">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d5" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">REACTIVE RESPONSE</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Immediate containment guidance — stop the bleeding fast</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Forensic investigation — what happened, when, and how</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Attacker persistence identification and eradication</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Post-incident hardening — close the original entry point and all lateral paths</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Evidence preservation for regulatory or legal proceedings</li>
+              </ul>
+              <div class="section-tag mb-4">PROACTIVE PLANNING</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Incident response playbook development (ransomware, data breach, insider threat)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Tabletop exercises — test your team before the attackers do</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Notification and escalation procedures (POPIA, GDPR)</li>
+              </ul>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ WHAT HAPPENS WITHOUT A PLAN</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A law firm discovers ransomware at 2am. With no IR plan, they spend 6 hours deciding who to call and what to shut down — during which the attacker exfiltrates an additional 20GB of client files. The unstructured response extends downtime from 3 days to 3 weeks. Organisations with tested IR plans contain breaches 74% faster and spend 58% less on recovery.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-search text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Forensic Investigation Report</p><p class="text-xs text-gray-400 mt-0.5">Timeline of attack, root cause, evidence documentation</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-ban text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Containment &amp; Eradication Plan</p><p class="text-xs text-gray-400 mt-0.5">Clear actions to remove the threat and prevent re-entry</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-book text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">IR Playbooks (proactive)</p><p class="text-xs text-gray-400 mt-0.5">Scenario-specific response procedures for your team</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST INCIDENT RESPONSE
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-10 gsap-hidden">
+      <a href="services.html" class="btn-ghost">
+        <i class="fas fa-layer-group"></i> VIEW ALL SERVICES IN FULL DETAIL
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ FREE TOOLS ══ -->
+<section id="tools" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">Free Intelligence Tools</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Three live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Tool 1: Risk Self-Assessment -->
+      <div class="tool-card flex flex-col">
+        <div class="tool-badge"><span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>FREE TOOL</div>
+        <div class="text-4xl mb-4"><i class="fas fa-shield-halved text-pink-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Risk Self-Assessment</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">12 critical security controls. 90 seconds. Instant executive-grade breach exposure score across identity, backup, endpoint, and detection domains. See where you're most exposed right now.</p>
+        <a href="risk-assessment.html" class="btn-ghost text-sm justify-center">
+          <i class="fas fa-play text-xs"></i> START ASSESSMENT
+        </a>
+      </div>
+
+      <!-- Tool 2: Hacker's Dossier -->
+      <div class="tool-card flex flex-col" style="border-color:rgba(255,20,147,.35)">
+        <div class="tool-badge" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#ef4444"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>LIVE OSINT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-file-circle-exclamation text-red-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">The Hacker's Dossier</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Enter your domain. We run live DNS lookups, certificate transparency scans, Shodan port data, and RDAP WHOIS — and generate the exact intelligence file an attacker compiles before targeting you.</p>
+        <a href="hackers-dossier.html" class="btn-ghost text-sm justify-center" style="border-color:#ef4444;color:#ef4444">
+          <i class="fas fa-crosshairs text-xs"></i> COMPILE MY DOSSIER
+        </a>
+      </div>
+
+      <!-- Tool 3: Breach Cost Clock -->
+      <div class="tool-card flex flex-col">
+        <div class="tool-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.4);color:#f59e0b"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>FINANCIAL IMPACT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-clock text-amber-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Breach Cost Clock</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Select your industry and company size. Watch the financial damage tick up in real time — modelled on IBM Cost of Data Breach 2024 data. Puts R89M in visceral, ticking perspective.</p>
+        <a href="breach-cost-clock.html" class="btn-ghost text-sm justify-center" style="border-color:#f59e0b;color:#f59e0b">
+          <i class="fas fa-play text-xs"></i> START THE CLOCK
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Extra page links -->
+    <div class="mt-10 grid sm:grid-cols-2 gap-4 gsap-hidden">
+      <a href="cyber-awareness.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div>
+          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">LEARN</div>
+          <h4 class="font-display font-bold text-white text-base mb-1">Cyber Awareness Training</h4>
+          <p class="text-gray-500 text-xs leading-relaxed">Education resources and training programmes for your team.</p>
+        </div>
+        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+      </a>
+      <a href="greyhat-protocol.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform">
+          <i class="fas fa-lock"></i>
+        </div>
+        <div>
+          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">OUR PROCESS</div>
+          <h4 class="font-display font-bold text-white text-base mb-1">The Greyhat Protocol</h4>
+          <p class="text-gray-500 text-xs leading-relaxed">How we operate, our ethics framework, and engagement process.</p>
+        </div>
+        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ METHODOLOGY ══ -->
+<section id="methodology" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">How We Work</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Our Methodology</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">A proven 4-phase process built around how real attackers operate. No spray-and-pray. No bloated CVE lists. Just clear, actionable intelligence that leads to genuine risk reduction.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">01</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-binoculars text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Reconnaissance &amp; Scoping</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">We map your full attack surface and build a threat model before touching a single system. Passive OSINT, DNS enumeration, certificate transparency, Shodan — the same starting point a real attacker uses. You approve scope. We begin.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tool-tag">OSINT</span><span class="tool-tag">DNS Recon</span><span class="tool-tag">Shodan</span><span class="tool-tag">Cert Transparency</span>
+        </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 1</span></div>
+      </div>
+
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">02</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-skull-crossbones text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Controlled Exploitation</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Ethical, targeted testing simulating real adversary behaviour. No automated spray-and-pray. Every attack vector is manually tested, chained, and validated by a human expert. We find what scanners miss — including logic flaws, misconfigurations, and business-layer vulnerabilities.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tool-tag">Manual Testing</span><span class="tool-tag">Chain Attacks</span><span class="tool-tag">No False Positives</span>
+        </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 2</span></div>
+      </div>
+
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">03</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-file-lines text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Executive-Level Reporting</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Clear risk ratings, compliance impact, and business context — not just a CVE list. Every finding includes CVSS score, real-world exploitability rating, proof-of-concept evidence, and remediation instructions your developers can implement without a translator.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tool-tag">CVSS Scoring</span><span class="tool-tag">Exec Summary</span><span class="tool-tag">Dev Guidance</span>
+        </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 3</span></div>
+      </div>
+
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">04</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-circle-check text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Remediation &amp; Retest</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">We guide the fix, then verify it. Retesting is included in every engagement to confirm every vulnerability is genuinely closed — not just patched on paper. You receive a final certification report suitable for auditors, clients, and insurers. Close the loop, not just the ticket.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tool-tag">Retest Included</span><span class="tool-tag">Certification Report</span><span class="tool-tag">30-day Support</span>
+        </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 4</span></div>
+      </div>
+    </div>
+
+    <div class="text-center mt-10 gsap-hidden">
+      <a href="greyhat-protocol.html" class="btn-ghost">
+        <i class="fas fa-lock"></i> READ THE FULL GREYHAT PROTOCOL
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ INDUSTRIES ══ -->
+<section id="industries" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">Who We Protect</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Industries We Serve</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Sector-specific threat knowledge. We know the regulations, the common attack paths, and the specific systems used in your industry — not generic security advice.</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4C10 4 7 8 7 12c0 2.5.8 4.5 1.5 6.5L10 26c.5 2 1.5 3 3 3s2-1.5 2.5-3L16 22l.5 4c.5 1.5 1.5 3 2.5 3s2.5-1 3-3l1.5-7.5C24.2 16.5 25 14.5 25 12c0-4-3-8-9-8z"/>
+            <path d="M12 10c1.5-1.5 4.5-2 7 0" stroke-opacity=".6"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">🦷</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Dental Practices</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">HIPAA-focused assessments for patient data, imaging systems, and practice management software.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 16h4l3-8 5 16 3-10 2 6h7" stroke-opacity=".9"/>
+            <circle cx="28" cy="16" r="1.5" fill="#ff1493"/>
+            <rect x="12" y="4" width="8" height="6" rx="1" stroke-opacity=".4"/>
+            <path d="M16 5v4M14 7h4" stroke-opacity=".4"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">🏥</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Healthcare</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Clinics, telehealth platforms, and EHR system security against the #1 targeted sector.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="16" y1="4" x2="16" y2="28"/>
+            <line x1="10" y1="4" x2="22" y2="4"/>
+            <line x1="12" y1="28" x2="20" y2="28"/>
+            <path d="M16 7L8 14l8 7" stroke-opacity=".3"/>
+            <path d="M16 7l8 7-8 7" stroke-opacity=".3"/>
+            <ellipse cx="8" cy="17" rx="5" ry="3.5" stroke-opacity=".85"/>
+            <ellipse cx="24" cy="17" rx="5" ry="3.5" stroke-opacity=".85"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">⚖️</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Legal</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Client confidentiality, privileged communications, and ransomware resilience for law firms.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="6" width="24" height="18" rx="2"/>
+            <path d="M4 22h24" stroke-opacity=".4"/>
+            <path d="M12 28h8M16 22v6" stroke-opacity=".5"/>
+            <path d="M10 14l3 3-3 3" stroke-opacity=".9"/>
+            <path d="M17 17h5" stroke-opacity=".9"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">💻</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Tech Startups</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">SaaS platforms, fintech, and API-driven products secured pre- and post-launch for investor readiness.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 28h24"/>
+            <path d="M7 28V18M12 28V14M17 28V10M22 28V6" stroke-opacity=".9"/>
+            <path d="M4 14l5-6 5 4 5-6 5-2" stroke-opacity=".5"/>
+            <circle cx="4" cy="14" r="1.5" fill="#ff1493" stroke="none"/>
+            <circle cx="14" cy="12" r="1.5" fill="#ff1493" stroke="none"/>
+            <circle cx="24" cy="6" r="1.5" fill="#ff1493" stroke="none"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">🏦</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Financial Services</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">PCI DSS compliance, fraud prevention, and transaction security for financial operators.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="4"/>
+            <circle cx="16" cy="16" r="8" stroke-opacity=".3"/>
+            <path d="M16 4v4M16 24v4M4 16h4M24 16h4" stroke-opacity=".9"/>
+            <path d="M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8" stroke-opacity=".6"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">🏭</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Manufacturing</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">OT/IT convergence, SCADA security, and supply chain risk in connected industrial environments.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 28V14M10 28V14M15 28V14M19 28V14M24 28V14"/>
+            <path d="M4 28h24"/>
+            <path d="M4 14h24"/>
+            <path d="M16 4l-12 6h24L16 4z"/>
+            <circle cx="16" cy="8" r="1.5" fill="#ff1493" stroke="none"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">🏛️</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Government</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Public sector compliance, critical infrastructure protection, and citizen data security.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+<<<<<<< HEAD
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="12" width="26" height="16" rx="2"/>
+            <path d="M11 12V9a5 5 0 0110 0v3" stroke-opacity=".7"/>
+            <path d="M3 20h26" stroke-opacity=".4"/>
+            <circle cx="16" cy="20" r="2.5" stroke-opacity=".9"/>
+          </svg>
+        </div>
+=======
+        <span class="industry-icon">💼</span>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <h3 class="font-display font-bold text-white text-sm mb-2">Professional Services</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Consulting, accounting, and advisory firms handling sensitive client and commercial data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ CASE STUDIES ══ -->
+<section id="cases" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">Proof of Work</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Case Studies</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Real engagements. Real outcomes. Names and identifying details anonymised under NDA.</p>
+    </div>
+    <div class="space-y-5">
+
+      <div class="case-card gsap-hidden">
+        <div class="flex items-start justify-between gap-4 mb-3">
+          <div>
+            <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-1">Healthcare · Multi-Location</div>
+            <h3 class="font-display font-bold text-white text-lg">Dental Practice Group — HIPAA Compliance Gap Analysis</h3>
+          </div>
+          <span class="text-3xl flex-shrink-0">🦷</span>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-3">A 12-location dental group came to us after a failed compliance audit. We discovered unpatched dental imaging software with 3 critical CVEs, PHI exposed in misconfigured cloud storage accessible without authentication, and missing MFA on every admin account across all locations. Estimated regulatory fine exposure: R4.2M.</p>
+        <p class="text-gray-500 text-xs leading-relaxed mb-2">Our remediation roadmap was prioritised by risk and implemented in phases over 6 weeks. We guided the patching cycle, locked down storage permissions, and designed a new access control architecture before retest verification.</p>
+        <div class="case-result"><i class="fas fa-circle-check text-xs"></i> Full remediation in 6 weeks. Passed re-audit. Zero fines. Cyber insurance premium reduced 22%.</div>
+      </div>
+
+      <div class="case-card gsap-hidden">
+        <div class="flex items-start justify-between gap-4 mb-3">
+          <div>
+            <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-1">Technology · Pre-Launch</div>
+            <h3 class="font-display font-bold text-white text-lg">Telehealth SaaS Platform — Pre-Launch Security Assessment</h3>
+          </div>
+          <span class="text-3xl flex-shrink-0">💻</span>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-3">A startup building a patient portal hired us one month before their planned launch. We found SQL injection in the appointment booking API allowing full database read access, weak session management enabling session fixation attacks against active patients, and an exposed admin panel indexed by Google.</p>
+        <p class="text-gray-500 text-xs leading-relaxed mb-2">We provided developer-level remediation instructions for each finding. Working alongside their engineering team, all critical and high findings were resolved within 18 days. Launch proceeded on schedule with full sign-off.</p>
+        <div class="case-result"><i class="fas fa-circle-check text-xs"></i> Fixed pre-launch. No breach. Investors satisfied. Series A secured at higher valuation.</div>
+      </div>
+
+      <div class="case-card gsap-hidden">
+        <div class="flex items-start justify-between gap-4 mb-3">
+          <div>
+            <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-1">Legal · Ransomware Defence</div>
+            <h3 class="font-display font-bold text-white text-lg">Law Firm — Network Penetration Test &amp; Ransomware Resilience</h3>
+          </div>
+          <span class="text-3xl flex-shrink-0">⚖️</span>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-3">We simulated a full ransomware attack chain against their environment. Achieved domain admin in 4 hours via Kerberoasting due to weak service account passwords and a flat, unsegmented network. Backup systems were reachable from any compromised workstation — they would have been encrypted simultaneously with production data.</p>
+        <p class="text-gray-500 text-xs leading-relaxed mb-2">We designed a segmented network architecture, implemented offline backup rotation, enforced service account password policies, and ran a tabletop IR exercise with partners and senior associates. A full retest 60 days later confirmed all attack paths were closed.</p>
+        <div class="case-result"><i class="fas fa-circle-check text-xs"></i> Complete network redesign. Offline backups. Tabletop IR exercise complete. Zero incidents in 18 months.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ PRICING ══ -->
+<section id="pricing" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">Transparent Pricing</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Engagement Models</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">No surprise invoices. No scope creep fees. Every engagement includes a full retest and certification report.</p>
+    </div>
+
+<<<<<<< HEAD
+    <div class="grid md:grid-cols-3 gap-6 pt-8 items-start">
+      <div class="price-card gsap-hidden">
+        <div class="font-display text-xs text-gray-500 tracking-widest uppercase mb-4">Single Assessment</div>
+        <div class="price-amount mb-1">R6,600</div>
+=======
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="price-card gsap-hidden">
+        <div class="font-display text-xs text-gray-500 tracking-widest uppercase mb-4">Single Assessment</div>
+        <div class="price-amount mb-1">$4,900</div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <div class="text-gray-500 text-xs mb-6">one-time engagement</div>
+        <div class="space-y-0 text-left mb-8">
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Full penetration test or VA</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Executive + technical report</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>One full retest included</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>30-day remediation support</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>NDA &amp; strict confidentiality</div>
+        </div>
+        <a href="contact.html" class="btn-ghost w-full justify-center">Get Started</a>
+      </div>
+
+      <div class="price-card featured gsap-hidden">
+<<<<<<< HEAD
+        <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-pink-500 text-white text-xs font-display font-bold px-6 py-2 rounded-full tracking-widest shadow-lg shadow-pink-500/40 border border-pink-400/50 whitespace-nowrap z-10">⭐ MOST POPULAR</div>
+        <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-4">Annual Assurance</div>
+        <div class="price-amount mb-1">R10,000</div>
+=======
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-pink-500 text-white text-xs font-display font-bold px-6 py-1.5 rounded-full tracking-widest">MOST POPULAR</div>
+        <div class="font-display text-xs text-pink-400/70 tracking-widest uppercase mb-4">Annual Assurance</div>
+        <div class="price-amount mb-1">$9,900</div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <div class="text-gray-500 text-xs mb-6">per year</div>
+        <div class="space-y-0 text-left mb-8">
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Quarterly penetration tests</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Unlimited retests</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Continuous vuln monitoring</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Priority incident response</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Annual compliance report</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Dedicated security advisor</div>
+        </div>
+        <a href="contact.html" class="btn-primary w-full justify-center pulse-glow">Get Started</a>
+      </div>
+
+      <div class="price-card gsap-hidden">
+        <div class="font-display text-xs text-gray-500 tracking-widest uppercase mb-4">Retest Only</div>
+<<<<<<< HEAD
+        <div class="price-amount mb-1">R15,500</div>
+=======
+        <div class="price-amount mb-1">$1,900</div>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+        <div class="text-gray-500 text-xs mb-6">after your remediation</div>
+        <div class="space-y-0 text-left mb-8">
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Verify all fixes are closed</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Regression testing</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Final certification report</div>
+          <div class="price-feature"><i class="fas fa-check text-pink-400 text-xs w-4"></i>Suitable for auditors &amp; insurers</div>
+          <div class="price-feature"><i class="fas fa-minus text-gray-600 text-xs w-4"></i>New test scope not included</div>
+        </div>
+        <a href="contact.html" class="btn-ghost w-full justify-center">Get Started</a>
+      </div>
+    </div>
+
+<<<<<<< HEAD
+    <p class="text-center text-gray-600 text-sm mt-8 gsap-hidden">All pricing in South African Rand (ZAR). Custom enterprise scoping available — <a href="contact.html" class="text-pink-400/70 hover:text-pink-400 transition">contact us</a>. <a href="pricing.html" class="text-pink-400/70 hover:text-pink-400 transition ml-2">View full pricing details →</a></p>
+=======
+    <p class="text-center text-gray-600 text-sm mt-8 gsap-hidden">All pricing in USD. ZAR equivalents available on request. Custom enterprise scoping available — <a href="contact.html" class="text-pink-400/70 hover:text-pink-400 transition">contact us</a>. <a href="pricing.html" class="text-pink-400/70 hover:text-pink-400 transition ml-2">View full pricing details →</a></p>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<section class="py-12 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="glass rounded-2xl p-6 sm:p-8 gsap-hidden">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <div class="flex items-center justify-center gap-3">
+          <i class="fas fa-file-contract text-pink-400 text-2xl flex-shrink-0"></i>
+          <div class="text-left"><div class="font-bold text-white text-sm">Strict NDA</div><div class="text-gray-500 text-xs">Every engagement covered from first contact</div></div>
+        </div>
+        <div class="flex items-center justify-center gap-3">
+          <i class="fas fa-clock text-pink-400 text-2xl flex-shrink-0"></i>
+          <div class="text-left"><div class="font-bold text-white text-sm">24hr Response</div><div class="text-gray-500 text-xs">Initial consultation guaranteed</div></div>
+        </div>
+        <div class="flex items-center justify-center gap-3">
+          <i class="fas fa-rotate text-pink-400 text-2xl flex-shrink-0"></i>
+          <div class="text-left"><div class="font-bold text-white text-sm">Retest Included</div><div class="text-gray-500 text-xs">In every engagement — not an add-on</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT TEASER ══ -->
+<section class="py-16 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <a href="about.html" class="glass rounded-3xl p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-8 hover:border-pink-500/40 transition-all duration-300 group block" style="text-decoration:none;">
+      <img src="portrait.jpg" alt="Consultant" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover object-top flex-shrink-0 border border-pink-500/20 group-hover:border-pink-500/50 transition-all"
+        onerror="this.style.display='none'">
+      <div class="flex-1 text-center sm:text-left">
+        <div class="section-tag mb-2">Independent. Accountable. Effective.</div>
+        <h3 class="font-display font-black text-white text-2xl sm:text-3xl mb-3 group-hover:text-pink-400 transition-colors">Who Is Greyhat4Hire?</h3>
+        <p class="text-gray-400 leading-relaxed text-sm sm:text-base">Not a faceless agency. One senior consultant — accountable directly to you, with no overhead and no juniors running your engagement. Every test is performed by the expert you hire.</p>
+      </div>
+      <i class="fas fa-arrow-right text-pink-400/40 text-2xl group-hover:text-pink-400 group-hover:translate-x-2 transition-all flex-shrink-0"></i>
+    </a>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══ -->
+<section class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-4xl mx-auto">
+    <div class="cta-section p-10 sm:p-16 text-center gsap-hidden">
+      <div class="relative z-10">
+        <div class="section-tag mb-4">Ready When You Are</div>
+        <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-5">
+          Let's Find What<br>Attackers Would Find.
+        </h2>
+        <p class="text-gray-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed mb-4">
+          Confidential consultation. No commitment. We'll tell you exactly what we'd test and what we'd expect to find — before you spend a rand.
+        </p>
+        <p class="font-mono text-xs text-pink-400/50 mb-10 tracking-wider">&gt; threat.level=UNKNOWN &nbsp;→&nbsp; schedule.consultation() &nbsp;→&nbsp; threat.level=MANAGED</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="contact.html" class="btn-primary justify-center pulse-glow text-base px-10 py-5">
+            <i class="fas fa-shield-halved"></i> Request Consultation
+          </a>
+          <a href="hackers-dossier.html" class="btn-ghost justify-center text-base px-10 py-5">
+            <i class="fas fa-crosshairs"></i> See Your Dossier First
+          </a>
+        </div>
+        <p class="text-gray-600 text-xs mt-6">We respond within 24 hours · All inquiries strictly confidential · Under NDA from first contact</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-18">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting firm providing ethical security testing and assurance services across South Africa and beyond.</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3>
+        <ul class="space-y-2.5">
+          <li><a href="index.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">Home</a></li>
+          <li><a href="about.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">About</a></li>
+          <li><a href="services.html"         class="text-gray-400 hover:text-pink-400 transition text-sm">Services</a></li>
+          <li><a href="cyber-awareness.html"  class="text-gray-400 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="greyhat-protocol.html" class="text-gray-400 hover:text-pink-400 transition text-sm">The Protocol</a></li>
+          <li><a href="pricing.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Pricing</a></li>
+          <li><a href="contact.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
+        <ul class="space-y-2.5">
+          <li><a href="risk-assessment.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="#methodology"           class="text-gray-400 hover:text-pink-400 transition text-sm">Our Methodology</a></li>
+          <li><a href="#cases"                 class="text-gray-400 hover:text-pink-400 transition text-sm">Case Studies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
+        <ul class="space-y-3">
+<<<<<<< HEAD
+          <li><a href="/cdn-cgi/l/email-protection#630a0d050c230411061a0b0217570b0a11064d000c0e" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i><span class="__cf_email__" data-cfemail="147d7a727b547366716d7c7560207c7d66713a777b79">[email&#160;protected]</span></a></li>
+=======
+          <li><a href="mailto:info@greyhat4hire.com" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i>info@greyhat4hire.com</a></li>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+          <li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i>WhatsApp Chat</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i>Book Consultation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="glass p-5 rounded-2xl mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+          <p class="text-sm text-gray-400">
+            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection. We never disclose client names, findings, or engagement details without written permission.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<<<<<<< HEAD
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+=======
+<script>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+  tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+
+  // ── CURSOR ────────────────────────────────────
+  const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+  document.addEventListener('mousemove',e=>{
+    cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
+    setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
+  });
+  document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
+  document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+
+  // ── NAV ──────────────────────────────────────
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+  const hamburger=document.getElementById('hamburger');
+  const mobileMenu=document.getElementById('mobile-menu');
+  const closeMenu=document.getElementById('close-menu');
+
+  function openMenu(){
+    mobileMenu.classList.remove('hidden');
+    setTimeout(()=>mobileMenu.classList.add('open'),10);
+  }
+  function closeMenuFn(){
+    mobileMenu.classList.remove('open');
+    setTimeout(()=>mobileMenu.classList.add('hidden'),400);
+  }
+
+  hamburger.addEventListener('click', openMenu);
+  closeMenu.addEventListener('click', closeMenuFn);
+  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+
+<<<<<<< HEAD
+  // ── (typewriter removed — static hero) ──
+=======
+  // ── TYPEWRITER ───────────────────────────────
+  const phrases=['Independent Security Assurance','Penetration Testing Experts','We Find What Attackers Find.','Your Breach. Before It Happens.','Zero Spray-and-Pray. 100% Expert.'];
+  let pIdx=0,cIdx=0,del=false;
+  const typedEl=document.getElementById('typed-text');
+  function typeWriter(){
+    const p=phrases[pIdx];
+    if(!del){ typedEl.textContent=p.substring(0,cIdx+1); cIdx++; if(cIdx===p.length){setTimeout(()=>{del=true;typeWriter()},2800);return;} setTimeout(typeWriter,cIdx<5?120:55); }
+    else { typedEl.textContent=p.substring(0,cIdx-1); cIdx--; if(cIdx===0){del=false;pIdx=(pIdx+1)%phrases.length;setTimeout(typeWriter,400);return;} setTimeout(typeWriter,28); }
+  }
+  setTimeout(typeWriter,800);
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+
+  // ── STAT COUNTERS ────────────────────────────
+  function animateCounter(el,target){
+    let cur=0; const steps=60,dur=2000,inc=target/steps;
+    const iv=setInterval(()=>{ cur=Math.min(cur+inc,target); el.textContent=Math.round(cur)+(el.dataset.suffix||''); if(cur>=target)clearInterval(iv); },dur/steps);
+  }
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('[data-target]').forEach(el=>animateCounter(el,parseInt(el.dataset.target))); obs.unobserve(e.target); } });
+  },{threshold:.4});
+  document.querySelectorAll('.stat-card').forEach(el=>{ if(el.querySelector('[data-target]')) obs.observe(el); });
+
+  // ── TOGGLE SERVICE DETAILS ──────────────────
+  function toggleService(id){
+    const details=document.getElementById(id);
+    const icon=document.getElementById('icon-'+id);
+    const label=document.getElementById('btn-label-'+id);
+    const isOpen=details.classList.contains('expanded');
+    details.classList.toggle('expanded',!isOpen);
+    icon.classList.toggle('rotated',!isOpen);
+    if(label) label.textContent=isOpen?'DEEP DIVE':'CLOSE';
+  }
+
+  // ── GSAP ─────────────────────────────────────
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl=gsap.timeline();
+  tl.fromTo('#hero-eyebrow',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},0.3)
+    .fromTo('#hero-logo',{scale:.9,opacity:0},{scale:1,opacity:1,duration:.8,ease:'back.out(1.2)'},0.5)
+    .fromTo('#hero-h1',{y:50,opacity:0},{y:0,opacity:1,duration:.9,ease:'back.out(1.2)'},0.8)
+    .fromTo('#hero-sub',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.2)
+    .fromTo('#hero-mono',{opacity:0},{opacity:1,duration:.6,ease:'power2.out'},1.5)
+    .fromTo('#hero-btns',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.6)
+    .fromTo('#hero-stats',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.9)
+    .fromTo('#hero-scroll',{opacity:0},{opacity:.3,duration:.8},2.3);
+
+  gsap.utils.toArray('.gsap-card').forEach((card,i)=>{
+    gsap.fromTo(card,{y:60,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:(i%2)*0.1});
+  });
+
+  gsap.utils.toArray('.timeline-step').forEach((step,i)=>{
+    gsap.fromTo(step,{y:50,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',
+      scrollTrigger:{trigger:step,start:'top 90%',once:true},delay:i*0.08});
+  });
+
+  gsap.utils.toArray('.industry-card').forEach((card,i)=>{
+    gsap.fromTo(card,{scale:.92,opacity:0},{scale:1,opacity:1,duration:.6,ease:'back.out(1.4)',
+      scrollTrigger:{trigger:card,start:'top 90%',once:true},delay:(i%4)*0.07});
+  });
+
+  gsap.utils.toArray('.price-card').forEach((card,i)=>{
+    gsap.fromTo(card,{y:40,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 90%',once:true},delay:i*0.1});
+  });
+
+  gsap.utils.toArray('.tool-card').forEach((card,i)=>{
+    gsap.fromTo(card,{x:i===0?-40:i===2?40:0,y:20,opacity:0},{x:0,y:0,opacity:1,duration:.8,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:i*0.12});
+  });
+
+  gsap.utils.toArray('.gsap-hidden').forEach(el=>{
+    gsap.fromTo(el,{y:40,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+  });
+
+  gsap.utils.toArray('.case-card').forEach((card,i)=>{
+    gsap.fromTo(card,{x:-40,opacity:0},{x:0,opacity:1,duration:.7,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:i*0.1});
+  });
+
+  // ── THREE.JS PARTICLES ──────────────────────
+  (function(){
+    const canvas=document.getElementById('three-canvas');
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
+    camera.position.z=80;
+    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+    renderer.setSize(innerWidth,innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+
+    const count=500,geo=new THREE.BufferGeometry();
+    const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+    for(let i=0;i<count;i++){
+      const i3=i*3;
+      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
+      col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
+    }
+    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+    const pts=new THREE.Points(geo,mat);
+    scene.add(pts);
+
+    let f=0;
+    function animate(){
+      requestAnimationFrame(animate);
+      if(++f%2)return;
+      const p=pts.geometry.attributes.position.array;
+      for(let i=1;i<p.length;i+=3){
+        p[i]+=.022+Math.random()*.028;
+        p[i-1]+=Math.sin(Date.now()*.00008+i)*.003;
+        if(p[i]>130)p[i]=-120;
+      }
+      pts.geometry.attributes.position.needsUpdate=true;
+      pts.rotation.y+=.00015;
+      renderer.render(scene,camera);
+    }
+    animate();
+<<<<<<< HEAD
+=======
+
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
+    window.addEventListener('resize',()=>{
+      camera.aspect=innerWidth/innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth,innerHeight);
+    });
+  })();
+</script>
+</body>
+<<<<<<< HEAD
+</html>
+=======
+</html>
+>>>>>>> d6b14655044e4d9e952bc8a7f1c8860fff962b8d
