@@ -38,8 +38,8 @@
     }
 
     /* ── CURSOR ── */
-    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;will-change:transform; }
-    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform; }
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     /* ── FONTS ── */
@@ -410,6 +410,8 @@
       overflow: hidden;
       position: relative;
       backdrop-filter: blur(20px);
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     /* Scanline overlay on map */
@@ -1360,15 +1362,15 @@
     <div class="threat-map-wrap mb-6 gsap-hidden">
 
       <!-- Header bar -->
-      <div class="map-header-bar">
-        <div class="flex items-center gap-6 flex-wrap">
+      <div class="map-header-bar" style="flex-wrap:wrap;gap:8px;">
+        <div class="flex items-center gap-4 flex-wrap">
           <div class="map-live-indicator">
             <span class="map-live-dot"></span>
             THREAT INTELLIGENCE FEED
           </div>
-          <div class="font-mono text-xs text-gray-600 tracking-widest" id="map-timestamp"></div>
+          <div class="font-mono text-xs text-gray-600 tracking-widest hidden sm:block" id="map-timestamp"></div>
         </div>
-        <div class="flex items-center gap-4 flex-wrap">
+        <div class="flex items-center gap-x-3 gap-y-1 flex-wrap">
           <div class="legend-item"><span class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>CRITICAL</div>
           <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>HIGH</div>
           <div class="legend-item"><span class="legend-dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>MEDIUM</div>
@@ -1377,26 +1379,26 @@
       </div>
 
       <!-- Map + Panel grid -->
-      <div class="grid lg:grid-cols-[1fr_380px] threat-map-grid" style="min-height:520px;">
+      <div class="grid lg:grid-cols-[1fr_360px] threat-map-grid" style="min-width:0;">
 
         <!-- 3D Sphere Map -->
-        <div style="position:relative;padding:16px 20px 0;background:radial-gradient(ellipse at 60% 40%,rgba(255,20,147,.04),transparent 70%);">
-          <canvas id="province-sphere-canvas" style="width:100%;height:480px;display:block;cursor:pointer;"></canvas>
+        <div style="position:relative;padding:12px 12px 0;background:radial-gradient(ellipse at 60% 40%,rgba(255,20,147,.04),transparent 70%);min-width:0;overflow:hidden;">
+          <canvas id="province-sphere-canvas" style="width:100%;max-width:100%;display:block;cursor:pointer;touch-action:manipulation;"></canvas>
           <!-- Map instruction hint -->
           <div class="text-center pb-3" style="position:relative;z-index:5">
             <span class="font-mono text-xs text-gray-700 tracking-widest">
               <i class="fas fa-hand-pointer text-pink-500/30 mr-1"></i>
-              CLICK ANY SPHERE TO DRILL DOWN
+              <span class="hidden sm:inline">CLICK</span><span class="sm:hidden">TAP</span> ANY SPHERE TO DRILL DOWN
             </span>
           </div>
         </div>
 
         <!-- Province Detail Panel -->
-        <div style="border-left:1px solid rgba(255,20,147,.1);display:flex;flex-direction:column;">
+        <div style="border-top:1px solid rgba(255,20,147,.1);display:flex;flex-direction:column;" class="lg:border-t-0 lg:border-l lg:border-pink-500/10">
           <div class="province-detail-panel" id="province-detail" style="border-radius:0;border:none;flex:1;--panel-color:#ff1493;">
 
             <!-- Default state -->
-            <div id="detail-default" class="flex flex-col items-center justify-center h-full text-center" style="min-height:380px;">
+            <div id="detail-default" class="flex flex-col items-center justify-center h-full text-center" style="min-height:200px;">
               <div style="width:64px;height:64px;border-radius:18px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,20,147,.5)" stroke-width="1.5" style="width:28px;height:28px;">
                   <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
@@ -1496,28 +1498,28 @@
       </div><!-- end map+panel grid -->
 
       <!-- Stats ticker bar -->
-      <div class="map-stat-ticker">
-        <div class="map-stat-item">
+      <div class="map-stat-ticker" style="overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;scrollbar-width:none;">
+        <div class="map-stat-item" style="flex-shrink:0;">
           <span class="map-stat-value">1,444</span>
           <span class="map-stat-label">INCIDENTS TRACKED</span>
         </div>
-        <div class="map-stat-item">
+        <div class="map-stat-item" style="flex-shrink:0;">
           <span class="map-stat-value" style="color:#ef4444;">342</span>
           <span class="map-stat-label">GAUTENG (HIGHEST)</span>
         </div>
-        <div class="map-stat-item">
+        <div class="map-stat-item" style="flex-shrink:0;">
           <span class="map-stat-value" style="color:#f59e0b;">↑34%</span>
           <span class="map-stat-label">YoY INCREASE</span>
         </div>
-        <div class="map-stat-item">
+        <div class="map-stat-item" style="flex-shrink:0;">
           <span class="map-stat-value">9</span>
           <span class="map-stat-label">PROVINCES TRACKED</span>
         </div>
-        <div class="map-stat-item">
+        <div class="map-stat-item" style="flex-shrink:0;">
           <span class="map-stat-value" style="color:#ff69b4;">Healthcare</span>
           <span class="map-stat-label">#1 TARGETED SECTOR</span>
         </div>
-        <div class="map-stat-item">
+        <div class="map-stat-item" style="flex-shrink:0;">
           <span class="map-stat-value">2024–2025</span>
           <span class="map-stat-label">DATA PERIOD</span>
         </div>
@@ -1935,23 +1937,20 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-  // ── CURSOR (RAF lerp — no setTimeout spam) ────
+  // ── CURSOR ────────────────────────────────────
   const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-  let _mx=0,_my=0,_cx=0,_cy=0;
-  document.addEventListener('mousemove',e=>{
-    _mx=e.clientX; _my=e.clientY;
-    cur2.style.transform='translate('+(e.clientX-2)+'px,'+(e.clientY-2)+'px)';
-  },{passive:true});
-  (function cursorTick(){
-    _cx+=(_mx-_cx)*0.18; _cy+=(_my-_cy)*0.18;
-    cur.style.transform='translate('+(_cx-7)+'px,'+(_cy-7)+'px)';
-    requestAnimationFrame(cursorTick);
+  let mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur2.style.left=(mx-2)+'px'; cur2.style.top=(my-2)+'px'; },{passive:true});
+  document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
+  document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+  (function lagCursor(){
+    cx+=(mx-cx)*.18; cy+=(my-cy)*.18;
+    cur.style.left=(cx-7)+'px'; cur.style.top=(cy-7)+'px';
+    requestAnimationFrame(lagCursor);
   })();
-  document.addEventListener('mousedown',()=>cur.style.scale='1.8');
-  document.addEventListener('mouseup',()=>cur.style.scale='1');
 
   // ── NAV ──────────────────────────────────────
-  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50),{passive:true});
 
   const hamburger=document.getElementById('hamburger');
   const mobileMenu=document.getElementById('mobile-menu');
@@ -2041,52 +2040,38 @@
 
   // ── THREE.JS PARTICLES ──────────────────────
   (function(){
-    // Skip entirely on reduced-motion preference
-    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     const canvas=document.getElementById('three-canvas');
     const scene=new THREE.Scene();
     const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
     camera.position.z=80;
     const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
     renderer.setSize(innerWidth,innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio,1));
+    renderer.setPixelRatio(1); // always 1 — background doesn't need retina
 
-    // 250 particles (down from 500) — halves geometry update cost
-    const count=250,geo=new THREE.BufferGeometry();
-    const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+    // 120 static particles — no per-frame CPU work, just slow GPU rotation
+    const count=120, geo=new THREE.BufferGeometry();
+    const pos=new Float32Array(count*3), col=new Float32Array(count*3);
     for(let i=0;i<count;i++){
       const i3=i*3;
-      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
-      col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
+      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260; pos[i3+2]=(Math.random()-.5)*50;
+      col[i3]=.98; col[i3+1]=.08; col[i3+2]=.58;
     }
     geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
     geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+    const mat=new THREE.PointsMaterial({size:.9,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
     const pts=new THREE.Points(geo,mat);
     scene.add(pts);
 
-    // Pause when tab is hidden — zero CPU when user switches tabs
-    let pageVisible=!document.hidden;
-    document.addEventListener('visibilitychange',()=>{ pageVisible=!document.hidden; });
-
-    let f=0;
-    function animate(){
+    let last=0;
+    function animate(ts){
       requestAnimationFrame(animate);
-      if(!pageVisible) return;
-      // Render every 3rd frame (~20fps) — visually identical, 66% less work
-      if(++f%3) return;
-      const p=pts.geometry.attributes.position.array;
-      const t=Date.now()*.00008;
-      for(let i=1;i<p.length;i+=3){
-        p[i]+=.022;                         // remove per-particle Math.random()
-        p[i-1]+=Math.sin(t+i)*.003;
-        if(p[i]>130)p[i]=-120;
-      }
-      pts.geometry.attributes.position.needsUpdate=true;
-      pts.rotation.y+=.00015;
+      if(ts-last<50)return; // ~20fps is plenty for a static background
+      last=ts;
+      pts.rotation.y+=.0004;
+      pts.rotation.x+=.00008;
       renderer.render(scene,camera);
     }
-    animate();
+    animate(0);
     window.addEventListener('resize',()=>{
       camera.aspect=innerWidth/innerHeight;
       camera.updateProjectionMatrix();
@@ -2275,8 +2260,6 @@
   }
   updateTimestamp();
 
-  let _scoreInt = null, _pctInt = null;
-
   // Province click handler
   function handleProvinceClick(id) {
     const data = PROVINCES[id];
@@ -2316,11 +2299,10 @@
     scoreEl.textContent = '0';
     scoreEl.style.color = data.panelColor;
     let scoreVal = 0;
-    if (_scoreInt) clearInterval(_scoreInt);
-    _scoreInt = setInterval(() => {
+    const scoreInt = setInterval(() => {
       scoreVal = Math.min(scoreVal + 3, data.score);
       scoreEl.textContent = scoreVal;
-      if (scoreVal >= data.score) clearInterval(_scoreInt);
+      if (scoreVal >= data.score) clearInterval(scoreInt);
     }, 20);
 
     // Level badge
@@ -2345,11 +2327,10 @@
     pctEl.textContent = '0%';
     pctEl.style.color = data.panelColor;
     let pctVal = 0;
-    if (_pctInt) clearInterval(_pctInt);
-    _pctInt = setInterval(() => {
+    const pctInt = setInterval(() => {
       pctVal = Math.min(pctVal + 2, data.topPct);
       pctEl.textContent = pctVal + '%';
-      if (pctVal >= data.topPct) clearInterval(_pctInt);
+      if (pctVal >= data.topPct) clearInterval(pctInt);
     }, 20);
 
     // Attack tags
@@ -2387,16 +2368,18 @@
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    const SPHERE_PROVINCES = [
-      { id:'gp',  label:'GAUTENG',     abbr:'GP',  incidents:342, level:'critical', nx:0.74, ny:0.36, baseR:28 },
-      { id:'wc',  label:'W. CAPE',     abbr:'WC',  incidents:278, level:'high',     nx:0.16, ny:0.88, baseR:32 },
-      { id:'kzn', label:'KZN',         abbr:'KZN', incidents:215, level:'high',     nx:0.87, ny:0.65, baseR:30 },
-      { id:'ec',  label:'E. CAPE',     abbr:'EC',  incidents:143, level:'medium',   nx:0.54, ny:0.87, baseR:26 },
-      { id:'mp',  label:'MPUMALANGA',  abbr:'MP',  incidents:98,  level:'high',     nx:0.86, ny:0.37, baseR:22 },
-      { id:'nw',  label:'N. WEST',     abbr:'NW',  incidents:112, level:'low',      nx:0.59, ny:0.34, baseR:24 },
-      { id:'lim', label:'LIMPOPO',     abbr:'LIM', incidents:87,  level:'medium',   nx:0.74, ny:0.13, baseR:26 },
-      { id:'fs',  label:'FREE STATE',  abbr:'FS',  incidents:95,  level:'medium',   nx:0.65, ny:0.57, baseR:25 },
-      { id:'nc',  label:'N. CAPE',     abbr:'NC',  incidents:74,  level:'medium',   nx:0.28, ny:0.49, baseR:22 },
+    // Province data — approximate geographic centre positions (normalised 0-1 over SA bounding box)
+    // x: west→east, y: north→south
+    const PROVINCES = [
+      { id:'gp',  label:'GAUTENG',     abbr:'GP', incidents:342, level:'critical', nx:0.74, ny:0.36, baseR:28 },
+      { id:'wc',  label:'W. CAPE',     abbr:'WC', incidents:278, level:'high',     nx:0.16, ny:0.88, baseR:32 },
+      { id:'kzn', label:'KZN',         abbr:'KZN',incidents:215, level:'high',     nx:0.87, ny:0.65, baseR:30 },
+      { id:'ec',  label:'E. CAPE',     abbr:'EC', incidents:143, level:'medium',   nx:0.54, ny:0.87, baseR:26 },
+      { id:'mp',  label:'MPUMALANGA',  abbr:'MP', incidents:98,  level:'high',     nx:0.86, ny:0.37, baseR:22 },
+      { id:'nw',  label:'N. WEST',     abbr:'NW', incidents:112, level:'low',      nx:0.59, ny:0.34, baseR:24 },
+      { id:'lim', label:'LIMPOPO',     abbr:'LIM',incidents:87,  level:'medium',   nx:0.74, ny:0.13, baseR:26 },
+      { id:'fs',  label:'FREE STATE',  abbr:'FS', incidents:95,  level:'medium',   nx:0.65, ny:0.57, baseR:25 },
+      { id:'nc',  label:'N. CAPE',     abbr:'NC', incidents:74,  level:'medium',   nx:0.28, ny:0.49, baseR:22 },
     ];
 
     const LEVEL_COLORS = {
@@ -2406,46 +2389,41 @@
       low:      { base:'#22c55e', glow:'rgba(34,197,94,',  rgb:'34,197,94' },
     };
 
-    // ── Province lookup map ──
-    const PROVINCE_MAP = new Map(SPHERE_PROVINCES.map(p => [p.id, p]));
-
-    // ── Pre-built connector pairs (references, not strings) ──
-    const RAW_PAIRS = [
-      ['gp','nw'],['gp','mp'],['gp','fs'],['gp','lim'],
-      ['nw','lim'],['nw','nc'],['nw','fs'],
-      ['fs','ec'],['fs','kzn'],['fs','nc'],
-      ['kzn','ec'],['kzn','mp'],
-      ['ec','wc'],['lim','mp'],
-    ];
-    const CONNECTOR_PAIRS = RAW_PAIRS
-      .map(([a,b]) => ({ pa: PROVINCE_MAP.get(a), pb: PROVINCE_MAP.get(b) }))
-      .filter(({pa,pb}) => pa && pb);
-
     let W = 0, H = 0;
     let selectedId = null;
     let hoveredId  = null;
 
-    // ── Cached pixel positions — rebuilt only on resize ──
-    const posCache = new Map();
-    function computePositions() {
-      posCache.clear();
-      SPHERE_PROVINCES.forEach(p => {
-        const px = (0.08 + p.nx * 0.84) * W;
-        const py = (0.08 + p.ny * 0.84) * H;
-        const r  = p.baseR * (W / 700) * window.devicePixelRatio;
-        posCache.set(p.id, { px, py, r });
-      });
+    // Compute pixel positions from normalised coords
+    function spherePos(p) {
+      const dpr = window.devicePixelRatio;
+      const isMobile = W / dpr < 640;
+      const pad = 0.09;
+
+      // On mobile remap nx so the full spread (WC=0.16 → KZN=0.87) fits within [0.08,0.92]
+      let nx = p.nx;
+      if (isMobile) {
+        const xMin = 0.16, xMax = 0.87;
+        nx = 0.08 + ((p.nx - xMin) / (xMax - xMin)) * 0.84;
+      }
+
+      const px = (pad + nx        * (1 - pad * 2)) * W;
+      const py = (pad + p.ny      * (1 - pad * 2)) * H;
+      const scale = isMobile ? 0.80 : 1.0;
+      const r  = p.baseR * (W / 700) * dpr * scale;
+      return { px, py, r };
     }
 
-    // Pre-bake sphere gradients onto offscreen canvases
+    // Pre-bake sphere gradients onto offscreen canvases — rebuilt only on
+    // resize or state change, never per frame.
     const sphereCache = {};
+
     function buildSphereCache() {
-      SPHERE_PROVINCES.forEach(p => {
+      PROVINCES.forEach(p => {
         ['normal','hover','selected'].forEach(state => {
           const key        = p.id + '_' + state;
           const isSelected = state === 'selected';
           const isHovered  = state === 'hover';
-          const { r }      = posCache.get(p.id);
+          const { r }      = spherePos(p);
           const sr         = r * (isSelected ? 1.22 : isHovered ? 1.10 : 1.0);
           const size       = Math.ceil(sr * 3.0);
           const off        = document.createElement('canvas');
@@ -2454,6 +2432,7 @@
           const cx  = size / 2, cy = size / 2;
           const col = LEVEL_COLORS[p.level];
 
+          // halo glow
           const haloR = sr * (isSelected ? 1.9 : 1.5);
           const halo  = oc.createRadialGradient(cx, cy, sr * 0.5, cx, cy, haloR);
           halo.addColorStop(0, col.glow + (isSelected ? '0.28' : '0.14') + ')');
@@ -2461,6 +2440,7 @@
           oc.beginPath(); oc.arc(cx, cy, haloR, 0, Math.PI * 2);
           oc.fillStyle = halo; oc.fill();
 
+          // sphere body
           const body = oc.createRadialGradient(
             cx - sr * 0.28, cy - sr * 0.32, sr * 0.04,
             cx, cy, sr
@@ -2471,6 +2451,7 @@
           oc.beginPath(); oc.arc(cx, cy, sr, 0, Math.PI * 2);
           oc.fillStyle = body; oc.fill();
 
+          // specular highlight
           const spec = oc.createRadialGradient(
             cx - sr * 0.30, cy - sr * 0.34, 0,
             cx - sr * 0.18, cy - sr * 0.22, sr * 0.50
@@ -2484,6 +2465,7 @@
           oc.fillStyle = spec; oc.fill();
           oc.restore();
 
+          // border
           oc.beginPath(); oc.arc(cx, cy, sr, 0, Math.PI * 2);
           oc.strokeStyle = isSelected ? col.base : col.glow + '0.45)';
           oc.lineWidth   = isSelected ? 2.0 : 1.0;
@@ -2495,7 +2477,7 @@
     }
 
     function drawSphere(p) {
-      const { px, py } = posCache.get(p.id);
+      const { px, py } = spherePos(p);
       const isSelected = p.id === selectedId;
       const isHovered  = p.id === hoveredId;
       const state  = isSelected ? 'selected' : isHovered ? 'hover' : 'normal';
@@ -2530,26 +2512,36 @@
     }
 
     function drawConnectors() {
-      // Uses pre-built pair references and cached positions — no find() or recompute
-      const dpr = window.devicePixelRatio;
-      ctx.strokeStyle = 'rgba(255,20,147,0.06)';
-      ctx.lineWidth = 0.8 * dpr;
-      ctx.setLineDash([3 * dpr, 6 * dpr]);
-      CONNECTOR_PAIRS.forEach(({pa, pb}) => {
-        const posA = posCache.get(pa.id);
-        const posB = posCache.get(pb.id);
+      // draw faint connector lines between nearby provinces
+      const pairs = [
+        ['gp','nw'],['gp','mp'],['gp','fs'],['gp','lim'],
+        ['nw','lim'],['nw','nc'],['nw','fs'],
+        ['fs','ec'],['fs','kzn'],['fs','nc'],
+        ['kzn','ec'],['kzn','mp'],
+        ['ec','wc'],
+        ['lim','mp'],
+      ];
+      pairs.forEach(([a, b]) => {
+        const pa = PROVINCES.find(p=>p.id===a);
+        const pb = PROVINCES.find(p=>p.id===b);
+        if (!pa || !pb) return;
+        const posA = spherePos(pa);
+        const posB = spherePos(pb);
         ctx.beginPath();
         ctx.moveTo(posA.px, posA.py);
         ctx.lineTo(posB.px, posB.py);
+        ctx.strokeStyle = 'rgba(255,20,147,0.06)';
+        ctx.lineWidth = 0.8 * window.devicePixelRatio;
+        ctx.setLineDash([3 * window.devicePixelRatio, 6 * window.devicePixelRatio]);
         ctx.stroke();
+        ctx.setLineDash([]);
       });
-      ctx.setLineDash([]);
     }
 
     function drawFrame() {
       ctx.clearRect(0, 0, W, H);
       drawConnectors();
-      const order = [...SPHERE_PROVINCES].sort((a,b) => {
+      const order = [...PROVINCES].sort((a,b) => {
         if (a.id === selectedId) return 1;
         if (b.id === selectedId) return -1;
         if (a.id === hoveredId)  return 1;
@@ -2559,35 +2551,36 @@
       order.forEach(p => drawSphere(p));
     }
 
-    let resizeTimer;
     function resize() {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      W = canvas.width  = Math.floor(rect.width  * window.devicePixelRatio);
-      H = canvas.height = Math.floor(480        * window.devicePixelRatio);
-      canvas.style.width  = rect.width  + 'px';
-      canvas.style.height = '480px';
-      computePositions();    // cache positions first
-      buildSphereCache();    // then build offscreen canvases using cache
+      // Use the smaller of parent width or viewport width — prevents overflow on mobile
+      const parentW = canvas.parentElement.getBoundingClientRect().width;
+      const vw = Math.min(parentW, window.innerWidth);
+      const canvasH = vw < 640 ? Math.round(vw * 0.9) : vw < 1024 ? 420 : 480;
+      const dpr = window.devicePixelRatio;
+      W = canvas.width  = Math.floor(vw      * dpr);
+      H = canvas.height = Math.floor(canvasH * dpr);
+      canvas.style.width  = vw + 'px';
+      canvas.style.height = canvasH + 'px';
+      buildSphereCache();
       drawFrame();
     }
 
+    // ── INIT ──
     resize();
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resize, 120); // debounce resize
-    });
+    window.addEventListener('resize', resize);
 
-    // ── HIT TESTING (uses posCache) ──
+    // ── HIT TESTING ──
     function hitTest(ex, ey) {
+      // convert to canvas pixel space
       const rect = canvas.getBoundingClientRect();
       const dpr  = window.devicePixelRatio;
       const cx = (ex - rect.left) * dpr;
       const cy = (ey - rect.top)  * dpr;
-      for (const p of [...SPHERE_PROVINCES].reverse()) {
-        const pos   = posCache.get(p.id);
+      for (const p of [...PROVINCES].reverse()) {
+        const { px, py, r } = spherePos(p);
         const scale = p.id === selectedId ? 1.22 : 1.0;
-        const sr    = pos.r * scale * 1.15;
-        const dx = cx - pos.px, dy = cy - pos.py;
+        const sr    = r * scale * 1.15; // slightly generous hit area
+        const dx = cx - px, dy = cy - py;
         if (dx*dx + dy*dy <= sr*sr) return p.id;
       }
       return null;
@@ -2604,27 +2597,33 @@
       }
     });
 
-    // ── RAF-throttled mousemove — never fires drawFrame more than once per frame ──
-    let lastMX = 0, lastMY = 0, rafHoverPending = false;
+    canvas.addEventListener('touchend', e => {
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      const id = hitTest(t.clientX, t.clientY);
+      if (id) {
+        selectedId = id;
+        userHasInteracted = true;
+        if (autoCycleTimer) clearInterval(autoCycleTimer);
+        handleProvinceClick(id);
+        drawFrame();
+      }
+    }, { passive: false });
+
     canvas.addEventListener('mousemove', e => {
-      lastMX = e.clientX; lastMY = e.clientY;
-      if (rafHoverPending) return;
-      rafHoverPending = true;
-      requestAnimationFrame(() => {
-        rafHoverPending = false;
-        const id = hitTest(lastMX, lastMY);
-        if (id !== hoveredId) {
-          hoveredId = id;
-          canvas.style.cursor = id ? 'pointer' : 'default';
-          drawFrame();
-        }
-      });
-    }, {passive: true});
+      const id = hitTest(e.clientX, e.clientY);
+      if (id !== hoveredId) {
+        hoveredId = id;
+        canvas.style.cursor = id ? 'pointer' : 'default';
+        drawFrame();
+      }
+    });
 
     canvas.addEventListener('mouseleave', () => {
       if (hoveredId !== null) { hoveredId = null; drawFrame(); }
     });
 
+    // expose so auto-cycle can drive sphere map
     window._sphereSelect = function(id) {
       selectedId = id;
       drawFrame();
