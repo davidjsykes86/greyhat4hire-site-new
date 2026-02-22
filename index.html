@@ -1379,167 +1379,14 @@
       <!-- Map + Panel grid -->
       <div class="grid lg:grid-cols-[1fr_380px] threat-map-grid" style="min-height:520px;">
 
-        <!-- SVG Map -->
-        <div style="position:relative;padding:24px 20px 0;background:radial-gradient(ellipse at 60% 40%,rgba(255,20,147,.04),transparent 70%);">
-          <svg id="sa-map" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg"
-               style="width:100%;height:auto;max-height:480px;display:block;margin:0 auto;">
-
-            <!-- Interactive SVG map of all 9 provinces with accurate relative positioning and geographic shapes -->
-
-            <!-- NORTHERN CAPE: Largest province, occupies western half + central interior -->
-            <path id="prov-nc" class="province-path lvl-medium" data-id="nc"
-              d="M 8,8 L 100,8 L 160,8 L 220,8 L 260,10 L 278,16 L 285,28
-                 L 290,42 L 296,60 L 304,78 L 312,96 L 316,114 L 312,132
-                 L 304,148 L 294,162 L 282,176 L 270,192 L 262,210 L 262,228
-                 L 268,248 L 272,272 L 268,298 L 258,326 L 240,360 L 220,394
-                 L 214,410 L 205,424 L 192,436 L 175,444 L 155,448 L 132,448
-                 L 108,442 L 86,432 L 68,420 L 52,406 L 36,388 L 22,362
-                 L 12,332 L 8,295 Z"/>
-
-            <!-- LIMPOPO: Northern strip, borders Zimbabwe and Botswana -->
-            <path id="prov-lim" class="province-path lvl-medium" data-id="lim"
-              d="M 285,28 L 300,14 L 340,8 L 420,8 L 500,8 L 560,10
-                 L 584,18 L 584,34 L 582,50 L 578,66 L 572,82 L 564,96
-                 L 554,108 L 542,118 L 530,126 L 518,132 L 506,136
-                 L 494,140 L 482,144 L 468,148 L 452,152 L 436,156
-                 L 418,158 L 400,160 L 382,162 L 364,162 L 346,158
-                 L 330,152 L 318,144 L 312,132 L 316,114 L 312,96
-                 L 304,78 L 296,60 L 290,42 Z"/>
-
-            <!-- NORTH WEST: Between NC, Limpopo, Gauteng and Free State -->
-            <path id="prov-nw" class="province-path lvl-low" data-id="nw"
-              d="M 318,144 L 330,152 L 346,158 L 364,162 L 382,162
-                 L 400,160 L 418,158 L 422,170 L 424,186 L 422,202
-                 L 416,216 L 406,226 L 392,234 L 376,240 L 358,244
-                 L 340,246 L 322,244 L 308,240 L 296,232 L 286,222
-                 L 278,210 L 274,196 L 274,182 L 278,168 L 286,156 Z"/>
-
-            <!-- GAUTENG: Smallest province, dense urban core -->
-            <path id="prov-gp" class="province-path lvl-critical" data-id="gp"
-              d="M 418,158 L 436,156 L 452,152 L 468,148 L 482,144
-                 L 490,152 L 494,164 L 496,178 L 494,194 L 488,206
-                 L 478,216 L 466,222 L 452,226 L 438,228 L 424,226
-                 L 416,218 L 416,216 L 422,202 L 424,186 L 422,170 Z"/>
-
-            <!-- MPUMALANGA: East of Gauteng, borders Mozambique and eSwatini -->
-            <path id="prov-mp" class="province-path lvl-high" data-id="mp"
-              d="M 482,144 L 494,140 L 506,136 L 518,132 L 530,126
-                 L 542,118 L 554,108 L 564,96 L 572,82 L 578,66
-                 L 582,50 L 584,70 L 584,100 L 584,132 L 582,162
-                 L 578,188 L 570,212 L 558,232 L 544,248 L 528,260
-                 L 514,266 L 500,268 L 488,264 L 480,254 L 476,240
-                 L 474,226 L 466,222 L 478,216 L 488,206 L 494,194
-                 L 496,178 L 494,164 L 490,152 Z"/>
-
-            <!-- FREE STATE: Large central province -->
-            <path id="prov-fs" class="province-path lvl-medium" data-id="fs"
-              d="M 296,232 L 308,240 L 322,244 L 340,246 L 358,244
-                 L 376,240 L 392,234 L 406,226 L 416,218 L 424,226
-                 L 438,228 L 452,226 L 466,222 L 474,226 L 476,240
-                 L 480,254 L 488,264 L 494,272 L 496,286 L 492,302
-                 L 482,316 L 468,328 L 452,338 L 434,346 L 414,352
-                 L 392,356 L 370,358 L 348,358 L 326,354 L 308,348
-                 L 293,340 L 282,328 L 275,314 L 272,298 L 272,282
-                 L 276,266 L 284,250 Z"/>
-
-            <!-- KWAZULU-NATAL: Narrow coastal strip down eastern seaboard -->
-            <path id="prov-kzn" class="province-path lvl-high" data-id="kzn"
-              d="M 500,268 L 514,266 L 528,260 L 544,248 L 558,232
-                 L 570,212 L 578,188 L 582,162 L 584,188 L 584,218
-                 L 582,248 L 576,276 L 566,302 L 552,326 L 536,346
-                 L 518,364 L 500,378 L 482,390 L 464,398 L 448,402
-                 L 434,402 L 422,396 L 414,386 L 410,372 L 410,358
-                 L 412,344 L 418,332 L 428,320 L 440,310 L 452,302
-                 L 462,294 L 472,284 L 480,274 L 488,266 L 494,272
-                 L 496,286 L 492,302 Z"/>
-
-            <!-- EASTERN CAPE: Large southern province -->
-            <path id="prov-ec" class="province-path lvl-medium" data-id="ec"
-              d="M 220,394 L 240,360 L 258,326 L 268,298 L 272,282
-                 L 275,314 L 282,328 L 293,340 L 308,348 L 326,354
-                 L 348,358 L 370,358 L 392,356 L 414,352 L 434,346
-                 L 452,338 L 410,358 L 410,372 L 414,386 L 422,396
-                 L 428,408 L 428,422 L 422,436 L 410,448 L 394,458
-                 L 374,466 L 352,472 L 328,476 L 304,478 L 280,476
-                 L 258,470 L 238,462 L 220,450 L 206,436 L 198,422
-                 L 194,408 L 196,396 Z"/>
-
-            <!-- WESTERN CAPE: Bottom-left, Cape Peninsula -->
-            <path id="prov-wc" class="province-path lvl-high" data-id="wc"
-              d="M 8,295 L 8,400 L 8,430 L 16,448 L 30,464 L 48,478
-                 L 70,488 L 96,494 L 124,496 L 152,494 L 176,488
-                 L 196,480 L 210,470 L 218,458 L 214,448 L 206,436
-                 L 198,422 L 194,408 L 196,396 L 192,436 L 175,444
-                 L 155,448 L 132,448 L 108,442 L 86,432 L 68,420
-                 L 52,406 L 36,388 L 22,362 L 12,332 Z"/>
-
-            <!-- Threat pulse dots on high-activity provinces -->
-            <!-- Gauteng pulses (critical) -->
-            <circle class="pulse-ring" cx="456" cy="192" r="5" stroke="#ef4444" style="animation-delay:0s"/>
-            <circle class="pulse-ring" cx="456" cy="192" r="5" stroke="#ef4444" style="animation-delay:.8s"/>
-            <circle class="pulse-dot" cx="456" cy="192" r="4" fill="#ef4444"/>
-
-            <!-- Western Cape pulses (high) -->
-            <circle class="pulse-ring" cx="108" cy="460" r="5" stroke="#f59e0b" style="animation-delay:.3s"/>
-            <circle class="pulse-ring" cx="108" cy="460" r="5" stroke="#f59e0b" style="animation-delay:1.1s"/>
-            <circle class="pulse-dot" cx="108" cy="460" r="4" fill="#f59e0b" style="animation-delay:.3s"/>
-
-            <!-- KZN pulses (high) -->
-            <circle class="pulse-ring" cx="524" cy="334" r="5" stroke="#f59e0b" style="animation-delay:.6s"/>
-            <circle class="pulse-dot" cx="524" cy="334" r="4" fill="#f59e0b" style="animation-delay:.6s"/>
-
-            <!-- Mpumalanga pulses (high) -->
-            <circle class="pulse-ring" cx="540" cy="196" r="4" stroke="#f59e0b" style="animation-delay:1.2s"/>
-            <circle class="pulse-dot" cx="540" cy="196" r="3" fill="#f59e0b" style="animation-delay:1.2s"/>
-
-            <!-- Province Labels -->
-            <text class="province-label critical" x="456" y="192" text-anchor="middle" dy="-14">GAUTENG</text>
-            <text class="province-count" x="456" y="192" text-anchor="middle" dy="-4" font-size="7" fill="rgba(239,68,68,.7)">342</text>
-
-            <text class="province-label high" x="108" y="462" text-anchor="middle" dy="-14" font-size="7">W. CAPE</text>
-            <text class="province-count" x="108" y="462" text-anchor="middle" dy="-4" font-size="7" fill="rgba(245,158,11,.7)">278</text>
-
-            <text class="province-label high" x="524" y="334" text-anchor="middle" dy="-14" font-size="7">KZN</text>
-            <text class="province-count" x="524" y="334" text-anchor="middle" dy="-4" font-size="7" fill="rgba(245,158,11,.7)">215</text>
-
-            <text class="province-label medium" x="390" y="300" text-anchor="middle" dy="-12" font-size="7.5">FREE STATE</text>
-            <text class="province-count" x="390" y="300" text-anchor="middle" dy="-3" font-size="6.5" fill="rgba(255,20,147,.7)">95</text>
-
-            <text class="province-label medium" x="326" y="436" text-anchor="middle" dy="-12" font-size="7">E. CAPE</text>
-            <text class="province-count" x="326" y="436" text-anchor="middle" dy="-3" font-size="6.5" fill="rgba(255,20,147,.7)">143</text>
-
-            <text class="province-label medium" x="148" y="240" text-anchor="middle" dy="-12" font-size="7">N. CAPE</text>
-            <text class="province-count" x="148" y="240" text-anchor="middle" dy="-3" font-size="6.5" fill="rgba(255,20,147,.7)">74</text>
-
-            <text class="province-label medium" x="450" y="60" text-anchor="middle" dy="-2" font-size="7">LIMPOPO</text>
-            <text class="province-count" x="450" y="60" text-anchor="middle" dy="9" font-size="6.5" fill="rgba(255,20,147,.7)">87</text>
-
-            <text class="province-label low" x="352" y="196" text-anchor="middle" dy="-12" font-size="6.5">N. WEST</text>
-            <text class="province-count" x="352" y="196" text-anchor="middle" dy="-3" font-size="6.5" fill="rgba(34,197,94,.7)">112</text>
-
-            <text class="province-label high" x="540" y="196" text-anchor="middle" dy="-14" font-size="6.5">MPUM.</text>
-            <text class="province-count" x="540" y="196" text-anchor="middle" dy="-4" font-size="6.5" fill="rgba(245,158,11,.7)">98</text>
-
-            <!-- Grid lines (map aesthetic) -->
-            <line x1="0" y1="166" x2="600" y2="166" stroke="rgba(255,20,147,.05)" stroke-width="1" stroke-dasharray="4,6"/>
-            <line x1="0" y1="333" x2="600" y2="333" stroke="rgba(255,20,147,.05)" stroke-width="1" stroke-dasharray="4,6"/>
-            <line x1="200" y1="0" x2="200" y2="500" stroke="rgba(255,20,147,.05)" stroke-width="1" stroke-dasharray="4,6"/>
-            <line x1="400" y1="0" x2="400" y2="500" stroke="rgba(255,20,147,.05)" stroke-width="1" stroke-dasharray="4,6"/>
-
-            <!-- Compass rose -->
-            <g transform="translate(560,460)">
-              <text font-family="Orbitron,monospace" font-size="8" fill="rgba(255,20,147,.4)" text-anchor="middle" y="-10">N</text>
-              <line x1="0" y1="-5" x2="0" y2="5" stroke="rgba(255,20,147,.3)" stroke-width="1"/>
-              <line x1="-5" y1="0" x2="5" y2="0" stroke="rgba(255,20,147,.2)" stroke-width="1"/>
-            </g>
-
-          </svg>
-
+        <!-- 3D Sphere Map -->
+        <div style="position:relative;padding:16px 20px 0;background:radial-gradient(ellipse at 60% 40%,rgba(255,20,147,.04),transparent 70%);">
+          <canvas id="province-sphere-canvas" style="width:100%;height:480px;display:block;cursor:pointer;"></canvas>
           <!-- Map instruction hint -->
           <div class="text-center pb-3" style="position:relative;z-index:5">
             <span class="font-mono text-xs text-gray-700 tracking-widest">
               <i class="fas fa-hand-pointer text-pink-500/30 mr-1"></i>
-              CLICK ANY PROVINCE TO DRILL DOWN
+              CLICK ANY SPHERE TO DRILL DOWN
             </span>
           </div>
         </div>
@@ -2090,15 +1937,18 @@
 
   // ── CURSOR ────────────────────────────────────
   const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-  document.addEventListener('mousemove',e=>{
-    cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
-    setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
-  });
+  let mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur2.style.left=(mx-2)+'px'; cur2.style.top=(my-2)+'px'; },{passive:true});
   document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
   document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+  (function lagCursor(){
+    cx+=(mx-cx)*.18; cy+=(my-cy)*.18;
+    cur.style.left=(cx-7)+'px'; cur.style.top=(cy-7)+'px';
+    requestAnimationFrame(lagCursor);
+  })();
 
   // ── NAV ──────────────────────────────────────
-  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50),{passive:true});
 
   const hamburger=document.getElementById('hamburger');
   const mobileMenu=document.getElementById('mobile-menu');
@@ -2192,38 +2042,34 @@
     const scene=new THREE.Scene();
     const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
     camera.position.z=80;
-    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
     renderer.setSize(innerWidth,innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+    renderer.setPixelRatio(1); // always 1 — background doesn't need retina
 
-    const count=500,geo=new THREE.BufferGeometry();
-    const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+    // 120 static particles — no per-frame CPU work, just slow GPU rotation
+    const count=120, geo=new THREE.BufferGeometry();
+    const pos=new Float32Array(count*3), col=new Float32Array(count*3);
     for(let i=0;i<count;i++){
       const i3=i*3;
-      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
-      col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
+      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260; pos[i3+2]=(Math.random()-.5)*50;
+      col[i3]=.98; col[i3+1]=.08; col[i3+2]=.58;
     }
     geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
     geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+    const mat=new THREE.PointsMaterial({size:.9,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
     const pts=new THREE.Points(geo,mat);
     scene.add(pts);
 
-    let f=0;
-    function animate(){
+    let last=0;
+    function animate(ts){
       requestAnimationFrame(animate);
-      if(++f%2)return;
-      const p=pts.geometry.attributes.position.array;
-      for(let i=1;i<p.length;i+=3){
-        p[i]+=.022+Math.random()*.028;
-        p[i-1]+=Math.sin(Date.now()*.00008+i)*.003;
-        if(p[i]>130)p[i]=-120;
-      }
-      pts.geometry.attributes.position.needsUpdate=true;
-      pts.rotation.y+=.00015;
+      if(ts-last<50)return; // ~20fps is plenty for a static background
+      last=ts;
+      pts.rotation.y+=.0004;
+      pts.rotation.x+=.00008;
       renderer.render(scene,camera);
     }
-    animate();
+    animate(0);
     window.addEventListener('resize',()=>{
       camera.aspect=innerWidth/innerHeight;
       camera.updateProjectionMatrix();
@@ -2512,13 +2358,248 @@
     return '255,20,147';
   }
 
-  // Bind province clicks
-  document.querySelectorAll('.province-path').forEach(path => {
-    path.addEventListener('click', () => {
-      const id = path.getAttribute('data-id');
-      handleProvinceClick(id);
+  // ══════════════════════════════════════════════
+  //  3-D SPHERE MAP  (province-sphere-canvas)
+  // ══════════════════════════════════════════════
+  (function initSphereMap() {
+    const canvas = document.getElementById('province-sphere-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // Province data — approximate geographic centre positions (normalised 0-1 over SA bounding box)
+    // x: west→east, y: north→south
+    const PROVINCES = [
+      { id:'gp',  label:'GAUTENG',     abbr:'GP', incidents:342, level:'critical', nx:0.74, ny:0.36, baseR:28 },
+      { id:'wc',  label:'W. CAPE',     abbr:'WC', incidents:278, level:'high',     nx:0.16, ny:0.88, baseR:32 },
+      { id:'kzn', label:'KZN',         abbr:'KZN',incidents:215, level:'high',     nx:0.87, ny:0.65, baseR:30 },
+      { id:'ec',  label:'E. CAPE',     abbr:'EC', incidents:143, level:'medium',   nx:0.54, ny:0.87, baseR:26 },
+      { id:'mp',  label:'MPUMALANGA',  abbr:'MP', incidents:98,  level:'high',     nx:0.86, ny:0.37, baseR:22 },
+      { id:'nw',  label:'N. WEST',     abbr:'NW', incidents:112, level:'low',      nx:0.59, ny:0.34, baseR:24 },
+      { id:'lim', label:'LIMPOPO',     abbr:'LIM',incidents:87,  level:'medium',   nx:0.74, ny:0.13, baseR:26 },
+      { id:'fs',  label:'FREE STATE',  abbr:'FS', incidents:95,  level:'medium',   nx:0.65, ny:0.57, baseR:25 },
+      { id:'nc',  label:'N. CAPE',     abbr:'NC', incidents:74,  level:'medium',   nx:0.28, ny:0.49, baseR:22 },
+    ];
+
+    const LEVEL_COLORS = {
+      critical: { base:'#ef4444', glow:'rgba(239,68,68,', rgb:'239,68,68' },
+      high:     { base:'#f59e0b', glow:'rgba(245,158,11,', rgb:'245,158,11' },
+      medium:   { base:'#ff1493', glow:'rgba(255,20,147,', rgb:'255,20,147' },
+      low:      { base:'#22c55e', glow:'rgba(34,197,94,',  rgb:'34,197,94' },
+    };
+
+    let W = 0, H = 0;
+    let selectedId = null;
+    let hoveredId  = null;
+
+    // Compute pixel positions from normalised coords
+    function spherePos(p) {
+      // leave 8% padding on each side
+      const px = (0.08 + p.nx * 0.84) * W;
+      const py = (0.08 + p.ny * 0.84) * H;
+      const r  = p.baseR * (W / 700) * window.devicePixelRatio;
+      return { px, py, r };
+    }
+
+    // Pre-bake sphere gradients onto offscreen canvases — rebuilt only on
+    // resize or state change, never per frame.
+    const sphereCache = {};
+
+    function buildSphereCache() {
+      PROVINCES.forEach(p => {
+        ['normal','hover','selected'].forEach(state => {
+          const key        = p.id + '_' + state;
+          const isSelected = state === 'selected';
+          const isHovered  = state === 'hover';
+          const { r }      = spherePos(p);
+          const sr         = r * (isSelected ? 1.22 : isHovered ? 1.10 : 1.0);
+          const size       = Math.ceil(sr * 3.0);
+          const off        = document.createElement('canvas');
+          off.width = off.height = size;
+          const oc  = off.getContext('2d');
+          const cx  = size / 2, cy = size / 2;
+          const col = LEVEL_COLORS[p.level];
+
+          // halo glow
+          const haloR = sr * (isSelected ? 1.9 : 1.5);
+          const halo  = oc.createRadialGradient(cx, cy, sr * 0.5, cx, cy, haloR);
+          halo.addColorStop(0, col.glow + (isSelected ? '0.28' : '0.14') + ')');
+          halo.addColorStop(1, col.glow + '0)');
+          oc.beginPath(); oc.arc(cx, cy, haloR, 0, Math.PI * 2);
+          oc.fillStyle = halo; oc.fill();
+
+          // sphere body
+          const body = oc.createRadialGradient(
+            cx - sr * 0.28, cy - sr * 0.32, sr * 0.04,
+            cx, cy, sr
+          );
+          body.addColorStop(0,    col.glow + (isSelected ? '0.88' : '0.70') + ')');
+          body.addColorStop(0.55, col.glow + (isSelected ? '0.42' : '0.28') + ')');
+          body.addColorStop(1,    'rgba(0,0,0,' + (isSelected ? '0.70' : '0.55') + ')');
+          oc.beginPath(); oc.arc(cx, cy, sr, 0, Math.PI * 2);
+          oc.fillStyle = body; oc.fill();
+
+          // specular highlight
+          const spec = oc.createRadialGradient(
+            cx - sr * 0.30, cy - sr * 0.34, 0,
+            cx - sr * 0.18, cy - sr * 0.22, sr * 0.50
+          );
+          spec.addColorStop(0,   'rgba(255,255,255,0.65)');
+          spec.addColorStop(0.5, 'rgba(255,255,255,0.14)');
+          spec.addColorStop(1,   'rgba(255,255,255,0)');
+          oc.save();
+          oc.beginPath(); oc.arc(cx, cy, sr, 0, Math.PI * 2); oc.clip();
+          oc.beginPath(); oc.arc(cx, cy, sr, 0, Math.PI * 2);
+          oc.fillStyle = spec; oc.fill();
+          oc.restore();
+
+          // border
+          oc.beginPath(); oc.arc(cx, cy, sr, 0, Math.PI * 2);
+          oc.strokeStyle = isSelected ? col.base : col.glow + '0.45)';
+          oc.lineWidth   = isSelected ? 2.0 : 1.0;
+          oc.stroke();
+
+          sphereCache[key] = { canvas: off, cx, cy, sr, col };
+        });
+      });
+    }
+
+    function drawSphere(p) {
+      const { px, py } = spherePos(p);
+      const isSelected = p.id === selectedId;
+      const isHovered  = p.id === hoveredId;
+      const state  = isSelected ? 'selected' : isHovered ? 'hover' : 'normal';
+      const cached = sphereCache[p.id + '_' + state];
+      if (!cached) return;
+      const { canvas: off, cx, cy, sr, col } = cached;
+
+      ctx.save();
+      ctx.drawImage(off, px - cx, py - cy);
+      ctx.translate(px, py);
+
+      const dpr      = window.devicePixelRatio;
+      const fontSize = Math.max(8, sr * 0.42);
+      ctx.font = `900 ${fontSize}px Orbitron, monospace`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle  = '#fff';
+      ctx.shadowColor = col.base; ctx.shadowBlur = 5 * dpr;
+      ctx.fillText(p.abbr, 0, 0);
+      ctx.shadowBlur = 0;
+
+      const cntSize = Math.max(7, sr * 0.32);
+      ctx.font = `700 ${cntSize}px "Share Tech Mono", monospace`;
+      ctx.fillStyle = col.glow + '0.85)';
+      ctx.fillText(p.incidents, 0, sr + cntSize * 1.3);
+
+      const lblSize = Math.max(6, sr * 0.26);
+      ctx.font = `600 ${lblSize}px Orbitron, monospace`;
+      ctx.fillStyle = 'rgba(255,255,255,0.32)';
+      ctx.fillText(p.label, 0, sr + cntSize * 1.3 + lblSize * 1.5);
+
+      ctx.restore();
+    }
+
+    function drawConnectors() {
+      // draw faint connector lines between nearby provinces
+      const pairs = [
+        ['gp','nw'],['gp','mp'],['gp','fs'],['gp','lim'],
+        ['nw','lim'],['nw','nc'],['nw','fs'],
+        ['fs','ec'],['fs','kzn'],['fs','nc'],
+        ['kzn','ec'],['kzn','mp'],
+        ['ec','wc'],
+        ['lim','mp'],
+      ];
+      pairs.forEach(([a, b]) => {
+        const pa = PROVINCES.find(p=>p.id===a);
+        const pb = PROVINCES.find(p=>p.id===b);
+        if (!pa || !pb) return;
+        const posA = spherePos(pa);
+        const posB = spherePos(pb);
+        ctx.beginPath();
+        ctx.moveTo(posA.px, posA.py);
+        ctx.lineTo(posB.px, posB.py);
+        ctx.strokeStyle = 'rgba(255,20,147,0.06)';
+        ctx.lineWidth = 0.8 * window.devicePixelRatio;
+        ctx.setLineDash([3 * window.devicePixelRatio, 6 * window.devicePixelRatio]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+    }
+
+    function drawFrame() {
+      ctx.clearRect(0, 0, W, H);
+      drawConnectors();
+      const order = [...PROVINCES].sort((a,b) => {
+        if (a.id === selectedId) return 1;
+        if (b.id === selectedId) return -1;
+        if (a.id === hoveredId)  return 1;
+        if (b.id === hoveredId)  return -1;
+        return 0;
+      });
+      order.forEach(p => drawSphere(p));
+    }
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      W = canvas.width  = Math.floor(rect.width  * window.devicePixelRatio);
+      H = canvas.height = Math.floor(480        * window.devicePixelRatio);
+      canvas.style.width  = rect.width  + 'px';
+      canvas.style.height = '480px';
+      buildSphereCache();
+      drawFrame();
+    }
+
+    // ── INIT ──
+    resize();
+    window.addEventListener('resize', resize);
+
+    // ── HIT TESTING ──
+    function hitTest(ex, ey) {
+      // convert to canvas pixel space
+      const rect = canvas.getBoundingClientRect();
+      const dpr  = window.devicePixelRatio;
+      const cx = (ex - rect.left) * dpr;
+      const cy = (ey - rect.top)  * dpr;
+      for (const p of [...PROVINCES].reverse()) {
+        const { px, py, r } = spherePos(p);
+        const scale = p.id === selectedId ? 1.22 : 1.0;
+        const sr    = r * scale * 1.15; // slightly generous hit area
+        const dx = cx - px, dy = cy - py;
+        if (dx*dx + dy*dy <= sr*sr) return p.id;
+      }
+      return null;
+    }
+
+    canvas.addEventListener('click', e => {
+      const id = hitTest(e.clientX, e.clientY);
+      if (id) {
+        selectedId = id;
+        userHasInteracted = true;
+        if (autoCycleTimer) clearInterval(autoCycleTimer);
+        handleProvinceClick(id);
+        drawFrame();
+      }
     });
-  });
+
+    canvas.addEventListener('mousemove', e => {
+      const id = hitTest(e.clientX, e.clientY);
+      if (id !== hoveredId) {
+        hoveredId = id;
+        canvas.style.cursor = id ? 'pointer' : 'default';
+        drawFrame();
+      }
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      if (hoveredId !== null) { hoveredId = null; drawFrame(); }
+    });
+
+    // expose so auto-cycle can drive sphere map
+    window._sphereSelect = function(id) {
+      selectedId = id;
+      drawFrame();
+    };
+
+  })();
 
   // ── ANIMATE INDUSTRY BARS on scroll ──────────
   const barTargets = {
@@ -2568,7 +2649,9 @@
     if (userHasInteracted) return;
     autoCycleTimer = setInterval(() => {
       if (userHasInteracted) { clearInterval(autoCycleTimer); return; }
-      handleProvinceClick(autoCycleOrder[autoCycleIdx % autoCycleOrder.length]);
+      const id = autoCycleOrder[autoCycleIdx % autoCycleOrder.length];
+      if (window._sphereSelect) window._sphereSelect(id);
+      handleProvinceClick(id);
       autoCycleIdx++;
     }, 3000);
   }
@@ -2586,13 +2669,7 @@
   const mapSection = document.getElementById('threat-map');
   if (mapSection) mapObs.observe(mapSection);
 
-  // Stop auto-cycle on any user province interaction
-  document.querySelectorAll('.province-path').forEach(path => {
-    path.addEventListener('click', () => {
-      userHasInteracted = true;
-      if (autoCycleTimer) clearInterval(autoCycleTimer);
-    });
-  });
+  // (Auto-cycle stop is handled inside the sphere canvas click listener)
 
 </script>
 </body>
