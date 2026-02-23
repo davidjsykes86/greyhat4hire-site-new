@@ -15,7 +15,6 @@ export async function onRequest(context) {
   const mode  = url.searchParams.get('mode');
   const query = (url.searchParams.get('q') || '').trim();
   const count = Math.min(parseInt(url.searchParams.get('count') || '20'), 50);
-  const debug = url.searchParams.get('debug') === '1';
 
   try {
     let payload;
@@ -23,10 +22,10 @@ export async function onRequest(context) {
       payload = await fetchKEV();
     } else if (mode === 'cve') {
       if (!query) return jsonResponse({ error: 'Missing q param' }, 400);
-      payload = await fetchByCVEId(query, env.NVD_API_KEY, debug);
+      payload = await fetchByCVEId(query, env.NVD_API_KEY);
     } else if (mode === 'keyword') {
       if (!query) return jsonResponse({ error: 'Missing q param' }, 400);
-      payload = await fetchByKeyword(query, count, env.NVD_API_KEY, debug);
+      payload = await fetchByKeyword(query, count, env.NVD_API_KEY);
     } else {
       return jsonResponse({ error: 'Invalid mode' }, 400);
     }
@@ -93,7 +92,7 @@ const CIRCL_VENDOR_MAP = {
   'zoom video':           'zoom/zoom',
 };
 
-async function fetchByCVEId(cveId, apiKey, debug) {
+async function fetchByCVEId(cveId, apiKey) {
   const id  = cveId.toUpperCase();
   const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(id)}`;
   const nvd = await nvdFetch(url, apiKey);
@@ -106,7 +105,7 @@ async function fetchByCVEId(cveId, apiKey, debug) {
   return { cves: [], source: 'none', reason: nvd.reason || 'Not found' };
 }
 
-async function fetchByKeyword(keyword, count, apiKey, debug) {
+async function fetchByKeyword(keyword, count, apiKey) {
   const kw = keyword.toLowerCase();
   const nvdTerms = NVD_KEYWORD_MAP[kw] || [keyword];
   const log = [];
@@ -118,7 +117,7 @@ async function fetchByKeyword(keyword, count, apiKey, debug) {
     log.push({ term, ok: nvd.ok, reason: nvd.reason, count: nvd.ok ? (nvd.data.vulnerabilities||[]).length : 0 });
     if (nvd.ok) {
       const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
-      if (cves.length) return { cves, source: 'nvd', ...(debug && { debug: log, hasKey }) };
+      if (cves.length) return { cves, source: 'nvd', hasKey };
     }
     if (nvd.reason && nvd.reason.includes('rate')) break;
   }
@@ -128,16 +127,17 @@ async function fetchByKeyword(keyword, count, apiKey, debug) {
   log.push({ circl: circlPath || 'no mapping' });
   if (circlPath) {
     const cves = await circlByVendor(circlPath, count);
-    if (cves.length) return { cves, source: 'circl', ...(debug && { debug: log, hasKey }) };
+    log.push({ circlResults: cves.length });
+    if (cves.length) return { cves, source: 'circl', hasKey };
   }
 
-  return { cves: [], source: 'none', reason: '0 results', ...(debug && { debug: log, hasKey }) };
+  // Always include debug info in the zero-result response
+  return { cves: [], source: 'none', reason: '0 results', hasKey, debug: log };
 }
 
 async function fetchKEV() {
   const res = await fetch(
-    'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json',
-    { cf: { cacheTtl: 3600, cacheEverything: true } }
+    'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'
   );
   if (!res.ok) throw new Error(`KEV fetch failed: ${res.status}`);
   const data = await res.json();
@@ -147,10 +147,8 @@ async function fetchKEV() {
 async function nvdFetch(url, apiKey) {
   try {
     const headers = apiKey ? { apiKey } : {};
-    const res = await fetch(url, {
-      headers,
-      cf: { cacheTtl: 3600, cacheEverything: true },
-    });
+    // No caching — fetch fresh every time so we don't cache failures
+    const res = await fetch(url, { headers });
     if (res.status === 429) return { ok: false, reason: 'NVD rate limited' };
     if (res.status === 403) return { ok: false, reason: 'NVD access denied' };
     if (res.status === 404) return { ok: false, reason: 'NVD 404 no results' };
@@ -163,9 +161,7 @@ async function nvdFetch(url, apiKey) {
 
 async function circlById(cveId) {
   try {
-    const res = await fetch(`https://cve.circl.lu/api/cve/${cveId}`,
-      { cf: { cacheTtl: 3600, cacheEverything: true } }
-    );
+    const res = await fetch(`https://cve.circl.lu/api/cve/${cveId}`);
     if (!res.ok) return null;
     const cd = await res.json();
     return normaliseCIRCL(cd);
@@ -174,9 +170,7 @@ async function circlById(cveId) {
 
 async function circlByVendor(path, count) {
   try {
-    const res = await fetch(`https://cve.circl.lu/api/search/${path}`,
-      { cf: { cacheTtl: 3600, cacheEverything: true } }
-    );
+    const res = await fetch(`https://cve.circl.lu/api/search/${path}`);
     if (!res.ok) return [];
     const data = await res.json();
     const raw  = Array.isArray(data) ? data : (data.results || []);
@@ -204,6 +198,10 @@ function normaliseCIRCL(cd) {
 function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      ...CORS_HEADERS,
+    },
   });
 }
