@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — Greyhat4Hire</title>
+  <meta name="description" content="Privacy Policy for Greyhat4Hire. How we collect, use, and protect your personal information in accordance with POPIA."/>
+
+  <!-- ══ SEO ══ -->
+  <link rel="canonical" href="https://greyhat4hire.co.za/privacy.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="theme-color" content="#000000"/>
+
+  <!-- ══ OPEN GRAPH ══ -->
+  <meta property="og:type"        content="website"/>
+  <meta property="og:url"         content="https://greyhat4hire.co.za/privacy.html"/>
+  <meta property="og:title"       content="Privacy Policy — Greyhat4Hire"/>
+  <meta property="og:description" content="How we collect, use, and protect your personal information in accordance with POPIA."/>
+  <meta property="og:image"       content="https://greyhat4hire.co.za/og-image.png"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root { --pink: #ff1493; }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', system-ui, sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;will-change:transform; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform; }
+
+    .font-display { font-family: 'Orbitron', monospace; }
+    .font-mono    { font-family: 'Share Tech Mono', monospace; }
+
+    .glass { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
+
+    nav { transition:all .4s ease; }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover::after { width:100%; }
+
+    #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+    #mobile-menu.open { transform:translateY(0); }
+    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+    .mobile-tool-link { display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0; }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+
+    .btn-primary {
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+    .pink-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent); }
+
+    /* ── Privacy content styles ── */
+    .privacy-section {
+      background: rgba(8,8,8,.72);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,20,147,.15);
+      border-radius: 20px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      position: relative;
+      transition: border-color .4s ease;
+    }
+    .privacy-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,20,147,.4), transparent);
+      border-radius: 20px 20px 0 0;
+    }
+    .privacy-section:hover { border-color: rgba(255,20,147,.3); }
+
+    .privacy-section h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ff1493;
+      letter-spacing: .1em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .privacy-section p {
+      color: rgba(255,255,255,.65);
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+    .privacy-section p:last-child { margin-bottom: 0; }
+    .privacy-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+    .privacy-section ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255,255,255,.65);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .privacy-section ul li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #ff1493;
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .privacy-section a {
+      color: #ff1493;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .privacy-section strong { color: rgba(255,255,255,.9); }
+
+    .last-updated {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      color: rgba(255,20,147,.5);
+      letter-spacing: .12em;
+    }
+
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+
+    .whatsapp-btn {
+      position:fixed;bottom:24px;right:24px;
+      background:linear-gradient(135deg,#25D366,#128C7E);
+      color:white;width:62px;height:62px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);
+      z-index:998;transition:all .4s ease;text-decoration:none;
+    }
+    .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+    </a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html"            class="desktop-link">Home</a>
+      <a href="about.html"            class="desktop-link">About</a>
+      <a href="services.html"         class="desktop-link">Services</a>
+      <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+      <a href="pricing.html"          class="desktop-link">Pricing</a>
+      <a href="contact.html"          class="desktop-link">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div id="mobile-menu" class="hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html"  class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+    <a href="hackers-dossier.html"  class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+    <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+    <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
+
+<!-- ══ PAGE HEADER ══ -->
+<section class="pt-36 pb-12 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="section-tag mb-4">Legal</div>
+    <h1 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Privacy Policy</h1>
+    <p class="text-gray-400 max-w-xl mx-auto leading-relaxed mb-4">
+      How we collect, use, protect, and respect your personal information — in plain language, in full compliance with the Protection of Personal Information Act (POPIA).
+    </p>
+    <div class="last-updated">LAST UPDATED: JUNE 2025</div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4 mb-12" style="position:relative;z-index:2;"></div>
+
+<!-- ══ CONTENT ══ -->
+<section class="pb-24 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-3xl mx-auto">
+
+    <!-- 1. Who We Are -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-shield-alt"></i> 1. Who We Are</h2>
+      <p><strong>Greyhat4Hire</strong> is an independent cybersecurity consulting firm providing penetration testing, vulnerability assessments, compliance audits, and incident response services across South Africa.</p>
+      <p>We are the responsible party for the personal information we collect through this website and through our client engagements, as defined under the Protection of Personal Information Act 4 of 2013 (POPIA).</p>
+      <p>
+        <strong>Contact:</strong> <a href="mailto:info@greyhat4hire.co.za">info@greyhat4hire.co.za</a><br/>
+        <strong>Phone:</strong> <a href="tel:+27846353581">+27 84 635 3581</a><br/>
+        <strong>Website:</strong> <a href="https://greyhat4hire.co.za">greyhat4hire.co.za</a>
+      </p>
+    </div>
+
+    <!-- 2. Information We Collect -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-database"></i> 2. Information We Collect</h2>
+      <p>We collect only the minimum information necessary to provide our services. This may include:</p>
+      <ul>
+        <li><strong>Contact information</strong> — name, email address, phone number, and company name submitted through our contact form or WhatsApp.</li>
+        <li><strong>Engagement information</strong> — technical details about systems in scope, as agreed in a signed Statement of Work and NDA.</li>
+        <li><strong>Communication records</strong> — emails and messages exchanged during an engagement.</li>
+        <li><strong>Website usage data</strong> — basic analytics such as page visits and browser type, collected through essential cookies only. We do not use advertising or tracking cookies.</li>
+      </ul>
+      <p>We do not collect sensitive personal information (as defined by POPIA) without your explicit written consent.</p>
+    </div>
+
+    <!-- 3. How We Use Your Information -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-cogs"></i> 3. How We Use Your Information</h2>
+      <p>We use your personal information solely to:</p>
+      <ul>
+        <li>Respond to enquiries and provide quotes for our services.</li>
+        <li>Conduct and deliver agreed cybersecurity engagements.</li>
+        <li>Communicate with you about your engagement, findings, and remediation.</li>
+        <li>Comply with legal obligations, including tax and regulatory requirements.</li>
+        <li>Improve our website based on anonymised usage patterns.</li>
+      </ul>
+      <p>We will never sell, rent, or trade your personal information to any third party. We will never use your information for marketing purposes without your explicit consent.</p>
+    </div>
+
+    <!-- 4. Cookies -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-cookie-bite"></i> 4. Cookies</h2>
+      <p>This website uses <strong>essential cookies only</strong>. These are strictly necessary for the website to function correctly and cannot be disabled without breaking core functionality.</p>
+      <p>We do not use:</p>
+      <ul>
+        <li>Advertising or tracking cookies</li>
+        <li>Third-party analytics platforms (Google Analytics, Facebook Pixel, etc.)</li>
+        <li>Session profiling or behavioural targeting</li>
+      </ul>
+      <p>Your cookie consent preference is stored locally in your browser. You can clear it at any time by clearing your browser data.</p>
+    </div>
+
+    <!-- 5. How We Protect Your Information -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-lock"></i> 5. How We Protect Your Information</h2>
+      <p>Security is our business — and we apply the same rigour internally. We protect your personal information through:</p>
+      <ul>
+        <li>Encrypted communication channels for all sensitive data transfer.</li>
+        <li>Strict NDA coverage from the first point of contact.</li>
+        <li>Access controls limiting who can view client data.</li>
+        <li>Secure deletion of client data after agreed retention periods.</li>
+        <li>No storage of engagement findings on third-party cloud platforms without explicit consent.</li>
+      </ul>
+    </div>
+
+    <!-- 6. Sharing Your Information -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-share-nodes"></i> 6. Sharing Your Information</h2>
+      <p>We do not share your personal information with third parties except in the following limited circumstances:</p>
+      <ul>
+        <li><strong>Legal obligation</strong> — if required by South African law, court order, or a regulatory authority.</li>
+        <li><strong>With your consent</strong> — if you explicitly authorise us to share specific information.</li>
+        <li><strong>Service providers</strong> — limited to essential tools (e.g. email delivery) under strict confidentiality agreements. We never share client engagement details with any subcontractor without your written approval.</li>
+      </ul>
+      <p>We will never disclose your identity, engagement details, or findings as a case study or reference without your explicit written permission.</p>
+    </div>
+
+    <!-- 7. Retention -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-calendar-alt"></i> 7. Data Retention</h2>
+      <p>We retain personal information only for as long as necessary:</p>
+      <ul>
+        <li><strong>Enquiries that did not proceed to an engagement</strong> — deleted within 12 months.</li>
+        <li><strong>Client engagement records</strong> — retained for 3 years after engagement close, in line with standard professional practice, then securely deleted.</li>
+        <li><strong>Financial records</strong> — retained for 5 years as required by South African tax law.</li>
+      </ul>
+      <p>You may request earlier deletion of your personal information at any time (see Section 9).</p>
+    </div>
+
+    <!-- 8. Your Rights Under POPIA -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-scale-balanced"></i> 8. Your Rights Under POPIA</h2>
+      <p>As a data subject under POPIA, you have the right to:</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of the personal information we hold about you.</li>
+        <li><strong>Correction</strong> — request that inaccurate or incomplete information be corrected.</li>
+        <li><strong>Deletion</strong> — request that we delete your personal information, subject to legal retention obligations.</li>
+        <li><strong>Objection</strong> — object to us processing your personal information in certain circumstances.</li>
+        <li><strong>Complaint</strong> — lodge a complaint with the Information Regulator of South Africa if you believe we have violated your rights.</li>
+      </ul>
+      <p>
+        <strong>Information Regulator (South Africa):</strong><br/>
+        Website: <a href="https://www.justice.gov.za/inforeg/" target="_blank" rel="noopener">www.justice.gov.za/inforeg</a><br/>
+        Email: <a href="mailto:inforeg@justice.gov.za">inforeg@justice.gov.za</a>
+      </p>
+    </div>
+
+    <!-- 9. Contact & Requests -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-envelope"></i> 9. Contact Us About Your Privacy</h2>
+      <p>To exercise any of your rights, or if you have any questions about this Privacy Policy, please contact us directly:</p>
+      <p>
+        <strong>Email:</strong> <a href="mailto:info@greyhat4hire.co.za">info@greyhat4hire.co.za</a><br/>
+        <strong>WhatsApp:</strong> <a href="https://wa.me/27846353581" target="_blank" rel="noopener">+27 84 635 3581</a><br/>
+        <strong>Response time:</strong> We aim to respond to all privacy requests within 5 business days.
+      </p>
+    </div>
+
+    <!-- 10. Changes -->
+    <div class="privacy-section">
+      <h2><i class="fas fa-rotate"></i> 10. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Any material changes will be posted on this page with an updated date. We encourage you to review this page periodically.</p>
+      <p>Continued use of our website or services after any changes constitutes your acceptance of the updated policy.</p>
+    </div>
+
+    <!-- Back button -->
+    <div class="text-center mt-10">
+      <a href="index.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+      <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+      <p class="font-display text-pink-400/50 tracking-widest" style="font-family:'Orbitron',monospace;">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+
+  // Cursor
+  const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+  let _mx=0,_my=0,_cx=0,_cy=0;
+  document.addEventListener('mousemove',e=>{
+    _mx=e.clientX;_my=e.clientY;
+    cur2.style.transform='translate('+(e.clientX-2)+'px,'+(e.clientY-2)+'px)';
+  },{passive:true});
+  (function tick(){
+    _cx+=(_mx-_cx)*0.18;_cy+=(_my-_cy)*0.18;
+    cur.style.transform='translate('+(_cx-7)+'px,'+(_cy-7)+'px)';
+    requestAnimationFrame(tick);
+  })();
+  document.addEventListener('mousedown',()=>cur.style.scale='1.8');
+  document.addEventListener('mouseup',()=>cur.style.scale='1');
+
+  // Nav scroll
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+  // Mobile menu
+  const hamburger=document.getElementById('hamburger');
+  const mobileMenu=document.getElementById('mobile-menu');
+  const closeMenu=document.getElementById('close-menu');
+  function openMenu(){ mobileMenu.classList.remove('hidden'); setTimeout(()=>mobileMenu.classList.add('open'),10); }
+  function closeMenuFn(){ mobileMenu.classList.remove('open'); setTimeout(()=>mobileMenu.classList.add('hidden'),400); }
+  hamburger.addEventListener('click', openMenu);
+  closeMenu.addEventListener('click', closeMenuFn);
+  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+</script>
+</body>
+</html>
