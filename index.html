@@ -89,12 +89,8 @@
       font-family: 'Rajdhani', system-ui, sans-serif;
       background: #000;
       color: #e0e0e0;
-      overflow-x: clip; /* 'clip' fixes iOS Safari fixed-position bug caused by 'hidden' */
+      overflow-x: hidden;
       cursor: none;
-    }
-    /* Remove cursor:none on touch/mobile — it kills interactivity */
-    @media (hover: none), (pointer: coarse) {
-      body { cursor: auto; }
     }
 
     /* ── NOISE OVERLAY ── */
@@ -833,6 +829,17 @@
               <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
             </div>
           </a>
+
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
+              <i class="fas fa-bug-slash"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Vulnerability Intelligence</div>
+              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+            </div>
+          </a>
         </div>
       </div>
       <!-- END FREE TOOLS DROPDOWN -->
@@ -870,6 +877,10 @@
     <a href="breach-cost-clock.html" class="mobile-tool-link">
       <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
       <span style="font-size:1rem;">Breach Cost Clock</span>
+    </a>
+    <a href="vuln-lookup.html" class="mobile-tool-link">
+      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
+      <span style="font-size:1rem;">Vulnerability Intelligence</span>
     </a>
     <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
     <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
@@ -1384,9 +1395,9 @@
     <div class="text-center mb-16 gsap-hidden">
       <div class="section-tag mb-3">Free Intelligence Tools</div>
       <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
-      <p class="text-gray-400 max-w-xl mx-auto">Three live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
+      <p class="text-gray-400 max-w-xl mx-auto">Four live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
     </div>
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
       <div class="tool-card flex flex-col">
         <div class="tool-badge"><span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>FREE TOOL</div>
@@ -1415,6 +1426,16 @@
         <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Select your industry and company size. Watch the financial damage tick up in real time — modelled on IBM Cost of Data Breach 2024 data. Puts R89M in visceral, ticking perspective.</p>
         <a href="breach-cost-clock.html" class="btn-ghost text-sm justify-center" style="border-color:#f59e0b;color:#f59e0b">
           <i class="fas fa-play text-xs"></i> START THE CLOCK
+        </a>
+      </div>
+
+      <div class="tool-card flex flex-col" style="border-color:rgba(59,130,246,.2)">
+        <div class="tool-badge" style="background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.4);color:#3b82f6"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>CVE INTELLIGENCE</div>
+        <div class="text-4xl mb-4"><i class="fas fa-bug-slash" style="color:#3b82f6"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Vulnerability Intelligence</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Search any CVE ID or product name across NVD, CISA KEV, GitHub Advisories, and Exploit-DB in real time. Instantly see severity scores, known exploits, and whether a vulnerability is actively being weaponised.</p>
+        <a href="vuln-lookup.html" class="btn-ghost text-sm justify-center" style="border-color:#3b82f6;color:#3b82f6">
+          <i class="fas fa-magnifying-glass text-xs"></i> SEARCH VULNERABILITIES
         </a>
       </div>
 
@@ -2662,18 +2683,18 @@
 <style>
   #cookie-banner {
     display: none;
-    position: fixed; bottom: -300px; left: 0; right: 0; z-index: 9990;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9990;
     background: rgba(4,4,4,.97);
     border-top: 1px solid rgba(255,20,147,.3);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     padding: 20px 24px;
     box-shadow: 0 -8px 40px rgba(255,20,147,.1);
     font-family: 'Rajdhani', sans-serif;
-    will-change: bottom;
-    transition: bottom .5s cubic-bezier(.4,0,.2,1);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform .5s cubic-bezier(.4,0,.2,1), opacity .5s ease;
   }
-  #cookie-banner.visible { bottom: 0; }
+  #cookie-banner.visible { transform: translateY(0); opacity: 1; }
   #cookie-banner-inner {
     max-width: 1200px; margin: 0 auto;
     display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
