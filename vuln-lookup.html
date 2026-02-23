@@ -18,7 +18,8 @@
     }
     *{box-sizing:border-box;}
     html{overflow-x:hidden;scroll-behavior:smooth;}
-    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;}
+    body.cursor-ready{cursor:none;}
     body::before{content:'';position:fixed;inset:0;z-index:0;
       background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events:none;}
@@ -49,7 +50,8 @@
     #mobile-menu.open{transform:translateY(0);}
     .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
     .tools-dropdown-wrap{position:relative;}
-    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:pointer;transition:all .3s ease;padding:0;position:relative;}
+    body.cursor-ready .tools-dropdown-btn{cursor:none;}
     .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
     .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
     .tools-dropdown-btn:hover::after{width:100%;}
@@ -73,10 +75,11 @@
     .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
     /* ── BUTTONS ── */
-    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:14px;border:none;cursor:pointer;transition:all .3s ease;text-decoration:none;}
     .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
-    .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:none;background:transparent;transition:all .3s ease;text-decoration:none;}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:pointer;background:transparent;transition:all .3s ease;text-decoration:none;}
     .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+    body.cursor-ready .btn-primary,body.cursor-ready .btn-ghost{cursor:none;}
     @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
     .pulse-glow{animation:pulseGlow 2.8s infinite;}
 
@@ -103,6 +106,7 @@
       color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;
       padding:18px 32px;border-radius:14px;border:none;cursor:pointer;transition:all .3s ease;white-space:nowrap;flex-shrink:0;
     }
+    body.cursor-ready .search-btn{cursor:none;}
     .search-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,20,147,.5);}
 
     /* ── CATEGORY FILTER TABS ── */
@@ -274,6 +278,48 @@
       #cur,#cur2{display:none !important;}
       button,a,.product-card,.cve-list-item,.cat-tab,.search-btn,.detail-tab-btn{cursor:pointer !important;}
     }
+
+    /* ── SEVERITY FILTER ── */
+    .sev-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+    .sev-filter-btn{padding:5px 13px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.1em;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.3);cursor:pointer;transition:all .22s ease;}
+    .sev-filter-btn:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.6);}
+    .sev-filter-btn.active-filter{color:#fff;}
+    .sev-filter-btn.f-all.active-filter{background:rgba(255,20,147,.12);border-color:rgba(255,20,147,.4);color:var(--pink);}
+    .sev-filter-btn.f-critical.active-filter{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.4);color:#ef4444;}
+    .sev-filter-btn.f-high.active-filter{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#f59e0b;}
+    .sev-filter-btn.f-medium.active-filter{background:rgba(255,20,147,.1);border-color:rgba(255,20,147,.35);color:#ff69b4;}
+    .sev-filter-btn.f-low.active-filter{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35);color:#22c55e;}
+
+    /* ── WATCHLIST ── */
+    #watchlist-fab{position:fixed;bottom:96px;right:24px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1e1e2e,#2a1a3e);border:1px solid rgba(168,85,247,.45);color:#a855f7;font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:998;transition:all .35s ease;box-shadow:0 6px 24px rgba(168,85,247,.3);}
+    body.cursor-ready #watchlist-fab{cursor:none;}
+    #watchlist-fab:hover{transform:scale(1.12);box-shadow:0 10px 32px rgba(168,85,247,.55);}
+    #watchlist-badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:#ef4444;color:#fff;font-family:'Orbitron',monospace;font-size:.42rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;display:none;}
+    #watchlist-panel{position:fixed;right:0;top:0;height:100vh;width:min(420px,100vw);background:rgba(4,4,4,.98);backdrop-filter:blur(30px);border-left:1px solid rgba(168,85,247,.3);z-index:1100;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+    #watchlist-panel.open{transform:translateX(0);}
+    #watchlist-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1099;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    #watchlist-overlay.open{opacity:1;pointer-events:all;}
+    .wl-header{padding:20px;border-bottom:1px solid rgba(168,85,247,.18);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+    .wl-items{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(168,85,247,.3) transparent;}
+    .wl-item{background:rgba(12,12,18,.9);border:1px solid rgba(168,85,247,.14);border-radius:12px;padding:12px 14px;position:relative;}
+    .wl-item-id{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#a855f7;margin-bottom:3px;}
+    .wl-item-desc{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.35;margin-bottom:6px;}
+    .wl-remove{position:absolute;top:8px;right:10px;background:transparent;border:none;color:rgba(255,255,255,.2);font-size:.75rem;cursor:pointer;transition:color .2s ease;padding:2px 5px;}
+    body.cursor-ready .wl-remove{cursor:none;}
+    .wl-remove:hover{color:#ef4444;}
+    .wl-footer{padding:14px;border-top:1px solid rgba(168,85,247,.15);display:flex;gap:8px;flex-shrink:0;}
+    .wl-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:10px;padding:40px 20px;text-align:center;}
+    .save-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:7px;font-family:'Orbitron',monospace;font-size:.47rem;letter-spacing:.08em;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.07);color:#a855f7;cursor:pointer;transition:all .22s ease;flex-shrink:0;}
+    body.cursor-ready .save-btn{cursor:none;}
+    .save-btn:hover{background:rgba(168,85,247,.16);box-shadow:0 0 14px rgba(168,85,247,.25);}
+    .save-btn.saved{background:rgba(168,85,247,.22);border-color:rgba(168,85,247,.55);color:#d8b4fe;}
+
+    /* ── SEARCH HISTORY ── */
+    .history-section{margin-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;}
+    .history-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:6px;font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);cursor:pointer;transition:all .2s ease;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    body.cursor-ready .history-chip{cursor:none;}
+    .history-chip:hover{background:rgba(255,20,147,.06);border-color:rgba(255,20,147,.25);color:rgba(255,20,147,.7);}
+    .history-chip i{font-size:.45rem;flex-shrink:0;}
   </style>
 </head>
 <body>
@@ -285,6 +331,33 @@
 <a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
+
+<!-- ══ WATCHLIST FAB ══ -->
+<button id="watchlist-fab" onclick="toggleWatchlist()" title="CVE Watchlist">
+  <i class="fas fa-bookmark"></i>
+  <span id="watchlist-badge">0</span>
+</button>
+
+<!-- ══ WATCHLIST OVERLAY ══ -->
+<div id="watchlist-overlay" onclick="toggleWatchlist()"></div>
+
+<!-- ══ WATCHLIST PANEL ══ -->
+<div id="watchlist-panel">
+  <div class="wl-header">
+    <div>
+      <div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(168,85,247,.6);margin-bottom:3px;">THREAT WATCHLIST</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;">Saved CVEs</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button onclick="exportWatchlist()" id="wl-export-btn" style="display:none;padding:7px 12px;border:1px solid rgba(168,85,247,.35);border-radius:8px;background:rgba(168,85,247,.08);color:#a855f7;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.08em;cursor:pointer;transition:all .25s ease;" title="Export CSV"><i class="fas fa-download"></i> CSV</button>
+      <button onclick="toggleWatchlist()" style="background:transparent;border:none;color:rgba(255,255,255,.3);font-size:1.2rem;cursor:pointer;padding:4px 8px;transition:color .2s ease;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'"><i class="fas fa-times"></i></button>
+    </div>
+  </div>
+  <div class="wl-items" id="wl-items"></div>
+  <div class="wl-footer" id="wl-footer" style="display:none;">
+    <button onclick="clearWatchlist()" style="flex:1;padding:10px;border:1px solid rgba(239,68,68,.25);border-radius:9px;background:rgba(239,68,68,.06);color:rgba(239,68,68,.7);font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.08em;cursor:pointer;transition:all .25s ease;"><i class="fas fa-trash"></i> CLEAR ALL</button>
+  </div>
+</div>
 
 <!-- ══ NAV ══ -->
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
@@ -413,6 +486,11 @@
           <span class="search-hint-chip" onclick="quickSearch('WordPress')"><i class="fab fa-wordpress"></i> WordPress</span>
           <span class="search-hint-chip" onclick="quickSearch('OpenSSL')"><i class="fas fa-lock"></i> OpenSSL</span>
         </div>
+        <!-- Search history -->
+        <div id="search-history-wrap" class="history-section" style="display:none;">
+          <span style="font-family:'Share Tech Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.18);flex-shrink:0;"><i class="fas fa-clock" style="font-size:.45rem;margin-right:3px;"></i>RECENT:</span>
+          <div id="search-history-chips" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+        </div>
         <!-- Divider -->
         <div style="display:flex;align-items:center;gap:12px;margin:18px 0 14px;">
           <div style="flex:1;height:1px;background:rgba(255,255,255,.06);"></div>
@@ -432,6 +510,19 @@
         <!-- Product grid -->
         <div id="product-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3"></div>
         <p style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.18);margin-top:10px;letter-spacing:.06em;">↑ Click any card to load its known vulnerabilities instantly</p>
+        <!-- NVD API Key (optional) -->
+        <div style="margin-top:14px;padding:10px 14px;background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.12);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <i class="fas fa-key" style="color:rgba(59,130,246,.5);font-size:.75rem;flex-shrink:0;"></i>
+          <div style="flex:1;min-width:200px;">
+            <div style="font-family:'Orbitron',monospace;font-size:.47rem;letter-spacing:.12em;color:rgba(59,130,246,.55);margin-bottom:4px;">NVD API KEY <span style="color:rgba(255,255,255,.2);">— OPTIONAL · 10× HIGHER RATE LIMIT</span></div>
+            <input id="nvd-api-key-input" type="password" placeholder="Paste your key from nvd.nist.gov/developers/request-an-api-key"
+              style="width:100%;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:7px 12px;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:#93c5fd;outline:none;transition:border-color .2s ease;"
+              oninput="nvdApiKey=this.value.trim()"
+              onfocus="this.style.borderColor='rgba(59,130,246,.5)'"
+              onblur="this.style.borderColor='rgba(59,130,246,.2)'"/>
+          </div>
+          <a href="https://nvd.nist.gov/developers/request-an-api-key" target="_blank" style="font-family:'Orbitron',monospace;font-size:.48rem;color:rgba(59,130,246,.6);text-decoration:none;letter-spacing:.08em;white-space:nowrap;border:1px solid rgba(59,130,246,.2);padding:5px 10px;border-radius:7px;transition:all .2s ease;" onmouseover="this.style.background='rgba(59,130,246,.1)'" onmouseout="this.style.background='transparent'"><i class="fas fa-external-link-alt" style="font-size:.45rem;margin-right:4px;"></i>GET KEY</a>
+        </div>
       </div>
     </div>
   </div>
@@ -472,6 +563,16 @@
           <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(168,85,247,.7);letter-spacing:.1em;flex:1;">GITHUB ADVISORY</span>
           <span id="load-gh" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
         </div>
+        <div id="load-epss-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.1);border-radius:10px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:dotPulse 1.8s infinite;flex-shrink:0;"></span>
+          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(34,197,94,.7);letter-spacing:.1em;flex:1;">EPSS / FIRST.org</span>
+          <span id="load-epss" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
+        </div>
+        <div id="load-osv-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.1);border-radius:10px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#f59e0b;animation:dotPulse 2s infinite;flex-shrink:0;"></span>
+          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(245,158,11,.7);letter-spacing:.1em;flex:1;">OSV / GOOGLE</span>
+          <span id="load-osv" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
+        </div>
       </div>
     </div>
 
@@ -489,17 +590,47 @@
     <div id="state-results" style="display:none;">
 
       <!-- Results header -->
-      <div class="glass-strong rounded-2xl p-5 mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div id="res-product-icon" style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;"></div>
-          <div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.28);letter-spacing:.12em;margin-bottom:3px;">VULNERABILITY REPORT</div>
-            <div class="font-display font-black text-white" style="font-size:1.5rem;" id="res-title">—</div>
+      <div class="glass-strong rounded-2xl p-5 mb-5 flex flex-col gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div id="res-product-icon" style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;"></div>
+            <div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.28);letter-spacing:.12em;margin-bottom:3px;">VULNERABILITY REPORT</div>
+              <div class="font-display font-black text-white" style="font-size:1.5rem;" id="res-title">—</div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 items-center">
+            <div id="res-count-badge" style="font-family:'Orbitron',monospace;font-size:.6rem;padding:5px 12px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.25);border-radius:8px;color:rgba(255,20,147,.8);"></div>
+            <div id="res-kev-banner"></div>
           </div>
         </div>
-        <div class="flex flex-wrap gap-2 items-center">
-          <div id="res-count-badge" style="font-family:'Orbitron',monospace;font-size:.6rem;padding:5px 12px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.25);border-radius:8px;color:rgba(255,20,147,.8);"></div>
-          <div id="res-kev-banner"></div>
+        <!-- Source status bar -->
+        <div id="source-status-bar" style="display:flex;gap:6px;flex-wrap:wrap;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);">
+          <div id="src-status-nvd" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.12);border-radius:9px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#3b82f6;flex-shrink:0;"></span>
+            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(59,130,246,.65);letter-spacing:.1em;flex-shrink:0;">NVD</span>
+            <span id="src-nvd-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">—</span>
+          </div>
+          <div id="src-status-kev" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.1);border-radius:9px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>
+            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(239,68,68,.65);letter-spacing:.1em;flex-shrink:0;">CISA KEV</span>
+            <span id="src-kev-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">—</span>
+          </div>
+          <div id="src-status-gh" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.1);border-radius:9px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#a855f7;flex-shrink:0;"></span>
+            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(168,85,247,.65);letter-spacing:.1em;flex-shrink:0;">GITHUB</span>
+            <span id="src-gh-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">—</span>
+          </div>
+          <div id="src-status-epss" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.1);border-radius:9px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;"></span>
+            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(34,197,94,.65);letter-spacing:.1em;flex-shrink:0;">EPSS</span>
+            <span id="src-epss-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">CVE ID only</span>
+          </div>
+          <div id="src-status-osv" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.1);border-radius:9px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></span>
+            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(245,158,11,.65);letter-spacing:.1em;flex-shrink:0;">OSV</span>
+            <span id="src-osv-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">CVE ID only</span>
+          </div>
         </div>
       </div>
 
@@ -508,7 +639,14 @@
 
         <!-- CVE List (left) -->
         <div class="lg:col-span-2">
-          <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(255,255,255,.28);margin-bottom:10px;padding-left:2px;">VULNERABILITIES FOUND</div>
+          <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(255,255,255,.28);margin-bottom:8px;padding-left:2px;">VULNERABILITIES FOUND</div>
+          <div class="sev-filter">
+            <button class="sev-filter-btn f-all active-filter" onclick="setSevFilter('all',this)">ALL</button>
+            <button class="sev-filter-btn f-critical" onclick="setSevFilter('critical',this)">CRITICAL</button>
+            <button class="sev-filter-btn f-high" onclick="setSevFilter('high',this)">HIGH</button>
+            <button class="sev-filter-btn f-medium" onclick="setSevFilter('medium',this)">MEDIUM</button>
+            <button class="sev-filter-btn f-low" onclick="setSevFilter('low',this)">LOW</button>
+          </div>
           <div id="cve-list" style="display:flex;flex-direction:column;gap:8px;max-height:680px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:rgba(255,20,147,.3) transparent;"></div>
         </div>
 
@@ -519,8 +657,10 @@
             <p style="font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.15em;color:rgba(255,255,255,.2);">SELECT A CVE TO INSPECT</p>
           </div>
           <div id="detail-panel" class="detail-panel" style="display:none;">
-            <div style="display:flex;border-bottom:1px solid rgba(255,255,255,.06);">
+            <div style="display:flex;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;">
               <button class="detail-tab-btn active" onclick="switchDetailTab('overview',this)">OVERVIEW</button>
+              <button class="detail-tab-btn" onclick="switchDetailTab('epss',this)">EPSS RISK</button>
+              <button class="detail-tab-btn" onclick="switchDetailTab('osv',this)">OSV PACKAGES</button>
               <button class="detail-tab-btn" onclick="switchDetailTab('kev',this)">CISA KEV</button>
               <button class="detail-tab-btn" onclick="switchDetailTab('github',this)">GITHUB</button>
               <button class="detail-tab-btn" onclick="switchDetailTab('exploit',this)">EXPLOIT-DB</button>
@@ -597,6 +737,7 @@
 const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 let mX=0,mY=0,cX=0,cY=0;
 document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY;});
+document.body.classList.add('cursor-ready');
 (function animCur(){
   cX+=(mX-cX)*.42;cY+=(mY-cY)*.42;
   cur.style.transform=`translate(${cX-7}px,${cY-7}px)`;
@@ -656,45 +797,45 @@ document.querySelectorAll('.gsap-hidden').forEach((el,i)=>{
 ══════════════════════════════ */
 const PRODUCTS=[
   // OS
-  {id:'windows',    name:'Windows',       icon:'fab fa-windows',       color:'#3b82f6',glow:'rgba(59,130,246,.6)',  bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'os',     keyword:'Microsoft Windows',      note:'OS'},
-  {id:'linux',      name:'Linux',         icon:'fab fa-linux',          color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'os',     keyword:'Linux kernel',           note:'OS'},
-  {id:'macos',      name:'macOS',         icon:'fab fa-apple',          color:'#e0e0e0',glow:'rgba(200,200,200,.5)',bg:'rgba(200,200,200,.07)',border:'rgba(200,200,200,.2)',  cat:'os',     keyword:'Apple macOS',            note:'OS'},
-  {id:'android',    name:'Android',       icon:'fab fa-android',        color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'os',     keyword:'Google Android',         note:'OS'},
-  {id:'ios',        name:'iOS',           icon:'fab fa-apple',          color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'os',     keyword:'Apple iOS',              note:'OS'},
+  {id:'windows',    name:'Windows',       icon:'fab fa-windows',       color:'#3b82f6',glow:'rgba(59,130,246,.6)',  bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'os',     keyword:'microsoft windows',      note:'OS'},
+  {id:'linux',      name:'Linux',         icon:'fab fa-linux',          color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'os',     keyword:'linux kernel',           note:'OS'},
+  {id:'macos',      name:'macOS',         icon:'fab fa-apple',          color:'#e0e0e0',glow:'rgba(200,200,200,.5)',bg:'rgba(200,200,200,.07)',border:'rgba(200,200,200,.2)',  cat:'os',     keyword:'apple macos',            note:'OS'},
+  {id:'android',    name:'Android',       icon:'fab fa-android',        color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'os',     keyword:'google android',         note:'OS'},
+  {id:'ios',        name:'iOS',           icon:'fab fa-apple',          color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'os',     keyword:'apple ios',              note:'OS'},
   // Web & CMS
-  {id:'wordpress',  name:'WordPress',     icon:'fab fa-wordpress',      color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'web',    keyword:'WordPress',              note:'CMS'},
-  {id:'apache',     name:'Apache',        icon:'fas fa-server',         color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'web',    keyword:'Apache HTTP Server',     note:'Web'},
+  {id:'wordpress',  name:'WordPress',     icon:'fab fa-wordpress',      color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'web',    keyword:'wordpress',              note:'CMS'},
+  {id:'apache',     name:'Apache',        icon:'fas fa-server',         color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'web',    keyword:'apache http server',     note:'Web'},
   {id:'nginx',      name:'Nginx',         icon:'fas fa-server',         color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'web',    keyword:'nginx',                  note:'Web'},
-  {id:'php',        name:'PHP',           icon:'fab fa-php',            color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'web',    keyword:'PHP',                    note:'Lang'},
-  {id:'drupal',     name:'Drupal',        icon:'fab fa-drupal',         color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.1)',  border:'rgba(59,130,246,.35)', cat:'web',    keyword:'Drupal',                 note:'CMS'},
-  {id:'joomla',     name:'Joomla',        icon:'fab fa-joomla',         color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'web',    keyword:'Joomla',                 note:'CMS'},
-  {id:'openssl',    name:'OpenSSL',       icon:'fas fa-lock',           color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'web',    keyword:'OpenSSL',                note:'Crypto'},
+  {id:'php',        name:'PHP',           icon:'fab fa-php',            color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'web',    keyword:'php',                    note:'Lang'},
+  {id:'drupal',     name:'Drupal',        icon:'fab fa-drupal',         color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.1)',  border:'rgba(59,130,246,.35)', cat:'web',    keyword:'drupal',                 note:'CMS'},
+  {id:'joomla',     name:'Joomla',        icon:'fab fa-joomla',         color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'web',    keyword:'joomla',                 note:'CMS'},
+  {id:'openssl',    name:'OpenSSL',       icon:'fas fa-lock',           color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'web',    keyword:'openssl',                note:'Crypto'},
   // Databases
-  {id:'mysql',      name:'MySQL',         icon:'fas fa-database',       color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'db',     keyword:'MySQL',                  note:'DB'},
-  {id:'mssql',      name:'SQL Server',    icon:'fas fa-database',       color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'db',     keyword:'Microsoft SQL Server',   note:'DB'},
-  {id:'postgres',   name:'PostgreSQL',    icon:'fas fa-database',       color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'db',     keyword:'PostgreSQL',             note:'DB'},
-  {id:'mongodb',    name:'MongoDB',       icon:'fas fa-leaf',           color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'db',     keyword:'MongoDB',                note:'DB'},
-  {id:'redis',      name:'Redis',         icon:'fas fa-memory',         color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'db',     keyword:'Redis',                  note:'DB'},
-  {id:'oracle',     name:'Oracle DB',     icon:'fas fa-database',       color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'db',     keyword:'Oracle Database',        note:'DB'},
+  {id:'mysql',      name:'MySQL',         icon:'fas fa-database',       color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'db',     keyword:'mysql',                  note:'DB'},
+  {id:'mssql',      name:'SQL Server',    icon:'fas fa-database',       color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'db',     keyword:'microsoft sql server',   note:'DB'},
+  {id:'postgres',   name:'PostgreSQL',    icon:'fas fa-database',       color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'db',     keyword:'postgresql',             note:'DB'},
+  {id:'mongodb',    name:'MongoDB',       icon:'fas fa-leaf',           color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'db',     keyword:'mongodb',                note:'DB'},
+  {id:'redis',      name:'Redis',         icon:'fas fa-memory',         color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'db',     keyword:'redis',                  note:'DB'},
+  {id:'oracle',     name:'Oracle DB',     icon:'fas fa-database',       color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'db',     keyword:'oracle database',        note:'DB'},
   // Network
-  {id:'cisco',      name:'Cisco IOS',     icon:'fas fa-network-wired',  color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'network',keyword:'Cisco IOS',              note:'Net'},
-  {id:'fortinet',   name:'FortiGate',     icon:'fas fa-shield-alt',     color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'network',keyword:'Fortinet FortiGate',     note:'FW'},
-  {id:'paloalto',   name:'Palo Alto',     icon:'fas fa-fire-alt',       color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'network',keyword:'Palo Alto Networks',     note:'NGFW'},
-  {id:'juniper',    name:'Juniper',       icon:'fas fa-tree',           color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'network',keyword:'Juniper Networks Junos',  note:'Net'},
-  {id:'openvpn',    name:'OpenVPN',       icon:'fas fa-key',            color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'network',keyword:'OpenVPN',                note:'VPN'},
+  {id:'cisco',      name:'Cisco IOS',     icon:'fas fa-network-wired',  color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'network',keyword:'cisco ios',              note:'Net'},
+  {id:'fortinet',   name:'FortiGate',     icon:'fas fa-shield-alt',     color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'network',keyword:'fortios',                note:'FW'},
+  {id:'paloalto',   name:'Palo Alto',     icon:'fas fa-fire-alt',       color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'network',keyword:'pan-os',                 note:'NGFW'},
+  {id:'juniper',    name:'Juniper',       icon:'fas fa-tree',           color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'network',keyword:'junos',                   note:'Net'},
+  {id:'openvpn',    name:'OpenVPN',       icon:'fas fa-key',            color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'network',keyword:'openvpn',                note:'VPN'},
   // Cloud & Dev
-  {id:'docker',     name:'Docker',        icon:'fab fa-docker',         color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'cloud',  keyword:'Docker',                 note:'Cloud'},
-  {id:'kubernetes', name:'Kubernetes',    icon:'fas fa-dharmachakra',   color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'cloud',  keyword:'Kubernetes',             note:'Cloud'},
-  {id:'jenkins',    name:'Jenkins',       icon:'fas fa-cogs',           color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'cloud',  keyword:'Jenkins',                note:'CI/CD'},
-  {id:'aws',        name:'AWS',           icon:'fab fa-aws',            color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'cloud',  keyword:'Amazon AWS',             note:'Cloud'},
-  {id:'nodejs',     name:'Node.js',       icon:'fab fa-node-js',        color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'cloud',  keyword:'Node.js',                note:'JS'},
+  {id:'docker',     name:'Docker',        icon:'fab fa-docker',         color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'cloud',  keyword:'docker',                 note:'Cloud'},
+  {id:'kubernetes', name:'Kubernetes',    icon:'fas fa-dharmachakra',   color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'cloud',  keyword:'kubernetes',             note:'Cloud'},
+  {id:'jenkins',    name:'Jenkins',       icon:'fas fa-cogs',           color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'cloud',  keyword:'jenkins',                note:'CI/CD'},
+  {id:'aws',        name:'AWS',           icon:'fab fa-aws',            color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'cloud',  keyword:'amazon web services',    note:'Cloud'},
+  {id:'nodejs',     name:'Node.js',       icon:'fab fa-node-js',        color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'cloud',  keyword:'node.js',                note:'JS'},
   // Office & Apps
-  {id:'msoffice',   name:'MS Office',     icon:'fas fa-file-word',      color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'Microsoft Office',       note:'Office'},
-  {id:'exchange',   name:'Exchange',      icon:'fas fa-envelope',       color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'Microsoft Exchange',      note:'Email'},
-  {id:'adobe',      name:'Acrobat',       icon:'fas fa-file-pdf',       color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'office', keyword:'Adobe Acrobat',          note:'PDF'},
-  {id:'chrome',     name:'Chrome',        icon:'fab fa-chrome',         color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'office', keyword:'Google Chrome',          note:'Browser'},
-  {id:'firefox',    name:'Firefox',       icon:'fab fa-firefox',        color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'office', keyword:'Mozilla Firefox',        note:'Browser'},
-  {id:'zoom',       name:'Zoom',          icon:'fas fa-video',          color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'Zoom',                   note:'Collab'},
+  {id:'msoffice',   name:'MS Office',     icon:'fas fa-file-word',      color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'microsoft office',       note:'Office'},
+  {id:'exchange',   name:'Exchange',      icon:'fas fa-envelope',       color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'microsoft exchange',      note:'Email'},
+  {id:'adobe',      name:'Acrobat',       icon:'fas fa-file-pdf',       color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'office', keyword:'adobe acrobat',          note:'PDF'},
+  {id:'chrome',     name:'Chrome',        icon:'fab fa-chrome',         color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'office', keyword:'google chrome',          note:'Browser'},
+  {id:'firefox',    name:'Firefox',       icon:'fab fa-firefox',        color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'office', keyword:'mozilla firefox',        note:'Browser'},
+  {id:'zoom',       name:'Zoom',          icon:'fas fa-video',          color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'zoom video',             note:'Collab'},
 ];
 
 /* ══════════════════════════════
@@ -774,6 +915,8 @@ function runSearch(){
   const raw=document.getElementById('main-search').value.trim();
   if(!raw) return;
 
+  addToHistory(raw);
+
   // Auto-detect CVE ID
   const isCVE=/^CVE-\d{4}-\d+$/i.test(raw);
 
@@ -798,6 +941,7 @@ function runSearch(){
 async function selectProduct(product){
   currentProduct=product;
   lastSearch=product;
+  addToHistory(product.keyword);
 
   // Highlight tile
   document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected'));
@@ -820,46 +964,106 @@ async function _doSearch(mode, query){
   setLoadStatus('nvd','querying...');
   setLoadStatus('kev','querying...');
   setLoadStatus('gh','querying...');
+  setLoadStatus('epss', mode==='cve'?'querying...':'CVE ID only');
+  setLoadStatus('osv',  mode==='cve'?'querying...':'CVE ID only');
   setTimeout(()=>{
     const el=document.getElementById('state-loading');
     if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
   },50);
 
   try{
-    const nvdPromise = mode==='cve'
-      ? fetchNVD(query, true, 1)
-      : fetchNVD(query, false, 20);
-    const kevPromise  = fetchKEVCatalog();
-    const ghPromise   = mode==='cve'
-      ? fetchGitHub(query, null)
-      : fetchGitHub(null, query);
+    const isCVE = mode==='cve';
+    const promises = [
+      isCVE ? fetchNVD(query,true,1) : fetchNVD(query,false,20),
+      fetchKEVCatalog(),
+      isCVE ? fetchGitHub(query,null) : fetchGitHub(null,query),
+      isCVE ? fetchEPSS(query) : Promise.resolve(null),
+      isCVE ? fetchOSV(query)  : Promise.resolve(null),
+    ];
 
-    const [nvdRes, kevRes, ghRes] = await Promise.allSettled([nvdPromise, kevPromise, ghPromise]);
+    const [nvdRes, kevRes, ghRes, epssRes, osvRes] = await Promise.allSettled(promises);
 
-    const cves       = nvdRes.status==='fulfilled' ? nvdRes.value : [];
-    kevData          = kevRes.status==='fulfilled' ? kevRes.value : null;
-    const ghAdvisories = ghRes.status==='fulfilled' ? ghRes.value : [];
+    // --- NVD ---
+    const nvd = nvdRes.status==='fulfilled' ? nvdRes.value : {cves:[],failed:true,reason:'⚠ exception'};
+    const cves = nvd.cves||[];
+    if(nvd.failed){
+      setLoadStatus('nvd', nvd.reason||'⚠ failed');
+      setSrcStatus('nvd', nvd.reason||'failed', 'error');
+    } else {
+      setLoadStatus('nvd', cves.length ? `✓ ${cves.length} CVEs` : `✓ 0 results`);
+      setSrcStatus('nvd', nvd.reason||'ok', cves.length ? 'ok' : 'empty');
+    }
 
-    setLoadStatus('nvd', cves.length ? `✓ ${cves.length} CVEs` : '✓ none');
-    setLoadStatus('kev', kevData ? `✓ ${kevData.length} entries` : '⚠ unavailable');
-    setLoadStatus('gh',  ghAdvisories.length ? `✓ ${ghAdvisories.length} advisories` : '✓ none');
+    // --- KEV ---
+    const kev = kevRes.status==='fulfilled' ? kevRes.value : {data:null,failed:true};
+    kevData = kev.data||null;
+    setLoadStatus('kev', kevData ? `✓ ${kevData.length} entries` : `⚠ unavailable`);
+    setSrcStatus('kev', kevData ? `${kevData.length} entries loaded` : 'unavailable', kevData ? 'ok' : 'error');
 
+    // --- GitHub ---
+    const ghAdvisories = ghRes.status==='fulfilled' ? (ghRes.value||[]) : [];
+    if(!ghRateLimited){
+      setLoadStatus('gh', ghAdvisories.length ? `✓ ${ghAdvisories.length} advisories` : '✓ none');
+      setSrcStatus('gh', ghAdvisories.length ? `${ghAdvisories.length} advisories` : '0 advisories', ghAdvisories.length ? 'ok' : 'empty');
+    } else {
+      setSrcStatus('gh', 'rate limited', 'error');
+    }
+
+    // --- EPSS ---
+    const epssData = epssRes.status==='fulfilled' ? epssRes.value : null;
+    if(isCVE){
+      if(epssData){
+        const pct = Math.round(parseFloat(epssData.epss||0)*100);
+        setLoadStatus('epss',`✓ ${pct}% exploit probability`);
+        setSrcStatus('epss',`${pct}% exploitation probability`,'ok');
+      } else {
+        setLoadStatus('epss','⚠ unavailable');
+        setSrcStatus('epss','unavailable','error');
+      }
+    }
+
+    // --- OSV ---
+    const osvData = osvRes.status==='fulfilled' ? osvRes.value : null;
+    if(isCVE){
+      if(osvData&&osvData.length){
+        const pkgCount = osvData.reduce((a,v)=>{const pkgs=(v.affected||[]).length;return a+pkgs;},0);
+        setLoadStatus('osv',`✓ ${osvData.length} records, ${pkgCount} packages`);
+        setSrcStatus('osv',`${pkgCount} affected packages`,'ok');
+      } else if(osvData){
+        setLoadStatus('osv','✓ no OSV records');
+        setSrcStatus('osv','no records','empty');
+      } else {
+        setLoadStatus('osv','⚠ unavailable');
+        setSrcStatus('osv','unavailable','error');
+      }
+    }
+
+    // Store for detail tabs
+    window._lastEPSS = epssData;
+    window._lastOSV  = osvData;
+
+    // --- Nothing at all ---
     if(cves.length===0 && ghAdvisories.length===0){
-      showError(`Nothing found for "${query}". Try a different spelling or use a CVE ID directly.`);
+      let hint = `Nothing found for "${sanitize(query)}".`;
+      if(nvd.failed){
+        hint = `NVD is unreachable: <span style="color:rgba(255,100,100,.8)">${sanitize(nvd.reason||'unknown error')}</span><br><br>Try searching directly on <a href="https://nvd.nist.gov/vuln/search" target="_blank" style="color:var(--pink);">nvd.nist.gov</a>, or paste your <a href="https://nvd.nist.gov/developers/request-an-api-key" target="_blank" style="color:var(--pink);">free NVD API key</a> in the box above to bypass rate limits.`;
+      }
+      showError(hint);
+      document.getElementById('error-msg').innerHTML = hint;
       return;
     }
 
-    currentCVEs=cves;
+    currentCVEs = cves;
     showState('results');
-    setTimeout(()=>{
-      document.getElementById('state-results')?.scrollIntoView({behavior:'smooth',block:'start'});
-    },50);
+    setTimeout(()=>{ document.getElementById('state-results')?.scrollIntoView({behavior:'smooth',block:'start'}); },50);
 
-    const kevMatches=kevData?cves.filter(c=>isInKEV(c.id)).length:0;
+    const kevMatches = kevData ? cves.filter(c=>isInKEV(c.id)).length : 0;
     document.getElementById('res-count-badge').textContent=`${cves.length} CVEs FOUND`;
-    document.getElementById('res-kev-banner').innerHTML=kevMatches>0
+    document.getElementById('res-kev-banner').innerHTML = kevMatches>0
       ?`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.38);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:#ef4444;letter-spacing:.1em;animation:kevPulse 2s infinite;"><i class="fas fa-bomb" style="font-size:.5rem;"></i> ${kevMatches} ACTIVELY EXPLOITED</div>`
-      :`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:#22c55e;letter-spacing:.1em;"><i class="fas fa-check" style="font-size:.5rem;"></i> NONE IN KEV</div>`;
+      : kevData===null
+        ?`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:rgba(245,158,11,.65);letter-spacing:.1em;"><i class="fas fa-exclamation-triangle" style="font-size:.5rem;"></i> KEV UNAVAILABLE</div>`
+        :`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:#22c55e;letter-spacing:.1em;"><i class="fas fa-check" style="font-size:.5rem;"></i> NONE IN KEV</div>`;
 
     renderCVEList(cves);
 
@@ -873,13 +1077,39 @@ async function _doSearch(mode, query){
     if(cves.length>0) selectCVE(cves[0]);
 
   }catch(err){
-    showError('Network error: '+err.message);
+    showError('Unexpected error: '+sanitize(err.message));
   }
 }
 
 function setLoadStatus(src, msg){
   const el=document.getElementById('load-'+src);
   if(el) el.textContent=msg;
+}
+
+function setSrcStatus(src, msg, state){
+  const label = document.getElementById('src-'+src+'-label');
+  const box = document.getElementById('src-status-'+src);
+  if(!label||!box) return;
+  label.textContent = msg;
+  const colors = {
+    nvd:  {ok:'rgba(59,130,246,.12)',  border:'rgba(59,130,246,.3)',  dot:'#3b82f6'},
+    kev:  {ok:'rgba(239,68,68,.1)',    border:'rgba(239,68,68,.28)',  dot:'#ef4444'},
+    gh:   {ok:'rgba(168,85,247,.1)',   border:'rgba(168,85,247,.28)', dot:'#a855f7'},
+  };
+  const c = colors[src]||colors.nvd;
+  if(state==='ok'){
+    box.style.background = c.ok;
+    box.style.borderColor = c.border;
+    label.style.color = 'rgba(255,255,255,.6)';
+  } else if(state==='error'){
+    box.style.background = 'rgba(239,68,68,.06)';
+    box.style.borderColor = 'rgba(239,68,68,.3)';
+    label.style.color = '#ef4444';
+  } else { // empty
+    box.style.background = 'rgba(255,255,255,.02)';
+    box.style.borderColor = 'rgba(255,255,255,.07)';
+    label.style.color = 'rgba(255,255,255,.25)';
+  }
 }
 
 /* ══════════════════════════════
@@ -905,83 +1135,373 @@ function showError(msg){
 function retrySearch(){if(lastSearch) selectProduct(lastSearch);}
 
 /* ══════════════════════════════
-   API: NVD (with 429 retry)
+   SEVERITY FILTER
 ══════════════════════════════ */
-const NVD_KEYWORD_MAP={
-  'MongoDB':              ['mongodb'],
-  'Amazon AWS':           ['amazon web services','aws'],
-  'Cisco IOS':            ['cisco ios'],
-  'Fortinet FortiGate':   ['fortigate','fortios'],
-  'Palo Alto Networks':   ['pan-os','paloalto networks'],
-  'Juniper Networks Junos':['junos'],
-  'Adobe Acrobat':        ['acrobat reader','acrobat dc'],
-  'Google Chrome':        ['google chrome','chrome browser'],
-  'Mozilla Firefox':      ['firefox','mozilla firefox'],
-  'Microsoft SQL Server': ['sql server','mssql'],
-};
-
-async function fetchNVD(query, isCVEId=false, count=20){
-  async function nvdFetch(url){
-    let res=await fetch(url,{signal:AbortSignal.timeout(14000)}).catch(()=>null);
-    if(res&&(res.status===429||res.status===503)){
-      await new Promise(r=>setTimeout(r,4000));
-      res=await fetch(url,{signal:AbortSignal.timeout(14000)}).catch(()=>null);
-    }
-    return (res&&res.ok)?res:null;
-  }
-  if(isCVEId){
-    const url=`https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(query.toUpperCase())}`;
-    const res=await nvdFetch(url);
-    if(!res) return[];
-    const data=await res.json();
-    return (data.vulnerabilities||[]).map(v=>v.cve);
-  }
-  const attempts=[query,...(NVD_KEYWORD_MAP[query]||[])];
-  for(const kw of attempts){
-    const url=`https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(kw)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
-    const res=await nvdFetch(url);
-    if(!res) continue;
-    const data=await res.json();
-    const cves=(data.vulnerabilities||[]).map(v=>v.cve);
-    if(cves.length>0) return cves;
-  }
-  return[];
+let activeSevFilter='all';
+function setSevFilter(sev, btn){
+  activeSevFilter=sev;
+  document.querySelectorAll('.sev-filter-btn').forEach(b=>b.classList.remove('active-filter'));
+  btn.classList.add('active-filter');
+  renderCVEList(currentCVEs);
 }
 
 /* ══════════════════════════════
-   API: CISA KEV (CORS proxy fallback)
+   SEARCH HISTORY
 ══════════════════════════════ */
-let kevCatalogCache=null;
-async function fetchKEVCatalog(){
-  if(kevCatalogCache) return kevCatalogCache;
-  const KEV_URL='https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json';
-  try{
-    const res=await fetch(KEV_URL,{signal:AbortSignal.timeout(7000)});
-    if(res.ok){const d=await res.json();kevCatalogCache=d.vulnerabilities||[];return kevCatalogCache;}
-  }catch(_){}
-  try{
-    const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(KEV_URL)}`;
-    const res=await fetch(proxy,{signal:AbortSignal.timeout(12000)});
-    if(res.ok){const w=await res.json();const d=JSON.parse(w.contents);kevCatalogCache=d.vulnerabilities||[];return kevCatalogCache;}
-  }catch(_){}
-  return null;
+let searchHistory=[];
+function addToHistory(term){
+  if(!term) return;
+  searchHistory=searchHistory.filter(t=>t!==term);
+  searchHistory.unshift(term);
+  searchHistory=searchHistory.slice(0,5);
+  renderHistory();
 }
+function renderHistory(){
+  const wrap=document.getElementById('search-history-wrap');
+  const chips=document.getElementById('search-history-chips');
+  if(!searchHistory.length){wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  chips.innerHTML='';
+  searchHistory.forEach(t=>{
+    const c=document.createElement('span');
+    c.className='history-chip';
+    c.innerHTML=`<i class="fas fa-history"></i>${sanitize(t)}`;
+    c.onclick=()=>quickSearch(t);
+    chips.appendChild(c);
+  });
+}
+
+/* ══════════════════════════════
+   WATCHLIST
+══════════════════════════════ */
+let watchlist=[]; // {id, description, score, severity}
+function toggleWatchlist(){
+  const panel=document.getElementById('watchlist-panel');
+  const overlay=document.getElementById('watchlist-overlay');
+  const isOpen=panel.classList.contains('open');
+  panel.classList.toggle('open',!isOpen);
+  overlay.classList.toggle('open',!isOpen);
+}
+function isWatched(cveId){return watchlist.some(w=>w.id===cveId);}
+function toggleWatch(cve){
+  const score=getCVSSScore(cve);
+  const sev=getSeverity(score);
+  const desc=(cve.descriptions?.find(d=>d.lang==='en')?.value||'No description').substring(0,120);
+  if(isWatched(cve.id)){
+    watchlist=watchlist.filter(w=>w.id!==cve.id);
+  } else {
+    watchlist.push({id:cve.id,description:desc,score:score??'N/A',severity:sev.label});
+  }
+  updateWatchlistUI();
+  // Refresh save buttons
+  document.querySelectorAll('.save-btn').forEach(btn=>{
+    if(btn.dataset.cveId===cve.id){
+      btn.classList.toggle('saved',isWatched(cve.id));
+      btn.innerHTML=isWatched(cve.id)
+        ?'<i class="fas fa-bookmark"></i> SAVED'
+        :'<i class="far fa-bookmark"></i> WATCH';
+    }
+  });
+}
+function updateWatchlistUI(){
+  const badge=document.getElementById('watchlist-badge');
+  const footer=document.getElementById('wl-footer');
+  const exportBtn=document.getElementById('wl-export-btn');
+  const items=document.getElementById('wl-items');
+  badge.style.display=watchlist.length?'flex':'none';
+  badge.textContent=watchlist.length;
+  footer.style.display=watchlist.length?'flex':'none';
+  exportBtn.style.display=watchlist.length?'inline-flex':'none';
+  if(!watchlist.length){
+    items.innerHTML=`<div class="wl-empty"><i class="fas fa-bookmark" style="font-size:2rem;color:rgba(168,85,247,.2);"></i><div style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(255,255,255,.2);letter-spacing:.15em;">NO SAVED CVEs</div><p style="font-family:'Rajdhani',sans-serif;font-size:.85rem;color:rgba(255,255,255,.3);">Click the bookmark icon on any CVE result to add it to your watchlist.</p></div>`;
+    return;
+  }
+  items.innerHTML='';
+  watchlist.forEach(w=>{
+    const sevColors={CRITICAL:'#ef4444',HIGH:'#f59e0b',MEDIUM:'#ff1493',LOW:'#22c55e',UNKNOWN:'#888'};
+    const col=sevColors[w.severity]||'#888';
+    const item=document.createElement('div');
+    item.className='wl-item';
+    item.innerHTML=`
+      <button class="wl-remove" onclick="removeFromWatchlist('${sanitize(w.id)}')" title="Remove"><i class="fas fa-times"></i></button>
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+        <div class="wl-item-id">${sanitize(w.id)}</div>
+        <span style="font-family:'Orbitron',monospace;font-size:.45rem;padding:2px 7px;border-radius:5px;border:1px solid;color:${col};border-color:${col}33;background:${col}18;">${sanitize(w.severity)}</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);">${w.score}</span>
+      </div>
+      <div class="wl-item-desc">${sanitize(w.description)}${w.description.length>=120?'…':''}</div>
+      <a href="https://nvd.nist.gov/vuln/detail/${sanitize(w.id)}" target="_blank" class="ref-link" style="font-size:.65rem;"><i class="fas fa-external-link-alt" style="font-size:.45rem;"></i> NVD →</a>`;
+    items.appendChild(item);
+  });
+}
+function removeFromWatchlist(cveId){
+  watchlist=watchlist.filter(w=>w.id!==cveId);
+  updateWatchlistUI();
+  document.querySelectorAll(`.save-btn[data-cve-id="${CSS.escape(cveId)}"]`).forEach(btn=>{
+    btn.classList.remove('saved');
+    btn.innerHTML='<i class="far fa-bookmark"></i> WATCH';
+  });
+}
+function clearWatchlist(){
+  watchlist=[];
+  updateWatchlistUI();
+  document.querySelectorAll('.save-btn').forEach(btn=>{
+    btn.classList.remove('saved');
+    btn.innerHTML='<i class="far fa-bookmark"></i> WATCH';
+  });
+}
+function exportWatchlist(){
+  if(!watchlist.length) return;
+  const header='CVE ID,Severity,CVSS Score,Description';
+  const rows=watchlist.map(w=>`${w.id},${w.severity},${w.score},"${w.description.replace(/"/g,'""')}"`);
+  const csv=[header,...rows].join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='cve-watchlist.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+// Init watchlist UI
+updateWatchlistUI();
+
+/* ══════════════════════════════
+   NVD API KEY (optional - boosts rate limit from 5/30s to 50/30s)
+══════════════════════════════ */
+let nvdApiKey = '';
+
+/* ══════════════════════════════
+   API: NVD — returns {cves, failed, reason}
+══════════════════════════════ */
+const NVD_KEYWORD_MAP={
+  // Cloud
+  'amazon web services': ['amazon','aws lambda','amazon ec2','amazon s3'],
+  'amazon':              ['aws','amazon ec2','amazon s3','amazon rds'],
+  // Network gear
+  'cisco ios':           ['cisco','cisco systems'],
+  'fortios':             ['fortigate','fortinet'],
+  'pan-os':              ['palo alto','paloalto'],
+  'junos':               ['juniper','juniper networks'],
+  // OS
+  'apple macos':         ['macos','mac os x','apple mac'],
+  'apple ios':           ['ios','iphone os'],
+  'google android':      ['android'],
+  'microsoft windows':   ['windows'],
+  'linux kernel':        ['linux'],
+  // DB
+  'oracle database':     ['oracle db','oracle'],
+  'microsoft sql server':['sql server','mssql'],
+  // Web
+  'apache http server':  ['apache httpd','apache'],
+  'mozilla firefox':     ['firefox'],
+  'google chrome':       ['chrome'],
+  // Apps
+  'adobe acrobat':       ['acrobat reader','acrobat dc','adobe reader'],
+  'microsoft office':    ['ms office','office 365'],
+  'microsoft exchange':  ['exchange server'],
+  'zoom video':          ['zoom','zoom meetings'],
+  // Dev
+  'node.js':             ['nodejs','node js'],
+};
+
+async function nvdRawFetch(url){
+  const headers = nvdApiKey ? {'apiKey': nvdApiKey} : {};
+
+  // 1. Direct (NVD v2 API has CORS: Access-Control-Allow-Origin: *)
+  try{
+    const res = await fetch(url, {headers, signal: AbortSignal.timeout(13000)});
+    if(res.ok) return {data: await res.json(), via: 'direct'};
+    if(res.status===429) return {failed:true, reason:'⚠ NVD rate limited (5 req/30s). Add an API key or wait 30s.'};
+    if(res.status===403) return {failed:true, reason:'⚠ NVD access denied.'};
+    return {failed:true, reason:`⚠ NVD HTTP ${res.status}`};
+  }catch(e){
+    // Network/CORS error — fall through to proxies
+    const isCors = e instanceof TypeError;
+    setLoadStatus('nvd', isCors ? 'direct blocked, trying proxy...' : 'timeout, trying proxy...');
+  }
+
+  // 2. allorigins proxy
+  try{
+    const pRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
+    if(pRes.ok){
+      const w = await pRes.json();
+      if(w.contents) return {data: JSON.parse(w.contents), via:'allorigins'};
+    }
+  }catch(_){ setLoadStatus('nvd','allorigins failed, trying proxy 2...'); }
+
+  // 3. corsproxy.io
+  try{
+    const pRes2 = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
+    if(pRes2.ok) return {data: await pRes2.json(), via:'corsproxy'};
+  }catch(_){}
+
+  return {failed:true, reason:'⚠ NVD unreachable (all routes failed)'};
+}
+
+async function fetchNVD(query, isCVEId=false, count=20){
+  if(isCVEId){
+    const url=`https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(query.toUpperCase())}`;
+    const result = await nvdRawFetch(url);
+    if(result.failed){
+      // Try CIRCL as fallback for CVE ID lookups
+      setLoadStatus('nvd','NVD failed, trying CIRCL mirror...');
+      try{
+        const cr = await fetch(`https://cve.circl.lu/api/cve/${encodeURIComponent(query.toUpperCase())}`,{signal:AbortSignal.timeout(10000)});
+        if(cr.ok){
+          const cd = await cr.json();
+          if(cd&&cd.id){
+            // Normalise CIRCL data into NVD shape
+            const cve = {
+              id: cd.id,
+              published: cd.Published||cd.publishedDate||'',
+              lastModified: cd.Modified||cd.lastModifiedDate||'',
+              descriptions:[{lang:'en',value:cd.summary||cd.Description||'No description.'}],
+              metrics:{},
+              references:(cd.references||[]).map(u=>({url:u})),
+              weaknesses:[],
+              configurations:[]
+            };
+            if(cd.cvss){cve.metrics.cvssMetricV2=[{cvssData:{baseScore:parseFloat(cd.cvss),vectorString:cd.cvss_vector||''}}];}
+            if(cd.cvss3){cve.metrics.cvssMetricV31=[{cvssData:{baseScore:parseFloat(cd.cvss3),vectorString:cd.cvss3_vector||''}}];}
+            return {cves:[cve], failed:false, reason:'1 via CIRCL mirror'};
+          }
+        }
+      }catch(_){}
+      return {cves:[], failed:true, reason:result.reason};
+    }
+    const cves = (result.data.vulnerabilities||[]).map(v=>v.cve);
+    return {cves, failed:false, reason:`${cves.length} via ${result.via}`};
+  }
+
+  const attempts = [query, ...(NVD_KEYWORD_MAP[query]||[])];
+  let hardFail = null;
+  for(const kw of attempts){
+    setLoadStatus('nvd', `trying "${kw}"...`);
+    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(kw)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
+    const result = await nvdRawFetch(url);
+    if(result.failed){
+      hardFail = result.reason;
+      if(result.reason.includes('rate') || result.reason.includes('denied') || result.reason.includes('unreachable')){
+        return {cves:[], failed:true, reason:result.reason};
+      }
+      continue;
+    }
+    const cves = (result.data.vulnerabilities||[]).map(v=>v.cve);
+    if(cves.length>0) return {cves, failed:false, reason:`${cves.length} via ${result.via}`};
+  }
+  if(hardFail) return {cves:[], failed:true, reason:hardFail};
+  return {cves:[], failed:false, reason:'0 results for any keyword variant'};
+}
+
+/* ══════════════════════════════
+   API: EPSS (Exploit Prediction Scoring System — FIRST.org)
+   Returns probability a CVE is exploited in the wild in next 30 days
+══════════════════════════════ */
+async function fetchEPSS(cveId){
+  try{
+    const res = await fetch(`https://api.first.org/data/v1/epss?cve=${encodeURIComponent(cveId)}`,{signal:AbortSignal.timeout(8000)});
+    if(!res.ok) return null;
+    const d = await res.json();
+    return d?.data?.[0]||null; // {cve, epss, percentile, date}
+  }catch(_){return null;}
+}
+
+/* ══════════════════════════════
+   API: OSV.dev (Google Open Source Vulnerability DB)
+   Returns affected open source package ecosystems + version ranges
+══════════════════════════════ */
+async function fetchOSV(cveId){
+  try{
+    const res = await fetch('https://api.osv.dev/v1/query',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({cve_id:cveId}),
+      signal:AbortSignal.timeout(8000)
+    });
+    if(!res.ok) return null;
+    const d = await res.json();
+    return d?.vulns||null; // array of OSV records
+  }catch(_){return null;}
+}
+
+/* ══════════════════════════════
+   API: CISA KEV — returns {data, failed, reason}
+══════════════════════════════ */
+let kevCatalogCache = null;
+async function fetchKEVCatalog(){
+  if(kevCatalogCache) return {data: kevCatalogCache, failed:false};
+  const KEV_URL = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json';
+
+  // 1. Direct
+  try{
+    const res = await fetch(KEV_URL, {signal: AbortSignal.timeout(8000)});
+    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'direct'};}
+  }catch(_){}
+
+  // 2. allorigins
+  try{
+    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(KEV_URL)}`, {signal:AbortSignal.timeout(14000)});
+    if(res.ok){const w=await res.json(); if(w.contents){const d=JSON.parse(w.contents); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'allorigins'};}}
+  }catch(_){}
+
+  // 3. corsproxy
+  try{
+    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(KEV_URL)}`, {signal:AbortSignal.timeout(14000)});
+    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'corsproxy'};}
+  }catch(_){}
+
+  // 4. thingproxy (last resort)
+  try{
+    const res = await fetch(`https://thingproxy.freeboard.io/fetch/${KEV_URL}`, {signal:AbortSignal.timeout(14000)});
+    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'thingproxy'};}
+  }catch(_){}
+
+  return {data:null, failed:true, reason:'CORS blocked on all routes'};
+}
+
 function isInKEV(cveId){if(!kevData)return false;return kevData.some(v=>v.cveID?.toUpperCase()===cveId?.toUpperCase());}
 function getKEVEntry(cveId){if(!kevData)return null;return kevData.find(v=>v.cveID?.toUpperCase()===cveId?.toUpperCase())||null;}
 
 /* ══════════════════════════════
    API: GitHub Advisory
 ══════════════════════════════ */
+let ghRateLimited=false;
 async function fetchGitHub(cveId=null, keyword=null){
+  if(ghRateLimited) return[];
   let url;
   if(cveId)    url=`https://api.github.com/advisories?cve=${encodeURIComponent(cveId)}&per_page=5`;
   else if(keyword) url=`https://api.github.com/advisories?q=${encodeURIComponent(keyword)}&per_page=5`;
   else return[];
   try{
     const res=await fetch(url,{headers:{'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},signal:AbortSignal.timeout(10000)});
+    if(res.status===403||res.status===429){
+      ghRateLimited=true;
+      setLoadStatus('gh','⚠ rate limited');
+      showGHRateLimitWarning();
+      return[];
+    }
     if(!res.ok) return[];
     return await res.json();
   }catch(_){return[];}
+}
+
+function showGHRateLimitWarning(){
+  const existing=document.getElementById('gh-ratelimit-warn');
+  if(existing) return;
+  const el=document.createElement('div');
+  el.id='gh-ratelimit-warn';
+  el.style.cssText='margin-top:10px;padding:9px 14px;background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.28);border-radius:10px;font-family:"Share Tech Mono",monospace;font-size:.6rem;color:rgba(168,85,247,.7);display:flex;align-items:center;gap:8px;';
+  el.innerHTML='<i class="fab fa-github"></i> GitHub Advisory rate limit reached (60 req/hr for unauthenticated). Results may be incomplete.';
+  const target=document.getElementById('github-results-section');
+  if(target) target.prepend(el);
+}
+
+/* ══════════════════════════════
+   SANITIZE (prevent XSS from API data)
+══════════════════════════════ */
+function sanitize(str){
+  if(!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
 }
 
 /* ══════════════════════════════
@@ -1010,29 +1530,48 @@ function getCVSSVector(cve){
 function renderCVEList(cves){
   const list=document.getElementById('cve-list');
   list.innerHTML='';
-  cves.forEach(cve=>{
+  const filtered=activeSevFilter==='all'
+    ? cves
+    : cves.filter(cve=>{
+        const score=getCVSSScore(cve);
+        const sev=getSeverity(score);
+        return sev.sevCls===activeSevFilter;
+      });
+
+  if(filtered.length===0){
+    list.innerHTML=`<div style="text-align:center;padding:30px;font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(255,255,255,.2);letter-spacing:.15em;">NO ${activeSevFilter.toUpperCase()} CVEs IN THIS RESULT SET</div>`;
+    return;
+  }
+
+  filtered.forEach(cve=>{
     const score=getCVSSScore(cve);
     const sev=getSeverity(score);
     const inKEV=isInKEV(cve.id);
     const desc=cve.descriptions?.find(d=>d.lang==='en')?.value||'No description.';
     const shortDesc=desc.length>90?desc.substring(0,90)+'…':desc;
+    const watched=isWatched(cve.id);
     const item=document.createElement('div');
     item.className=`cve-list-item ${sev.sevCls}`;
     item.innerHTML=`
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">
         <div>
-          <div style="font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;color:#fff;letter-spacing:.04em;">${cve.id}</div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.3);margin-top:1px;">${cve.published?.substring(0,10)||'—'}</div>
+          <div style="font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;color:#fff;letter-spacing:.04em;">${sanitize(cve.id)}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.3);margin-top:1px;">${sanitize(cve.published?.substring(0,10)||'—')}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
           <span class="sev-badge ${sev.cls}">${score!==null?score.toFixed(1)+' ':''} ${sev.label}</span>
           ${inKEV?`<span class="kev-pill"><i class="fas fa-bomb" style="font-size:.4rem;"></i> EXPLOITED</span>`:''}
         </div>
       </div>
-      <p style="font-family:'Rajdhani',sans-serif;font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.4;margin-bottom:6px;">${shortDesc}</p>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;">
-        <span class="src-badge src-nvd"><i class="fas fa-database" style="font-size:.4rem;"></i> NVD</span>
-        ${inKEV?`<span class="src-badge src-kev"><i class="fas fa-exclamation-triangle" style="font-size:.4rem;"></i> KEV</span>`:''}
+      <p style="font-family:'Rajdhani',sans-serif;font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.4;margin-bottom:6px;">${sanitize(shortDesc)}</p>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <span class="src-badge src-nvd"><i class="fas fa-database" style="font-size:.4rem;"></i> NVD</span>
+          ${inKEV?`<span class="src-badge src-kev"><i class="fas fa-exclamation-triangle" style="font-size:.4rem;"></i> KEV</span>`:''}
+        </div>
+        <button class="save-btn ${watched?'saved':''}" data-cve-id="${sanitize(cve.id)}" onclick="event.stopPropagation();toggleWatch(currentCVEs.find(c=>c.id==='${sanitize(cve.id)}'))">
+          ${watched?'<i class="fas fa-bookmark"></i> SAVED':'<i class="far fa-bookmark"></i> WATCH'}
+        </button>
       </div>`;
     item.onclick=()=>{
       document.querySelectorAll('.cve-list-item').forEach(i=>i.classList.remove('active-cve'));
@@ -1048,6 +1587,9 @@ function renderCVEList(cves){
 ══════════════════════════════ */
 function selectCVE(cve){
   activeCVE=cve;
+  // Reset per-CVE enrichment cache
+  window._lastEPSS = undefined;
+  window._lastOSV  = undefined;
   document.getElementById('detail-idle').style.display='none';
   document.getElementById('detail-panel').style.display='block';
   document.querySelectorAll('.detail-tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1060,6 +1602,8 @@ function switchDetailTab(tab,btn){
   btn.classList.add('active');
   if(!activeCVE) return;
   if(tab==='overview')  renderDetailOverview(activeCVE);
+  else if(tab==='epss') renderDetailEPSS(activeCVE);
+  else if(tab==='osv')  renderDetailOSV(activeCVE);
   else if(tab==='kev')  renderDetailKEV(activeCVE);
   else if(tab==='github') renderDetailGithub(activeCVE);
   else if(tab==='exploit') renderDetailExploit(activeCVE);
@@ -1092,18 +1636,21 @@ function renderDetailOverview(cve){
           <div style="font-family:'Share Tech Mono',monospace;font-size:.4rem;color:rgba(255,255,255,.3);letter-spacing:.08em;">CVSS</div>
         </div>
       </div>
-      <div>
-        <div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:900;color:#fff;letter-spacing:.05em;">${cve.id}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:900;color:#fff;letter-spacing:.05em;">${sanitize(cve.id)}</div>
+          <button onclick="navigator.clipboard.writeText('${sanitize(cve.id)}').then(()=>{this.innerHTML='<i class=\\'fas fa-check\\'></i>';setTimeout(()=>{this.innerHTML='<i class=\\'far fa-copy\\'></i>';},1400);})" style="background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:3px 7px;color:rgba(255,255,255,.3);font-size:.65rem;cursor:pointer;transition:all .2s ease;" title="Copy CVE ID"><i class="far fa-copy"></i></button>
+        </div>
         <span class="sev-badge ${sev.cls}" style="margin-top:5px;display:inline-flex;">${sev.label}</span>
         ${isInKEV(cve.id)?`<span class="kev-pill" style="margin-left:5px;display:inline-flex;"><i class="fas fa-bomb" style="font-size:.45rem;"></i> ACTIVELY EXPLOITED</span>`:''}
       </div>
     </div>
-    <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:16px;">${desc}</p>
+    <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:16px;">${sanitize(desc)}</p>
     ${[['PUBLISHED',cve.published?.substring(0,10)||'—'],['MODIFIED',cve.lastModified?.substring(0,10)||'—'],['VECTOR',vector||'—'],['WEAKNESS',cwes.slice(0,3).join(' · ')||'—']]
-      .map(([k,v])=>`<div class="info-row"><span class="info-label">${k}</span><span class="info-val" style="font-size:.85rem;">${v}</span></div>`).join('')}
-    ${cpes.length?`<div style="margin-top:12px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-bottom:6px;">AFFECTED PRODUCTS</div><div>${cpes.map(c=>{const p=c.split(':');const d=p.length>=6?`${p[4]}:${p[5]}`:c;return`<span class="cpe-tag">${d}</span>`;}).join('')}</div></div>`:''}
-    ${refs.length?`<div style="margin-top:14px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-bottom:8px;">REFERENCES</div>${refs.map(r=>`<div style="margin-bottom:5px;"><a href="${r.url}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> ${r.url.length>55?r.url.substring(0,55)+'…':r.url}</a></div>`).join('')}</div>`:''}
-    <div style="margin-top:14px;"><a href="https://nvd.nist.gov/vuln/detail/${cve.id}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> Full record on NVD →</a></div>`;
+      .map(([k,v])=>`<div class="info-row"><span class="info-label">${sanitize(k)}</span><span class="info-val" style="font-size:.85rem;">${sanitize(v)}</span></div>`).join('')}
+    ${cpes.length?`<div style="margin-top:12px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-bottom:6px;">AFFECTED PRODUCTS</div><div>${cpes.map(c=>{const p=c.split(':');const d=p.length>=6?`${p[4]}:${p[5]}`:c;return`<span class="cpe-tag">${sanitize(d)}</span>`;}).join('')}</div></div>`:''}
+    ${refs.length?`<div style="margin-top:14px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-bottom:8px;">REFERENCES</div>${refs.map(r=>`<div style="margin-bottom:5px;"><a href="${sanitize(r.url)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> ${sanitize(r.url.length>55?r.url.substring(0,55)+'…':r.url)}</a></div>`).join('')}</div>`:''}
+    <div style="margin-top:14px;"><a href="https://nvd.nist.gov/vuln/detail/${sanitize(cve.id)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> Full record on NVD →</a></div>`;
 
   requestAnimationFrame(()=>setTimeout(()=>{
     const ring=document.getElementById('det-ring');
@@ -1129,10 +1676,153 @@ function renderDetailKEV(cve){
   }
   content.innerHTML=`<div class="kev-exploited-banner" style="margin-bottom:16px;">
     <div style="width:44px;height:44px;border-radius:12px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-bomb" style="color:#ef4444;font-size:1.1rem;"></i></div>
-    <div><div style="font-family:'Orbitron',monospace;font-size:.65rem;color:#ef4444;letter-spacing:.12em;margin-bottom:2px;">CONFIRMED ACTIVELY EXPLOITED</div><p style="font-size:.85rem;color:rgba(255,255,255,.6);">${entry.shortDescription||'Active exploitation confirmed by CISA.'}</p></div>
+    <div><div style="font-family:'Orbitron',monospace;font-size:.65rem;color:#ef4444;letter-spacing:.12em;margin-bottom:2px;">CONFIRMED ACTIVELY EXPLOITED</div><p style="font-size:.85rem;color:rgba(255,255,255,.6);">${sanitize(entry.shortDescription||'Active exploitation confirmed by CISA.')}</p></div>
   </div>
-  ${[['VENDOR',entry.vendorProject],['PRODUCT',entry.product],['DATE ADDED',entry.dateAdded],['DUE DATE',entry.dueDate],['RANSOMWARE',entry.knownRansomwareCampaignUse]].filter(([,v])=>v).map(([k,v])=>`<div class="info-row"><span class="info-label">${k}</span><span class="info-val">${v}</span></div>`).join('')}
-  ${entry.notes?`<div style="margin-top:12px;padding:12px 14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px;font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.5;">${entry.notes}</div>`:''}`;
+  ${[['VENDOR',entry.vendorProject],['PRODUCT',entry.product],['DATE ADDED',entry.dateAdded],['DUE DATE',entry.dueDate],['RANSOMWARE',entry.knownRansomwareCampaignUse]].filter(([,v])=>v).map(([k,v])=>`<div class="info-row"><span class="info-label">${sanitize(k)}</span><span class="info-val">${sanitize(v)}</span></div>`).join('')}
+  ${entry.notes?`<div style="margin-top:12px;padding:12px 14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px;font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.5;">${sanitize(entry.notes)}</div>`:''}
+  <div style="margin-top:12px;"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" class="poc-link" style="display:inline-flex;"><i class="fas fa-external-link-alt"></i> View Full KEV Catalog</a></div>`;
+}
+
+/* ══════════════════════════════
+   DETAIL: EPSS
+══════════════════════════════ */
+async function renderDetailEPSS(cve){
+  const content=document.getElementById('detail-content');
+  content.innerHTML=`<div style="text-align:center;padding:30px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,197,94,.5);">QUERYING EPSS<span class="blink">...</span></div></div>`;
+
+  let data = window._lastEPSS;
+  // If we don't have it yet (e.g. came from keyword search), fetch now
+  if(!data){
+    data = await fetchEPSS(cve.id);
+    window._lastEPSS = data;
+  }
+
+  if(!data){
+    content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(34,197,94,.22);background:rgba(34,197,94,.05);">
+      <i class="fas fa-chart-bar" style="color:#22c55e;font-size:1.2rem;flex-shrink:0;"></i>
+      <div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(34,197,94,.7);letter-spacing:.1em;margin-bottom:3px;">EPSS UNAVAILABLE</div>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.45);">Could not retrieve EPSS data for ${sanitize(cve.id)}. FIRST.org may be temporarily unavailable.</p></div>
+    </div>
+    <div style="margin-top:12px;"><a href="https://www.first.org/epss/" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> Learn about EPSS →</a></div>`;
+    return;
+  }
+
+  const epssScore = parseFloat(data.epss||0);
+  const percentile = parseFloat(data.percentile||0);
+  const pct = Math.round(epssScore*100*10)/10; // e.g. 97.5%
+  const pctileDisplay = Math.round(percentile*100);
+  const scoreDate = data.date||'—';
+
+  // Color based on risk
+  const col = epssScore>=0.7?'#ef4444':epssScore>=0.4?'#f59e0b':epssScore>=0.1?'#ff1493':'#22c55e';
+  const label = epssScore>=0.7?'CRITICAL RISK':epssScore>=0.4?'HIGH RISK':epssScore>=0.1?'MODERATE RISK':'LOW RISK';
+  const circ = 2*Math.PI*38;
+  const fill = epssScore*circ;
+
+  content.innerHTML=`
+    <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;flex-wrap:wrap;">
+      <div style="position:relative;width:96px;height:96px;flex-shrink:0;">
+        <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg);">
+          <circle fill="none" stroke="rgba(255,255,255,.06)" stroke-width="9" cx="48" cy="48" r="38"/>
+          <circle fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" cx="48" cy="48" r="38"
+            stroke-dasharray="${fill} ${circ}" style="filter:drop-shadow(0 0 8px ${col});transition:stroke-dasharray 1.2s ease;"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-family:'Orbitron',monospace;font-size:1.35rem;font-weight:900;color:${col};line-height:1;text-shadow:0 0 14px ${col};">${pct}%</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.38rem;color:rgba(255,255,255,.3);letter-spacing:.06em;">EPSS</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.15em;color:${col};margin-bottom:6px;">${label}</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;margin-bottom:4px;">
+          ${pct}% chance of exploitation in the next 30 days
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);">
+          Top ${100-pctileDisplay}% most likely to be exploited · Score date: ${sanitize(scoreDate)}
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-family:'Orbitron',monospace;font-size:.52rem;color:rgba(255,255,255,.25);letter-spacing:.12em;margin-bottom:8px;">WHAT IS EPSS?</div>
+      <p style="font-family:'Rajdhani',sans-serif;font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.6;margin:0;">The Exploit Prediction Scoring System (EPSS) is a daily estimate produced by FIRST.org using machine learning. It predicts the probability that a vulnerability will be exploited in the wild within the next 30 days. Unlike CVSS which measures severity, EPSS measures <strong style="color:rgba(255,255,255,.7);">likelihood of active exploitation</strong>.</p>
+    </div>
+
+    <div class="info-row"><span class="info-label">CVE</span><span class="info-val">${sanitize(cve.id)}</span></div>
+    <div class="info-row"><span class="info-label">EPSS SCORE</span><span class="info-val" style="color:${col};font-weight:700;">${epssScore.toFixed(5)}</span></div>
+    <div class="info-row"><span class="info-label">PERCENTILE</span><span class="info-val">Top ${100-pctileDisplay}% riskiest CVEs</span></div>
+    <div class="info-row"><span class="info-label">RISK LEVEL</span><span class="info-val"><span style="color:${col};">${label}</span></span></div>
+    <div class="info-row"><span class="info-label">SCORED ON</span><span class="info-val">${sanitize(scoreDate)}</span></div>
+
+    <div style="margin-top:14px;">
+      <a href="https://www.first.org/epss/model" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> EPSS Model Documentation →</a>
+    </div>`;
+}
+
+/* ══════════════════════════════
+   DETAIL: OSV
+══════════════════════════════ */
+async function renderDetailOSV(cve){
+  const content=document.getElementById('detail-content');
+  content.innerHTML=`<div style="text-align:center;padding:30px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(245,158,11,.5);">QUERYING OSV DATABASE<span class="blink">...</span></div></div>`;
+
+  let data = window._lastOSV;
+  if(data===undefined){
+    data = await fetchOSV(cve.id);
+    window._lastOSV = data;
+  }
+
+  if(!data||data.length===0){
+    content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(245,158,11,.22);background:rgba(245,158,11,.05);">
+      <i class="fas fa-box-open" style="color:#f59e0b;font-size:1.2rem;flex-shrink:0;"></i>
+      <div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(245,158,11,.7);letter-spacing:.1em;margin-bottom:3px;">NO OSV RECORDS</div>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.45);">Google's OSV database has no records for ${sanitize(cve.id)}. This is common for non-open-source CVEs.</p></div>
+    </div>
+    <div style="margin-top:12px;"><a href="https://osv.dev/list?q=${encodeURIComponent(cve.id)}" target="_blank" class="poc-link" style="display:inline-flex;"><i class="fas fa-external-link-alt"></i> Search OSV.dev directly</a></div>`;
+    return;
+  }
+
+  const ecoColors={'npm':'#f59e0b','PyPI':'#3b82f6','Go':'#22c55e','Maven':'#ef4444','crates.io':'#f59e0b','RubyGems':'#ef4444','NuGet':'#a855f7','Hex':'#a855f7','Packagist':'#3b82f6','Linux':'#f59e0b'};
+  content.innerHTML='';
+  data.slice(0,8).forEach((vuln,i)=>{
+    const affected = vuln.affected||[];
+    const totalPkgs = affected.length;
+    const ecosystems = [...new Set(affected.map(a=>a.package?.ecosystem).filter(Boolean))];
+
+    const div=document.createElement('div');
+    div.style.cssText=`border:1px solid rgba(245,158,11,.14);border-radius:12px;padding:14px;${i>0?'margin-top:10px;':''}`;
+    div.innerHTML=`
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(245,158,11,.65);margin-bottom:3px;">${sanitize(vuln.id||'OSV')}</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;color:#fff;line-height:1.3;">${sanitize((vuln.summary||'Open source advisory').substring(0,80))}${(vuln.summary||'').length>80?'…':''}</div>
+        </div>
+        <span style="font-family:'Orbitron',monospace;font-size:.48rem;padding:3px 9px;border-radius:6px;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.08);color:#f59e0b;flex-shrink:0;">${totalPkgs} PKG${totalPkgs!==1?'S':''}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
+        ${ecosystems.map(e=>`<span class="cpe-tag" style="background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.22);color:rgba(245,158,11,.75);">${sanitize(e)}</span>`).join('')}
+        ${affected.slice(0,4).map(a=>`<span class="cpe-tag">${sanitize(a.package?.name||'—')}</span>`).join('')}
+        ${affected.length>4?`<span style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.25);padding:2px 6px;">+${affected.length-4} more</span>`:''}
+      </div>
+      ${affected[0]?.ranges?.[0]?.events?`<div style="display:flex;flex-wrap:wrap;gap:5px;">
+        ${affected[0].ranges[0].events.filter(e=>e.introduced||e.fixed).slice(0,4).map(e=>
+          e.fixed
+            ? `<span class="ver-pill ver-fixed"><i class="fas fa-check" style="font-size:.45rem;"></i> fixed: ${sanitize(e.fixed)}</span>`
+            : `<span class="ver-pill ver-vuln"><i class="fas fa-times" style="font-size:.45rem;"></i> from: ${sanitize(e.introduced||'0')}</span>`
+        ).join('')}
+      </div>`:''}
+      <div style="margin-top:8px;">
+        <a href="${sanitize(vuln.references?.[0]?.url||`https://osv.dev/vulnerability/${vuln.id}`)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> OSV Record →</a>
+      </div>`;
+    content.appendChild(div);
+  });
+
+  if(data.length>8){
+    const more=document.createElement('p');
+    more.style.cssText='font-family:"Share Tech Mono",monospace;font-size:.6rem;color:rgba(255,255,255,.25);margin-top:10px;text-align:center;';
+    more.textContent=`+${data.length-8} more records on osv.dev`;
+    content.appendChild(more);
+  }
 }
 
 /* ══════════════════════════════
@@ -1144,7 +1834,7 @@ async function renderDetailGithub(cve){
   try{
     const advisories=await fetchGitHub(cve.id);
     if(!advisories||advisories.length===0){
-      content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(168,85,247,.22);background:rgba(168,85,247,.05);"><i class="fab fa-github" style="color:#a855f7;font-size:1.2rem;flex-shrink:0;"></i><div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(168,85,247,.7);letter-spacing:.1em;margin-bottom:3px;">NO ADVISORY FOUND</div><p style="font-size:.85rem;color:rgba(255,255,255,.45);">No GitHub Security Advisory linked to ${cve.id}.</p></div></div>`;
+      content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(168,85,247,.22);background:rgba(168,85,247,.05);"><i class="fab fa-github" style="color:#a855f7;font-size:1.2rem;flex-shrink:0;"></i><div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(168,85,247,.7);letter-spacing:.1em;margin-bottom:3px;">NO ADVISORY FOUND</div><p style="font-size:.85rem;color:rgba(255,255,255,.45);">No GitHub Security Advisory linked to ${sanitize(cve.id)}.</p></div></div>`;
       return;
     }
     content.innerHTML='';
@@ -1157,17 +1847,17 @@ async function renderDetailGithub(cve){
       const sevCls={CRITICAL:'sev-critical',HIGH:'sev-high',MODERATE:'sev-medium',LOW:'sev-low'}[adv.severity?.toUpperCase()]||'sev-none';
       content.innerHTML+=`<div style="border:1px solid rgba(168,85,247,.15);border-radius:12px;padding:14px;${i>0?'margin-top:10px;':''}">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;">
-          <div><div style="font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(168,85,247,.6);margin-bottom:3px;">${adv.ghsa_id||'GHSA'}</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.92rem;color:#fff;line-height:1.3;">${(adv.summary||'Advisory').substring(0,70)}${(adv.summary||'').length>70?'…':''}</div></div>
-          <span class="sev-badge ${sevCls}" style="flex-shrink:0;">${adv.severity||'UNKNOWN'}</span>
+          <div><div style="font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(168,85,247,.6);margin-bottom:3px;">${sanitize(adv.ghsa_id||'GHSA')}</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.92rem;color:#fff;line-height:1.3;">${sanitize((adv.summary||'Advisory').substring(0,70))}${(adv.summary||'').length>70?'…':''}</div></div>
+          <span class="sev-badge ${sevCls}" style="flex-shrink:0;">${sanitize(adv.severity||'UNKNOWN')}</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
-          ${eco?`<span class="cpe-tag" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);color:rgba(168,85,247,.7);">${eco}</span>`:''}
-          ${pkg!=='—'?`<span class="cpe-tag" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);color:rgba(168,85,247,.7);">${pkg}</span>`:''}
-          <span class="ver-pill ver-vuln"><i class="fas fa-times" style="font-size:.45rem;"></i> ${vRange}</span>
-          ${patch!=='—'?`<span class="ver-pill ver-fixed"><i class="fas fa-check" style="font-size:.45rem;"></i> ${patch}</span>`:''}
+          ${eco?`<span class="cpe-tag" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);color:rgba(168,85,247,.7);">${sanitize(eco)}</span>`:''}
+          ${pkg!=='—'?`<span class="cpe-tag" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);color:rgba(168,85,247,.7);">${sanitize(pkg)}</span>`:''}
+          <span class="ver-pill ver-vuln"><i class="fas fa-times" style="font-size:.45rem;"></i> ${sanitize(vRange)}</span>
+          ${patch!=='—'?`<span class="ver-pill ver-fixed"><i class="fas fa-check" style="font-size:.45rem;"></i> ${sanitize(patch)}</span>`:''}
         </div>
-        <a href="${adv.html_url||`https://github.com/advisories/${adv.ghsa_id}`}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> GitHub Advisory →</a>
+        <a href="${sanitize(adv.html_url||`https://github.com/advisories/${adv.ghsa_id}`)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> GitHub Advisory →</a>
       </div>`;
     });
   }catch{
