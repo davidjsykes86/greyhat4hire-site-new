@@ -38,8 +38,8 @@
     }
 
     /* ── CURSOR ── */
-    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
-    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;will-change:transform; }
+    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform; }
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     /* ── FONTS ── */
@@ -64,10 +64,77 @@
     .desktop-link.active { color:#ff1493; }
     .desktop-link.active::after { width:100%; }
 
-    /* ── MOBILE MENU — background set in CSS so it's guaranteed regardless of Tailwind CDN opacity utilities ── */
+    /* ── MOBILE MENU ── */
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
     #mobile-menu.open { transform:translateY(0); }
     .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel {
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon {
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name  { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc  { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header { padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12); }
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
 
     /* ── BUTTONS ── */
     .btn-primary {
@@ -203,7 +270,7 @@
     .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-    /* ── HERO GRID BG ── */
+    /* ── HERO GRID ── */
     .hero-grid {
       position:absolute;inset:0;
       background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);
@@ -245,10 +312,66 @@
     </a>
 
     <!-- Desktop Nav -->
-    <div class="hidden lg:flex gap-8 text-sm">
+    <div class="hidden lg:flex items-center gap-7 text-sm">
       <a href="index.html"            class="desktop-link text-white">Home</a>
       <a href="about.html"            class="desktop-link text-white">About</a>
       <a href="services.html"         class="desktop-link text-white">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+              <i class="fas fa-file-circle-exclamation"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
+              <i class="fas fa-bug-slash"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Vulnerability Intelligence</div>
+              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
       <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
       <a href="greyhat-protocol.html" class="desktop-link text-white">The Protocol</a>
       <a href="pricing.html"          class="desktop-link text-white">Pricing</a>
@@ -265,14 +388,29 @@
   </div>
 </nav>
 
-<!-- ══ MOBILE MENU — placed OUTSIDE <nav> so backdrop-filter on nav cannot
-     create a new containing block and break fixed inset-0 positioning ══ -->
+<!-- ══ MOBILE MENU ══ -->
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
   <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
-    <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
-    <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+    <a href="index.html"             class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"          class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html"   class="mobile-tool-link">
+      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+      <span style="font-size:1rem;">Risk Self-Assessment</span>
+    </a>
+    <a href="hackers-dossier.html"   class="mobile-tool-link">
+      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+      <span style="font-size:1rem;">Hacker's Dossier</span>
+    </a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link">
+      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+      <span style="font-size:1rem;">Breach Cost Clock</span>
+    </a>
+    <a href="vuln-lookup.html"       class="mobile-tool-link">
+      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
+      <span style="font-size:1rem;">Vulnerability Intelligence</span>
+    </a>
     <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
     <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
     <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
@@ -286,8 +424,6 @@
 <!-- ══ HERO ══ -->
 <section class="min-h-[85vh] flex items-center justify-center relative px-4 sm:px-6 pt-24 pb-16 overflow-hidden" style="position:relative;z-index:2;">
   <div class="hero-grid"></div>
-
-  <!-- Glow blobs -->
   <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.08) 0%,transparent 70%);top:-100px;right:-150px;pointer-events:none;"></div>
   <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,20,147,.06) 0%,transparent 70%);bottom:-50px;left:-100px;pointer-events:none;"></div>
 
@@ -299,8 +435,7 @@
     </div>
 
     <h1 id="hero-heading" class="font-display text-5xl sm:text-6xl md:text-8xl font-black mb-6 leading-none tracking-tight">
-      <span class="neon-pink">LET'S</span>
-      <br>
+      <span class="neon-pink">LET'S</span><br>
       <span class="text-white">TALK</span><span class="neon-pink">.</span>
     </h1>
 
@@ -377,9 +512,7 @@
           Whether you're investigating a concern, evaluating your risk posture, or ready to commission a test — we're here to guide you through it. No sales pitch. Just straight talk.
         </p>
 
-        <!-- Contact Cards -->
         <div class="space-y-4 mb-10">
-
           <a href="mailto:info@greyhat4hire.co.za" class="contact-card flex gap-5 items-center" style="text-decoration:none;color:inherit;">
             <div class="contact-icon"><i class="fas fa-envelope text-pink-400"></i></div>
             <div>
@@ -415,10 +548,8 @@
               <div class="text-gray-500 text-sm mt-1">On-site available in major metros</div>
             </div>
           </div>
-
         </div>
 
-        <!-- Confidentiality Box -->
         <div class="glass-strong rounded-2xl p-6 pulse-glow">
           <div class="flex gap-4 items-start">
             <i class="fas fa-shield-alt text-2xl text-pink-400 flex-shrink-0 mt-1"></i>
@@ -431,7 +562,6 @@
           </div>
         </div>
 
-        <!-- Trust Badges -->
         <div class="mt-8 flex flex-wrap gap-3">
           <div class="trust-badge text-gray-400"><i class="fas fa-clock text-pink-400"></i> &lt;24h Response</div>
           <div class="trust-badge text-gray-400"><i class="fas fa-file-signature text-pink-400"></i> NDA First</div>
@@ -448,32 +578,24 @@
           </h2>
 
           <form id="contact-form" class="space-y-5" action="https://formspree.io/f/your-form-id" method="POST">
-
             <div>
               <label class="form-label">Full Name</label>
-              <input type="text" name="name" placeholder="John Smith" required
-                class="form-input w-full px-5 py-4 rounded-xl">
+              <input type="text" name="name" placeholder="John Smith" required class="form-input w-full px-5 py-4 rounded-xl">
             </div>
-
             <div>
               <label class="form-label">Company / Organisation</label>
-              <input type="text" name="company" placeholder="Acme Corp" required
-                class="form-input w-full px-5 py-4 rounded-xl">
+              <input type="text" name="company" placeholder="Acme Corp" required class="form-input w-full px-5 py-4 rounded-xl">
             </div>
-
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
                 <label class="form-label">Email Address</label>
-                <input type="email" name="email" placeholder="you@company.com" required
-                  class="form-input w-full px-5 py-4 rounded-xl">
+                <input type="email" name="email" placeholder="you@company.com" required class="form-input w-full px-5 py-4 rounded-xl">
               </div>
               <div>
                 <label class="form-label">Phone (Optional)</label>
-                <input type="tel" name="phone" placeholder="+27 83 xxx xxxx"
-                  class="form-input w-full px-5 py-4 rounded-xl">
+                <input type="tel" name="phone" placeholder="+27 83 xxx xxxx" class="form-input w-full px-5 py-4 rounded-xl">
               </div>
             </div>
-
             <div>
               <label class="form-label">Service Interest</label>
               <select name="service" required class="form-input w-full px-5 py-4 rounded-xl" style="cursor:none;">
@@ -488,15 +610,12 @@
                 <option>Not sure — I need guidance</option>
               </select>
             </div>
-
             <div>
               <label class="form-label">Tell Us About Your Needs</label>
               <textarea name="message" rows="5"
                 placeholder="Describe your environment, what you're worried about, any deadlines or compliance requirements..." required
                 class="form-input w-full px-5 py-4 rounded-xl resize-none"></textarea>
             </div>
-
-            <!-- Timeframe selector -->
             <div>
               <label class="form-label">Timeframe</label>
               <div class="grid grid-cols-3 gap-3" id="urgency-group">
@@ -506,16 +625,13 @@
               </div>
               <input type="hidden" name="timeframe" id="timeframe-input" value="">
             </div>
-
             <button type="submit" class="submit-btn w-full py-5 rounded-2xl font-display text-sm tracking-widest">
               <i class="fas fa-paper-plane mr-3"></i> SEND SECURE MESSAGE
             </button>
-
             <div class="flex items-center justify-center gap-2 text-xs text-gray-500 font-mono">
               <i class="fas fa-lock text-pink-400/50"></i>
               Encrypted &nbsp;•&nbsp; Strictly confidential &nbsp;•&nbsp; No spam
             </div>
-
           </form>
         </div>
       </div>
@@ -527,9 +643,7 @@
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2;"></div>
 
 <!-- ══ WHAT HAPPENS NEXT ══ -->
-<section class="py-20 sm:py-28 px-4 sm:px-6 relative" style="z-index:2;">
-  <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(255,20,147,.03),transparent);pointer-events:none;"></div>
-
+<section class="py-20 sm:py-28 px-4 sm:px-6" style="position:relative;z-index:2;">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-14 gsap-hidden">
       <div class="section-tag mb-4">THE PROCESS</div>
@@ -542,42 +656,36 @@
     </div>
 
     <div id="process-steps" class="grid md:grid-cols-5 gap-4">
-
       <div class="timeline-step gsap-hidden">
         <div class="step-badge">01</div>
         <div class="font-display text-sm text-pink-400 tracking-wide mb-2">SAME DAY</div>
         <h3 class="text-white font-bold text-lg mb-3">Initial Response</h3>
         <p class="text-gray-400 text-sm leading-relaxed">We acknowledge your enquiry and confirm receipt. You'll hear from a human — not a bot.</p>
       </div>
-
       <div class="timeline-step gsap-hidden">
         <div class="step-badge">02</div>
         <div class="font-display text-sm text-pink-400 tracking-wide mb-2">DAY 1–2</div>
         <h3 class="text-white font-bold text-lg mb-3">Discovery Call</h3>
         <p class="text-gray-400 text-sm leading-relaxed">A 30-min call to understand your environment, concerns, and what success looks like for you.</p>
       </div>
-
       <div class="timeline-step gsap-hidden">
         <div class="step-badge">03</div>
         <div class="font-display text-sm text-pink-400 tracking-wide mb-2">DAY 3–5</div>
         <h3 class="text-white font-bold text-lg mb-3">Proposal Sent</h3>
         <p class="text-gray-400 text-sm leading-relaxed">Receive a detailed proposal: scope, methodology, timeline, and transparent fixed pricing. No vague estimates.</p>
       </div>
-
       <div class="timeline-step gsap-hidden">
         <div class="step-badge">04</div>
         <div class="font-display text-sm text-pink-400 tracking-wide mb-2">PRE-ENGAGEMENT</div>
         <h3 class="text-white font-bold text-lg mb-3">NDA &amp; Kickoff</h3>
         <p class="text-gray-400 text-sm leading-relaxed">Mutual NDA signed, rules of engagement defined, and testing window confirmed. Full legal clarity.</p>
       </div>
-
       <div class="timeline-step gsap-hidden">
         <div class="step-badge">05</div>
         <div class="font-display text-sm text-pink-400 tracking-wide mb-2">DELIVERY</div>
         <h3 class="text-white font-bold text-lg mb-3">Report &amp; Debrief</h3>
         <p class="text-gray-400 text-sm leading-relaxed">Detailed findings report plus a live debrief walkthrough. You'll know exactly what to fix and why.</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -592,7 +700,6 @@
       <h2 class="font-display text-2xl sm:text-3xl font-black text-white">Jump straight in</h2>
     </div>
     <div class="grid sm:grid-cols-3 gap-4">
-
       <a href="https://wa.me/27846353581" target="_blank" class="quick-btn gsap-hidden" style="border-color:rgba(37,211,102,.25);">
         <div class="quick-btn-icon" style="background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.25);"><i class="fab fa-whatsapp text-xl" style="color:#25D366;"></i></div>
         <div>
@@ -601,7 +708,6 @@
           <div class="text-xs text-gray-500 mt-1">Fastest response</div>
         </div>
       </a>
-
       <a href="tel:+27846353581" class="quick-btn gsap-hidden">
         <div class="quick-btn-icon"><i class="fas fa-phone text-pink-400 text-lg"></i></div>
         <div>
@@ -610,7 +716,6 @@
           <div class="text-xs text-gray-500 mt-1">Mon–Fri, 8am–6pm</div>
         </div>
       </a>
-
       <a href="mailto:info@greyhat4hire.co.za" class="quick-btn gsap-hidden">
         <div class="quick-btn-icon"><i class="fas fa-envelope text-pink-400 text-lg"></i></div>
         <div>
@@ -619,7 +724,6 @@
           <div class="text-xs text-gray-500 mt-1">&lt;24h response</div>
         </div>
       </a>
-
     </div>
   </div>
 </section>
@@ -627,16 +731,12 @@
 <!-- ══ FOOTER ══ -->
 <footer class="border-t border-gray-900/50 bg-black/40" style="position:relative;z-index:2;">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-18">
-
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
 
-      <!-- Brand -->
       <div class="lg:col-span-1">
         <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
           onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-        <p class="text-gray-400 text-sm leading-relaxed mb-5">
-          Independent cybersecurity consulting. Ethical testing, clear reporting, real results.
-        </p>
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
         <div class="flex gap-4">
           <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
           <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
@@ -644,7 +744,6 @@
         </div>
       </div>
 
-      <!-- Pages -->
       <div>
         <h3 class="font-display text-white text-sm tracking-widest mb-5">PAGES</h3>
         <ul class="space-y-3">
@@ -657,17 +756,16 @@
         </ul>
       </div>
 
-      <!-- Free Tools -->
       <div>
         <h3 class="font-display text-white text-sm tracking-widest mb-5">FREE TOOLS</h3>
         <ul class="space-y-3">
           <li><a href="risk-assessment.html"   class="text-gray-500 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
           <li><a href="hackers-dossier.html"   class="text-gray-500 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
           <li><a href="breach-cost-clock.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="vuln-lookup.html"       class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li>
         </ul>
       </div>
 
-      <!-- Get in Touch -->
       <div>
         <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
         <ul class="space-y-3">
@@ -696,7 +794,6 @@
 
     </div>
 
-    <!-- Bottom -->
     <div class="border-t border-gray-800 pt-8">
       <div class="glass p-5 rounded-2xl mb-8">
         <div class="flex items-start gap-3">
@@ -711,26 +808,27 @@
         <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
       </div>
     </div>
-
   </div>
 </footer>
 
 <script>
   tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-  // ── CURSOR ──
+  // ── CURSOR (RAF lerp — identical to index.html) ──
   const cur  = document.getElementById('cur');
   const cur2 = document.getElementById('cur2');
+  let _mx=0,_my=0,_cx=0,_cy=0;
   document.addEventListener('mousemove', e => {
-    cur2.style.left = (e.clientX - 2) + 'px';
-    cur2.style.top  = (e.clientY - 2) + 'px';
-    setTimeout(() => {
-      cur.style.left = (e.clientX - 7) + 'px';
-      cur.style.top  = (e.clientY - 7) + 'px';
-    }, 80);
-  });
-  document.addEventListener('mousedown', () => cur.style.transform = 'scale(1.8)');
-  document.addEventListener('mouseup',   () => cur.style.transform = 'scale(1)');
+    _mx=e.clientX; _my=e.clientY;
+    cur2.style.transform='translate('+(e.clientX-2)+'px,'+(e.clientY-2)+'px)';
+  },{passive:true});
+  (function cursorTick(){
+    _cx+=(_mx-_cx)*0.18; _cy+=(_my-_cy)*0.18;
+    cur.style.transform='translate('+(_cx-7)+'px,'+(_cy-7)+'px)';
+    requestAnimationFrame(cursorTick);
+  })();
+  document.addEventListener('mousedown', () => cur.style.scale='1.8');
+  document.addEventListener('mouseup',   () => cur.style.scale='1');
 
   // ── NAV ──
   window.addEventListener('scroll', () =>
@@ -752,21 +850,21 @@
 
   hamburger.addEventListener('click', openMenu);
   closeMenuBtn.addEventListener('click', closeMenu);
-  document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l => l.addEventListener('click', closeMenu));
 
   // ── TYPEWRITER ──
   const phrases = ['info@greyhat4hire.co.za','REQUEST A FREE CONSULTATION','FIND WHAT ATTACKERS FIND','INDEPENDENT · ETHICAL · EFFECTIVE'];
-  let pIdx = 0, cIdx = 0, del = false;
+  let pIdx=0, cIdx=0, del=false;
   const typedEl = document.getElementById('typed-text');
   function typeWriter() {
     const p = phrases[pIdx];
     if (!del) {
-      typedEl.textContent = p.substring(0, cIdx + 1); cIdx++;
-      if (cIdx === p.length) { setTimeout(() => { del = true; typeWriter(); }, 2400); return; }
+      typedEl.textContent = p.substring(0, cIdx+1); cIdx++;
+      if (cIdx === p.length) { setTimeout(() => { del=true; typeWriter(); }, 2400); return; }
       setTimeout(typeWriter, cIdx < 5 ? 120 : 55);
     } else {
-      typedEl.textContent = p.substring(0, cIdx - 1); cIdx--;
-      if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(typeWriter, 400); return; }
+      typedEl.textContent = p.substring(0, cIdx-1); cIdx--;
+      if (cIdx === 0) { del=false; pIdx=(pIdx+1)%phrases.length; setTimeout(typeWriter, 400); return; }
       setTimeout(typeWriter, 30);
     }
   }
@@ -798,29 +896,24 @@
     .fromTo('#hero-btns',     {y:20,opacity:0}, {y:0,opacity:1,duration:.7,ease:'power3.out'}, 1.4)
     .fromTo('#hero-scroll',   {opacity:0},      {opacity:.3,duration:.8}, 2.0);
 
-  // Contact cards
   gsap.utils.toArray('.contact-card').forEach((card, i) => {
     gsap.fromTo(card, {x:-60,opacity:0}, {x:0,opacity:1,duration:.8,ease:'power3.out',
       scrollTrigger:{trigger:'#contact-info',start:'top 82%',once:true}, delay:i*0.12});
   });
 
-  // Form
   gsap.fromTo('#contact-form-wrapper', {x:60,opacity:0}, {x:0,opacity:1,duration:.9,ease:'power3.out',
     scrollTrigger:{trigger:'#contact-form-wrapper',start:'top 82%',once:true}});
 
-  // Process steps
   gsap.utils.toArray('#process-steps .timeline-step').forEach((step, i) => {
     gsap.fromTo(step, {y:50,opacity:0}, {y:0,opacity:1,duration:.7,ease:'power3.out',
       scrollTrigger:{trigger:'#process-steps',start:'top 85%',once:true}, delay:i*0.1});
   });
 
-  // Quick btns
   gsap.utils.toArray('.quick-btn').forEach((btn, i) => {
     gsap.fromTo(btn, {y:30,opacity:0}, {y:0,opacity:1,duration:.6,ease:'power3.out',
       scrollTrigger:{trigger:btn,start:'top 88%',once:true}, delay:i*0.1});
   });
 
-  // Generic reveal
   gsap.utils.toArray('.gsap-hidden').forEach(el => {
     if (!el.closest('#process-steps')) {
       gsap.fromTo(el, {y:40,opacity:0}, {y:0,opacity:1,duration:.8,ease:'power3.out',
@@ -829,57 +922,61 @@
   });
 
   // ── THREE.JS PARTICLES ──
-  (function() {
+  (function(){
+    if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     const canvas   = document.getElementById('three-canvas');
     const scene    = new THREE.Scene();
-    const camera   = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, .1, 400);
+    const camera   = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, .1, 400);
     camera.position.z = 80;
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+    const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:false});
     renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1));
 
-    const count = 500, geo = new THREE.BufferGeometry();
-    const pos = new Float32Array(count * 3), col = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      pos[i3]   = (Math.random() - .5) * 180;
-      pos[i3+1] = (Math.random() - .5) * 260 - 80;
-      pos[i3+2] = (Math.random() - .5) * 50;
-      col[i3]   = .98 + (Math.random() - .5) * .08;
-      col[i3+1] = .08 + (Math.random() - .5) * .04;
-      col[i3+2] = .58 + (Math.random() - .5) * .1;
+    const count=250, geo=new THREE.BufferGeometry();
+    const pos=new Float32Array(count*3), col=new Float32Array(count*3);
+    for (let i=0; i<count; i++) {
+      const i3=i*3;
+      pos[i3]  =(Math.random()-.5)*180;
+      pos[i3+1]=(Math.random()-.5)*260-80;
+      pos[i3+2]=(Math.random()-.5)*50;
+      col[i3]  =.98+(Math.random()-.5)*.08;
+      col[i3+1]=.08+(Math.random()-.5)*.04;
+      col[i3+2]=.58+(Math.random()-.5)*.1;
     }
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
-    const mat = new THREE.PointsMaterial({
-      size:0.82, vertexColors:true, transparent:true, opacity:.28,
-      blending:THREE.AdditiveBlending, depthTest:false
-    });
-    const pts = new THREE.Points(geo, mat);
+    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+    const pts=new THREE.Points(geo, mat);
     scene.add(pts);
 
-    let f = 0;
-    function animate() {
+    let pageVisible=!document.hidden;
+    document.addEventListener('visibilitychange', () => { pageVisible=!document.hidden; });
+
+    let f=0;
+    function animate(){
       requestAnimationFrame(animate);
-      if (++f % 2) return;
-      const p = pts.geometry.attributes.position.array;
-      for (let i = 1; i < p.length; i += 3) {
-        p[i]   += .022 + Math.random() * .028;
-        p[i-1] += Math.sin(Date.now() * .00008 + i) * .003;
-        if (p[i] > 130) p[i] = -120;
+      if (!pageVisible) return;
+      if (++f%3) return;
+      const p=pts.geometry.attributes.position.array;
+      const t=Date.now()*.00008;
+      for (let i=1; i<p.length; i+=3){
+        p[i]+=.022;
+        p[i-1]+=Math.sin(t+i)*.003;
+        if (p[i]>130) p[i]=-120;
       }
-      pts.geometry.attributes.position.needsUpdate = true;
-      pts.rotation.y += .00015;
+      pts.geometry.attributes.position.needsUpdate=true;
+      pts.rotation.y+=.00015;
       renderer.render(scene, camera);
     }
     animate();
 
     window.addEventListener('resize', () => {
-      camera.aspect = innerWidth / innerHeight;
+      camera.aspect=innerWidth/innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(innerWidth, innerHeight);
     });
   })();
 </script>
+
 </body>
 </html>
