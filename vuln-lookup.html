@@ -510,19 +510,6 @@
         <!-- Product grid -->
         <div id="product-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3"></div>
         <p style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.18);margin-top:10px;letter-spacing:.06em;">↑ Click any card to load its known vulnerabilities instantly</p>
-        <!-- NVD API Key (optional) -->
-        <div style="margin-top:14px;padding:10px 14px;background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.12);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <i class="fas fa-key" style="color:rgba(59,130,246,.5);font-size:.75rem;flex-shrink:0;"></i>
-          <div style="flex:1;min-width:200px;">
-            <div style="font-family:'Orbitron',monospace;font-size:.47rem;letter-spacing:.12em;color:rgba(59,130,246,.55);margin-bottom:4px;">NVD API KEY <span style="color:rgba(255,255,255,.2);">— OPTIONAL · 10× HIGHER RATE LIMIT</span></div>
-            <input id="nvd-api-key-input" type="password" placeholder="Paste your key from nvd.nist.gov/developers/request-an-api-key"
-              style="width:100%;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:7px 12px;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:#93c5fd;outline:none;transition:border-color .2s ease;"
-              oninput="nvdApiKey=this.value.trim()"
-              onfocus="this.style.borderColor='rgba(59,130,246,.5)'"
-              onblur="this.style.borderColor='rgba(59,130,246,.2)'"/>
-          </div>
-          <a href="https://nvd.nist.gov/developers/request-an-api-key" target="_blank" style="font-family:'Orbitron',monospace;font-size:.48rem;color:rgba(59,130,246,.6);text-decoration:none;letter-spacing:.08em;white-space:nowrap;border:1px solid rgba(59,130,246,.2);padding:5px 10px;border-radius:7px;transition:all .2s ease;" onmouseover="this.style.background='rgba(59,130,246,.1)'" onmouseout="this.style.background='transparent'"><i class="fas fa-external-link-alt" style="font-size:.45rem;margin-right:4px;"></i>GET KEY</a>
-        </div>
       </div>
     </div>
   </div>
@@ -1266,131 +1253,27 @@ function exportWatchlist(){
 updateWatchlistUI();
 
 /* ══════════════════════════════
-   NVD API KEY (optional - boosts rate limit from 5/30s to 50/30s)
+   API WORKER — all NVD/CIRCL calls go through /api/vuln
+   (Cloudflare Pages Function — stores the API key server-side,
+    caches results for 1 hour, no rate limit issues)
 ══════════════════════════════ */
-let nvdApiKey = '';
-
-/* ══════════════════════════════
-   API: NVD — returns {cves, failed, reason}
-══════════════════════════════ */
-const NVD_KEYWORD_MAP={
-  // Cloud
-  'amazon web services': ['amazon','aws lambda','amazon ec2','amazon s3'],
-  'amazon':              ['aws','amazon ec2','amazon s3','amazon rds'],
-  // Network gear
-  'cisco ios':           ['cisco','cisco systems'],
-  'fortios':             ['fortigate','fortinet'],
-  'pan-os':              ['palo alto','paloalto'],
-  'junos':               ['juniper','juniper networks'],
-  // OS
-  'apple macos':         ['macos','mac os x','apple mac'],
-  'apple ios':           ['ios','iphone os'],
-  'google android':      ['android'],
-  'microsoft windows':   ['windows'],
-  'linux kernel':        ['linux'],
-  // DB
-  'oracle database':     ['oracle db','oracle'],
-  'microsoft sql server':['sql server','mssql'],
-  // Web
-  'apache http server':  ['apache httpd','apache'],
-  'mozilla firefox':     ['firefox'],
-  'google chrome':       ['chrome'],
-  // Apps
-  'adobe acrobat':       ['acrobat reader','acrobat dc','adobe reader'],
-  'microsoft office':    ['ms office','office 365'],
-  'microsoft exchange':  ['exchange server'],
-  'zoom video':          ['zoom','zoom meetings'],
-  // Dev
-  'node.js':             ['nodejs','node js'],
-};
-
-async function nvdRawFetch(url){
-  const headers = nvdApiKey ? {'apiKey': nvdApiKey} : {};
-
-  // 1. Direct (NVD v2 API has CORS: Access-Control-Allow-Origin: *)
-  try{
-    const res = await fetch(url, {headers, signal: AbortSignal.timeout(13000)});
-    if(res.ok) return {data: await res.json(), via: 'direct'};
-    if(res.status===429) return {failed:true, reason:'⚠ NVD rate limited (5 req/30s). Add an API key or wait 30s.'};
-    if(res.status===403) return {failed:true, reason:'⚠ NVD access denied.'};
-    return {failed:true, reason:`⚠ NVD HTTP ${res.status}`};
-  }catch(e){
-    // Network/CORS error — fall through to proxies
-    const isCors = e instanceof TypeError;
-    setLoadStatus('nvd', isCors ? 'direct blocked, trying proxy...' : 'timeout, trying proxy...');
-  }
-
-  // 2. allorigins proxy
-  try{
-    const pRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
-    if(pRes.ok){
-      const w = await pRes.json();
-      if(w.contents) return {data: JSON.parse(w.contents), via:'allorigins'};
-    }
-  }catch(_){ setLoadStatus('nvd','allorigins failed, trying proxy 2...'); }
-
-  // 3. corsproxy.io
-  try{
-    const pRes2 = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
-    if(pRes2.ok) return {data: await pRes2.json(), via:'corsproxy'};
-  }catch(_){}
-
-  return {failed:true, reason:'⚠ NVD unreachable (all routes failed)'};
-}
+const WORKER = '/api/vuln';
 
 async function fetchNVD(query, isCVEId=false, count=20){
-  if(isCVEId){
-    const url=`https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(query.toUpperCase())}`;
-    const result = await nvdRawFetch(url);
-    if(result.failed){
-      // Try CIRCL as fallback for CVE ID lookups
-      setLoadStatus('nvd','NVD failed, trying CIRCL mirror...');
-      try{
-        const cr = await fetch(`https://cve.circl.lu/api/cve/${encodeURIComponent(query.toUpperCase())}`,{signal:AbortSignal.timeout(10000)});
-        if(cr.ok){
-          const cd = await cr.json();
-          if(cd&&cd.id){
-            // Normalise CIRCL data into NVD shape
-            const cve = {
-              id: cd.id,
-              published: cd.Published||cd.publishedDate||'',
-              lastModified: cd.Modified||cd.lastModifiedDate||'',
-              descriptions:[{lang:'en',value:cd.summary||cd.Description||'No description.'}],
-              metrics:{},
-              references:(cd.references||[]).map(u=>({url:u})),
-              weaknesses:[],
-              configurations:[]
-            };
-            if(cd.cvss){cve.metrics.cvssMetricV2=[{cvssData:{baseScore:parseFloat(cd.cvss),vectorString:cd.cvss_vector||''}}];}
-            if(cd.cvss3){cve.metrics.cvssMetricV31=[{cvssData:{baseScore:parseFloat(cd.cvss3),vectorString:cd.cvss3_vector||''}}];}
-            return {cves:[cve], failed:false, reason:'1 via CIRCL mirror'};
-          }
-        }
-      }catch(_){}
-      return {cves:[], failed:true, reason:result.reason};
-    }
-    const cves = (result.data.vulnerabilities||[]).map(v=>v.cve);
-    return {cves, failed:false, reason:`${cves.length} via ${result.via}`};
+  const params = new URLSearchParams({
+    mode:  isCVEId ? 'cve' : 'keyword',
+    q:     query,
+    count: count,
+  });
+  try{
+    const res = await fetch(`${WORKER}?${params}`, {signal: AbortSignal.timeout(15000)});
+    if(!res.ok) return {cves:[], failed:true, reason:`Worker error ${res.status}`};
+    const data = await res.json();
+    if(data.error) return {cves:[], failed:true, reason:data.error};
+    return {cves: data.cves||[], failed:false, reason:`${(data.cves||[]).length} via ${data.source||'worker'}`};
+  }catch(e){
+    return {cves:[], failed:true, reason:`Worker unreachable: ${e.message}`};
   }
-
-  const attempts = [query, ...(NVD_KEYWORD_MAP[query]||[])];
-  let hardFail = null;
-  for(const kw of attempts){
-    setLoadStatus('nvd', `trying "${kw}"...`);
-    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(kw)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
-    const result = await nvdRawFetch(url);
-    if(result.failed){
-      hardFail = result.reason;
-      if(result.reason.includes('rate') || result.reason.includes('denied') || result.reason.includes('unreachable')){
-        return {cves:[], failed:true, reason:result.reason};
-      }
-      continue;
-    }
-    const cves = (result.data.vulnerabilities||[]).map(v=>v.cve);
-    if(cves.length>0) return {cves, failed:false, reason:`${cves.length} via ${result.via}`};
-  }
-  if(hardFail) return {cves:[], failed:true, reason:hardFail};
-  return {cves:[], failed:false, reason:'0 results for any keyword variant'};
 }
 
 /* ══════════════════════════════
@@ -1425,38 +1308,20 @@ async function fetchOSV(cveId){
 }
 
 /* ══════════════════════════════
-   API: CISA KEV — returns {data, failed, reason}
+   API: CISA KEV — via worker (cached 1hr on Cloudflare edge)
 ══════════════════════════════ */
 let kevCatalogCache = null;
 async function fetchKEVCatalog(){
   if(kevCatalogCache) return {data: kevCatalogCache, failed:false};
-  const KEV_URL = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json';
-
-  // 1. Direct
   try{
-    const res = await fetch(KEV_URL, {signal: AbortSignal.timeout(8000)});
-    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'direct'};}
-  }catch(_){}
-
-  // 2. allorigins
-  try{
-    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(KEV_URL)}`, {signal:AbortSignal.timeout(14000)});
-    if(res.ok){const w=await res.json(); if(w.contents){const d=JSON.parse(w.contents); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'allorigins'};}}
-  }catch(_){}
-
-  // 3. corsproxy
-  try{
-    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(KEV_URL)}`, {signal:AbortSignal.timeout(14000)});
-    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'corsproxy'};}
-  }catch(_){}
-
-  // 4. thingproxy (last resort)
-  try{
-    const res = await fetch(`https://thingproxy.freeboard.io/fetch/${KEV_URL}`, {signal:AbortSignal.timeout(14000)});
-    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'thingproxy'};}
-  }catch(_){}
-
-  return {data:null, failed:true, reason:'CORS blocked on all routes'};
+    const res = await fetch(`${WORKER}?mode=kev`, {signal: AbortSignal.timeout(15000)});
+    if(!res.ok) return {data:null, failed:true, reason:`Worker error ${res.status}`};
+    const d = await res.json();
+    kevCatalogCache = d.vulnerabilities||[];
+    return {data: kevCatalogCache, failed:false, via:'worker'};
+  }catch(e){
+    return {data:null, failed:true, reason:e.message};
+  }
 }
 
 function isInKEV(cveId){if(!kevData)return false;return kevData.some(v=>v.cveID?.toUpperCase()===cveId?.toUpperCase());}
@@ -1466,8 +1331,10 @@ function getKEVEntry(cveId){if(!kevData)return null;return kevData.find(v=>v.cve
    API: GitHub Advisory
 ══════════════════════════════ */
 let ghRateLimited=false;
+let ghRateLimitedUntil=0;
 async function fetchGitHub(cveId=null, keyword=null){
-  if(ghRateLimited) return[];
+  if(Date.now() < ghRateLimitedUntil) return[];
+  ghRateLimited=false;
   let url;
   if(cveId)    url=`https://api.github.com/advisories?cve=${encodeURIComponent(cveId)}&per_page=5`;
   else if(keyword) url=`https://api.github.com/advisories?q=${encodeURIComponent(keyword)}&per_page=5`;
@@ -1476,7 +1343,8 @@ async function fetchGitHub(cveId=null, keyword=null){
     const res=await fetch(url,{headers:{'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},signal:AbortSignal.timeout(10000)});
     if(res.status===403||res.status===429){
       ghRateLimited=true;
-      setLoadStatus('gh','⚠ rate limited');
+      ghRateLimitedUntil=Date.now()+90000;
+      setLoadStatus('gh','⚠ rate limited (retry in 90s)');
       showGHRateLimitWarning();
       return[];
     }
