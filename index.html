@@ -89,8 +89,12 @@
       font-family: 'Rajdhani', system-ui, sans-serif;
       background: #000;
       color: #e0e0e0;
-      overflow-x: hidden;
+      overflow-x: clip; /* 'clip' fixes iOS Safari fixed-position bug caused by 'hidden' */
       cursor: none;
+    }
+    /* Remove cursor:none on touch/mobile — it kills interactivity */
+    @media (hover: none), (pointer: coarse) {
+      body { cursor: auto; }
     }
 
     /* ── NOISE OVERLAY ── */
@@ -2658,18 +2662,18 @@
 <style>
   #cookie-banner {
     display: none;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9990;
+    position: fixed; bottom: -300px; left: 0; right: 0; z-index: 9990;
     background: rgba(4,4,4,.97);
     border-top: 1px solid rgba(255,20,147,.3);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 20px 24px;
     box-shadow: 0 -8px 40px rgba(255,20,147,.1);
     font-family: 'Rajdhani', sans-serif;
-    transform: translateY(100%);
-    opacity: 0;
-    transition: transform .5s cubic-bezier(.4,0,.2,1), opacity .5s ease;
+    will-change: bottom;
+    transition: bottom .5s cubic-bezier(.4,0,.2,1);
   }
-  #cookie-banner.visible { transform: translateY(0); opacity: 1; }
+  #cookie-banner.visible { bottom: 0; }
   #cookie-banner-inner {
     max-width: 1200px; margin: 0 auto;
     display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
