@@ -35,31 +35,17 @@ export async function onRequest(context) {
   }
 }
 
-const NVD_KEYWORD_MAP = {
-  'google android':       ['android'],
-  'apple macos':          ['macos', 'mac os x'],
-  'apple ios':            ['iphone os', 'ios'],
-  'microsoft windows':    ['windows 10', 'windows 11', 'windows server'],
-  'linux kernel':         ['linux kernel'],
-  'apache http server':   ['apache http server', 'apache httpd'],
-  'microsoft exchange':   ['exchange server'],
-  'microsoft office':     ['microsoft office', 'office 365'],
-  'microsoft sql server': ['sql server'],
-  'amazon web services':  ['aws', 'amazon'],
-  'cisco ios':            ['cisco ios', 'cisco'],
-  'fortios':              ['fortios', 'fortigate'],
-  'pan-os':               ['pan-os', 'palo alto'],
-  'adobe acrobat':        ['acrobat reader', 'adobe acrobat'],
-  'google chrome':        ['chrome'],
-  'mozilla firefox':      ['firefox'],
-  'zoom video':           ['zoom'],
-  'node.js':              ['node.js', 'nodejs'],
-  'oracle database':      ['oracle database', 'oracle db'],
-};
-
-const CIRCL_VENDOR_MAP = {
-  'wordpress':            'wordpress/wordpress',
+// Maps what the card sends → CIRCL vendor/product path
+// CIRCL is the primary source — no IP blocking, no rate limits
+const CIRCL_MAP = {
+  // Cards send these exact strings as keywords
+  'google android':       'google/android',
+  'apple macos':          'apple/mac_os_x',
+  'apple ios':            'apple/iphone_os',
+  'microsoft windows':    'microsoft/windows',
+  'linux kernel':         'linux/linux_kernel',
   'apache http server':   'apache/http_server',
+  'wordpress':            'wordpress/wordpress',
   'nginx':                'nginx/nginx',
   'php':                  'php/php',
   'drupal':               'drupal/drupal',
@@ -70,69 +56,101 @@ const CIRCL_VENDOR_MAP = {
   'mongodb':              'mongodb/mongodb',
   'redis':                'redis/redis',
   'oracle database':      'oracle/database',
-  'microsoft windows':    'microsoft/windows',
-  'linux kernel':         'linux/linux_kernel',
-  'apple macos':          'apple/mac_os_x',
-  'apple ios':            'apple/iphone_os',
-  'google android':       'google/android',
   'cisco ios':            'cisco/ios',
   'fortios':              'fortinet/fortios',
   'pan-os':               'paloaltonetworks/pan-os',
+  'junos':                'juniper/junos',
   'docker':               'docker/docker',
   'kubernetes':           'kubernetes/kubernetes',
   'jenkins':              'jenkins/jenkins',
   'node.js':              'nodejs/node.js',
   'microsoft office':     'microsoft/office',
   'microsoft exchange':   'microsoft/exchange_server',
+  'microsoft sql server': 'microsoft/sql_server',
   'adobe acrobat':        'adobe/acrobat_reader',
   'google chrome':        'google/chrome',
   'mozilla firefox':      'mozilla/firefox',
-  'microsoft sql server': 'microsoft/sql_server',
   'amazon web services':  'amazon/aws',
   'zoom video':           'zoom/zoom',
+  // Also handle raw terms in case user types them directly
+  'android':              'google/android',
+  'windows':              'microsoft/windows',
+  'linux':                'linux/linux_kernel',
+  'apache':               'apache/http_server',
+  'chrome':               'google/chrome',
+  'firefox':              'mozilla/firefox',
+  'ios':                  'apple/iphone_os',
+  'macos':                'apple/mac_os_x',
+  'iphone':               'apple/iphone_os',
+};
+
+// NVD keyword map — only used as secondary attempt if CIRCL fails
+const NVD_MAP = {
+  'google android':       'android',
+  'apple macos':          'macos',
+  'apple ios':            'iphone os',
+  'microsoft windows':    'windows',
+  'linux kernel':         'linux kernel',
+  'apache http server':   'apache http server',
+  'microsoft exchange':   'exchange server',
+  'microsoft office':     'microsoft office',
+  'microsoft sql server': 'sql server',
+  'amazon web services':  'amazon',
+  'cisco ios':            'cisco ios',
+  'fortios':              'fortios',
+  'pan-os':               'pan-os',
+  'adobe acrobat':        'acrobat reader',
+  'google chrome':        'chrome',
+  'mozilla firefox':      'firefox',
+  'zoom video':           'zoom',
+  'node.js':              'node.js',
+  'oracle database':      'oracle database',
 };
 
 async function fetchByCVEId(cveId, apiKey) {
-  const id  = cveId.toUpperCase();
+  const id = cveId.toUpperCase();
+
+  // Try CIRCL first for CVE lookups — no IP blocking issues
+  const circl = await circlById(id);
+  if (circl) return { cves: [circl], source: 'circl' };
+
+  // Try NVD as secondary
   const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(id)}`;
   const nvd = await nvdFetch(url, apiKey);
   if (nvd.ok) {
     const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
     if (cves.length) return { cves, source: 'nvd' };
   }
-  const circl = await circlById(id);
-  if (circl) return { cves: [circl], source: 'circl' };
-  return { cves: [], source: 'none', reason: nvd.reason || 'Not found' };
+
+  return { cves: [], source: 'none', reason: 'Not found in CIRCL or NVD' };
 }
 
 async function fetchByKeyword(keyword, count, apiKey) {
   const kw = keyword.toLowerCase();
-  const nvdTerms = NVD_KEYWORD_MAP[kw] || [keyword];
   const log = [];
-  const hasKey = !!apiKey;
 
-  for (const term of nvdTerms) {
-    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(term)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
-    const nvd = await nvdFetch(url, apiKey);
-    log.push({ term, ok: nvd.ok, reason: nvd.reason, count: nvd.ok ? (nvd.data.vulnerabilities||[]).length : 0 });
-    if (nvd.ok) {
-      const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
-      if (cves.length) return { cves, source: 'nvd', hasKey };
-    }
-    if (nvd.reason && nvd.reason.includes('rate')) break;
-  }
+  // ── Step 1: Try CIRCL (primary — no IP blocking, no rate limits) ──
+  const circlPath = CIRCL_MAP[kw];
+  log.push({ step: 'circl', path: circlPath || 'no mapping', kw });
 
-  // CIRCL fallback
-  const circlPath = CIRCL_VENDOR_MAP[kw];
-  log.push({ circl: circlPath || 'no mapping' });
   if (circlPath) {
     const cves = await circlByVendor(circlPath, count);
     log.push({ circlResults: cves.length });
-    if (cves.length) return { cves, source: 'circl', hasKey };
+    if (cves.length) return { cves, source: 'circl' };
   }
 
-  // Always include debug info in the zero-result response
-  return { cves: [], source: 'none', reason: '0 results', hasKey, debug: log };
+  // ── Step 2: Try NVD as secondary (may be blocked from Cloudflare IPs) ──
+  const nvdTerm = NVD_MAP[kw] || keyword;
+  const nvdUrl  = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(nvdTerm)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
+  const nvd     = await nvdFetch(nvdUrl, apiKey);
+  log.push({ step: 'nvd', term: nvdTerm, ok: nvd.ok, reason: nvd.reason });
+
+  if (nvd.ok) {
+    const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
+    if (cves.length) return { cves, source: 'nvd' };
+  }
+
+  return { cves: [], source: 'none', reason: '0 results', debug: log };
 }
 
 async function fetchKEV() {
@@ -147,7 +165,6 @@ async function fetchKEV() {
 async function nvdFetch(url, apiKey) {
   try {
     const headers = apiKey ? { apiKey } : {};
-    // No caching — fetch fresh every time so we don't cache failures
     const res = await fetch(url, { headers });
     if (res.status === 429) return { ok: false, reason: 'NVD rate limited' };
     if (res.status === 403) return { ok: false, reason: 'NVD access denied' };
