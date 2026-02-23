@@ -1,12 +1,6 @@
 /**
  * Cloudflare Pages Function — /api/vuln
  * File location in repo: functions/api/vuln.js
- *
- * Proxies NVD, CIRCL and CISA KEV — keeps your API key secret.
- * Cloudflare automatically caches outgoing fetch() calls at the edge.
- *
- * Required env var (set in Cloudflare Pages → Settings → Variables and Secrets):
- *   NVD_API_KEY  — free key from nvd.nist.gov/developers/request-an-api-key
  */
 
 const CORS_HEADERS = {
@@ -18,7 +12,6 @@ const CORS_HEADERS = {
 export async function onRequest(context) {
   const { request, env } = context;
 
-  // Handle CORS preflight
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
   }
@@ -30,7 +23,6 @@ export async function onRequest(context) {
 
   try {
     let payload;
-
     if (mode === 'kev') {
       payload = await fetchKEV();
     } else if (mode === 'cve') {
@@ -40,15 +32,71 @@ export async function onRequest(context) {
       if (!query) return jsonResponse({ error: 'Missing q param' }, 400);
       payload = await fetchByKeyword(query, count, env.NVD_API_KEY);
     } else {
-      return jsonResponse({ error: 'Invalid mode. Use mode=cve, mode=keyword or mode=kev' }, 400);
+      return jsonResponse({ error: 'Invalid mode' }, 400);
     }
-
     return jsonResponse(payload);
-
   } catch (err) {
     return jsonResponse({ error: err.message, cves: [], source: 'error' }, 500);
   }
 }
+
+// NVD uses its own naming conventions — map what users type to what NVD understands
+const NVD_KEYWORD_MAP = {
+  'google android':       ['android'],
+  'apple macos':          ['macos', 'mac os x'],
+  'apple ios':            ['iphone os', 'ios'],
+  'microsoft windows':    ['windows 10', 'windows 11', 'windows server'],
+  'linux kernel':         ['linux kernel'],
+  'apache http server':   ['apache http server', 'apache httpd'],
+  'microsoft exchange':   ['exchange server'],
+  'microsoft office':     ['microsoft office', 'office 365'],
+  'microsoft sql server': ['sql server'],
+  'amazon web services':  ['aws', 'amazon'],
+  'cisco ios':            ['cisco ios', 'cisco'],
+  'fortios':              ['fortios', 'fortigate'],
+  'pan-os':               ['pan-os', 'palo alto'],
+  'adobe acrobat':        ['acrobat reader', 'adobe acrobat'],
+  'google chrome':        ['chrome'],
+  'mozilla firefox':      ['firefox'],
+  'zoom video':           ['zoom'],
+  'node.js':              ['node.js', 'nodejs'],
+  'oracle database':      ['oracle database', 'oracle db'],
+};
+
+const CIRCL_VENDOR_MAP = {
+  'wordpress':            'wordpress/wordpress',
+  'apache http server':   'apache/http_server',
+  'nginx':                'nginx/nginx',
+  'php':                  'php/php',
+  'drupal':               'drupal/drupal',
+  'joomla':               'joomla/joomla',
+  'openssl':              'openssl/openssl',
+  'mysql':                'mysql/mysql',
+  'postgresql':           'postgresql/postgresql',
+  'mongodb':              'mongodb/mongodb',
+  'redis':                'redis/redis',
+  'oracle database':      'oracle/database',
+  'microsoft windows':    'microsoft/windows',
+  'linux kernel':         'linux/linux_kernel',
+  'apple macos':          'apple/mac_os_x',
+  'apple ios':            'apple/iphone_os',
+  'google android':       'google/android',
+  'cisco ios':            'cisco/ios',
+  'fortios':              'fortinet/fortios',
+  'pan-os':               'paloaltonetworks/pan-os',
+  'docker':               'docker/docker',
+  'kubernetes':           'kubernetes/kubernetes',
+  'jenkins':              'jenkins/jenkins',
+  'node.js':              'nodejs/node.js',
+  'microsoft office':     'microsoft/office',
+  'microsoft exchange':   'microsoft/exchange_server',
+  'adobe acrobat':        'adobe/acrobat_reader',
+  'google chrome':        'google/chrome',
+  'mozilla firefox':      'mozilla/firefox',
+  'microsoft sql server': 'microsoft/sql_server',
+  'amazon web services':  'amazon/aws',
+  'zoom video':           'zoom/zoom',
+};
 
 async function fetchByCVEId(cveId, apiKey) {
   const id  = cveId.toUpperCase();
@@ -64,18 +112,30 @@ async function fetchByCVEId(cveId, apiKey) {
 }
 
 async function fetchByKeyword(keyword, count, apiKey) {
-  const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(keyword)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
-  const nvd = await nvdFetch(url, apiKey);
-  if (nvd.ok) {
-    const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
-    if (cves.length) return { cves, source: 'nvd' };
+  const kw = keyword.toLowerCase();
+
+  // Try NVD with mapped terms first, fall back to original keyword
+  const nvdTerms = NVD_KEYWORD_MAP[kw] || [keyword];
+
+  for (const term of nvdTerms) {
+    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(term)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
+    const nvd = await nvdFetch(url, apiKey);
+    if (nvd.ok) {
+      const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
+      if (cves.length) return { cves, source: 'nvd' };
+    }
+    // Stop trying if rate limited
+    if (nvd.reason && nvd.reason.includes('rate')) break;
   }
-  const circlPath = CIRCL_VENDOR_MAP[keyword.toLowerCase()];
+
+  // NVD found nothing — fall back to CIRCL
+  const circlPath = CIRCL_VENDOR_MAP[kw];
   if (circlPath) {
     const cves = await circlByVendor(circlPath, count);
     if (cves.length) return { cves, source: 'circl' };
   }
-  return { cves: [], source: 'none', reason: nvd.reason || '0 results' };
+
+  return { cves: [], source: 'none', reason: '0 results' };
 }
 
 async function fetchKEV() {
@@ -97,6 +157,7 @@ async function nvdFetch(url, apiKey) {
     });
     if (res.status === 429) return { ok: false, reason: 'NVD rate limited' };
     if (res.status === 403) return { ok: false, reason: 'NVD access denied' };
+    if (res.status === 404) return { ok: false, reason: 'NVD 404 no results' };
     if (!res.ok)            return { ok: false, reason: `NVD error ${res.status}` };
     return { ok: true, data: await res.json() };
   } catch (e) {
@@ -143,41 +204,6 @@ function normaliseCIRCL(cd) {
     configurations: [],
   };
 }
-
-const CIRCL_VENDOR_MAP = {
-  'wordpress':            'wordpress/wordpress',
-  'apache http server':   'apache/http_server',
-  'nginx':                'nginx/nginx',
-  'php':                  'php/php',
-  'drupal':               'drupal/drupal',
-  'joomla':               'joomla/joomla',
-  'openssl':              'openssl/openssl',
-  'mysql':                'mysql/mysql',
-  'postgresql':           'postgresql/postgresql',
-  'mongodb':              'mongodb/mongodb',
-  'redis':                'redis/redis',
-  'oracle database':      'oracle/database',
-  'microsoft windows':    'microsoft/windows',
-  'linux kernel':         'linux/linux_kernel',
-  'apple macos':          'apple/mac_os_x',
-  'apple ios':            'apple/iphone_os',
-  'google android':       'google/android',
-  'cisco ios':            'cisco/ios',
-  'fortios':              'fortinet/fortios',
-  'pan-os':               'paloaltonetworks/pan-os',
-  'docker':               'docker/docker',
-  'kubernetes':           'kubernetes/kubernetes',
-  'jenkins':              'jenkins/jenkins',
-  'node.js':              'nodejs/node.js',
-  'microsoft office':     'microsoft/office',
-  'microsoft exchange':   'microsoft/exchange_server',
-  'adobe acrobat':        'adobe/acrobat_reader',
-  'google chrome':        'google/chrome',
-  'mozilla firefox':      'mozilla/firefox',
-  'microsoft sql server': 'microsoft/sql_server',
-  'amazon web services':  'amazon/aws',
-  'zoom video':           'zoom/zoom',
-};
 
 function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data), {
