@@ -622,7 +622,7 @@
       <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
         Have You Been <span class="neon-pink">Pwned?</span>
       </h2>
-      <p class="text-gray-400 text-lg max-w-xl mx-auto">Check if your email has appeared in any known data breach. Powered by HaveIBeenPwned.com</p>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">Enter your email below and we'll take you straight to HaveIBeenPwned.com — the world's most trusted breach database.</p>
     </div>
 
     <div class="checker-tool gsap-hidden">
@@ -1293,10 +1293,11 @@
   });
 
   // ── BREACH CHECKER ──
-  async function checkEmail() {
+  // Note: The HIBP /breachedaccount/ API requires a paid API key and blocks
+  // direct browser requests (CORS). We redirect users to HIBP's own site instead.
+  function checkEmail() {
     const email   = document.getElementById('email-input').value.trim();
     const results = document.getElementById('results');
-    const loading = document.getElementById('loading');
     const btn     = document.getElementById('check-btn');
 
     if (!email || !email.includes('@') || !email.includes('.')) {
@@ -1310,84 +1311,46 @@
       return;
     }
 
-    btn.disabled = true; results.innerHTML = ''; loading.classList.remove('hidden');
+    results.innerHTML = '';
 
-    try {
-      const response = await fetch(
-        `https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(email)}?truncateResponse=false`,
-        { headers: { 'User-Agent': 'Greyhat4Hire-Breach-Checker' } }
-      );
-      loading.classList.add('hidden');
+    // Brief "scanning" animation for UX, then show the redirect card
+    btn.disabled = true;
+    document.getElementById('loading').classList.remove('hidden');
 
-      if (response.status === 404) {
-        results.innerHTML = `
-          <div class="result-safe mt-4">
-            <div class="flex items-start gap-4">
-              <i class="fas fa-check-circle text-green-400 text-4xl flex-shrink-0 mt-1"></i>
-              <div>
-                <h3 class="font-display text-lg text-white mb-2 tracking-wide">ALL CLEAR</h3>
-                <p class="text-gray-300 text-sm"><strong>${email}</strong> has not appeared in any known data breaches.</p>
-                <p class="text-xs text-gray-500 mt-3 font-mono">Keep following security best practices to stay protected. Breach databases update regularly — check again periodically.</p>
-              </div>
-            </div>
-          </div>`;
-      } else if (response.ok) {
-        const breaches = await response.json();
-        let list = breaches.slice(0, 5).map(b => `
-          <div class="breach-item">
-            <div class="flex items-start gap-3">
-              <i class="fas fa-exclamation-triangle text-red-400 text-lg flex-shrink-0 mt-0.5"></i>
-              <div>
-                <h4 class="font-display text-sm text-white tracking-wide">${b.Name}</h4>
-                <p class="text-xs text-gray-400 mt-1 leading-relaxed">${b.Description}</p>
-                <div class="flex flex-wrap gap-2 mt-2">
-                  <span class="text-xs px-2 py-1 rounded-md" style="background:rgba(239,68,68,.15);color:#f87171;">${new Date(b.BreachDate).toLocaleDateString()}</span>
-                  <span class="text-xs px-2 py-1 rounded-md" style="background:rgba(239,68,68,.15);color:#f87171;">${b.PwnCount.toLocaleString()} accounts</span>
-                </div>
-              </div>
-            </div>
-          </div>`).join('');
+    setTimeout(() => {
+      document.getElementById('loading').classList.add('hidden');
+      btn.disabled = false;
 
-        results.innerHTML = `
-          <div class="result-danger mt-4">
-            <div class="flex items-start gap-4 mb-5">
-              <i class="fas fa-exclamation-circle text-red-400 text-4xl flex-shrink-0 mt-1"></i>
-              <div>
-                <h3 class="font-display text-lg text-white mb-2 tracking-wide">BREACHES FOUND</h3>
-                <p class="text-gray-300 text-sm"><strong>${email}</strong> was found in <strong>${breaches.length}</strong> data breach${breaches.length > 1 ? 'es' : ''}.
-                ${breaches.length > 5 ? ' Showing the 5 most notable:' : ''}</p>
-              </div>
-            </div>
-            ${list}
-            ${breaches.length > 5 ? `<p class="text-gray-500 text-xs mt-2 font-mono">+ ${breaches.length - 5} more breaches not shown.</p>` : ''}
-            <div class="mt-5 p-4 rounded-xl" style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);">
-              <p class="font-display text-xs text-yellow-300 tracking-wide mb-3">⚡ IMMEDIATE ACTIONS REQUIRED:</p>
-              <ol class="text-xs text-gray-300 space-y-1 font-mono leading-relaxed">
-                <li>1. Change your password on this account immediately</li>
-                <li>2. Enable two-factor authentication</li>
-                <li>3. Check if you reused this password anywhere else</li>
-                <li>4. Monitor accounts for suspicious activity</li>
-              </ol>
-            </div>
-          </div>`;
-      } else if (response.status === 429) {
-        results.innerHTML = `<div class="result-danger mt-4"><p class="text-center text-gray-300 font-mono text-sm">Too many requests. Please wait a moment and try again.</p></div>`;
-      } else {
-        throw new Error('Unexpected response');
-      }
+      const hibpUrl = `https://haveibeenpwned.com/account/${encodeURIComponent(email)}`;
 
-    } catch (err) {
-      loading.classList.add('hidden');
       results.innerHTML = `
-        <div class="result-danger mt-4">
-          <p class="text-center text-gray-300 text-sm">
-            <i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i>
-            Unable to check at this time. Please try again later.
+        <div class="result-safe mt-4" style="border-color:rgba(255,20,147,.4);background:rgba(255,20,147,.06);">
+          <div class="flex items-start gap-4 mb-5">
+            <i class="fas fa-external-link-alt text-pink-400 text-3xl flex-shrink-0 mt-1"></i>
+            <div>
+              <h3 class="font-display text-lg text-white mb-2 tracking-wide">READY TO CHECK</h3>
+              <p class="text-gray-300 text-sm">We'll open <strong>HaveIBeenPwned.com</strong> with your address pre-loaded. The check runs securely on their servers — your email is never stored here.</p>
+            </div>
+          </div>
+          <div class="breach-item" style="border-left-color:rgba(255,20,147,.6);background:rgba(255,20,147,.05);">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-envelope text-pink-400 text-sm flex-shrink-0"></i>
+              <span class="font-mono text-xs text-gray-300 break-all">${email}</span>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3 mt-5">
+            <a href="${hibpUrl}" target="_blank" rel="noopener noreferrer"
+              class="check-btn flex items-center justify-center gap-2"
+              style="text-decoration:none;cursor:pointer;">
+              <i class="fas fa-search"></i> CHECK ON HAVEIBEENPWNED
+            </a>
+          </div>
+          <p class="text-xs text-gray-600 mt-4 font-mono text-center">
+            <i class="fas fa-shield-alt mr-1 text-pink-400/30"></i>
+            You'll be taken to haveibeenpwned.com — the industry-standard breach database by Troy Hunt.
           </p>
         </div>`;
-    } finally {
-      btn.disabled = false;
-    }
+    }, 1400);
   }
 
   // ── PASSWORD CHECKER ──
