@@ -1,8 +1,3 @@
-/**
- * Cloudflare Pages Function — /api/vuln
- * File location in repo: functions/api/vuln.js
- */
-
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin':  'https://greyhat4hire.com',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -20,6 +15,7 @@ export async function onRequest(context) {
   const mode  = url.searchParams.get('mode');
   const query = (url.searchParams.get('q') || '').trim();
   const count = Math.min(parseInt(url.searchParams.get('count') || '20'), 50);
+  const debug = url.searchParams.get('debug') === '1';
 
   try {
     let payload;
@@ -27,10 +23,10 @@ export async function onRequest(context) {
       payload = await fetchKEV();
     } else if (mode === 'cve') {
       if (!query) return jsonResponse({ error: 'Missing q param' }, 400);
-      payload = await fetchByCVEId(query, env.NVD_API_KEY);
+      payload = await fetchByCVEId(query, env.NVD_API_KEY, debug);
     } else if (mode === 'keyword') {
       if (!query) return jsonResponse({ error: 'Missing q param' }, 400);
-      payload = await fetchByKeyword(query, count, env.NVD_API_KEY);
+      payload = await fetchByKeyword(query, count, env.NVD_API_KEY, debug);
     } else {
       return jsonResponse({ error: 'Invalid mode' }, 400);
     }
@@ -40,7 +36,6 @@ export async function onRequest(context) {
   }
 }
 
-// NVD uses its own naming conventions — map what users type to what NVD understands
 const NVD_KEYWORD_MAP = {
   'google android':       ['android'],
   'apple macos':          ['macos', 'mac os x'],
@@ -98,7 +93,7 @@ const CIRCL_VENDOR_MAP = {
   'zoom video':           'zoom/zoom',
 };
 
-async function fetchByCVEId(cveId, apiKey) {
+async function fetchByCVEId(cveId, apiKey, debug) {
   const id  = cveId.toUpperCase();
   const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(id)}`;
   const nvd = await nvdFetch(url, apiKey);
@@ -111,31 +106,32 @@ async function fetchByCVEId(cveId, apiKey) {
   return { cves: [], source: 'none', reason: nvd.reason || 'Not found' };
 }
 
-async function fetchByKeyword(keyword, count, apiKey) {
+async function fetchByKeyword(keyword, count, apiKey, debug) {
   const kw = keyword.toLowerCase();
-
-  // Try NVD with mapped terms first, fall back to original keyword
   const nvdTerms = NVD_KEYWORD_MAP[kw] || [keyword];
+  const log = [];
+  const hasKey = !!apiKey;
 
   for (const term of nvdTerms) {
     const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(term)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
     const nvd = await nvdFetch(url, apiKey);
+    log.push({ term, ok: nvd.ok, reason: nvd.reason, count: nvd.ok ? (nvd.data.vulnerabilities||[]).length : 0 });
     if (nvd.ok) {
       const cves = (nvd.data.vulnerabilities || []).map(v => v.cve);
-      if (cves.length) return { cves, source: 'nvd' };
+      if (cves.length) return { cves, source: 'nvd', ...(debug && { debug: log, hasKey }) };
     }
-    // Stop trying if rate limited
     if (nvd.reason && nvd.reason.includes('rate')) break;
   }
 
-  // NVD found nothing — fall back to CIRCL
+  // CIRCL fallback
   const circlPath = CIRCL_VENDOR_MAP[kw];
+  log.push({ circl: circlPath || 'no mapping' });
   if (circlPath) {
     const cves = await circlByVendor(circlPath, count);
-    if (cves.length) return { cves, source: 'circl' };
+    if (cves.length) return { cves, source: 'circl', ...(debug && { debug: log, hasKey }) };
   }
 
-  return { cves: [], source: 'none', reason: '0 results' };
+  return { cves: [], source: 'none', reason: '0 results', ...(debug && { debug: log, hasKey }) };
 }
 
 async function fetchKEV() {
