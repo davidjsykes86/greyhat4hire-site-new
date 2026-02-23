@@ -23,35 +23,31 @@
       background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     }
 
-    /* ══ CURSOR — rewritten from scratch ══
-       Key rules:
-       1. NO CSS transition on transform (it fights the rAF loop and makes the ring invisible)
-       2. NO mix-blend-mode (inverts on dark backgrounds)
-       3. Elements start at top:0 left:0 and JS moves them via translate()
-       4. Offsets baked into JS: ring is 18px wide so offset -9px, dot is 5px so -2.5px
-    */
     #cur {
       position: fixed;
-      top: 0; left: 0;
-      width: 18px; height: 18px;
-      border: 2.5px solid #ff1493;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ff1493;
       border-radius: 50%;
       pointer-events: none;
-      z-index: 99999;
-      box-shadow: 0 0 10px rgba(255,20,147,.8), 0 0 20px rgba(255,20,147,.3);
-      will-change: transform;
-      /* NO transition here — deliberately omitted */
+      z-index: 999999;
+      box-shadow: 0 0 10px #ff1493;
+      transform: translate(-50%, -50%);
+      top: -100px;
+      left: -100px;
     }
     #cur2 {
       position: fixed;
-      top: 0; left: 0;
-      width: 5px; height: 5px;
+      width: 5px;
+      height: 5px;
       background: #ff1493;
       border-radius: 50%;
       pointer-events: none;
-      z-index: 99999;
+      z-index: 999999;
       box-shadow: 0 0 6px #ff1493;
-      will-change: transform;
+      transform: translate(-50%, -50%);
+      top: -100px;
+      left: -100px;
     }
 
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
@@ -78,6 +74,45 @@
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
     #mobile-menu.open { transform:translateY(0); }
     .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    .tools-dropdown-wrap { position:relative; }
+    .tools-dropdown-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn:hover::after { width:100%; }
+    .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+    .tools-dropdown-btn .tools-live-dot { width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0; }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+    .tools-dropdown-panel {
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;background:rgba(4,4,4,.97);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;
+      opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel { opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0); }
+    .tools-dropdown-panel::before {
+      content:'';position:absolute;top:-6px;left:50%;
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item { display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent; }
+    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-icon { width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease; }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tools-panel-header { padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12); }
+    .mobile-tool-link { display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0; }
+    .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
 
     .btn-primary {
       display:inline-flex;align-items:center;gap:10px;justify-content:center;
@@ -226,10 +261,62 @@
       <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
         onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
-    <div class="hidden lg:flex gap-8 text-sm">
+    <div class="hidden lg:flex gap-8 text-sm items-center">
       <a href="index.html"            class="desktop-link text-white">Home</a>
       <a href="about.html"            class="desktop-link text-white">About</a>
       <a href="services.html"         class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+              <i class="fas fa-file-circle-exclamation"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
+              <i class="fas fa-bug-slash"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">CVE INTELLIGENCE</div>
+              <div class="tool-nav-name">Vulnerability Intelligence</div>
+              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+            </div>
+          </a>
+        </div>
+      </div>
       <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
       <a href="greyhat-protocol.html" class="desktop-link text-white">The Protocol</a>
       <a href="pricing.html"          class="desktop-link active">Pricing</a>
@@ -248,13 +335,29 @@
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
   <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
-    <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
-    <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
-    <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
-    <a href="pricing.html"          class="mobile-link desktop-link active">Pricing</a>
-    <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+    <a href="index.html"             class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"          class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html"   class="mobile-tool-link">
+      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+      <span style="font-size:1rem;">Risk Self-Assessment</span>
+    </a>
+    <a href="hackers-dossier.html"   class="mobile-tool-link">
+      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+      <span style="font-size:1rem;">Hacker's Dossier</span>
+    </a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link">
+      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+      <span style="font-size:1rem;">Breach Cost Clock</span>
+    </a>
+    <a href="vuln-lookup.html"       class="mobile-tool-link">
+      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
+      <span style="font-size:1rem;">Vulnerability Intelligence</span>
+    </a>
+    <a href="cyber-awareness.html"   class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="greyhat-protocol.html"  class="mobile-link desktop-link text-white">The Protocol</a>
+    <a href="pricing.html"           class="mobile-link desktop-link active">Pricing</a>
+    <a href="contact.html"           class="mobile-link desktop-link text-white">Contact</a>
   </div>
   <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;">
     <i class="fas fa-shield-alt"></i> Get a Quote
@@ -298,14 +401,11 @@
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 items-start">
 
-      <!-- SCOUT -->
       <div class="price-card" id="card-0">
         <div class="card-tier-tag">Entry Level</div>
         <div class="flex items-start justify-between mb-4">
           <h3 class="font-display font-bold text-white text-base leading-tight">SCOUT<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Vulnerability Assessment</span></h3>
-          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2">
-            <i class="fas fa-radar text-pink-400"></i>
-          </div>
+          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-radar text-pink-400"></i></div>
         </div>
         <div class="price-display mb-1">R18,000</div>
         <p class="text-gray-500 text-xs mb-6">once-off · automated + manual analysis</p>
@@ -324,92 +424,75 @@
         </button>
       </div>
 
-      <!-- INFILTRATE -->
       <div class="price-card" id="card-1">
         <div class="card-tier-tag">Professional</div>
         <div class="flex items-start justify-between mb-4">
           <h3 class="font-display font-bold text-white text-base leading-tight">INFILTRATE<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Full Penetration Test</span></h3>
-          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2">
-            <i class="fas fa-crosshairs text-pink-400"></i>
-          </div>
+          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-crosshairs text-pink-400"></i></div>
         </div>
         <div class="price-display mb-1">R32,000</div>
         <p class="text-gray-500 text-xs mb-6">once-off · manual pentest + report + retest</p>
         <ul class="space-y-0 mb-8 flex-1">
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Manual pentest — web app &amp; network</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Burp Suite Pro active exploitation</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in SCOUT</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Manual exploitation &amp; chaining</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Burp Suite Pro web app testing</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Executive summary report</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Full technical findings + PoC evidence</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Prioritised remediation roadmap</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span><strong class="text-white">One full retest included</strong></span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>30-day post-engagement support</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>POPIA / PCI-DSS compliance mapping</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>NDA &amp; confidentiality</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Proof-of-concept evidence</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Remediation roadmap</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>1× Full retest included</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>PCI DSS / POPIA compliance support</span></li>
         </ul>
         <button class="btn-ghost" onclick="openModal('INFILTRATE – Full Penetration Test','R32,000')" style="cursor:none;">
           <i class="fas fa-arrow-right text-xs"></i> <span>Get Started</span>
         </button>
       </div>
 
-      <!-- SENTINEL (FEATURED) -->
       <div class="price-card featured" id="card-2">
-        <div class="popular-badge">⭐ MOST POPULAR</div>
-        <div class="card-tier-tag mt-5" style="color:var(--pink)">Best Value</div>
+        <div class="popular-badge">MOST POPULAR</div>
+        <div class="card-tier-tag" style="color:rgba(255,20,147,.8)">Quarterly Retainer</div>
         <div class="flex items-start justify-between mb-4">
-          <h3 class="font-display font-bold text-white text-base leading-tight">SENTINEL<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Quarterly Retainer</span></h3>
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ml-2" style="background:rgba(255,20,147,.15);border:1px solid rgba(255,20,147,.4)">
-            <i class="fas fa-shield-halved text-pink-400"></i>
-          </div>
+          <h3 class="font-display font-bold text-white text-base leading-tight">SENTINEL<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Ongoing Security Partner</span></h3>
+          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-shield-halved text-pink-400"></i></div>
         </div>
         <div class="price-display mb-1">R85,000</div>
-        <p class="text-gray-500 text-xs mb-6">per year · 4 pentests · unlimited retests</p>
+        <p class="text-gray-500 text-xs mb-6">per year · 4 full assessments + continuous coverage</p>
         <ul class="space-y-0 mb-8 flex-1">
-          <li class="feature-row"><i class="fas fa-check chk"></i><span><strong class="text-white">Quarterly</strong> full penetration tests (4×/yr)</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Burp Suite Pro + Nessus Pro every cycle</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Executive + technical reports each quarter</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span><strong class="text-white">Unlimited</strong> retests included</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Priority 24hr response &amp; support</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>POPIA, PCI-DSS, ISO 27001 compliance support</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in INFILTRATE</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Quarterly penetration tests (×4/yr)</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Unlimited retests</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Dedicated security advisor</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Annual security posture roadmap</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Continuous vuln monitoring</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>NDA &amp; confidentiality</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Full compliance reporting (POPIA, PCI, ISO)</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Priority response SLA</span></li>
         </ul>
         <button class="btn-primary pulse-glow" onclick="openModal('SENTINEL – Quarterly Retainer','R85,000/year')" style="cursor:none;">
-          <i class="fas fa-shield-halved"></i> <span>Get Started</span>
+          <i class="fas fa-shield-alt"></i> <span>Get Started</span>
         </button>
-        <div class="mt-4 p-3 rounded-xl text-center" style="background:rgba(255,20,147,.07);border:1px solid rgba(255,20,147,.2)">
-          <div class="text-xs text-pink-400 font-display tracking-wider">SAVES R43,000 vs 4 individual tests</div>
-        </div>
       </div>
 
-      <!-- PHANTOM -->
       <div class="price-card" id="card-3">
         <div class="card-tier-tag">Enterprise</div>
         <div class="flex items-start justify-between mb-4">
-          <h3 class="font-display font-bold text-white text-base leading-tight">PHANTOM<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Custom Enterprise</span></h3>
-          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2">
-            <i class="fas fa-ghost text-pink-400"></i>
-          </div>
+          <h3 class="font-display font-bold text-white text-base leading-tight">PHANTOM<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Full Red Team + Retainer</span></h3>
+          <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-user-secret text-pink-400"></i></div>
         </div>
         <div class="price-display custom mb-1">POA</div>
-        <p class="text-gray-500 text-xs mb-6">scoped to your organisation</p>
+        <p class="text-gray-500 text-xs mb-6">custom scope · red team · full enterprise coverage</p>
         <ul class="space-y-0 mb-8 flex-1">
-          <li class="feature-row"><i class="fas fa-check chk"></i><span><strong class="text-white">Everything</strong> in SENTINEL</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Monthly security assessments</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>24/7 incident response on-call</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Red team &amp; social engineering exercises</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Security awareness staff training</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Embedded security consultant</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Board-level reporting &amp; briefings</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in SENTINEL</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Full red team exercises</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Social engineering &amp; phishing sims</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>24/7 incident response support</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Security awareness training</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Monthly continuous assessments</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Custom SLA &amp; scope</span></li>
         </ul>
-        <button class="btn-ghost" onclick="openModal('PHANTOM – Enterprise','Custom pricing')" style="cursor:none;">
-          <i class="fas fa-arrow-right text-xs"></i> <span>Contact Us</span>
+        <button class="btn-ghost" onclick="openModal('PHANTOM – Enterprise Red Team','Custom POA')" style="cursor:none;">
+          <i class="fas fa-arrow-right text-xs"></i> <span>Discuss Scope</span>
         </button>
       </div>
 
     </div>
-    <p class="text-center text-gray-600 text-xs mt-8">All prices in ZAR (incl. VAT where applicable). Scope variations may affect final pricing — confirmed in writing before engagement begins. USD equivalents available on request.</p>
   </div>
 </section>
 
@@ -499,7 +582,7 @@
     <div class="text-center mb-10">
       <div class="section-tag mb-3">Interactive Tool</div>
       <h2 class="font-display font-black neon-pink text-3xl sm:text-4xl mb-3">Your Breach Risk Calculator</h2>
-      <p class="text-gray-500 text-sm max-w-lg mx-auto">See how your estimated breach exposure stacks up against the cost of protecting yourself. Takes 10 seconds.</p>
+      <p class="text-gray-500 text-sm max-w-lg mx-auto">See how your estimated breach exposure stacks up against the cost of protecting yourself.</p>
     </div>
     <div class="glass-strong rounded-3xl p-6 sm:p-10">
       <div class="grid md:grid-cols-2 gap-8 items-start">
@@ -653,7 +736,7 @@
           <li><a href="risk-assessment.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
           <li><a href="hackers-dossier.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
           <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
-          <li><a href="pricing.html"           class="text-gray-400 hover:text-pink-400 transition text-sm" style="color:var(--pink)">Pricing</a></li>
+          <li><a href="vuln-lookup.html"       class="text-gray-400 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li>
         </ul>
       </div>
       <div>
@@ -711,38 +794,15 @@
 <script>
   tailwind.config = { theme:{ extend:{ colors:{ pink:{ 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-  // ══════════════════════════════════════════════
-  // CURSOR — clean rewrite, guaranteed visible
-  // Rule: top/left always 0. JS moves via translate().
-  // NO CSS transition on #cur (it was fighting rAF).
-  // NO mix-blend-mode (inverts on black bg).
-  // Ring lerps smoothly. Dot snaps instantly.
-  // ══════════════════════════════════════════════
+  // ══ CURSOR ══
   var cur  = document.getElementById('cur');
   var cur2 = document.getElementById('cur2');
-  var mx = window.innerWidth/2, my = window.innerHeight/2; // start centre
-  var rx = mx, ry = my; // ring position
-
-  // Move dot instantly, ring lags via rAF below
   document.addEventListener('mousemove', function(e) {
-    mx = e.clientX;
-    my = e.clientY;
-    // Dot: 5px wide, so -2.5 to centre
-    cur2.style.transform = 'translate(' + (mx - 2.5) + 'px,' + (my - 2.5) + 'px)';
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    cur2.style.left = e.clientX + 'px';
+    cur2.style.top  = e.clientY + 'px';
   });
-
-  // Ring smooth follow
-  (function rafLoop() {
-    rx += (mx - rx) * 0.14;
-    ry += (my - ry) * 0.14;
-    // Ring: 18px wide, so -9 to centre
-    cur.style.transform = 'translate(' + (rx - 9) + 'px,' + (ry - 9) + 'px)';
-    requestAnimationFrame(rafLoop);
-  })();
-
-  // Click shrink
-  document.addEventListener('mousedown', function() { cur.style.width='12px'; cur.style.height='12px'; });
-  document.addEventListener('mouseup',   function() { cur.style.width='18px'; cur.style.height='18px'; });
 
   // ══ NAV ══
   window.addEventListener('scroll', function() {
@@ -753,110 +813,116 @@
   var hamburger    = document.getElementById('hamburger');
   var mobileMenu   = document.getElementById('mobile-menu');
   var closeMenuBtn = document.getElementById('close-menu');
-  function openMenu()  { mobileMenu.classList.remove('hidden'); setTimeout(function(){mobileMenu.classList.add('open');},10); }
-  function closeMenu() { mobileMenu.classList.remove('open'); setTimeout(function(){mobileMenu.classList.add('hidden');},400); }
+  function openMenu()  { mobileMenu.classList.remove('hidden'); setTimeout(function(){ mobileMenu.classList.add('open'); }, 10); }
+  function closeMenu() { mobileMenu.classList.remove('open'); setTimeout(function(){ mobileMenu.classList.add('hidden'); }, 400); }
   hamburger.addEventListener('click', openMenu);
   closeMenuBtn.addEventListener('click', closeMenu);
-  document.querySelectorAll('.mobile-link').forEach(function(l){ l.addEventListener('click', closeMenu); });
+  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(function(l) { l.addEventListener('click', closeMenu); });
 
   // ══ FAQ ══
   function toggleFAQ(trigger) {
     var body   = trigger.nextElementSibling;
     var isOpen = trigger.classList.contains('open');
-    document.querySelectorAll('.faq-trigger.open').forEach(function(t){ t.classList.remove('open'); t.nextElementSibling.classList.remove('open'); });
+    document.querySelectorAll('.faq-trigger.open').forEach(function(t) { t.classList.remove('open'); t.nextElementSibling.classList.remove('open'); });
     if (!isOpen) { trigger.classList.add('open'); body.classList.add('open'); }
   }
 
   // ══ MODAL ══
-  var currentPlan='', currentPrice='';
+  var currentPlan = '', currentPrice = '';
   function openModal(plan, price) {
-    currentPlan=plan; currentPrice=price;
-    document.getElementById('modal-plan-name').textContent = plan+' ('+price+')';
+    currentPlan = plan; currentPrice = price;
+    document.getElementById('modal-plan-name').textContent = plan + ' (' + price + ')';
     document.getElementById('contact-modal').classList.add('open');
   }
   function closeModal() { document.getElementById('contact-modal').classList.remove('open'); }
-  document.getElementById('contact-modal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+  document.getElementById('contact-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
   function contactWhatsApp() {
-    window.open('https://wa.me/27846353581?text='+encodeURIComponent("Hi! I'm interested in the "+currentPlan+" plan ("+currentPrice+"). I'd like to discuss security testing for my organisation."),'_blank');
+    window.open('https://wa.me/27846353581?text=' + encodeURIComponent("Hi! I'm interested in the " + currentPlan + " plan (" + currentPrice + "). I'd like to discuss security testing for my organisation."), '_blank');
     closeModal();
   }
   function contactEmail() {
-    window.location.href='mailto:info@greyhat4hire.co.za?subject='+encodeURIComponent("Inquiry: "+currentPlan+" Plan")+'&body='+encodeURIComponent("Hi,\n\nI'm interested in the "+currentPlan+" plan ("+currentPrice+").\n\nPlease contact me at your earliest convenience.\n\nThank you!");
+    window.location.href = 'mailto:info@greyhat4hire.co.za?subject=' + encodeURIComponent("Inquiry: " + currentPlan + " Plan") + '&body=' + encodeURIComponent("Hi,\n\nI'm interested in the " + currentPlan + " plan (" + currentPrice + ").\n\nPlease contact me at your earliest convenience.\n\nThank you!");
     closeModal();
   }
 
-  // ══ GSAP SCROLL ANIMATIONS ══
+  // ══ GSAP ══
   gsap.registerPlugin(ScrollTrigger);
-  [0,1,2,3].forEach(function(i){
-    gsap.fromTo('#card-'+i,{y:70,opacity:0},{y:0,opacity:1,duration:.75,ease:'power3.out',scrollTrigger:{trigger:'#pricing-grid',start:'top 82%',once:true},delay:i*0.12});
+  [0,1,2,3].forEach(function(i) {
+    gsap.fromTo('#card-' + i, {y:70,opacity:0}, {y:0,opacity:1,duration:.75,ease:'power3.out',scrollTrigger:{trigger:'#pricing-grid',start:'top 82%',once:true},delay:i*0.12});
   });
-  gsap.utils.toArray('.compare-row').forEach(function(row,i){
-    gsap.fromTo(row,{opacity:0,x:-20},{opacity:1,x:0,duration:.5,ease:'power2.out',scrollTrigger:{trigger:row,start:'top 92%',once:true},delay:i*0.04});
+  gsap.utils.toArray('.compare-row').forEach(function(row, i) {
+    gsap.fromTo(row, {opacity:0,x:-20}, {opacity:1,x:0,duration:.5,ease:'power2.out',scrollTrigger:{trigger:row,start:'top 92%',once:true},delay:i*0.04});
   });
-  gsap.utils.toArray('.trust-badge').forEach(function(el,i){
-    gsap.fromTo(el,{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},delay:i*0.1});
+  gsap.utils.toArray('.trust-badge').forEach(function(el, i) {
+    gsap.fromTo(el, {y:30,opacity:0}, {y:0,opacity:1,duration:.6,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},delay:i*0.1});
   });
-  gsap.utils.toArray('.faq-item').forEach(function(el,i){
-    gsap.fromTo(el,{opacity:0,x:-20},{opacity:1,x:0,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true},delay:i*0.05});
+  gsap.utils.toArray('.faq-item').forEach(function(el, i) {
+    gsap.fromTo(el, {opacity:0,x:-20}, {opacity:1,x:0,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true},delay:i*0.05});
   });
-  gsap.utils.toArray('.roi-bar').forEach(function(bar){
-    var target=bar.style.width; bar.style.width='0%';
-    gsap.to(bar,{width:target,duration:1.5,ease:'power2.out',scrollTrigger:{trigger:bar,start:'top 85%',once:true}});
+  gsap.utils.toArray('.roi-bar').forEach(function(bar) {
+    var target = bar.style.width; bar.style.width = '0%';
+    gsap.to(bar, {width:target,duration:1.5,ease:'power2.out',scrollTrigger:{trigger:bar,start:'top 85%',once:true}});
   });
-
-  // ══ THREE.JS PARTICLES ══
-  (function(){
-    var canvas=document.getElementById('three-canvas');
-    var scene=new THREE.Scene();
-    var camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
-    camera.position.z=80;
-    var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
-    renderer.setSize(innerWidth,innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
-    var count=500,geo=new THREE.BufferGeometry();
-    var pos=new Float32Array(count*3),col=new Float32Array(count*3);
-    for(var i=0;i<count;i++){
-      var i3=i*3;
-      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
-      col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08; col[i3+2]=.58+(Math.random()-.5)*.1;
-    }
-    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-    var mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
-    var pts=new THREE.Points(geo,mat);
-    scene.add(pts);
-    var f=0;
-    function animate(){
-      requestAnimationFrame(animate);
-      if(++f%2)return;
-      var p=pts.geometry.attributes.position.array;
-      for(var j=1;j<p.length;j+=3){
-        p[j]+=.022+Math.random()*.026;
-        p[j-1]+=Math.sin(Date.now()*.00008+j)*.003;
-        if(p[j]>130)p[j]=-120;
-      }
-      pts.geometry.attributes.position.needsUpdate=true;
-      renderer.render(scene,camera);
-    }
-    animate();
-    window.addEventListener('resize',function(){
-      camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth,innerHeight);
-    });
-  })();
 
   // ══ BREACH RISK CALCULATOR ══
-  var calcSize=12, calcIndustry=1.8;
-  function setSize(val,btn){ calcSize=val; document.querySelectorAll('.calc-size-btn').forEach(function(b){b.classList.remove('active');}); btn.classList.add('active'); updateCalc(); }
-  function setIndustry(val,btn){ calcIndustry=val; document.querySelectorAll('.calc-ind-btn').forEach(function(b){b.classList.remove('active');}); btn.classList.add('active'); updateCalc(); }
-  function fmtRand(n){ if(n>=1000000)return'R'+(n/1000000).toFixed(1)+'M'; if(n>=1000)return'R'+Math.round(n/1000)+'K'; return'R'+Math.round(n).toLocaleString(); }
-  function updateCalc(){
-    var rev=parseFloat(document.getElementById('rev-input').value)||500000;
-    var breach=rev*calcSize*calcIndustry*0.35;
-    document.getElementById('calc-breach').textContent=fmtRand(breach);
-    document.getElementById('calc-roi').textContent=Math.round(breach/85000)+'x';
+  var calcSize = 12, calcIndustry = 1.8;
+  function setSize(val, btn) { calcSize = val; document.querySelectorAll('.calc-size-btn').forEach(function(b) { b.classList.remove('active'); }); btn.classList.add('active'); updateCalc(); }
+  function setIndustry(val, btn) { calcIndustry = val; document.querySelectorAll('.calc-ind-btn').forEach(function(b) { b.classList.remove('active'); }); btn.classList.add('active'); updateCalc(); }
+  function fmtRand(n) { if (n >= 1000000) return 'R' + (n/1000000).toFixed(1) + 'M'; if (n >= 1000) return 'R' + Math.round(n/1000) + 'K'; return 'R' + n; }
+  function updateCalc() {
+    var rev = parseFloat(document.getElementById('rev-input').value) || 500000;
+    var breach = Math.round(rev * calcSize * calcIndustry * 0.3);
+    var roi = Math.round(breach / 85000);
+    document.getElementById('calc-breach').textContent = fmtRand(breach);
+    document.getElementById('calc-roi').textContent = roi + 'x';
   }
   updateCalc();
+
+  // ══ THREE.JS PARTICLES ══
+  (function() {
+    var canvas   = document.getElementById('three-canvas');
+    var scene    = new THREE.Scene();
+    var camera   = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, .1, 400);
+    camera.position.z = 80;
+    var renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true});
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    var count = 500, geo = new THREE.BufferGeometry();
+    var pos = new Float32Array(count * 3), col = new Float32Array(count * 3);
+    for (var i = 0; i < count; i++) {
+      var i3 = i * 3;
+      pos[i3]   = (Math.random() - .5) * 180;
+      pos[i3+1] = (Math.random() - .5) * 260 - 80;
+      pos[i3+2] = (Math.random() - .5) * 50;
+      col[i3]   = .98 + (Math.random() - .5) * .08;
+      col[i3+1] = .08;
+      col[i3+2] = .58 + (Math.random() - .5) * .1;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+    var mat = new THREE.PointsMaterial({size:.82, vertexColors:true, transparent:true, opacity:.28, blending:THREE.AdditiveBlending, depthTest:false});
+    var pts = new THREE.Points(geo, mat);
+    scene.add(pts);
+    var f = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      if (++f % 2) return;
+      var p = pts.geometry.attributes.position.array;
+      for (var j = 1; j < p.length; j += 3) {
+        p[j]   += .022 + Math.random() * .026;
+        p[j-1] += Math.sin(Date.now() * .00008 + j) * .003;
+        if (p[j] > 130) p[j] = -120;
+      }
+      pts.geometry.attributes.position.needsUpdate = true;
+      renderer.render(scene, camera);
+    }
+    animate();
+    window.addEventListener('resize', function() {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  })();
 </script>
 </body>
 </html>
