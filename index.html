@@ -989,404 +989,6 @@
   </div>
 </div>
 
-<!-- ══ SERVICES ══ -->
-<section id="services" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
-  <div class="max-w-5xl mx-auto">
-    <div class="text-center mb-14 gsap-hidden">
-      <div class="section-tag mb-3">What We Do</div>
-      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Our Services</h2>
-      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">Manual, expert-led security testing that goes far beyond automated scanners. Every engagement is scoped precisely, executed methodically, and delivered with clarity. Click any service to open a full deep-dive.</p>
-    </div>
-
-    <!-- SERVICE 1: Penetration Testing -->
-    <div class="service-card mb-6 gsap-card">
-      <div class="p-8 sm:p-10 md:p-12">
-        <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <div class="svc-icon-wrap"><i class="fas fa-crosshairs"></i></div>
-          <div class="flex-1">
-            <div class="svc-number mb-2">SERVICE 01</div>
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Penetration Testing</h3>
-            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">We think like attackers, operate like operators, and report like executives.</p>
-            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
-              Our penetration tests simulate real adversary techniques across web applications, internal networks, external perimeters, cloud infrastructure, and APIs. We don't run a scanner and call it a pentest — every finding is manually validated, chained, and contextualised for your business. You get proof of impact, not just a list of CVEs.
-            </p>
-            <button class="toggle-btn" onclick="toggleService('d1')">
-              <span id="btn-label-d1">DEEP DIVE</span>
-              <i class="fas fa-chevron-down toggle-icon" id="icon-d1"></i>
-            </button>
-          </div>
-        </div>
-
-        <div id="d1" class="service-details mt-10">
-          <div class="deep-dive-grid">
-            <div>
-              <div class="section-tag mb-4">WHAT WE TEST</div>
-              <ul class="space-y-2 text-sm text-gray-300 mb-6">
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications — OWASP Top 10 and beyond (auth bypass, IDOR, SSRF, XXE, race conditions)</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>External network — perimeter, internet-facing services, VPNs, firewalls, exposed admin panels</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Internal network — lateral movement, privilege escalation, domain compromise, AD attacks</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>API security — REST, GraphQL, SOAP — authentication flaws, injection, mass assignment</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Cloud misconfigurations — AWS, Azure, GCP IAM roles, storage buckets, exposed secrets</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Social engineering &amp; phishing simulation — targeted campaigns with metrics</li>
-              </ul>
-              <div class="section-tag mb-4">KEY BENEFITS</div>
-              <div class="flex flex-wrap mb-6">
-                <span class="benefit-pill">Find what attackers find — before they do</span>
-                <span class="benefit-pill">Manual, expert validation</span>
-                <span class="benefit-pill">MITRE ATT&amp;CK mapped</span>
-                <span class="benefit-pill">Executive + dev reports</span>
-                <span class="benefit-pill">Retest included</span>
-              </div>
-              <div class="section-tag mb-4">TOOLS &amp; TECHNIQUES</div>
-              <div class="flex flex-wrap mb-2">
-                <span class="tool-tag">Burp Suite Pro</span><span class="tool-tag">Metasploit</span><span class="tool-tag">BloodHound</span><span class="tool-tag">Cobalt Strike TTPs</span><span class="tool-tag">Impacket</span><span class="tool-tag">Responder</span><span class="tool-tag">FFUF</span><span class="tool-tag">Nuclei</span>
-              </div>
-            </div>
-            <div>
-              <div class="attack-box mb-6">
-                <div class="pl-4">
-                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
-                  <p class="text-sm text-gray-300 leading-relaxed">An attacker identifies a forgotten dev subdomain with a debug endpoint enabled. They use it to enumerate internal API routes, find a JWT with a static secret, forge admin tokens, and exfiltrate 40,000 patient records — all within 72 hours of initial access. This subdomain existed for 11 months before anyone noticed. We find these.</p>
-                </div>
-              </div>
-              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
-              <div class="space-y-2">
-                <div class="outcome-item">
-                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Executive Summary Report</p><p class="text-xs text-gray-400 mt-0.5">Board-ready: risk posture, key findings, business impact</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-terminal text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Full Technical Report</p><p class="text-xs text-gray-400 mt-0.5">Every finding: proof-of-concept, CVSS, exploitability, fix instructions</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-tools text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Developer Remediation Guide</p><p class="text-xs text-gray-400 mt-0.5">Step-by-step fix instructions, code-level examples where applicable</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-users text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Live Debrief Session</p><p class="text-xs text-gray-400 mt-0.5">Expert walkthrough of every critical finding with your team</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-rotate text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Full Retest Included</p><p class="text-xs text-gray-400 mt-0.5">We verify every fix is genuine — not just patched on paper</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 pt-6 border-t border-pink-500/10">
-            <a href="services.html#s1" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
-              <i class="fas fa-arrow-right"></i> FULL SERVICE DETAILS
-            </a>
-            <a href="contact.html" class="btn-ghost ml-4" style="font-size:.75rem;padding:14px 32px;">
-              <i class="fas fa-paper-plane"></i> REQUEST PENTEST
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SERVICE 2: Vulnerability Assessment -->
-    <div class="service-card mb-6 gsap-card">
-      <div class="p-8 sm:p-10 md:p-12">
-        <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <div class="svc-icon-wrap"><i class="fas fa-search"></i></div>
-          <div class="flex-1">
-            <div class="svc-number mb-2">SERVICE 02</div>
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Vulnerability Assessment</h3>
-            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">A systematic, broad scan of your entire attack surface — every weakness catalogued and ranked.</p>
-            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
-              Unlike a pentest, a vulnerability assessment is about breadth over depth — mapping every security weakness across your networks, servers, applications, and cloud services. Prioritised by real-world exploitability (not just CVSS), this is the foundation of a strong security programme and a prerequisite for most compliance frameworks.
-            </p>
-            <button class="toggle-btn" onclick="toggleService('d2')">
-              <span id="btn-label-d2">DEEP DIVE</span>
-              <i class="fas fa-chevron-down toggle-icon" id="icon-d2"></i>
-            </button>
-          </div>
-        </div>
-
-        <div id="d2" class="service-details mt-10">
-          <div class="deep-dive-grid">
-            <div>
-              <div class="section-tag mb-4">SCOPE COVERAGE</div>
-              <ul class="space-y-2 text-sm text-gray-300 mb-6">
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Network devices: routers, firewalls, switches, WAPs</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Servers: Windows, Linux, ESXi hypervisors, container hosts</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications and all public-facing services</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Exposed cloud storage and misconfigured cloud services</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Email security: SPF, DKIM, DMARC gaps and spoofing risk</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Endpoint software inventory and unpatched CVEs</li>
-              </ul>
-              <div class="section-tag mb-4">KEY BENEFITS</div>
-              <div class="flex flex-wrap mb-6">
-                <span class="benefit-pill">Full attack surface overview</span>
-                <span class="benefit-pill">Early detection</span>
-                <span class="benefit-pill">Better patch management</span>
-                <span class="benefit-pill">Compliance foundation</span>
-                <span class="benefit-pill">Cost-effective</span>
-              </div>
-              <div class="section-tag mb-4">TOOLS USED</div>
-              <div class="flex flex-wrap">
-                <span class="tool-tag">Nessus Pro</span><span class="tool-tag">OpenVAS</span><span class="tool-tag">Nmap</span><span class="tool-tag">Nuclei</span><span class="tool-tag">Shodan</span><span class="tool-tag">OWASP ZAP</span>
-              </div>
-            </div>
-            <div>
-              <div class="attack-box mb-6">
-                <div class="pl-4">
-                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
-                  <p class="text-sm text-gray-300 leading-relaxed">A critical unpatched vulnerability in a legacy VPN appliance sits undetected for 9 months. Automated threat actors exploit it to gain initial access, establish persistence, and quietly harvest credentials before triggering ransomware. A quarterly VA catches this before the window opens — estimated damage avoided: R12M+.</p>
-                </div>
-              </div>
-              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
-              <div class="space-y-2">
-                <div class="outcome-item">
-                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Comprehensive Scan Report</p><p class="text-xs text-gray-400 mt-0.5">Full inventory of all identified vulnerabilities</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-sort-amount-down text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Risk-Ranked Vulnerability List</p><p class="text-xs text-gray-400 mt-0.5">CVSS scores with real-world business context applied</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-lightbulb text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Expert Remediation Guidance</p><p class="text-xs text-gray-400 mt-0.5">Prioritised next steps for every critical and high finding</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 pt-6 border-t border-pink-500/10">
-            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
-              <i class="fas fa-paper-plane"></i> REQUEST VULNERABILITY ASSESSMENT
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SERVICE 3: Healthcare Risk Assessments -->
-    <div class="service-card mb-6 gsap-card">
-      <div class="p-8 sm:p-10 md:p-12">
-        <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <div class="svc-icon-wrap"><i class="fas fa-heart-pulse"></i></div>
-          <div class="flex-1">
-            <div class="svc-number mb-2">SERVICE 03</div>
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Healthcare Risk Assessments</h3>
-            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">Tailored for dental practices, clinics, and medical SMEs protecting patient data.</p>
-            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
-              Healthcare is the #1 most targeted industry for cyber attacks. Patient data is worth 25x more than financial data on the dark web — and the regulatory consequences of a breach are severe. We understand HIPAA, POPIA, and the specific threat landscape facing medical practices, telehealth platforms, EHR systems, and dental software.
-            </p>
-            <button class="toggle-btn" onclick="toggleService('d3')">
-              <span id="btn-label-d3">DEEP DIVE</span>
-              <i class="fas fa-chevron-down toggle-icon" id="icon-d3"></i>
-            </button>
-          </div>
-        </div>
-
-        <div id="d3" class="service-details mt-10">
-          <div class="deep-dive-grid">
-            <div>
-              <div class="section-tag mb-4">WHAT WE ASSESS</div>
-              <ul class="space-y-2 text-sm text-gray-300 mb-6">
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>EHR and practice management software security</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Dental imaging systems (X-ray, CBCT) network exposure</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Reception desk &amp; booking system vulnerabilities</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>PHI storage: on-prem, cloud, and backups</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Staff access controls and MFA compliance</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>HIPAA / POPIA gap analysis and remediation roadmap</li>
-              </ul>
-              <div class="section-tag mb-4">KEY BENEFITS</div>
-              <div class="flex flex-wrap mb-6">
-                <span class="benefit-pill">Avoid POPIA/HIPAA fines</span>
-                <span class="benefit-pill">Protect patient data</span>
-                <span class="benefit-pill">Ransomware resilience</span>
-                <span class="benefit-pill">Insurance readiness</span>
-                <span class="benefit-pill">Certification roadmap</span>
-              </div>
-            </div>
-            <div>
-              <div class="attack-box mb-6">
-                <div class="pl-4">
-                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
-                  <p class="text-sm text-gray-300 leading-relaxed">A single phishing email compromises a receptionist account at a dental practice. The attacker pivots to the imaging server — which was on the same flat network — encrypts all patient X-rays, and demands a R500K ransom. Backups were on a network share accessible from the compromised account. Practice is down for 3 weeks. Total cost: R1.8M. We prevent this.</p>
-                </div>
-              </div>
-              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
-              <div class="space-y-2">
-                <div class="outcome-item">
-                  <i class="fas fa-clipboard-check text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">HIPAA/POPIA Gap Analysis</p><p class="text-xs text-gray-400 mt-0.5">Control mapping, gaps identified, penalties quantified</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-map-signs text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Compliance Roadmap</p><p class="text-xs text-gray-400 mt-0.5">Prioritised remediation plan with estimated effort and cost</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-shield-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Patient Data Protection Plan</p><p class="text-xs text-gray-400 mt-0.5">Specific guidance for PHI security, backups, and access control</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 pt-6 border-t border-pink-500/10">
-            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
-              <i class="fas fa-paper-plane"></i> REQUEST HEALTHCARE ASSESSMENT
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SERVICE 4: Security Audits & Compliance -->
-    <div class="service-card mb-6 gsap-card">
-      <div class="p-8 sm:p-10 md:p-12">
-        <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <div class="svc-icon-wrap"><i class="fas fa-clipboard-list"></i></div>
-          <div class="flex-1">
-            <div class="svc-number mb-2">SERVICE 04</div>
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Security Audits &amp; Compliance</h3>
-            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">Know exactly where you stand against ISO 27001, POPIA, GDPR, HIPAA, and NIST.</p>
-            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
-              We map your current security controls against target frameworks, identify every gap, and produce a structured roadmap to close them. Our audits aren't just checkbox exercises — we translate compliance requirements into practical, implementable controls that actually reduce your risk posture.
-            </p>
-            <button class="toggle-btn" onclick="toggleService('d4')">
-              <span id="btn-label-d4">DEEP DIVE</span>
-              <i class="fas fa-chevron-down toggle-icon" id="icon-d4"></i>
-            </button>
-          </div>
-        </div>
-
-        <div id="d4" class="service-details mt-10">
-          <div class="deep-dive-grid">
-            <div>
-              <div class="section-tag mb-4">FRAMEWORKS COVERED</div>
-              <ul class="space-y-2 text-sm text-gray-300 mb-6">
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>ISO 27001 / ISO 27002 — Information Security Management</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>POPIA — Protection of Personal Information Act (SA)</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>GDPR — General Data Protection Regulation (EU)</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>HIPAA — Healthcare data protection (US)</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>NIST Cybersecurity Framework</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>PCI DSS — Payment Card Industry Standards</li>
-              </ul>
-              <div class="section-tag mb-4">KEY BENEFITS</div>
-              <div class="flex flex-wrap mb-6">
-                <span class="benefit-pill">Avoid compliance penalties</span>
-                <span class="benefit-pill">Build customer trust</span>
-                <span class="benefit-pill">Certification roadmap</span>
-                <span class="benefit-pill">Risk reduction</span>
-                <span class="benefit-pill">Data governance</span>
-              </div>
-            </div>
-            <div>
-              <div class="attack-box mb-6">
-                <div class="pl-4">
-                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL REGULATORY RISK</div>
-                  <p class="text-sm text-gray-300 leading-relaxed">A South African SME processes customer financial data without a documented information officer, no data breach notification policy, and retention periods exceeding POPIA guidelines. Following a routine data leak, the Information Regulator opens an investigation. Potential fine: R10M. A POPIA audit 6 months earlier would have cost under R20K and prevented this entirely.</p>
-                </div>
-              </div>
-              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
-              <div class="space-y-2">
-                <div class="outcome-item">
-                  <i class="fas fa-map text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Framework Gap Analysis</p><p class="text-xs text-gray-400 mt-0.5">Control-by-control mapping against your target standard</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-road text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Compliance Roadmap</p><p class="text-xs text-gray-400 mt-0.5">Phased remediation plan with realistic timelines and ownership</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-file-contract text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Policy Templates</p><p class="text-xs text-gray-400 mt-0.5">Draft policies for the gaps identified in your audit</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 pt-6 border-t border-pink-500/10">
-            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
-              <i class="fas fa-paper-plane"></i> REQUEST COMPLIANCE AUDIT
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SERVICE 5: Incident Response & Remediation -->
-    <div class="service-card mb-6 gsap-card">
-      <div class="p-8 sm:p-10 md:p-12">
-        <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <div class="svc-icon-wrap"><i class="fas fa-shield-virus"></i></div>
-          <div class="flex-1">
-            <div class="svc-number mb-2">SERVICE 05</div>
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Incident Response &amp; Remediation</h3>
-            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">When it's happening right now — or after the smoke clears — we help you take back control.</p>
-            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
-              Whether you've detected a breach, suspect an intrusion, or are recovering from ransomware — we provide forensic investigation, containment guidance, and hardening that prevents recurrence. We're also available for proactive IR planning before incidents occur, helping you build playbooks and response capabilities that mean you're never starting from zero.
-            </p>
-            <button class="toggle-btn" onclick="toggleService('d5')">
-              <span id="btn-label-d5">DEEP DIVE</span>
-              <i class="fas fa-chevron-down toggle-icon" id="icon-d5"></i>
-            </button>
-          </div>
-        </div>
-
-        <div id="d5" class="service-details mt-10">
-          <div class="deep-dive-grid">
-            <div>
-              <div class="section-tag mb-4">REACTIVE RESPONSE</div>
-              <ul class="space-y-2 text-sm text-gray-300 mb-6">
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Immediate containment guidance — stop the bleeding fast</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Forensic investigation — what happened, when, and how</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Attacker persistence identification and eradication</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Post-incident hardening — close the original entry point and all lateral paths</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Evidence preservation for regulatory or legal proceedings</li>
-              </ul>
-              <div class="section-tag mb-4">PROACTIVE PLANNING</div>
-              <ul class="space-y-2 text-sm text-gray-300 mb-6">
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Incident response playbook development (ransomware, data breach, insider threat)</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Tabletop exercises — test your team before the attackers do</li>
-                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Notification and escalation procedures (POPIA, GDPR)</li>
-              </ul>
-            </div>
-            <div>
-              <div class="attack-box mb-6">
-                <div class="pl-4">
-                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ WHAT HAPPENS WITHOUT A PLAN</div>
-                  <p class="text-sm text-gray-300 leading-relaxed">A law firm discovers ransomware at 2am. With no IR plan, they spend 6 hours deciding who to call and what to shut down — during which the attacker exfiltrates an additional 20GB of client files. The unstructured response extends downtime from 3 days to 3 weeks. Organisations with tested IR plans contain breaches 74% faster and spend 58% less on recovery.</p>
-                </div>
-              </div>
-              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
-              <div class="space-y-2">
-                <div class="outcome-item">
-                  <i class="fas fa-search text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Forensic Investigation Report</p><p class="text-xs text-gray-400 mt-0.5">Timeline of attack, root cause, evidence documentation</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-ban text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">Containment &amp; Eradication Plan</p><p class="text-xs text-gray-400 mt-0.5">Clear actions to remove the threat and prevent re-entry</p></div>
-                </div>
-                <div class="outcome-item">
-                  <i class="fas fa-book text-pink-400 flex-shrink-0 mt-0.5"></i>
-                  <div><p class="font-semibold text-white text-sm">IR Playbooks (proactive)</p><p class="text-xs text-gray-400 mt-0.5">Scenario-specific response procedures for your team</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 pt-6 border-t border-pink-500/10">
-            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
-              <i class="fas fa-paper-plane"></i> REQUEST INCIDENT RESPONSE
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="text-center mt-10 gsap-hidden">
-      <a href="services.html" class="btn-ghost">
-        <i class="fas fa-layer-group"></i> VIEW ALL SERVICES IN FULL DETAIL
-      </a>
-    </div>
-  </div>
-</section>
-
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
 <!-- ══ FREE TOOLS ══ -->
@@ -1873,6 +1475,266 @@
 </section>
 <!-- ══ END SA THREAT MAP ══ -->
 
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-3">What We Do</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Our Services</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">Manual, expert-led security testing that goes far beyond automated scanners. Every engagement is scoped precisely, executed methodically, and delivered with clarity. Click any service to open a full deep-dive.</p>
+    </div>
+
+    <!-- SERVICE 1: Penetration Testing -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-crosshairs"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 01</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Penetration Testing</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">We think like attackers, operate like operators, and report like executives.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Our penetration tests simulate real adversary techniques across web applications, internal networks, external perimeters, cloud infrastructure, and APIs. We don't run a scanner and call it a pentest — every finding is manually validated, chained, and contextualised for your business. You get proof of impact, not just a list of CVEs.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d1')">
+              <span id="btn-label-d1">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d1"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d1" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">WHAT WE TEST</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications — OWASP Top 10 and beyond (auth bypass, IDOR, SSRF, XXE, race conditions)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>External network — perimeter, internet-facing services, VPNs, firewalls, exposed admin panels</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Internal network — lateral movement, privilege escalation, domain compromise, AD attacks</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>API security — REST, GraphQL, SOAP — authentication flaws, injection, mass assignment</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Cloud misconfigurations — AWS, Azure, GCP IAM roles, storage buckets, exposed secrets</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Social engineering &amp; phishing simulation — targeted campaigns with metrics</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Find what attackers find — before they do</span>
+                <span class="benefit-pill">Manual, expert validation</span>
+                <span class="benefit-pill">MITRE ATT&amp;CK mapped</span>
+                <span class="benefit-pill">Executive + dev reports</span>
+                <span class="benefit-pill">Retest included</span>
+              </div>
+              <div class="section-tag mb-4">TOOLS &amp; TECHNIQUES</div>
+              <div class="flex flex-wrap mb-2">
+                <span class="tool-tag">Burp Suite Pro</span><span class="tool-tag">Metasploit</span><span class="tool-tag">BloodHound</span><span class="tool-tag">Cobalt Strike TTPs</span><span class="tool-tag">Impacket</span><span class="tool-tag">Responder</span><span class="tool-tag">FFUF</span><span class="tool-tag">Nuclei</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">An attacker identifies a forgotten dev subdomain with a debug endpoint enabled. They use it to enumerate internal API routes, find a JWT with a static secret, forge admin tokens, and exfiltrate 40,000 patient records — all within 72 hours of initial access. This subdomain existed for 11 months before anyone noticed. We find these.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Executive Summary Report</p><p class="text-xs text-gray-400 mt-0.5">Board-ready: risk posture, key findings, business impact</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-terminal text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Full Technical Report</p><p class="text-xs text-gray-400 mt-0.5">Every finding: proof-of-concept, CVSS, exploitability, fix instructions</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-tools text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Developer Remediation Guide</p><p class="text-xs text-gray-400 mt-0.5">Step-by-step fix instructions, code-level examples where applicable</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-users text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Live Debrief Session</p><p class="text-xs text-gray-400 mt-0.5">Expert walkthrough of every critical finding with your team</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-rotate text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Full Retest Included</p><p class="text-xs text-gray-400 mt-0.5">We verify every fix is genuine — not just patched on paper</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="services.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-arrow-right"></i> FULL SERVICE DETAILS
+            </a>
+            <a href="contact.html" class="btn-ghost ml-4" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST PENTEST
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 2: Vulnerability Assessment -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-search"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 02</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Vulnerability Assessment</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">A systematic, broad scan of your entire attack surface — every weakness catalogued and ranked.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Unlike a pentest, a vulnerability assessment is about breadth over depth — mapping every security weakness across your networks, servers, applications, and cloud services. Prioritised by real-world exploitability (not just CVSS), this is the foundation of a strong security programme and a prerequisite for most compliance frameworks.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d2')">
+              <span id="btn-label-d2">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d2"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d2" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">SCOPE COVERAGE</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Network devices: routers, firewalls, switches, WAPs</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Servers: Windows, Linux, ESXi hypervisors, container hosts</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications and all public-facing services</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Exposed cloud storage and misconfigured cloud services</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Email security: SPF, DKIM, DMARC gaps and spoofing risk</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Endpoint software inventory and unpatched CVEs</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Full attack surface overview</span>
+                <span class="benefit-pill">Early detection</span>
+                <span class="benefit-pill">Better patch management</span>
+                <span class="benefit-pill">Compliance foundation</span>
+                <span class="benefit-pill">Cost-effective</span>
+              </div>
+              <div class="section-tag mb-4">TOOLS USED</div>
+              <div class="flex flex-wrap">
+                <span class="tool-tag">Nessus Pro</span><span class="tool-tag">OpenVAS</span><span class="tool-tag">Nmap</span><span class="tool-tag">Nuclei</span><span class="tool-tag">Shodan</span><span class="tool-tag">OWASP ZAP</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A critical unpatched vulnerability in a legacy VPN appliance sits undetected for 9 months. Automated threat actors exploit it to gain initial access, establish persistence, and quietly harvest credentials before triggering ransomware. A quarterly VA catches this before the window opens — estimated damage avoided: R12M+.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Comprehensive Scan Report</p><p class="text-xs text-gray-400 mt-0.5">Full inventory of all identified vulnerabilities</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-sort-amount-down text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Risk-Ranked Vulnerability List</p><p class="text-xs text-gray-400 mt-0.5">CVSS scores with real-world business context applied</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-lightbulb text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Expert Remediation Guidance</p><p class="text-xs text-gray-400 mt-0.5">Prioritised next steps for every critical and high finding</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST VULNERABILITY ASSESSMENT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 3: Healthcare Risk Assessments -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-heart-pulse"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 03</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Healthcare Risk Assessments</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">Tailored for dental practices, clinics, and medical SMEs protecting patient data.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Healthcare is the #1 most targeted industry for cyber attacks. Patient data is worth 25x more than financial data on the dark web — and the regulatory consequences of a breach are severe. We understand HIPAA, POPIA, and the specific threat landscape facing medical practices, telehealth platforms, EHR systems, and dental software.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d3')">
+              <span id="btn-label-d3">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d3"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d3" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">WHAT WE ASSESS</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>EHR and practice management software security</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Dental imaging systems (X-ray, CBCT) network exposure</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Reception desk &amp; booking system vulnerabilities</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>PHI storage: on-prem, cloud, and backups</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Staff access controls and MFA compliance</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>HIPAA / POPIA gap analysis and remediation roadmap</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Avoid POPIA/HIPAA fines</span>
+                <span class="benefit-pill">Protect patient data</span>
+                <span class="benefit-pill">Ransomware resilience</span>
+                <span class="benefit-pill">Insurance readiness</span>
+                <span class="benefit-pill">Certification roadmap</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A single phishing email compromises a receptionist account at a dental practice. The attacker pivots to the imaging server — which was on the same flat network — encrypts all patient X-rays, and demands a R500K ransom. Backups were on a network share accessible from the compromised account. Practice is down for 3 weeks. Total cost: R1.8M. We prevent this.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-clipboard-check text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">HIPAA/POPIA Gap Analysis</p><p class="text-xs text-gray-400 mt-0.5">Control mapping, gaps identified, penalties quantified</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-map-signs text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Compliance Roadmap</p><p class="text-xs text-gray-400 mt-0.5">Prioritised remediation plan with estimated effort and cost</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-shield-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Patient Data Protection Plan</p><p class="text-xs text-gray-400 mt-0.5">Specific guidance for PHI security, backups, and access control</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST HEALTHCARE ASSESSMENT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Services CTA -->
+    <div class="text-center mt-10 gsap-hidden">
+      <p class="text-gray-500 text-sm mb-5">We also offer <span class="text-pink-400 font-semibold">Security Audits &amp; Compliance</span> and <span class="text-pink-400 font-semibold">Incident Response &amp; Remediation</span> — see the full picture on our services page.</p>
+      <a href="services.html" class="btn-ghost">
+        <i class="fas fa-layer-group"></i> VIEW ALL 5 SERVICES IN FULL DETAIL
+      </a>
+    </div>
+
+  </div>
+</section>
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
 <!-- ══ METHODOLOGY ══ -->
