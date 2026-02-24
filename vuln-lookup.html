@@ -1388,7 +1388,7 @@ async function fetchNVD(query, isCVEId=false, count=20){
   let hardFail = null;
   for(const kw of attempts){
     setLoadStatus('nvd', `trying "${kw}"...`);
-    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(kw)}&resultsPerPage=${count}&sortBy=publishDate&sortOrder=desc`;
+    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(kw)}&resultsPerPage=${count}`;
     const result = await nvdRawFetch(url);
     if(result.failed){
       hardFail = result.reason;
