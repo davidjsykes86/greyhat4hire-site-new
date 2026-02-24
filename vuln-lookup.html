@@ -795,11 +795,14 @@ async function doSearch() {
       nvdTotal = nvdData.totalResults || 0;
       nvdCves = (nvdData.vulnerabilities || []).map(v => {
         const cve      = v.cve;
-        const metrics  = cve.metrics || {};
-        const cvssData = metrics.cvssMetricV31?.[0]?.cvssData
-                      || metrics.cvssMetricV30?.[0]?.cvssData
-                      || metrics.cvssMetricV2?.[0]?.cvssData
-                      || null;
+        const metrics   = cve.metrics || {};
+        const v31entry  = metrics.cvssMetricV31?.[0];
+        const v30entry  = metrics.cvssMetricV30?.[0];
+        const v2entry   = metrics.cvssMetricV2?.[0];
+        const entry     = v31entry || v30entry || v2entry || null;
+        const rawCvss   = entry?.cvssData || null;
+        // CVSSv2 stores baseSeverity on the parent entry, not inside cvssData
+        const severity  = rawCvss?.baseSeverity || entry?.baseSeverity || null;
         const desc = (cve.descriptions || []).find(d => d.lang === 'en')?.value || '';
         const cwe  = (cve.weaknesses  || []).flatMap(w => w.description.map(d => d.value)).filter(Boolean);
         const refs = (cve.references  || []).map(r => r.url).slice(0, 8);
@@ -808,11 +811,11 @@ async function doSearch() {
           published: cve.published,
           lastModified: cve.lastModified,
           description: desc,
-          cvss: cvssData ? {
-            score:    cvssData.baseScore,
-            severity: cvssData.baseSeverity,
-            version:  cvssData.version,
-            vector:   cvssData.vectorString,
+          cvss: rawCvss ? {
+            score:    rawCvss.baseScore,
+            severity: severity,
+            version:  rawCvss.version,
+            vector:   rawCvss.vectorString,
           } : null,
           cwe,
           references: refs,
