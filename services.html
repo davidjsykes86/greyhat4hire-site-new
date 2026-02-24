@@ -589,6 +589,104 @@
   </div>
 </div>
 
+
+<!-- ══ SERVICE RECOMMENDER ══ -->
+<section id="recommender" class="py-20 sm:py-28 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="section-tag mb-4">NOT SURE WHERE TO START?</div>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+        Find Your <span class="neon-pink">Perfect Service</span>
+      </h2>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">Answer 4 quick questions and we'll recommend exactly which service — or combination — fits your situation.</p>
+    </div>
+
+    <div class="rec-card gsap-hidden" id="rec-card" style="scroll-margin-top:100px;">
+      <div class="relative z-10">
+        <!-- Progress bar -->
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-xs text-gray-500" id="rec-step-label">QUESTION 1 OF 4</span>
+          <span class="font-mono text-xs text-pink-400/60" id="rec-pct-label">0%</span>
+        </div>
+        <div class="rec-progress mb-8"><div class="rec-progress-fill" id="rec-progress" style="width:0%;"></div></div>
+
+        <!-- Question viewport -->
+        <div id="rec-question-area"></div>
+
+        <!-- Results (hidden until quiz ends) -->
+        <div id="rec-results" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2;"></div>
+
+<!-- ══ FREE TOOLS ══ -->
+<section id="tools" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">Free Intelligence Tools</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Four live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div class="tool-card flex flex-col gsap-card">
+        <div class="tool-badge"><span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>FREE TOOL</div>
+        <div class="text-4xl mb-4"><i class="fas fa-shield-halved text-pink-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Risk Self-Assessment</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">12 critical security controls. 90 seconds. Instant executive-grade breach exposure score across identity, backup, endpoint, and detection domains. See where you're most exposed right now.</p>
+        <a href="risk-assessment.html" class="btn-ghost text-sm justify-center"><i class="fas fa-play text-xs"></i> START ASSESSMENT</a>
+      </div>
+      <div class="tool-card flex flex-col gsap-card" style="border-color:rgba(255,20,147,.35)">
+        <div class="tool-badge" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#ef4444"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>LIVE OSINT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-file-circle-exclamation text-red-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">The Hacker's Dossier</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Enter your domain. We run live DNS lookups, certificate transparency scans, Shodan port data, and RDAP WHOIS — and generate the exact intelligence file an attacker compiles before targeting you.</p>
+        <a href="hackers-dossier.html" class="btn-ghost text-sm justify-center" style="border-color:#ef4444;color:#ef4444"><i class="fas fa-crosshairs text-xs"></i> COMPILE MY DOSSIER</a>
+      </div>
+      <div class="tool-card flex flex-col gsap-card">
+        <div class="tool-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.4);color:#f59e0b"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>FINANCIAL IMPACT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-clock text-amber-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Breach Cost Clock</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Select your industry and company size. Watch the financial damage tick up in real time — modelled on IBM Cost of Data Breach 2024 data. Puts R89M in visceral, ticking perspective.</p>
+        <a href="breach-cost-clock.html" class="btn-ghost text-sm justify-center" style="border-color:#f59e0b;color:#f59e0b"><i class="fas fa-play text-xs"></i> START THE CLOCK</a>
+      </div>
+      <div class="tool-card flex flex-col gsap-card" style="border-color:rgba(59,130,246,.2)">
+        <div class="tool-badge" style="background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.4);color:#3b82f6"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>CVE INTELLIGENCE</div>
+        <div class="text-4xl mb-4"><i class="fas fa-bug-slash" style="color:#3b82f6"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Vulnerability Intelligence</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Search any CVE ID or product name across NVD, CISA KEV, GitHub Advisories, and Exploit-DB in real time. Instantly see severity scores, known exploits, and whether a vulnerability is actively being weaponised.</p>
+        <a href="vuln-lookup.html" class="btn-ghost text-sm justify-center" style="border-color:#3b82f6;color:#3b82f6"><i class="fas fa-magnifying-glass text-xs"></i> SEARCH VULNERABILITIES</a>
+      </div>
+    </div>
+
+    <div class="mt-10 grid sm:grid-cols-2 gap-4 gsap-hidden">
+      <a href="cyber-awareness.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform"><i class="fas fa-graduation-cap"></i></div>
+        <div>
+          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">LEARN</div>
+          <h4 class="font-display font-bold text-white text-base mb-1">Cyber Awareness Training</h4>
+          <p class="text-gray-500 text-xs leading-relaxed">Education resources and training programmes for your team.</p>
+        </div>
+        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+      </a>
+      <a href="greyhat-protocol.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform"><i class="fas fa-lock"></i></div>
+        <div>
+          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">OUR PROCESS</div>
+          <h4 class="font-display font-bold text-white text-base mb-1">The Greyhat Protocol</h4>
+          <p class="text-gray-500 text-xs leading-relaxed">How we operate, our ethics framework, and engagement process.</p>
+        </div>
+        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2;"></div>
+
 <!-- ══ SERVICES GRID ══ -->
 <section id="services-grid" class="py-20 sm:py-28 px-4 sm:px-6" style="position:relative;z-index:2;">
   <div class="max-w-6xl mx-auto">
@@ -962,103 +1060,6 @@
       </div>
     </div>
 
-  </div>
-</section>
-
-<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2;"></div>
-
-<!-- ══ SERVICE RECOMMENDER ══ -->
-<section id="recommender" class="py-20 sm:py-28 px-4 sm:px-6" style="position:relative;z-index:2;">
-  <div class="max-w-4xl mx-auto">
-    <div class="text-center mb-12 gsap-hidden">
-      <div class="section-tag mb-4">NOT SURE WHERE TO START?</div>
-      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
-        Find Your <span class="neon-pink">Perfect Service</span>
-      </h2>
-      <p class="text-gray-400 text-lg max-w-xl mx-auto">Answer 4 quick questions and we'll recommend exactly which service — or combination — fits your situation.</p>
-    </div>
-
-    <div class="rec-card gsap-hidden" id="rec-card" style="scroll-margin-top:100px;">
-      <div class="relative z-10">
-        <!-- Progress bar -->
-        <div class="flex items-center justify-between mb-3">
-          <span class="font-mono text-xs text-gray-500" id="rec-step-label">QUESTION 1 OF 4</span>
-          <span class="font-mono text-xs text-pink-400/60" id="rec-pct-label">0%</span>
-        </div>
-        <div class="rec-progress mb-8"><div class="rec-progress-fill" id="rec-progress" style="width:0%;"></div></div>
-
-        <!-- Question viewport -->
-        <div id="rec-question-area"></div>
-
-        <!-- Results (hidden until quiz ends) -->
-        <div id="rec-results" class="hidden"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2;"></div>
-
-<!-- ══ FREE TOOLS ══ -->
-<section id="tools" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2;">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-16 gsap-hidden">
-      <div class="section-tag mb-3">Free Intelligence Tools</div>
-      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
-      <p class="text-gray-400 max-w-xl mx-auto">Four live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
-    </div>
-
-    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
-      <div class="tool-card flex flex-col gsap-card">
-        <div class="tool-badge"><span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>FREE TOOL</div>
-        <div class="text-4xl mb-4"><i class="fas fa-shield-halved text-pink-400"></i></div>
-        <h3 class="font-display font-bold text-white text-lg mb-3">Risk Self-Assessment</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">12 critical security controls. 90 seconds. Instant executive-grade breach exposure score across identity, backup, endpoint, and detection domains. See where you're most exposed right now.</p>
-        <a href="risk-assessment.html" class="btn-ghost text-sm justify-center"><i class="fas fa-play text-xs"></i> START ASSESSMENT</a>
-      </div>
-      <div class="tool-card flex flex-col gsap-card" style="border-color:rgba(255,20,147,.35)">
-        <div class="tool-badge" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#ef4444"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>LIVE OSINT</div>
-        <div class="text-4xl mb-4"><i class="fas fa-file-circle-exclamation text-red-400"></i></div>
-        <h3 class="font-display font-bold text-white text-lg mb-3">The Hacker's Dossier</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Enter your domain. We run live DNS lookups, certificate transparency scans, Shodan port data, and RDAP WHOIS — and generate the exact intelligence file an attacker compiles before targeting you.</p>
-        <a href="hackers-dossier.html" class="btn-ghost text-sm justify-center" style="border-color:#ef4444;color:#ef4444"><i class="fas fa-crosshairs text-xs"></i> COMPILE MY DOSSIER</a>
-      </div>
-      <div class="tool-card flex flex-col gsap-card">
-        <div class="tool-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.4);color:#f59e0b"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>FINANCIAL IMPACT</div>
-        <div class="text-4xl mb-4"><i class="fas fa-clock text-amber-400"></i></div>
-        <h3 class="font-display font-bold text-white text-lg mb-3">Breach Cost Clock</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Select your industry and company size. Watch the financial damage tick up in real time — modelled on IBM Cost of Data Breach 2024 data. Puts R89M in visceral, ticking perspective.</p>
-        <a href="breach-cost-clock.html" class="btn-ghost text-sm justify-center" style="border-color:#f59e0b;color:#f59e0b"><i class="fas fa-play text-xs"></i> START THE CLOCK</a>
-      </div>
-      <div class="tool-card flex flex-col gsap-card" style="border-color:rgba(59,130,246,.2)">
-        <div class="tool-badge" style="background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.4);color:#3b82f6"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>CVE INTELLIGENCE</div>
-        <div class="text-4xl mb-4"><i class="fas fa-bug-slash" style="color:#3b82f6"></i></div>
-        <h3 class="font-display font-bold text-white text-lg mb-3">Vulnerability Intelligence</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Search any CVE ID or product name across NVD, CISA KEV, GitHub Advisories, and Exploit-DB in real time. Instantly see severity scores, known exploits, and whether a vulnerability is actively being weaponised.</p>
-        <a href="vuln-lookup.html" class="btn-ghost text-sm justify-center" style="border-color:#3b82f6;color:#3b82f6"><i class="fas fa-magnifying-glass text-xs"></i> SEARCH VULNERABILITIES</a>
-      </div>
-    </div>
-
-    <div class="mt-10 grid sm:grid-cols-2 gap-4 gsap-hidden">
-      <a href="cyber-awareness.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
-        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform"><i class="fas fa-graduation-cap"></i></div>
-        <div>
-          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">LEARN</div>
-          <h4 class="font-display font-bold text-white text-base mb-1">Cyber Awareness Training</h4>
-          <p class="text-gray-500 text-xs leading-relaxed">Education resources and training programmes for your team.</p>
-        </div>
-        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
-      </a>
-      <a href="greyhat-protocol.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
-        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform"><i class="fas fa-lock"></i></div>
-        <div>
-          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">OUR PROCESS</div>
-          <h4 class="font-display font-bold text-white text-base mb-1">The Greyhat Protocol</h4>
-          <p class="text-gray-500 text-xs leading-relaxed">How we operate, our ethics framework, and engagement process.</p>
-        </div>
-        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
-      </a>
-    </div>
   </div>
 </section>
 
