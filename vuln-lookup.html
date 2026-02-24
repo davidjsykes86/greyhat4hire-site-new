@@ -1,1926 +1,830 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vulnerability Intelligence — Greyhat4Hire</title>
-  <meta name="description" content="Free real-time vulnerability lookup. Search CVE IDs or product names across NVD, CISA KEV, GitHub Advisories and Exploit-DB."/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
-  <style>
-    :root{
-      --pink:#ff1493;--pink-dim:rgba(255,20,147,.55);--pink-faint:rgba(255,20,147,.1);
-      --red:#ef4444;--amber:#f59e0b;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;
-    }
-    *{box-sizing:border-box;}
-    html{overflow-x:hidden;scroll-behavior:smooth;}
-    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;}
-    body.cursor-ready{cursor:none;}
-    body::before{content:'';position:fixed;inset:0;z-index:0;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events:none;}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vulnerability Intel — Greyhat4Hire</title>
+<meta name="description" content="Real-time vulnerability intelligence. Search CVEs across NVD, CISA KEV, EPSS, OSV and GitHub Advisories."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & TOKENS ───────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:     #030309;
+  --s1:     #08080f;
+  --s2:     #0e0e1b;
+  --b0:     rgba(0,212,255,.05);
+  --b1:     rgba(0,212,255,.13);
+  --b2:     rgba(0,212,255,.30);
+  --b3:     rgba(0,212,255,.60);
+  --cyan:   #00d4ff;
+  --cyan-d: #009ab8;
+  --pink:   #ff2d6e;
+  --amber:  #ffb800;
+  --green:  #00e676;
+  --red:    #ff3d4a;
+  --t1:     #e8eaf0;
+  --t2:     #8892a4;
+  --t3:     rgba(136,146,164,.45);
+  --r:      10px;
+  --r-lg:   16px;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--bg);color:var(--t1);
+  min-height:100vh;overflow-x:hidden;line-height:1.6;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.022) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 90% 50% at 50% -5%,rgba(0,212,255,.06) 0%,transparent 65%);
+}
 
-    /* ── CURSOR ── */
-    #cur{width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;will-change:transform;}
-    #cur2{width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform;}
-    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+/* ── NAV ─────────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(16px,4vw,56px);height:60px;
+  background:rgba(3,3,9,.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--b1);
+}
+.brand{
+  font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.12em;
+  color:var(--cyan);text-decoration:none;
+  text-shadow:0 0 24px rgba(0,212,255,.45);
+}
+.brand em{color:var(--t2);font-style:normal;}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{
+  font-size:.78rem;font-weight:600;letter-spacing:.06em;
+  color:var(--t2);text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover,.nav-links a.on{color:var(--cyan);}
 
-    /* ── FONTS ── */
-    .font-display{font-family:'Orbitron',monospace;}
-    .font-mono{font-family:'Share Tech Mono',monospace;}
+/* ── MAIN ────────────────────────────────────────────────────────── */
+main{
+  position:relative;z-index:1;
+  max-width:1360px;margin:0 auto;
+  padding:80px clamp(16px,4vw,56px) 80px;
+}
 
-    /* ── GLASS ── */
-    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18);}
-    .glass-strong{background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28);}
+/* ── HERO ────────────────────────────────────────────────────────── */
+.hero{text-align:center;padding:52px 0 48px;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;letter-spacing:.2em;color:var(--cyan);
+  background:var(--b0);border:1px solid var(--b1);
+  border-radius:100px;padding:5px 16px;margin-bottom:22px;
+}
+.hero-pill .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 8px var(--cyan);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.2rem,9vw,6.5rem);
+  letter-spacing:.07em;line-height:1;
+  background:linear-gradient(150deg,#fff 20%,var(--cyan) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:18px;
+}
+.hero p{
+  font-size:clamp(.88rem,2vw,1rem);color:var(--t2);
+  max-width:500px;margin:0 auto 40px;line-height:1.75;
+}
 
-    /* ── NAV ── */
-    nav{transition:all .4s ease;}
-    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
-    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
-    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
-    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
-    .desktop-link:hover::after{width:100%;}
-    .desktop-link.active{color:#ff1493;}
-    .desktop-link.active::after{width:100%;}
-    #mobile-menu{background:rgba(0,0,0,.97);transform:translateY(-100%);transition:transform .4s ease;}
-    #mobile-menu.open{transform:translateY(0);}
-    .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
-    .tools-dropdown-wrap{position:relative;}
-    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:pointer;transition:all .3s ease;padding:0;position:relative;}
-    body.cursor-ready .tools-dropdown-btn{cursor:none;}
-    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
-    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
-    .tools-dropdown-btn:hover::after{width:100%;}
-    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
-    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
-    .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:dotPulse 1.8s infinite;flex-shrink:0;}
-    @keyframes dotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
-    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:380px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2);}
-    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
-    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
-    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
-    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
-    .tool-nav-item.active-tool{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.2);}
-    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
-    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);}
-    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.15em;margin-bottom:2px;}
-    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
-    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
-    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
-    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
-    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* ── SEARCH ──────────────────────────────────────────────────────── */
+.search-row{
+  max-width:680px;margin:0 auto 14px;
+  display:flex;gap:10px;
+}
+.search-input{
+  flex:1;height:54px;padding:0 22px;
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);
+  font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--t1);
+  outline:none;transition:border-color .25s,box-shadow .25s;
+}
+.search-input::placeholder{color:var(--t3);}
+.search-input:focus{
+  border-color:var(--b3);
+  box-shadow:0 0 0 3px rgba(0,212,255,.07);
+}
+.search-go{
+  height:54px;padding:0 30px;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-d));
+  color:#000;font-family:'Syne',sans-serif;
+  font-size:.82rem;font-weight:800;letter-spacing:.09em;
+  border:none;border-radius:var(--r);cursor:pointer;
+  transition:all .22s;white-space:nowrap;
+  display:flex;align-items:center;gap:8px;
+}
+.search-go:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,212,255,.38);}
+.search-go:active{transform:none;}
+.search-go svg{width:15px;height:15px;flex-shrink:0;}
 
-    /* ── BUTTONS ── */
-    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:14px;border:none;cursor:pointer;transition:all .3s ease;text-decoration:none;}
-    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
-    .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:pointer;background:transparent;transition:all .3s ease;text-decoration:none;}
-    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
-    body.cursor-ready .btn-primary,body.cursor-ready .btn-ghost{cursor:none;}
-    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
-    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+.examples{
+  display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--t3);
+}
+.ex{
+  color:var(--t2);cursor:pointer;padding:3px 10px;
+  background:var(--s1);border:1px solid rgba(255,255,255,.07);
+  border-radius:6px;transition:all .18s;
+}
+.ex:hover{border-color:var(--b2);color:var(--cyan);}
 
-    /* ── HERO ── */
-    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
-    .hero-grid::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%);}
-    .gsap-hidden{opacity:0;transform:translateY(40px);}
-    .blink{animation:blink 1.1s infinite;}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* ── STATUS BAR ──────────────────────────────────────────────────── */
+#status-bar{
+  max-width:900px;margin:0 auto 24px;
+  display:none;
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);
+  padding:13px 20px;
+  align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.chips{display:flex;gap:7px;flex-wrap:wrap;}
+.chip{
+  display:flex;align-items:center;gap:5px;
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;
+  padding:4px 10px;border-radius:6px;border:1px solid;transition:all .3s;
+}
+.chip .d{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.chip.wait{color:var(--t3);border-color:rgba(255,255,255,.07);}
+.chip.wait .d{animation:blink 1s infinite;}
+.chip.ok{color:var(--green);border-color:rgba(0,230,118,.25);background:rgba(0,230,118,.05);}
+.chip.err{color:var(--red);border-color:rgba(255,61,74,.25);background:rgba(255,61,74,.05);}
+#status-meta{
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--t2);
+}
+#status-meta strong{color:var(--cyan);}
 
-    /* ── SEARCH TERMINAL ── */
-    .search-terminal{background:rgba(4,4,4,.95);border:1px solid rgba(255,20,147,.3);border-radius:24px;overflow:hidden;backdrop-filter:blur(28px);box-shadow:0 0 60px rgba(255,20,147,.12),0 30px 80px rgba(0,0,0,.8);}
-    .terminal-bar{background:rgba(255,20,147,.06);border-bottom:1px solid rgba(255,20,147,.15);padding:12px 20px;display:flex;align-items:center;gap:10px;}
-    .terminal-dot{width:10px;height:10px;border-radius:50%;}
-    .search-input{
-      width:100%;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.2);border-radius:14px;
-      padding:18px 22px;font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:#fff;
-      outline:none;transition:all .3s ease;letter-spacing:.05em;
-    }
-    .search-input::placeholder{color:rgba(255,20,147,.35);}
-    .search-input:focus{border-color:rgba(255,20,147,.6);box-shadow:0 0 30px rgba(255,20,147,.15),inset 0 0 20px rgba(255,20,147,.04);}
-    .search-btn{
-      display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#ff1493,#c4106f);
-      color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;
-      padding:18px 32px;border-radius:14px;border:none;cursor:pointer;transition:all .3s ease;white-space:nowrap;flex-shrink:0;
-    }
-    body.cursor-ready .search-btn{cursor:none;}
-    .search-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,20,147,.5);}
+/* ── FILTER BAR ──────────────────────────────────────────────────── */
+#filter-bar{
+  display:none;max-width:900px;margin:0 auto 22px;
+  align-items:center;gap:8px;flex-wrap:wrap;
+}
+.fl{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  letter-spacing:.12em;color:var(--t3);margin-right:4px;
+}
+.fb{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.07em;
+  padding:5px 13px;border-radius:7px;
+  border:1px solid rgba(255,255,255,.08);
+  background:transparent;color:var(--t2);cursor:pointer;transition:all .18s;
+}
+.fb:hover{border-color:rgba(255,255,255,.2);color:var(--t1);}
+.fb.on{font-weight:700;}
+.fb[data-s="ALL"].on{border-color:var(--b2);color:var(--cyan);background:var(--b0);}
+.fb[data-s="CRITICAL"].on{border-color:rgba(255,61,74,.45);color:var(--red);background:rgba(255,61,74,.07);}
+.fb[data-s="HIGH"].on{border-color:rgba(255,184,0,.45);color:var(--amber);background:rgba(255,184,0,.07);}
+.fb[data-s="MEDIUM"].on{border-color:rgba(255,45,110,.4);color:var(--pink);background:rgba(255,45,110,.06);}
+.fb[data-s="LOW"].on{border-color:rgba(0,230,118,.4);color:var(--green);background:rgba(0,230,118,.06);}
+.fb[data-s="KEV"].on{border-color:rgba(255,61,74,.45);color:var(--red);background:rgba(255,61,74,.07);}
+#fcount{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--t3);margin-left:auto;}
 
-    /* ── CATEGORY FILTER TABS ── */
-    .cat-tab{
-      padding:7px 16px;border-radius:10px;font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.1em;
-      border:1px solid rgba(255,255,255,.07);background:transparent;color:rgba(255,255,255,.35);
-      cursor:pointer;transition:all .25s ease;white-space:nowrap;
-    }
-    .cat-tab:hover{background:rgba(255,20,147,.07);border-color:rgba(255,20,147,.25);color:rgba(255,255,255,.7);}
-    .cat-tab.active{background:rgba(255,20,147,.12);border-color:rgba(255,20,147,.4);color:var(--pink);}
+/* ── STATES ──────────────────────────────────────────────────────── */
+.state{display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:80px 20px;text-align:center;}
+.state.on{display:flex;}
+.state-icon{font-size:2.5rem;opacity:.25;}
+.state-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--t2);}
+.state-sub{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--t3);max-width:360px;line-height:1.7;}
+.spinner{width:38px;height:38px;border:2px solid var(--b1);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err-box{
+  background:rgba(255,61,74,.05);border:1px solid rgba(255,61,74,.22);
+  border-radius:var(--r);padding:16px 24px;
+  font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--red);
+  max-width:500px;line-height:1.7;
+}
 
-    /* ══════════════════════════════════
-       PRODUCT CARDS — REDESIGNED
-    ══════════════════════════════════ */
-    .product-card{
-      position:relative;
-      background:rgba(8,8,8,.9);
-      border:1px solid rgba(255,255,255,.07);
-      border-radius:16px;
-      padding:16px 14px 14px;
-      cursor:pointer;
-      overflow:hidden;
-      transition:all .28s cubic-bezier(.4,0,.2,1);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
-      text-align:center;
-    }
-    /* Top color accent bar */
-    .product-card::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:2px;
-      opacity:0;transition:opacity .3s ease;
-    }
-    /* Hover shine sweep */
-    .product-card::after{
-      content:'';position:absolute;inset:0;
-      background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.05) 50%,transparent 70%);
-      transform:translateX(-120%);pointer-events:none;
-    }
-    .product-card:hover{transform:translateY(-5px);}
-    .product-card:hover::before{opacity:1;}
-    .product-card:hover::after{animation:cardShine .55s ease forwards;}
-    @keyframes cardShine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-    .product-card.selected{transform:translateY(-5px);}
-    .product-card.selected::before{opacity:1;}
+/* ── RESULTS GRID ────────────────────────────────────────────────── */
+#grid{display:none;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px;}
 
-    /* Icon container */
-    .pc-icon{
-      width:52px;height:52px;border-radius:14px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:1.5rem;
-      transition:all .3s ease;
-      position:relative;
-    }
-    .product-card:hover .pc-icon,
-    .product-card.selected .pc-icon{transform:scale(1.12);}
+/* ── CVE CARD ────────────────────────────────────────────────────── */
+.card{
+  background:var(--s1);border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--r-lg);padding:18px 20px 16px;
+  cursor:pointer;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:12px;
+  transition:all .22s cubic-bezier(.4,0,.2,1);
+  animation:fadeUp .3s ease backwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  opacity:0;transition:opacity .22s;
+}
+.card.sc::before{background:linear-gradient(90deg,var(--red),transparent);opacity:.9;}
+.card.sh::before{background:linear-gradient(90deg,var(--amber),transparent);opacity:.8;}
+.card.sm::before{background:linear-gradient(90deg,var(--pink),transparent);opacity:.7;}
+.card.sl::before{background:linear-gradient(90deg,var(--green),transparent);opacity:.5;}
+.card:hover{
+  border-color:var(--b2);background:var(--s2);
+  transform:translateY(-3px);
+  box-shadow:0 14px 40px rgba(0,0,0,.45);
+}
+.card.kev{border-color:rgba(255,61,74,.2);}
+.card.kev:hover{border-color:rgba(255,61,74,.45);}
 
-    /* Glow ring around icon on hover */
-    .pc-icon::after{
-      content:'';position:absolute;inset:-4px;border-radius:18px;
-      border:1px solid currentColor;opacity:0;
-      transition:opacity .3s ease;
-    }
-    .product-card:hover .pc-icon::after,
-    .product-card.selected .pc-icon::after{opacity:.4;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.card-id{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;color:var(--cyan);}
+.badges{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex-shrink:0;}
 
-    .pc-name{
-      font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;
-      color:rgba(255,255,255,.65);line-height:1.2;transition:color .25s ease;
-    }
-    .product-card:hover .pc-name,
-    .product-card.selected .pc-name{color:#fff;}
+.sb{
+  font-family:'JetBrains Mono',monospace;font-size:.5rem;
+  letter-spacing:.11em;font-weight:600;
+  padding:3px 9px;border-radius:5px;border:1px solid;white-space:nowrap;
+}
+.sc-b{color:var(--red);border-color:rgba(255,61,74,.38);background:rgba(255,61,74,.09);}
+.sh-b{color:var(--amber);border-color:rgba(255,184,0,.38);background:rgba(255,184,0,.08);}
+.sm-b{color:var(--pink);border-color:rgba(255,45,110,.38);background:rgba(255,45,110,.07);}
+.sl-b{color:var(--green);border-color:rgba(0,230,118,.38);background:rgba(0,230,118,.07);}
+.sn-b{color:var(--t3);border-color:rgba(255,255,255,.07);}
 
-    .pc-cat{
-      font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.12em;
-      color:rgba(255,255,255,.2);margin-top:-4px;transition:color .25s ease;
-    }
-    .product-card:hover .pc-cat{color:rgba(255,255,255,.4);}
+.kev-b{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:.1em;
+  padding:3px 8px;border-radius:5px;
+  color:var(--red);border:1px solid rgba(255,61,74,.38);background:rgba(255,61,74,.09);
+}
+.kev-b::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--red);animation:blink 1.5s infinite;}
 
-    /* ── STATS ── */
-    .stat-mini{text-align:center;padding:18px 14px;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.14);border-radius:14px;transition:all .3s ease;}
-    .stat-mini:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.3);transform:translateY(-3px);}
+.score-row{display:flex;align-items:center;gap:10px;}
+.big-score{
+  font-family:'Bebas Neue',sans-serif;font-size:1.7rem;line-height:1;letter-spacing:.04em;
+}
+.score-info{display:flex;flex-direction:column;gap:2px;}
+.score-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--t3);letter-spacing:.1em;}
 
-    /* ── MARQUEE ── */
-    .marquee-wrap{overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);}
-    .marquee{animation:marqueeScroll 55s linear infinite;}
-    @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-    .marquee-item{display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap;}
-    .marquee-sep{color:rgba(255,20,147,.25);}
+.desc{
+  font-size:.81rem;color:var(--t2);line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
 
-    /* ── MISC ── */
-    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
-    ::-webkit-scrollbar{width:4px;}
-    ::-webkit-scrollbar-track{background:#000;}
-    ::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
-    .pink-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);}
-    .whatsapp-btn{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;}
-    .whatsapp-btn:hover{transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8);}
+.card-foot{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding-top:10px;border-top:1px solid rgba(255,255,255,.04);
+}
+.meta-tag{
+  display:flex;align-items:center;gap:4px;
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--t3);
+}
+.meta-tag b{color:var(--t2);}
+.meta-tag.hi b{color:var(--cyan);}
 
-    /* ── RESULTS / STATES ── */
-    .state-section{display:flex;flex-direction:column;align-items:center;text-align:center;padding:50px 20px;gap:12px;}
-    .big-icon{width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto;}
-    @keyframes scanMove{0%{top:0;opacity:1}100%{top:100%;opacity:0}}
-    .scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.6),transparent);animation:scanMove 2s linear infinite;pointer-events:none;}
-    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-    .loading-shimmer{background:linear-gradient(90deg,rgba(255,20,147,.03) 0%,rgba(255,20,147,.08) 50%,rgba(255,20,147,.03) 100%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;}
+.epss-block{flex:1;min-width:90px;}
+.epss-hd{
+  font-family:'JetBrains Mono',monospace;font-size:.53rem;color:var(--t3);letter-spacing:.07em;
+  display:flex;justify-content:space-between;margin-bottom:4px;
+}
+.epss-track{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;}
+.epss-fill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);}
 
-    /* ── CVE LIST & DETAIL ── */
-    .sev-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;font-weight:700;letter-spacing:.1em;}
-    .sev-critical{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.35);}
-    .sev-high{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.35);}
-    .sev-medium{background:rgba(255,20,147,.12);color:#ff1493;border:1px solid rgba(255,20,147,.3);}
-    .sev-low{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.28);}
-    .sev-none{background:rgba(100,100,100,.15);color:#aaa;border:1px solid rgba(100,100,100,.3);}
-    .kev-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:5px;font-family:'Orbitron',monospace;font-size:.48rem;color:#ef4444;letter-spacing:.08em;}
-    @keyframes kevPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.2)}50%{box-shadow:0 0 20px rgba(239,68,68,.2)}}
-    .cve-list-item{
-      background:rgba(8,8,8,.75);border:1px solid rgba(255,255,255,.06);border-radius:16px;
-      padding:16px 18px;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;
-    }
-    .cve-list-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:16px 0 0 16px;transition:opacity .3s ease;opacity:.5;}
-    .cve-list-item:hover{border-color:rgba(255,20,147,.25);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.5);}
-    .cve-list-item:hover::before{opacity:1;}
-    .cve-list-item.active-cve{background:rgba(255,20,147,.06);border-color:rgba(255,20,147,.25);}
-    .cve-list-item.critical::before{background:linear-gradient(180deg,#ef4444,#c53030);}
-    .cve-list-item.high::before{background:linear-gradient(180deg,#f59e0b,#d97706);}
-    .cve-list-item.medium::before{background:linear-gradient(180deg,#ff1493,#c4106f);}
-    .cve-list-item.low::before{background:linear-gradient(180deg,#22c55e,#16a34a);}
-    .cve-list-item.none::before{background:#555;}
-    .src-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.48rem;font-weight:700;letter-spacing:.1em;border:1px solid;}
-    .src-nvd{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3);color:#3b82f6;}
-    .src-kev{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.35);color:#ef4444;}
-    .src-github{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.3);color:#a855f7;}
-    .detail-panel{background:rgba(4,4,4,.97);border:1px solid rgba(255,20,147,.25);border-radius:22px;overflow:hidden;backdrop-filter:blur(28px);}
-    .detail-tab-btn{padding:10px 18px;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.1em;border:none;background:transparent;color:rgba(255,255,255,.35);cursor:pointer;transition:all .25s ease;position:relative;}
-    .detail-tab-btn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--pink);transform:scaleX(0);transition:transform .25s ease;}
-    .detail-tab-btn.active{color:var(--pink);}
-    .detail-tab-btn.active::after{transform:scaleX(1);}
-    .info-row{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:flex-start;}
-    .info-row:last-child{border-bottom:none;}
-    .info-label{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,20,147,.55);letter-spacing:.1em;min-width:100px;flex-shrink:0;margin-top:2px;}
-    .info-val{font-family:'Rajdhani',sans-serif;font-size:.92rem;color:rgba(255,255,255,.75);font-weight:600;line-height:1.45;}
-    .ver-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:6px;font-family:'Share Tech Mono',monospace;font-size:.6rem;}
-    .ver-vuln{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.25);}
-    .ver-fixed{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.25);}
-    .cpe-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;margin:2px;background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:6px;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(100,180,255,.65);}
-    .poc-link{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.28);border-radius:10px;color:#f59e0b;font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-decoration:none;transition:all .3s ease;}
-    .poc-link:hover{background:rgba(245,158,11,.14);box-shadow:0 0 18px rgba(245,158,11,.2);transform:translateY(-2px);}
-    .ref-link{display:inline-flex;align-items:center;gap:5px;color:rgba(59,130,246,.7);font-size:.78rem;text-decoration:none;transition:color .2s ease;font-family:'Share Tech Mono',monospace;}
-    .ref-link:hover{color:#93c5fd;}
-    .kev-exploited-banner{background:linear-gradient(135deg,rgba(239,68,68,.14),rgba(239,68,68,.06));border:1px solid rgba(239,68,68,.38);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;animation:kevPulse 2.5s infinite;}
-    .kev-safe-banner{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.22);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:12px;}
+/* ── GITHUB SECTION ──────────────────────────────────────────────── */
+#gh-section{display:none;margin-top:44px;}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.sec-head h2{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.1em;color:var(--t1);}
+.sec-hr{flex:1;height:1px;background:rgba(255,255,255,.05);}
+.sec-n{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--t3);}
 
-    /* ── SEARCH HELPER BAR ── */
-    .search-hints{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
-    .search-hint-chip{
-      display:inline-flex;align-items:center;gap:6px;padding:5px 12px;
-      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;
-      font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.4);
-      cursor:pointer;transition:all .2s ease;user-select:none;
-    }
-    .search-hint-chip:hover{background:rgba(255,20,147,.07);border-color:rgba(255,20,147,.3);color:rgba(255,20,147,.8);}
-    .search-hint-chip i{font-size:.5rem;}
+.gh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.gh-card{
+  background:var(--s1);border:1px solid rgba(168,85,247,.12);
+  border-radius:var(--r);padding:14px 16px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:border-color .2s;
+}
+.gh-card:hover{border-color:rgba(168,85,247,.3);}
+.gh-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.gh-id{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(168,85,247,.75);letter-spacing:.05em;}
+.gh-sum{font-size:.82rem;font-weight:600;color:var(--t1);line-height:1.4;}
+.gh-pkgs{display:flex;gap:5px;flex-wrap:wrap;}
+.gh-pkg{
+  font-family:'JetBrains Mono',monospace;font-size:.53rem;
+  padding:2px 8px;border-radius:5px;
+  color:rgba(168,85,247,.7);border:1px solid rgba(168,85,247,.18);background:rgba(168,85,247,.05);
+}
+.gh-a{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  color:rgba(168,85,247,.5);text-decoration:none;transition:color .2s;align-self:flex-start;
+}
+.gh-a:hover{color:rgba(168,85,247,.9);}
 
-    /* ── TOUCH DEVICES ── */
-    @media (hover:none),(pointer:coarse){
-      body{cursor:auto !important;}
-      #cur,#cur2{display:none !important;}
-      button,a,.product-card,.cve-list-item,.cat-tab,.search-btn,.detail-tab-btn{cursor:pointer !important;}
-    }
+/* ── DETAIL PANEL ────────────────────────────────────────────────── */
+#dp-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;
+  opacity:0;pointer-events:none;transition:opacity .28s;
+}
+#dp-ov.on{opacity:1;pointer-events:all;}
+#dp{
+  position:fixed;top:0;right:0;bottom:0;
+  width:min(540px,100vw);
+  background:#08080f;
+  border-left:1px solid var(--b1);z-index:201;
+  transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+#dp.on{transform:translateX(0);}
+.dp-hd{
+  padding:20px 24px 16px;border-bottom:1px solid rgba(255,255,255,.05);
+  flex-shrink:0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+}
+.dp-id{font-family:'JetBrains Mono',monospace;font-size:.83rem;font-weight:600;color:var(--cyan);margin-bottom:8px;}
+.dp-x{
+  background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--t2);
+  width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:.9rem;
+  display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0;
+}
+.dp-x:hover{border-color:var(--pink);color:var(--pink);}
+.dp-body{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:18px;}
+.dp-sec{}
+.dp-lbl{
+  font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  letter-spacing:.16em;color:var(--t3);margin-bottom:8px;
+}
+.dp-desc{font-size:.86rem;color:var(--t2);line-height:1.65;}
+.dp-row{
+  display:flex;align-items:baseline;gap:10px;
+  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.dp-row:last-child{border-bottom:none;}
+.dp-k{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  letter-spacing:.06em;color:var(--t3);min-width:100px;flex-shrink:0;
+}
+.dp-v{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  color:var(--t1);word-break:break-all;line-height:1.5;
+}
+.dp-v a{color:var(--cyan);text-decoration:none;}
+.dp-v a:hover{text-decoration:underline;}
 
-    /* ── SEVERITY FILTER ── */
-    .sev-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-    .sev-filter-btn{padding:5px 13px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.1em;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.3);cursor:pointer;transition:all .22s ease;}
-    .sev-filter-btn:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.6);}
-    .sev-filter-btn.active-filter{color:#fff;}
-    .sev-filter-btn.f-all.active-filter{background:rgba(255,20,147,.12);border-color:rgba(255,20,147,.4);color:var(--pink);}
-    .sev-filter-btn.f-critical.active-filter{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.4);color:#ef4444;}
-    .sev-filter-btn.f-high.active-filter{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#f59e0b;}
-    .sev-filter-btn.f-medium.active-filter{background:rgba(255,20,147,.1);border-color:rgba(255,20,147,.35);color:#ff69b4;}
-    .sev-filter-btn.f-low.active-filter{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35);color:#22c55e;}
+.epss-big-bar{height:6px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;margin-top:6px;}
+.epss-big-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cyan-d),var(--cyan));transition:width .7s cubic-bezier(.4,0,.2,1);}
+.refs{display:flex;flex-direction:column;gap:5px;}
+.ref-a{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  color:var(--cyan);text-decoration:none;word-break:break-all;
+  line-height:1.5;transition:color .18s;
+}
+.ref-a:hover{color:var(--t1);}
+.cwe-wrap,.osv-wrap{display:flex;flex-wrap:wrap;gap:5px;}
+.cwe-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  padding:3px 9px;border-radius:5px;
+  color:var(--amber);border:1px solid rgba(255,184,0,.24);background:rgba(255,184,0,.05);
+}
+.osv-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  padding:3px 9px;border-radius:5px;
+  color:var(--t2);border:1px solid rgba(255,255,255,.09);background:var(--s2);
+}
 
-    /* ── WATCHLIST ── */
-    #watchlist-fab{position:fixed;bottom:96px;right:24px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1e1e2e,#2a1a3e);border:1px solid rgba(168,85,247,.45);color:#a855f7;font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:998;transition:all .35s ease;box-shadow:0 6px 24px rgba(168,85,247,.3);}
-    body.cursor-ready #watchlist-fab{cursor:none;}
-    #watchlist-fab:hover{transform:scale(1.12);box-shadow:0 10px 32px rgba(168,85,247,.55);}
-    #watchlist-badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:#ef4444;color:#fff;font-family:'Orbitron',monospace;font-size:.42rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;display:none;}
-    #watchlist-panel{position:fixed;right:0;top:0;height:100vh;width:min(420px,100vw);background:rgba(4,4,4,.98);backdrop-filter:blur(30px);border-left:1px solid rgba(168,85,247,.3);z-index:1100;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
-    #watchlist-panel.open{transform:translateX(0);}
-    #watchlist-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1099;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-    #watchlist-overlay.open{opacity:1;pointer-events:all;}
-    .wl-header{padding:20px;border-bottom:1px solid rgba(168,85,247,.18);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-    .wl-items{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(168,85,247,.3) transparent;}
-    .wl-item{background:rgba(12,12,18,.9);border:1px solid rgba(168,85,247,.14);border-radius:12px;padding:12px 14px;position:relative;}
-    .wl-item-id{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#a855f7;margin-bottom:3px;}
-    .wl-item-desc{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.35;margin-bottom:6px;}
-    .wl-remove{position:absolute;top:8px;right:10px;background:transparent;border:none;color:rgba(255,255,255,.2);font-size:.75rem;cursor:pointer;transition:color .2s ease;padding:2px 5px;}
-    body.cursor-ready .wl-remove{cursor:none;}
-    .wl-remove:hover{color:#ef4444;}
-    .wl-footer{padding:14px;border-top:1px solid rgba(168,85,247,.15);display:flex;gap:8px;flex-shrink:0;}
-    .wl-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:10px;padding:40px 20px;text-align:center;}
-    .save-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:7px;font-family:'Orbitron',monospace;font-size:.47rem;letter-spacing:.08em;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.07);color:#a855f7;cursor:pointer;transition:all .22s ease;flex-shrink:0;}
-    body.cursor-ready .save-btn{cursor:none;}
-    .save-btn:hover{background:rgba(168,85,247,.16);box-shadow:0 0 14px rgba(168,85,247,.25);}
-    .save-btn.saved{background:rgba(168,85,247,.22);border-color:rgba(168,85,247,.55);color:#d8b4fe;}
+/* ── SCROLLBAR ───────────────────────────────────────────────────── */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
 
-    /* ── SEARCH HISTORY ── */
-    .history-section{margin-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;}
-    .history-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:6px;font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);cursor:pointer;transition:all .2s ease;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-    body.cursor-ready .history-chip{cursor:none;}
-    .history-chip:hover{background:rgba(255,20,147,.06);border-color:rgba(255,20,147,.25);color:rgba(255,20,147,.7);}
-    .history-chip i{font-size:.45rem;flex-shrink:0;}
-  </style>
+@media(max-width:600px){
+  .search-row{flex-direction:column;}
+  .search-go{width:100%;justify-content:center;}
+  #grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+}
+</style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur2"></div>
-<canvas id="three-canvas"></canvas>
-
-<a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
-  <i class="fab fa-whatsapp"></i>
-</a>
-
-<!-- ══ WATCHLIST FAB ══ -->
-<button id="watchlist-fab" onclick="toggleWatchlist()" title="CVE Watchlist">
-  <i class="fas fa-bookmark"></i>
-  <span id="watchlist-badge">0</span>
-</button>
-
-<!-- ══ WATCHLIST OVERLAY ══ -->
-<div id="watchlist-overlay" onclick="toggleWatchlist()"></div>
-
-<!-- ══ WATCHLIST PANEL ══ -->
-<div id="watchlist-panel">
-  <div class="wl-header">
-    <div>
-      <div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(168,85,247,.6);margin-bottom:3px;">THREAT WATCHLIST</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;">Saved CVEs</div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button onclick="exportWatchlist()" id="wl-export-btn" style="display:none;padding:7px 12px;border:1px solid rgba(168,85,247,.35);border-radius:8px;background:rgba(168,85,247,.08);color:#a855f7;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.08em;cursor:pointer;transition:all .25s ease;" title="Export CSV"><i class="fas fa-download"></i> CSV</button>
-      <button onclick="toggleWatchlist()" style="background:transparent;border:none;color:rgba(255,255,255,.3);font-size:1.2rem;cursor:pointer;padding:4px 8px;transition:color .2s ease;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'"><i class="fas fa-times"></i></button>
-    </div>
-  </div>
-  <div class="wl-items" id="wl-items"></div>
-  <div class="wl-footer" id="wl-footer" style="display:none;">
-    <button onclick="clearWatchlist()" style="flex:1;padding:10px;border:1px solid rgba(239,68,68,.25);border-radius:9px;background:rgba(239,68,68,.06);color:rgba(239,68,68,.7);font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.08em;cursor:pointer;transition:all .25s ease;"><i class="fas fa-trash"></i> CLEAR ALL</button>
-  </div>
-</div>
-
-<!-- ══ NAV ══ -->
-<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
-    <a href="index.html">
-      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
-        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-    </a>
-    <div class="hidden lg:flex items-center gap-7 text-sm">
-      <a href="index.html" class="desktop-link">Home</a>
-      <a href="about.html" class="desktop-link">About</a>
-      <a href="services.html" class="desktop-link">Services</a>
-      <div class="tools-dropdown-wrap">
-        <button class="tools-dropdown-btn" type="button">
-          <span class="tools-live-dot"></span> Free Tools <i class="fas fa-chevron-down chevron"></i>
-        </button>
-        <div class="tools-dropdown-panel">
-          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
-          <a href="risk-assessment.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;"><i class="fas fa-shield-halved"></i></div>
-            <div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div>
-          </a>
-          <a href="hackers-dossier.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;"><i class="fas fa-file-circle-exclamation"></i></div>
-            <div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans & Shodan intel</div></div>
-          </a>
-          <a href="breach-cost-clock.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;"><i class="fas fa-clock"></i></div>
-            <div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick up live</div></div>
-          </a>
-          <a href="vuln-lookup.html" class="tool-nav-item active-tool">
-            <div class="tool-nav-icon" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.35);color:#3b82f6;"><i class="fas fa-bug"></i></div>
-            <div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">VULN INTEL</div><div class="tool-nav-name">Vulnerability Lookup</div><div class="tool-nav-desc">NVD · CISA KEV · GitHub · Exploit-DB</div></div>
-          </a>
-        </div>
-      </div>
-      <a href="cyber-awareness.html" class="desktop-link">Cyber Awareness</a>
-      <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
-      <a href="pricing.html" class="desktop-link">Pricing</a>
-      <a href="contact.html" class="desktop-link">Contact</a>
-    </div>
-    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
-      <i class="fas fa-shield-alt"></i> Get a Quote
-    </a>
-    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:pointer;"><i class="fas fa-bars"></i></button>
+<nav>
+  <a href="index.html" class="brand">GREY<em>HAT</em>4HIRE</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="vuln-lookup.html" class="on">Vuln Intel</a>
+    <a href="contact.html">Contact</a>
   </div>
 </nav>
 
-<!-- Mobile Menu -->
-<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
-  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;"><i class="fas fa-times"></i></button>
-  <div class="flex flex-col items-center w-full max-w-xs">
-    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
-    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
-    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
-    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
-    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
-    <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Lookup</span></a>
-    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
-    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
-    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+<!-- Detail overlay / panel -->
+<div id="dp-ov" onclick="closeDetail()"></div>
+<div id="dp">
+  <div class="dp-hd">
+    <div>
+      <div class="dp-id" id="dp-id">—</div>
+      <div id="dp-badges" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+    </div>
+    <button class="dp-x" onclick="closeDetail()">✕</button>
   </div>
+  <div class="dp-body" id="dp-body"></div>
 </div>
 
-<!-- ══ HERO ══ -->
-<section class="relative min-h-screen flex flex-col justify-center pt-28 pb-10 px-4">
-  <div class="hero-grid"></div>
-  <div style="position:absolute;top:20%;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(59,130,246,.07) 0%,transparent 70%);pointer-events:none;"></div>
-  <div style="position:absolute;top:35%;left:15%;width:250px;height:250px;background:radial-gradient(circle,rgba(255,20,147,.05),transparent 70%);pointer-events:none;"></div>
+<main>
 
-  <div class="max-w-5xl mx-auto w-full relative z-10">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-pill"><span class="dot"></span>LIVE VULNERABILITY INTELLIGENCE</div>
+    <h1>CVE LOOKUP</h1>
+    <p>Search any product or technology across NVD, CISA KEV, EPSS, OSV and GitHub Advisories — all in one shot.</p>
 
-    <!-- Badge -->
-    <div class="flex justify-center mb-6 gsap-hidden">
-      <div style="display:inline-flex;align-items:center;gap:10px;padding:7px 18px;background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.28);border-radius:99px;">
-        <span style="width:6px;height:6px;border-radius:50%;background:#3b82f6;box-shadow:0 0 10px #3b82f6;animation:dotPulse 1.8s infinite;"></span>
-        <span style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(59,130,246,.8);">REAL-TIME VULNERABILITY INTELLIGENCE</span>
-      </div>
+    <div class="search-row">
+      <input class="search-input" id="qi" type="text" autocomplete="off" spellcheck="false"
+        placeholder="product name: microsoft, apache, openssl, log4j..."/>
+      <button class="search-go" id="go-btn" onclick="doSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        SEARCH
+      </button>
     </div>
 
-    <!-- Heading -->
-    <div class="text-center mb-8 gsap-hidden">
-      <h1 class="font-display font-black leading-none mb-3" style="font-size:clamp(2rem,5.5vw,4rem);">
-        <span style="color:#fff;">WHAT'S</span> <span style="color:#ff1493;text-shadow:0 0 28px rgba(255,20,147,.85);">VULNERABLE</span>
-        <br><span style="font-size:clamp(.9rem,2.2vw,1.5rem);color:rgba(255,255,255,.3);letter-spacing:.3em;font-weight:400;">IN YOUR WORLD RIGHT NOW?</span>
-      </h1>
-      <p style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:rgba(255,255,255,.45);max-width:560px;margin:0 auto;line-height:1.65;">Search any CVE ID, product, or software name — or click a product card below. We query NVD, CISA KEV, and GitHub Advisories in real time.</p>
-    </div>
-
-    <!-- Stats -->
-    <div class="flex justify-center gap-5 mb-8 gsap-hidden flex-wrap">
-      <div class="stat-mini" style="min-width:100px;"><div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;color:#3b82f6;text-shadow:0 0 14px rgba(59,130,246,.6);">250K+</div><div style="font-family:'Share Tech Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-top:2px;">NVD CVEs</div></div>
-      <div class="stat-mini" style="min-width:100px;"><div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;color:#ef4444;text-shadow:0 0 14px rgba(239,68,68,.6);">1,200+</div><div style="font-family:'Share Tech Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-top:2px;">KEV Exploited</div></div>
-      <div class="stat-mini" style="min-width:100px;"><div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;color:#a855f7;text-shadow:0 0 14px rgba(168,85,247,.6);">20K+</div><div style="font-family:'Share Tech Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-top:2px;">GH Advisories</div></div>
-      <div class="stat-mini" style="min-width:100px;"><div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;color:#f59e0b;text-shadow:0 0 14px rgba(245,158,11,.6);">46K+</div><div style="font-family:'Share Tech Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-top:2px;">Exploit PoCs</div></div>
-    </div>
-
-    <!-- ══ SEARCH TERMINAL ══ -->
-    <div class="search-terminal gsap-hidden">
-      <div class="terminal-bar">
-        <div class="terminal-dot" style="background:#ef4444;"></div>
-        <div class="terminal-dot" style="background:#f59e0b;"></div>
-        <div class="terminal-dot" style="background:#22c55e;"></div>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(255,20,147,.5);margin-left:8px;letter-spacing:.1em;">greyhat4hire:~$ vuln-intel --sources nvd,kev,github</span>
-        <span class="blink" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(255,20,147,.5);">█</span>
-      </div>
-      <div class="p-5">
-        <!-- Single unified search bar -->
-        <div class="flex gap-3 flex-col sm:flex-row mb-4">
-          <input type="text" id="main-search" class="search-input flex-1"
-            placeholder="CVE-2021-44228  or  Apache  or  log4j  or  WordPress..."
-            autocomplete="off" spellcheck="false"/>
-          <button onclick="runSearch()" class="search-btn">
-            <i class="fas fa-satellite-dish"></i> SCAN
-          </button>
-        </div>
-        <!-- Quick-fill hint chips -->
-        <div class="search-hints">
-          <span style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.2);align-self:center;margin-right:4px;">TRY:</span>
-          <span class="search-hint-chip" onclick="quickSearch('CVE-2021-44228')"><i class="fas fa-bug"></i> Log4Shell</span>
-          <span class="search-hint-chip" onclick="quickSearch('CVE-2024-3400')"><i class="fas fa-fire"></i> PAN-OS RCE</span>
-          <span class="search-hint-chip" onclick="quickSearch('Microsoft Exchange')"><i class="fas fa-envelope"></i> Exchange</span>
-          <span class="search-hint-chip" onclick="quickSearch('Apache HTTP Server')"><i class="fas fa-server"></i> Apache</span>
-          <span class="search-hint-chip" onclick="quickSearch('WordPress')"><i class="fab fa-wordpress"></i> WordPress</span>
-          <span class="search-hint-chip" onclick="quickSearch('OpenSSL')"><i class="fas fa-lock"></i> OpenSSL</span>
-        </div>
-        <!-- Search history -->
-        <div id="search-history-wrap" class="history-section" style="display:none;">
-          <span style="font-family:'Share Tech Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.18);flex-shrink:0;"><i class="fas fa-clock" style="font-size:.45rem;margin-right:3px;"></i>RECENT:</span>
-          <div id="search-history-chips" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
-        </div>
-        <!-- Divider -->
-        <div style="display:flex;align-items:center;gap:12px;margin:18px 0 14px;">
-          <div style="flex:1;height:1px;background:rgba(255,255,255,.06);"></div>
-          <span style="font-family:'Orbitron',monospace;font-size:.52rem;color:rgba(255,255,255,.2);letter-spacing:.15em;">OR PICK A PRODUCT</span>
-          <div style="flex:1;height:1px;background:rgba(255,255,255,.06);"></div>
-        </div>
-        <!-- Category filter tabs -->
-        <div class="flex gap-2 mb-4 overflow-x-auto pb-1" style="scrollbar-width:none;">
-          <button class="cat-tab active" onclick="filterCat('all',this)">ALL</button>
-          <button class="cat-tab" onclick="filterCat('os',this)">OS</button>
-          <button class="cat-tab" onclick="filterCat('web',this)">WEB &amp; CMS</button>
-          <button class="cat-tab" onclick="filterCat('db',this)">DATABASES</button>
-          <button class="cat-tab" onclick="filterCat('network',this)">NETWORK</button>
-          <button class="cat-tab" onclick="filterCat('cloud',this)">CLOUD &amp; DEV</button>
-          <button class="cat-tab" onclick="filterCat('office',this)">APPS</button>
-        </div>
-        <!-- Product grid -->
-        <div id="product-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3"></div>
-        <p style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.18);margin-top:10px;letter-spacing:.06em;">↑ Click any card to load its known vulnerabilities instantly</p>
-        <!-- NVD API Key (optional) -->
-        <div style="margin-top:14px;padding:10px 14px;background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.12);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <i class="fas fa-key" style="color:rgba(59,130,246,.5);font-size:.75rem;flex-shrink:0;"></i>
-          <div style="flex:1;min-width:200px;">
-            <div style="font-family:'Orbitron',monospace;font-size:.47rem;letter-spacing:.12em;color:rgba(59,130,246,.55);margin-bottom:4px;">NVD API KEY <span style="color:rgba(255,255,255,.2);">— OPTIONAL · 10× HIGHER RATE LIMIT</span></div>
-            <input id="nvd-api-key-input" type="password" placeholder="Paste your key from nvd.nist.gov/developers/request-an-api-key"
-              style="width:100%;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:7px 12px;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:#93c5fd;outline:none;transition:border-color .2s ease;"
-              oninput="nvdApiKey=this.value.trim()"
-              onfocus="this.style.borderColor='rgba(59,130,246,.5)'"
-              onblur="this.style.borderColor='rgba(59,130,246,.2)'"/>
-          </div>
-          <a href="https://nvd.nist.gov/developers/request-an-api-key" target="_blank" style="font-family:'Orbitron',monospace;font-size:.48rem;color:rgba(59,130,246,.6);text-decoration:none;letter-spacing:.08em;white-space:nowrap;border:1px solid rgba(59,130,246,.2);padding:5px 10px;border-radius:7px;transition:all .2s ease;" onmouseover="this.style.background='rgba(59,130,246,.1)'" onmouseout="this.style.background='transparent'"><i class="fas fa-external-link-alt" style="font-size:.45rem;margin-right:4px;"></i>GET KEY</a>
-        </div>
-      </div>
+    <div class="examples">
+      Try:
+      <span class="ex" onclick="qs('microsoft')">microsoft</span>
+      <span class="ex" onclick="qs('apache')">apache</span>
+      <span class="ex" onclick="qs('openssl')">openssl</span>
+      <span class="ex" onclick="qs('log4j')">log4j</span>
+      <span class="ex" onclick="qs('cisco ios')">cisco ios</span>
+      <span class="ex" onclick="qs('linux kernel')">linux kernel</span>
+      <span class="ex" onclick="qs('google chrome')">chrome</span>
     </div>
   </div>
-</section>
 
-<!-- ══ RESULTS AREA ══ -->
-<section class="relative z-10 pb-20 px-4" id="results-section">
-  <div class="max-w-5xl mx-auto">
-
-    <!-- State: idle -->
-    <div id="state-idle" class="state-section">
-      <div class="big-icon" style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.18);">
-        <i class="fas fa-shield-virus" style="color:rgba(59,130,246,.5);"></i>
-      </div>
-      <p style="font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.15em;color:rgba(255,255,255,.2);">SEARCH OR SELECT A PRODUCT ABOVE</p>
+  <!-- STATUS BAR -->
+  <div id="status-bar">
+    <div class="chips">
+      <div class="chip wait" id="ch-nvd"><div class="d"></div>NVD</div>
+      <div class="chip wait" id="ch-epss"><div class="d"></div>EPSS</div>
+      <div class="chip wait" id="ch-kev"><div class="d"></div>CISA KEV</div>
+      <div class="chip wait" id="ch-osv"><div class="d"></div>OSV</div>
+      <div class="chip wait" id="ch-github"><div class="d"></div>GITHUB</div>
     </div>
-
-    <!-- State: loading -->
-    <div id="state-loading" style="display:none;" class="state-section">
-      <div class="big-icon" style="background:rgba(255,20,147,.07);border:1px solid rgba(255,20,147,.22);position:relative;overflow:hidden;">
-        <div class="scan-line"></div>
-        <i class="fas fa-satellite-dish" style="color:var(--pink);animation:dotPulse 1.2s infinite;"></i>
-      </div>
-      <p style="font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--pink);">SCANNING ALL SOURCES<span class="blink">...</span></p>
-      <div style="display:flex;flex-direction:column;gap:6px;width:100%;max-width:320px;">
-        <div id="load-nvd-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.12);border-radius:10px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#3b82f6;animation:dotPulse 1.2s infinite;flex-shrink:0;"></span>
-          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(59,130,246,.7);letter-spacing:.1em;flex:1;">NVD / NIST</span>
-          <span id="load-nvd" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
-        </div>
-        <div id="load-kev-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.1);border-radius:10px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#ef4444;animation:dotPulse 1.4s infinite;flex-shrink:0;"></span>
-          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(239,68,68,.7);letter-spacing:.1em;flex:1;">CISA KEV</span>
-          <span id="load-kev" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
-        </div>
-        <div id="load-gh-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.1);border-radius:10px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#a855f7;animation:dotPulse 1.6s infinite;flex-shrink:0;"></span>
-          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(168,85,247,.7);letter-spacing:.1em;flex:1;">GITHUB ADVISORY</span>
-          <span id="load-gh" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
-        </div>
-        <div id="load-epss-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.1);border-radius:10px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:dotPulse 1.8s infinite;flex-shrink:0;"></span>
-          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(34,197,94,.7);letter-spacing:.1em;flex:1;">EPSS / FIRST.org</span>
-          <span id="load-epss" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
-        </div>
-        <div id="load-osv-row" style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.1);border-radius:10px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#f59e0b;animation:dotPulse 2s infinite;flex-shrink:0;"></span>
-          <span style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(245,158,11,.7);letter-spacing:.1em;flex:1;">OSV / GOOGLE</span>
-          <span id="load-osv" style="font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.25);">querying...</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- State: error -->
-    <div id="state-error" style="display:none;" class="state-section">
-      <div class="big-icon" style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);">
-        <i class="fas fa-circle-exclamation" style="color:#ef4444;"></i>
-      </div>
-      <p style="font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.15em;color:#ef4444;">SCAN ERROR</p>
-      <p id="error-msg" style="font-family:'Rajdhani',sans-serif;font-size:.92rem;color:rgba(255,255,255,.4);max-width:400px;text-align:center;"></p>
-      <button onclick="retrySearch()" style="margin-top:8px;padding:10px 24px;border:1px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.1em;background:transparent;border-radius:10px;cursor:pointer;transition:all .3s ease;" onmouseover="this.style.background='rgba(255,20,147,.1)'" onmouseout="this.style.background='transparent'"><i class="fas fa-redo"></i> RETRY</button>
-    </div>
-
-    <!-- State: results -->
-    <div id="state-results" style="display:none;">
-
-      <!-- Results header -->
-      <div class="glass-strong rounded-2xl p-5 mb-5 flex flex-col gap-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <div id="res-product-icon" style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;"></div>
-            <div>
-              <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.28);letter-spacing:.12em;margin-bottom:3px;">VULNERABILITY REPORT</div>
-              <div class="font-display font-black text-white" style="font-size:1.5rem;" id="res-title">—</div>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-2 items-center">
-            <div id="res-count-badge" style="font-family:'Orbitron',monospace;font-size:.6rem;padding:5px 12px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.25);border-radius:8px;color:rgba(255,20,147,.8);"></div>
-            <div id="res-kev-banner"></div>
-          </div>
-        </div>
-        <!-- Source status bar -->
-        <div id="source-status-bar" style="display:flex;gap:6px;flex-wrap:wrap;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);">
-          <div id="src-status-nvd" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.12);border-radius:9px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#3b82f6;flex-shrink:0;"></span>
-            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(59,130,246,.65);letter-spacing:.1em;flex-shrink:0;">NVD</span>
-            <span id="src-nvd-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">—</span>
-          </div>
-          <div id="src-status-kev" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.1);border-radius:9px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>
-            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(239,68,68,.65);letter-spacing:.1em;flex-shrink:0;">CISA KEV</span>
-            <span id="src-kev-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">—</span>
-          </div>
-          <div id="src-status-gh" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.1);border-radius:9px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#a855f7;flex-shrink:0;"></span>
-            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(168,85,247,.65);letter-spacing:.1em;flex-shrink:0;">GITHUB</span>
-            <span id="src-gh-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">—</span>
-          </div>
-          <div id="src-status-epss" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.1);border-radius:9px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;"></span>
-            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(34,197,94,.65);letter-spacing:.1em;flex-shrink:0;">EPSS</span>
-            <span id="src-epss-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">CVE ID only</span>
-          </div>
-          <div id="src-status-osv" style="flex:1;min-width:140px;display:flex;align-items:center;gap:7px;padding:7px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.1);border-radius:9px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></span>
-            <span style="font-family:'Orbitron',monospace;font-size:.45rem;color:rgba(245,158,11,.65);letter-spacing:.1em;flex-shrink:0;">OSV</span>
-            <span id="src-osv-label" style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);">CVE ID only</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Two-column: list + detail -->
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
-
-        <!-- CVE List (left) -->
-        <div class="lg:col-span-2">
-          <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(255,255,255,.28);margin-bottom:8px;padding-left:2px;">VULNERABILITIES FOUND</div>
-          <div class="sev-filter">
-            <button class="sev-filter-btn f-all active-filter" onclick="setSevFilter('all',this)">ALL</button>
-            <button class="sev-filter-btn f-critical" onclick="setSevFilter('critical',this)">CRITICAL</button>
-            <button class="sev-filter-btn f-high" onclick="setSevFilter('high',this)">HIGH</button>
-            <button class="sev-filter-btn f-medium" onclick="setSevFilter('medium',this)">MEDIUM</button>
-            <button class="sev-filter-btn f-low" onclick="setSevFilter('low',this)">LOW</button>
-          </div>
-          <div id="cve-list" style="display:flex;flex-direction:column;gap:8px;max-height:680px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:rgba(255,20,147,.3) transparent;"></div>
-        </div>
-
-        <!-- Detail panel (right) -->
-        <div class="lg:col-span-3">
-          <div id="detail-idle" class="state-section" style="padding:40px 20px;">
-            <i class="fas fa-arrow-left" style="color:rgba(255,20,147,.3);font-size:1.5rem;"></i>
-            <p style="font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.15em;color:rgba(255,255,255,.2);">SELECT A CVE TO INSPECT</p>
-          </div>
-          <div id="detail-panel" class="detail-panel" style="display:none;">
-            <div style="display:flex;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;">
-              <button class="detail-tab-btn active" onclick="switchDetailTab('overview',this)">OVERVIEW</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('epss',this)">EPSS RISK</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('osv',this)">OSV PACKAGES</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('kev',this)">CISA KEV</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('github',this)">GITHUB</button>
-              <button class="detail-tab-btn" onclick="switchDetailTab('exploit',this)">EXPLOIT-DB</button>
-            </div>
-            <div id="detail-content" class="p-5"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- GitHub advisory section (for non-CVE searches) -->
-      <div id="github-results-section" style="display:none;margin-top:20px;">
-        <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.18em;color:rgba(168,85,247,.5);margin-bottom:10px;"><i class="fab fa-github" style="margin-right:6px;"></i>GITHUB ADVISORY DATABASE</div>
-        <div id="github-advisory-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-      </div>
-    </div>
-
+    <div id="status-meta"></div>
   </div>
-</section>
 
-<!-- ══ MARQUEE ══ -->
-<div class="pink-divider"></div>
-<div class="py-5 overflow-hidden">
-  <div class="marquee-wrap">
-    <div class="marquee" style="display:inline-flex;">
-      <span class="marquee-item"><i class="fas fa-bug"></i> LOG4SHELL CVE-2021-44228 <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fab fa-windows"></i> WINDOWS PRINT SPOOLER <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fab fa-wordpress"></i> WORDPRESS PLUGIN VULNS <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-database"></i> SQL INJECTION ATTACKS <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-shield-alt"></i> CISA KEV CATALOG <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fab fa-github"></i> GITHUB ADVISORY DB <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-exclamation-triangle"></i> ACTIVELY EXPLOITED IN THE WILD <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-bug"></i> LOG4SHELL CVE-2021-44228 <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fab fa-windows"></i> WINDOWS PRINT SPOOLER <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fab fa-wordpress"></i> WORDPRESS PLUGIN VULNS <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-database"></i> SQL INJECTION ATTACKS <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-shield-alt"></i> CISA KEV CATALOG <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fab fa-github"></i> GITHUB ADVISORY DB <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item"><i class="fas fa-exclamation-triangle"></i> ACTIVELY EXPLOITED IN THE WILD <span class="marquee-sep">✦</span></span>
+  <!-- FILTER BAR -->
+  <div id="filter-bar">
+    <span class="fl">SEVERITY</span>
+    <button class="fb on" data-s="ALL"      onclick="setF('ALL',this)">ALL</button>
+    <button class="fb"    data-s="CRITICAL" onclick="setF('CRITICAL',this)">CRITICAL</button>
+    <button class="fb"    data-s="HIGH"     onclick="setF('HIGH',this)">HIGH</button>
+    <button class="fb"    data-s="MEDIUM"   onclick="setF('MEDIUM',this)">MEDIUM</button>
+    <button class="fb"    data-s="LOW"      onclick="setF('LOW',this)">LOW</button>
+    <button class="fb"    data-s="KEV"      onclick="setF('KEV',this)">⚡ KEV ONLY</button>
+    <span id="fcount"></span>
+  </div>
+
+  <!-- STATES -->
+  <div class="state on" id="s-idle">
+    <div class="state-icon">🛡</div>
+    <div class="state-title">READY TO SEARCH</div>
+    <div class="state-sub">Enter a product name to query all intelligence sources simultaneously.</div>
+  </div>
+  <div class="state" id="s-loading">
+    <div class="spinner"></div>
+    <div class="state-title">QUERYING INTEL SOURCES</div>
+    <div class="state-sub">NVD · CISA KEV · EPSS · OSV · GitHub Advisories</div>
+  </div>
+  <div class="state" id="s-error">
+    <div class="state-icon">⚠</div>
+    <div class="err-box" id="err-msg"></div>
+    <button class="search-go" onclick="doSearch()" style="height:44px;padding:0 20px;font-size:.78rem;margin-top:4px;">RETRY</button>
+  </div>
+  <div class="state" id="s-empty">
+    <div class="state-icon">○</div>
+    <div class="state-title">NO RESULTS</div>
+    <div class="state-sub">Try a broader keyword — vendor names or technology stacks work best.</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="grid"></div>
+
+  <!-- GITHUB -->
+  <div id="gh-section">
+    <div class="sec-head">
+      <h2>GITHUB ADVISORIES</h2>
+      <div class="sec-hr"></div>
+      <div class="sec-n" id="gh-n"></div>
     </div>
+    <div class="gh-grid" id="gh-grid"></div>
   </div>
-</div>
-<div class="pink-divider"></div>
 
-<!-- ══ CTA ══ -->
-<section class="relative z-10 py-16 px-4 pb-24">
-  <div class="max-w-3xl mx-auto">
-    <div class="glass-strong rounded-3xl p-10 text-center relative overflow-hidden" style="border-color:rgba(255,20,147,.3);">
-      <div style="position:absolute;top:-60%;left:-20%;width:140%;height:200%;background:radial-gradient(ellipse,rgba(255,20,147,.07),transparent 60%);pointer-events:none;"></div>
-      <div class="section-tag mb-4">GREYHAT4HIRE</div>
-      <h3 class="font-display font-black text-white mb-4" style="font-size:clamp(1.3rem,2.8vw,2rem);">Is your business running any of these?</h3>
-      <p style="font-family:'Rajdhani',sans-serif;font-size:1rem;color:rgba(255,255,255,.5);margin-bottom:24px;line-height:1.6;max-width:480px;margin-left:auto;margin-right:auto;">Our penetration testing team can confirm whether your specific versions are exposed and show you exactly how an attacker would exploit it — before they do.</p>
-      <div class="flex gap-4 justify-center flex-wrap">
-        <a href="contact.html" class="btn-primary pulse-glow"><i class="fas fa-shield-alt"></i> Book a Pentest</a>
-        <a href="services.html" class="btn-ghost"><i class="fas fa-list"></i> View Services</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FOOTER ══ -->
-<footer class="relative z-10 py-8 px-4 border-t border-pink-900/20">
-  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-    <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:.9rem;color:#ff1493;text-shadow:0 0 14px rgba(255,20,147,.5);">GREY<span style="color:#fff;">HAT</span>4HIRE</div>
-    <p style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.22);text-align:center;letter-spacing:.07em;">Data sourced from NVD (NIST), CISA KEV, GitHub Advisory Database & Exploit-DB. For informational use only.</p>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.2);">© 2025 Greyhat4Hire</div>
-  </div>
-</footer>
+</main>
 
 <script>
-/* ══════════════════════════════
-   CURSOR
-══════════════════════════════ */
-const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-let mX=0,mY=0,cX=0,cY=0;
-document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY;});
-document.body.classList.add('cursor-ready');
-(function animCur(){
-  cX+=(mX-cX)*.42;cY+=(mY-cY)*.42;
-  cur.style.transform=`translate(${cX-7}px,${cY-7}px)`;
-  cur2.style.transform=`translate(${mX-2}px,${mY-2}px)`;
-  requestAnimationFrame(animCur);
-})();
+/* ═══════════════════════════
+   STATE
+═══════════════════════════ */
+let ALL_CVES = [], ACTIVE_F = 'ALL';
 
-/* ══════════════════════════════
-   THREE.JS BACKGROUND
-══════════════════════════════ */
-try{(function(){
-  const canvas=document.getElementById('three-canvas');
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-  camera.position.z=5;
-  const geo=new THREE.BufferGeometry(),count=1400,pos=new Float32Array(count*3);
-  for(let i=0;i<count*3;i++)pos[i]=(Math.random()-.5)*28;
-  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-  const mat=new THREE.PointsMaterial({color:0xff1493,size:.025,transparent:true,opacity:.32});
-  const stars=new THREE.Points(geo,mat);
-  scene.add(stars);
-  let t=0;
-  (function anim(){requestAnimationFrame(anim);t+=.0003;stars.rotation.y=t*.4;stars.rotation.x=t*.15;renderer.render(scene,camera);})();
-  window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
-})();}catch(e){console.warn('Three.js unavailable',e);}
+/* ═══════════════════════════
+   UTILS
+═══════════════════════════ */
+const e = str => { const d=document.createElement('div'); d.textContent=str; return d.innerHTML; };
 
-/* ══════════════════════════════
-   NAV + MOBILE MENU
-══════════════════════════════ */
-const navEl=document.getElementById('nav');
-window.addEventListener('scroll',()=>navEl.classList.toggle('nav-scrolled',window.scrollY>40));
-document.getElementById('hamburger').addEventListener('click',()=>{
-  const m=document.getElementById('mobile-menu');
-  m.classList.remove('hidden');
-  setTimeout(()=>m.classList.add('open'),10);
-});
-document.getElementById('close-menu').addEventListener('click',()=>{
-  const m=document.getElementById('mobile-menu');
-  m.classList.remove('open');
-  setTimeout(()=>m.classList.add('hidden'),400);
-});
-
-/* ══════════════════════════════
-   GSAP REVEAL
-══════════════════════════════ */
-gsap.registerPlugin(ScrollTrigger);
-document.querySelectorAll('.gsap-hidden').forEach((el,i)=>{
-  gsap.to(el,{opacity:1,y:0,duration:.8,delay:i*.07,ease:'power3.out',
-    scrollTrigger:{trigger:el,start:'top 90%',once:true}});
-});
-
-/* ══════════════════════════════
-   PRODUCT DEFINITIONS
-══════════════════════════════ */
-const PRODUCTS=[
-  // OS
-  {id:'windows',    name:'Windows',       icon:'fab fa-windows',       color:'#3b82f6',glow:'rgba(59,130,246,.6)',  bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'os',     keyword:'microsoft windows',      note:'OS'},
-  {id:'linux',      name:'Linux',         icon:'fab fa-linux',          color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'os',     keyword:'linux kernel',           note:'OS'},
-  {id:'macos',      name:'macOS',         icon:'fab fa-apple',          color:'#e0e0e0',glow:'rgba(200,200,200,.5)',bg:'rgba(200,200,200,.07)',border:'rgba(200,200,200,.2)',  cat:'os',     keyword:'apple macos',            note:'OS'},
-  {id:'android',    name:'Android',       icon:'fab fa-android',        color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'os',     keyword:'google android',         note:'OS'},
-  {id:'ios',        name:'iOS',           icon:'fab fa-apple',          color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'os',     keyword:'apple ios',              note:'OS'},
-  // Web & CMS
-  {id:'wordpress',  name:'WordPress',     icon:'fab fa-wordpress',      color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'web',    keyword:'wordpress',              note:'CMS'},
-  {id:'apache',     name:'Apache',        icon:'fas fa-server',         color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'web',    keyword:'apache http server',     note:'Web'},
-  {id:'nginx',      name:'Nginx',         icon:'fas fa-server',         color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'web',    keyword:'nginx',                  note:'Web'},
-  {id:'php',        name:'PHP',           icon:'fab fa-php',            color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'web',    keyword:'php',                    note:'Lang'},
-  {id:'drupal',     name:'Drupal',        icon:'fab fa-drupal',         color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.1)',  border:'rgba(59,130,246,.35)', cat:'web',    keyword:'drupal',                 note:'CMS'},
-  {id:'joomla',     name:'Joomla',        icon:'fab fa-joomla',         color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'web',    keyword:'joomla',                 note:'CMS'},
-  {id:'openssl',    name:'OpenSSL',       icon:'fas fa-lock',           color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'web',    keyword:'openssl',                note:'Crypto'},
-  // Databases
-  {id:'mysql',      name:'MySQL',         icon:'fas fa-database',       color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'db',     keyword:'mysql',                  note:'DB'},
-  {id:'mssql',      name:'SQL Server',    icon:'fas fa-database',       color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'db',     keyword:'microsoft sql server',   note:'DB'},
-  {id:'postgres',   name:'PostgreSQL',    icon:'fas fa-database',       color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'db',     keyword:'postgresql',             note:'DB'},
-  {id:'mongodb',    name:'MongoDB',       icon:'fas fa-leaf',           color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'db',     keyword:'mongodb',                note:'DB'},
-  {id:'redis',      name:'Redis',         icon:'fas fa-memory',         color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'db',     keyword:'redis',                  note:'DB'},
-  {id:'oracle',     name:'Oracle DB',     icon:'fas fa-database',       color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'db',     keyword:'oracle database',        note:'DB'},
-  // Network
-  {id:'cisco',      name:'Cisco IOS',     icon:'fas fa-network-wired',  color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'network',keyword:'cisco ios',              note:'Net'},
-  {id:'fortinet',   name:'FortiGate',     icon:'fas fa-shield-alt',     color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'network',keyword:'fortios',                note:'FW'},
-  {id:'paloalto',   name:'Palo Alto',     icon:'fas fa-fire-alt',       color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'network',keyword:'pan-os',                 note:'NGFW'},
-  {id:'juniper',    name:'Juniper',       icon:'fas fa-tree',           color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'network',keyword:'junos',                   note:'Net'},
-  {id:'openvpn',    name:'OpenVPN',       icon:'fas fa-key',            color:'#a855f7',glow:'rgba(168,85,247,.6)', bg:'rgba(168,85,247,.1)',  border:'rgba(168,85,247,.3)',   cat:'network',keyword:'openvpn',                note:'VPN'},
-  // Cloud & Dev
-  {id:'docker',     name:'Docker',        icon:'fab fa-docker',         color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'cloud',  keyword:'docker',                 note:'Cloud'},
-  {id:'kubernetes', name:'Kubernetes',    icon:'fas fa-dharmachakra',   color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'cloud',  keyword:'kubernetes',             note:'Cloud'},
-  {id:'jenkins',    name:'Jenkins',       icon:'fas fa-cogs',           color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'cloud',  keyword:'jenkins',                note:'CI/CD'},
-  {id:'aws',        name:'AWS',           icon:'fab fa-aws',            color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'cloud',  keyword:'amazon web services',    note:'Cloud'},
-  {id:'nodejs',     name:'Node.js',       icon:'fab fa-node-js',        color:'#22c55e',glow:'rgba(34,197,94,.6)',  bg:'rgba(34,197,94,.1)',   border:'rgba(34,197,94,.35)',   cat:'cloud',  keyword:'node.js',                note:'JS'},
-  // Office & Apps
-  {id:'msoffice',   name:'MS Office',     icon:'fas fa-file-word',      color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'microsoft office',       note:'Office'},
-  {id:'exchange',   name:'Exchange',      icon:'fas fa-envelope',       color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'microsoft exchange',      note:'Email'},
-  {id:'adobe',      name:'Acrobat',       icon:'fas fa-file-pdf',       color:'#ef4444',glow:'rgba(239,68,68,.6)',  bg:'rgba(239,68,68,.1)',   border:'rgba(239,68,68,.3)',    cat:'office', keyword:'adobe acrobat',          note:'PDF'},
-  {id:'chrome',     name:'Chrome',        icon:'fab fa-chrome',         color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'office', keyword:'google chrome',          note:'Browser'},
-  {id:'firefox',    name:'Firefox',       icon:'fab fa-firefox',        color:'#f59e0b',glow:'rgba(245,158,11,.6)', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.35)',  cat:'office', keyword:'mozilla firefox',        note:'Browser'},
-  {id:'zoom',       name:'Zoom',          icon:'fas fa-video',          color:'#3b82f6',glow:'rgba(59,130,246,.6)', bg:'rgba(59,130,246,.12)', border:'rgba(59,130,246,.35)', cat:'office', keyword:'zoom video',             note:'Collab'},
-];
-
-/* ══════════════════════════════
-   STATE — declared FIRST to avoid TDZ
-══════════════════════════════ */
-let currentProduct = null;
-let kevData        = null;
-let currentCVEs    = [];
-let lastSearch     = null;
-let activeCVE      = null;
-
-/* ══════════════════════════════
-   INJECT PER-PRODUCT CARD STYLES
-══════════════════════════════ */
-(function injectCardStyles(){
-  const s=document.createElement('style');
-  let css='';
-  PRODUCTS.forEach(p=>{
-    css+=`.product-card[data-id="${p.id}"]::before{background:linear-gradient(90deg,transparent,${p.color},transparent);}`;
-    css+=`.product-card[data-id="${p.id}"]:hover{border-color:${p.border};box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px ${p.border},0 0 30px ${p.glow};}`;
-    css+=`.product-card[data-id="${p.id}"].selected{border-color:${p.color};background:${p.bg};box-shadow:0 0 0 2px ${p.color},0 14px 44px rgba(0,0,0,.8),0 0 40px ${p.glow};transform:translateY(-5px);}`;
-    css+=`.product-card[data-id="${p.id}"].selected .pc-name{color:#fff;}`;
-    css+=`.product-card[data-id="${p.id}"] .pc-icon{color:${p.color};background:${p.bg};border:1px solid ${p.border};}`;
-    css+=`.product-card[data-id="${p.id}"]:hover .pc-icon{box-shadow:0 0 18px ${p.glow};}`;
-    css+=`.product-card[data-id="${p.id}"].selected .pc-icon{box-shadow:0 0 28px ${p.glow};}`;
+function showState(id) {
+  ['s-idle','s-loading','s-error','s-empty'].forEach(s => {
+    document.getElementById(s).classList.toggle('on', s === id);
   });
-  s.textContent=css;
-  document.head.appendChild(s);
-})();
+}
+function chip(id, status) {
+  const el = document.getElementById('ch-' + id);
+  if (el) el.className = 'chip ' + status;
+}
+function sevClass(sev) {
+  return {CRITICAL:'sc',HIGH:'sh',MEDIUM:'sm',LOW:'sl'}[sev] || '';
+}
+function sevBadgeClass(sev) {
+  return {CRITICAL:'sc-b',HIGH:'sh-b',MEDIUM:'sm-b',LOW:'sl-b'}[sev] || 'sn-b';
+}
+function scoreColor(sev) {
+  return {CRITICAL:'var(--red)',HIGH:'var(--amber)',MEDIUM:'var(--pink)',LOW:'var(--green)'}[sev] || 'var(--t3)';
+}
+function epssColor(score) {
+  if (score >= .7) return 'var(--red)';
+  if (score >= .3) return 'var(--amber)';
+  if (score >= .05) return 'var(--cyan)';
+  return 'var(--t3)';
+}
 
-/* ══════════════════════════════
-   RENDER PRODUCT GRID
-══════════════════════════════ */
-function renderProductGrid(cat='all'){
-  const grid=document.getElementById('product-grid');
-  grid.innerHTML='';
-  const filtered=cat==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat);
-  filtered.forEach(p=>{
-    const card=document.createElement('div');
-    card.className='product-card';
-    card.setAttribute('data-id',p.id);
-    card.innerHTML=
-      `<div class="pc-icon"><i class="${p.icon}"></i></div>`+
-      `<div class="pc-name">${p.name}</div>`+
-      `<div class="pc-cat">${p.note}</div>`;
-    card.onclick=()=>selectProduct(p);
+/* ═══════════════════════════
+   SEARCH
+═══════════════════════════ */
+function qs(term) { document.getElementById('qi').value = term; doSearch(); }
+
+document.getElementById('qi').addEventListener('keydown', ev => { if (ev.key === 'Enter') doSearch(); });
+
+async function doSearch() {
+  const q = document.getElementById('qi').value.trim();
+  if (!q) return;
+
+  ACTIVE_F = 'ALL';
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+  document.querySelector('.fb[data-s="ALL"]').classList.add('on');
+
+  ['nvd','epss','kev','osv','github'].forEach(id => chip(id,'wait'));
+  document.getElementById('status-bar').style.display = 'flex';
+  document.getElementById('filter-bar').style.display = 'none';
+  document.getElementById('grid').style.display = 'none';
+  document.getElementById('gh-section').style.display = 'none';
+  document.getElementById('status-meta').innerHTML = '';
+  showState('s-loading');
+
+  try {
+    const res  = await fetch(`/api/vuln?q=${encodeURIComponent(q)}&limit=20`);
+    const data = await res.json();
+
+    const meta = data.meta || {};
+    const src  = meta.sources || {};
+
+    chip('nvd',    src.nvd    ? 'ok' : 'err');
+    chip('epss',   src.epss   ? 'ok' : 'err');
+    chip('kev',    src.kev    ? 'ok' : 'err');
+    chip('osv',    src.osv    ? 'ok' : 'err');
+    chip('github', src.github ? 'ok' : 'err');
+
+    ALL_CVES = data.cves || [];
+
+    if (!ALL_CVES.length) {
+      if (meta.error) {
+        document.getElementById('err-msg').textContent = meta.error;
+        showState('s-error');
+      } else {
+        showState('s-empty');
+      }
+      document.getElementById('status-bar').style.display = 'flex';
+      return;
+    }
+
+    const kevTxt = meta.kevCount > 0
+      ? ` · <span style="color:var(--red)">⚡ ${meta.kevCount} KEV</span>` : '';
+    document.getElementById('status-meta').innerHTML =
+      `<strong>${meta.returned}</strong> / <strong>${(meta.total||meta.returned).toLocaleString()}</strong> CVEs${kevTxt}`;
+
+    renderCards(ALL_CVES);
+
+    showState(null);
+    document.getElementById('grid').style.display = 'grid';
+    document.getElementById('filter-bar').style.display = 'flex';
+    document.getElementById('fcount').textContent = `${ALL_CVES.length} shown`;
+
+    const github = data.github || [];
+    if (github.length) renderGitHub(github);
+
+  } catch (err) {
+    document.getElementById('err-msg').textContent = `Request failed: ${err.message}. Make sure vuln.js is deployed to functions/api/.`;
+    showState('s-error');
+  }
+}
+
+/* ═══════════════════════════
+   FILTER
+═══════════════════════════ */
+function setF(sev, btn) {
+  ACTIVE_F = sev;
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const filtered = getFiltered();
+  renderCards(filtered);
+  document.getElementById('fcount').textContent = `${filtered.length} shown`;
+}
+function getFiltered() {
+  if (ACTIVE_F === 'ALL') return ALL_CVES;
+  if (ACTIVE_F === 'KEV') return ALL_CVES.filter(c => c.kev);
+  return ALL_CVES.filter(c => (c.cvss?.severity||'NONE').toUpperCase() === ACTIVE_F);
+}
+
+/* ═══════════════════════════
+   RENDER CARDS
+═══════════════════════════ */
+function renderCards(cves) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  grid.style.display = cves.length ? 'grid' : 'none';
+
+  cves.forEach((cve, i) => {
+    const sev    = (cve.cvss?.severity || 'NONE').toUpperCase();
+    const sc     = sevClass(sev);
+    const sbc    = sevBadgeClass(sev);
+    const col    = scoreColor(sev);
+    const score  = cve.cvss?.score ?? '—';
+    const pub    = cve.published?.slice(0,10) || '—';
+    const epss   = cve.epss;
+    const epssW  = epss ? Math.min(epss.score * 100, 100) : 0;
+    const ec     = epss ? epssColor(epss.score) : 'var(--t3)';
+
+    const card = document.createElement('div');
+    card.className = `card ${sc}${cve.kev?' kev':''}`;
+    card.style.animationDelay = `${i*0.04}s`;
+    card.onclick = () => openDetail(cve);
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-id">${e(cve.id)}</div>
+        <div class="badges">
+          ${cve.kev ? '<div class="kev-b">EXPLOITED</div>' : ''}
+          <div class="sb ${sbc}">${sev}</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="big-score" style="color:${col}">${score}</div>
+        <div class="score-info">
+          <div class="score-lbl">CVSS ${e(cve.cvss?.version||'')}</div>
+          <div class="score-lbl">${e(pub)}</div>
+        </div>
+      </div>
+      <div class="desc">${e(cve.description||'No description available.')}</div>
+      <div class="card-foot">
+        ${epss !== null && epss !== undefined ? `
+          <div class="epss-block">
+            <div class="epss-hd">
+              <span>EPSS</span>
+              <span style="color:${ec}">${(epss.score*100).toFixed(2)}%</span>
+            </div>
+            <div class="epss-track">
+              <div class="epss-fill" style="width:${epssW.toFixed(2)}%;background:${ec};"></div>
+            </div>
+          </div>
+        ` : ''}
+        ${cve.osv ? `<div class="meta-tag hi"><b>📦 ${cve.osv.count} OSV</b></div>` : ''}
+        ${cve.cwe?.length ? `<div class="meta-tag"><b>${e(cve.cwe[0])}</b></div>` : ''}
+      </div>
+    `;
     grid.appendChild(card);
   });
-  // Restore selected state
-  if(currentProduct){
-    const el=grid.querySelector(`.product-card[data-id="${currentProduct.id}"]`);
-    if(el) el.classList.add('selected');
-  }
 }
 
-function filterCat(cat,btn){
-  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderProductGrid(cat);
-}
+/* ═══════════════════════════
+   GITHUB SECTION
+═══════════════════════════ */
+function renderGitHub(advisories) {
+  const grid = document.getElementById('gh-grid');
+  const sec  = document.getElementById('gh-section');
+  grid.innerHTML = '';
+  document.getElementById('gh-n').textContent = `${advisories.length} advisories`;
 
-renderProductGrid(); // safe — currentProduct declared above
-
-/* ══════════════════════════════
-   UNIFIED SEARCH
-══════════════════════════════ */
-document.getElementById('main-search').addEventListener('keydown',e=>{
-  if(e.key==='Enter') runSearch();
-});
-
-function quickSearch(term){
-  document.getElementById('main-search').value=term;
-  runSearch();
-}
-
-function runSearch(){
-  const raw=document.getElementById('main-search').value.trim();
-  if(!raw) return;
-
-  addToHistory(raw);
-
-  // Auto-detect CVE ID
-  const isCVE=/^CVE-\d{4}-\d+$/i.test(raw);
-
-  currentProduct={
-    name: isCVE ? raw : `"${raw}"`,
-    icon:'fas fa-search', color:'#ff1493',
-    bg:'rgba(255,20,147,.08)', border:'rgba(255,20,147,.25)',
-    keyword: raw
-  };
-  lastSearch=currentProduct;
-
-  // Clear selected tile
-  document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected'));
-
-  document.getElementById('res-title').textContent=currentProduct.name;
-  document.getElementById('res-product-icon').innerHTML=`<i class="fas fa-search" style="color:#ff1493;"></i>`;
-  document.getElementById('res-product-icon').style.cssText=`width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.25);`;
-
-  _doSearch(isCVE ? 'cve' : 'keyword', raw);
-}
-
-async function selectProduct(product){
-  currentProduct=product;
-  lastSearch=product;
-  addToHistory(product.keyword);
-
-  // Highlight tile
-  document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected'));
-  const card=document.querySelector(`.product-card[data-id="${product.id}"]`);
-  if(card){card.classList.add('selected');card.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
-
-  // Set header
-  document.getElementById('res-title').textContent=product.name;
-  document.getElementById('res-product-icon').innerHTML=`<i class="${product.icon}" style="color:${product.color};"></i>`;
-  document.getElementById('res-product-icon').style.cssText=`width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;background:${product.bg};border:1px solid ${product.border};`;
-
-  // Also update the search bar for clarity
-  document.getElementById('main-search').value=product.keyword;
-
-  _doSearch('product', product.keyword);
-}
-
-async function _doSearch(mode, query){
-  showState('loading');
-  setLoadStatus('nvd','querying...');
-  setLoadStatus('kev','querying...');
-  setLoadStatus('gh','querying...');
-  setLoadStatus('epss', mode==='cve'?'querying...':'CVE ID only');
-  setLoadStatus('osv',  mode==='cve'?'querying...':'CVE ID only');
-  setTimeout(()=>{
-    const el=document.getElementById('state-loading');
-    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-  },50);
-
-  try{
-    const isCVE = mode==='cve';
-    const promises = [
-      isCVE ? fetchNVD(query,true,1) : fetchNVD(query,false,20),
-      fetchKEVCatalog(),
-      isCVE ? fetchGitHub(query,null) : fetchGitHub(null,query),
-      isCVE ? fetchEPSS(query) : Promise.resolve(null),
-      isCVE ? fetchOSV(query)  : Promise.resolve(null),
-    ];
-
-    const [nvdRes, kevRes, ghRes, epssRes, osvRes] = await Promise.allSettled(promises);
-
-    // --- NVD ---
-    const nvd = nvdRes.status==='fulfilled' ? nvdRes.value : {cves:[],failed:true,reason:'⚠ exception'};
-    const cves = nvd.cves||[];
-    if(nvd.failed){
-      setLoadStatus('nvd', nvd.reason||'⚠ failed');
-      setSrcStatus('nvd', nvd.reason||'failed', 'error');
-    } else {
-      setLoadStatus('nvd', cves.length ? `✓ ${cves.length} CVEs` : `✓ 0 results`);
-      setSrcStatus('nvd', nvd.reason||'ok', cves.length ? 'ok' : 'empty');
-    }
-
-    // --- KEV ---
-    const kev = kevRes.status==='fulfilled' ? kevRes.value : {data:null,failed:true};
-    kevData = kev.data||null;
-    setLoadStatus('kev', kevData ? `✓ ${kevData.length} entries` : `⚠ unavailable`);
-    setSrcStatus('kev', kevData ? `${kevData.length} entries loaded` : 'unavailable', kevData ? 'ok' : 'error');
-
-    // --- GitHub ---
-    const ghAdvisories = ghRes.status==='fulfilled' ? (ghRes.value||[]) : [];
-    if(!ghRateLimited){
-      setLoadStatus('gh', ghAdvisories.length ? `✓ ${ghAdvisories.length} advisories` : '✓ none');
-      setSrcStatus('gh', ghAdvisories.length ? `${ghAdvisories.length} advisories` : '0 advisories', ghAdvisories.length ? 'ok' : 'empty');
-    } else {
-      setSrcStatus('gh', 'rate limited', 'error');
-    }
-
-    // --- EPSS ---
-    const epssData = epssRes.status==='fulfilled' ? epssRes.value : null;
-    if(isCVE){
-      if(epssData){
-        const pct = Math.round(parseFloat(epssData.epss||0)*100);
-        setLoadStatus('epss',`✓ ${pct}% exploit probability`);
-        setSrcStatus('epss',`${pct}% exploitation probability`,'ok');
-      } else {
-        setLoadStatus('epss','⚠ unavailable');
-        setSrcStatus('epss','unavailable','error');
-      }
-    }
-
-    // --- OSV ---
-    const osvData = osvRes.status==='fulfilled' ? osvRes.value : null;
-    if(isCVE){
-      if(osvData&&osvData.length){
-        const pkgCount = osvData.reduce((a,v)=>{const pkgs=(v.affected||[]).length;return a+pkgs;},0);
-        setLoadStatus('osv',`✓ ${osvData.length} records, ${pkgCount} packages`);
-        setSrcStatus('osv',`${pkgCount} affected packages`,'ok');
-      } else if(osvData){
-        setLoadStatus('osv','✓ no OSV records');
-        setSrcStatus('osv','no records','empty');
-      } else {
-        setLoadStatus('osv','⚠ unavailable');
-        setSrcStatus('osv','unavailable','error');
-      }
-    }
-
-    // Store for detail tabs
-    window._lastEPSS = epssData;
-    window._lastOSV  = osvData;
-
-    // --- Nothing at all ---
-    if(cves.length===0 && ghAdvisories.length===0){
-      let hint = `Nothing found for "${sanitize(query)}".`;
-      if(nvd.failed){
-        hint = `NVD is unreachable: <span style="color:rgba(255,100,100,.8)">${sanitize(nvd.reason||'unknown error')}</span><br><br>Try searching directly on <a href="https://nvd.nist.gov/vuln/search" target="_blank" style="color:var(--pink);">nvd.nist.gov</a>, or paste your <a href="https://nvd.nist.gov/developers/request-an-api-key" target="_blank" style="color:var(--pink);">free NVD API key</a> in the box above to bypass rate limits.`;
-      }
-      showError(hint);
-      document.getElementById('error-msg').innerHTML = hint;
-      return;
-    }
-
-    currentCVEs = cves;
-    showState('results');
-    setTimeout(()=>{ document.getElementById('state-results')?.scrollIntoView({behavior:'smooth',block:'start'}); },50);
-
-    const kevMatches = kevData ? cves.filter(c=>isInKEV(c.id)).length : 0;
-    document.getElementById('res-count-badge').textContent=`${cves.length} CVEs FOUND`;
-    document.getElementById('res-kev-banner').innerHTML = kevMatches>0
-      ?`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.38);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:#ef4444;letter-spacing:.1em;animation:kevPulse 2s infinite;"><i class="fas fa-bomb" style="font-size:.5rem;"></i> ${kevMatches} ACTIVELY EXPLOITED</div>`
-      : kevData===null
-        ?`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:rgba(245,158,11,.65);letter-spacing:.1em;"><i class="fas fa-exclamation-triangle" style="font-size:.5rem;"></i> KEV UNAVAILABLE</div>`
-        :`<div style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;font-family:'Orbitron',monospace;font-size:.56rem;color:#22c55e;letter-spacing:.1em;"><i class="fas fa-check" style="font-size:.5rem;"></i> NONE IN KEV</div>`;
-
-    renderCVEList(cves);
-
-    if(ghAdvisories.length>0){
-      document.getElementById('github-results-section').style.display='block';
-      renderGithubSection(ghAdvisories);
-    } else {
-      document.getElementById('github-results-section').style.display='none';
-    }
-
-    if(cves.length>0) selectCVE(cves[0]);
-
-  }catch(err){
-    showError('Unexpected error: '+sanitize(err.message));
-  }
-}
-
-function setLoadStatus(src, msg){
-  const el=document.getElementById('load-'+src);
-  if(el) el.textContent=msg;
-}
-
-function setSrcStatus(src, msg, state){
-  const label = document.getElementById('src-'+src+'-label');
-  const box = document.getElementById('src-status-'+src);
-  if(!label||!box) return;
-  label.textContent = msg;
-  const colors = {
-    nvd:  {ok:'rgba(59,130,246,.12)',  border:'rgba(59,130,246,.3)',  dot:'#3b82f6'},
-    kev:  {ok:'rgba(239,68,68,.1)',    border:'rgba(239,68,68,.28)',  dot:'#ef4444'},
-    gh:   {ok:'rgba(168,85,247,.1)',   border:'rgba(168,85,247,.28)', dot:'#a855f7'},
-  };
-  const c = colors[src]||colors.nvd;
-  if(state==='ok'){
-    box.style.background = c.ok;
-    box.style.borderColor = c.border;
-    label.style.color = 'rgba(255,255,255,.6)';
-  } else if(state==='error'){
-    box.style.background = 'rgba(239,68,68,.06)';
-    box.style.borderColor = 'rgba(239,68,68,.3)';
-    label.style.color = '#ef4444';
-  } else { // empty
-    box.style.background = 'rgba(255,255,255,.02)';
-    box.style.borderColor = 'rgba(255,255,255,.07)';
-    label.style.color = 'rgba(255,255,255,.25)';
-  }
-}
-
-/* ══════════════════════════════
-   STATE MANAGEMENT
-══════════════════════════════ */
-function showState(state){
-  ['state-idle','state-loading','state-error','state-results'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.style.display='none';
+  advisories.forEach(adv => {
+    const sev = (adv.severity||'UNKNOWN').toUpperCase();
+    const sbc = sevBadgeClass({MODERATE:'MEDIUM'}[sev]||sev);
+    const c   = document.createElement('div');
+    c.className = 'gh-card';
+    c.innerHTML = `
+      <div class="gh-top">
+        <div class="gh-id">${e(adv.ghsaId||'—')}${adv.cveId?` · ${e(adv.cveId)}`:''}  </div>
+        <div class="sb ${sbc}" style="flex-shrink:0">${sev==='MODERATE'?'MEDIUM':sev}</div>
+      </div>
+      <div class="gh-sum">${e((adv.summary||'').slice(0,88))}${(adv.summary||'').length>88?'…':''}</div>
+      ${adv.packages?.filter(p=>p.name).length ? `
+        <div class="gh-pkgs">
+          ${adv.packages.filter(p=>p.name).map(p=>`<span class="gh-pkg">${e(p.ecosystem||'')} · ${e(p.name)}</span>`).join('')}
+        </div>` : ''}
+      <a class="gh-a" href="${e(adv.url||'#')}" target="_blank" rel="noopener">View on GitHub →</a>
+    `;
+    grid.appendChild(c);
   });
-  const el=document.getElementById('state-'+state);
-  if(el) el.style.display=state==='results'?'block':'flex';
+  sec.style.display = 'block';
 }
 
-function showError(msg){
-  document.getElementById('error-msg').textContent=msg;
-  showState('error');
-  setTimeout(()=>{
-    document.getElementById('state-error')?.scrollIntoView({behavior:'smooth',block:'start'});
-  },50);
-}
+/* ═══════════════════════════
+   DETAIL PANEL
+═══════════════════════════ */
+function openDetail(cve) {
+  const sev  = (cve.cvss?.severity||'NONE').toUpperCase();
+  const sbc  = sevBadgeClass(sev);
+  const col  = scoreColor(sev);
+  const epss = cve.epss;
 
-function retrySearch(){if(lastSearch) selectProduct(lastSearch);}
+  document.getElementById('dp-id').textContent = cve.id;
+  document.getElementById('dp-badges').innerHTML = `
+    <div class="sb ${sbc}">${sev}${cve.cvss?.score?' '+cve.cvss.score:''}</div>
+    ${cve.kev?'<div class="kev-b">ACTIVELY EXPLOITED</div>':''}
+  `;
 
-/* ══════════════════════════════
-   SEVERITY FILTER
-══════════════════════════════ */
-let activeSevFilter='all';
-function setSevFilter(sev, btn){
-  activeSevFilter=sev;
-  document.querySelectorAll('.sev-filter-btn').forEach(b=>b.classList.remove('active-filter'));
-  btn.classList.add('active-filter');
-  renderCVEList(currentCVEs);
-}
+  const body = document.getElementById('dp-body');
+  body.innerHTML = '';
 
-/* ══════════════════════════════
-   SEARCH HISTORY
-══════════════════════════════ */
-let searchHistory=[];
-function addToHistory(term){
-  if(!term) return;
-  searchHistory=searchHistory.filter(t=>t!==term);
-  searchHistory.unshift(term);
-  searchHistory=searchHistory.slice(0,5);
-  renderHistory();
-}
-function renderHistory(){
-  const wrap=document.getElementById('search-history-wrap');
-  const chips=document.getElementById('search-history-chips');
-  if(!searchHistory.length){wrap.style.display='none';return;}
-  wrap.style.display='flex';
-  chips.innerHTML='';
-  searchHistory.forEach(t=>{
-    const c=document.createElement('span');
-    c.className='history-chip';
-    c.innerHTML=`<i class="fas fa-history"></i>${sanitize(t)}`;
-    c.onclick=()=>quickSearch(t);
-    chips.appendChild(c);
-  });
-}
+  sec(body,'DESCRIPTION',`<div class="dp-desc">${e(cve.description||'No description.')}</div>`);
 
-/* ══════════════════════════════
-   WATCHLIST
-══════════════════════════════ */
-let watchlist=[]; // {id, description, score, severity}
-function toggleWatchlist(){
-  const panel=document.getElementById('watchlist-panel');
-  const overlay=document.getElementById('watchlist-overlay');
-  const isOpen=panel.classList.contains('open');
-  panel.classList.toggle('open',!isOpen);
-  overlay.classList.toggle('open',!isOpen);
-}
-function isWatched(cveId){return watchlist.some(w=>w.id===cveId);}
-function toggleWatch(cve){
-  const score=getCVSSScore(cve);
-  const sev=getSeverity(score);
-  const desc=(cve.descriptions?.find(d=>d.lang==='en')?.value||'No description').substring(0,120);
-  if(isWatched(cve.id)){
-    watchlist=watchlist.filter(w=>w.id!==cve.id);
-  } else {
-    watchlist.push({id:cve.id,description:desc,score:score??'N/A',severity:sev.label});
-  }
-  updateWatchlistUI();
-  // Refresh save buttons
-  document.querySelectorAll('.save-btn').forEach(btn=>{
-    if(btn.dataset.cveId===cve.id){
-      btn.classList.toggle('saved',isWatched(cve.id));
-      btn.innerHTML=isWatched(cve.id)
-        ?'<i class="fas fa-bookmark"></i> SAVED'
-        :'<i class="far fa-bookmark"></i> WATCH';
-    }
-  });
-}
-function updateWatchlistUI(){
-  const badge=document.getElementById('watchlist-badge');
-  const footer=document.getElementById('wl-footer');
-  const exportBtn=document.getElementById('wl-export-btn');
-  const items=document.getElementById('wl-items');
-  badge.style.display=watchlist.length?'flex':'none';
-  badge.textContent=watchlist.length;
-  footer.style.display=watchlist.length?'flex':'none';
-  exportBtn.style.display=watchlist.length?'inline-flex':'none';
-  if(!watchlist.length){
-    items.innerHTML=`<div class="wl-empty"><i class="fas fa-bookmark" style="font-size:2rem;color:rgba(168,85,247,.2);"></i><div style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(255,255,255,.2);letter-spacing:.15em;">NO SAVED CVEs</div><p style="font-family:'Rajdhani',sans-serif;font-size:.85rem;color:rgba(255,255,255,.3);">Click the bookmark icon on any CVE result to add it to your watchlist.</p></div>`;
-    return;
-  }
-  items.innerHTML='';
-  watchlist.forEach(w=>{
-    const sevColors={CRITICAL:'#ef4444',HIGH:'#f59e0b',MEDIUM:'#ff1493',LOW:'#22c55e',UNKNOWN:'#888'};
-    const col=sevColors[w.severity]||'#888';
-    const item=document.createElement('div');
-    item.className='wl-item';
-    item.innerHTML=`
-      <button class="wl-remove" onclick="removeFromWatchlist('${sanitize(w.id)}')" title="Remove"><i class="fas fa-times"></i></button>
-      <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
-        <div class="wl-item-id">${sanitize(w.id)}</div>
-        <span style="font-family:'Orbitron',monospace;font-size:.45rem;padding:2px 7px;border-radius:5px;border:1px solid;color:${col};border-color:${col}33;background:${col}18;">${sanitize(w.severity)}</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);">${w.score}</span>
-      </div>
-      <div class="wl-item-desc">${sanitize(w.description)}${w.description.length>=120?'…':''}</div>
-      <a href="https://nvd.nist.gov/vuln/detail/${sanitize(w.id)}" target="_blank" class="ref-link" style="font-size:.65rem;"><i class="fas fa-external-link-alt" style="font-size:.45rem;"></i> NVD →</a>`;
-    items.appendChild(item);
-  });
-}
-function removeFromWatchlist(cveId){
-  watchlist=watchlist.filter(w=>w.id!==cveId);
-  updateWatchlistUI();
-  document.querySelectorAll(`.save-btn[data-cve-id="${CSS.escape(cveId)}"]`).forEach(btn=>{
-    btn.classList.remove('saved');
-    btn.innerHTML='<i class="far fa-bookmark"></i> WATCH';
-  });
-}
-function clearWatchlist(){
-  watchlist=[];
-  updateWatchlistUI();
-  document.querySelectorAll('.save-btn').forEach(btn=>{
-    btn.classList.remove('saved');
-    btn.innerHTML='<i class="far fa-bookmark"></i> WATCH';
-  });
-}
-function exportWatchlist(){
-  if(!watchlist.length) return;
-  const header='CVE ID,Severity,CVSS Score,Description';
-  const rows=watchlist.map(w=>`${w.id},${w.severity},${w.score},"${w.description.replace(/"/g,'""')}"`);
-  const csv=[header,...rows].join('\n');
-  const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='cve-watchlist.csv';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-// Init watchlist UI
-updateWatchlistUI();
-
-/* ══════════════════════════════
-   NVD API KEY (optional - boosts rate limit from 5/30s to 50/30s)
-══════════════════════════════ */
-let nvdApiKey = '';
-
-/* ══════════════════════════════
-   API: NVD — returns {cves, failed, reason}
-══════════════════════════════ */
-const NVD_KEYWORD_MAP={
-  // Cloud
-  'amazon web services': ['amazon','aws lambda','amazon ec2','amazon s3'],
-  'amazon':              ['aws','amazon ec2','amazon s3','amazon rds'],
-  // Network gear
-  'cisco ios':           ['cisco','cisco systems'],
-  'fortios':             ['fortigate','fortinet'],
-  'pan-os':              ['palo alto','paloalto'],
-  'junos':               ['juniper','juniper networks'],
-  // OS
-  'apple macos':         ['macos','mac os x','apple mac'],
-  'apple ios':           ['ios','iphone os'],
-  'google android':      ['android'],
-  'microsoft windows':   ['windows'],
-  'linux kernel':        ['linux'],
-  // DB
-  'oracle database':     ['oracle db','oracle'],
-  'microsoft sql server':['sql server','mssql'],
-  // Web
-  'apache http server':  ['apache httpd','apache'],
-  'mozilla firefox':     ['firefox'],
-  'google chrome':       ['chrome'],
-  // Apps
-  'adobe acrobat':       ['acrobat reader','acrobat dc','adobe reader'],
-  'microsoft office':    ['ms office','office 365'],
-  'microsoft exchange':  ['exchange server'],
-  'zoom video':          ['zoom','zoom meetings'],
-  // Dev
-  'node.js':             ['nodejs','node js'],
-};
-
-async function nvdRawFetch(url){
-  const headers = nvdApiKey ? {'apiKey': nvdApiKey} : {};
-
-  // 1. Cloudflare Pages Function proxy — uses your NVD_API_KEY env var server-side
-  try{
-    const proxyRes = await fetch(`/api/vuln?url=${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
-    if(proxyRes.ok) return {data: await proxyRes.json(), via: 'cf-proxy'};
-    if(proxyRes.status===429) return {failed:true, reason:'⚠ NVD rate limited. Please wait 30s and try again.'};
-    if(proxyRes.status===403) return {failed:true, reason:'⚠ NVD access denied.'};
-    // Non-fatal: fall through to direct
-    setLoadStatus('nvd', `proxy returned ${proxyRes.status}, trying direct...`);
-  }catch(e){
-    setLoadStatus('nvd', 'proxy unavailable, trying direct...');
+  if (cve.cvss) {
+    sec(body,'CVSS METRICS',[
+      ['SCORE',    cve.cvss.score],
+      ['SEVERITY', sev],
+      ['VERSION',  cve.cvss.version||'—'],
+      ['VECTOR',   cve.cvss.vector||'—'],
+    ].map(([k,v])=>`<div class="dp-row"><div class="dp-k">${k}</div><div class="dp-v">${e(String(v))}</div></div>`).join(''));
   }
 
-  // 2. Direct (NVD v2 API has CORS: Access-Control-Allow-Origin: *)
-  try{
-    const res = await fetch(url, {headers, signal: AbortSignal.timeout(13000)});
-    if(res.ok) return {data: await res.json(), via: 'direct'};
-    if(res.status===429) return {failed:true, reason:'⚠ NVD rate limited (5 req/30s without API key). Wait 30s or redeploy with NVD_API_KEY set in Cloudflare.'};
-    if(res.status===403) return {failed:true, reason:'⚠ NVD access denied.'};
-    return {failed:true, reason:`⚠ NVD HTTP ${res.status}`};
-  }catch(e){
-    const isCors = e instanceof TypeError;
-    setLoadStatus('nvd', isCors ? 'direct blocked, trying public proxy...' : 'timeout, trying public proxy...');
+  if (epss) {
+    const pct  = (epss.score*100).toFixed(4);
+    const perc = (epss.percentile*100).toFixed(1);
+    sec(body,'EPSS — EXPLOIT PROBABILITY',
+      `<div class="dp-row"><div class="dp-k">PROBABILITY</div><div class="dp-v" style="color:var(--cyan)">${pct}%</div></div>
+       <div class="dp-row"><div class="dp-k">PERCENTILE</div><div class="dp-v">Higher risk than ${perc}% of CVEs</div></div>
+       <div class="epss-big-bar"><div class="epss-big-fill" style="width:${Math.min(epss.score*100,100).toFixed(2)}%"></div></div>`
+    );
   }
 
-  // 3. allorigins proxy
-  try{
-    const pRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
-    if(pRes.ok){
-      const w = await pRes.json();
-      if(w.contents) return {data: JSON.parse(w.contents), via:'allorigins'};
-    }
-  }catch(_){ setLoadStatus('nvd','allorigins failed, trying proxy 2...'); }
-
-  // 4. corsproxy.io
-  try{
-    const pRes2 = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {signal: AbortSignal.timeout(15000)});
-    if(pRes2.ok) return {data: await pRes2.json(), via:'corsproxy'};
-  }catch(_){}
-
-  return {failed:true, reason:'⚠ NVD unreachable (all routes failed). Check that NVD_API_KEY is set in Cloudflare Pages environment variables.'};
-}
-
-async function fetchNVD(query, isCVEId=false, count=20){
-  if(isCVEId){
-    const url=`https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=${encodeURIComponent(query.toUpperCase())}`;
-    const result = await nvdRawFetch(url);
-    if(result.failed){
-      // Try CIRCL as fallback for CVE ID lookups
-      setLoadStatus('nvd','NVD failed, trying CIRCL mirror...');
-      try{
-        const cr = await fetch(`https://cve.circl.lu/api/cve/${encodeURIComponent(query.toUpperCase())}`,{signal:AbortSignal.timeout(10000)});
-        if(cr.ok){
-          const cd = await cr.json();
-          if(cd&&cd.id){
-            // Normalise CIRCL data into NVD shape
-            const cve = {
-              id: cd.id,
-              published: cd.Published||cd.publishedDate||'',
-              lastModified: cd.Modified||cd.lastModifiedDate||'',
-              descriptions:[{lang:'en',value:cd.summary||cd.Description||'No description.'}],
-              metrics:{},
-              references:(cd.references||[]).map(u=>({url:u})),
-              weaknesses:[],
-              configurations:[]
-            };
-            if(cd.cvss){cve.metrics.cvssMetricV2=[{cvssData:{baseScore:parseFloat(cd.cvss),vectorString:cd.cvss_vector||''}}];}
-            if(cd.cvss3){cve.metrics.cvssMetricV31=[{cvssData:{baseScore:parseFloat(cd.cvss3),vectorString:cd.cvss3_vector||''}}];}
-            return {cves:[cve], failed:false, reason:'1 via CIRCL mirror'};
-          }
-        }
-      }catch(_){}
-      return {cves:[], failed:true, reason:result.reason};
-    }
-    const cves = (result.data.vulnerabilities||[]).map(v=>v.cve);
-    return {cves, failed:false, reason:`${cves.length} via ${result.via}`};
+  if (cve.kev) {
+    sec(body,'⚡ CISA KEV STATUS',
+      `<div class="dp-row"><div class="dp-k">STATUS</div><div class="dp-v" style="color:var(--red)">Active exploitation confirmed by CISA</div></div>
+       <div class="dp-row"><div class="dp-k">REQUIREMENT</div><div class="dp-v">Immediate patching — BOD 22-01</div></div>`
+    );
   }
 
-  const attempts = [query, ...(NVD_KEYWORD_MAP[query]||[])];
-  let hardFail = null;
-  for(const kw of attempts){
-    setLoadStatus('nvd', `trying "${kw}"...`);
-    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(kw)}&resultsPerPage=${count}`;
-    const result = await nvdRawFetch(url);
-    if(result.failed){
-      hardFail = result.reason;
-      if(result.reason.includes('rate') || result.reason.includes('denied') || result.reason.includes('unreachable')){
-        return {cves:[], failed:true, reason:result.reason};
-      }
-      continue;
-    }
-    const cves = (result.data.vulnerabilities||[]).map(v=>v.cve);
-    if(cves.length>0) return {cves, failed:false, reason:`${cves.length} via ${result.via}`};
-  }
-  if(hardFail) return {cves:[], failed:true, reason:hardFail};
-  return {cves:[], failed:false, reason:'0 results for any keyword variant'};
-}
-
-/* ══════════════════════════════
-   API: EPSS (Exploit Prediction Scoring System — FIRST.org)
-   Returns probability a CVE is exploited in the wild in next 30 days
-══════════════════════════════ */
-async function fetchEPSS(cveId){
-  try{
-    const res = await fetch(`https://api.first.org/data/v1/epss?cve=${encodeURIComponent(cveId)}`,{signal:AbortSignal.timeout(8000)});
-    if(!res.ok) return null;
-    const d = await res.json();
-    return d?.data?.[0]||null; // {cve, epss, percentile, date}
-  }catch(_){return null;}
-}
-
-/* ══════════════════════════════
-   API: OSV.dev (Google Open Source Vulnerability DB)
-   Returns affected open source package ecosystems + version ranges
-══════════════════════════════ */
-async function fetchOSV(cveId){
-  try{
-    const res = await fetch('https://api.osv.dev/v1/query',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({cve_id:cveId}),
-      signal:AbortSignal.timeout(8000)
-    });
-    if(!res.ok) return null;
-    const d = await res.json();
-    return d?.vulns||null; // array of OSV records
-  }catch(_){return null;}
-}
-
-/* ══════════════════════════════
-   API: CISA KEV — returns {data, failed, reason}
-══════════════════════════════ */
-let kevCatalogCache = null;
-async function fetchKEVCatalog(){
-  if(kevCatalogCache) return {data: kevCatalogCache, failed:false};
-  const KEV_URL = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json';
-
-  // 1. Direct
-  try{
-    const res = await fetch(KEV_URL, {signal: AbortSignal.timeout(8000)});
-    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'direct'};}
-  }catch(_){}
-
-  // 2. allorigins
-  try{
-    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(KEV_URL)}`, {signal:AbortSignal.timeout(14000)});
-    if(res.ok){const w=await res.json(); if(w.contents){const d=JSON.parse(w.contents); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'allorigins'};}}
-  }catch(_){}
-
-  // 3. corsproxy
-  try{
-    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(KEV_URL)}`, {signal:AbortSignal.timeout(14000)});
-    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'corsproxy'};}
-  }catch(_){}
-
-  // 4. thingproxy (last resort)
-  try{
-    const res = await fetch(`https://thingproxy.freeboard.io/fetch/${KEV_URL}`, {signal:AbortSignal.timeout(14000)});
-    if(res.ok){const d=await res.json(); kevCatalogCache=d.vulnerabilities||[]; return {data:kevCatalogCache,failed:false,via:'thingproxy'};}
-  }catch(_){}
-
-  return {data:null, failed:true, reason:'CORS blocked on all routes'};
-}
-
-function isInKEV(cveId){if(!kevData)return false;return kevData.some(v=>v.cveID?.toUpperCase()===cveId?.toUpperCase());}
-function getKEVEntry(cveId){if(!kevData)return null;return kevData.find(v=>v.cveID?.toUpperCase()===cveId?.toUpperCase())||null;}
-
-/* ══════════════════════════════
-   API: GitHub Advisory
-══════════════════════════════ */
-let ghRateLimited=false;
-async function fetchGitHub(cveId=null, keyword=null){
-  if(ghRateLimited) return[];
-  let url;
-  if(cveId)    url=`https://api.github.com/advisories?cve=${encodeURIComponent(cveId)}&per_page=5`;
-  else if(keyword) url=`https://api.github.com/advisories?q=${encodeURIComponent(keyword)}&per_page=5`;
-  else return[];
-  try{
-    const res=await fetch(url,{headers:{'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},signal:AbortSignal.timeout(10000)});
-    if(res.status===403||res.status===429){
-      ghRateLimited=true;
-      setLoadStatus('gh','⚠ rate limited');
-      showGHRateLimitWarning();
-      return[];
-    }
-    if(!res.ok) return[];
-    return await res.json();
-  }catch(_){return[];}
-}
-
-function showGHRateLimitWarning(){
-  const existing=document.getElementById('gh-ratelimit-warn');
-  if(existing) return;
-  const el=document.createElement('div');
-  el.id='gh-ratelimit-warn';
-  el.style.cssText='margin-top:10px;padding:9px 14px;background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.28);border-radius:10px;font-family:"Share Tech Mono",monospace;font-size:.6rem;color:rgba(168,85,247,.7);display:flex;align-items:center;gap:8px;';
-  el.innerHTML='<i class="fab fa-github"></i> GitHub Advisory rate limit reached (60 req/hr for unauthenticated). Results may be incomplete.';
-  const target=document.getElementById('github-results-section');
-  if(target) target.prepend(el);
-}
-
-/* ══════════════════════════════
-   SANITIZE (prevent XSS from API data)
-══════════════════════════════ */
-function sanitize(str){
-  if(!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
-}
-
-/* ══════════════════════════════
-   CVSS HELPERS
-══════════════════════════════ */
-function getSeverity(score){
-  if(score===null||score===undefined) return{label:'UNKNOWN',cls:'sev-none',color:'#888',sevCls:'none'};
-  if(score>=9)  return{label:'CRITICAL',cls:'sev-critical',color:'#ef4444',sevCls:'critical'};
-  if(score>=7)  return{label:'HIGH',    cls:'sev-high',    color:'#f59e0b',sevCls:'high'};
-  if(score>=4)  return{label:'MEDIUM',  cls:'sev-medium',  color:'#ff1493',sevCls:'medium'};
-  if(score>0)   return{label:'LOW',     cls:'sev-low',     color:'#22c55e',sevCls:'low'};
-  return{label:'NONE',cls:'sev-none',color:'#888',sevCls:'none'};
-}
-function getCVSSScore(cve){
-  const m=cve.metrics?.cvssMetricV31?.[0]||cve.metrics?.cvssMetricV30?.[0]||cve.metrics?.cvssMetricV2?.[0];
-  return m?.cvssData?.baseScore??null;
-}
-function getCVSSVector(cve){
-  const m=cve.metrics?.cvssMetricV31?.[0]||cve.metrics?.cvssMetricV30?.[0]||cve.metrics?.cvssMetricV2?.[0];
-  return m?.cvssData?.vectorString||null;
-}
-
-/* ══════════════════════════════
-   RENDER CVE LIST
-══════════════════════════════ */
-function renderCVEList(cves){
-  const list=document.getElementById('cve-list');
-  list.innerHTML='';
-  const filtered=activeSevFilter==='all'
-    ? cves
-    : cves.filter(cve=>{
-        const score=getCVSSScore(cve);
-        const sev=getSeverity(score);
-        return sev.sevCls===activeSevFilter;
-      });
-
-  if(filtered.length===0){
-    list.innerHTML=`<div style="text-align:center;padding:30px;font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(255,255,255,.2);letter-spacing:.15em;">NO ${activeSevFilter.toUpperCase()} CVEs IN THIS RESULT SET</div>`;
-    return;
+  if (cve.osv) {
+    sec(body,`OSV — ${cve.osv.count} PACKAGE MATCH${cve.osv.count!==1?'ES':''}`,
+      `<div class="osv-wrap">${cve.osv.ids.map(id=>`<span class="osv-tag">${e(id)}</span>`).join('')}</div>`
+    );
   }
 
-  filtered.forEach(cve=>{
-    const score=getCVSSScore(cve);
-    const sev=getSeverity(score);
-    const inKEV=isInKEV(cve.id);
-    const desc=cve.descriptions?.find(d=>d.lang==='en')?.value||'No description.';
-    const shortDesc=desc.length>90?desc.substring(0,90)+'…':desc;
-    const watched=isWatched(cve.id);
-    const item=document.createElement('div');
-    item.className=`cve-list-item ${sev.sevCls}`;
-    item.innerHTML=`
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">
-        <div>
-          <div style="font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;color:#fff;letter-spacing:.04em;">${sanitize(cve.id)}</div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.3);margin-top:1px;">${sanitize(cve.published?.substring(0,10)||'—')}</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
-          <span class="sev-badge ${sev.cls}">${score!==null?score.toFixed(1)+' ':''} ${sev.label}</span>
-          ${inKEV?`<span class="kev-pill"><i class="fas fa-bomb" style="font-size:.4rem;"></i> EXPLOITED</span>`:''}
-        </div>
-      </div>
-      <p style="font-family:'Rajdhani',sans-serif;font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.4;margin-bottom:6px;">${sanitize(shortDesc)}</p>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
-        <div style="display:flex;gap:5px;flex-wrap:wrap;">
-          <span class="src-badge src-nvd"><i class="fas fa-database" style="font-size:.4rem;"></i> NVD</span>
-          ${inKEV?`<span class="src-badge src-kev"><i class="fas fa-exclamation-triangle" style="font-size:.4rem;"></i> KEV</span>`:''}
-        </div>
-        <button class="save-btn ${watched?'saved':''}" data-cve-id="${sanitize(cve.id)}" onclick="event.stopPropagation();toggleWatch(currentCVEs.find(c=>c.id==='${sanitize(cve.id)}'))">
-          ${watched?'<i class="fas fa-bookmark"></i> SAVED':'<i class="far fa-bookmark"></i> WATCH'}
-        </button>
-      </div>`;
-    item.onclick=()=>{
-      document.querySelectorAll('.cve-list-item').forEach(i=>i.classList.remove('active-cve'));
-      item.classList.add('active-cve');
-      selectCVE(cve);
-    };
-    list.appendChild(item);
-  });
-}
-
-/* ══════════════════════════════
-   SELECT CVE → DETAIL PANEL
-══════════════════════════════ */
-function selectCVE(cve){
-  activeCVE=cve;
-  // Reset per-CVE enrichment cache
-  window._lastEPSS = undefined;
-  window._lastOSV  = undefined;
-  document.getElementById('detail-idle').style.display='none';
-  document.getElementById('detail-panel').style.display='block';
-  document.querySelectorAll('.detail-tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.detail-tab-btn')[0].classList.add('active');
-  renderDetailOverview(cve);
-}
-
-function switchDetailTab(tab,btn){
-  document.querySelectorAll('.detail-tab-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(!activeCVE) return;
-  if(tab==='overview')  renderDetailOverview(activeCVE);
-  else if(tab==='epss') renderDetailEPSS(activeCVE);
-  else if(tab==='osv')  renderDetailOSV(activeCVE);
-  else if(tab==='kev')  renderDetailKEV(activeCVE);
-  else if(tab==='github') renderDetailGithub(activeCVE);
-  else if(tab==='exploit') renderDetailExploit(activeCVE);
-}
-
-/* ══════════════════════════════
-   DETAIL: OVERVIEW
-══════════════════════════════ */
-function renderDetailOverview(cve){
-  const score=getCVSSScore(cve);
-  const sev=getSeverity(score);
-  const desc=cve.descriptions?.find(d=>d.lang==='en')?.value||'No description available.';
-  const vector=getCVSSVector(cve);
-  const cwes=cve.weaknesses?.flatMap(w=>w.description.map(d=>d.value)).filter(Boolean)||[];
-  const cpes=(cve.configurations?.flatMap(c=>c.nodes?.flatMap(n=>n.cpeMatch?.map(m=>m.criteria)||[])||[])||[]).slice(0,5);
-  const refs=(cve.references||[]).slice(0,4);
-  const circ=2*Math.PI*32;
-  const fill=score!==null?(score/10)*circ:0;
-
-  document.getElementById('detail-content').innerHTML=`
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap;">
-      <div style="position:relative;width:80px;height:80px;flex-shrink:0;">
-        <svg width="80" height="80" viewBox="0 0 80 80" style="transform:rotate(-90deg);">
-          <circle fill="none" stroke="rgba(255,255,255,.06)" stroke-width="8" cx="40" cy="40" r="32"/>
-          <circle id="det-ring" fill="none" stroke="${sev.color}" stroke-width="8" stroke-linecap="round" cx="40" cy="40" r="32"
-            stroke-dasharray="0 ${circ}" style="transition:stroke-dasharray 1.2s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 0 6px ${sev.color});"/>
-        </svg>
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-          <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:${sev.color};line-height:1;text-shadow:0 0 12px ${sev.color};">${score!==null?score.toFixed(1):'?'}</div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:.4rem;color:rgba(255,255,255,.3);letter-spacing:.08em;">CVSS</div>
-        </div>
-      </div>
-      <div style="flex:1;min-width:0;">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:900;color:#fff;letter-spacing:.05em;">${sanitize(cve.id)}</div>
-          <button onclick="navigator.clipboard.writeText('${sanitize(cve.id)}').then(()=>{this.innerHTML='<i class=\\'fas fa-check\\'></i>';setTimeout(()=>{this.innerHTML='<i class=\\'far fa-copy\\'></i>';},1400);})" style="background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:3px 7px;color:rgba(255,255,255,.3);font-size:.65rem;cursor:pointer;transition:all .2s ease;" title="Copy CVE ID"><i class="far fa-copy"></i></button>
-        </div>
-        <span class="sev-badge ${sev.cls}" style="margin-top:5px;display:inline-flex;">${sev.label}</span>
-        ${isInKEV(cve.id)?`<span class="kev-pill" style="margin-left:5px;display:inline-flex;"><i class="fas fa-bomb" style="font-size:.45rem;"></i> ACTIVELY EXPLOITED</span>`:''}
-      </div>
-    </div>
-    <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:16px;">${sanitize(desc)}</p>
-    ${[['PUBLISHED',cve.published?.substring(0,10)||'—'],['MODIFIED',cve.lastModified?.substring(0,10)||'—'],['VECTOR',vector||'—'],['WEAKNESS',cwes.slice(0,3).join(' · ')||'—']]
-      .map(([k,v])=>`<div class="info-row"><span class="info-label">${sanitize(k)}</span><span class="info-val" style="font-size:.85rem;">${sanitize(v)}</span></div>`).join('')}
-    ${cpes.length?`<div style="margin-top:12px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-bottom:6px;">AFFECTED PRODUCTS</div><div>${cpes.map(c=>{const p=c.split(':');const d=p.length>=6?`${p[4]}:${p[5]}`:c;return`<span class="cpe-tag">${sanitize(d)}</span>`;}).join('')}</div></div>`:''}
-    ${refs.length?`<div style="margin-top:14px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-bottom:8px;">REFERENCES</div>${refs.map(r=>`<div style="margin-bottom:5px;"><a href="${sanitize(r.url)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> ${sanitize(r.url.length>55?r.url.substring(0,55)+'…':r.url)}</a></div>`).join('')}</div>`:''}
-    <div style="margin-top:14px;"><a href="https://nvd.nist.gov/vuln/detail/${sanitize(cve.id)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> Full record on NVD →</a></div>`;
-
-  requestAnimationFrame(()=>setTimeout(()=>{
-    const ring=document.getElementById('det-ring');
-    if(ring) ring.style.strokeDasharray=`${fill} ${circ}`;
-  },80));
-}
-
-/* ══════════════════════════════
-   DETAIL: CISA KEV
-══════════════════════════════ */
-function renderDetailKEV(cve){
-  const entry=getKEVEntry(cve.id);
-  const content=document.getElementById('detail-content');
-  if(!entry&&kevData===null){
-    content.innerHTML=`<div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:16px 18px;display:flex;gap:12px;align-items:center;"><i class="fas fa-exclamation-circle" style="color:#f59e0b;font-size:1.1rem;flex-shrink:0;"></i><div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:#f59e0b;letter-spacing:.1em;margin-bottom:4px;">CORS RESTRICTED</div><p style="font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.5;">CISA KEV feed is blocked by browser CORS policy. Check manually below.</p></div></div>
-    <div style="margin-top:12px;"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" class="poc-link"><i class="fas fa-external-link-alt"></i> Open CISA KEV Catalog</a></div>`;
-    return;
-  }
-  if(!entry){
-    content.innerHTML=`<div class="kev-safe-banner"><i class="fas fa-check-circle" style="color:#22c55e;font-size:1.3rem;flex-shrink:0;"></i><div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:#22c55e;letter-spacing:.1em;margin-bottom:3px;">NOT IN CISA KEV</div><p style="font-size:.86rem;color:rgba(255,255,255,.5);">CISA has not listed this CVE as actively exploited.</p></div></div>
-    <p style="font-size:.78rem;color:rgba(255,255,255,.28);margin-top:10px;line-height:1.5;"><i class="fas fa-info-circle" style="color:rgba(255,20,147,.35);margin-right:5px;"></i>Absence from KEV does not mean safe — only that CISA has not officially catalogued it.</p>`;
-    return;
-  }
-  content.innerHTML=`<div class="kev-exploited-banner" style="margin-bottom:16px;">
-    <div style="width:44px;height:44px;border-radius:12px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-bomb" style="color:#ef4444;font-size:1.1rem;"></i></div>
-    <div><div style="font-family:'Orbitron',monospace;font-size:.65rem;color:#ef4444;letter-spacing:.12em;margin-bottom:2px;">CONFIRMED ACTIVELY EXPLOITED</div><p style="font-size:.85rem;color:rgba(255,255,255,.6);">${sanitize(entry.shortDescription||'Active exploitation confirmed by CISA.')}</p></div>
-  </div>
-  ${[['VENDOR',entry.vendorProject],['PRODUCT',entry.product],['DATE ADDED',entry.dateAdded],['DUE DATE',entry.dueDate],['RANSOMWARE',entry.knownRansomwareCampaignUse]].filter(([,v])=>v).map(([k,v])=>`<div class="info-row"><span class="info-label">${sanitize(k)}</span><span class="info-val">${sanitize(v)}</span></div>`).join('')}
-  ${entry.notes?`<div style="margin-top:12px;padding:12px 14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);border-radius:10px;font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.5;">${sanitize(entry.notes)}</div>`:''}
-  <div style="margin-top:12px;"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" class="poc-link" style="display:inline-flex;"><i class="fas fa-external-link-alt"></i> View Full KEV Catalog</a></div>`;
-}
-
-/* ══════════════════════════════
-   DETAIL: EPSS
-══════════════════════════════ */
-async function renderDetailEPSS(cve){
-  const content=document.getElementById('detail-content');
-  content.innerHTML=`<div style="text-align:center;padding:30px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,197,94,.5);">QUERYING EPSS<span class="blink">...</span></div></div>`;
-
-  let data = window._lastEPSS;
-  // If we don't have it yet (e.g. came from keyword search), fetch now
-  if(!data){
-    data = await fetchEPSS(cve.id);
-    window._lastEPSS = data;
+  if (cve.cwe?.length) {
+    sec(body,'WEAKNESS CLASSIFICATION',
+      `<div class="cwe-wrap">${cve.cwe.map(c=>`<span class="cwe-tag">${e(c)}</span>`).join('')}</div>`
+    );
   }
 
-  if(!data){
-    content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(34,197,94,.22);background:rgba(34,197,94,.05);">
-      <i class="fas fa-chart-bar" style="color:#22c55e;font-size:1.2rem;flex-shrink:0;"></i>
-      <div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(34,197,94,.7);letter-spacing:.1em;margin-bottom:3px;">EPSS UNAVAILABLE</div>
-      <p style="font-size:.85rem;color:rgba(255,255,255,.45);">Could not retrieve EPSS data for ${sanitize(cve.id)}. FIRST.org may be temporarily unavailable.</p></div>
-    </div>
-    <div style="margin-top:12px;"><a href="https://www.first.org/epss/" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> Learn about EPSS →</a></div>`;
-    return;
+  sec(body,'TIMELINE',
+    `<div class="dp-row"><div class="dp-k">PUBLISHED</div><div class="dp-v">${e(cve.published?.slice(0,10)||'—')}</div></div>
+     <div class="dp-row"><div class="dp-k">LAST MODIFIED</div><div class="dp-v">${e(cve.lastModified?.slice(0,10)||'—')}</div></div>`
+  );
+
+  if (cve.references?.length) {
+    sec(body,'REFERENCES',
+      `<div class="refs">${cve.references.map(u=>`<a class="ref-a" href="${e(u)}" target="_blank" rel="noopener">${e(u)}</a>`).join('')}</div>`
+    );
   }
 
-  const epssScore = parseFloat(data.epss||0);
-  const percentile = parseFloat(data.percentile||0);
-  const pct = Math.round(epssScore*100*10)/10; // e.g. 97.5%
-  const pctileDisplay = Math.round(percentile*100);
-  const scoreDate = data.date||'—';
+  sec(body,'FULL RECORD',
+    `<a class="ref-a" href="https://nvd.nist.gov/vuln/detail/${e(cve.id)}" target="_blank" rel="noopener">→ View on NVD</a>`
+  );
 
-  // Color based on risk
-  const col = epssScore>=0.7?'#ef4444':epssScore>=0.4?'#f59e0b':epssScore>=0.1?'#ff1493':'#22c55e';
-  const label = epssScore>=0.7?'CRITICAL RISK':epssScore>=0.4?'HIGH RISK':epssScore>=0.1?'MODERATE RISK':'LOW RISK';
-  const circ = 2*Math.PI*38;
-  const fill = epssScore*circ;
-
-  content.innerHTML=`
-    <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;flex-wrap:wrap;">
-      <div style="position:relative;width:96px;height:96px;flex-shrink:0;">
-        <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg);">
-          <circle fill="none" stroke="rgba(255,255,255,.06)" stroke-width="9" cx="48" cy="48" r="38"/>
-          <circle fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" cx="48" cy="48" r="38"
-            stroke-dasharray="${fill} ${circ}" style="filter:drop-shadow(0 0 8px ${col});transition:stroke-dasharray 1.2s ease;"/>
-        </svg>
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-          <div style="font-family:'Orbitron',monospace;font-size:1.35rem;font-weight:900;color:${col};line-height:1;text-shadow:0 0 14px ${col};">${pct}%</div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:.38rem;color:rgba(255,255,255,.3);letter-spacing:.06em;">EPSS</div>
-        </div>
-      </div>
-      <div>
-        <div style="font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.15em;color:${col};margin-bottom:6px;">${label}</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;margin-bottom:4px;">
-          ${pct}% chance of exploitation in the next 30 days
-        </div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);">
-          Top ${100-pctileDisplay}% most likely to be exploited · Score date: ${sanitize(scoreDate)}
-        </div>
-      </div>
-    </div>
-
-    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-      <div style="font-family:'Orbitron',monospace;font-size:.52rem;color:rgba(255,255,255,.25);letter-spacing:.12em;margin-bottom:8px;">WHAT IS EPSS?</div>
-      <p style="font-family:'Rajdhani',sans-serif;font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.6;margin:0;">The Exploit Prediction Scoring System (EPSS) is a daily estimate produced by FIRST.org using machine learning. It predicts the probability that a vulnerability will be exploited in the wild within the next 30 days. Unlike CVSS which measures severity, EPSS measures <strong style="color:rgba(255,255,255,.7);">likelihood of active exploitation</strong>.</p>
-    </div>
-
-    <div class="info-row"><span class="info-label">CVE</span><span class="info-val">${sanitize(cve.id)}</span></div>
-    <div class="info-row"><span class="info-label">EPSS SCORE</span><span class="info-val" style="color:${col};font-weight:700;">${epssScore.toFixed(5)}</span></div>
-    <div class="info-row"><span class="info-label">PERCENTILE</span><span class="info-val">Top ${100-pctileDisplay}% riskiest CVEs</span></div>
-    <div class="info-row"><span class="info-label">RISK LEVEL</span><span class="info-val"><span style="color:${col};">${label}</span></span></div>
-    <div class="info-row"><span class="info-label">SCORED ON</span><span class="info-val">${sanitize(scoreDate)}</span></div>
-
-    <div style="margin-top:14px;">
-      <a href="https://www.first.org/epss/model" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> EPSS Model Documentation →</a>
-    </div>`;
+  document.getElementById('dp-ov').classList.add('on');
+  document.getElementById('dp').classList.add('on');
 }
 
-/* ══════════════════════════════
-   DETAIL: OSV
-══════════════════════════════ */
-async function renderDetailOSV(cve){
-  const content=document.getElementById('detail-content');
-  content.innerHTML=`<div style="text-align:center;padding:30px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(245,158,11,.5);">QUERYING OSV DATABASE<span class="blink">...</span></div></div>`;
-
-  let data = window._lastOSV;
-  if(data===undefined){
-    data = await fetchOSV(cve.id);
-    window._lastOSV = data;
-  }
-
-  if(!data||data.length===0){
-    content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(245,158,11,.22);background:rgba(245,158,11,.05);">
-      <i class="fas fa-box-open" style="color:#f59e0b;font-size:1.2rem;flex-shrink:0;"></i>
-      <div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(245,158,11,.7);letter-spacing:.1em;margin-bottom:3px;">NO OSV RECORDS</div>
-      <p style="font-size:.85rem;color:rgba(255,255,255,.45);">Google's OSV database has no records for ${sanitize(cve.id)}. This is common for non-open-source CVEs.</p></div>
-    </div>
-    <div style="margin-top:12px;"><a href="https://osv.dev/list?q=${encodeURIComponent(cve.id)}" target="_blank" class="poc-link" style="display:inline-flex;"><i class="fas fa-external-link-alt"></i> Search OSV.dev directly</a></div>`;
-    return;
-  }
-
-  const ecoColors={'npm':'#f59e0b','PyPI':'#3b82f6','Go':'#22c55e','Maven':'#ef4444','crates.io':'#f59e0b','RubyGems':'#ef4444','NuGet':'#a855f7','Hex':'#a855f7','Packagist':'#3b82f6','Linux':'#f59e0b'};
-  content.innerHTML='';
-  data.slice(0,8).forEach((vuln,i)=>{
-    const affected = vuln.affected||[];
-    const totalPkgs = affected.length;
-    const ecosystems = [...new Set(affected.map(a=>a.package?.ecosystem).filter(Boolean))];
-
-    const div=document.createElement('div');
-    div.style.cssText=`border:1px solid rgba(245,158,11,.14);border-radius:12px;padding:14px;${i>0?'margin-top:10px;':''}`;
-    div.innerHTML=`
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-        <div>
-          <div style="font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(245,158,11,.65);margin-bottom:3px;">${sanitize(vuln.id||'OSV')}</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;color:#fff;line-height:1.3;">${sanitize((vuln.summary||'Open source advisory').substring(0,80))}${(vuln.summary||'').length>80?'…':''}</div>
-        </div>
-        <span style="font-family:'Orbitron',monospace;font-size:.48rem;padding:3px 9px;border-radius:6px;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.08);color:#f59e0b;flex-shrink:0;">${totalPkgs} PKG${totalPkgs!==1?'S':''}</span>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
-        ${ecosystems.map(e=>`<span class="cpe-tag" style="background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.22);color:rgba(245,158,11,.75);">${sanitize(e)}</span>`).join('')}
-        ${affected.slice(0,4).map(a=>`<span class="cpe-tag">${sanitize(a.package?.name||'—')}</span>`).join('')}
-        ${affected.length>4?`<span style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.25);padding:2px 6px;">+${affected.length-4} more</span>`:''}
-      </div>
-      ${affected[0]?.ranges?.[0]?.events?`<div style="display:flex;flex-wrap:wrap;gap:5px;">
-        ${affected[0].ranges[0].events.filter(e=>e.introduced||e.fixed).slice(0,4).map(e=>
-          e.fixed
-            ? `<span class="ver-pill ver-fixed"><i class="fas fa-check" style="font-size:.45rem;"></i> fixed: ${sanitize(e.fixed)}</span>`
-            : `<span class="ver-pill ver-vuln"><i class="fas fa-times" style="font-size:.45rem;"></i> from: ${sanitize(e.introduced||'0')}</span>`
-        ).join('')}
-      </div>`:''}
-      <div style="margin-top:8px;">
-        <a href="${sanitize(vuln.references?.[0]?.url||`https://osv.dev/vulnerability/${vuln.id}`)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> OSV Record →</a>
-      </div>`;
-    content.appendChild(div);
-  });
-
-  if(data.length>8){
-    const more=document.createElement('p');
-    more.style.cssText='font-family:"Share Tech Mono",monospace;font-size:.6rem;color:rgba(255,255,255,.25);margin-top:10px;text-align:center;';
-    more.textContent=`+${data.length-8} more records on osv.dev`;
-    content.appendChild(more);
-  }
+function sec(container, label, html) {
+  const d = document.createElement('div');
+  d.className = 'dp-sec';
+  d.innerHTML = `<div class="dp-lbl">${label}</div>${html}`;
+  container.appendChild(d);
 }
 
-/* ══════════════════════════════
-   DETAIL: GITHUB
-══════════════════════════════ */
-async function renderDetailGithub(cve){
-  const content=document.getElementById('detail-content');
-  content.innerHTML=`<div style="text-align:center;padding:30px;"><div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(168,85,247,.5);">QUERYING GITHUB ADVISORY DB<span class="blink">...</span></div></div>`;
-  try{
-    const advisories=await fetchGitHub(cve.id);
-    if(!advisories||advisories.length===0){
-      content.innerHTML=`<div class="kev-safe-banner" style="border-color:rgba(168,85,247,.22);background:rgba(168,85,247,.05);"><i class="fab fa-github" style="color:#a855f7;font-size:1.2rem;flex-shrink:0;"></i><div><div style="font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(168,85,247,.7);letter-spacing:.1em;margin-bottom:3px;">NO ADVISORY FOUND</div><p style="font-size:.85rem;color:rgba(255,255,255,.45);">No GitHub Security Advisory linked to ${sanitize(cve.id)}.</p></div></div>`;
-      return;
-    }
-    content.innerHTML='';
-    advisories.forEach((adv,i)=>{
-      const aff=adv.vulnerabilities?.[0];
-      const pkg=aff?.package?.name||'—';
-      const eco=aff?.package?.ecosystem||'';
-      const vRange=aff?.vulnerable_version_range||'—';
-      const patch=aff?.patched_versions||'—';
-      const sevCls={CRITICAL:'sev-critical',HIGH:'sev-high',MODERATE:'sev-medium',LOW:'sev-low'}[adv.severity?.toUpperCase()]||'sev-none';
-      content.innerHTML+=`<div style="border:1px solid rgba(168,85,247,.15);border-radius:12px;padding:14px;${i>0?'margin-top:10px;':''}">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;">
-          <div><div style="font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(168,85,247,.6);margin-bottom:3px;">${sanitize(adv.ghsa_id||'GHSA')}</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.92rem;color:#fff;line-height:1.3;">${sanitize((adv.summary||'Advisory').substring(0,70))}${(adv.summary||'').length>70?'…':''}</div></div>
-          <span class="sev-badge ${sevCls}" style="flex-shrink:0;">${sanitize(adv.severity||'UNKNOWN')}</span>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
-          ${eco?`<span class="cpe-tag" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);color:rgba(168,85,247,.7);">${sanitize(eco)}</span>`:''}
-          ${pkg!=='—'?`<span class="cpe-tag" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);color:rgba(168,85,247,.7);">${sanitize(pkg)}</span>`:''}
-          <span class="ver-pill ver-vuln"><i class="fas fa-times" style="font-size:.45rem;"></i> ${sanitize(vRange)}</span>
-          ${patch!=='—'?`<span class="ver-pill ver-fixed"><i class="fas fa-check" style="font-size:.45rem;"></i> ${sanitize(patch)}</span>`:''}
-        </div>
-        <a href="${sanitize(adv.html_url||`https://github.com/advisories/${adv.ghsa_id}`)}" target="_blank" class="ref-link"><i class="fas fa-external-link-alt" style="font-size:.5rem;"></i> GitHub Advisory →</a>
-      </div>`;
-    });
-  }catch{
-    content.innerHTML=`<p style="font-size:.85rem;color:rgba(255,255,255,.35);">Could not load GitHub advisories. Rate limit may apply.</p>`;
-  }
+function closeDetail() {
+  document.getElementById('dp-ov').classList.remove('on');
+  document.getElementById('dp').classList.remove('on');
 }
 
-/* ══════════════════════════════
-   DETAIL: EXPLOIT-DB
-══════════════════════════════ */
-function renderDetailExploit(cve){
-  const cveNum=cve.id.replace(/^CVE-/i,'');
-  document.getElementById('detail-content').innerHTML=`
-    <div style="background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.18);border-radius:12px;padding:16px 18px;margin-bottom:14px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><i class="fas fa-terminal" style="color:#f59e0b;"></i><div style="font-family:'Orbitron',monospace;font-size:.6rem;color:#f59e0b;letter-spacing:.1em;">PROOF-OF-CONCEPT AVAILABILITY</div></div>
-      <p style="font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:12px;">Exploit-DB does not provide a public API. We link directly to their search results. <strong style="color:rgba(255,255,255,.6);">We never host exploit code.</strong></p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <a href="https://www.exploit-db.com/search?cve=${cveNum}" target="_blank" class="poc-link"><i class="fas fa-terminal"></i> Search Exploit-DB</a>
-        <a href="https://github.com/search?q=${encodeURIComponent(cve.id)}+exploit&type=repositories" target="_blank" class="poc-link" style="background:rgba(168,85,247,.07);border-color:rgba(168,85,247,.28);color:#a855f7;"><i class="fab fa-github"></i> GitHub PoC Search</a>
-        <a href="https://www.google.com/search?q=${encodeURIComponent(cve.id+' exploit proof of concept')}" target="_blank" class="poc-link" style="background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.25);color:#22c55e;"><i class="fas fa-search"></i> Web Search</a>
-      </div>
-    </div>
-    <div class="info-row"><span class="info-label">LEGAL NOTE</span><span class="info-val" style="font-size:.8rem;color:rgba(255,255,255,.38);line-height:1.5;">Exploitation of systems you do not own or have written authorisation for is illegal. This tool is for awareness and remediation planning only.</span></div>`;
-}
-
-/* ══════════════════════════════
-   GITHUB SECTION (below results)
-══════════════════════════════ */
-function renderGithubSection(advisories){
-  const container=document.getElementById('github-advisory-list');
-  container.innerHTML='';
-  advisories.slice(0,4).forEach(adv=>{
-    const aff=adv.vulnerabilities?.[0];
-    const sevCls={CRITICAL:'sev-critical',HIGH:'sev-high',MODERATE:'sev-medium',LOW:'sev-low'}[adv.severity?.toUpperCase()]||'sev-none';
-    const item=document.createElement('div');
-    item.style.cssText='background:rgba(8,8,8,.75);border:1px solid rgba(168,85,247,.14);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;';
-    item.innerHTML=`
-      <div style="flex:1;min-width:0;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-          <span class="src-badge src-github"><i class="fab fa-github" style="font-size:.45rem;"></i> ${adv.ghsa_id||'GHSA'}</span>
-          ${aff?.package?.ecosystem?`<span class="cpe-tag" style="background:rgba(168,85,247,.07);border-color:rgba(168,85,247,.18);color:rgba(168,85,247,.65);">${aff.package.ecosystem}</span>`:''}
-        </div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.3;">${(adv.summary||'').substring(0,70)}${(adv.summary||'').length>70?'…':''}</div>
-        ${aff?.package?.name?`<div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.25);margin-top:2px;">pkg: ${aff.package.name}</div>`:''}
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">
-        <span class="sev-badge ${sevCls}">${adv.severity||'?'}</span>
-        <a href="${adv.html_url||`https://github.com/advisories/${adv.ghsa_id}`}" target="_blank" class="ref-link" style="font-size:.65rem;"><i class="fas fa-external-link-alt" style="font-size:.45rem;"></i> View</a>
-      </div>`;
-    container.appendChild(item);
-  });
-}
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeDetail(); });
 </script>
 </body>
 </html>
