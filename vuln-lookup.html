@@ -785,48 +785,157 @@ async function doSearch() {
   showState('s-loading');
 
   try {
-    const res  = await fetch(`/api/vuln?q=${encodeURIComponent(q)}&limit=20`);
-    const data = await res.json();
+    /* ── 1. NVD — direct browser call (CORS allowed) ── */
+    let nvdCves = [], nvdTotal = 0;
+    try {
+      const nvdRes = await fetch(
+        `https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=${encodeURIComponent(q)}&resultsPerPage=20`
+      );
+      const nvdData = await nvdRes.json();
+      nvdTotal = nvdData.totalResults || 0;
+      nvdCves = (nvdData.vulnerabilities || []).map(v => {
+        const cve      = v.cve;
+        const metrics  = cve.metrics || {};
+        const cvssData = metrics.cvssMetricV31?.[0]?.cvssData
+                      || metrics.cvssMetricV30?.[0]?.cvssData
+                      || metrics.cvssMetricV2?.[0]?.cvssData
+                      || null;
+        const desc = (cve.descriptions || []).find(d => d.lang === 'en')?.value || '';
+        const cwe  = (cve.weaknesses  || []).flatMap(w => w.description.map(d => d.value)).filter(Boolean);
+        const refs = (cve.references  || []).map(r => r.url).slice(0, 8);
+        return {
+          id: cve.id,
+          published: cve.published,
+          lastModified: cve.lastModified,
+          description: desc,
+          cvss: cvssData ? {
+            score:    cvssData.baseScore,
+            severity: cvssData.baseSeverity,
+            version:  cvssData.version,
+            vector:   cvssData.vectorString,
+          } : null,
+          cwe,
+          references: refs,
+          epss: null,
+          kev:  false,
+          osv:  null,
+        };
+      });
+      chip('nvd', 'ok');
+    } catch (err) {
+      chip('nvd', 'err');
+    }
 
-    const meta = data.meta || {};
-    const src  = meta.sources || {};
+    /* ── 2. CISA KEV — via CF proxy (blocks CORS) ── */
+    let kevSet = new Set();
+    try {
+      const kevRes  = await fetch('/api/vuln?action=kev');
+      const kevData = await kevRes.json();
+      kevSet = new Set(kevData.ids || []);
+      chip('kev', 'ok');
+    } catch (err) {
+      chip('kev', 'err');
+    }
 
-    chip('nvd',    src.nvd    ? 'ok' : 'err');
-    chip('epss',   src.epss   ? 'ok' : 'err');
-    chip('kev',    src.kev    ? 'ok' : 'err');
-    chip('osv',    src.osv    ? 'ok' : 'err');
-    chip('github', src.github ? 'ok' : 'err');
+    /* ── 3. EPSS — direct browser call ── */
+    if (nvdCves.length) {
+      try {
+        const ids     = nvdCves.map(c => c.id).join(',');
+        const epssRes = await fetch(`https://api.first.org/data/v1/epss?cve=${ids}`);
+        const epssRaw = await epssRes.json();
+        const epssMap = {};
+        (epssRaw.data || []).forEach(row => { epssMap[row.cve] = row; });
+        nvdCves.forEach(c => {
+          if (epssMap[c.id]) {
+            c.epss = {
+              score:      parseFloat(epssMap[c.id].epss),
+              percentile: parseFloat(epssMap[c.id].percentile),
+            };
+          }
+        });
+        chip('epss', 'ok');
+      } catch (err) {
+        chip('epss', 'err');
+      }
+    }
 
-    ALL_CVES = data.cves || [];
+    /* ── 4. Mark KEV ── */
+    nvdCves.forEach(c => { c.kev = kevSet.has(c.id); });
+
+    /* ── 5. OSV — direct browser call ── */
+    try {
+      const osvRes  = await fetch('https://api.osv.dev/v1/query', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ query: { package: { name: q } } }),
+      });
+      const osvData = await osvRes.json();
+      const osvMap  = {};
+      (osvData.vulns || []).forEach(v => {
+        (v.aliases || []).forEach(alias => {
+          if (alias.startsWith('CVE-')) {
+            if (!osvMap[alias]) osvMap[alias] = { count: 0, ids: [] };
+            osvMap[alias].count++;
+            osvMap[alias].ids.push(v.id);
+          }
+        });
+      });
+      nvdCves.forEach(c => { if (osvMap[c.id]) c.osv = osvMap[c.id]; });
+      chip('osv', 'ok');
+    } catch (err) {
+      chip('osv', 'err');
+    }
+
+    /* ── 6. GitHub advisories — direct browser call (no auth needed for public) ── */
+    let githubAdvisories = [];
+    try {
+      const ghRes  = await fetch(
+        `https://api.github.com/advisories?query=${encodeURIComponent(q)}&per_page=10`,
+        { headers: { 'Accept': 'application/vnd.github+json' } }
+      );
+      const ghData = await ghRes.json();
+      if (Array.isArray(ghData)) {
+        githubAdvisories = ghData.map(a => ({
+          ghsaId:   a.ghsa_id,
+          cveId:    a.cve_id,
+          summary:  a.summary,
+          severity: a.severity,
+          url:      a.html_url,
+          packages: (a.vulnerabilities || []).map(v => ({
+            name:      v.package?.name,
+            ecosystem: v.package?.ecosystem,
+          })),
+        }));
+      }
+      chip('github', 'ok');
+    } catch (err) {
+      chip('github', 'err');
+    }
+
+    /* ── Render ── */
+    ALL_CVES = nvdCves;
 
     if (!ALL_CVES.length) {
-      if (meta.error) {
-        document.getElementById('err-msg').textContent = meta.error;
-        showState('s-error');
-      } else {
-        showState('s-empty');
-      }
+      showState('s-empty');
       document.getElementById('status-bar').style.display = 'flex';
       return;
     }
 
-    const kevTxt = meta.kevCount > 0
-      ? ` · <span style="color:var(--red)">⚡ ${meta.kevCount} KEV</span>` : '';
+    const kevCount = ALL_CVES.filter(c => c.kev).length;
+    const kevTxt   = kevCount > 0 ? ` · <span style="color:var(--red)">⚡ ${kevCount} KEV</span>` : '';
     document.getElementById('status-meta').innerHTML =
-      `<strong>${meta.returned}</strong> / <strong>${(meta.total||meta.returned).toLocaleString()}</strong> CVEs${kevTxt}`;
+      `<strong>${ALL_CVES.length}</strong> / <strong>${nvdTotal.toLocaleString()}</strong> CVEs${kevTxt}`;
 
     renderCards(ALL_CVES);
-
     showState(null);
     document.getElementById('grid').style.display = 'grid';
     document.getElementById('filter-bar').style.display = 'flex';
     document.getElementById('fcount').textContent = `${ALL_CVES.length} shown`;
 
-    const github = data.github || [];
-    if (github.length) renderGitHub(github);
+    if (githubAdvisories.length) renderGitHub(githubAdvisories);
 
   } catch (err) {
-    document.getElementById('err-msg').textContent = `Request failed: ${err.message}. Make sure vuln.js is deployed to functions/api/.`;
+    document.getElementById('err-msg').textContent = `Search failed: ${err.message}`;
     showState('s-error');
   }
 }
