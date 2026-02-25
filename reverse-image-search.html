@@ -25,11 +25,42 @@
     .glass-g{background:var(--green-faint);backdrop-filter:blur(20px);border:1px solid var(--gb);transition:all .3s ease}
     .glass-g:hover{border-color:var(--gbs);box-shadow:0 0 40px rgba(0,255,136,.1)}
     .glass-d{background:rgba(4,4,4,.95);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.25)}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .4s ease;padding:18px 24px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .4s ease;}
     .nav-s{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1)}
     .nl{font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;text-decoration:none;position:relative;transition:all .3s ease}
     .nl::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease}
     .nl:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493}.nl:hover::after{width:100%}
+    /* ── DESKTOP NAV LINKS ── */
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;color:#e0e0e0;text-decoration:none;font-size:.875rem}
+    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease}
+    .desktop-link:hover::after{width:100%}
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap{position:relative}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493}
+    .tools-dropdown-btn:hover::after{width:100%}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg)}
+    .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08)}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg)}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent}
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px)}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5))}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12)}
+    /* ── BUTTONS ── */
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6)}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite}
     .np{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.8)}
     .ng{color:var(--green);text-shadow:0 0 28px rgba(0,255,136,.8)}
     .ngd{color:rgba(0,255,136,.7)}
@@ -103,19 +134,132 @@
 <div id="cur"></div><div id="cur2"></div>
 <div id="toast"></div>
 
-<!-- NAV -->
-<nav id="nav">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <a href="/" class="fd text-sm font-bold tracking-widest flex items-center gap-3" style="text-decoration:none;cursor:none">
-      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(255,20,147,.25),rgba(255,20,147,.08));border:1px solid rgba(255,20,147,.3);display:flex;align-items:center;justify-content:center"><i class="fas fa-shield-halved" style="color:var(--pink);font-size:.7rem"></i></div>
-      <span class="np" style="font-size:.85rem">GREYHAT<span style="color:#e0e0e0;text-shadow:none">4HIRE</span></span>
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
-    <div class="flex items-center gap-5">
-      <a href="/tools" class="nl">TOOLS</a><a href="/#services" class="nl">SERVICES</a><a href="/#contact" class="nl">CONTACT</a>
-      <div class="flex items-center gap-2"><div class="pdot"></div><span class="fm" style="font-size:.7rem;color:rgba(0,255,136,.65)">LIVE</span></div>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html"            class="desktop-link">Home</a>
+      <a href="about.html"            class="desktop-link">About</a>
+      <a href="services.html"         class="desktop-link">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+              <i class="fas fa-file-circle-exclamation"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
+              <i class="fas fa-bug-slash"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Vulnerability Intelligence</div>
+              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+            </div>
+          </a>
+          <a href="reverse-image-search.html" class="tool-nav-item" style="background:rgba(0,255,136,.04);border-color:rgba(0,255,136,.2)">
+            <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.35);color:#00ff88;--glow-color:rgba(0,255,136,.5);">
+              <i class="fas fa-image"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div>
+              <div class="tool-nav-name">Reverse Image Search</div>
+              <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
+      <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+      <a href="pricing.html"          class="desktop-link">Pricing</a>
+      <a href="contact.html"          class="desktop-link">Contact</a>
     </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0" style="background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html"              class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">Home</a>
+    <a href="about.html"              class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">About</a>
+    <a href="services.html"           class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">Services</a>
+    <a href="risk-assessment.html"    style="display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#ff1493;box-shadow:0 0 6px #ff1493;flex-shrink:0;"></span>Risk Self-Assessment
+    </a>
+    <a href="hackers-dossier.html"    style="display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;flex-shrink:0;"></span>Hacker's Dossier
+    </a>
+    <a href="breach-cost-clock.html"  style="display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;box-shadow:0 0 6px #f59e0b;flex-shrink:0;"></span>Breach Cost Clock
+    </a>
+    <a href="vuln-lookup.html"        style="display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;box-shadow:0 0 6px #3b82f6;flex-shrink:0;"></span>Vulnerability Intelligence
+    </a>
+    <a href="reverse-image-search.html" style="display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#00ff88;box-shadow:0 0 6px #00ff88;flex-shrink:0;"></span>Reverse Image Search
+    </a>
+    <a href="cyber-awareness.html"    class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">Cyber Awareness</a>
+    <a href="greyhat-protocol.html"   class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">The Protocol</a>
+    <a href="pricing.html"            class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;">Pricing</a>
+    <a href="contact.html"            class="mobile-link desktop-link text-white" style="padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;text-decoration:none;color:#e0e0e0;">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:14px;border:none;cursor:none;text-decoration:none;">
+    <i class="fas fa-shield-alt"></i> Get a Quote
+  </a>
+</div>
 
 <main class="relative z-10 pt-28 pb-24 px-4 max-w-5xl mx-auto">
 
@@ -148,7 +292,7 @@
       <div id="key-ok" class="ml-auto" style="display:none"><span class="bdg bdg-g"><i class="fas fa-check" style="font-size:.5rem"></i>KEY SAVED</span></div>
     </div>
     <div class="flex gap-3">
-      <input type="password" id="akey" class="api-in" placeholder="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" autocomplete="off" oninput="chkKey()" onkeydown="if(event.key==='Enter')saveKey()">
+      <input type="password" id="akey" class="api-in" placeholder="sk-ant-api03-…" autocomplete="off" oninput="chkKey()" onkeydown="if(event.key==='Enter')saveKey()">
       <button class="bg-btn flex-shrink-0" onclick="saveKey()"><i class="fas fa-save"></i>SAVE</button>
       <a href="https://console.anthropic.com/settings/keys" target="_blank" class="gh-btn flex-shrink-0" style="text-decoration:none"><i class="fas fa-external-link-alt" style="font-size:.6rem"></i>GET KEY</a>
     </div>
@@ -340,6 +484,11 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 (function loop(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cur.style.transform=`translate(${mx-7}px,${my-7}px)`;cur2.style.transform=`translate(${cx-2}px,${cy-2}px)`;requestAnimationFrame(loop)})();
 document.addEventListener('mouseover',e=>{cur.classList.toggle('hov',!!e.target.closest('a,button,[onclick],[tabindex]'))});
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-s',scrollY>40));
+
+// ── MOBILE MENU ────────────────────────────────────
+const ham=document.getElementById('hamburger'),mMenu=document.getElementById('mobile-menu'),closeBtn=document.getElementById('close-menu');
+if(ham)ham.addEventListener('click',()=>{mMenu.classList.remove('hidden');mMenu.style.transform='translateY(0)'});
+if(closeBtn)closeBtn.addEventListener('click',()=>{mMenu.style.transform='translateY(-100%)';setTimeout(()=>mMenu.classList.add('hidden'),420)});
 
 // ── API KEY ──────────────────────────────────────────
 function getKey(){return localStorage.getItem('gh4h_api_key')||''}
