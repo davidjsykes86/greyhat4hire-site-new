@@ -1,6 +1,6 @@
 const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
 const ALLOWED_MODEL  = 'claude-sonnet-4-6';
-const DAILY_LIMIT    = 50;   // requests per IP per day — change if you want
+const DAILY_LIMIT    = 5;   // requests per IP per day — change if you want
 
 export async function onRequestPost(context) {
   const { request, env } = context;
