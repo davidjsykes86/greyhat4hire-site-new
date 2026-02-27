@@ -38,8 +38,8 @@
     }
 
     /* ── CURSOR ── */
-    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
-    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     .font-display { font-family: 'Orbitron', monospace; }
@@ -456,8 +456,8 @@
               <div class="tool-nav-name">Vulnerability Intelligence</div>
               <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
             </div>
-          </a>
 
+          <!-- Tool 5: Reverse Image Search -->
           <a href="reverse-image-search.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);">
               <i class="fas fa-image"></i>
@@ -643,7 +643,7 @@
     <div class="text-center mb-16 gsap-hidden">
       <div class="section-tag mb-3">Free Intelligence Tools</div>
       <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
-      <p class="text-gray-400 max-w-xl mx-auto">Five live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
+      <p class="text-gray-400 max-w-xl mx-auto">Four live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
     </div>
 
     <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -1233,18 +1233,14 @@
   tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
   // ── CURSOR ──
-  const cur  = document.getElementById('cur');
-  const cur2 = document.getElementById('cur2');
-  document.addEventListener('mousemove', e => {
-    cur2.style.left = (e.clientX - 2) + 'px';
-    cur2.style.top  = (e.clientY - 2) + 'px';
-    setTimeout(() => {
-      cur.style.left = (e.clientX - 7) + 'px';
-      cur.style.top  = (e.clientY - 7) + 'px';
-    }, 80);
+  var cur  = document.getElementById('cur');
+  var cur2 = document.getElementById('cur2');
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    cur2.style.left = e.clientX + 'px';
+    cur2.style.top  = e.clientY + 'px';
   });
-  document.addEventListener('mousedown', () => cur.style.transform = 'scale(1.8)');
-  document.addEventListener('mouseup',   () => cur.style.transform = 'scale(1)');
 
   // ── NAV ──
   window.addEventListener('scroll', () =>
