@@ -285,6 +285,12 @@
       .stamp-top { font-size:1rem;letter-spacing:.18em; }
       .watermark { font-size:1.8rem; }
     }
+  
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
