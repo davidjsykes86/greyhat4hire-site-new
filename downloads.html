@@ -534,7 +534,7 @@
         <div class="term-body">
           <div class="term-line">$ <span class="term-cmd">vault --list --category all</span></div>
           <div class="term-out">▸ Scanning document registry...</div>
-          <div class="term-out">▸ <span id="term-count">18</span> documents indexed</div>
+          <div class="term-out">▸ <span id="term-count">31</span> documents indexed</div>
           <div class="term-line" style="margin-top:8px;">$ <span class="term-cmd">vault --stats</span></div>
           <div class="term-out">▸ Categories: 5 [ incident-response | policy | pentest | compliance | training ]</div>
           <div class="term-out">▸ Formats: PDF · DOCX · XLSX · PPTX</div>
@@ -551,11 +551,11 @@
     <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
       <div class="glass rounded-2xl py-5 px-3 text-center stat-item">
-        <div class="stat-num text-3xl sm:text-4xl" data-target="18" data-suffix="">0</div>
+        <div class="stat-num text-3xl sm:text-4xl" data-target="31" data-suffix="">0</div>
         <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">DOCUMENTS</div>
       </div>
       <div class="glass rounded-2xl py-5 px-3 text-center stat-item">
-        <div class="stat-num text-3xl sm:text-4xl" data-target="5" data-suffix="">0</div>
+        <div class="stat-num text-3xl sm:text-4xl" data-target="6" data-suffix="">0</div>
         <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">CATEGORIES</div>
       </div>
       <div class="glass rounded-2xl py-5 px-3 text-center stat-item">
@@ -655,6 +655,7 @@
         <button class="filter-tab" data-cat="pentest"            onclick="setFilter(this,'pentest')"><i class="fas fa-user-ninja mr-1"></i>PENTEST</button>
         <button class="filter-tab" data-cat="compliance"         onclick="setFilter(this,'compliance')"><i class="fas fa-clipboard-check mr-1"></i>COMPLIANCE</button>
         <button class="filter-tab" data-cat="training"           onclick="setFilter(this,'training')"><i class="fas fa-graduation-cap mr-1"></i>TRAINING</button>
+        <button class="filter-tab" data-cat="business"           onclick="setFilter(this,'business')"><i class="fas fa-briefcase mr-1"></i>BUSINESS DOCS</button>
       </div>
     </div>
 
@@ -809,13 +810,14 @@ function copyLink(filename) {
 
 // ── DOCUMENT REGISTRY ──
 var DOCS = [
+
   // ── INCIDENT RESPONSE ──
   {
-    id: 'ir-plan-template',
-    title: 'Incident Response Plan Template',
-    desc: 'A full IRP framework covering detection, triage, containment, eradication, recovery, and post-incident review. Includes communication trees and stakeholder matrices.',
+    id: 'ir-plan',
+    title: 'Incident Response Plan (GH4H-IRP-001)',
+    desc: "Greyhat4Hire's own operational IRP — a complete, production-ready plan covering CSIRT roles, severity classification, detection-to-recovery workflow, POPIA breach notification, and post-incident review. Use it as a framework for your own organisation.",
     category: 'incident-response',
-    formats: ['DOCX','PDF'],
+    formats: ['DOCX'],
     icon: 'fa-file-shield',
     iconColor: '#ef4444',
     iconBg: 'rgba(239,68,68,.12)',
@@ -828,16 +830,104 @@ var DOCS = [
     stamp: 'CRITICAL',
     stampColor: '#ef4444',
     stampBorder: 'rgba(239,68,68,.5)',
-    pages: '14 pages',
-    files: ['Incident_Response_Plan_Template_GH4H.docx', 'Incident_Response_Plan_Template_GH4H.pdf'],
-    keywords: 'incident response plan breach ransomware containment recovery'
+    pages: 'Full framework',
+    files: ['GH4H-IRP-001-Incident-Response-Plan.docx'],
+    keywords: 'incident response plan IRP CSIRT POPIA breach containment recovery'
   },
   {
-    id: 'ir-playbook-ransomware',
-    title: 'Ransomware Response Playbook',
-    desc: 'Step-by-step decision tree and runbook for ransomware incidents. Covers isolation procedures, backup verification, ransom decision framework, and law enforcement notification.',
+    id: 'ir-plan-template',
+    title: 'Incident Response Plan Template',
+    desc: "A blank IRP template ready for your organisation's details. Covers detection, triage, containment, eradication, recovery, and post-incident review. Includes communication trees and stakeholder matrices.",
     category: 'incident-response',
-    formats: ['DOCX','PDF'],
+    formats: ['DOCX'],
+    icon: 'fa-file-circle-plus',
+    iconColor: '#ef4444',
+    iconBg: 'rgba(239,68,68,.12)',
+    iconBorder: 'rgba(239,68,68,.3)',
+    accentColor: '#ef4444',
+    badge: 'TEMPLATE',
+    badgeColor: 'rgba(239,68,68,.1)',
+    badgeBorder: 'rgba(239,68,68,.3)',
+    badgeText: '#ef4444',
+    stamp: 'CRITICAL',
+    stampColor: '#ef4444',
+    stampBorder: 'rgba(239,68,68,.5)',
+    pages: 'Fillable template',
+    files: ['Greyhat4Hire_IR_Plan_Template.docx'],
+    keywords: 'incident response plan template IRP blank fillable'
+  },
+  {
+    id: 'ir-framework',
+    title: 'Incident Response Framework (PDF)',
+    desc: 'The complete Greyhat4Hire IR Framework — 10-page visual playbook covering incident classification (SEV 1–4), CSIRT team structure, detection-to-triage pipeline, containment strategy, eradication, recovery phases, and POPIA breach notification obligations.',
+    category: 'incident-response',
+    formats: ['PDF (Screen)','PDF (Print)'],
+    icon: 'fa-sitemap',
+    iconColor: '#ef4444',
+    iconBg: 'rgba(239,68,68,.12)',
+    iconBorder: 'rgba(239,68,68,.3)',
+    accentColor: '#ef4444',
+    badge: 'FRAMEWORK',
+    badgeColor: 'rgba(239,68,68,.1)',
+    badgeBorder: 'rgba(239,68,68,.3)',
+    badgeText: '#ef4444',
+    stamp: 'CRITICAL',
+    stampColor: '#ef4444',
+    stampBorder: 'rgba(239,68,68,.5)',
+    pages: '10 pages',
+    files: ['Greyhat4Hire_IR_Framework_Screen.pdf', 'Greyhat4Hire_IR_Framework_Print.pdf'],
+    keywords: 'incident response framework CSIRT SEV classification containment POPIA NIST ISO'
+  },
+  {
+    id: 'ir-detection-triage',
+    title: 'Detection & Triage Decision Trees (GH4H-DT-002)',
+    desc: 'Structured decision trees for first-responder triage. Covers alert validation, severity classification, escalation paths, and evidence preservation priorities. Designed to be used in the first 15 minutes of any suspected incident.',
+    category: 'incident-response',
+    formats: ['DOCX'],
+    icon: 'fa-diagram-project',
+    iconColor: '#ef4444',
+    iconBg: 'rgba(239,68,68,.12)',
+    iconBorder: 'rgba(239,68,68,.3)',
+    accentColor: '#ef4444',
+    badge: 'TRIAGE',
+    badgeColor: 'rgba(239,68,68,.1)',
+    badgeBorder: 'rgba(239,68,68,.3)',
+    badgeText: '#ef4444',
+    stamp: 'URGENT',
+    stampColor: '#ef4444',
+    stampBorder: 'rgba(239,68,68,.5)',
+    pages: 'Decision trees',
+    files: ['GH4H-DT-002-Detection-Triage-Decision-Trees.docx'],
+    keywords: 'detection triage decision tree alert validation severity escalation first responder'
+  },
+  {
+    id: 'ir-comms-escalation',
+    title: 'Communication & Escalation Protocols (GH4H-CEP-003)',
+    desc: 'Defines who to call, when, and what to say during an active incident. Covers internal escalation trees, client notification scripts, regulator communication templates, and media-handling guidance.',
+    category: 'incident-response',
+    formats: ['DOCX'],
+    icon: 'fa-phone-volume',
+    iconColor: '#ef4444',
+    iconBg: 'rgba(239,68,68,.12)',
+    iconBorder: 'rgba(239,68,68,.3)',
+    accentColor: '#ef4444',
+    badge: 'COMMS',
+    badgeColor: 'rgba(239,68,68,.1)',
+    badgeBorder: 'rgba(239,68,68,.3)',
+    badgeText: '#ef4444',
+    stamp: 'URGENT',
+    stampColor: '#ef4444',
+    stampBorder: 'rgba(239,68,68,.5)',
+    pages: 'Comms playbook',
+    files: ['GH4H-CEP-003-Communication-Escalation-Protocols.docx'],
+    keywords: 'communication escalation protocol notification regulator POPIA media PR crisis comms'
+  },
+  {
+    id: 'ir-ransomware-guide',
+    title: 'Ransomware Response Guide',
+    desc: 'What to do in the first 60 minutes. Single-page rapid reference covering immediate isolation steps, evidence preservation order of volatility, POPIA notification obligations, common ransomware variants (LockBit, BlackCat, MedusaLocker), and a full response timeline.',
+    category: 'incident-response',
+    formats: ['PDF'],
     icon: 'fa-virus-slash',
     iconColor: '#ef4444',
     iconBg: 'rgba(239,68,68,.12)',
@@ -850,16 +940,16 @@ var DOCS = [
     stamp: 'URGENT',
     stampColor: '#ef4444',
     stampBorder: 'rgba(239,68,68,.5)',
-    pages: '8 pages',
-    files: ['Ransomware_Response_Playbook_GH4H.docx', 'Ransomware_Response_Playbook_GH4H.pdf'],
-    keywords: 'ransomware playbook incident containment isolation backup recovery'
+    pages: '1-page rapid ref',
+    files: ['Greyhat4Hire_Ransomware_Response_Guide.pdf'],
+    keywords: 'ransomware response guide LockBit BlackCat isolation evidence POPIA timeline'
   },
   {
     id: 'ir-tabletop-scenario',
-    title: 'Tabletop Exercise Scenario Pack',
-    desc: 'Three pre-built tabletop exercise scenarios: ransomware deployment, insider threat data exfiltration, and phishing-led BEC. Complete with facilitator guides and inject cards.',
+    title: 'Tabletop Exercise Design (GH4H-TTX-004)',
+    desc: "Full tabletop exercise design pack. Includes scenario frameworks, facilitator guides, inject cards, participant role cards, discussion questions, and scoring rubrics. Use to test your team's IR readiness before an actual incident.",
     category: 'incident-response',
-    formats: ['DOCX','PPTX'],
+    formats: ['DOCX'],
     icon: 'fa-chess',
     iconColor: '#ef4444',
     iconBg: 'rgba(239,68,68,.12)',
@@ -869,38 +959,57 @@ var DOCS = [
     badgeColor: 'rgba(239,68,68,.1)',
     badgeBorder: 'rgba(239,68,68,.3)',
     badgeText: '#ef4444',
-    pages: '22 pages',
-    files: ['Tabletop_Exercise_Scenario_Pack_GH4H.docx', 'Tabletop_Exercise_Scenario_Pack_GH4H.pptx'],
-    keywords: 'tabletop exercise scenario training simulation team drills'
+    pages: 'Full TTX pack',
+    files: ['GH4H-TTX-004-Tabletop-Exercise-Design.docx'],
+    keywords: 'tabletop exercise TTX scenario facilitator inject cards IR readiness'
+  },
+  {
+    id: 'ir-bcp-recovery',
+    title: 'Business Continuity & Recovery Plan (GH4H-BCP-005)',
+    desc: 'Structured BCP template covering recovery time objectives (RTOs), recovery point objectives (RPOs), critical business function mapping, backup verification procedures, and post-incident normalisation milestones.',
+    category: 'incident-response',
+    formats: ['DOCX'],
+    icon: 'fa-arrows-rotate',
+    iconColor: '#ef4444',
+    iconBg: 'rgba(239,68,68,.12)',
+    iconBorder: 'rgba(239,68,68,.3)',
+    accentColor: '#ef4444',
+    badge: 'BCP',
+    badgeColor: 'rgba(239,68,68,.1)',
+    badgeBorder: 'rgba(239,68,68,.3)',
+    badgeText: '#ef4444',
+    pages: 'Full BCP template',
+    files: ['GH4H-BCP-005-Recovery-Business-Continuity.docx'],
+    keywords: 'business continuity BCP RTO RPO recovery backup resilience DR'
   },
 
   // ── POLICY ──
   {
     id: 'acceptable-use-policy',
     title: 'Acceptable Use Policy (AUP)',
-    desc: 'Comprehensive AUP covering internet and email usage, BYOD rules, personal device policies, data handling, social media, and disciplinary consequences. POPIA-aligned.',
+    desc: 'Governs employee use of company IT systems, internet, email, and devices. Covers BYOD, remote access, social media, and disciplinary consequences. Fully customisable for South African organisations.',
     category: 'policy',
     formats: ['DOCX','PDF'],
-    icon: 'fa-gavel',
+    icon: 'fa-scale-balanced',
     iconColor: '#a78bfa',
     iconBg: 'rgba(167,139,250,.12)',
     iconBorder: 'rgba(167,139,250,.3)',
     accentColor: '#a78bfa',
     badge: 'POLICY',
-    badgeColor: 'rgba(167,139,250,.1)',
-    badgeBorder: 'rgba(167,139,250,.3)',
+    badgeColor: 'rgba(167,139,250,.12)',
+    badgeBorder: 'rgba(167,139,250,.35)',
     badgeText: '#a78bfa',
     pages: '10 pages',
     files: ['Acceptable_Use_Policy_GH4H.docx', 'Acceptable_Use_Policy_GH4H.pdf'],
-    keywords: 'acceptable use policy AUP internet email BYOD social media POPIA'
+    keywords: 'acceptable use policy AUP BYOD internet email devices remote access'
   },
   {
     id: 'password-policy',
     title: 'Password & MFA Policy',
-    desc: 'Modern password policy template with complexity requirements, rotation schedules, MFA mandates, and privileged account controls. Aligned to NIST SP 800-63B.',
+    desc: 'Defines password complexity requirements, rotation schedules, MFA enforcement, and credential storage rules. Aligned to NIST 800-63B and SA best practice.',
     category: 'policy',
     formats: ['DOCX','PDF'],
-    icon: 'fa-key',
+    icon: 'fa-lock',
     iconColor: '#a78bfa',
     iconBg: 'rgba(167,139,250,.12)',
     iconBorder: 'rgba(167,139,250,.3)',
@@ -911,15 +1020,15 @@ var DOCS = [
     badgeText: '#a78bfa',
     pages: '6 pages',
     files: ['Password_MFA_Policy_GH4H.docx', 'Password_MFA_Policy_GH4H.pdf'],
-    keywords: 'password policy MFA multi-factor authentication NIST credentials'
+    keywords: 'password MFA policy complexity rotation NIST 800-63B authentication'
   },
   {
     id: 'data-classification-policy',
     title: 'Data Classification Policy',
-    desc: 'Four-tier data classification framework (Public / Internal / Confidential / Restricted) with handling, storage, transmission and disposal requirements per tier. POPIA/GDPR ready.',
+    desc: 'Four-tier classification framework (Public / Internal / Confidential / Restricted). Includes labelling standards, handling requirements per tier, and disposal procedures aligned to POPIA.',
     category: 'policy',
     formats: ['DOCX','PDF'],
-    icon: 'fa-layer-group',
+    icon: 'fa-tags',
     iconColor: '#a78bfa',
     iconBg: 'rgba(167,139,250,.12)',
     iconBorder: 'rgba(167,139,250,.3)',
@@ -930,12 +1039,12 @@ var DOCS = [
     badgeText: '#a78bfa',
     pages: '9 pages',
     files: ['Data_Classification_Policy_GH4H.docx', 'Data_Classification_Policy_GH4H.pdf'],
-    keywords: 'data classification policy POPIA GDPR confidential restricted handling disposal'
+    keywords: 'data classification policy confidential restricted public internal POPIA labelling'
   },
   {
     id: 'remote-work-security-policy',
     title: 'Remote Work Security Policy',
-    desc: 'Security requirements for remote and hybrid workers. Covers home network hardening, VPN usage, device security, secure communications, and clean desk requirements.',
+    desc: 'Covers secure remote access requirements, VPN use, home network security, screen-lock enforcement, and acceptable device standards for remote and hybrid workers.',
     category: 'policy',
     formats: ['DOCX','PDF'],
     icon: 'fa-house-laptop',
@@ -949,36 +1058,36 @@ var DOCS = [
     badgeText: '#a78bfa',
     pages: '7 pages',
     files: ['Remote_Work_Security_Policy_GH4H.docx', 'Remote_Work_Security_Policy_GH4H.pdf'],
-    keywords: 'remote work hybrid VPN home network security policy WFH'
+    keywords: 'remote work policy VPN home network hybrid BYOD secure access'
   },
 
   // ── PENTEST ──
   {
     id: 'pentest-scope-template',
     title: 'Pentest Scope of Work Template',
-    desc: 'Pre-engagement SoW template used in real pentests. Covers in/out-of-scope definitions, testing windows, emergency contact procedures, rules of engagement, and deliverables.',
+    desc: 'Define testing boundaries clearly before any engagement begins. Covers in-scope and out-of-scope assets, authorised techniques, testing windows, rules of engagement, and emergency contact procedures.',
     category: 'pentest',
     formats: ['DOCX'],
-    icon: 'fa-user-ninja',
+    icon: 'fa-crosshairs',
     iconColor: '#a855f7',
     iconBg: 'rgba(168,85,247,.12)',
     iconBorder: 'rgba(168,85,247,.3)',
     accentColor: '#a855f7',
     badge: 'PENTEST',
-    badgeColor: 'rgba(168,85,247,.1)',
-    badgeBorder: 'rgba(168,85,247,.3)',
+    badgeColor: 'rgba(168,85,247,.12)',
+    badgeBorder: 'rgba(168,85,247,.35)',
     badgeText: '#a855f7',
     stamp: 'TECHNICAL',
     stampColor: '#a855f7',
     stampBorder: 'rgba(168,85,247,.5)',
     pages: '8 pages',
     files: ['Pentest_Scope_of_Work_Template_GH4H.docx'],
-    keywords: 'pentest scope of work SoW rules of engagement pre-engagement'
+    keywords: 'pentest scope of work SOW rules of engagement ROE testing window assets'
   },
   {
     id: 'web-app-pentest-checklist',
     title: 'Web Application Pentest Checklist',
-    desc: 'OWASP Top 10 aligned testing checklist covering injection flaws, broken auth, IDOR, XSS, CSRF, security misconfigs, XXE, and more. 147 test cases across 12 categories.',
+    desc: '147 test cases mapped to OWASP Top 10 and beyond. Covers injection, authentication, session management, access control, security misconfiguration, and API security. Includes CVSS scoring columns.',
     category: 'pentest',
     formats: ['XLSX','PDF'],
     icon: 'fa-globe',
@@ -990,14 +1099,17 @@ var DOCS = [
     badgeColor: 'rgba(168,85,247,.1)',
     badgeBorder: 'rgba(168,85,247,.3)',
     badgeText: '#a855f7',
+    stamp: 'TECHNICAL',
+    stampColor: '#a855f7',
+    stampBorder: 'rgba(168,85,247,.5)',
     pages: '147 test cases',
     files: ['Web_App_Pentest_Checklist_GH4H.xlsx', 'Web_App_Pentest_Checklist_GH4H.pdf'],
-    keywords: 'web application pentest checklist OWASP injection XSS CSRF IDOR'
+    keywords: 'web app pentest checklist OWASP Top 10 injection authentication API CVSS'
   },
   {
     id: 'network-pentest-checklist',
     title: 'Network Pentest Checklist',
-    desc: 'Structured checklist for internal and external network assessments. Covers port scanning, service enumeration, SMB/LDAP/DNS attacks, AD attacks, and lateral movement vectors.',
+    desc: '98 test cases covering network discovery, enumeration, exploitation, and post-exploitation. Includes Active Directory attack paths, lateral movement checks, and firewall rule review.',
     category: 'pentest',
     formats: ['XLSX','PDF'],
     icon: 'fa-network-wired',
@@ -1009,105 +1121,155 @@ var DOCS = [
     badgeColor: 'rgba(168,85,247,.1)',
     badgeBorder: 'rgba(168,85,247,.3)',
     badgeText: '#a855f7',
+    stamp: 'TECHNICAL',
+    stampColor: '#a855f7',
+    stampBorder: 'rgba(168,85,247,.5)',
     pages: '98 test cases',
     files: ['Network_Pentest_Checklist_GH4H.xlsx', 'Network_Pentest_Checklist_GH4H.pdf'],
-    keywords: 'network pentest checklist AD active directory SMB LDAP DNS lateral movement'
+    keywords: 'network pentest checklist AD active directory lateral movement firewall enumeration'
   },
   {
     id: 'finding-report-template',
     title: 'Pentest Finding Report Template',
-    desc: 'Professional pentest findings report template matching the format we use in real engagements. Includes executive summary, risk matrix, detailed findings, remediation tables, and CVSS scoring guide.',
+    desc: 'Professional pentest report structure. Includes executive summary, methodology, finding cards with CVSS scores, risk matrix, remediation priorities, and appendices for evidence screenshots.',
     category: 'pentest',
     formats: ['DOCX','PDF'],
-    icon: 'fa-file-pen',
+    icon: 'fa-file-code',
     iconColor: '#a855f7',
     iconBg: 'rgba(168,85,247,.12)',
     iconBorder: 'rgba(168,85,247,.3)',
     accentColor: '#a855f7',
-    badge: 'REPORT TEMPLATE',
+    badge: 'REPORT',
     badgeColor: 'rgba(168,85,247,.1)',
     badgeBorder: 'rgba(168,85,247,.3)',
     badgeText: '#a855f7',
+    stamp: 'TECHNICAL',
+    stampColor: '#a855f7',
+    stampBorder: 'rgba(168,85,247,.5)',
     pages: '20 pages',
     files: ['Pentest_Finding_Report_Template_GH4H.docx', 'Pentest_Finding_Report_Template_GH4H.pdf'],
-    keywords: 'pentest report template findings CVSS executive summary risk matrix'
+    keywords: 'pentest report template finding CVSS risk matrix executive summary remediation'
   },
 
   // ── COMPLIANCE ──
   {
     id: 'popia-readiness-checklist',
     title: 'POPIA Readiness Checklist',
-    desc: 'South Africa-specific POPIA compliance checklist covering all eight conditions for lawful processing. Includes a readiness scoring system and remediation priority matrix.',
+    desc: "65 controls mapped to POPIA's 8 conditions for lawful processing. Covers data subject rights, responsible party obligations, breach notification, Information Officer appointment, and PAIA alignment.",
     category: 'compliance',
     formats: ['XLSX','PDF'],
-    icon: 'fa-balance-scale',
+    icon: 'fa-shield-halved',
     iconColor: '#f59e0b',
     iconBg: 'rgba(245,158,11,.12)',
     iconBorder: 'rgba(245,158,11,.3)',
     accentColor: '#f59e0b',
     badge: 'COMPLIANCE',
-    badgeColor: 'rgba(245,158,11,.1)',
-    badgeBorder: 'rgba(245,158,11,.3)',
+    badgeColor: 'rgba(245,158,11,.12)',
+    badgeBorder: 'rgba(245,158,11,.35)',
     badgeText: '#f59e0b',
     stamp: 'SA-SPECIFIC',
     stampColor: '#f59e0b',
     stampBorder: 'rgba(245,158,11,.5)',
     pages: '65 controls',
     files: ['POPIA_Readiness_Checklist_GH4H.xlsx', 'POPIA_Readiness_Checklist_GH4H.pdf'],
-    keywords: 'POPIA compliance South Africa data protection readiness checklist'
+    keywords: 'POPIA readiness checklist compliance data subject Information Officer breach'
   },
   {
     id: 'iso27001-gap-analysis',
     title: 'ISO 27001 Gap Analysis Template',
-    desc: 'Structured gap analysis workbook covering all ISO 27001:2022 Annex A controls. Assign implementation status, risk ratings, and build your Statement of Applicability (SoA).',
+    desc: '93 controls from ISO/IEC 27001:2022 Annex A mapped to current/target state. Calculates compliance percentage automatically. Use for initial gap assessment before certification.',
     category: 'compliance',
     formats: ['XLSX'],
-    icon: 'fa-certificate',
+    icon: 'fa-circle-check',
     iconColor: '#f59e0b',
     iconBg: 'rgba(245,158,11,.12)',
     iconBorder: 'rgba(245,158,11,.3)',
     accentColor: '#f59e0b',
-    badge: 'COMPLIANCE',
+    badge: 'ISO 27001',
     badgeColor: 'rgba(245,158,11,.1)',
     badgeBorder: 'rgba(245,158,11,.3)',
     badgeText: '#f59e0b',
     pages: '93 controls',
     files: ['ISO27001_Gap_Analysis_Template_GH4H.xlsx'],
-    keywords: 'ISO 27001 gap analysis compliance Annex A SoA certification'
+    keywords: 'ISO 27001 gap analysis Annex A compliance certification ISMS controls'
   },
   {
     id: 'risk-register-template',
     title: 'Information Security Risk Register',
-    desc: 'Pre-populated risk register template with 40 example risk entries across infrastructure, access control, data, supplier, and human threat categories. Inherent vs residual risk scoring built in.',
+    desc: '40 pre-populated risk entries covering common threats across people, process, and technology. Includes likelihood/impact scoring, risk owner columns, treatment options, and residual risk tracking.',
     category: 'compliance',
     formats: ['XLSX','PDF'],
-    icon: 'fa-table-list',
+    icon: 'fa-triangle-exclamation',
     iconColor: '#f59e0b',
     iconBg: 'rgba(245,158,11,.12)',
     iconBorder: 'rgba(245,158,11,.3)',
     accentColor: '#f59e0b',
-    badge: 'TEMPLATE',
+    badge: 'RISK',
     badgeColor: 'rgba(245,158,11,.1)',
     badgeBorder: 'rgba(245,158,11,.3)',
     badgeText: '#f59e0b',
     pages: '40 risk entries',
     files: ['Information_Security_Risk_Register_GH4H.xlsx', 'Information_Security_Risk_Register_GH4H.pdf'],
-    keywords: 'risk register information security template inherent residual scoring'
+    keywords: 'risk register information security likelihood impact treatment residual risk owner'
+  },
+  {
+    id: 'sa-healthcare-cyber-guide',
+    title: 'SA Healthcare Cyber Business Guide',
+    desc: 'Purpose-built guide for South African medical and dental practices. Covers POPIA Section 26 (special personal information), HPCSA obligations, GoodX/Healthbridge/Elixir security, mandatory breach notification, WhatsApp patient data risks, and the 5 questions every practice must answer.',
+    category: 'compliance',
+    formats: ['DOCX'],
+    icon: 'fa-hospital',
+    iconColor: '#f59e0b',
+    iconBg: 'rgba(245,158,11,.12)',
+    iconBorder: 'rgba(245,158,11,.3)',
+    accentColor: '#f59e0b',
+    badge: 'HEALTHCARE',
+    badgeColor: 'rgba(245,158,11,.12)',
+    badgeBorder: 'rgba(245,158,11,.35)',
+    badgeText: '#f59e0b',
+    stamp: 'SA-SPECIFIC',
+    stampColor: '#f59e0b',
+    stampBorder: 'rgba(245,158,11,.5)',
+    pages: 'Full guide',
+    files: ['SA_Healthcare_Cyber_Business_Guide.docx'],
+    keywords: 'healthcare POPIA Section 26 medical dental GoodX Healthbridge HPCSA breach WhatsApp patient data SA'
   },
 
   // ── TRAINING ──
   {
-    id: 'phishing-awareness-pack',
-    title: 'Phishing Awareness Training Pack',
-    desc: 'Complete employee phishing awareness kit. Includes a presentation deck, 10-question quiz, example phishing email samples with analysis breakdowns, and a poster set for print.',
+    id: 'security-awareness-training',
+    title: 'Security Awareness Training Deck',
+    desc: "Greyhat4Hire's full security awareness training presentation. Covers phishing recognition, password hygiene, social engineering, safe browsing, physical security, and incident reporting. Ready to deliver to staff.",
     category: 'training',
-    formats: ['PPTX','DOCX','PDF'],
-    icon: 'fa-fish-fins',
+    formats: ['PPTX'],
+    icon: 'fa-chalkboard-user',
     iconColor: '#22c55e',
     iconBg: 'rgba(34,197,94,.12)',
     iconBorder: 'rgba(34,197,94,.3)',
     accentColor: '#22c55e',
     badge: 'TRAINING',
+    badgeColor: 'rgba(34,197,94,.12)',
+    badgeBorder: 'rgba(34,197,94,.35)',
+    badgeText: '#22c55e',
+    stamp: 'STAFF READY',
+    stampColor: '#22c55e',
+    stampBorder: 'rgba(34,197,94,.5)',
+    pages: 'Full training deck',
+    files: ['Greyhat4Hire_Security_Awareness_Training.pptx'],
+    keywords: 'security awareness training phishing social engineering password hygiene staff'
+  },
+  {
+    id: 'phishing-awareness-pack',
+    title: 'Phishing Awareness Training Pack',
+    desc: '34-slide deck with embedded quiz. Covers phishing, smishing, vishing, whaling, and BEC. Includes facilitator notes, quiz questions with answer keys, and a training completion sign-off sheet.',
+    category: 'training',
+    formats: ['PPTX','PDF'],
+    icon: 'fa-fish-fins',
+    iconColor: '#22c55e',
+    iconBg: 'rgba(34,197,94,.12)',
+    iconBorder: 'rgba(34,197,94,.3)',
+    accentColor: '#22c55e',
+    badge: 'PHISHING',
     badgeColor: 'rgba(34,197,94,.1)',
     badgeBorder: 'rgba(34,197,94,.3)',
     badgeText: '#22c55e',
@@ -1116,34 +1278,34 @@ var DOCS = [
     stampBorder: 'rgba(34,197,94,.5)',
     pages: '34 slides + quiz',
     files: ['Phishing_Awareness_Training_Pack_GH4H.pptx', 'Phishing_Awareness_Pack_GH4H.pdf'],
-    keywords: 'phishing awareness training staff employees presentation quiz posters'
+    keywords: 'phishing awareness training smishing vishing BEC whaling quiz staff'
   },
   {
     id: 'security-onboarding-checklist',
     title: 'New Employee Security Onboarding Checklist',
-    desc: 'Security onboarding checklist ensuring every new joiner receives proper account setup, access provisioning, mandatory training, policy sign-off, and equipment security briefing.',
+    desc: 'Ensures every new hire is security-ready from day one. Covers system access provisioning, policy acknowledgements, MFA setup, security training completion, and physical security briefing.',
     category: 'training',
     formats: ['DOCX','PDF'],
-    icon: 'fa-user-plus',
+    icon: 'fa-user-check',
     iconColor: '#22c55e',
     iconBg: 'rgba(34,197,94,.12)',
     iconBorder: 'rgba(34,197,94,.3)',
     accentColor: '#22c55e',
-    badge: 'CHECKLIST',
+    badge: 'ONBOARDING',
     badgeColor: 'rgba(34,197,94,.1)',
     badgeBorder: 'rgba(34,197,94,.3)',
     badgeText: '#22c55e',
     pages: '5 pages',
     files: ['New_Employee_Security_Onboarding_Checklist_GH4H.docx', 'New_Employee_Security_Onboarding_Checklist_GH4H.pdf'],
-    keywords: 'onboarding security checklist new employee training access provisioning'
+    keywords: 'onboarding new employee security checklist MFA access provisioning training'
   },
   {
     id: 'cyber-hygiene-poster-set',
     title: 'Cyber Hygiene Poster Set',
-    desc: 'Six print-ready A3 security awareness posters: Password hygiene, Phishing spotting, USB safety, Clean desk, Public Wi-Fi risks, and Reporting incidents. Editable versions included.',
+    desc: '6 A3 print-ready posters covering password hygiene, phishing red flags, clean desk policy, USB safety, social engineering awareness, and mobile device security. Print and display in your office.',
     category: 'training',
     formats: ['PDF','PPTX'],
-    icon: 'fa-print',
+    icon: 'fa-image',
     iconColor: '#22c55e',
     iconBg: 'rgba(34,197,94,.12)',
     iconBorder: 'rgba(34,197,94,.3)',
@@ -1155,6 +1317,153 @@ var DOCS = [
     pages: '6 A3 posters',
     files: ['Cyber_Hygiene_Poster_Set_GH4H.pdf', 'Cyber_Hygiene_Poster_Set_GH4H.pptx'],
     keywords: 'cyber hygiene poster print awareness USB clean desk phishing'
+  },
+
+  // ── BUSINESS DOCUMENTS ──
+  {
+    id: 'nda-greyhat4hire',
+    title: 'Mutual NDA — Greyhat4Hire Edition',
+    desc: "Greyhat4Hire's own mutual NDA. South African law, POPIA-compliant, Cybercrimes Act acknowledged. Covers cybersecurity-specific confidentiality (vulnerability findings, pentest data, credentials). Includes 5-year survival clause and AFSA mediation.",
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-handshake',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'LEGAL',
+    badgeColor: 'rgba(56,189,248,.12)',
+    badgeBorder: 'rgba(56,189,248,.35)',
+    badgeText: '#38bdf8',
+    stamp: 'SA-SPECIFIC',
+    stampColor: '#38bdf8',
+    stampBorder: 'rgba(56,189,248,.5)',
+    pages: 'Full NDA',
+    files: ['NDA_Greyhat4hire.docx'],
+    keywords: 'NDA mutual non-disclosure agreement confidential POPIA Cybercrimes Act SA legal'
+  },
+  {
+    id: 'nda-cybersecurity-sa',
+    title: 'Mutual NDA — Generic Cybersecurity SA',
+    desc: "A broader mutual NDA template for any SA cybersecurity engagement. Covers confidential information definitions, POPIA obligations, exclusions, term and termination, and remedies. Suitable for use between any two South African parties.",
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-file-signature',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'LEGAL',
+    badgeColor: 'rgba(56,189,248,.1)',
+    badgeBorder: 'rgba(56,189,248,.3)',
+    badgeText: '#38bdf8',
+    stamp: 'SA-SPECIFIC',
+    stampColor: '#38bdf8',
+    stampBorder: 'rgba(56,189,248,.5)',
+    pages: 'Full NDA',
+    files: ['NDA_Cybersecurity_SA.docx'],
+    keywords: 'NDA non-disclosure agreement cybersecurity SA template generic mutual confidential'
+  },
+  {
+    id: 'dpa-greyhat4hire',
+    title: 'Data Processing Agreement (POPIA DPA)',
+    desc: "POPIA-compliant DPA for use between a responsible party (client) and operator (Greyhat4Hire). Covers lawful processing scope, operator obligations, sub-operator controls, data breach notification (24hr), data subject rights, audit rights, and 5-year survival.",
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-database',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'POPIA',
+    badgeColor: 'rgba(56,189,248,.1)',
+    badgeBorder: 'rgba(56,189,248,.3)',
+    badgeText: '#38bdf8',
+    stamp: 'SA-SPECIFIC',
+    stampColor: '#38bdf8',
+    stampBorder: 'rgba(56,189,248,.5)',
+    pages: 'Full DPA',
+    files: ['DPA_Greyhat4hire.docx'],
+    keywords: 'DPA data processing agreement POPIA operator responsible party personal information breach'
+  },
+  {
+    id: 'change-order',
+    title: 'Change Order Template',
+    desc: "Formal change order for scope, timeline, or fee amendments to an existing SOW. Covers change description, financial impact (ZAR), timeline adjustments, and signature blocks for both parties. No verbal agreements — signature required before work starts.",
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-pen-to-square',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'CONTRACT',
+    badgeColor: 'rgba(56,189,248,.1)',
+    badgeBorder: 'rgba(56,189,248,.3)',
+    badgeText: '#38bdf8',
+    pages: 'Full template',
+    files: ['ChangeOrder_Greyhat4hire.docx'],
+    keywords: 'change order SOW scope amendment fee timeline contract signature'
+  },
+  {
+    id: 'sow-template',
+    title: 'Statement of Work (SOW) Template',
+    desc: "Greyhat4Hire's full SOW template for formalising cybersecurity engagements. Covers project scope, deliverables, testing windows, milestones, payment schedule, exclusions, and acceptance criteria. Use before any engagement begins.",
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-file-contract',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'CONTRACT',
+    badgeColor: 'rgba(56,189,248,.1)',
+    badgeBorder: 'rgba(56,189,248,.3)',
+    badgeText: '#38bdf8',
+    pages: 'Full SOW',
+    files: ['SOW_Greyhat4hire.docx'],
+    keywords: 'SOW statement of work scope deliverables milestones payment acceptance criteria engagement'
+  },
+  {
+    id: 'roe-authorization',
+    title: 'Rules of Engagement & Authorisation to Test',
+    desc: 'The critical legal authorisation that must be signed before any penetration test begins. Defines in-scope systems, permitted techniques, testing windows, emergency stop procedures, and legal indemnification. Protects both tester and client under the Cybercrimes Act.',
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-gavel',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'LEGAL',
+    badgeColor: 'rgba(56,189,248,.12)',
+    badgeBorder: 'rgba(56,189,248,.35)',
+    badgeText: '#38bdf8',
+    stamp: 'CRITICAL',
+    stampColor: '#38bdf8',
+    stampBorder: 'rgba(56,189,248,.5)',
+    pages: 'Full ROE',
+    files: ['ROE_Authorization_to_Test_Greyhat4hire.docx'],
+    keywords: 'ROE rules of engagement authorization to test pentest legal Cybercrimes Act scope indemnification'
+  },
+  {
+    id: 'subcontractor-agreement',
+    title: 'Subcontractor Agreement & NDA',
+    desc: "Governs subcontractors and freelance testers working under Greyhat4Hire engagements. Covers services, fees, confidentiality (including no social media disclosure), POPIA obligations, Cybercrimes Act compliance, IP assignment, conduct standards, and indemnity.",
+    category: 'business',
+    formats: ['DOCX'],
+    icon: 'fa-user-tie',
+    iconColor: '#38bdf8',
+    iconBg: 'rgba(56,189,248,.12)',
+    iconBorder: 'rgba(56,189,248,.3)',
+    accentColor: '#38bdf8',
+    badge: 'CONTRACT',
+    badgeColor: 'rgba(56,189,248,.1)',
+    badgeBorder: 'rgba(56,189,248,.3)',
+    badgeText: '#38bdf8',
+    pages: 'Full agreement',
+    files: ['Subcontractor_Agreement_Greyhat4hire.docx'],
+    keywords: 'subcontractor agreement NDA freelance tester IP assignment POPIA Cybercrimes Act conduct'
   }
 ];
 
@@ -1332,17 +1641,28 @@ function renderDocs() {
         <span class="doc-format-tag ml-auto">${doc.pages}</span>
       </div>
 
-      <div class="flex gap-2">
-        <a href="documents/${doc.files[0]}" download class="dl-btn" style="flex:1;">
-          <i class="fas fa-download dl-arrow" style="font-size:.8rem;"></i>
-          <span>DOWNLOAD</span>
-        </a>
-        <button onclick="copyLink('${doc.files[0]}')"
-          style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:.85rem;cursor:none;transition:all .3s ease;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:auto;"
-          onmouseover="this.style.borderColor='rgba(168,85,247,.4)';this.style.color='#a855f7'"
-          onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">
-          <i class="fas fa-link"></i>
-        </button>
+      <div class="flex gap-2 flex-wrap">
+        ${doc.id === 'ir-framework' ? `
+          <a href="documents/${doc.files[0]}" download class="dl-btn" style="flex:1;min-width:calc(50% - 8px);font-size:.72rem;padding:10px 8px;">
+            <i class="fas fa-desktop dl-arrow" style="font-size:.75rem;"></i>
+            <span>SCREEN PDF</span>
+          </a>
+          <a href="documents/${doc.files[1]}" download class="dl-btn" style="flex:1;min-width:calc(50% - 8px);font-size:.72rem;padding:10px 8px;">
+            <i class="fas fa-print dl-arrow" style="font-size:.75rem;"></i>
+            <span>PRINT PDF</span>
+          </a>
+        ` : `
+          <a href="documents/${doc.files[0]}" download class="dl-btn" style="flex:1;">
+            <i class="fas fa-download dl-arrow" style="font-size:.8rem;"></i>
+            <span>DOWNLOAD</span>
+          </a>
+          <button onclick="copyLink('${doc.files[0]}')"
+            style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:.85rem;cursor:none;transition:all .3s ease;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:auto;"
+            onmouseover="this.style.borderColor='rgba(168,85,247,.4)';this.style.color='#a855f7'"
+            onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">
+            <i class="fas fa-link"></i>
+          </button>
+        `}
       </div>
     </div>`;
   });
