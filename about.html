@@ -3,8 +3,72 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About — Greyhat4Hire | Dr David Sykes</title>
-  <meta name="description" content="Dr David Sykes — independent cybersecurity practitioner and practicing dentist based in Umhlanga, South Africa. Two decades of precision in both disciplines."/>
+  <title>Greyhat4Hire — Independent Security Assurance</title>
+  <meta name="description" content="Elite, independent penetration testing, risk assessments, and remediation for healthcare, dental practices, SMEs, and professionals. South Africa."/>
+
+  <!-- ══ SEO ══ -->
+  <link rel="canonical" href="https://greyhat4hire.co.za/"/>
+  <meta name="theme-color" content="#000000"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta name="geo.placename" content="South Africa"/>
+
+  <!-- ══ OPEN GRAPH ══ -->
+  <meta property="og:type"        content="website"/>
+  <meta property="og:url"         content="https://greyhat4hire.co.za/"/>
+  <meta property="og:title"       content="Greyhat4Hire — Independent Security Assurance"/>
+  <meta property="og:description" content="Elite, independent penetration testing, risk assessments, and remediation for healthcare, dental practices, SMEs, and professionals. South Africa."/>
+  <meta property="og:image"       content="https://greyhat4hire.co.za/og-image.png"/>
+  <meta property="og:locale"      content="en_ZA"/>
+  <meta property="og:site_name"   content="Greyhat4Hire"/>
+
+  <!-- ══ TWITTER/X CARD ══ -->
+  <meta name="twitter:card"        content="summary_large_image"/>
+  <meta name="twitter:url"         content="https://greyhat4hire.co.za/"/>
+  <meta name="twitter:title"       content="Greyhat4Hire — Independent Security Assurance"/>
+  <meta name="twitter:description" content="Elite penetration testing &amp; risk assessments for South African businesses. We breach you before they do."/>
+  <meta name="twitter:image"       content="https://greyhat4hire.co.za/og-image.png"/>
+
+  <!-- ══ JSON-LD STRUCTURED DATA ══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://greyhat4hire.co.za/#org",
+        "name": "Greyhat4Hire",
+        "url": "https://greyhat4hire.co.za",
+        "logo": "https://greyhat4hire.co.za/logo.png",
+        "description": "Independent cybersecurity consulting firm providing ethical penetration testing, vulnerability assessments, risk audits, and incident response across South Africa.",
+        "telephone": "+27846353581",
+        "address": { "@type": "PostalAddress", "addressCountry": "ZA" },
+        "areaServed": "ZA"
+      },
+      {
+        "@type": "Service",
+        "name": "Penetration Testing",
+        "provider": { "@id": "https://greyhat4hire.co.za/#org" },
+        "description": "Manual, expert-led penetration testing across web apps, networks, cloud infrastructure, and APIs.",
+        "areaServed": "ZA"
+      },
+      {
+        "@type": "Service",
+        "name": "Vulnerability Assessment",
+        "provider": { "@id": "https://greyhat4hire.co.za/#org" },
+        "description": "Systematic broad scanning and prioritisation of your entire attack surface.",
+        "areaServed": "ZA"
+      },
+      {
+        "@type": "WebPage",
+        "url": "https://greyhat4hire.co.za/",
+        "name": "Greyhat4Hire — Independent Security Assurance",
+        "isPartOf": { "@id": "https://greyhat4hire.co.za/#org" }
+      }
+    ]
+  }
+  </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -42,12 +106,15 @@
     #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
+    /* ── FONTS ── */
     .font-display { font-family: 'Orbitron', monospace; }
     .font-mono    { font-family: 'Share Tech Mono', monospace; }
 
     /* ── GLASS ── */
     .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
     .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+    .glass-hover  { transition:all .35s ease; }
+    .glass-hover:hover { border-color:rgba(255,20,147,.5);box-shadow:0 0 50px rgba(255,20,147,.18);transform:translateY(-6px); }
 
     /* ── NEON ── */
     .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
@@ -62,8 +129,6 @@
     .desktop-link:hover::after { width:100%; }
     .desktop-link.active { color:#ff1493; }
     .desktop-link.active::after { width:100%; }
-
-    /* ── MOBILE MENU — background set in CSS so it's guaranteed regardless of Tailwind CDN opacity utilities ── */
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
     #mobile-menu.open { transform:translateY(0); }
     .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
@@ -102,7 +167,7 @@
       opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
     }
     .tools-dropdown-panel::before {
-      content:'';position:absolute;top:-6px;left:50%;
+      content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
       width:12px;height:12px;background:rgba(4,4,4,.97);
       border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
       transform:translateX(-50%) rotate(45deg);
@@ -122,8 +187,8 @@
     }
     .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
     .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
-    .tool-nav-name  { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
-    .tool-nav-desc  { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
     .tools-panel-header {
       padding:10px 16px 8px;margin-bottom:4px;
       border-bottom:1px solid rgba(255,20,147,.12);
@@ -159,8 +224,6 @@
     @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
     .pulse-glow { animation:pulseGlow 2.8s infinite; }
 
-    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
-
     /* ── HERO GRID ── */
     .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
     .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
@@ -172,25 +235,168 @@
     .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
     .marquee-sep { color:rgba(255,20,147,.25); }
 
-    /* ── TYPEWRITER ── */
-    .typewriter-cursor { display:inline-block;animation:blink .85s infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    /* ── STAT COUNTERS ── */
+    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
 
-    /* ── DUAL IDENTITY CARDS ── */
-    .identity-card {
+    /* ── SECTION HEADERS ── */
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+
+    /* ── SERVICE CARDS ── */
+    .service-card {
       background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
       border:1px solid rgba(255,20,147,.15);
       border-radius:24px;
       position:relative;overflow:hidden;
-      transition:border-color .4s ease, box-shadow .4s ease, transform .4s ease;
+      transition:border-color .4s ease, box-shadow .4s ease;
     }
-    .identity-card::before {
+    .service-card::before {
       content:'';position:absolute;top:0;left:0;right:0;height:3px;
       background:linear-gradient(90deg,transparent,var(--pink),transparent);
       opacity:0;transition:opacity .4s ease;
     }
-    .identity-card:hover { border-color:rgba(255,20,147,.45);box-shadow:0 20px 70px rgba(255,20,147,.14);transform:translateY(-6px); }
-    .identity-card:hover::before { opacity:1; }
+    .service-card:hover { border-color:rgba(255,20,147,.45);box-shadow:0 20px 70px rgba(255,20,147,.14); }
+    .service-card:hover::before { opacity:1; }
+    .service-card::after {
+      content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,20,147,.06),transparent);
+      transition:left .7s ease;pointer-events:none;
+    }
+    .service-card:hover::after { left:100%; }
+
+    /* ── SERVICE ICON ── */
+    .svc-icon-wrap {
+      width:72px;height:72px;border-radius:18px;flex-shrink:0;
+      background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);
+      display:flex;align-items:center;justify-content:center;font-size:1.7rem;
+      color:var(--pink);transition:all .4s ease;
+    }
+    .service-card:hover .svc-icon-wrap { background:rgba(255,20,147,.18);box-shadow:0 0 30px rgba(255,20,147,.4);transform:scale(1.08) rotate(4deg); }
+    .svc-number { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(255,20,147,.45);font-weight:700; }
+
+    /* ── EXPANDABLE DETAILS ── */
+    .service-details {
+      max-height:0;overflow:hidden;
+      transition:max-height .6s cubic-bezier(.4,0,.2,1), opacity .5s ease;
+      opacity:0;
+    }
+    .service-details.expanded { max-height:3200px;opacity:1; }
+
+    /* ── TOGGLE BUTTON ── */
+    .toggle-btn {
+      display:inline-flex;align-items:center;gap:8px;
+      background:transparent;border:2px solid rgba(255,20,147,.35);
+      color:var(--pink);font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+      padding:12px 28px;border-radius:12px;cursor:none;
+      transition:all .3s ease;
+    }
+    .toggle-btn:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.65);box-shadow:0 0 24px rgba(255,20,147,.25); }
+    .toggle-icon { transition:transform .35s ease;display:inline-block; }
+    .toggle-icon.rotated { transform:rotate(180deg); }
+
+    /* ── BENEFIT PILLS ── */
+    .benefit-pill {
+      display:inline-flex;align-items:center;gap:6px;
+      padding:7px 16px;background:rgba(255,20,147,.07);
+      border:1px solid rgba(255,20,147,.25);border-radius:50px;
+      font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:600;
+      color:rgba(255,255,255,.8);margin:4px;
+      transition:all .3s ease;
+    }
+    .benefit-pill:hover { background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5);transform:translateY(-2px); }
+
+    /* ── TOOL TAGS ── */
+    .tool-tag {
+      display:inline-flex;align-items:center;gap:5px;
+      padding:5px 13px;background:rgba(0,0,0,.5);
+      border:1px solid rgba(255,255,255,.08);border-radius:8px;
+      font-family:'Share Tech Mono',monospace;font-size:.72rem;
+      color:rgba(255,255,255,.5);margin:3px;
+    }
+
+    /* ── OUTCOME ITEMS ── */
+    .outcome-item {
+      display:flex;align-items:flex-start;gap:14px;
+      padding:16px 18px;
+      background:rgba(255,20,147,.04);
+      border-left:3px solid rgba(255,20,147,.5);
+      border-radius:0 12px 12px 0;
+      margin-bottom:10px;
+      transition:all .3s ease;
+    }
+    .outcome-item:hover { background:rgba(255,20,147,.09);transform:translateX(6px); }
+
+    /* ── ATTACK SCENARIO BOX ── */
+    .attack-box {
+      background:rgba(239,68,68,.06);
+      border:1px solid rgba(239,68,68,.3);
+      border-radius:14px;padding:20px 22px;
+      position:relative;overflow:hidden;
+    }
+    .attack-box::before {
+      content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+      background:linear-gradient(180deg,#ef4444,#ff1493);
+    }
+
+    /* ── DEEP-DIVE TWO-COL ── */
+    .deep-dive-grid { display:grid;grid-template-columns:1fr;gap:24px; }
+    @media(min-width:900px){ .deep-dive-grid { grid-template-columns:1fr 1fr; } }
+
+    /* ── METHODOLOGY TIMELINE ── */
+    .timeline-step {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
+      border-radius:20px;padding:28px;position:relative;
+      transition:all .4s ease;
+    }
+    .timeline-step:hover { border-color:rgba(255,20,147,.4);box-shadow:0 10px 44px rgba(255,20,147,.15);transform:translateY(-5px); }
+    .step-badge {
+      width:52px;height:52px;border-radius:14px;
+      background:linear-gradient(135deg,rgba(255,20,147,.2),rgba(255,20,147,.05));
+      border:2px solid rgba(255,20,147,.4);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;
+      color:var(--pink);margin-bottom:18px;
+      transition:all .4s ease;
+    }
+    .timeline-step:hover .step-badge { transform:scale(1.1);box-shadow:0 0 28px rgba(255,20,147,.5); }
+
+    /* ── INDUSTRY CARDS ── */
+    .industry-card {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.12);
+      border-radius:20px;padding:28px 20px;text-align:center;
+      transition:all .4s ease;
+    }
+    .industry-card:hover { border-color:rgba(255,20,147,.45);transform:translateY(-8px);box-shadow:0 16px 50px rgba(255,20,147,.2); }
+    .industry-icon {
+      width:72px;height:72px;margin:0 auto 18px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(255,20,147,.03));
+      border:1px solid rgba(255,20,147,.25);border-radius:18px;
+      transition:all .4s ease;position:relative;flex-shrink:0;
+    }
+    .industry-icon::after {
+      content:'';position:absolute;inset:0;border-radius:18px;
+      background:radial-gradient(circle at 30% 30%,rgba(255,20,147,.12),transparent 70%);
+      pointer-events:none;
+    }
+    .industry-icon svg { width:32px;height:32px;transition:all .4s ease; }
+    .industry-card:hover .industry-icon {
+      background:linear-gradient(135deg,rgba(255,20,147,.18),rgba(255,20,147,.07));
+      border-color:rgba(255,20,147,.6);
+      box-shadow:0 0 30px rgba(255,20,147,.35),inset 0 0 20px rgba(255,20,147,.08);
+      transform:scale(1.08) rotate(3deg);
+    }
+    .industry-card:hover .industry-icon svg { filter:drop-shadow(0 0 8px rgba(255,20,147,.9)); }
+
+    /* ── CASE STUDY CARDS ── */
+    .case-card {
+      background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
+      border-radius:20px;padding:32px 36px;
+      transition:all .4s ease;position:relative;
+    }
+    .case-card::before { content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:2px;background:var(--pink);opacity:.4;transition:all .4s ease; }
+    .case-card:hover { border-color:rgba(255,20,147,.38);transform:translateX(6px);box-shadow:-4px 0 40px rgba(255,20,147,.12); }
+    .case-card:hover::before { opacity:1;box-shadow:0 0 12px var(--pink); }
+    .case-result { display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:8px;color:#22c55e;font-weight:700;font-size:.82rem;margin-top:14px; }
 
     /* ── STAT CARDS ── */
     .stat-card {
@@ -199,78 +405,46 @@
       border-radius:18px;transition:all .4s ease;
     }
     .stat-card:hover { background:rgba(255,20,147,.09);border-color:rgba(255,20,147,.4);transform:translateY(-6px);box-shadow:0 14px 40px rgba(255,20,147,.15); }
-    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
 
-    /* ── TIMELINE ── */
-    .tl-item { position:relative;padding-left:48px; }
-    .tl-item::before {
-      content:'';position:absolute;left:20px;top:0;bottom:-32px;
-      width:1px;background:linear-gradient(180deg,rgba(255,20,147,.5),rgba(255,20,147,.05));
+    /* ── PRICING CARDS ── */
+    .price-card {
+      background:rgba(8,8,8,.75);border:1px solid rgba(255,20,147,.15);
+      border-radius:24px;padding:36px 28px;text-align:center;
+      transition:all .4s ease;position:relative;overflow:visible;
     }
-    .tl-item:last-child::before { display:none; }
-    .tl-dot {
-      position:absolute;left:12px;top:6px;
-      width:17px;height:17px;border-radius:50%;
-      background:#000;border:2px solid var(--pink);
-      box-shadow:0 0 14px rgba(255,20,147,.6);
-      transition:all .3s ease;
-    }
-    .tl-item:hover .tl-dot { transform:scale(1.4);box-shadow:0 0 28px rgba(255,20,147,.9); }
-    .tl-card {
-      background:rgba(8,8,8,.72);backdrop-filter:blur(12px);
-      border:1px solid rgba(255,20,147,.12);border-radius:18px;
-      padding:24px 26px;margin-bottom:32px;
+    .price-card:hover { transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
+    .price-card.featured { border-color:rgba(255,20,147,.55);box-shadow:0 0 40px rgba(255,20,147,.18);padding-top:52px; }
+    .price-card.featured::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent,var(--pink),transparent); }
+    .price-amount { font-family:'Orbitron',monospace;font-weight:900;font-size:2.8rem;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.5); }
+    .price-feature { display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.9rem;color:#ccc; }
+
+    /* ── TOOL PROMO CARDS ── */
+    .tool-card {
+      background:rgba(8,8,8,.78);border:1px solid rgba(255,20,147,.2);
+      border-radius:24px;padding:36px;position:relative;overflow:hidden;
       transition:all .4s ease;
     }
-    .tl-card:hover { border-color:rgba(255,20,147,.38);background:rgba(8,8,8,.9); }
+    .tool-card::after { content:'';position:absolute;top:-60%;right:-40%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.06),transparent 60%);pointer-events:none; }
+    .tool-card:hover { border-color:rgba(255,20,147,.5);transform:translateY(-6px);box-shadow:0 20px 60px rgba(255,20,147,.2); }
+    .tool-badge { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,20,147,.12);border:1px solid rgba(255,20,147,.3);border-radius:99px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--pink);margin-bottom:14px; }
 
-    /* ── QUOTE BLOCK ── */
-    .quote-block {
-      background:rgba(255,20,147,.05);
-      border-left:4px solid var(--pink);
-      border-radius:0 16px 16px 0;
-      padding:32px 36px;
-      position:relative;overflow:hidden;
-    }
-    .quote-block::before {
-      content:'"';
-      font-family:'Orbitron',monospace;font-size:8rem;font-weight:900;
-      color:rgba(255,20,147,.08);
-      position:absolute;top:-20px;left:12px;line-height:1;pointer-events:none;
-    }
-
-    /* ── ATTRIBUTE PILLS ── */
-    .attr-pill {
-      display:inline-flex;align-items:center;gap:7px;
-      padding:9px 18px;background:rgba(255,20,147,.07);
-      border:1px solid rgba(255,20,147,.25);border-radius:50px;
-      font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:600;
-      color:rgba(255,255,255,.8);margin:4px;
-      transition:all .3s ease;
-    }
-    .attr-pill:hover { background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5);transform:translateY(-2px); }
-
-    /* ── SCAN LINE EFFECT ── */
-    @keyframes scanline { 0%{top:-5%} 100%{top:105%} }
-    .portrait-wrap {
-      position:relative;border-radius:20px;overflow:hidden;
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(255,20,147,.03));
       border:1px solid rgba(255,20,147,.25);
+      border-radius:32px;position:relative;overflow:hidden;
     }
-    .portrait-wrap::after {
-      content:'';position:absolute;left:0;right:0;height:3px;
-      background:linear-gradient(90deg,transparent,rgba(255,20,147,.5),transparent);
-      animation:scanline 4s linear infinite;pointer-events:none;
-    }
-    .portrait-wrap img { display:block;width:100%;height:auto; }
+    .cta-section::before { content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;background:radial-gradient(ellipse,rgba(255,20,147,.07),transparent 60%);pointer-events:none;animation:ctaPulse 5s infinite; }
+    @keyframes ctaPulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.04)} }
 
-    /* ── WHATSAPP ── */
+    /* ── WHATSAPP BUTTON ── */
     .whatsapp-btn {
       position:fixed;bottom:24px;right:24px;
       background:linear-gradient(135deg,#25D366,#128C7E);
       color:white;width:62px;height:62px;border-radius:50%;
       display:flex;align-items:center;justify-content:center;
       font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);
-      z-index:998;transition:all .4s ease;text-decoration:none;cursor:none;
+      z-index:998;transition:all .4s ease;text-decoration:none;
     }
     .whatsapp-btn:hover { transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8); }
 
@@ -279,12 +453,316 @@
     ::-webkit-scrollbar-track { background:#000; }
     ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
 
-    /* ── HEX PATTERN BG ── */
-    .hex-bg {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0-2l26-15V18L28 2 2 18v31l26 15z' fill='rgba(255,20,147,0.03)'/%3E%3C/svg%3E");
-    }
+    /* ── DIVIDER ── */
+    .pink-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent); }
 
     .gsap-hidden { opacity:0;transform:translateY(40px); }
+
+    @media(max-width:640px) {
+      .price-amount { font-size:2.2rem; }
+    }
+
+    /* ═══════════════════════════════════════════
+       SA THREAT MAP STYLES — v2 (Province Cards)
+    ═══════════════════════════════════════════ */
+
+    .threat-map-wrap {
+      background: rgba(4,4,4,.88);
+      border: 1px solid rgba(255,20,147,.2);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      backdrop-filter: blur(20px);
+    }
+    .threat-map-wrap::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,20,147,.012) 2px,rgba(255,20,147,.012) 4px);
+      pointer-events: none;
+    }
+
+    /* Header */
+    .map-header-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,20,147,.1);
+      background: rgba(0,0,0,.45);
+      position: relative; z-index: 1;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .map-live-indicator {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .68rem; color: rgba(255,20,147,.75); letter-spacing: .12em;
+    }
+    .map-live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #ff1493; animation: toolsDotPulse 1.4s infinite;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .63rem; color: rgba(255,255,255,.45);
+    }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── PROVINCE CARD GRID ── */
+    .province-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .province-card {
+      position: relative;
+      background: rgba(10,10,10,.9);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 14px 12px 11px;
+      cursor: pointer;
+      text-align: left;
+      overflow: hidden;
+      transition: border-color .22s ease, box-shadow .22s ease, transform .18s ease, background .22s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none; -webkit-user-select: none;
+      display: flex; flex-direction: column;
+    }
+
+    /* Left accent bar */
+    .province-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+      border-radius: 14px 0 0 14px;
+    }
+    /* Shimmer sweep on active */
+    .province-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.045) 50%, transparent 65%);
+      transform: translateX(-100%);
+      pointer-events: none;
+    }
+    .province-card.active::after {
+      animation: cardSweep 1.8s ease infinite;
+    }
+    @keyframes cardSweep {
+      0%   { transform: translateX(-100%); }
+      60%  { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Level theming — border accent */
+    .province-card[data-level="critical"]::before { background: linear-gradient(180deg,#ff4444,#ef4444,#c53030); }
+    .province-card[data-level="high"]::before     { background: linear-gradient(180deg,#fbbf24,#f59e0b,#d97706); }
+    .province-card[data-level="medium"]::before   { background: linear-gradient(180deg,#ff69b4,#ff1493,#c4106f); }
+    .province-card[data-level="low"]::before      { background: linear-gradient(180deg,#4ade80,#22c55e,#16a34a); }
+
+    /* Hover */
+    .province-card:hover { transform: translateY(-3px); background: rgba(20,20,20,.95); }
+    .province-card[data-level="critical"]:hover { border-color: rgba(239,68,68,.5);  box-shadow: 0 8px 32px rgba(239,68,68,.18); }
+    .province-card[data-level="high"]:hover     { border-color: rgba(245,158,11,.5); box-shadow: 0 8px 32px rgba(245,158,11,.18); }
+    .province-card[data-level="medium"]:hover   { border-color: rgba(255,20,147,.5); box-shadow: 0 8px 32px rgba(255,20,147,.18); }
+    .province-card[data-level="low"]:hover      { border-color: rgba(34,197,94,.5);  box-shadow: 0 8px 32px rgba(34,197,94,.18); }
+
+    /* Active */
+    .province-card.active { transform: translateY(-3px); }
+    .province-card[data-level="critical"].active { border-color: rgba(239,68,68,.85);  background: rgba(239,68,68,.07);  box-shadow: 0 0 0 1px rgba(239,68,68,.2), 0 10px 40px rgba(239,68,68,.28); }
+    .province-card[data-level="high"].active     { border-color: rgba(245,158,11,.85); background: rgba(245,158,11,.07); box-shadow: 0 0 0 1px rgba(245,158,11,.2), 0 10px 40px rgba(245,158,11,.28); }
+    .province-card[data-level="medium"].active   { border-color: rgba(255,20,147,.85); background: rgba(255,20,147,.07); box-shadow: 0 0 0 1px rgba(255,20,147,.2), 0 10px 40px rgba(255,20,147,.28); }
+    .province-card[data-level="low"].active      { border-color: rgba(34,197,94,.85);  background: rgba(34,197,94,.07);  box-shadow: 0 0 0 1px rgba(34,197,94,.2),  0 10px 40px rgba(34,197,94,.28); }
+
+    /* Pulsing dot (top-right, shows when active) */
+    .pcard-pulse {
+      position: absolute; top: 10px; right: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .province-card.active .pcard-pulse { opacity: 1; animation: provDot 1.6s ease-in-out infinite; }
+    .province-card[data-level="critical"] .pcard-pulse { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+    .province-card[data-level="high"]     .pcard-pulse { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .province-card[data-level="medium"]   .pcard-pulse { background: #ff1493; box-shadow: 0 0 8px #ff1493; }
+    .province-card[data-level="low"]      .pcard-pulse { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+    @keyframes provDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.7);opacity:.5} }
+
+    /* Province abbr — big ghosted letter */
+    .pcard-abbr {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1.4rem;
+      line-height: 1;
+      margin-bottom: 2px;
+      transition: color .22s ease, text-shadow .22s ease;
+    }
+    .province-card[data-level="critical"] .pcard-abbr { color: rgba(239,68,68,.45); }
+    .province-card[data-level="high"]     .pcard-abbr { color: rgba(245,158,11,.45); }
+    .province-card[data-level="medium"]   .pcard-abbr { color: rgba(255,20,147,.45); }
+    .province-card[data-level="low"]      .pcard-abbr { color: rgba(34,197,94,.45); }
+    .province-card.active[data-level="critical"] .pcard-abbr { color: #ef4444;  text-shadow: 0 0 20px rgba(239,68,68,.6); }
+    .province-card.active[data-level="high"]     .pcard-abbr { color: #f59e0b; text-shadow: 0 0 20px rgba(245,158,11,.6); }
+    .province-card.active[data-level="medium"]   .pcard-abbr { color: #ff1493; text-shadow: 0 0 20px rgba(255,20,147,.6); }
+    .province-card.active[data-level="low"]      .pcard-abbr { color: #22c55e; text-shadow: 0 0 20px rgba(34,197,94,.6); }
+
+    /* Province name */
+    .pcard-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; font-size: .68rem;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .05em;
+      margin-bottom: 8px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      transition: color .22s ease;
+    }
+    .province-card.active .pcard-name,
+    .province-card:hover  .pcard-name { color: rgba(255,255,255,.65); }
+
+    /* Mini bar */
+    .pcard-bar-track {
+      height: 3px;
+      background: rgba(255,255,255,.06);
+      border-radius: 2px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .pcard-bar-fill {
+      height: 100%; border-radius: 2px;
+      position: relative; overflow: hidden;
+    }
+    .pcard-bar-fill::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+      animation: barShimmer 2.2s ease infinite;
+    }
+    .province-card[data-level="critical"] .pcard-bar-fill { background: rgba(239,68,68,.6); }
+    .province-card[data-level="high"]     .pcard-bar-fill { background: rgba(245,158,11,.6); }
+    .province-card[data-level="medium"]   .pcard-bar-fill { background: rgba(255,20,147,.6); }
+    .province-card[data-level="low"]      .pcard-bar-fill { background: rgba(34,197,94,.6); }
+    .province-card.active[data-level="critical"] .pcard-bar-fill { background: #ef4444; }
+    .province-card.active[data-level="high"]     .pcard-bar-fill { background: #f59e0b; }
+    .province-card.active[data-level="medium"]   .pcard-bar-fill { background: #ff1493; }
+    .province-card.active[data-level="low"]      .pcard-bar-fill { background: #22c55e; }
+
+    /* Bottom row */
+    .pcard-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 4px; margin-top: auto; }
+    .pcard-count {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900; font-size: .88rem; line-height: 1;
+    }
+    .province-card[data-level="critical"] .pcard-count { color: #ef4444; }
+    .province-card[data-level="high"]     .pcard-count { color: #f59e0b; }
+    .province-card[data-level="medium"]   .pcard-count { color: #ff1493; }
+    .province-card[data-level="low"]      .pcard-count { color: #22c55e; }
+    .pcard-countlabel {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .46rem; color: rgba(255,255,255,.22);
+      letter-spacing: .08em; line-height: 1; margin-bottom: 2px;
+    }
+    .pcard-chip {
+      font-family: 'Orbitron', monospace;
+      font-size: .4rem; font-weight: 700; letter-spacing: .1em;
+      padding: 2px 5px; border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+    }
+    .pcard-chip.critical { background: rgba(239,68,68,.15); color: #ef4444;  border: 1px solid rgba(239,68,68,.3); }
+    .pcard-chip.high     { background: rgba(245,158,11,.15); color: #f59e0b; border: 1px solid rgba(245,158,11,.3); }
+    .pcard-chip.medium   { background: rgba(255,20,147,.12); color: #ff1493; border: 1px solid rgba(255,20,147,.25); }
+    .pcard-chip.low      { background: rgba(34,197,94,.1);   color: #22c55e; border: 1px solid rgba(34,197,94,.25); }
+
+    /* ── DETAIL PANEL ── */
+    .province-detail-panel {
+      background: rgba(6,6,6,.96);
+      border: 1px solid rgba(255,20,147,.2);
+      border-radius: 16px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      transition: border-color .35s ease;
+    }
+    .province-detail-panel::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--panel-color, var(--pink)), transparent);
+    }
+
+    /* Score ring */
+    .score-ring-wrap { width: 84px; height: 84px; position: relative; flex-shrink: 0; }
+    .score-ring-wrap svg { transform: rotate(-90deg); }
+    .score-ring-bg { fill: none; stroke: rgba(255,255,255,.06); stroke-width: 6; }
+    .score-ring-fill { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dasharray 1s ease; }
+    .score-ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+    /* Attack tags */
+    .attack-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      background: rgba(255,20,147,.07); border: 1px solid rgba(255,20,147,.2);
+      border-radius: 6px; font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem; color: rgba(255,255,255,.5); margin: 3px;
+    }
+
+    /* Industry bars */
+    .industry-bar-wrap {
+      background: rgba(255,20,147,.03);
+      border: 1px solid rgba(255,20,147,.12);
+      border-radius: 16px; padding: 20px 24px;
+    }
+    .industry-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .industry-bar-row:last-child { margin-bottom: 0; }
+    .industry-bar-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .82rem; font-weight: 600;
+      color: rgba(255,255,255,.65);
+      width: 100px; flex-shrink: 0; text-align: right;
+    }
+    .industry-bar-track { flex: 1; height: 8px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
+    .industry-bar-fill { height: 100%; border-radius: 4px; position: relative; overflow: hidden; transition: width 1s cubic-bezier(.4,0,.2,1); }
+    .industry-bar-fill::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+      animation: barShimmer 2.5s ease infinite;
+    }
+    @keyframes barShimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+    .industry-bar-count { font-family: 'Share Tech Mono', monospace; font-size: .72rem; color: rgba(255,255,255,.4); width: 42px; text-align: right; flex-shrink: 0; }
+
+    /* Stats ticker */
+    .map-stat-ticker {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      padding: 12px 20px;
+      border-top: 1px solid rgba(255,20,147,.08);
+      background: rgba(0,0,0,.3);
+      position: relative; z-index: 1;
+    }
+    .map-stat-item { display: flex; flex-direction: column; gap: 1px; }
+    .map-stat-value { font-family: 'Orbitron', monospace; font-size: .9rem; font-weight: 900; color: var(--pink); }
+    .map-stat-label { font-family: 'Share Tech Mono', monospace; font-size: .55rem; color: rgba(255,255,255,.3); letter-spacing: .1em; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor-blink { animation: blink 1.1s infinite; }
+
+    @media(max-width:640px) {
+      .map-stat-ticker { gap: 14px; }
+      .industry-bar-label { width: 70px; font-size: .72rem; }
+      .province-grid { gap: 7px; }
+      .province-card { padding: 11px 8px 9px; }
+      .pcard-abbr { font-size: 1.1rem; }
+      .pcard-name { font-size: .6rem; margin-bottom: 6px; }
+      .pcard-count { font-size: .76rem; }
+    }
+    @media(max-width:380px) {
+      .pcard-abbr { font-size: .95rem; }
+      .pcard-chip { display: none; }
+    }
+
+    /* ── END THREAT MAP STYLES ── */
+
+  
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -293,7 +771,7 @@
 <div id="cur2"></div>
 <canvas id="three-canvas"></canvas>
 
-<!-- WhatsApp -->
+<!-- WhatsApp Float -->
 <a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
@@ -308,9 +786,9 @@
 
     <!-- Desktop Nav -->
     <div class="hidden lg:flex items-center gap-7 text-sm">
-      <a href="index.html"            class="desktop-link text-white">Home</a>
-      <a href="about.html"            class="desktop-link active">About</a>
-      <a href="services.html"         class="desktop-link text-white">Services</a>
+      <a href="index.html"            class="desktop-link active">Home</a>
+      <a href="about.html"            class="desktop-link">About</a>
+      <a href="services.html"         class="desktop-link">Services</a>
 
       <!-- FREE TOOLS DROPDOWN -->
       <div class="tools-dropdown-wrap">
@@ -363,12 +841,12 @@
               <i class="fas fa-bug-slash"></i>
             </div>
             <div>
-              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">CVE INTELLIGENCE</div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
               <div class="tool-nav-name">Vulnerability Intelligence</div>
               <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
             </div>
+          </a>
 
-          <!-- Tool 5: Reverse Image Search -->
           <a href="reverse-image-search.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);">
               <i class="fas fa-image"></i>
@@ -383,10 +861,10 @@
       </div>
       <!-- END FREE TOOLS DROPDOWN -->
 
-      <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
-      <a href="greyhat-protocol.html" class="desktop-link text-white">The Protocol</a>
-      <a href="pricing.html"          class="desktop-link text-white">Pricing</a>
-      <a href="contact.html"          class="desktop-link text-white">Contact</a>
+      <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
+      <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
+      <a href="pricing.html"          class="desktop-link">Pricing</a>
+      <a href="contact.html"          class="desktop-link">Contact</a>
     </div>
 
     <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
@@ -399,15 +877,12 @@
   </div>
 </nav>
 
-<!-- ══ MOBILE MENU — placed OUTSIDE <nav> so backdrop-filter on nav cannot
-     create a new containing block and break fixed inset-0 positioning ══ -->
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
   <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html"            class="mobile-link desktop-link neon-pink">About</a>
+    <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
     <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
-    <!-- Mobile Free Tools -->
     <a href="risk-assessment.html"  class="mobile-tool-link">
       <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
       <span style="font-size:1rem;">Risk Self-Assessment</span>
@@ -439,536 +914,1126 @@
 </div>
 
 <!-- ══ HERO ══ -->
-<section class="min-h-[92vh] flex items-center justify-center relative px-4 sm:px-6 pt-32 pb-20 overflow-hidden">
+<section class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden" style="position:relative;z-index:2;">
   <div class="hero-grid"></div>
-  <!-- ambient glows -->
-  <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,20,147,.06) 0%,transparent 70%);top:-150px;right:-200px;pointer-events:none;"></div>
-  <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.04) 0%,transparent 70%);bottom:-100px;left:-150px;pointer-events:none;"></div>
+  <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-100px;right:-200px;pointer-events:none;"></div>
+  <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,20,147,.05) 0%,transparent 70%);bottom:0;left:-120px;pointer-events:none;"></div>
 
-  <div class="max-w-6xl mx-auto z-10 relative w-full">
-    <div class="grid md:grid-cols-2 gap-14 items-center">
-
-      <!-- Text side -->
-      <div>
-        <div id="hero-eyebrow" class="section-tag mb-5 flex items-center gap-3">
-          <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
-          THE OPERATOR
-        </div>
-
-        <h1 id="hero-heading" class="font-display font-black leading-none tracking-tight mb-5">
-          <span class="text-white" style="font-size:clamp(2.2rem,5.5vw,4.4rem);">DR DAVID</span>
-          <br>
-          <span class="neon-pink" style="font-size:clamp(2.2rem,5.5vw,4.4rem);">SYKES</span>
-        </h1>
-
-        <div id="hero-mono" class="font-mono text-pink-400/60 text-sm mb-7 tracking-widest h-6">
-          <span id="typed-text"></span><span class="typewriter-cursor text-pink-400">█</span>
-        </div>
-
-        <p id="hero-sub" class="text-gray-300 text-lg leading-relaxed mb-8" style="font-weight:300;">
-          Practicing dentist. Independent security researcher. Two decades operating with precision
-          at the intersection of regulated clinical care and offensive security.
-        </p>
-
-        <div id="hero-btns" class="flex flex-col sm:flex-row gap-4 mb-10">
-          <a href="#philosophy" class="btn-primary"><i class="fas fa-user-secret"></i> My Approach</a>
-          <a href="contact.html" class="btn-ghost"><i class="fas fa-paper-plane"></i> Work With Me</a>
-        </div>
-
-        <!-- Location badge -->
-        <div id="hero-loc" class="flex items-center gap-3">
-          <div class="glass px-4 py-2.5 rounded-xl inline-flex items-center gap-2.5">
-            <i class="fas fa-map-marker-alt text-pink-400 text-sm"></i>
-            <span class="font-mono text-xs text-gray-400 tracking-widest">UMHLANGA · DURBAN · SOUTH AFRICA</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Portrait side -->
-      <div id="hero-portrait" class="relative">
-        <div class="portrait-wrap">
-          <img src="portrait.jpg" alt="Dr David Sykes"
-            onerror="this.parentElement.innerHTML='<div style=\'width:100%;padding-bottom:115%;background:rgba(255,20,147,.06);display:flex;align-items:center;justify-content:center;\'><i class=\'fas fa-user-secret\' style=\'font-size:6rem;color:rgba(255,20,147,.3);\'></i></div>'"/>
-        </div>
-        <!-- floating badge -->
-        <div class="absolute -bottom-5 -left-5 glass rounded-2xl p-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(255,20,147,.15);border:1px solid rgba(255,20,147,.3);">
-            <i class="fas fa-shield-virus text-pink-400 text-sm"></i>
-          </div>
-          <div>
-            <div class="font-display text-pink-400 text-xs tracking-widest">20+ YEARS</div>
-            <div class="font-mono text-xs text-gray-500">DUAL DISCIPLINE</div>
-          </div>
-        </div>
-        <!-- corner accent -->
-        <div class="absolute -top-3 -right-3 font-mono text-xs text-pink-500/40 tracking-widest">[ VERIFIED ]</div>
-      </div>
-
+  <div class="max-w-5xl mx-auto text-center z-10 relative">
+    <div id="hero-eyebrow" class="section-tag mb-6 flex items-center justify-center gap-3">
+      <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      INDEPENDENT · ETHICAL · EFFECTIVE
+      <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
     </div>
+
+    <div class="mb-6" id="hero-logo">
+      <img src="logo.png" alt="Greyhat4Hire" class="mx-auto h-28 sm:h-40 md:h-48 drop-shadow-2xl"
+        onerror="this.style.display='none'">
+    </div>
+
+    <h1 id="hero-h1" class="font-display font-black leading-none tracking-tight mb-6">
+      <span class="text-white" style="font-size:clamp(2.4rem,7.5vw,5.8rem);">WE BREACH YOU</span><br>
+      <span class="neon-pink" style="font-size:clamp(2.4rem,7.5vw,5.8rem);">BEFORE THEY DO</span><span class="text-white" style="font-size:clamp(2.4rem,7.5vw,5.8rem);">.</span>
+    </h1>
+
+    <p id="hero-sub" class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-5" style="font-weight:300;">
+      Controlled penetration testing. Executive-ready reports. Actionable remediation that actually works.
+    </p>
+
+    <div id="hero-mono" class="font-mono text-sm text-pink-400/60 mb-10 tracking-widest">
+      &gt; target.acquire() → scope.confirm() → attack.simulate() → report.generate() → threat.eliminated
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16" id="hero-btns">
+      <a href="contact.html" class="btn-primary pulse-glow justify-center">
+        <i class="fas fa-shield-halved"></i> Request Confidential Assessment
+      </a>
+      <a href="#services" class="btn-ghost justify-center">
+        View Our Services <i class="fas fa-chevron-down text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto" id="hero-stats">
+      <div class="glass rounded-2xl py-5 px-3 stat-card">
+        <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="194" data-suffix="">0</span></div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">DAYS AVG. ATTACKER<br>DWELL TIME</div>
+      </div>
+      <div class="glass rounded-2xl py-5 px-3 stat-card">
+        <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="89" data-suffix="M">0</span></div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">AVG. BREACH COST ZAR<br>SA 2024 (IBM)</div>
+      </div>
+      <div class="glass rounded-2xl py-5 px-3 stat-card md:col-span-1 col-span-2">
+        <div class="stat-num text-3xl sm:text-4xl font-black mb-1"><span data-target="100" data-suffix="%">0</span></div>
+        <div class="font-mono text-xs text-gray-500 mt-1 tracking-wider">ENGAGEMENTS<br>UNDER STRICT NDA</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hero-scroll" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 pointer-events-none">
+    <span class="font-mono text-xs text-pink-400 tracking-widest">SCROLL</span>
+    <div style="width:1px;height:40px;background:linear-gradient(180deg,var(--pink),transparent);"></div>
   </div>
 </section>
 
-<!-- ══ MARQUEE ══ -->
-<div class="py-4 border-y border-pink-500/10 overflow-hidden relative z-10">
-  <div class="marquee-wrap">
-    <div class="marquee whitespace-nowrap" style="display:inline-flex;">
-      <span class="marquee-item">CLINICAL PRECISION <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">AUTHORIZED ACCESS ONLY <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">INDEPENDENT CONSULTANCY <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">HEALTHCARE BACKGROUND <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">ETHICAL HACKING <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">STRICT NDA <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">KZN BASED <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">PENETRATION TESTING <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">CLINICAL PRECISION <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">AUTHORIZED ACCESS ONLY <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">INDEPENDENT CONSULTANCY <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">HEALTHCARE BACKGROUND <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">ETHICAL HACKING <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">STRICT NDA <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">KZN BASED <span class="marquee-sep">◆</span></span>
-      <span class="marquee-item">PENETRATION TESTING <span class="marquee-sep">◆</span></span>
+<!-- ══ STANDARDS MARQUEE ══ -->
+<div class="py-6 border-t border-b border-pink-500/10 marquee-wrap" style="position:relative;z-index:2">
+  <div class="marquee flex whitespace-nowrap">
+    <div class="flex">
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27001</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>NIST CSF</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>OWASP Top 10</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>PCI DSS</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>HIPAA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>GDPR</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>POPIA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>SOC 2 Type II</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>MITRE ATT&amp;CK</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CIS Controls</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27701</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CCPA</span>
+    </div>
+    <div class="flex" aria-hidden="true">
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27001</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>NIST CSF</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>OWASP Top 10</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>PCI DSS</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>HIPAA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>GDPR</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>POPIA</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>SOC 2 Type II</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>MITRE ATT&amp;CK</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CIS Controls</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27701</span>
+      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CCPA</span>
     </div>
   </div>
 </div>
 
-<!-- ══ DUAL IDENTITY ══ -->
-<section class="py-24 px-4 sm:px-6 relative z-10 hex-bg">
-  <div class="max-w-6xl mx-auto">
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
+<!-- ══ FREE TOOLS ══ -->
+<section id="tools" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16 gsap-hidden">
-      <div class="section-tag mb-4 flex items-center justify-center gap-3">
-        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
-        DUAL DISCIPLINE
-        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      <div class="section-tag mb-3">Free Intelligence Tools</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Five live tools that show you exactly what attackers already see — before you spend a rand on anything.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+      <div class="tool-card flex flex-col">
+        <div class="tool-badge"><span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>FREE TOOL</div>
+        <div class="text-4xl mb-4"><i class="fas fa-shield-halved text-pink-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Risk Self-Assessment</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">12 critical security controls. 90 seconds. Instant executive-grade breach exposure score across identity, backup, endpoint, and detection domains. See where you're most exposed right now.</p>
+        <a href="risk-assessment.html" class="btn-ghost text-sm justify-center">
+          <i class="fas fa-play text-xs"></i> START ASSESSMENT
+        </a>
       </div>
-      <h2 class="font-display font-black text-white mb-4" style="font-size:clamp(1.8rem,4vw,3.2rem);">
-        TWO WORLDS. ONE MINDSET.
-      </h2>
-      <p class="text-gray-400 max-w-2xl mx-auto text-lg" style="font-weight:300;">
-        The disciplines that shaped Greyhat4hire don't just coexist — they reinforce each other in ways few practitioners can claim.
+
+      <div class="tool-card flex flex-col" style="border-color:rgba(255,20,147,.35)">
+        <div class="tool-badge" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#ef4444"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>LIVE OSINT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-file-circle-exclamation text-red-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">The Hacker's Dossier</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Enter your domain. We run live DNS lookups, certificate transparency scans, Shodan port data, and RDAP WHOIS — and generate the exact intelligence file an attacker compiles before targeting you.</p>
+        <a href="hackers-dossier.html" class="btn-ghost text-sm justify-center" style="border-color:#ef4444;color:#ef4444">
+          <i class="fas fa-crosshairs text-xs"></i> COMPILE MY DOSSIER
+        </a>
+      </div>
+
+      <div class="tool-card flex flex-col">
+        <div class="tool-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.4);color:#f59e0b"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>FINANCIAL IMPACT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-clock text-amber-400"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Breach Cost Clock</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Select your industry and company size. Watch the financial damage tick up in real time — modelled on IBM Cost of Data Breach 2024 data. Puts R89M in visceral, ticking perspective.</p>
+        <a href="breach-cost-clock.html" class="btn-ghost text-sm justify-center" style="border-color:#f59e0b;color:#f59e0b">
+          <i class="fas fa-play text-xs"></i> START THE CLOCK
+        </a>
+      </div>
+
+      <div class="tool-card flex flex-col" style="border-color:rgba(59,130,246,.2)">
+        <div class="tool-badge" style="background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.4);color:#3b82f6"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>CVE INTELLIGENCE</div>
+        <div class="text-4xl mb-4"><i class="fas fa-bug-slash" style="color:#3b82f6"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Vulnerability Intelligence</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Search any CVE ID or product name across NVD, CISA KEV, GitHub Advisories, and Exploit-DB in real time. Instantly see severity scores, known exploits, and whether a vulnerability is actively being weaponised.</p>
+        <a href="vuln-lookup.html" class="btn-ghost text-sm justify-center" style="border-color:#3b82f6;color:#3b82f6">
+          <i class="fas fa-magnifying-glass text-xs"></i> SEARCH VULNERABILITIES
+        </a>
+      </div>
+
+      <div class="tool-card flex flex-col" style="border-color:rgba(0,255,136,.25);background:linear-gradient(135deg,rgba(0,255,136,.04),rgba(0,0,0,0));">
+        <div class="tool-badge" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.4);color:#00ff88"><span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>AI · OSINT</div>
+        <div class="text-4xl mb-4"><i class="fas fa-image" style="color:#00ff88;filter:drop-shadow(0 0 10px rgba(0,255,136,.6));"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Reverse Image Search</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Upload, paste, or extract a video frame. Claude's AI reads the image, runs multiple live web searches, and delivers a full OSINT report — original source, earliest known date, stolen art matches, meme variants, and propaganda trails.</p>
+        <a href="reverse-image-search.html" class="btn-ghost text-sm justify-center" style="border-color:#00ff88;color:#00ff88;">
+          <i class="fas fa-magnifying-glass-chart text-xs"></i> TRACE THIS IMAGE
+        </a>
+      </div>
+
+    </div>
+
+    <div class="mt-10 grid sm:grid-cols-2 gap-4 gsap-hidden">
+      <a href="cyber-awareness.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div>
+          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">LEARN</div>
+          <h4 class="font-display font-bold text-white text-base mb-1">Cyber Awareness Training</h4>
+          <p class="text-gray-500 text-xs leading-relaxed">Education resources and training programmes for your team.</p>
+        </div>
+        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+      </a>
+      <a href="greyhat-protocol.html" class="glass rounded-2xl p-6 flex items-center gap-5 hover:border-pink-500/40 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-2xl text-pink-400 flex-shrink-0 group-hover:scale-110 transition-transform">
+          <i class="fas fa-lock"></i>
+        </div>
+        <div>
+          <div class="font-display text-xs text-pink-400/60 tracking-widest mb-1">OUR PROCESS</div>
+          <h4 class="font-display font-bold text-white text-base mb-1">The Greyhat Protocol</h4>
+          <p class="text-gray-500 text-xs leading-relaxed">How we operate, our ethics framework, and engagement process.</p>
+        </div>
+        <i class="fas fa-arrow-right text-pink-400/40 ml-auto group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══════════════════════════════════════════════════════
+     SA THREAT MAP — INCIDENTS BY INDUSTRY AND PROVINCE
+══════════════════════════════════════════════════════ -->
+<section id="threat-map" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Section Header -->
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-3">Intelligence Dashboard</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">SA Cyber Threat Map</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        Real-world incident data mapped across South Africa's nine provinces and key industries.
+        Click any province to drill into threat vectors, attack types, and sector exposure — the same intel we use when scoping your engagement.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8">
+    <!-- Main threat map container -->
+    <div class="threat-map-wrap mb-6">
 
-      <!-- Dentist card -->
-      <div class="identity-card p-8 gsap-card">
-        <div class="flex items-start gap-5 mb-6">
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 text-2xl text-pink-400" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);">
-            <i class="fas fa-tooth"></i>
+      <!-- Header bar -->
+      <div class="map-header-bar">
+        <div class="flex items-center gap-5 flex-wrap">
+          <div class="map-live-indicator">
+            <span class="map-live-dot"></span>
+            THREAT INTELLIGENCE FEED
           </div>
-          <div>
-            <div class="font-mono text-xs text-pink-400/60 tracking-widest mb-1">DISCIPLINE 01</div>
-            <h3 class="font-display font-bold text-white text-xl tracking-wide">CLINICAL DENTIST</h3>
-            <div class="font-mono text-xs text-gray-600 mt-1">UMHLANGA DENTAL · 20+ YEARS</div>
+          <div class="font-mono text-xs text-gray-600 tracking-widest" id="map-timestamp"></div>
+        </div>
+        <div class="flex items-center gap-4 flex-wrap">
+          <div class="legend-item"><span class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>CRITICAL</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>HIGH</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>MEDIUM</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>LOW</div>
+        </div>
+      </div>
+
+      <!-- Province grid + detail panel -->
+      <div class="grid lg:grid-cols-[1fr_360px]" style="position:relative;z-index:1;">
+
+        <!-- ── Province card grid (left) ── -->
+        <div class="border-b lg:border-b-0 lg:border-r border-white/5" style="padding:16px 16px 20px;">
+          <div class="font-mono text-xs mb-4 tracking-widest text-center" style="color:rgba(255,20,147,.35);">▸ SELECT A PROVINCE TO DRILL DOWN</div>
+          <div class="province-grid" id="province-grid">
+
+            <button class="province-card" data-id="gp" data-level="critical" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">GP</div>
+              <div class="pcard-name">GAUTENG</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:100%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">342</div></div>
+                <span class="pcard-chip critical">CRITICAL</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="wc" data-level="high" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">WC</div>
+              <div class="pcard-name">W. CAPE</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:81%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">278</div></div>
+                <span class="pcard-chip high">HIGH</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="kzn" data-level="high" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">KZN</div>
+              <div class="pcard-name">KWAZULU-NATAL</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:63%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">215</div></div>
+                <span class="pcard-chip high">HIGH</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="mp" data-level="high" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">MP</div>
+              <div class="pcard-name">MPUMALANGA</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:29%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">98</div></div>
+                <span class="pcard-chip high">HIGH</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="ec" data-level="medium" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">EC</div>
+              <div class="pcard-name">E. CAPE</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:42%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">143</div></div>
+                <span class="pcard-chip medium">MEDIUM</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="nw" data-level="low" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">NW</div>
+              <div class="pcard-name">NORTH WEST</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:33%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">112</div></div>
+                <span class="pcard-chip low">LOW</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="fs" data-level="medium" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">FS</div>
+              <div class="pcard-name">FREE STATE</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:28%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">95</div></div>
+                <span class="pcard-chip medium">MEDIUM</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="lim" data-level="medium" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">LIM</div>
+              <div class="pcard-name">LIMPOPO</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:25%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">87</div></div>
+                <span class="pcard-chip medium">MEDIUM</span>
+              </div>
+            </button>
+
+            <button class="province-card" data-id="nc" data-level="medium" type="button">
+              <span class="pcard-pulse"></span>
+              <div class="pcard-abbr">NC</div>
+              <div class="pcard-name">N. CAPE</div>
+              <div class="pcard-bar-track"><div class="pcard-bar-fill" style="width:22%"></div></div>
+              <div class="pcard-bottom">
+                <div><div class="pcard-countlabel">INCIDENTS</div><div class="pcard-count">74</div></div>
+                <span class="pcard-chip medium">MEDIUM</span>
+              </div>
+            </button>
+
           </div>
         </div>
-        <p class="text-gray-400 leading-relaxed mb-6" style="font-weight:400;">
-          Founder and principal of Umhlanga Dental, one of KwaZulu-Natal's leading private dental practices.
-          First in KZN to adopt Waterlase Express dual-wavelength laser technology — a willingness to
-          invest in precision tools before they become standard practice.
-        </p>
-        <p class="text-gray-500 text-sm leading-relaxed mb-6">
-          A regulated clinical environment demands zero ambiguity: every intervention is documented,
-          every outcome is measured, and every action is taken under informed consent. Those habits
-          don't stay at the surgery door.
-        </p>
+
+        <!-- ── Province Detail Panel (right) ── -->
+        <div style="padding:16px;display:flex;flex-direction:column;">
+          <div class="province-detail-panel" id="province-detail" style="flex:1;--panel-color:#ff1493;">
+
+            <!-- Default state -->
+            <div id="detail-default" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:300px;">
+              <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.18);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,20,147,.5)" stroke-width="1.5" style="width:26px;height:26px;">
+                  <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                </svg>
+              </div>
+              <p class="font-display text-xs tracking-widest mb-2" style="color:rgba(255,20,147,.45);">SELECT A PROVINCE</p>
+              <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,.25);max-width:210px;">Tap any province card to view incident data, threat vectors &amp; sector exposure.</p>
+              <div class="mt-6 w-full grid grid-cols-2 gap-3">
+                <div class="glass rounded-xl p-3 text-center">
+                  <div class="font-display text-xl font-black" style="color:#ff1493;text-shadow:0 0 14px rgba(255,20,147,.6);">1,444</div>
+                  <div class="font-mono text-xs text-gray-600 mt-1 tracking-wider">TOTAL INCIDENTS</div>
+                </div>
+                <div class="glass rounded-xl p-3 text-center">
+                  <div class="font-display text-xl font-black" style="color:#ef4444;text-shadow:0 0 14px rgba(239,68,68,.6);">↑ 34%</div>
+                  <div class="font-mono text-xs text-gray-600 mt-1 tracking-wider">YoY INCREASE</div>
+                </div>
+                <div class="glass rounded-xl p-3 text-center">
+                  <div class="font-display text-xl font-black" style="color:#f59e0b;text-shadow:0 0 14px rgba(245,158,11,.6);">R89M</div>
+                  <div class="font-mono text-xs text-gray-600 mt-1 tracking-wider">AVG BREACH COST</div>
+                </div>
+                <div class="glass rounded-xl p-3 text-center">
+                  <div class="font-display text-xl font-black" style="color:#22c55e;text-shadow:0 0 14px rgba(34,197,94,.6);">194</div>
+                  <div class="font-mono text-xs text-gray-600 mt-1 tracking-wider">AVG DWELL DAYS</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Province-selected state (hidden by default) -->
+            <div id="detail-province" style="display:none;">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="score-ring-wrap">
+                  <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="score-ring-bg" cx="45" cy="45" r="36"/>
+                    <circle id="score-ring" class="score-ring-fill" cx="45" cy="45" r="36" stroke="#ff1493" stroke-dasharray="0 226"/>
+                  </svg>
+                  <div class="score-ring-text">
+                    <span id="prov-score" class="font-display font-black text-lg" style="color:#ff1493;text-shadow:0 0 10px rgba(255,20,147,.7);">--</span>
+                    <span class="font-mono text-xs text-gray-600">/100</span>
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div id="prov-level-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border font-mono text-xs mb-2" style="background:rgba(255,20,147,.1);border-color:rgba(255,20,147,.3);color:#ff1493;">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+                    <span id="prov-level-txt">MEDIUM</span>
+                  </div>
+                  <h3 id="prov-name" class="font-display font-black text-xl text-white mb-0.5">Province</h3>
+                  <div id="prov-incidents-txt" class="font-mono text-xs text-gray-500">-- incidents tracked · 2024–2025</div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="section-tag mb-2" style="font-size:.58rem;">TOP TARGETED SECTOR</div>
+                <div id="prov-top-industry" class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(255,20,147,.07);border:1px solid rgba(255,20,147,.18);">
+                  <i id="prov-industry-icon" class="fas fa-hospital text-pink-400 text-lg flex-shrink-0"></i>
+                  <div>
+                    <div id="prov-industry-name" class="font-display font-bold text-white text-sm">Healthcare</div>
+                    <div id="prov-industry-stat" class="font-mono text-xs text-gray-500">-- incidents</div>
+                  </div>
+                  <div id="prov-industry-pct" class="ml-auto font-display font-black text-lg" style="color:#ff1493;">--%</div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="section-tag mb-2" style="font-size:.58rem;">PRIMARY ATTACK VECTORS</div>
+                <div id="prov-attack-tags" class="flex flex-wrap"></div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 mb-5">
+                <div class="text-center p-2 rounded-lg" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);">
+                  <div id="prov-stat-ransom" class="font-display text-base font-black" style="color:#ef4444;">--</div>
+                  <div class="font-mono text-xs text-gray-600 tracking-wider" style="font-size:.55rem;">RANSOMWARE</div>
+                </div>
+                <div class="text-center p-2 rounded-lg" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);">
+                  <div id="prov-stat-phish" class="font-display text-base font-black" style="color:#f59e0b;">--</div>
+                  <div class="font-mono text-xs text-gray-600 tracking-wider" style="font-size:.55rem;">PHISHING</div>
+                </div>
+                <div class="text-center p-2 rounded-lg" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);">
+                  <div id="prov-stat-data" class="font-display text-base font-black" style="color:#ff1493;">--</div>
+                  <div class="font-mono text-xs text-gray-600 tracking-wider" style="font-size:.55rem;">DATA BREACH</div>
+                </div>
+              </div>
+
+              <a href="contact.html" class="btn-primary w-full justify-center" style="font-size:.7rem;padding:12px 20px;">
+                <i class="fas fa-shield-halved"></i> GET PROVINCE-SPECIFIC ASSESSMENT
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- end grid -->
+
+      <!-- Stats ticker bar -->
+      <div class="map-stat-ticker">
+        <div class="map-stat-item">
+          <span class="map-stat-value">1,444</span>
+          <span class="map-stat-label">INCIDENTS TRACKED</span>
+        </div>
+        <div class="map-stat-item">
+          <span class="map-stat-value" style="color:#ef4444;">342</span>
+          <span class="map-stat-label">GAUTENG (HIGHEST)</span>
+        </div>
+        <div class="map-stat-item">
+          <span class="map-stat-value" style="color:#f59e0b;">↑34%</span>
+          <span class="map-stat-label">YoY INCREASE</span>
+        </div>
+        <div class="map-stat-item">
+          <span class="map-stat-value">9</span>
+          <span class="map-stat-label">PROVINCES TRACKED</span>
+        </div>
+        <div class="map-stat-item">
+          <span class="map-stat-value" style="color:#ff69b4;">Healthcare</span>
+          <span class="map-stat-label">#1 TARGETED SECTOR</span>
+        </div>
+        <div class="map-stat-item">
+          <span class="map-stat-value">2024–2025</span>
+          <span class="map-stat-label">DATA PERIOD</span>
+        </div>
+      </div>
+
+    </div><!-- end threat-map-wrap -->
+
+    <!-- Industry Breakdown Section -->
+    <div class="grid lg:grid-cols-2 gap-6 gsap-hidden">
+
+      <!-- Industry Attack Frequency -->
+      <div class="industry-bar-wrap">
+        <div class="section-tag mb-1" style="font-size:.6rem;">NATIONAL BREAKDOWN</div>
+        <h3 class="font-display font-bold text-white text-base mb-5">Incidents by Industry</h3>
+
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Healthcare</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-health" style="width:0%;background:linear-gradient(90deg,#ef4444,#ff6b6b)"></div>
+          </div>
+          <span class="industry-bar-count">387</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Finance</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-finance" style="width:0%;background:linear-gradient(90deg,#ff1493,#ff69b4)"></div>
+          </div>
+          <span class="industry-bar-count">312</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Government</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-gov" style="width:0%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
+          </div>
+          <span class="industry-bar-count">261</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Retail / SME</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-retail" style="width:0%;background:linear-gradient(90deg,#8b5cf6,#a78bfa)"></div>
+          </div>
+          <span class="industry-bar-count">198</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Education</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-edu" style="width:0%;background:linear-gradient(90deg,#06b6d4,#67e8f9)"></div>
+          </div>
+          <span class="industry-bar-count">142</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Legal</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-legal" style="width:0%;background:linear-gradient(90deg,#22c55e,#4ade80)"></div>
+          </div>
+          <span class="industry-bar-count">89</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Energy / Mining</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-energy" style="width:0%;background:linear-gradient(90deg,#f97316,#fb923c)"></div>
+          </div>
+          <span class="industry-bar-count">55</span>
+        </div>
+      </div>
+
+      <!-- Attack Type Breakdown -->
+      <div class="industry-bar-wrap">
+        <div class="section-tag mb-1" style="font-size:.6rem;">NATIONAL BREAKDOWN</div>
+        <h3 class="font-display font-bold text-white text-base mb-5">Incidents by Attack Type</h3>
+
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Ransomware</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-ransom" style="width:0%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div>
+          </div>
+          <span class="industry-bar-count">428</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Phishing</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-phish" style="width:0%;background:linear-gradient(90deg,#f59e0b,#d97706)"></div>
+          </div>
+          <span class="industry-bar-count">356</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Data Breach</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-data" style="width:0%;background:linear-gradient(90deg,#ff1493,#c4106f)"></div>
+          </div>
+          <span class="industry-bar-count">289</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">BEC / Fraud</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-bec" style="width:0%;background:linear-gradient(90deg,#8b5cf6,#7c3aed)"></div>
+          </div>
+          <span class="industry-bar-count">187</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Supply Chain</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-supply" style="width:0%;background:linear-gradient(90deg,#06b6d4,#0891b2)"></div>
+          </div>
+          <span class="industry-bar-count">98</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">Insider Threat</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-insider" style="width:0%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div>
+          </div>
+          <span class="industry-bar-count">56</span>
+        </div>
+        <div class="industry-bar-row">
+          <span class="industry-bar-label">DDoS</span>
+          <div class="industry-bar-track">
+            <div class="industry-bar-fill" id="bar-ddos" style="width:0%;background:linear-gradient(90deg,#f97316,#ea580c)"></div>
+          </div>
+          <span class="industry-bar-count">30</span>
+        </div>
+      </div>
+
+    </div><!-- end industry breakdown grid -->
+
+    <!-- Disclaimer -->
+    <div class="mt-6 text-center">
+      <p class="font-mono text-xs text-gray-700 tracking-wider">
+        Data compiled from public incident disclosures, CERT-SA advisories, and IBM X-Force threat intelligence (2024–2025). Figures are indicative and for awareness purposes only.
+      </p>
+    </div>
+
+  </div>
+</section>
+<!-- ══ END SA THREAT MAP ══ -->
+
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-3">What We Do</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Our Services</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">Manual, expert-led security testing that goes far beyond automated scanners. Every engagement is scoped precisely, executed methodically, and delivered with clarity. Click any service to open a full deep-dive.</p>
+    </div>
+
+    <!-- SERVICE 1: Penetration Testing -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-crosshairs"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 01</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Penetration Testing</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">We think like attackers, operate like operators, and report like executives.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Our penetration tests simulate real adversary techniques across web applications, internal networks, external perimeters, cloud infrastructure, and APIs. We don't run a scanner and call it a pentest — every finding is manually validated, chained, and contextualised for your business. You get proof of impact, not just a list of CVEs.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d1')">
+              <span id="btn-label-d1">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d1"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d1" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">WHAT WE TEST</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications — OWASP Top 10 and beyond (auth bypass, IDOR, SSRF, XXE, race conditions)</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>External network — perimeter, internet-facing services, VPNs, firewalls, exposed admin panels</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Internal network — lateral movement, privilege escalation, domain compromise, AD attacks</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>API security — REST, GraphQL, SOAP — authentication flaws, injection, mass assignment</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Cloud misconfigurations — AWS, Azure, GCP IAM roles, storage buckets, exposed secrets</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Social engineering &amp; phishing simulation — targeted campaigns with metrics</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Find what attackers find — before they do</span>
+                <span class="benefit-pill">Manual, expert validation</span>
+                <span class="benefit-pill">MITRE ATT&amp;CK mapped</span>
+                <span class="benefit-pill">Executive + dev reports</span>
+                <span class="benefit-pill">Retest included</span>
+              </div>
+              <div class="section-tag mb-4">TOOLS &amp; TECHNIQUES</div>
+              <div class="flex flex-wrap mb-2">
+                <span class="tool-tag">Burp Suite Pro</span><span class="tool-tag">Metasploit</span><span class="tool-tag">BloodHound</span><span class="tool-tag">Cobalt Strike TTPs</span><span class="tool-tag">Impacket</span><span class="tool-tag">Responder</span><span class="tool-tag">FFUF</span><span class="tool-tag">Nuclei</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">An attacker identifies a forgotten dev subdomain with a debug endpoint enabled. They use it to enumerate internal API routes, find a JWT with a static secret, forge admin tokens, and exfiltrate 40,000 patient records — all within 72 hours of initial access. This subdomain existed for 11 months before anyone noticed. We find these.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Executive Summary Report</p><p class="text-xs text-gray-400 mt-0.5">Board-ready: risk posture, key findings, business impact</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-terminal text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Full Technical Report</p><p class="text-xs text-gray-400 mt-0.5">Every finding: proof-of-concept, CVSS, exploitability, fix instructions</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-tools text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Developer Remediation Guide</p><p class="text-xs text-gray-400 mt-0.5">Step-by-step fix instructions, code-level examples where applicable</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-users text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Live Debrief Session</p><p class="text-xs text-gray-400 mt-0.5">Expert walkthrough of every critical finding with your team</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-rotate text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Full Retest Included</p><p class="text-xs text-gray-400 mt-0.5">We verify every fix is genuine — not just patched on paper</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="services.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-arrow-right"></i> FULL SERVICE DETAILS
+            </a>
+            <a href="contact.html" class="btn-ghost ml-4" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST PENTEST
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 2: Vulnerability Assessment -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-search"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 02</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Vulnerability Assessment</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">A systematic, broad scan of your entire attack surface — every weakness catalogued and ranked.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Unlike a pentest, a vulnerability assessment is about breadth over depth — mapping every security weakness across your networks, servers, applications, and cloud services. Prioritised by real-world exploitability (not just CVSS), this is the foundation of a strong security programme and a prerequisite for most compliance frameworks.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d2')">
+              <span id="btn-label-d2">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d2"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d2" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">SCOPE COVERAGE</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Network devices: routers, firewalls, switches, WAPs</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Servers: Windows, Linux, ESXi hypervisors, container hosts</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Web applications and all public-facing services</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Exposed cloud storage and misconfigured cloud services</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Email security: SPF, DKIM, DMARC gaps and spoofing risk</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Endpoint software inventory and unpatched CVEs</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Full attack surface overview</span>
+                <span class="benefit-pill">Early detection</span>
+                <span class="benefit-pill">Better patch management</span>
+                <span class="benefit-pill">Compliance foundation</span>
+                <span class="benefit-pill">Cost-effective</span>
+              </div>
+              <div class="section-tag mb-4">TOOLS USED</div>
+              <div class="flex flex-wrap">
+                <span class="tool-tag">Nessus Pro</span><span class="tool-tag">OpenVAS</span><span class="tool-tag">Nmap</span><span class="tool-tag">Nuclei</span><span class="tool-tag">Shodan</span><span class="tool-tag">OWASP ZAP</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A critical unpatched vulnerability in a legacy VPN appliance sits undetected for 9 months. Automated threat actors exploit it to gain initial access, establish persistence, and quietly harvest credentials before triggering ransomware. A quarterly VA catches this before the window opens — estimated damage avoided: R12M+.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-file-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Comprehensive Scan Report</p><p class="text-xs text-gray-400 mt-0.5">Full inventory of all identified vulnerabilities</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-sort-amount-down text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Risk-Ranked Vulnerability List</p><p class="text-xs text-gray-400 mt-0.5">CVSS scores with real-world business context applied</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-lightbulb text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Expert Remediation Guidance</p><p class="text-xs text-gray-400 mt-0.5">Prioritised next steps for every critical and high finding</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST VULNERABILITY ASSESSMENT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE 3: Healthcare Risk Assessments -->
+    <div class="service-card mb-6 gsap-card">
+      <div class="p-8 sm:p-10 md:p-12">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="svc-icon-wrap"><i class="fas fa-heart-pulse"></i></div>
+          <div class="flex-1">
+            <div class="svc-number mb-2">SERVICE 03</div>
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2">Healthcare Risk Assessments</h3>
+            <p class="text-gray-300 text-lg mb-5" style="font-weight:300;">Tailored for dental practices, clinics, and medical SMEs protecting patient data.</p>
+            <p class="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+              Healthcare is the #1 most targeted industry for cyber attacks. Patient data is worth 25x more than financial data on the dark web — and the regulatory consequences of a breach are severe. We understand HIPAA, POPIA, and the specific threat landscape facing medical practices, telehealth platforms, EHR systems, and dental software.
+            </p>
+            <button class="toggle-btn" onclick="toggleService('d3')">
+              <span id="btn-label-d3">DEEP DIVE</span>
+              <i class="fas fa-chevron-down toggle-icon" id="icon-d3"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="d3" class="service-details mt-10">
+          <div class="deep-dive-grid">
+            <div>
+              <div class="section-tag mb-4">WHAT WE ASSESS</div>
+              <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>EHR and practice management software security</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Dental imaging systems (X-ray, CBCT) network exposure</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Reception desk &amp; booking system vulnerabilities</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>PHI storage: on-prem, cloud, and backups</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>Staff access controls and MFA compliance</li>
+                <li class="flex items-start gap-2"><i class="fas fa-angle-right text-pink-400 mt-1 flex-shrink-0"></i>HIPAA / POPIA gap analysis and remediation roadmap</li>
+              </ul>
+              <div class="section-tag mb-4">KEY BENEFITS</div>
+              <div class="flex flex-wrap mb-6">
+                <span class="benefit-pill">Avoid POPIA/HIPAA fines</span>
+                <span class="benefit-pill">Protect patient data</span>
+                <span class="benefit-pill">Ransomware resilience</span>
+                <span class="benefit-pill">Insurance readiness</span>
+                <span class="benefit-pill">Certification roadmap</span>
+              </div>
+            </div>
+            <div>
+              <div class="attack-box mb-6">
+                <div class="pl-4">
+                  <div class="font-display text-xs text-red-400 tracking-widest mb-3">⚠ REAL ATTACK SCENARIO</div>
+                  <p class="text-sm text-gray-300 leading-relaxed">A single phishing email compromises a receptionist account at a dental practice. The attacker pivots to the imaging server — which was on the same flat network — encrypts all patient X-rays, and demands a R500K ransom. Backups were on a network share accessible from the compromised account. Practice is down for 3 weeks. Total cost: R1.8M. We prevent this.</p>
+                </div>
+              </div>
+              <div class="section-tag mb-4">WHAT YOU RECEIVE</div>
+              <div class="space-y-2">
+                <div class="outcome-item">
+                  <i class="fas fa-clipboard-check text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">HIPAA/POPIA Gap Analysis</p><p class="text-xs text-gray-400 mt-0.5">Control mapping, gaps identified, penalties quantified</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-map-signs text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Compliance Roadmap</p><p class="text-xs text-gray-400 mt-0.5">Prioritised remediation plan with estimated effort and cost</p></div>
+                </div>
+                <div class="outcome-item">
+                  <i class="fas fa-shield-alt text-pink-400 flex-shrink-0 mt-0.5"></i>
+                  <div><p class="font-semibold text-white text-sm">Patient Data Protection Plan</p><p class="text-xs text-gray-400 mt-0.5">Specific guidance for PHI security, backups, and access control</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-pink-500/10">
+            <a href="contact.html" class="btn-primary" style="font-size:.75rem;padding:14px 32px;">
+              <i class="fas fa-paper-plane"></i> REQUEST HEALTHCARE ASSESSMENT
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Services CTA -->
+    <div class="text-center mt-10 gsap-hidden">
+      <p class="text-gray-500 text-sm mb-5">We also offer <span class="text-pink-400 font-semibold">Security Audits &amp; Compliance</span> and <span class="text-pink-400 font-semibold">Incident Response &amp; Remediation</span> — see the full picture on our services page.</p>
+      <a href="services.html" class="btn-ghost">
+        <i class="fas fa-layer-group"></i> VIEW ALL 5 SERVICES IN FULL DETAIL
+      </a>
+    </div>
+
+  </div>
+</section>
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ METHODOLOGY ══ -->
+<section id="methodology" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">How We Work</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Our Methodology</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">A proven 4-phase process built around how real attackers operate. No spray-and-pray. No bloated CVE lists. Just clear, actionable intelligence that leads to genuine risk reduction.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">01</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-binoculars text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Reconnaissance &amp; Scoping</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">We map your full attack surface and build a threat model before touching a single system. Passive OSINT, DNS enumeration, certificate transparency, Shodan — the same starting point a real attacker uses. You approve scope. We begin.</p>
         <div class="flex flex-wrap gap-2">
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Laser Dentistry</span>
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Implantology</span>
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Patient Care</span>
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Healthcare Reg.</span>
+          <span class="tool-tag">OSINT</span><span class="tool-tag">DNS Recon</span><span class="tool-tag">Shodan</span><span class="tool-tag">Cert Transparency</span>
         </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 1</span></div>
       </div>
 
-      <!-- Hacker card -->
-      <div class="identity-card p-8 gsap-card">
-        <div class="flex items-start gap-5 mb-6">
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 text-2xl text-pink-400" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);">
-            <i class="fas fa-user-secret"></i>
-          </div>
-          <div>
-            <div class="font-mono text-xs text-pink-400/60 tracking-widest mb-1">DISCIPLINE 02</div>
-            <h3 class="font-display font-bold text-white text-xl tracking-wide">SECURITY PRACTITIONER</h3>
-            <div class="font-mono text-xs text-gray-600 mt-1">GREYHAT4HIRE · INDEPENDENT</div>
-          </div>
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">02</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-skull-crossbones text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Controlled Exploitation</h3>
         </div>
-        <p class="text-gray-400 leading-relaxed mb-6" style="font-weight:400;">
-          A continuous and disciplined focus on information security, vulnerability research, and ethical hacking
-          spanning more than two decades — maintained in parallel with a full clinical career. Not a
-          career transition. A genuine dual vocation.
-        </p>
-        <p class="text-gray-500 text-sm leading-relaxed mb-6">
-          Operating as an intentionally limited-capacity independent consultancy ensures every engagement
-          receives direct senior involvement rather than being delegated down a consultant chain.
-        </p>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Ethical, targeted testing simulating real adversary behaviour. No automated spray-and-pray. Every attack vector is manually tested, chained, and validated by a human expert. We find what scanners miss — including logic flaws, misconfigurations, and business-layer vulnerabilities.</p>
         <div class="flex flex-wrap gap-2">
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Penetration Testing</span>
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Vuln. Research</span>
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> OSINT</span>
-          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i> Healthcare Sec.</span>
+          <span class="tool-tag">Manual Testing</span><span class="tool-tag">Chain Attacks</span><span class="tool-tag">No False Positives</span>
         </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 2</span></div>
       </div>
 
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">03</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-file-lines text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Executive-Level Reporting</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Clear risk ratings, compliance impact, and business context — not just a CVE list. Every finding includes CVSS score, real-world exploitability rating, proof-of-concept evidence, and remediation instructions your developers can implement without a translator.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tool-tag">CVSS Scoring</span><span class="tool-tag">Exec Summary</span><span class="tool-tag">Dev Guidance</span>
+        </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 3</span></div>
+      </div>
+
+      <div class="timeline-step gsap-hidden">
+        <div class="step-badge">04</div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center glass flex-shrink-0"><i class="fas fa-circle-check text-pink-400 text-sm"></i></div>
+          <h3 class="font-display font-bold text-white text-lg">Remediation &amp; Retest</h3>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">We guide the fix, then verify it. Retesting is included in every engagement to confirm every vulnerability is genuinely closed — not just patched on paper. You receive a final certification report suitable for auditors, clients, and insurers. Close the loop, not just the ticket.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tool-tag">Retest Included</span><span class="tool-tag">Certification Report</span><span class="tool-tag">30-day Support</span>
+        </div>
+        <div class="mt-4"><span class="glass px-3 py-1 rounded-full text-xs font-display text-pink-400/70">PHASE 4</span></div>
+      </div>
     </div>
 
-    <!-- Connector quote -->
-    <div class="mt-10 gsap-hidden">
-      <div class="quote-block">
-        <p class="font-display text-lg sm:text-xl text-white leading-relaxed relative z-10" style="letter-spacing:.03em;">
-          "Operating in regulated clinical environments for over two decades instills something you cannot fake:
-          the discipline to <span class="neon-text">act only within authorized scope</span>, document everything,
-          and accept full responsibility for outcomes."
-        </p>
-        <div class="mt-4 font-mono text-xs text-pink-400/50 tracking-widest">— DR DAVID SYKES · GREYHAT4HIRE</div>
+    <div class="text-center mt-10 gsap-hidden">
+      <a href="greyhat-protocol.html" class="btn-ghost">
+        <i class="fas fa-lock"></i> READ THE FULL GREYHAT PROTOCOL
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ INDUSTRIES ══ -->
+<section id="industries" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="section-tag mb-3">Who We Protect</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Industries We Serve</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Sector-specific threat knowledge. We know the regulations, the common attack paths, and the specific systems used in your industry — not generic security advice.</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4C10 4 7 8 7 12c0 2.5.8 4.5 1.5 6.5L10 26c.5 2 1.5 3 3 3s2-1.5 2.5-3L16 22l.5 4c.5 1.5 1.5 3 2.5 3s2.5-1 3-3l1.5-7.5C24.2 16.5 25 14.5 25 12c0-4-3-8-9-8z"/>
+            <path d="M12 10c1.5-1.5 4.5-2 7 0" stroke-opacity=".6"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">Dental Practices</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">HIPAA-focused assessments for patient data, imaging systems, and practice management software.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 16h4l3-8 5 16 3-10 2 6h7" stroke-opacity=".9"/>
+            <circle cx="28" cy="16" r="1.5" fill="#ff1493"/>
+            <rect x="12" y="4" width="8" height="6" rx="1" stroke-opacity=".4"/>
+            <path d="M16 5v4M14 7h4" stroke-opacity=".4"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">Healthcare</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Clinics, telehealth platforms, and EHR system security against the #1 targeted sector.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="16" y1="4" x2="16" y2="28"/>
+            <path d="M10 8h12M10 12h12M10 16h8"/>
+            <rect x="6" y="4" width="20" height="24" rx="2" stroke-opacity=".5"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">Legal &amp; Professional</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Protecting privileged client data, communications, and intellectual property for law firms and consultancies.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="8" width="24" height="16" rx="2"/>
+            <path d="M4 13h24M12 18h4"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">Finance &amp; FinTech</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">PCI DSS compliance, card data protection, API security, and BEC fraud prevention.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="16" width="6" height="12"/>
+            <rect x="13" y="10" width="6" height="18"/>
+            <rect x="22" y="4" width="6" height="24"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">SMEs &amp; Startups</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Right-sized security programmes — enterprise-grade protection without enterprise budgets.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="6" width="26" height="20" rx="2"/>
+            <path d="M3 11h26M10 6v5M22 6v5"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">Government &amp; NGO</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Critical infrastructure protection, POPIA compliance, and citizen data security for public sector entities.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 28L4 12l12-8 12 8v16"/>
+            <rect x="12" y="18" width="8" height="10"/>
+            <path d="M11 13h10M16 10v3"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">Education</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Protecting student data, research IP, and administrative systems for schools, colleges, and universities.</p>
+      </div>
+      <div class="industry-card gsap-hidden">
+        <div class="industry-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="#ff1493" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="11"/>
+            <path d="M16 8v8l5 3"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-sm mb-2">E-Commerce &amp; Retail</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Payment security, customer data protection, supply chain risk, and fraud prevention for online retailers.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ STATS ══ -->
-<section class="py-16 px-4 sm:px-6 relative z-10 border-y border-pink-500/10">
+<!-- ══ ABOUT TEASER ══ -->
+<section class="py-16 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-      <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="20" data-suffix="+">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">YEARS IN BOTH<br>DISCIPLINES</div>
+    <a href="about.html" class="glass rounded-3xl p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-8 hover:border-pink-500/40 transition-all duration-300 group block" style="text-decoration:none;">
+      <img src="portrait.jpg" alt="Consultant" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover object-top flex-shrink-0 border border-pink-500/20 group-hover:border-pink-500/50 transition-all"
+        onerror="this.style.display='none'">
+      <div class="flex-1 text-center sm:text-left">
+        <div class="section-tag mb-2">Independent. Accountable. Effective.</div>
+        <h3 class="font-display font-black text-white text-2xl sm:text-3xl mb-3 group-hover:text-pink-400 transition-colors">Who Is Greyhat4Hire?</h3>
+        <p class="text-gray-400 leading-relaxed text-sm sm:text-base">Not a faceless agency. One senior consultant — accountable directly to you, with no overhead and no juniors running your engagement. Every test is performed by the expert you hire.</p>
       </div>
-      <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="1" data-suffix="st">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">IN KZN: WATERLASE<br>EXPRESS TECH</div>
-      </div>
-      <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="100" data-suffix="%">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">DIRECT SENIOR<br>INVOLVEMENT</div>
-      </div>
-      <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="0" data-suffix="">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">UNAUTHORIZED<br>ENGAGEMENTS EVER</div>
-      </div>
-    </div>
+      <i class="fas fa-arrow-right text-pink-400/40 text-2xl group-hover:text-pink-400 group-hover:translate-x-2 transition-all flex-shrink-0"></i>
+    </a>
   </div>
 </section>
 
-<!-- ══ BACKGROUND TIMELINE ══ -->
-<section class="py-24 px-4 sm:px-6 relative z-10">
-  <div class="max-w-5xl mx-auto">
-
-    <div class="grid md:grid-cols-2 gap-16 items-start">
-
-      <div>
-        <div class="gsap-hidden">
-          <div class="section-tag mb-4 flex items-center gap-3">
-            <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
-            BACKGROUND
-          </div>
-          <h2 class="font-display font-black text-white mb-6" style="font-size:clamp(1.6rem,3.5vw,2.8rem);">
-            HOW TWO CAREERS<br><span class="neon-pink">BECAME ONE EDGE</span>
-          </h2>
-          <p class="text-gray-400 leading-relaxed mb-8" style="font-weight:300;">
-            While most people choose a single path, Dr Sykes built two — in parallel, with full commitment to both.
-            The result is a perspective on security that practitioners who came up entirely through IT cannot replicate.
-          </p>
-        </div>
-
-        <!-- Timeline -->
-        <div class="space-y-0">
-
-          <div class="tl-item gsap-hidden" style="--delay:.1s">
-            <div class="tl-dot"></div>
-            <div class="tl-card">
-              <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-1">EARLY CAREER</div>
-              <h4 class="font-display text-white font-bold text-base mb-2">Clinical Foundation</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">Established Umhlanga Dental, building a practice defined by conservative treatment philosophy, patient transparency, and continuous investment in emerging technology.</p>
-            </div>
-          </div>
-
-          <div class="tl-item gsap-hidden" style="--delay:.2s">
-            <div class="tl-dot"></div>
-            <div class="tl-card">
-              <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-1">PARALLEL PURSUIT</div>
-              <h4 class="font-display text-white font-bold text-base mb-2">Security Research Begins</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">Curiosity about how systems fail — rooted in the same diagnostic mindset applied clinically — evolves into structured vulnerability research and ethical hacking practice.</p>
-            </div>
-          </div>
-
-          <div class="tl-item gsap-hidden" style="--delay:.3s">
-            <div class="tl-dot"></div>
-            <div class="tl-card">
-              <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-1">INNOVATION</div>
-              <h4 class="font-display text-white font-bold text-base mb-2">First in KZN: Waterlase Express</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">First practitioner in KwaZulu-Natal to adopt Biolase Waterlase Express dual-wavelength laser technology — evidence of a pattern: evaluating new tools seriously, then committing to them fully.</p>
-            </div>
-          </div>
-
-          <div class="tl-item gsap-hidden" style="--delay:.4s">
-            <div class="tl-dot"></div>
-            <div class="tl-card">
-              <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-1">TODAY</div>
-              <h4 class="font-display text-white font-bold text-base mb-2">Greyhat4hire</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">A formalised independent security consultancy — deliberately limited in capacity to preserve quality, confidentiality, and direct senior-practitioner involvement on every engagement.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Right column: what this means for clients -->
-      <div class="gsap-hidden">
-        <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-6">// WHAT THIS MEANS FOR YOU</div>
-
-        <div class="space-y-4">
-          <div class="identity-card p-6">
-            <div class="flex items-start gap-4">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-                <i class="fas fa-clipboard-check"></i>
-              </div>
-              <div>
-                <h4 class="font-display text-white text-sm font-bold mb-1 tracking-wide">SCOPE DISCIPLINE</h4>
-                <p class="text-gray-500 text-sm leading-relaxed">Decades of operating within clearly defined clinical boundaries translate directly into security work. Nothing outside the agreed scope is touched — ever.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="identity-card p-6">
-            <div class="flex items-start gap-4">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-                <i class="fas fa-file-medical-alt"></i>
-              </div>
-              <div>
-                <h4 class="font-display text-white text-sm font-bold mb-1 tracking-wide">DOCUMENTATION RIGOUR</h4>
-                <p class="text-gray-500 text-sm leading-relaxed">Clinical practice demands meticulous recordkeeping. Security reports from Greyhat4hire reflect that same standard — precise, reproducible, and litigation-ready if required.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="identity-card p-6">
-            <div class="flex items-start gap-4">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-                <i class="fas fa-heartbeat"></i>
-              </div>
-              <div>
-                <h4 class="font-display text-white text-sm font-bold mb-1 tracking-wide">HEALTHCARE SECTOR FLUENCY</h4>
-                <p class="text-gray-500 text-sm leading-relaxed">Understanding of POPIA compliance, patient data sensitivity, and the operational constraints of healthcare environments — from the inside, not from a textbook.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="identity-card p-6">
-            <div class="flex items-start gap-4">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-                <i class="fas fa-lock"></i>
-              </div>
-              <div>
-                <h4 class="font-display text-white text-sm font-bold mb-1 tracking-wide">ABSOLUTE CONFIDENTIALITY</h4>
-                <p class="text-gray-500 text-sm leading-relaxed">Patient confidentiality is non-negotiable in dentistry. The same principle governs every security engagement — findings, methodologies, and client identities stay private.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══ PHILOSOPHY ══ -->
-<section id="philosophy" class="py-24 px-4 sm:px-6 relative z-10 hex-bg border-y border-pink-500/10">
-  <div class="max-w-4xl mx-auto text-center">
-
-    <div class="gsap-hidden">
-      <div class="section-tag mb-4 flex items-center justify-center gap-3">
-        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
-        PROFESSIONAL PHILOSOPHY
-        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
-      </div>
-      <h2 class="font-display font-black text-white mb-12" style="font-size:clamp(1.6rem,3.5vw,2.8rem);">
-        THE STANDARD THAT GUIDES<br><span class="neon-pink">EVERY ENGAGEMENT</span>
-      </h2>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-6 mb-14">
-      <div class="glass rounded-2xl p-8 text-center gsap-card">
-        <div class="text-4xl text-pink-400 mb-4"><i class="fas fa-pen-to-square"></i></div>
-        <h3 class="font-display text-white text-sm font-bold mb-3 tracking-widest">WRITTEN AUTHORIZATION</h3>
-        <p class="text-gray-500 text-sm leading-relaxed">Every engagement begins with documented, explicit authorization. No exceptions. No grey areas.</p>
-      </div>
-      <div class="glass rounded-2xl p-8 text-center gsap-card">
-        <div class="text-4xl text-pink-400 mb-4"><i class="fas fa-microscope"></i></div>
-        <h3 class="font-display text-white text-sm font-bold mb-3 tracking-widest">CONTROLLED EXECUTION</h3>
-        <p class="text-gray-500 text-sm leading-relaxed">Testing is methodical, measured, and minimally disruptive — never reckless or exploratory beyond defined scope.</p>
-      </div>
-      <div class="glass rounded-2xl p-8 text-center gsap-card">
-        <div class="text-4xl text-pink-400 mb-4"><i class="fas fa-chart-line"></i></div>
-        <h3 class="font-display text-white text-sm font-bold mb-3 tracking-widest">CLEAR DELIVERABLES</h3>
-        <p class="text-gray-500 text-sm leading-relaxed">Findings are presented in language that leadership teams can act on — not jargon-dense reports that gather dust.</p>
-      </div>
-    </div>
-
-    <div class="gsap-hidden">
-      <div class="quote-block text-left">
-        <p class="font-display text-xl sm:text-2xl text-white leading-relaxed relative z-10" style="letter-spacing:.02em;">
-          "The objective is not the demonstration of technical capability.<br>
-          The objective is the delivery of clear security assurance that
-          <span class="neon-text">leadership teams can rely on with confidence</span>."
-        </p>
-        <div class="mt-5 font-mono text-xs text-pink-400/50 tracking-widest">— DR DAVID SYKES</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ══ INDEPENDENCE & CONFIDENTIALITY ══ -->
-<section class="py-24 px-4 sm:px-6 relative z-10">
-  <div class="max-w-5xl mx-auto">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-
-      <div class="gsap-hidden">
-        <div class="section-tag mb-4 flex items-center gap-3">
-          <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
-          INDEPENDENCE
-        </div>
-        <h2 class="font-display font-black text-white mb-6" style="font-size:clamp(1.5rem,3vw,2.6rem);">
-          WHY SMALL IS<br><span class="neon-pink">INTENTIONAL</span>
+<!-- ══ FINAL CTA ══ -->
+<section class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-4xl mx-auto">
+    <div class="cta-section p-10 sm:p-16 text-center gsap-hidden">
+      <div class="relative z-10">
+        <div class="section-tag mb-4">Ready When You Are</div>
+        <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-5">
+          Let's Find What<br>Attackers Would Find.
         </h2>
-        <p class="text-gray-400 leading-relaxed mb-5" style="font-weight:300;">
-          Greyhat4hire operates with intentionally limited engagement capacity. This is not a constraint — it is a deliberate design choice.
+        <p class="text-gray-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed mb-4">
+          Confidential consultation. No commitment. We'll tell you exactly what we'd test and what we'd expect to find — before you spend a rand.
         </p>
-        <p class="text-gray-500 text-sm leading-relaxed mb-5">
-          Large consultancies distribute work across teams of varying experience. At Greyhat4hire, Dr Sykes is directly involved in every engagement — from scoping to final report.
-          The person who signs the engagement is the person doing the work.
-        </p>
-        <p class="text-gray-500 text-sm leading-relaxed">
-          Strict confidentiality is maintained throughout. Client identities, findings, and engagement details are never disclosed. All work is performed under NDA and within clearly defined legal and ethical boundaries.
-        </p>
-      </div>
-
-      <div class="gsap-hidden">
-        <div class="space-y-4">
-          <div class="glass rounded-2xl p-6 flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400 text-lg" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-              <i class="fas fa-user-tie"></i>
-            </div>
-            <div>
-              <div class="font-display text-white text-sm font-bold mb-1 tracking-wide">SENIOR-ONLY DELIVERY</div>
-              <p class="text-gray-500 text-sm">Your engagement is handled by Dr Sykes personally — from kick-off through to report delivery and remediation review.</p>
-            </div>
-          </div>
-          <div class="glass rounded-2xl p-6 flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400 text-lg" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-              <i class="fas fa-file-contract"></i>
-            </div>
-            <div>
-              <div class="font-display text-white text-sm font-bold mb-1 tracking-wide">FULL NDA PROTECTION</div>
-              <p class="text-gray-500 text-sm">Every engagement is protected by a comprehensive non-disclosure agreement before any information is shared.</p>
-            </div>
-          </div>
-          <div class="glass rounded-2xl p-6 flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-pink-400 text-lg" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);">
-              <i class="fas fa-balance-scale"></i>
-            </div>
-            <div>
-              <div class="font-display text-white text-sm font-bold mb-1 tracking-wide">LEGAL BOUNDARIES ONLY</div>
-              <p class="text-gray-500 text-sm">All work conducted within clearly defined written scope — no unilateral expansion, no testing of out-of-scope assets.</p>
-            </div>
-          </div>
+        <p class="font-mono text-xs text-pink-400/50 mb-10 tracking-wider">&gt; threat.level=UNKNOWN &nbsp;→&nbsp; schedule.consultation() &nbsp;→&nbsp; threat.level=MANAGED</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="contact.html" class="btn-primary justify-center pulse-glow text-base px-10 py-5">
+            <i class="fas fa-shield-halved"></i> Request Consultation
+          </a>
+          <a href="hackers-dossier.html" class="btn-ghost justify-center text-base px-10 py-5">
+            <i class="fas fa-crosshairs"></i> See Your Dossier First
+          </a>
         </div>
+        <p class="text-gray-600 text-xs mt-6">We respond within 24 hours · All inquiries strictly confidential · Under NDA from first contact</p>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══ CTA ══ -->
-<section class="py-24 px-4 sm:px-6 relative z-10 overflow-hidden border-t border-pink-500/10">
-  <div style="position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(255,20,147,.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
-  <div class="max-w-3xl mx-auto text-center relative z-10 gsap-hidden">
-    <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-5">// READY TO ENGAGE?</div>
-    <h2 class="font-display font-black text-white mb-6" style="font-size:clamp(1.8rem,4vw,3rem);">
-      LET'S TALK ABOUT<br><span class="neon-pink">YOUR EXPOSURE</span>
-    </h2>
-    <p class="text-gray-400 text-lg mb-10" style="font-weight:300;">
-      Engagements are limited. If you're looking for a practitioner who treats your security with
-      the same diligence they apply in a regulated clinical environment — reach out.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="contact.html" class="btn-primary pulse-glow"><i class="fas fa-shield-alt"></i> Start a Conversation</a>
-      <a href="services.html" class="btn-ghost"><i class="fas fa-layer-group"></i> View Services</a>
     </div>
   </div>
 </section>
 
 <!-- ══ FOOTER ══ -->
-<footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
-
+<footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-18">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
       <div class="lg:col-span-1">
         <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
-          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting firm providing ethical security testing and assurance services across South Africa and beyond.</p>
         <div class="flex gap-4">
-          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
-          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
-          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
-
       <div>
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">SERVICES</h3>
-        <ul class="space-y-3">
-          <li><a href="services.html#s1" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
-          <li><a href="services.html#s2" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
-          <li><a href="services.html#s3" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
-          <li><a href="services.html#s4" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
-          <li><a href="services.html#s5" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
-          <li><a href="services.html#s6" class="text-gray-500 hover:text-pink-400 transition text-sm">Remediation &amp; Retest</a></li>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3>
+        <ul class="space-y-2.5">
+          <li><a href="index.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">Home</a></li>
+          <li><a href="about.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">About</a></li>
+          <li><a href="services.html"         class="text-gray-400 hover:text-pink-400 transition text-sm">Services</a></li>
+          <li><a href="cyber-awareness.html"  class="text-gray-400 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="greyhat-protocol.html" class="text-gray-400 hover:text-pink-400 transition text-sm">The Protocol</a></li>
+          <li><a href="pricing.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Pricing</a></li>
+          <li><a href="contact.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Contact</a></li>
         </ul>
       </div>
-
       <div>
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">COMPANY</h3>
-        <ul class="space-y-3">
-          <li><a href="index.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">Home</a></li>
-          <li><a href="about.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
-          <li><a href="greyhat-protocol.html" class="text-gray-500 hover:text-pink-400 transition text-sm">The Greyhat Protocol</a></li>
-          <li><a href="cyber-awareness.html"  class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
-          <li><a href="pricing.html"          class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
-          <li><a href="contact.html"          class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
+        <ul class="space-y-2.5">
+          <li><a href="risk-assessment.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="#threat-map"            class="text-gray-400 hover:text-pink-400 transition text-sm">SA Threat Map</a></li>
+          <li><a href="#methodology"           class="text-gray-400 hover:text-pink-400 transition text-sm">Our Methodology</a></li>
         </ul>
       </div>
-
       <div>
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">GET IN TOUCH</h3>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
         <ul class="space-y-3">
-          <li>
-            <a href="/cdn-cgi/l/email-protection#40292e262f002732253928213474282932256e232f6e3a21" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
-              <i class="fas fa-envelope text-pink-400 mt-0.5"></i> <span class="__cf_email__" data-cfemail="660f080009260114031f0e0712520e0f1403480509481c07">[email&#160;protected]</span>
-            </a>
-          </li>
-          <li>
-            <a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
-              <i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581
-            </a>
-          </li>
-          <li>
-            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
-              <i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat
-            </a>
-          </li>
+          <li><a href="/cdn-cgi/l/email-protection#177e797178577065726e7f7663237f7e6572397478396d76" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i><span class="__cf_email__" data-cfemail="c3aaada5ac83a4b1a6baaba2b7f7abaab1a6eda0acedb9a2">[email&#160;protected]</span></a></li>
+          <li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i>WhatsApp Chat</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i>Book Consultation</a></li>
         </ul>
       </div>
-
     </div>
-
     <div class="border-t border-gray-800 pt-8">
       <div class="glass p-5 rounded-2xl mb-8">
         <div class="flex items-start gap-3">
           <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
           <p class="text-sm text-gray-400">
-            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
+            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection. We never disclose client names, findings, or engagement details without written permission.
           </p>
         </div>
       </div>
@@ -993,144 +2058,598 @@
     cur2.style.top  = e.clientY + 'px';
   });
 
-  // ── NAV ──
-  window.addEventListener('scroll', () =>
-    document.getElementById('nav').classList.toggle('nav-scrolled', scrollY > 50)
-  );
+  // ── NAV ──────────────────────────────────────
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
 
-  const hamburger    = document.getElementById('hamburger');
-  const mobileMenu   = document.getElementById('mobile-menu');
-  const closeMenuBtn = document.getElementById('close-menu');
+  const hamburger=document.getElementById('hamburger');
+  const mobileMenu=document.getElementById('mobile-menu');
+  const closeMenu=document.getElementById('close-menu');
 
-  function openMenu() {
+  function openMenu(){
     mobileMenu.classList.remove('hidden');
-    setTimeout(() => mobileMenu.classList.add('open'), 10);
+    setTimeout(()=>mobileMenu.classList.add('open'),10);
   }
-  function closeMenuFn() {
+  function closeMenuFn(){
     mobileMenu.classList.remove('open');
-    setTimeout(() => mobileMenu.classList.add('hidden'), 400);
+    setTimeout(()=>mobileMenu.classList.add('hidden'),400);
   }
 
   hamburger.addEventListener('click', openMenu);
-  closeMenuBtn.addEventListener('click', closeMenuFn);
-  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l => l.addEventListener('click', closeMenuFn));
+  closeMenu.addEventListener('click', closeMenuFn);
+  document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
 
-  // ── TYPEWRITER ──
-  const phrases = ['DENTIST. HACKER. CONSULTANT.','CLINICAL PRECISION. DIGITAL DEFENCE.','AUTHORIZED ACCESS ONLY.','UMHLANGA · SOUTH AFRICA','INDEPENDENT SECURITY RESEARCH'];
-  let pIdx = 0, cIdx = 0, del = false;
-  const typedEl = document.getElementById('typed-text');
-  function typeWriter() {
-    const p = phrases[pIdx];
-    if (!del) {
-      typedEl.textContent = p.substring(0, cIdx + 1); cIdx++;
-      if (cIdx === p.length) { setTimeout(() => { del = true; typeWriter(); }, 2400); return; }
-      setTimeout(typeWriter, cIdx < 5 ? 120 : 52);
-    } else {
-      typedEl.textContent = p.substring(0, cIdx - 1); cIdx--;
-      if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(typeWriter, 500); return; }
-      setTimeout(typeWriter, 30);
-    }
+  // ── STAT COUNTERS ────────────────────────────
+  function animateCounter(el,target){
+    let cur=0; const steps=60,dur=2000,inc=target/steps;
+    const iv=setInterval(()=>{ cur=Math.min(cur+inc,target); el.textContent=Math.round(cur)+(el.dataset.suffix||''); if(cur>=target)clearInterval(iv); },dur/steps);
   }
-  setTimeout(typeWriter, 1200);
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('[data-target]').forEach(el=>animateCounter(el,parseInt(el.dataset.target))); obs.unobserve(e.target); } });
+  },{threshold:.4});
+  document.querySelectorAll('.stat-card').forEach(el=>{ if(el.querySelector('[data-target]')) obs.observe(el); });
 
-  // ── STAT COUNTERS ──
-  function animateCounter(el, target, suffix) {
-    if (target === 0) { el.textContent = '0' + (suffix || ''); return; }
-    let count = 0;
-    const steps = 60, dur = 2000, inc = target / steps;
-    const iv = setInterval(() => {
-      count = Math.min(count + inc, target);
-      el.textContent = Math.round(count) + (suffix || '');
-      if (count >= target) clearInterval(iv);
-    }, dur / steps);
+  // ── TOGGLE SERVICE DETAILS ──────────────────
+  function toggleService(id){
+    const details=document.getElementById(id);
+    const icon=document.getElementById('icon-'+id);
+    const label=document.getElementById('btn-label-'+id);
+    const isOpen=details.classList.contains('expanded');
+    details.classList.toggle('expanded',!isOpen);
+    icon.classList.toggle('rotated',!isOpen);
+    if(label) label.textContent=isOpen?'DEEP DIVE':'CLOSE';
   }
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.querySelectorAll('[data-target]').forEach(el => {
-          animateCounter(el, parseInt(el.dataset.target), el.dataset.suffix || '');
-        });
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: .4 });
-  document.querySelectorAll('.stat-item').forEach(el => obs.observe(el.parentElement));
 
-  // ── GSAP ──
+  // ── GSAP ─────────────────────────────────────
   gsap.registerPlugin(ScrollTrigger);
 
-  const tl = gsap.timeline();
-  tl.fromTo('#hero-eyebrow',  { y:30, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 0.3)
-    .fromTo('#hero-heading',  { y:50, opacity:0 }, { y:0, opacity:1, duration:.9, ease:'back.out(1.2)' }, 0.5)
-    .fromTo('#hero-mono',     { opacity:0 },       { opacity:1, duration:.5 }, 1.0)
-    .fromTo('#hero-sub',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.1)
-    .fromTo('#hero-btns',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.4)
-    .fromTo('#hero-loc',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.6, ease:'power3.out' }, 1.6)
-    .fromTo('#hero-portrait', { x:40, opacity:0 }, { x:0, opacity:1, duration:1,  ease:'power3.out' }, 0.4);
+  const tl=gsap.timeline();
+  tl.fromTo('#hero-eyebrow',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},0.3)
+    .fromTo('#hero-logo',{scale:.9,opacity:0},{scale:1,opacity:1,duration:.8,ease:'back.out(1.2)'},0.5)
+    .fromTo('#hero-h1',{y:50,opacity:0},{y:0,opacity:1,duration:.9,ease:'back.out(1.2)'},0.8)
+    .fromTo('#hero-sub',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.2)
+    .fromTo('#hero-mono',{opacity:0},{opacity:1,duration:.6,ease:'power2.out'},1.5)
+    .fromTo('#hero-btns',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.6)
+    .fromTo('#hero-stats',{y:30,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out'},1.9)
+    .fromTo('#hero-scroll',{opacity:0},{opacity:.3,duration:.8},2.3);
 
-  gsap.utils.toArray('.gsap-card').forEach((card, i) => {
-    gsap.fromTo(card, { y:60, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
-      scrollTrigger:{ trigger:card, start:'top 88%', once:true }, delay:(i % 3) * 0.12 });
+  gsap.utils.toArray('.gsap-card').forEach((card,i)=>{
+    gsap.fromTo(card,{y:60,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:(i%2)*0.1});
   });
 
-  gsap.utils.toArray('.gsap-hidden').forEach(el => {
-    gsap.fromTo(el, { y:40, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
-      scrollTrigger:{ trigger:el, start:'top 88%', once:true },
-      delay: parseFloat(el.style.getPropertyValue('--delay') || 0) });
+  gsap.utils.toArray('.timeline-step').forEach((step,i)=>{
+    gsap.fromTo(step,{y:50,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',
+      scrollTrigger:{trigger:step,start:'top 90%',once:true},delay:i*0.08});
   });
 
-  // ── THREE.JS PARTICLES ──
-  (function() {
-    const canvas   = document.getElementById('three-canvas');
-    const scene    = new THREE.Scene();
-    const camera   = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, .1, 400);
-    camera.position.z = 80;
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  gsap.utils.toArray('.industry-card').forEach((card,i)=>{
+    gsap.fromTo(card,{scale:.92,opacity:0},{scale:1,opacity:1,duration:.6,ease:'back.out(1.4)',
+      scrollTrigger:{trigger:card,start:'top 90%',once:true},delay:(i%4)*0.07});
+  });
 
-    const count = 500, geo = new THREE.BufferGeometry();
-    const pos = new Float32Array(count * 3), col = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      pos[i3]   = (Math.random() - .5) * 180;
-      pos[i3+1] = (Math.random() - .5) * 260 - 80;
-      pos[i3+2] = (Math.random() - .5) * 50;
-      col[i3]   = .98 + (Math.random() - .5) * .08;
-      col[i3+1] = .08 + (Math.random() - .5) * .04;
-      col[i3+2] = .58 + (Math.random() - .5) * .1;
+  gsap.utils.toArray('.price-card').forEach((card,i)=>{
+    gsap.fromTo(card,{y:40,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 90%',once:true},delay:i*0.1});
+  });
+
+  gsap.utils.toArray('.tool-card').forEach((card,i)=>{
+    gsap.fromTo(card,{x:i===0?-40:i===2?40:0,y:20,opacity:0},{x:0,y:0,opacity:1,duration:.8,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:i*0.12});
+  });
+
+  gsap.utils.toArray('.gsap-hidden').forEach(el=>{
+    gsap.fromTo(el,{y:40,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+  });
+
+  gsap.utils.toArray('.case-card').forEach((card,i)=>{
+    gsap.fromTo(card,{x:-40,opacity:0},{x:0,opacity:1,duration:.7,ease:'power3.out',
+      scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:i*0.1});
+  });
+
+  // ── THREE.JS PARTICLES ──────────────────────
+  (function(){
+    // Skip entirely on reduced-motion preference
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    const canvas=document.getElementById('three-canvas');
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);
+    camera.position.z=80;
+    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+    renderer.setSize(innerWidth,innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1));
+
+    // 250 particles (down from 500) — halves geometry update cost
+    const count=250,geo=new THREE.BufferGeometry();
+    const pos=new Float32Array(count*3),col=new Float32Array(count*3);
+    for(let i=0;i<count;i++){
+      const i3=i*3;
+      pos[i3]=(Math.random()-.5)*180; pos[i3+1]=(Math.random()-.5)*260-80; pos[i3+2]=(Math.random()-.5)*50;
+      col[i3]=.98+(Math.random()-.5)*.08; col[i3+1]=.08+(Math.random()-.5)*.04; col[i3+2]=.58+(Math.random()-.5)*.1;
     }
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
-    const mat = new THREE.PointsMaterial({
-      size:.82, vertexColors:true, transparent:true, opacity:.28,
-      blending:THREE.AdditiveBlending, depthTest:false
-    });
-    const pts = new THREE.Points(geo, mat);
+    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+    const pts=new THREE.Points(geo,mat);
     scene.add(pts);
 
-    let f = 0;
-    function animate() {
+    // Pause when tab is hidden — zero CPU when user switches tabs
+    let pageVisible=!document.hidden;
+    document.addEventListener('visibilitychange',()=>{ pageVisible=!document.hidden; });
+
+    let f=0;
+    function animate(){
       requestAnimationFrame(animate);
-      if (++f % 2) return;
-      const p = pts.geometry.attributes.position.array;
-      for (let i = 1; i < p.length; i += 3) {
-        p[i]   += .022 + Math.random() * .028;
-        p[i-1] += Math.sin(Date.now() * .00008 + i) * .003;
-        if (p[i] > 130) p[i] = -120;
+      if(!pageVisible) return;
+      // Render every 3rd frame (~20fps) — visually identical, 66% less work
+      if(++f%3) return;
+      const p=pts.geometry.attributes.position.array;
+      const t=Date.now()*.00008;
+      for(let i=1;i<p.length;i+=3){
+        p[i]+=.022;                         // remove per-particle Math.random()
+        p[i-1]+=Math.sin(t+i)*.003;
+        if(p[i]>130)p[i]=-120;
       }
-      pts.geometry.attributes.position.needsUpdate = true;
-      pts.rotation.y += .00015;
-      renderer.render(scene, camera);
+      pts.geometry.attributes.position.needsUpdate=true;
+      pts.rotation.y+=.00015;
+      renderer.render(scene,camera);
     }
     animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = innerWidth / innerHeight;
+    window.addEventListener('resize',()=>{
+      camera.aspect=innerWidth/innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth, innerHeight);
+      renderer.setSize(innerWidth,innerHeight);
+    });
+  })();
+
+  // ── Province card buttons ──────────────────────────────
+  document.querySelectorAll('.province-card').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.province-card').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      userHasInteracted = true;
+      if (autoCycleTimer) clearInterval(autoCycleTimer);
+      handleProvinceClick(btn.dataset.id);
+    });
+  });
+
+  // Province data
+  const PROVINCES = {
+    gp: {
+      name: 'Gauteng',
+      level: 'critical',
+      levelLabel: 'CRITICAL',
+      score: 94,
+      incidents: 342,
+      topIndustry: 'Finance & Banking',
+      topIcon: 'fas fa-landmark',
+      topCount: 112,
+      topPct: 33,
+      attackTags: ['Ransomware', 'BEC Fraud', 'API Exploitation', 'Supply Chain', 'Data Exfiltration'],
+      ransom: 138, phish: 97, data: 107,
+      panelColor: '#ef4444',
+      levelBg: 'rgba(239,68,68,.12)',
+      levelBorder: 'rgba(239,68,68,.4)',
+      levelColor: '#ef4444',
+      note: 'SA\'s economic hub remains the most targeted province, driven by concentration of financial institutions and tech companies.'
+    },
+    wc: {
+      name: 'Western Cape',
+      level: 'high',
+      levelLabel: 'HIGH',
+      score: 78,
+      incidents: 278,
+      topIndustry: 'Healthcare & Medical',
+      topIcon: 'fas fa-hospital',
+      topCount: 91,
+      topPct: 33,
+      attackTags: ['Phishing', 'Ransomware', 'Credential Stuffing', 'POPIA Violations'],
+      ransom: 89, phish: 110, data: 79,
+      panelColor: '#f59e0b',
+      levelBg: 'rgba(245,158,11,.12)',
+      levelBorder: 'rgba(245,158,11,.4)',
+      levelColor: '#f59e0b',
+      note: 'Growing tech sector and major healthcare concentration make Western Cape a high-priority target for healthcare-specific ransomware.'
+    },
+    kzn: {
+      name: 'KwaZulu-Natal',
+      level: 'high',
+      levelLabel: 'HIGH',
+      score: 71,
+      incidents: 215,
+      topIndustry: 'Government Services',
+      topIcon: 'fas fa-building-columns',
+      topCount: 74,
+      topPct: 34,
+      attackTags: ['DDoS', 'Government Intrusions', 'Phishing', 'Data Breach'],
+      ransom: 62, phish: 88, data: 65,
+      panelColor: '#f59e0b',
+      levelBg: 'rgba(245,158,11,.12)',
+      levelBorder: 'rgba(245,158,11,.4)',
+      levelColor: '#f59e0b',
+      note: 'Port infrastructure and government digitisation projects have expanded the attack surface significantly since 2023.'
+    },
+    ec: {
+      name: 'Eastern Cape',
+      level: 'medium',
+      levelLabel: 'MEDIUM',
+      score: 52,
+      incidents: 143,
+      topIndustry: 'Education Sector',
+      topIcon: 'fas fa-graduation-cap',
+      topCount: 48,
+      topPct: 34,
+      attackTags: ['Phishing', 'Ransomware', 'Social Engineering', 'Credential Theft'],
+      ransom: 41, phish: 58, data: 44,
+      panelColor: '#ff1493',
+      levelBg: 'rgba(255,20,147,.1)',
+      levelBorder: 'rgba(255,20,147,.3)',
+      levelColor: '#ff1493',
+      note: 'University campuses and municipal systems are increasingly targeted by opportunistic attackers exploiting under-resourced IT environments.'
+    },
+    nw: {
+      name: 'North West',
+      level: 'low',
+      levelLabel: 'LOW',
+      score: 38,
+      incidents: 112,
+      topIndustry: 'Mining & Resources',
+      topIcon: 'fas fa-helmet-safety',
+      topCount: 45,
+      topPct: 40,
+      attackTags: ['OT/SCADA Attacks', 'Insider Threats', 'Ransomware', 'Data Theft'],
+      ransom: 38, phish: 42, data: 32,
+      panelColor: '#22c55e',
+      levelBg: 'rgba(34,197,94,.08)',
+      levelBorder: 'rgba(34,197,94,.3)',
+      levelColor: '#22c55e',
+      note: 'Operational technology vulnerabilities in mining systems are an emerging threat vector as facilities undergo digital transformation.'
+    },
+    lim: {
+      name: 'Limpopo',
+      level: 'medium',
+      levelLabel: 'MEDIUM',
+      score: 44,
+      incidents: 87,
+      topIndustry: 'Mining & Agriculture',
+      topIcon: 'fas fa-seedling',
+      topCount: 32,
+      topPct: 37,
+      attackTags: ['BEC Fraud', 'Phishing', 'Ransomware', 'Social Engineering'],
+      ransom: 24, phish: 36, data: 27,
+      panelColor: '#ff1493',
+      levelBg: 'rgba(255,20,147,.1)',
+      levelBorder: 'rgba(255,20,147,.3)',
+      levelColor: '#ff1493',
+      note: 'Agricultural co-operatives and border region trade businesses are increasingly exposed to business email compromise schemes.'
+    },
+    mp: {
+      name: 'Mpumalanga',
+      level: 'high',
+      levelLabel: 'HIGH',
+      score: 65,
+      incidents: 98,
+      topIndustry: 'Energy & Utilities',
+      topIcon: 'fas fa-bolt',
+      topCount: 38,
+      topPct: 39,
+      attackTags: ['OT/SCADA Attacks', 'Ransomware', 'Insider Threats', 'Espionage'],
+      ransom: 35, phish: 31, data: 32,
+      panelColor: '#f59e0b',
+      levelBg: 'rgba(245,158,11,.12)',
+      levelBorder: 'rgba(245,158,11,.4)',
+      levelColor: '#f59e0b',
+      note: 'Critical energy infrastructure in Mpumalanga faces elevated nation-state and ransomware threats targeting operational technology systems.'
+    },
+    fs: {
+      name: 'Free State',
+      level: 'medium',
+      levelLabel: 'MEDIUM',
+      score: 41,
+      incidents: 95,
+      topIndustry: 'Agriculture & Food',
+      topIcon: 'fas fa-wheat-awn',
+      topCount: 31,
+      topPct: 33,
+      attackTags: ['Phishing', 'BEC Fraud', 'Ransomware', 'Credential Theft'],
+      ransom: 27, phish: 41, data: 27,
+      panelColor: '#ff1493',
+      levelBg: 'rgba(255,20,147,.1)',
+      levelBorder: 'rgba(255,20,147,.3)',
+      levelColor: '#ff1493',
+      note: 'Agribusiness supply chain vulnerabilities and municipal system weaknesses represent the primary attack surface in this province.'
+    },
+    nc: {
+      name: 'Northern Cape',
+      level: 'medium',
+      levelLabel: 'MEDIUM',
+      score: 33,
+      incidents: 74,
+      topIndustry: 'Mining & Diamonds',
+      topIcon: 'fas fa-gem',
+      topCount: 28,
+      topPct: 38,
+      attackTags: ['Data Theft', 'Phishing', 'Ransomware', 'Supply Chain'],
+      ransom: 18, phish: 30, data: 26,
+      panelColor: '#ff1493',
+      levelBg: 'rgba(255,20,147,.1)',
+      levelBorder: 'rgba(255,20,147,.3)',
+      levelColor: '#ff1493',
+      note: 'Despite lower incident volume, high-value mining assets make Northern Cape attractive for targeted data theft and industrial espionage operations.'
+    }
+  };
+
+  let selectedProvince = null;
+
+  // Map timestamp
+  function updateTimestamp() {
+    const el = document.getElementById('map-timestamp');
+    if (!el) return;
+    const now = new Date();
+    el.textContent = `LAST UPDATED: ${now.toLocaleDateString('en-ZA',{day:'2-digit',month:'short',year:'numeric'})} ${now.toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'})} SAST`;
+  }
+  updateTimestamp();
+
+  let _scoreInt = null, _pctInt = null;
+
+  // Province click handler
+  function handleProvinceClick(id) {
+    const data = PROVINCES[id];
+    if (!data) return;
+
+    // Remove previous selection
+    document.querySelectorAll('.province-path').forEach(p => p.classList.remove('selected'));
+    // Add selection to clicked
+    const path = document.getElementById('prov-' + id);
+    if (path) path.classList.add('selected');
+    selectedProvince = id;
+
+    // Hide default, show detail
+    document.getElementById('detail-default').style.display = 'none';
+    document.getElementById('detail-province').style.display = 'block';
+
+    // Update panel color variable
+    const panel = document.getElementById('province-detail');
+    panel.style.setProperty('--panel-color', data.panelColor);
+    panel.style.borderTopColor = data.panelColor;
+
+    // Set score ring
+    const circumference = 2 * Math.PI * 36; // r=36
+    const filled = (data.score / 100) * circumference;
+    const ring = document.getElementById('score-ring');
+    ring.setAttribute('stroke', data.panelColor);
+    ring.style.strokeDasharray = `0 ${circumference}`;
+    // Animate after frame
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        ring.style.strokeDasharray = `${filled} ${circumference}`;
+      }, 50);
+    });
+
+    // Score text
+    const scoreEl = document.getElementById('prov-score');
+    scoreEl.textContent = '0';
+    scoreEl.style.color = data.panelColor;
+    let scoreVal = 0;
+    if (_scoreInt) clearInterval(_scoreInt);
+    _scoreInt = setInterval(() => {
+      scoreVal = Math.min(scoreVal + 3, data.score);
+      scoreEl.textContent = scoreVal;
+      if (scoreVal >= data.score) clearInterval(_scoreInt);
+    }, 20);
+
+    // Level badge
+    const badge = document.getElementById('prov-level-badge');
+    badge.style.background = data.levelBg;
+    badge.style.borderColor = data.levelBorder;
+    badge.style.color = data.levelColor;
+    document.getElementById('prov-level-txt').textContent = data.levelLabel;
+
+    // Name and incidents
+    document.getElementById('prov-name').textContent = data.name;
+    document.getElementById('prov-incidents-txt').textContent = `${data.incidents} incidents tracked · 2024–2025`;
+
+    // Top industry
+    document.getElementById('prov-top-industry').style.background = `rgba(${hexToRgb(data.panelColor)},.07)`;
+    document.getElementById('prov-top-industry').style.borderColor = `rgba(${hexToRgb(data.panelColor)},.2)`;
+    document.getElementById('prov-industry-icon').className = data.topIcon + ' text-lg flex-shrink-0';
+    document.getElementById('prov-industry-icon').style.color = data.panelColor;
+    document.getElementById('prov-industry-name').textContent = data.topIndustry;
+    document.getElementById('prov-industry-stat').textContent = `${data.topCount} incidents`;
+    const pctEl = document.getElementById('prov-industry-pct');
+    pctEl.textContent = '0%';
+    pctEl.style.color = data.panelColor;
+    let pctVal = 0;
+    if (_pctInt) clearInterval(_pctInt);
+    _pctInt = setInterval(() => {
+      pctVal = Math.min(pctVal + 2, data.topPct);
+      pctEl.textContent = pctVal + '%';
+      if (pctVal >= data.topPct) clearInterval(_pctInt);
+    }, 20);
+
+    // Attack tags
+    const tagsEl = document.getElementById('prov-attack-tags');
+    tagsEl.innerHTML = '';
+    data.attackTags.forEach(tag => {
+      const span = document.createElement('span');
+      span.className = 'attack-tag';
+      span.style.borderColor = `rgba(${hexToRgb(data.panelColor)},.25)`;
+      span.style.background = `rgba(${hexToRgb(data.panelColor)},.06)`;
+      span.textContent = tag;
+      tagsEl.appendChild(span);
+    });
+
+    // Stats
+    document.getElementById('prov-stat-ransom').textContent = data.ransom;
+    document.getElementById('prov-stat-phish').textContent = data.phish;
+    document.getElementById('prov-stat-data').textContent = data.data;
+  }
+
+  function hexToRgb(hex) {
+    const clean = hex.replace('#','');
+    if (clean === 'ef4444') return '239,68,68';
+    if (clean === 'f59e0b') return '245,158,11';
+    if (clean === 'ff1493') return '255,20,147';
+    if (clean === '22c55e') return '34,197,94';
+    return '255,20,147';
+  }
+
+
+  const barTargets = {
+    'bar-health':   { w: 100, max: 387 },
+    'bar-finance':  { w: 81,  max: 312 },
+    'bar-gov':      { w: 67,  max: 261 },
+    'bar-retail':   { w: 51,  max: 198 },
+    'bar-edu':      { w: 37,  max: 142 },
+    'bar-legal':    { w: 23,  max:  89 },
+    'bar-energy':   { w: 14,  max:  55 },
+    'bar-ransom':   { w: 100, max: 428 },
+    'bar-phish':    { w: 83,  max: 356 },
+    'bar-data':     { w: 67,  max: 289 },
+    'bar-bec':      { w: 44,  max: 187 },
+    'bar-supply':   { w: 23,  max:  98 },
+    'bar-insider':  { w: 13,  max:  56 },
+    'bar-ddos':     { w:  7,  max:  30 },
+  };
+
+  let barsAnimated = false;
+  const barSection = document.querySelector('.industry-bar-wrap');
+
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !barsAnimated) {
+        barsAnimated = true;
+        Object.entries(barTargets).forEach(([id, {w}]) => {
+          const el = document.getElementById(id);
+          if (el) {
+            setTimeout(() => { el.style.width = w + '%'; }, 200);
+          }
+        });
+      }
+    });
+  }, {threshold: 0.3});
+
+  if (barSection) barObs.observe(barSection);
+
+  // ── Auto-pulse province cycling ──────────────
+  // After 3s of no interaction, cycle through provinces for demo effect
+  let autoCycleTimer = null;
+  let autoCycleIdx = 0;
+  const autoCycleOrder = ['gp','wc','kzn','mp','nw'];
+  let userHasInteracted = false;
+
+  function startAutoCycle() {
+    if (userHasInteracted) return;
+    autoCycleTimer = setInterval(() => {
+      if (userHasInteracted) { clearInterval(autoCycleTimer); return; }
+      const id = autoCycleOrder[autoCycleIdx % autoCycleOrder.length];
+      if (window._sphereSelect) window._sphereSelect(id);
+      handleProvinceClick(id);
+      // highlight mobile button too
+      document.querySelectorAll('.province-card').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+      autoCycleIdx++;
+    }, 3000);
+  }
+
+  // Start auto-cycle when map section enters view
+  const mapObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        setTimeout(startAutoCycle, 1200);
+        mapObs.disconnect();
+      }
+    });
+  }, {threshold: 0.3});
+
+  const mapSection = document.getElementById('threat-map');
+  if (mapSection) mapObs.observe(mapSection);
+
+  // (Auto-cycle stop is handled inside the sphere canvas click listener)
+
+</script>
+<!-- ══ POPIA COOKIE CONSENT ══ -->
+<style>
+  #cookie-banner {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9990;
+    background: rgba(4,4,4,.97);
+    border-top: 1px solid rgba(255,20,147,.3);
+    backdrop-filter: blur(20px);
+    padding: 20px 24px;
+    box-shadow: 0 -8px 40px rgba(255,20,147,.1);
+    font-family: 'Rajdhani', sans-serif;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform .5s cubic-bezier(.4,0,.2,1), opacity .5s ease;
+  }
+  #cookie-banner.visible { transform: translateY(0); opacity: 1; }
+  #cookie-banner-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+  }
+  #cookie-text { flex: 1; min-width: 260px; }
+  #cookie-text-label {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    font-family: 'Orbitron', monospace; font-size: .65rem;
+    letter-spacing: .18em; color: #ff1493;
+  }
+  #cookie-text p { font-size: .9rem; color: rgba(255,255,255,.65); line-height: 1.5; margin: 0; }
+  #cookie-text a { color: #ff1493; text-decoration: underline; text-underline-offset: 3px; }
+  #cookie-actions { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
+  #cookie-accept {
+    font-family: 'Orbitron', monospace; font-size: .65rem; font-weight: 700;
+    letter-spacing: .1em; background: linear-gradient(135deg,#ff1493,#ff69b4);
+    color: #fff; border: none; padding: 10px 22px; border-radius: 10px;
+    cursor: pointer; transition: box-shadow .3s ease; white-space: nowrap;
+  }
+  #cookie-accept:hover { box-shadow: 0 6px 24px rgba(255,20,147,.5); }
+  #cookie-policy-link {
+    font-family: 'Orbitron', monospace; font-size: .65rem; font-weight: 700;
+    letter-spacing: .08em; color: rgba(255,20,147,.7);
+    border: 1px solid rgba(255,20,147,.3); padding: 10px 18px; border-radius: 10px;
+    text-decoration: none; display: inline-flex; align-items: center;
+    transition: border-color .3s ease; white-space: nowrap;
+  }
+  #cookie-policy-link:hover { border-color: rgba(255,20,147,.6); }
+</style>
+
+<div id="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-desc">
+  <div id="cookie-banner-inner">
+    <div id="cookie-text">
+      <div id="cookie-text-label">
+        <i class="fas fa-shield-alt"></i>
+        <span id="cookie-title">POPIA COOKIE NOTICE</span>
+      </div>
+      <p id="cookie-desc">
+        We use essential cookies to keep this site secure and functional. We don't run ads or sell your data.
+        By continuing you acknowledge our use of necessary cookies in accordance with
+        <strong style="color:rgba(255,255,255,.85);">POPIA</strong> and our
+        <a href="privacy.html">Privacy Policy</a>.
+      </p>
+    </div>
+    <div id="cookie-actions">
+      <button id="cookie-accept"><i class="fas fa-check" style="margin-right:6px;"></i>ACCEPT &amp; CONTINUE</button>
+      <a href="privacy.html" id="cookie-policy-link">PRIVACY POLICY</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var KEY = 'gh4h_consent';
+    var banner = document.getElementById('cookie-banner');
+    if (!banner || localStorage.getItem(KEY)) return;
+    banner.style.display = 'block';
+    setTimeout(function(){
+      banner.classList.add('visible');
+    }, 2200);
+    document.getElementById('cookie-accept').addEventListener('click', function(){
+      localStorage.setItem(KEY, '1');
+      banner.classList.remove('visible');
+      setTimeout(function(){ banner.style.display = 'none'; }, 520);
     });
   })();
 </script>
+
 </body>
 </html>
