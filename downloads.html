@@ -15,9 +15,9 @@
 
   <style>
     :root {
-      --pink: #ff1493;
-      --pink-dim: rgba(255,20,147,0.55);
-      --pink-faint: rgba(255,20,147,0.1);
+      --pink: #a855f7;
+      --pink-dim: rgba(168,85,247,0.55);
+      --pink-faint: rgba(168,85,247,0.1);
     }
     * { box-sizing: border-box; }
     html { overflow-x: hidden; scroll-behavior: smooth; }
@@ -36,26 +36,26 @@
       pointer-events: none;
     }
 
-    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
-    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #a855f7;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #a855f7;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#a855f7;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #a855f7;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     .font-display { font-family: 'Orbitron', monospace; }
     .font-mono    { font-family: 'Share Tech Mono', monospace; }
 
-    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
-    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28); }
+    .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(168,85,247,.18); }
+    .glass-strong { background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(168,85,247,.28); }
 
-    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
-    .neon-text { color:var(--pink);text-shadow:0 0 16px rgba(255,20,147,.6); }
+    .neon-pink { color:var(--pink);text-shadow:0 0 28px rgba(168,85,247,.85); }
+    .neon-text { color:var(--pink);text-shadow:0 0 16px rgba(168,85,247,.6); }
 
     nav { transition:all .4s ease; }
-    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
+    .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(168,85,247,.1); }
     .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
-    .desktop-link:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
-    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
+    .desktop-link:hover { color:#c084fc;text-shadow:0 0 20px #a855f7; }
+    .desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#a855f7;transition:width .3s ease; }
     .desktop-link:hover::after { width:100%; }
-    .desktop-link.active { color:#ff1493; }
+    .desktop-link.active { color:#a855f7; }
     .desktop-link.active::after { width:100%; }
 
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
@@ -69,8 +69,8 @@
       font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
       cursor:none;transition:all .3s ease;padding:0;position:relative;
     }
-    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
-    .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
+    .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#a855f7;transition:width .3s ease; }
+    .tools-dropdown-btn:hover { color:#c084fc;text-shadow:0 0 20px #a855f7; }
     .tools-dropdown-btn:hover::after { width:100%; }
     .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
     .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
@@ -78,18 +78,18 @@
       width:6px;height:6px;border-radius:50%;background:var(--pink);
       animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
     }
-    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
+    @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(168,85,247,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(168,85,247,0)} }
 
     .tools-dropdown-panel {
       position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
       width:360px;
       background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
-      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      border:1px solid rgba(168,85,247,.35);border-radius:20px;
       padding:12px;
       opacity:0;pointer-events:none;
       transition:all .28s cubic-bezier(.4,0,.2,1);
       z-index:200;
-      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+      box-shadow:0 24px 80px rgba(168,85,247,.2),0 0 0 1px rgba(168,85,247,.08);
     }
     .tools-dropdown-wrap:hover .tools-dropdown-panel {
       opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
@@ -97,7 +97,7 @@
     .tools-dropdown-panel::before {
       content:'';position:absolute;top:-6px;left:50%;
       width:12px;height:12px;background:rgba(4,4,4,.97);
-      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      border-left:1px solid rgba(168,85,247,.35);border-top:1px solid rgba(168,85,247,.35);
       transform:translateX(-50%) rotate(45deg);
     }
     .tool-nav-item {
@@ -107,19 +107,19 @@
       transition:all .25s ease;
       border:1px solid transparent;
     }
-    .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
+    .tool-nav-item:hover { background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.25);transform:translateX(4px); }
     .tool-nav-icon {
       width:44px;height:44px;border-radius:12px;flex-shrink:0;
       display:flex;align-items:center;justify-content:center;font-size:1.1rem;
       transition:all .3s ease;
     }
-    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
+    .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(168,85,247,.5)); }
     .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
     .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
     .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
     .tools-panel-header {
       padding:10px 16px 8px;margin-bottom:4px;
-      border-bottom:1px solid rgba(255,20,147,.12);
+      border-bottom:1px solid rgba(168,85,247,.12);
     }
 
     .mobile-tool-link {
@@ -132,12 +132,12 @@
 
     .btn-primary {
       display:inline-flex;align-items:center;gap:10px;
-      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      background:linear-gradient(135deg,#a855f7,#c084fc);
       color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
       padding:18px 40px;border-radius:14px;border:none;cursor:none;
       transition:all .3s ease;text-decoration:none;
     }
-    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(168,85,247,.6); }
     .btn-ghost {
       display:inline-flex;align-items:center;gap:8px;
       border:2px solid var(--pink);color:var(--pink);
@@ -145,9 +145,9 @@
       padding:16px 32px;border-radius:14px;cursor:none;
       background:transparent;transition:all .3s ease;text-decoration:none;
     }
-    .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
+    .btn-ghost:hover { background:rgba(168,85,247,.1);box-shadow:0 0 30px rgba(168,85,247,.3); }
 
-    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(168,85,247,.45)} 50%{box-shadow:0 0 65px rgba(168,85,247,.85)} }
     .pulse-glow { animation:pulseGlow 2.8s infinite; }
 
     .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
@@ -155,13 +155,13 @@
     .marquee-wrap { overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
     .marquee { animation:marqueeScroll 55s linear infinite; }
     @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(255,20,147,.6);white-space:nowrap; }
-    .marquee-sep { color:rgba(255,20,147,.25); }
+    .marquee-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;color:rgba(168,85,247,.6);white-space:nowrap; }
+    .marquee-sep { color:rgba(168,85,247,.25); }
 
-    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
+    .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(168,85,247,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none; }
     .hero-grid::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,#000 100%); }
 
-    .pink-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent); }
+    .pink-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,.4),transparent); }
 
     .whatsapp-btn {
       position:fixed;bottom:24px;right:24px;
@@ -180,13 +180,13 @@
       color:rgba(255,255,255,.45);background:transparent;cursor:none;
       transition:all .3s ease;white-space:nowrap;
     }
-    .filter-tab:hover { border-color:rgba(255,20,147,.4);color:rgba(255,20,147,.8); }
-    .filter-tab.active { background:rgba(255,20,147,.12);border-color:rgba(255,20,147,.55);color:#ff1493;box-shadow:0 0 20px rgba(255,20,147,.15); }
+    .filter-tab:hover { border-color:rgba(168,85,247,.4);color:rgba(168,85,247,.8); }
+    .filter-tab.active { background:rgba(168,85,247,.12);border-color:rgba(168,85,247,.55);color:#a855f7;box-shadow:0 0 20px rgba(168,85,247,.15); }
 
     /* ── VAULT DOCUMENT CARDS ── */
     .doc-card {
       background:rgba(8,8,8,.78);
-      border:1px solid rgba(255,20,147,.14);
+      border:1px solid rgba(168,85,247,.14);
       border-radius:20px;
       position:relative;overflow:hidden;
       transition:all .4s ease;
@@ -194,16 +194,16 @@
     }
     .doc-card::before {
       content:'';position:absolute;top:0;left:0;right:0;height:2px;
-      background:linear-gradient(90deg,transparent,var(--accent-color,#ff1493),transparent);
+      background:linear-gradient(90deg,transparent,var(--accent-color,#a855f7),transparent);
       opacity:0;transition:opacity .4s;
     }
-    .doc-card:hover { border-color:rgba(255,20,147,.4);box-shadow:0 16px 60px rgba(255,20,147,.12);transform:translateY(-6px); }
+    .doc-card:hover { border-color:rgba(168,85,247,.4);box-shadow:0 16px 60px rgba(168,85,247,.12);transform:translateY(-6px); }
     .doc-card:hover::before { opacity:1; }
 
     /* scan line sweep on hover */
     .doc-card::after {
       content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-      background:linear-gradient(90deg,transparent,rgba(255,20,147,.05),transparent);
+      background:linear-gradient(90deg,transparent,rgba(168,85,247,.05),transparent);
       transition:left .6s ease;pointer-events:none;
     }
     .doc-card:hover::after { left:100%; }
@@ -238,53 +238,53 @@
     .dl-btn {
       display:flex;align-items:center;justify-content:center;gap:8px;
       width:100%;padding:14px;border-radius:12px;
-      background:rgba(255,20,147,.07);border:1px solid rgba(255,20,147,.3);
+      background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.3);
       color:var(--pink);font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.1em;
       cursor:none;transition:all .35s ease;text-decoration:none;margin-top:auto;
       position:relative;overflow:hidden;
     }
     .dl-btn::before {
       content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-      background:linear-gradient(90deg,transparent,rgba(255,20,147,.1),transparent);
+      background:linear-gradient(90deg,transparent,rgba(168,85,247,.1),transparent);
       transition:left .5s ease;
     }
     .dl-btn:hover::before { left:100%; }
-    .dl-btn:hover { background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.6);box-shadow:0 0 30px rgba(255,20,147,.25);transform:translateY(-2px); }
+    .dl-btn:hover { background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.6);box-shadow:0 0 30px rgba(168,85,247,.25);transform:translateY(-2px); }
     .dl-btn .dl-arrow { transition:transform .3s ease; }
     .dl-btn:hover .dl-arrow { transform:translateY(2px); }
 
     /* ── VAULT HERO FEATURE ── */
     .vault-terminal {
-      background:rgba(4,4,4,.95);border:1px solid rgba(255,20,147,.3);
+      background:rgba(4,4,4,.95);border:1px solid rgba(168,85,247,.3);
       border-radius:20px;overflow:hidden;
       font-family:'Share Tech Mono',monospace;
     }
     .vault-terminal-bar {
-      background:rgba(255,20,147,.08);padding:12px 20px;
-      border-bottom:1px solid rgba(255,20,147,.15);
+      background:rgba(168,85,247,.08);padding:12px 20px;
+      border-bottom:1px solid rgba(168,85,247,.15);
       display:flex;align-items:center;gap:8px;
     }
     .term-dot { width:12px;height:12px;border-radius:50%; }
     .term-body { padding:20px 24px;font-size:.8rem;line-height:2; }
     .term-line { color:rgba(255,255,255,.45); }
-    .term-cmd  { color:#ff1493; }
+    .term-cmd  { color:#a855f7; }
     .term-out  { color:rgba(0,255,136,.7); }
     .term-warn { color:rgba(245,158,11,.7); }
     @keyframes termBlink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .term-cursor { display:inline-block;animation:termBlink .85s infinite;color:#ff1493; }
+    .term-cursor { display:inline-block;animation:termBlink .85s infinite;color:#a855f7; }
 
     /* ── STATS STRIP ── */
-    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7); }
+    .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(168,85,247,.7); }
 
     /* ── VAULT SEARCH ── */
     .vault-search {
       width:100%;background:rgba(8,8,8,.8);
-      border:1px solid rgba(255,20,147,.2);border-radius:14px;
+      border:1px solid rgba(168,85,247,.2);border-radius:14px;
       padding:14px 18px 14px 48px;color:#fff;
       font-family:'Share Tech Mono',monospace;font-size:.85rem;
       outline:none;cursor:none;transition:border-color .3s ease;
     }
-    .vault-search:focus { border-color:rgba(255,20,147,.6);box-shadow:0 0 20px rgba(255,20,147,.1); }
+    .vault-search:focus { border-color:rgba(168,85,247,.6);box-shadow:0 0 20px rgba(168,85,247,.1); }
     .vault-search::placeholder { color:rgba(255,255,255,.25); }
 
     /* ── PROGRESS BARS ── */
@@ -303,7 +303,7 @@
     /* ── COPY LINK TOAST ── */
     #toast {
       position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
-      background:rgba(255,20,147,.9);color:#fff;font-family:'Orbitron',monospace;
+      background:rgba(168,85,247,.9);color:#fff;font-family:'Orbitron',monospace;
       font-size:.7rem;letter-spacing:.1em;padding:12px 24px;border-radius:50px;
       z-index:9999;opacity:0;transition:all .4s ease;pointer-events:none;
       white-space:nowrap;
@@ -328,7 +328,7 @@
 
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:#000; }
-    ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+    ::-webkit-scrollbar-thumb { background:rgba(168,85,247,.4);border-radius:2px; }
 
     @media (hover: none), (pointer: coarse) {
       #cur, #cur2 { display: none !important; }
@@ -353,7 +353,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
     <a href="index.html">
       <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
-        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#a855f7;text-shadow:0 0 18px rgba(168,85,247,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
 
     <!-- Desktop Nav -->
@@ -371,14 +371,14 @@
         </button>
         <div class="tools-dropdown-panel">
           <div class="tools-panel-header">
-            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(168,85,247,.6);">FREE INTELLIGENCE TOOLS</div>
           </div>
           <a href="risk-assessment.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+            <div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);">
               <i class="fas fa-shield-halved"></i>
             </div>
             <div>
-              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-label" style="color:rgba(168,85,247,.7);">FREE TOOL</div>
               <div class="tool-nav-name">Risk Self-Assessment</div>
               <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
             </div>
@@ -451,7 +451,7 @@
     <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
     <a href="services.html"          class="mobile-link desktop-link text-white">Services</a>
     <a href="risk-assessment.html"   class="mobile-tool-link">
-      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+      <span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span>
       <span style="font-size:1rem;">Risk Self-Assessment</span>
     </a>
     <a href="hackers-dossier.html"   class="mobile-tool-link">
@@ -484,8 +484,8 @@
 <!-- ══ HERO ══ -->
 <section class="min-h-[88vh] flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden" style="position:relative;z-index:2;">
   <div class="hero-grid"></div>
-  <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,20,147,.07) 0%,transparent 70%);top:-200px;right:-300px;pointer-events:none;"></div>
-  <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.04) 0%,transparent 70%);bottom:-100px;left:-200px;pointer-events:none;"></div>
+  <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(168,85,247,.07) 0%,transparent 70%);top:-200px;right:-300px;pointer-events:none;"></div>
+  <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,.04) 0%,transparent 70%);bottom:-100px;left:-200px;pointer-events:none;"></div>
 
   <div class="max-w-6xl mx-auto z-10 relative w-full">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -507,13 +507,13 @@
           Every document in this arsenal was built from lived engagements — not theory. They reflect the exact frameworks we use when testing clients. Zero fluff. Just operational content that works on day one.
         </p>
         <div class="flex flex-wrap gap-3 mb-8">
-          <div style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.2);border-radius:50px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+          <div style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:50px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
             <i class="fas fa-unlock-alt text-pink-400/60"></i> No login required
           </div>
-          <div style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.2);border-radius:50px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+          <div style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:50px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
             <i class="fas fa-copyright text-pink-400/60"></i> Royalty-free use
           </div>
-          <div style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.2);border-radius:50px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
+          <div style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:50px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(224,224,224,.6);">
             <i class="fas fa-rotate text-pink-400/60"></i> Updated quarterly
           </div>
         </div>
@@ -621,7 +621,7 @@
             <div class="progress-bar mb-2"><div class="progress-fill bg-gradient-to-r from-pink-500 to-pink-400" id="gap-score-bar" style="width:0%"></div></div>
             <div class="flex justify-between">
               <span class="font-mono text-xs text-gray-600" id="gap-score-label">0 / 10 controls in place</span>
-              <span class="font-mono text-xs" id="gap-score-pct" style="color:#ff1493">0%</span>
+              <span class="font-mono text-xs" id="gap-score-pct" style="color:#a855f7">0%</span>
             </div>
           </div>
         </div>
@@ -682,7 +682,7 @@
 
 <!-- ══ CTA ══ -->
 <section class="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden" style="z-index:2;">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,20,147,.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(168,85,247,.06) 0%,transparent 70%);pointer-events:none;"></div>
   <div class="max-w-4xl mx-auto text-center relative z-10">
     <div class="glass-strong rounded-3xl p-12 sm:p-16 pulse-glow gsap-hidden">
       <div class="section-tag mb-5">NEED SOMETHING CUSTOM?</div>
@@ -697,9 +697,9 @@
         <a href="services.html" class="btn-ghost justify-center"><i class="fas fa-layer-group"></i> View All Services</a>
       </div>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</div>
-        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</div>
-        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</div>
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</div>
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</div>
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.6);"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</div>
       </div>
     </div>
   </div>
@@ -711,7 +711,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
       <div class="lg:col-span-1">
         <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
-          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#a855f7;text-shadow:0 0 18px rgba(168,85,247,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
         <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
         <div class="flex gap-4">
           <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
@@ -769,7 +769,7 @@
 </footer>
 
 <script>
-tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
+tailwind.config = { theme: { extend: { colors: { pink: { 400:'#c084fc', 500:'#a855f7' } } } } };
 
 // ── CURSOR ──
 var cur  = document.getElementById('cur');
@@ -960,17 +960,17 @@ var DOCS = [
     category: 'pentest',
     formats: ['DOCX'],
     icon: 'fa-user-ninja',
-    iconColor: '#ff1493',
-    iconBg: 'rgba(255,20,147,.12)',
-    iconBorder: 'rgba(255,20,147,.3)',
-    accentColor: '#ff1493',
+    iconColor: '#a855f7',
+    iconBg: 'rgba(168,85,247,.12)',
+    iconBorder: 'rgba(168,85,247,.3)',
+    accentColor: '#a855f7',
     badge: 'PENTEST',
-    badgeColor: 'rgba(255,20,147,.1)',
-    badgeBorder: 'rgba(255,20,147,.3)',
-    badgeText: '#ff1493',
+    badgeColor: 'rgba(168,85,247,.1)',
+    badgeBorder: 'rgba(168,85,247,.3)',
+    badgeText: '#a855f7',
     stamp: 'TECHNICAL',
-    stampColor: '#ff1493',
-    stampBorder: 'rgba(255,20,147,.5)',
+    stampColor: '#a855f7',
+    stampBorder: 'rgba(168,85,247,.5)',
     pages: '8 pages',
     files: ['Pentest_Scope_of_Work_Template_GH4H.docx'],
     keywords: 'pentest scope of work SoW rules of engagement pre-engagement'
@@ -982,14 +982,14 @@ var DOCS = [
     category: 'pentest',
     formats: ['XLSX','PDF'],
     icon: 'fa-globe',
-    iconColor: '#ff1493',
-    iconBg: 'rgba(255,20,147,.12)',
-    iconBorder: 'rgba(255,20,147,.3)',
-    accentColor: '#ff1493',
+    iconColor: '#a855f7',
+    iconBg: 'rgba(168,85,247,.12)',
+    iconBorder: 'rgba(168,85,247,.3)',
+    accentColor: '#a855f7',
     badge: 'CHECKLIST',
-    badgeColor: 'rgba(255,20,147,.1)',
-    badgeBorder: 'rgba(255,20,147,.3)',
-    badgeText: '#ff1493',
+    badgeColor: 'rgba(168,85,247,.1)',
+    badgeBorder: 'rgba(168,85,247,.3)',
+    badgeText: '#a855f7',
     pages: '147 test cases',
     files: ['Web_App_Pentest_Checklist_GH4H.xlsx', 'Web_App_Pentest_Checklist_GH4H.pdf'],
     keywords: 'web application pentest checklist OWASP injection XSS CSRF IDOR'
@@ -1001,14 +1001,14 @@ var DOCS = [
     category: 'pentest',
     formats: ['XLSX','PDF'],
     icon: 'fa-network-wired',
-    iconColor: '#ff1493',
-    iconBg: 'rgba(255,20,147,.12)',
-    iconBorder: 'rgba(255,20,147,.3)',
-    accentColor: '#ff1493',
+    iconColor: '#a855f7',
+    iconBg: 'rgba(168,85,247,.12)',
+    iconBorder: 'rgba(168,85,247,.3)',
+    accentColor: '#a855f7',
     badge: 'CHECKLIST',
-    badgeColor: 'rgba(255,20,147,.1)',
-    badgeBorder: 'rgba(255,20,147,.3)',
-    badgeText: '#ff1493',
+    badgeColor: 'rgba(168,85,247,.1)',
+    badgeBorder: 'rgba(168,85,247,.3)',
+    badgeText: '#a855f7',
     pages: '98 test cases',
     files: ['Network_Pentest_Checklist_GH4H.xlsx', 'Network_Pentest_Checklist_GH4H.pdf'],
     keywords: 'network pentest checklist AD active directory SMB LDAP DNS lateral movement'
@@ -1020,14 +1020,14 @@ var DOCS = [
     category: 'pentest',
     formats: ['DOCX','PDF'],
     icon: 'fa-file-pen',
-    iconColor: '#ff1493',
-    iconBg: 'rgba(255,20,147,.12)',
-    iconBorder: 'rgba(255,20,147,.3)',
-    accentColor: '#ff1493',
+    iconColor: '#a855f7',
+    iconBg: 'rgba(168,85,247,.12)',
+    iconBorder: 'rgba(168,85,247,.3)',
+    accentColor: '#a855f7',
     badge: 'REPORT TEMPLATE',
-    badgeColor: 'rgba(255,20,147,.1)',
-    badgeBorder: 'rgba(255,20,147,.3)',
-    badgeText: '#ff1493',
+    badgeColor: 'rgba(168,85,247,.1)',
+    badgeBorder: 'rgba(168,85,247,.3)',
+    badgeText: '#a855f7',
     pages: '20 pages',
     files: ['Pentest_Finding_Report_Template_GH4H.docx', 'Pentest_Finding_Report_Template_GH4H.pdf'],
     keywords: 'pentest report template findings CVSS executive summary risk matrix'
@@ -1179,7 +1179,7 @@ var GAP_MAP = {
   'has-data-cls': { docId:'data-classification-policy', urgency:'MEDIUM', label:'Data Classification Policy', icon:'fa-layer-group', color:'#a78bfa' },
   'has-risk-reg': { docId:'risk-register-template', urgency:'MEDIUM', label:'Risk Register Template', icon:'fa-table-list', color:'#f59e0b' },
   'has-training': { docId:'phishing-awareness-pack', urgency:'HIGH', label:'Phishing Awareness Pack', icon:'fa-fish-fins', color:'#22c55e' },
-  'has-pentest':  { docId:'pentest-scope-template', urgency:'MEDIUM', label:'Pentest Scope of Work', icon:'fa-user-ninja', color:'#ff1493' },
+  'has-pentest':  { docId:'pentest-scope-template', urgency:'MEDIUM', label:'Pentest Scope of Work', icon:'fa-user-ninja', color:'#a855f7' },
   'has-popia':    { docId:'popia-readiness-checklist', urgency:'HIGH', label:'POPIA Readiness Checklist', icon:'fa-balance-scale', color:'#f59e0b' },
   'has-iso':      { docId:'iso27001-gap-analysis', urgency:'LOW', label:'ISO 27001 Gap Analysis', icon:'fa-certificate', color:'#f59e0b' },
   'has-remote':   { docId:'remote-work-security-policy', urgency:'MEDIUM', label:'Remote Work Security Policy', icon:'fa-house-laptop', color:'#a78bfa' }
@@ -1192,12 +1192,12 @@ function renderGapChecklist() {
   var el = document.getElementById('gap-checklist');
   el.innerHTML = GAP_CONTROLS.map(c => `
     <label style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;cursor:none;transition:all .3s ease;"
-      onmouseover="this.style.borderColor='rgba(255,20,147,.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+      onmouseover="this.style.borderColor='rgba(168,85,247,.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
       <div style="position:relative;width:20px;height:20px;flex-shrink:0;">
         <input type="checkbox" id="${c.id}" onchange="updateGapResults()"
           style="position:absolute;opacity:0;width:100%;height:100%;cursor:none;">
         <div class="gap-checkbox-visual" id="vis-${c.id}"
-          style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(255,20,147,.3);background:transparent;display:flex;align-items:center;justify-content:center;transition:all .3s ease;">
+          style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(168,85,247,.3);background:transparent;display:flex;align-items:center;justify-content:center;transition:all .3s ease;">
         </div>
       </div>
       <span style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.9rem;color:rgba(255,255,255,.7);">${c.label}</span>
@@ -1209,12 +1209,12 @@ function renderGapChecklist() {
     cb.addEventListener('change', function() {
       var vis = document.getElementById('vis-' + this.id);
       if (this.checked) {
-        vis.style.background = 'rgba(255,20,147,.2)';
-        vis.style.borderColor = '#ff1493';
-        vis.innerHTML = '<i class="fas fa-check" style="color:#ff1493;font-size:.6rem;"></i>';
+        vis.style.background = 'rgba(168,85,247,.2)';
+        vis.style.borderColor = '#a855f7';
+        vis.innerHTML = '<i class="fas fa-check" style="color:#a855f7;font-size:.6rem;"></i>';
       } else {
         vis.style.background = 'transparent';
-        vis.style.borderColor = 'rgba(255,20,147,.3)';
+        vis.style.borderColor = 'rgba(168,85,247,.3)';
         vis.innerHTML = '';
       }
     });
@@ -1286,8 +1286,8 @@ function highlightCard(docId) {
     var card = document.getElementById('doc-' + docId);
     if (card) {
       card.scrollIntoView({ behavior:'smooth', block:'center' });
-      card.style.boxShadow = '0 0 0 3px rgba(255,20,147,.6), 0 20px 60px rgba(255,20,147,.3)';
-      card.style.borderColor = 'rgba(255,20,147,.8)';
+      card.style.boxShadow = '0 0 0 3px rgba(168,85,247,.6), 0 20px 60px rgba(168,85,247,.3)';
+      card.style.borderColor = 'rgba(168,85,247,.8)';
       setTimeout(() => {
         card.style.boxShadow = '';
         card.style.borderColor = '';
@@ -1339,7 +1339,7 @@ function renderDocs() {
         </a>
         <button onclick="copyLink('${doc.files[0]}')"
           style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:.85rem;cursor:none;transition:all .3s ease;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:auto;"
-          onmouseover="this.style.borderColor='rgba(255,20,147,.4)';this.style.color='#ff1493'"
+          onmouseover="this.style.borderColor='rgba(168,85,247,.4)';this.style.color='#a855f7'"
           onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">
           <i class="fas fa-link"></i>
         </button>
@@ -1419,7 +1419,7 @@ gsap.utils.toArray('.gsap-hidden').forEach(el => {
     pos[i3]   = (Math.random() - .5) * 180;
     pos[i3+1] = (Math.random() - .5) * 260 - 80;
     pos[i3+2] = (Math.random() - .5) * 50;
-    col[i3]   = .98; col[i3+1] = .08; col[i3+2] = .58;
+    col[i3]   = 0.66; col[i3+1] = 0.33; col[i3+2] = 0.97;
   }
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
