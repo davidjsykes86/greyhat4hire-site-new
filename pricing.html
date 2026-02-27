@@ -24,30 +24,20 @@
     }
 
     #cur {
-      position: fixed;
-      width: 18px;
-      height: 18px;
-      border: 2px solid #ff1493;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 999999;
-      box-shadow: 0 0 10px #ff1493;
-      transform: translate(-50%, -50%);
-      top: -100px;
-      left: -100px;
+      position:fixed; width:18px; height:18px;
+      border:2px solid #ff1493; border-radius:50%;
+      pointer-events:none; z-index:999999;
+      box-shadow:0 0 10px #ff1493;
+      transform:translate(-50%,-50%);
+      top:-100px; left:-100px;
     }
     #cur2 {
-      position: fixed;
-      width: 5px;
-      height: 5px;
-      background: #ff1493;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 999999;
-      box-shadow: 0 0 6px #ff1493;
-      transform: translate(-50%, -50%);
-      top: -100px;
-      left: -100px;
+      position:fixed; width:5px; height:5px;
+      background:#ff1493; border-radius:50%;
+      pointer-events:none; z-index:999999;
+      box-shadow:0 0 6px #ff1493;
+      transform:translate(-50%,-50%);
+      top:-100px; left:-100px;
     }
 
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
@@ -58,10 +48,11 @@
     .glass        { background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18); }
     .glass-strong { background:rgba(4,4,4,.94);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.3); }
 
-    .neon-pink    { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
-    .section-tag  { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
-    .pink-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent); }
+    .neon-pink   { color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85); }
+    .section-tag { font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase; }
+    .pink-divider{ height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent); }
 
+    /* NAV */
     nav { transition:all .4s ease; }
     .nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1); }
     .desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
@@ -75,6 +66,7 @@
     #mobile-menu.open { transform:translateY(0); }
     .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
 
+    /* TOOLS DROPDOWN */
     .tools-dropdown-wrap { position:relative; }
     .tools-dropdown-btn {
       display:inline-flex;align-items:center;gap:6px;
@@ -87,11 +79,14 @@
     .tools-dropdown-btn:hover::after { width:100%; }
     .tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
     .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
-    .tools-dropdown-btn .tools-live-dot { width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0; }
+    .tools-dropdown-btn .tools-live-dot {
+      width:6px;height:6px;border-radius:50%;background:var(--pink);
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
     @keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)} }
     .tools-dropdown-panel {
       position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
-      width:360px;background:rgba(4,4,4,.97);
+      width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
       border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;
       opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);
       z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
@@ -103,17 +98,29 @@
       border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
       transform:translateX(-50%) rotate(45deg);
     }
-    .tool-nav-item { display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent; }
+    .tool-nav-item {
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;transition:all .25s ease;border:1px solid transparent;
+    }
     .tool-nav-item:hover { background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px); }
     .tool-nav-icon { width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease; }
     .tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5)); }
     .tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
-    .tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
-    .tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+    .tool-nav-name  { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+    .tool-nav-desc  { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
     .tools-panel-header { padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12); }
-    .mobile-tool-link { display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0; }
+
+    /* MOBILE TOOL LINKS */
+    .mobile-tool-link {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
     .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
 
+    /* BUTTONS */
     .btn-primary {
       display:inline-flex;align-items:center;gap:10px;justify-content:center;
       background:linear-gradient(135deg,#ff1493,#ff69b4);
@@ -137,6 +144,7 @@
     @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
     .pulse-glow { animation:pulseGlow 2.8s infinite; }
 
+    /* PRICING CARDS */
     .price-card {
       background:rgba(8,8,8,.78);border:1px solid rgba(255,20,147,.14);
       border-radius:24px;padding:36px 28px;position:relative;overflow:hidden;
@@ -184,9 +192,11 @@
 
     .card-tier-tag { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.18em;color:rgba(255,20,147,.55);text-transform:uppercase;margin-bottom:6px; }
 
+    /* TRUST BADGES */
     .trust-badge { display:flex;align-items:center;gap:10px;padding:14px 20px;background:rgba(8,8,8,.65);border:1px solid rgba(255,20,147,.12);border-radius:14px;transition:all .3s ease; }
     .trust-badge:hover { border-color:rgba(255,20,147,.35);background:rgba(255,20,147,.05); }
 
+    /* COMPARE TABLE */
     .compare-row { display:grid;grid-template-columns:1fr repeat(4,100px);gap:0;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .3s ease;align-items:center; }
     .compare-row:hover { background:rgba(255,20,147,.035); }
     .compare-row.header { border-bottom:2px solid rgba(255,20,147,.25);padding-bottom:14px; }
@@ -199,6 +209,7 @@
       .compare-label { font-size:.78rem; }
     }
 
+    /* FAQ */
     .faq-item { border-bottom:1px solid rgba(255,20,147,.1);overflow:hidden; }
     .faq-trigger { width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:none;text-align:left;background:transparent;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;transition:color .3s ease; }
     .faq-trigger:hover { color:var(--pink); }
@@ -208,6 +219,7 @@
     .faq-body.open { max-height:400px; }
     .faq-body p { padding-bottom:20px;color:rgba(255,255,255,.55);font-size:.92rem;line-height:1.7; }
 
+    /* MODAL */
     #contact-modal { position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px); }
     #contact-modal.open { display:flex; }
     .modal-card { background:rgba(6,3,8,.98);border:1px solid rgba(255,20,147,.45);border-radius:28px;padding:40px;max-width:420px;width:100%;position:relative;animation:modalIn .35s cubic-bezier(.4,0,.2,1); }
@@ -216,9 +228,11 @@
     .modal-contact-btn:hover { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.14);transform:translateX(4px); }
     .modal-contact-btn .btn-icon { width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0; }
 
+    /* ROI */
     .roi-card { background:linear-gradient(135deg,rgba(255,20,147,.07),rgba(255,20,147,.02));border:1px solid rgba(255,20,147,.28);border-radius:24px;position:relative;overflow:hidden; }
     .roi-card::before { content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.07),transparent 65%);pointer-events:none; }
 
+    /* CALCULATOR */
     .calc-size-btn { padding:12px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.1);font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;color:#777;background:transparent;cursor:none;transition:all .3s ease;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;text-transform:uppercase; }
     .calc-size-btn.active { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.12);color:#ff1493; }
     .calc-size-btn .csub { font-family:'Rajdhani',sans-serif;font-size:.65rem;color:#555;letter-spacing:0;font-weight:400;text-transform:none; }
@@ -254,27 +268,33 @@
   <i class="fab fa-whatsapp"></i>
 </a>
 
-<!-- ══ NAV ══ -->
+<!-- NAV -->
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
     <a href="index.html">
       <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
         onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
-    <div class="hidden lg:flex gap-8 text-sm items-center">
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-7 text-sm">
       <a href="index.html"            class="desktop-link text-white">Home</a>
       <a href="about.html"            class="desktop-link text-white">About</a>
       <a href="services.html"         class="desktop-link text-white">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
       <div class="tools-dropdown-wrap">
-        <button class="tools-dropdown-btn">
+        <button class="tools-dropdown-btn" type="button">
           <span class="tools-live-dot"></span>
           Free Tools
           <i class="fas fa-chevron-down chevron"></i>
         </button>
+
         <div class="tools-dropdown-panel">
           <div class="tools-panel-header">
             <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
           </div>
+
           <a href="risk-assessment.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
               <i class="fas fa-shield-halved"></i>
@@ -285,6 +305,7 @@
               <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
             </div>
           </a>
+
           <a href="hackers-dossier.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
               <i class="fas fa-file-circle-exclamation"></i>
@@ -295,6 +316,7 @@
               <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
             </div>
           </a>
+
           <a href="breach-cost-clock.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
               <i class="fas fa-clock"></i>
@@ -305,44 +327,60 @@
               <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
             </div>
           </a>
+
           <a href="vuln-lookup.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
               <i class="fas fa-bug-slash"></i>
             </div>
             <div>
-              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">CVE INTELLIGENCE</div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
               <div class="tool-nav-name">Vulnerability Intelligence</div>
               <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
             </div>
           </a>
+
+          <a href="reverse-image-search.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);">
+              <i class="fas fa-image"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div>
+              <div class="tool-nav-name">Reverse Image Search</div>
+              <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
+            </div>
+          </a>
         </div>
       </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
       <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
       <a href="greyhat-protocol.html" class="desktop-link text-white">The Protocol</a>
       <a href="pricing.html"          class="desktop-link active">Pricing</a>
       <a href="contact.html"          class="desktop-link text-white">Contact</a>
     </div>
+
     <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;">
       <i class="fas fa-shield-alt"></i> Get a Quote
     </a>
+
     <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
       <i class="fas fa-bars"></i>
     </button>
   </div>
 </nav>
 
-<!-- ══ MOBILE MENU ══ -->
+<!-- MOBILE MENU -->
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
   <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
-    <a href="index.html"             class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
-    <a href="services.html"          class="mobile-link desktop-link text-white">Services</a>
-    <a href="risk-assessment.html"   class="mobile-tool-link">
+    <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html"  class="mobile-tool-link">
       <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
       <span style="font-size:1rem;">Risk Self-Assessment</span>
     </a>
-    <a href="hackers-dossier.html"   class="mobile-tool-link">
+    <a href="hackers-dossier.html"  class="mobile-tool-link">
       <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
       <span style="font-size:1rem;">Hacker's Dossier</span>
     </a>
@@ -350,21 +388,25 @@
       <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
       <span style="font-size:1rem;">Breach Cost Clock</span>
     </a>
-    <a href="vuln-lookup.html"       class="mobile-tool-link">
+    <a href="vuln-lookup.html"      class="mobile-tool-link">
       <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
       <span style="font-size:1rem;">Vulnerability Intelligence</span>
     </a>
-    <a href="cyber-awareness.html"   class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="greyhat-protocol.html"  class="mobile-link desktop-link text-white">The Protocol</a>
-    <a href="pricing.html"           class="mobile-link desktop-link active">Pricing</a>
-    <a href="contact.html"           class="mobile-link desktop-link text-white">Contact</a>
+    <a href="reverse-image-search.html" class="mobile-tool-link">
+      <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
+      <span style="font-size:1rem;">Reverse Image Search</span>
+    </a>
+    <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
+    <a href="pricing.html"          class="mobile-link desktop-link active">Pricing</a>
+    <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
   </div>
   <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;">
     <i class="fas fa-shield-alt"></i> Get a Quote
   </a>
 </div>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <section class="min-h-[70vh] flex items-center justify-center relative px-4 sm:px-6 pt-20 pb-8" style="position:relative;z-index:2">
   <div class="max-w-4xl mx-auto text-center">
     <div class="inline-flex items-center gap-2 px-5 py-2 glass rounded-full border border-pink-500/25 mb-7 hero-animate">
@@ -384,7 +426,7 @@
   </div>
 </section>
 
-<!-- ══ TRUST BADGES ══ -->
+<!-- TRUST BADGES -->
 <section class="pb-10 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -396,11 +438,12 @@
   </div>
 </section>
 
-<!-- ══ PRICING CARDS ══ -->
+<!-- PRICING CARDS -->
 <section class="py-10 sm:py-14 px-4 sm:px-6" style="position:relative;z-index:2" id="pricing-grid">
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 items-start">
 
+      <!-- SCOUT -->
       <div class="price-card" id="card-0">
         <div class="card-tier-tag">Entry Level</div>
         <div class="flex items-start justify-between mb-4">
@@ -424,6 +467,7 @@
         </button>
       </div>
 
+      <!-- INFILTRATE -->
       <div class="price-card" id="card-1">
         <div class="card-tier-tag">Professional</div>
         <div class="flex items-start justify-between mb-4">
@@ -447,6 +491,7 @@
         </button>
       </div>
 
+      <!-- SENTINEL -->
       <div class="price-card featured" id="card-2">
         <div class="popular-badge">MOST POPULAR</div>
         <div class="card-tier-tag" style="color:rgba(255,20,147,.8)">Quarterly Retainer</div>
@@ -470,6 +515,7 @@
         </button>
       </div>
 
+      <!-- PHANTOM -->
       <div class="price-card" id="card-3">
         <div class="card-tier-tag">Enterprise</div>
         <div class="flex items-start justify-between mb-4">
@@ -498,7 +544,7 @@
 
 <div class="pink-divider max-w-4xl mx-auto px-4 my-4" style="position:relative;z-index:2"></div>
 
-<!-- ══ FEATURE COMPARISON TABLE ══ -->
+<!-- FEATURE COMPARISON TABLE -->
 <section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-12">
@@ -540,7 +586,7 @@
 
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
-<!-- ══ ROI CONTEXT ══ -->
+<!-- ROI CONTEXT -->
 <section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
     <div class="roi-card p-8 sm:p-12">
@@ -576,7 +622,7 @@
 
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
-<!-- ══ BREACH RISK CALCULATOR ══ -->
+<!-- BREACH RISK CALCULATOR -->
 <section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-10">
@@ -649,7 +695,7 @@
 
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
-<!-- ══ FAQ ══ -->
+<!-- FAQ -->
 <section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-3xl mx-auto">
     <div class="text-center mb-12">
@@ -691,7 +737,7 @@
 
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
-<!-- ══ FINAL CTA ══ -->
+<!-- FINAL CTA -->
 <section class="py-16 sm:py-24 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-3xl mx-auto text-center">
     <div class="section-tag mb-4">Ready When You Are</div>
@@ -705,7 +751,7 @@
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
@@ -733,10 +779,11 @@
       <div>
         <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
         <ul class="space-y-2.5">
-          <li><a href="risk-assessment.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
-          <li><a href="hackers-dossier.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
-          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
-          <li><a href="vuln-lookup.html"       class="text-gray-400 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li>
+          <li><a href="risk-assessment.html"     class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html"      class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html"    class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="vuln-lookup.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li>
+          <li><a href="reverse-image-search.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Reverse Image Search</a></li>
         </ul>
       </div>
       <div>
@@ -764,7 +811,7 @@
   </div>
 </footer>
 
-<!-- ══ CONTACT MODAL ══ -->
+<!-- CONTACT MODAL -->
 <div id="contact-modal">
   <div class="modal-card">
     <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-600 hover:text-white transition text-xl" style="cursor:none"><i class="fas fa-times"></i></button>
@@ -794,7 +841,7 @@
 <script>
   tailwind.config = { theme:{ extend:{ colors:{ pink:{ 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-  // ══ CURSOR ══
+  // CURSOR
   var cur  = document.getElementById('cur');
   var cur2 = document.getElementById('cur2');
   document.addEventListener('mousemove', function(e) {
@@ -804,12 +851,12 @@
     cur2.style.top  = e.clientY + 'px';
   });
 
-  // ══ NAV ══
+  // NAV SCROLL
   window.addEventListener('scroll', function() {
     document.getElementById('nav').classList.toggle('nav-scrolled', scrollY > 50);
   });
 
-  // ══ MOBILE MENU ══
+  // MOBILE MENU
   var hamburger    = document.getElementById('hamburger');
   var mobileMenu   = document.getElementById('mobile-menu');
   var closeMenuBtn = document.getElementById('close-menu');
@@ -819,7 +866,7 @@
   closeMenuBtn.addEventListener('click', closeMenu);
   document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(function(l) { l.addEventListener('click', closeMenu); });
 
-  // ══ FAQ ══
+  // FAQ
   function toggleFAQ(trigger) {
     var body   = trigger.nextElementSibling;
     var isOpen = trigger.classList.contains('open');
@@ -827,7 +874,7 @@
     if (!isOpen) { trigger.classList.add('open'); body.classList.add('open'); }
   }
 
-  // ══ MODAL ══
+  // MODAL
   var currentPlan = '', currentPrice = '';
   function openModal(plan, price) {
     currentPlan = plan; currentPrice = price;
@@ -845,7 +892,7 @@
     closeModal();
   }
 
-  // ══ GSAP ══
+  // GSAP
   gsap.registerPlugin(ScrollTrigger);
   [0,1,2,3].forEach(function(i) {
     gsap.fromTo('#card-' + i, {y:70,opacity:0}, {y:0,opacity:1,duration:.75,ease:'power3.out',scrollTrigger:{trigger:'#pricing-grid',start:'top 82%',once:true},delay:i*0.12});
@@ -864,7 +911,7 @@
     gsap.to(bar, {width:target,duration:1.5,ease:'power2.out',scrollTrigger:{trigger:bar,start:'top 85%',once:true}});
   });
 
-  // ══ BREACH RISK CALCULATOR ══
+  // BREACH RISK CALCULATOR
   var calcSize = 12, calcIndustry = 1.8;
   function setSize(val, btn) { calcSize = val; document.querySelectorAll('.calc-size-btn').forEach(function(b) { b.classList.remove('active'); }); btn.classList.add('active'); updateCalc(); }
   function setIndustry(val, btn) { calcIndustry = val; document.querySelectorAll('.calc-ind-btn').forEach(function(b) { b.classList.remove('active'); }); btn.classList.add('active'); updateCalc(); }
@@ -878,7 +925,7 @@
   }
   updateCalc();
 
-  // ══ THREE.JS PARTICLES ══
+  // THREE.JS PARTICLES
   (function() {
     var canvas   = document.getElementById('three-canvas');
     var scene    = new THREE.Scene();
@@ -911,7 +958,7 @@
       for (var j = 1; j < p.length; j += 3) {
         p[j]   += .022 + Math.random() * .026;
         p[j-1] += Math.sin(Date.now() * .00008 + j) * .003;
-        if (p[j] > 130) p[j] = -120;
+        if (p[j] > 100) { p[j] = -160; p[j-1] = (Math.random() - .5) * 180; }
       }
       pts.geometry.attributes.position.needsUpdate = true;
       renderer.render(scene, camera);
@@ -924,5 +971,6 @@
     });
   })();
 </script>
+
 </body>
 </html>
