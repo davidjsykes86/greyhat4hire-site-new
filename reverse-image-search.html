@@ -111,6 +111,12 @@
     /* streaming cursor */
     @keyframes streamBlink{0%,100%{opacity:1}50%{opacity:0}}
     .stream-cursor::after{content:'█';animation:streamBlink .6s infinite;color:var(--green);margin-left:2px}
+  
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -401,7 +407,7 @@
         <div>
           <h3 class="fd text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
           <ul class="space-y-3">
-            <li><a href="mailto:info@greyhat4hire.com" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i>info@greyhat4hire.com</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#90f9fef6ffd0f7e2f5e9f8f1e4a4f8f9e2f5bef3fffd" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i><span class="__cf_email__" data-cfemail="274e494148674055425e4f4653134f4e55420944484a">[email&#160;protected]</span></a></li>
             <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i>+27 84 635 3581</a></li>
             <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i>WhatsApp Chat</a></li>
           </ul>
@@ -425,7 +431,7 @@
     </div>
   </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── CURSOR ──────────────────────────────────────────
 const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 document.addEventListener('mousemove',function(e){
@@ -978,12 +984,4 @@ function clearAll(){
 function toast(msg,type=''){
   const t=document.getElementById('toast');t.textContent=msg;
   t.className='show'+(type==='err'?' err':'');
-  clearTimeout(t._t);t._t=setTimeout(()=>{t.className=''},3200);
-}
-function fmtBytes(b){
-  if(typeof b==='string')return b;
-  if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB';
-}
-</script>
-</body>
-</html>
+  clearTime
