@@ -65,8 +65,15 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
 .desktop-link:hover::after{width:100%;}
 .desktop-link.active{color:var(--pink);}
 .desktop-link.active::after{width:100%;}
-#mobile-menu{transform:translateY(-100%);transition:transform .4s;}
+
+/* ── MOBILE MENU — explicit bg so backdrop-filter on <nav> can't clip it ── */
+#mobile-menu{
+  background:rgba(0,0,0,.97);
+  transform:translateY(-100%);
+  transition:transform .4s ease;
+}
 #mobile-menu.open{transform:translateY(0);}
+
 .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.06);transition:all .3s;}
 
 /* ── TOOLS DROPDOWN ── */
@@ -284,7 +291,7 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
 /* ═══════════════ GAME SCREEN ═══════════════ */
 #game{display:none;flex-direction:column;height:100vh;width:100%;overflow:hidden;}
 
-/* HUD — XBOX GRADE */
+/* HUD */
 #hud{
   display:flex;align-items:center;gap:14px;padding:0 20px;height:58px;flex-shrink:0;
   background:linear-gradient(180deg,rgba(3,5,12,.99) 0%,rgba(2,4,9,.98) 100%);
@@ -397,7 +404,7 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
 }
 #map-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
 
-/* NODES — HEXAGONAL */
+/* NODES */
 .mnode{
   position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:5;
   transition:transform .35s cubic-bezier(.34,1.56,.64,1);
@@ -560,33 +567,30 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
 @keyframes logGlow{0%,100%{box-shadow:4px 0 50px rgba(0,212,255,.08),8px 0 80px rgba(0,212,255,.04)}50%{box-shadow:4px 0 70px rgba(0,212,255,.2),8px 0 100px rgba(0,212,255,.1)}}
 #log.scanning-active{animation:logGlow 1s ease infinite;border-right-color:rgba(0,212,255,.5);}
 
-/* Flow indicator */
 #flow-indicator{position:absolute;bottom:145px;left:314px;font-family:var(--font-game);font-size:7px;letter-spacing:2px;color:rgba(0,212,255,.35);writing-mode:vertical-rl;text-orientation:mixed;pointer-events:none;z-index:20;display:flex;flex-direction:column;align-items:center;gap:4px;}
 #flow-indicator .fi-arrow{font-size:10px;animation:pulse 1.8s ease infinite;}
 
-/* STEP STRIP */
 #step-strip{
   background:rgba(2,4,9,.99);
   border-top:1px solid rgba(255,20,147,.08);
   padding:5px 20px;flex-shrink:0;
 }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:rgba(0,212,255,.25);border-radius:1px;}
 
 @media(max-height:700px){#intro{padding:20px}.intro-inner{margin-top:80px;}.t1{font-size:clamp(2rem,8vw,3.5rem)}.brief{padding:14px 18px;margin-bottom:12px}.btn{padding:12px 40px}}
 @media(max-width:650px){#log,#info{display:none}}
+
 /* ── CURSOR ── */
 #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
 #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
 
-    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
-    @media (hover: none), (pointer: coarse) {
-      #cur, #cur2 { display: none !important; }
-      body { cursor: auto !important; }
-    }
-  </style>
+@media (hover: none), (pointer: coarse) {
+  #cur, #cur2 { display: none !important; }
+  body { cursor: auto !important; }
+}
+</style>
 </head>
 <body>
 <div id="cur"></div>
@@ -689,44 +693,44 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
       <i class="fas fa-bars"></i>
     </button>
   </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
-    <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;"><i class="fas fa-times"></i></button>
-    <div class="flex flex-col items-center w-full max-w-xs">
-      <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
-      <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
-      <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
-      <a href="risk-assessment.html"  class="mobile-tool-link">
-        <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
-        <span style="font-size:1rem;">Risk Self-Assessment</span>
-      </a>
-      <a href="hackers-dossier.html"  class="mobile-tool-link">
-        <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
-        <span style="font-size:1rem;">Hacker's Dossier</span>
-      </a>
-      <a href="breach-cost-clock.html" class="mobile-tool-link">
-        <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
-        <span style="font-size:1rem;">Breach Cost Clock</span>
-      </a>
-      <a href="vuln-lookup.html" class="mobile-tool-link">
-        <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
-        <span style="font-size:1rem;">Vulnerability Intelligence</span>
-      </a>
-      <a href="reverse-image-search.html" class="mobile-tool-link">
-        <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
-        <span style="font-size:1rem;">Reverse Image Search</span>
-      </a>
-      <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
-      <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
-      <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
-      <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
-    </div>
-    <a href="contact.html" class="btn-primary mt-8 pulse-glow">
-      <i class="fas fa-shield-alt"></i> Get a Quote
-    </a>
-  </div>
 </nav>
+
+<!-- ══ MOBILE MENU — placed OUTSIDE <nav> so backdrop-filter cannot clip it ══ -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html"  class="mobile-tool-link">
+      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+      <span style="font-size:1rem;">Risk Self-Assessment</span>
+    </a>
+    <a href="hackers-dossier.html"  class="mobile-tool-link">
+      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+      <span style="font-size:1rem;">Hacker's Dossier</span>
+    </a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link">
+      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+      <span style="font-size:1rem;">Breach Cost Clock</span>
+    </a>
+    <a href="vuln-lookup.html" class="mobile-tool-link">
+      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
+      <span style="font-size:1rem;">Vulnerability Intelligence</span>
+    </a>
+    <a href="reverse-image-search.html" class="mobile-tool-link">
+      <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
+      <span style="font-size:1rem;">Reverse Image Search</span>
+    </a>
+    <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="greyhat-protocol.html" class="mobile-link desktop-link active">The Protocol</a>
+    <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow">
+    <i class="fas fa-shield-alt"></i> Get a Quote
+  </a>
+</div>
 
 <!-- INTRO -->
 <div id="intro">
@@ -1477,7 +1481,6 @@ function setDiff(d){
 /* ══ SCREENS ══ */
 function showScreen(id){
   ['intro','levelselect','game','win','fail'].forEach(s=>{ var el=get(s); if(el) el.style.display=s===id?'flex':'none'; });
-  // Hide nav on game screen so it doesn't overlay the HUD; show it everywhere else
   var navEl=document.getElementById('nav');
   if(navEl) navEl.style.display=id==='game'?'none':'block';
   if(id==='intro'){ setTimeout(initMatrix,50); loadBestScore(); }
@@ -1627,7 +1630,6 @@ function runScan(node, onComplete){
       clearInterval(iv);
       if(ss) ss.style.display='none';
       if(logEl) logEl.classList.remove('scanning-active');
-      /* ── Difficulty clue injection ── */
       if(diff==='easy' && node.weakPoint){
         addLog('','dim');
         addLog('> ⚠ WEAK POINT IDENTIFIED:','yellow');
@@ -1639,7 +1641,6 @@ function runScan(node, onComplete){
     }
     var isLast=i===total-1;
     var isKeyClue=(node.keyClueIdx!==undefined && i===node.keyClueIdx);
-    /* HACKER mode: mark key clue with [!] */
     var displayClue=clues[i];
     if(diff==='normal' && isKeyClue){
       displayClue=clues[i].replace('> ','> [!] ');
@@ -1723,7 +1724,6 @@ function renderMap(){
   var mapEl=get('map'); if(!mapEl) return;
   var W=mapEl.offsetWidth,H=mapEl.offsetHeight; if(W<10||H<10){setTimeout(renderMap,100);return;}
   var svg=get('map-svg'); svg.innerHTML='';
-  // Add glow filter
   var defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
   var filter=document.createElementNS('http://www.w3.org/2000/svg','filter');
   filter.setAttribute('id','glow');filter.setAttribute('x','-50%');filter.setAttribute('y','-50%');filter.setAttribute('width','200%');filter.setAttribute('height','200%');
@@ -1742,21 +1742,18 @@ function renderMap(){
     if(!na||!nb) return;
     var x1=na.x/100*W,y1=na.y/100*H,x2=nb.x/100*W,y2=nb.y/100*H;
     var done=isBreached(a)&&isBreached(b),hot=!done&&(a===curId||b===curId);
-    // Glow line (blurred copy behind)
     var glowLn=document.createElementNS('http://www.w3.org/2000/svg','line');
     glowLn.setAttribute('x1',x1);glowLn.setAttribute('y1',y1);glowLn.setAttribute('x2',x2);glowLn.setAttribute('y2',y2);
     glowLn.setAttribute('stroke',done?'rgba(0,255,136,.15)':hot?'rgba(255,20,147,.2)':'rgba(0,212,255,.04)');
     glowLn.setAttribute('stroke-width',done?'6':hot?'6':'4');
     glowLn.setAttribute('filter','blur(3px)');
     svg.appendChild(glowLn);
-    // Main line
     var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
     ln.setAttribute('x1',x1);ln.setAttribute('y1',y1);ln.setAttribute('x2',x2);ln.setAttribute('y2',y2);
     ln.setAttribute('stroke',done?'rgba(0,255,136,.55)':hot?'rgba(255,20,147,.75)':'rgba(0,212,255,.12)');
     ln.setAttribute('stroke-width',hot?'2':'1.5'); ln.setAttribute('stroke-dasharray',done?'':'6 6');
     svg.appendChild(ln);
     if(done||hot){
-      // Multiple packets for more visual data flow
       var numPkts=done?2:1;
       for(var p=0;p<numPkts;p++){
         var pkt=document.createElementNS('http://www.w3.org/2000/svg','circle');
@@ -1774,7 +1771,6 @@ function renderMap(){
     }
   });
 
-  /* clear stale nodes */
   document.querySelectorAll('.mnode').forEach(el=>el.remove());
 
   NODES().forEach(function(nd){
@@ -1962,7 +1958,7 @@ function closeMenuFn(){
 
 hamburger.addEventListener('click', openMenu);
 closeMenu.addEventListener('click', closeMenuFn);
-document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
 </script>
 <script>
   var cur  = document.getElementById('cur');
