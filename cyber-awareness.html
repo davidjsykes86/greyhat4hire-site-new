@@ -394,6 +394,12 @@
     ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
 
     .gsap-hidden { opacity:0; }
+  
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
