@@ -35,8 +35,8 @@
     }
 
     /* ── CURSOR ── */
-    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s ease;mix-blend-mode:difference; }
-    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     .font-display { font-family: 'Orbitron', monospace; }
@@ -841,7 +841,7 @@
             <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-500 mb-6">
               <a href="tel:+27846353581" class="hover:text-pink-400 transition"><i class="fas fa-phone text-pink-400 mr-1.5"></i>+27 84 635 3581</a>
               <a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition"><i class="fab fa-whatsapp text-pink-400 mr-1.5"></i>WhatsApp</a>
-              <span><i class="fas fa-envelope text-pink-400 mr-1.5"></i>info@greyhat4hire.co.za</span>
+              <span><i class="fas fa-envelope text-pink-400 mr-1.5"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ed84838b82ad8a9f8894858c99d985849f88c38e82c3978c">[email&#160;protected]</a></span>
             </div>
             <div class="flex flex-wrap justify-center gap-3">
               <span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span>
@@ -897,7 +897,7 @@
         <div>
           <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
           <ul class="space-y-3">
-            <li><a href="mailto:info@greyhat4hire.co.za" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i>info@greyhat4hire.co.za</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#d8b1b6beb798bfaabda1b0b9acecb0b1aabdf6bbb7f6a2b9" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i><span class="__cf_email__" data-cfemail="41282f272e012633243829203575292833246f222e6f3b20">[email&#160;protected]</span></a></li>
             <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i>+27 84 635 3581</a></li>
             <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i>WhatsApp Chat</a></li>
           </ul>
@@ -921,17 +921,18 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-    // ── CURSOR ────────────────────────────────────
-    const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-    document.addEventListener('mousemove',e=>{
-      cur2.style.left=(e.clientX-2)+'px'; cur2.style.top=(e.clientY-2)+'px';
-      setTimeout(()=>{ cur.style.left=(e.clientX-7)+'px'; cur.style.top=(e.clientY-7)+'px'; },80);
-    });
-    document.addEventListener('mousedown',()=>cur.style.transform='scale(1.8)');
-    document.addEventListener('mouseup',()=>cur.style.transform='scale(1)');
+  // ── CURSOR ──
+  var cur  = document.getElementById('cur');
+  var cur2 = document.getElementById('cur2');
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    cur2.style.left = e.clientX + 'px';
+    cur2.style.top  = e.clientY + 'px';
+  });
 
     // ── NAV ──────────────────────────────────────
     window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
@@ -1318,14 +1319,4 @@
         requestAnimationFrame(animate);
         if(++f%2)return;
         const p=pts.geometry.attributes.position.array;
-        for(let i=1;i<p.length;i+=3){ p[i]+=.022+Math.random()*.028; p[i-1]+=Math.sin(Date.now()*.00008+i)*.003; if(p[i]>130)p[i]=-120; }
-        pts.geometry.attributes.position.needsUpdate=true;
-        pts.rotation.y+=.00015;
-        renderer.render(scene,camera);
-      }
-      animate();
-      window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
-    })();
-  </script>
-</body>
-</html>
+        for(let i=1;i<p.length;i+=3){ p[i]+=.022+Math.random()*.028; p[i-1]+=Math.sin(Date.now()*.00008+i)*.003; if(
