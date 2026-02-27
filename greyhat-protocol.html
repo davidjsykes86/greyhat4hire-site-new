@@ -580,7 +580,13 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
 /* ── CURSOR ── */
 #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
 #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
-</style>
+
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
+  </style>
 </head>
 <body>
 <div id="cur"></div>
