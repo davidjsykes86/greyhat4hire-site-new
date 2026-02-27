@@ -102,8 +102,8 @@
     }
 
     /* ── CURSOR ── */
-    #cur  { width:14px;height:14px;border:2px solid var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;will-change:transform; }
-    #cur2 { width:4px;height:4px;background:var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform; }
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     /* ── FONTS ── */
@@ -2042,20 +2042,15 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
-  // ── CURSOR (RAF lerp — no setTimeout spam) ────
-  const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-  let _mx=0,_my=0,_cx=0,_cy=0;
-  document.addEventListener('mousemove',e=>{
-    _mx=e.clientX; _my=e.clientY;
-    cur2.style.transform='translate('+(e.clientX-2)+'px,'+(e.clientY-2)+'px)';
-  },{passive:true});
-  (function cursorTick(){
-    _cx+=(_mx-_cx)*0.18; _cy+=(_my-_cy)*0.18;
-    cur.style.transform='translate('+(_cx-7)+'px,'+(_cy-7)+'px)';
-    requestAnimationFrame(cursorTick);
-  })();
-  document.addEventListener('mousedown',()=>cur.style.scale='1.8');
-  document.addEventListener('mouseup',()=>cur.style.scale='1');
+  // ── CURSOR ──
+  var cur  = document.getElementById('cur');
+  var cur2 = document.getElementById('cur2');
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    cur2.style.left = e.clientX + 'px';
+    cur2.style.top  = e.clientY + 'px';
+  });
 
   // ── NAV ──────────────────────────────────────
   window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
