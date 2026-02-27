@@ -252,6 +252,12 @@
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:#000; }
     ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+  
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -789,7 +795,7 @@
       <div>
         <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
         <ul class="space-y-3">
-          <li><a href="mailto:info@greyhat4hire.co.za" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i> info@greyhat4hire.co.za</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#bbd2d5ddd4fbdcc9dec2d3dacf8fd3d2c9de95d8d495c1da" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i> <span class="__cf_email__" data-cfemail="10797e767f507762756978716424787962753e737f3e6a71">[email&#160;protected]</span></a></li>
           <li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i> +27 84 635 3581</a></li>
           <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i> WhatsApp Chat</a></li>
           <li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i> Book Consultation</a></li>
@@ -826,7 +832,7 @@
       </button>
       <button class="modal-contact-btn" onclick="contactEmail()">
         <div class="btn-icon" style="background:rgba(255,20,147,.1);color:#ff1493"><i class="fas fa-envelope"></i></div>
-        <div class="text-left flex-1"><div class="font-bold text-white">Email</div><div class="text-xs text-gray-500">info@greyhat4hire.co.za</div></div>
+        <div class="text-left flex-1"><div class="font-bold text-white">Email</div><div class="text-xs text-gray-500"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3c55525a537c5b4e5945545d480854554e59125f5312465d">[email&#160;protected]</a></div></div>
         <i class="fas fa-chevron-right text-pink-400/50 text-xs"></i>
       </button>
       <a href="contact.html" class="modal-contact-btn" style="text-decoration:none">
@@ -838,7 +844,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   tailwind.config = { theme:{ extend:{ colors:{ pink:{ 400:'#ff69b4', 500:'#ff1493' } } } } };
 
   // CURSOR
@@ -958,9 +964,10 @@
       for (var j = 1; j < p.length; j += 3) {
         p[j]   += .022 + Math.random() * .026;
         p[j-1] += Math.sin(Date.now() * .00008 + j) * .003;
-        if (p[j] > 100) { p[j] = -160; p[j-1] = (Math.random() - .5) * 180; }
+        if (p[j] > 100) { p[j] = -160; p[j-1] = (Math.random() - .5) * 160; }
       }
       pts.geometry.attributes.position.needsUpdate = true;
+      pts.rotation.y += 0.0003;
       renderer.render(scene, camera);
     }
     animate();
