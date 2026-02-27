@@ -323,6 +323,12 @@
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:#000; }
     ::-webkit-scrollbar-thumb { background:rgba(255,20,147,.4);border-radius:2px; }
+
+    /* ── HIDE CUSTOM CURSOR ON TOUCH DEVICES ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -357,9 +363,9 @@
 
       <!-- Desktop Nav -->
       <div class="hidden lg:flex items-center gap-7 text-sm">
-        <a href="index.html"            class="desktop-link">Home</a>
-        <a href="about.html"            class="desktop-link">About</a>
-        <a href="services.html"         class="desktop-link">Services</a>
+        <a href="index.html"            class="desktop-link text-white">Home</a>
+        <a href="about.html"            class="desktop-link text-white">About</a>
+        <a href="services.html"         class="desktop-link text-white">Services</a>
 
         <!-- FREE TOOLS DROPDOWN -->
         <div class="tools-dropdown-wrap">
@@ -432,10 +438,10 @@
         </div>
         <!-- END FREE TOOLS DROPDOWN -->
 
-        <a href="cyber-awareness.html"  class="desktop-link">Cyber Awareness</a>
-        <a href="greyhat-protocol.html" class="desktop-link">The Protocol</a>
-        <a href="pricing.html"          class="desktop-link">Pricing</a>
-        <a href="contact.html"          class="desktop-link">Contact</a>
+        <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
+        <a href="greyhat-protocol.html" class="desktop-link text-white">The Protocol</a>
+        <a href="pricing.html"          class="desktop-link text-white">Pricing</a>
+        <a href="contact.html"          class="desktop-link text-white">Contact</a>
       </div>
 
       <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
