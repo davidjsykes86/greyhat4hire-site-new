@@ -264,6 +264,12 @@
       .clock-ring-wrap{width:200px;height:200px;}
       .cost-display{font-size:1.9rem;}
     }
+  
+    /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
+    @media (hover: none), (pointer: coarse) {
+      #cur, #cur2 { display: none !important; }
+      body { cursor: auto !important; }
+    }
   </style>
 </head>
 <body>
