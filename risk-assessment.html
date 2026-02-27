@@ -360,7 +360,6 @@
               <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
             </div>
 
-            <!-- Tool 1: Risk Assessment -->
             <a href="risk-assessment.html" class="tool-nav-item">
               <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
                 <i class="fas fa-shield-halved"></i>
@@ -372,7 +371,6 @@
               </div>
             </a>
 
-            <!-- Tool 2: Hacker's Dossier -->
             <a href="hackers-dossier.html" class="tool-nav-item">
               <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
                 <i class="fas fa-file-circle-exclamation"></i>
@@ -384,7 +382,6 @@
               </div>
             </a>
 
-            <!-- Tool 3: Breach Cost Clock -->
             <a href="breach-cost-clock.html" class="tool-nav-item">
               <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
                 <i class="fas fa-clock"></i>
@@ -396,7 +393,6 @@
               </div>
             </a>
 
-            <!-- Tool 4: Vulnerability Intelligence -->
             <a href="vuln-lookup.html" class="tool-nav-item">
               <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
                 <i class="fas fa-bug-slash"></i>
@@ -405,6 +401,17 @@
                 <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
                 <div class="tool-nav-name">Vulnerability Intelligence</div>
                 <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+              </div>
+            </a>
+
+            <a href="reverse-image-search.html" class="tool-nav-item">
+              <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);">
+                <i class="fas fa-image"></i>
+              </div>
+              <div>
+                <div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div>
+                <div class="tool-nav-name">Reverse Image Search</div>
+                <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
               </div>
             </a>
           </div>
@@ -425,17 +432,15 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
-
   </nav>
 
-  <!-- Mobile Menu (outside nav to avoid backdrop-filter containing block issue) -->
+  <!-- Mobile Menu -->
   <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-black/97 z-[100] flex flex-col items-center justify-center gap-0">
     <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
     <div class="flex flex-col items-center w-full max-w-xs">
       <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
       <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
       <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
-      <!-- Mobile Free Tools -->
       <a href="risk-assessment.html"  class="mobile-tool-link">
         <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
         <span style="font-size:1rem;">Risk Self-Assessment</span>
@@ -448,9 +453,13 @@
         <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
         <span style="font-size:1rem;">Breach Cost Clock</span>
       </a>
-      <a href="vuln-lookup.html" class="mobile-tool-link">
+      <a href="vuln-lookup.html"      class="mobile-tool-link">
         <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
         <span style="font-size:1rem;">Vulnerability Intelligence</span>
+      </a>
+      <a href="reverse-image-search.html" class="mobile-tool-link">
+        <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
+        <span style="font-size:1rem;">Reverse Image Search</span>
       </a>
       <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
       <a href="greyhat-protocol.html" class="mobile-link desktop-link text-white">The Protocol</a>
@@ -637,7 +646,6 @@
             <div class="progress-track mb-2"><div class="progress-fill" id="calc-bar" style="width:0%"></div></div>
             <div class="font-display text-pink-400 text-sm text-center" id="calc-pct">0%</div>
           </div>
-          <!-- Loading steps list -->
           <div class="mt-8 max-w-sm mx-auto space-y-2" id="loading-steps">
             <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-1"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Identity &amp; access controls</div>
             <div class="flex items-center gap-3 text-sm text-gray-600 font-mono" id="ls-2"><i class="fas fa-circle text-xs" style="color:rgba(255,20,147,.3)"></i>Backup &amp; recovery posture</div>
@@ -746,7 +754,7 @@
           </div>
         </div>
 
-        <!-- RADAR + BREAKDOWN (side by side on desktop) -->
+        <!-- RADAR + BREAKDOWN -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 fade-up-3">
 
           <!-- Radar Chart -->
@@ -755,24 +763,19 @@
               <i class="fas fa-chart-radar text-pink-400"></i> Security Posture Radar
             </h3>
             <svg id="radar-svg" viewBox="0 0 240 240" class="w-full max-w-[220px] mx-auto block">
-              <!-- rings -->
               <polygon id="r-ring4" points="" class="radar-ring" style="stroke:rgba(255,20,147,.06)"/>
               <polygon id="r-ring3" points="" class="radar-ring" style="stroke:rgba(255,20,147,.09)"/>
               <polygon id="r-ring2" points="" class="radar-ring" style="stroke:rgba(255,20,147,.12)"/>
               <polygon id="r-ring1" points="" class="radar-ring" style="stroke:rgba(255,20,147,.18)"/>
-              <!-- spokes -->
               <line id="r-spoke0" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
               <line id="r-spoke1" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
               <line id="r-spoke2" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
               <line id="r-spoke3" x1="120" y1="120" x2="" y2="" class="radar-spoke"/>
-              <!-- fill -->
               <polygon id="r-fill" points="" class="radar-fill"/>
-              <!-- dots -->
               <circle id="r-dot0" cx="120" cy="120" r="4" class="radar-dot"/>
               <circle id="r-dot1" cx="120" cy="120" r="4" class="radar-dot"/>
               <circle id="r-dot2" cx="120" cy="120" r="4" class="radar-dot"/>
               <circle id="r-dot3" cx="120" cy="120" r="4" class="radar-dot"/>
-              <!-- labels -->
               <text id="r-lbl0" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">IDENTITY</text>
               <text id="r-lbl1" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">BACKUP</text>
               <text id="r-lbl2" x="" y="" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(255,255,255,.55)">ENDPOINTS</text>
@@ -838,7 +841,7 @@
             <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-500 mb-6">
               <a href="tel:+27846353581" class="hover:text-pink-400 transition"><i class="fas fa-phone text-pink-400 mr-1.5"></i>+27 84 635 3581</a>
               <a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition"><i class="fab fa-whatsapp text-pink-400 mr-1.5"></i>WhatsApp</a>
-              <span><i class="fas fa-envelope text-pink-400 mr-1.5"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="670e090108270015021e0f0613530f0e1502490408491d06">[email&#160;protected]</a></span>
+              <span><i class="fas fa-envelope text-pink-400 mr-1.5"></i>info@greyhat4hire.co.za</span>
             </div>
             <div class="flex flex-wrap justify-center gap-3">
               <span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span>
@@ -894,7 +897,7 @@
         <div>
           <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
           <ul class="space-y-3">
-            <li><span class="text-gray-500 text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c2abaca4ad82a5b0a7bbaaa3b6f6aaabb0a7eca1adecb8a3">[email&#160;protected]</a></span></li>
+            <li><a href="mailto:info@greyhat4hire.co.za" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i>info@greyhat4hire.co.za</a></li>
             <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i>+27 84 635 3581</a></li>
             <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i>WhatsApp Chat</a></li>
           </ul>
@@ -918,7 +921,7 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
     // ── CURSOR ────────────────────────────────────
@@ -954,221 +957,136 @@
     gsap.fromTo('.fade-up',  {y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.2});
     gsap.fromTo('.fade-up-1',{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.35});
     gsap.fromTo('.fade-up-2',{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.5});
-    gsap.fromTo('.fade-up-3',{y:20,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.65});
-    gsap.fromTo('.fade-up-4',{y:20,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.8});
+    gsap.fromTo('.fade-up-3',{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.65});
+    gsap.fromTo('.fade-up-4',{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out',delay:.8});
 
-    // ─────────────────────────────────────────────────────────────────
-    // DATA — 12 scored questions in 4 sections
-    // ─────────────────────────────────────────────────────────────────
+    // ── ASSESSMENT LOGIC ──────────────────────────
     const SECTIONS = [
       {
-        id:'identity', label:'Identity & Access', icon:'fa-id-badge', color:'#ff1493',
+        id:'identity', label:'Identity & Access', icon:'fa-user-shield', color:'#ff1493',
         questions:[
-          { key:'mfa', weight:15, text:'Is multi-factor authentication (MFA) enforced on all user accounts and critical systems?', sub:'Includes email, VPN, admin portals, cloud services, and business apps.', threat:'No MFA = #1 cause of account takeover. Attackers use credential stuffing 24/7.', yes:'MFA blocks 99.9% of automated credential attacks.', icon:'fa-mobile-screen' },
-          { key:'admin', weight:7, text:'Are privileged / admin accounts separate from standard user accounts?', sub:'Admin rights should never be used for day-to-day tasks like email and browsing.', threat:'Blended admin accounts allow lateral movement across your entire network.', yes:'Principle of least privilege limits blast radius of any breach.', icon:'fa-user-shield' },
-          { key:'password', weight:6, text:'Does your organisation enforce a password policy with minimum complexity requirements?', sub:'E.g. minimum length, rotation rules, or mandatory use of a password manager.', threat:'Weak passwords are cracked in seconds using GPU-accelerated brute force.', yes:'Strong password policy eliminates a primary initial access vector.', icon:'fa-key' }
+          {key:'mfa',      text:'Is multi-factor authentication (MFA) enforced for all staff accounts, including email and cloud services?', weight:18},
+          {key:'admin',    text:'Are admin/privileged accounts separate from day-to-day user accounts?', weight:14},
+          {key:'passwords',text:'Does your organisation enforce a password policy (minimum length, complexity, no reuse)?', weight:10},
         ]
       },
       {
-        id:'backup', label:'Backup & Recovery', icon:'fa-hard-drive', color:'#a855f7',
+        id:'backup', label:'Backup & Recovery', icon:'fa-hard-drive', color:'#f59e0b',
         questions:[
-          { key:'backups', weight:10, text:'Are automated, regular backups in place for all critical business data and systems?', sub:'Backups should run at least daily for critical systems.', threat:'Without backups, ransomware demands become impossible to refuse.', yes:'Automated backups are the foundation of ransomware resilience.', icon:'fa-hard-drive' },
-          { key:'offline', weight:12, text:'Are backup copies stored offline or air-gapped from your main network?', sub:'Cloud-only or network-attached backups can be encrypted by ransomware too.', threat:'Ransomware actively seeks and destroys connected backups before encrypting.', yes:'Offline backups survive even the most aggressive ransomware deployment.', icon:'fa-plug-circle-xmark' },
-          { key:'tested', weight:8, text:'Are your backups and disaster recovery (DR) plan regularly tested and verified?', sub:'An untested backup is not a backup. Testing should occur at least quarterly.', threat:'Corrupted or incomplete backups are discovered at the worst possible moment.', yes:'Tested DR plans cut recovery time from weeks to hours.', icon:'fa-vial-circle-check' }
+          {key:'backup_exists', text:'Does your organisation perform regular, automated backups of all critical data?', weight:16},
+          {key:'offline_backup',text:'Are backups stored offline or in an air-gapped / immutable location (not just cloud sync)?', weight:16},
+          {key:'restore_test',  text:'Has your team successfully tested restoring from backup in the last 12 months?', weight:14},
         ]
       },
       {
-        id:'endpoint', label:'Endpoints & Network', icon:'fa-laptop-code', color:'#06b6d4',
+        id:'endpoints', label:'Endpoints & Patching', icon:'fa-laptop', color:'#3b82f6',
         questions:[
-          { key:'patched', weight:8, text:'Are operating systems and critical software patched within 30 days of release?', sub:'This includes Windows, MacOS, browsers, Office, and third-party software.', threat:'60% of breaches exploit known vulnerabilities with patches already available.', yes:'Timely patching eliminates the most commonly exploited attack surface.', icon:'fa-arrows-rotate' },
-          { key:'edr', weight:7, text:'Do you have Endpoint Detection & Response (EDR) or next-gen antivirus deployed?', sub:'Traditional AV alone does not stop modern fileless malware and LOLBin attacks.', threat:'Modern malware evades legacy AV by living off the land without malicious files.', yes:'EDR detects behavioural anomalies that signature-based AV misses entirely.', icon:'fa-virus-slash' },
-          { key:'wifi', weight:5, text:'Is your corporate WiFi network segmented from guest or personal device networks?', sub:'Flat networks allow a compromised IoT device to reach your file server.', threat:'Unsegmented networks let any device pivot to your most sensitive systems.', yes:'Network segmentation contains breaches and limits lateral movement.', icon:'fa-wifi' }
+          {key:'patching',  text:'Are operating systems and software on all devices kept up to date with security patches within 30 days?', weight:12},
+          {key:'edr',       text:'Is Endpoint Detection & Response (EDR) or advanced antivirus deployed on all endpoints?', weight:12},
+          {key:'segmented', text:'Is your network segmented — e.g., staff devices are separated from servers and guest Wi-Fi?', weight:10},
         ]
       },
       {
-        id:'culture', label:'People & Detection', icon:'fa-users-gear', color:'#22c55e',
+        id:'detection', label:'Detection & Culture', icon:'fa-magnifying-glass', color:'#22c55e',
         questions:[
-          { key:'training', weight:6, text:'Do employees receive regular cybersecurity awareness training (at least annually)?', sub:'Includes phishing simulations, social engineering awareness, and incident reporting.', threat:'Human error is the #1 root cause of breaches. Training is the only mitigation.', yes:'Trained employees become your most effective last line of defence.', icon:'fa-graduation-cap' },
-          { key:'reporting', weight:4, text:'Is there a clear process for staff to report suspected security incidents?', sub:'Employees should know exactly who to call and what to do if something looks wrong.', threat:'Incidents go undetected for months when staff don\'t know how to report them.', yes:'Clear reporting channels slash attacker dwell time from months to days.', icon:'fa-bell' },
-          { key:'detection', weight:15, text:'Do you have 24/7 threat monitoring, a SIEM, or a managed detection service in place?', sub:'Attacks happen at 2am on public holidays. Automated detection is essential.', threat:'The average attacker goes undetected for 207 days without active monitoring.', yes:'Continuous monitoring turns undetected breaches into immediate incident response.', icon:'fa-magnifying-glass' }
+          {key:'training',  text:'Have all staff received security awareness training (phishing simulation, social engineering) in the past year?', weight:10},
+          {key:'reporting', text:'Is there a clear, documented process for staff to report suspicious emails or incidents?', weight:8},
+          {key:'monitoring',text:'Does your organisation have active monitoring or alerting for unusual login attempts, data transfers, or system changes?', weight:10},
         ]
-      }
+      },
     ];
 
-    let answers = {};
-    let currentSection = 0;
-    const totalQuestions = 12;
+    let answers={}, currentSection=0;
 
-    // ─────────────────────────────────────────────────────────────────
-    // HELPERS
-    // ─────────────────────────────────────────────────────────────────
-    function showStep(id) {
+    function showStep(id){
       document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       window.scrollTo({top:0,behavior:'smooth'});
     }
-    function getAnsweredCount() { return Object.keys(answers).length; }
-    function allSectionAnswered(sIdx) { return SECTIONS[sIdx].questions.every(q=>answers[q.key]!==undefined); }
 
-    // ─────────────────────────────────────────────────────────────────
-    // LIVE SCORE (updates HUD in real-time)
-    // ─────────────────────────────────────────────────────────────────
-    function getLiveScore() {
-      let s=0;
-      SECTIONS.forEach(sec=>sec.questions.forEach(q=>{ if(answers[q.key]===true) s+=q.weight; }));
-      return s;
-    }
-    function updateHUD() {
-      const score = getLiveScore();
-      const hud = document.getElementById('score-hud');
-      hud.classList.remove('hidden');
-      document.getElementById('hud-score').textContent = score;
-      document.getElementById('hud-bar').style.width = score+'%';
-      const lvl = score>=80?'LOW RISK':score>=50?'MODERATE':'HIGH RISK';
-      const col = score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
-      const lv = document.getElementById('hud-level');
-      lv.textContent = lvl;
-      lv.style.color = col;
-      document.getElementById('hud-score').style.color = col;
-      document.getElementById('hud-score').style.textShadow = `0 0 20px ${col}`;
-    }
-    function hideHUD() { document.getElementById('score-hud').classList.add('hidden'); }
+    function showHUD(){ document.getElementById('score-hud').classList.remove('hidden'); }
+    function hideHUD(){ document.getElementById('score-hud').classList.add('hidden'); }
 
-    // ─────────────────────────────────────────────────────────────────
-    // SCORING
-    // ─────────────────────────────────────────────────────────────────
-    function calculateRisk() {
-      let score=0;
-      SECTIONS.forEach(sec=>sec.questions.forEach(q=>{ if(answers[q.key]===true) score+=q.weight; }));
-      const criticalFail = !answers.mfa||!answers.offline||!answers.tested;
-      let level = score>=80?'LOW':score>=50?'MODERATE':'HIGH';
-      if(criticalFail) level='HIGH';
-      let threat='General Exposure';
-      if(!answers.offline||!answers.tested) threat='Ransomware';
-      else if(!answers.mfa) threat='Credential Compromise';
-      else if(!answers.detection) threat='Undetected Breach';
-      const downtime = answers.offline&&answers.tested?'Hours':answers.backups?'Days':'Extended / Indefinite';
-
-      // Cost estimates (ZAR)
-      const baseIR  = level==='HIGH'?850000:level==='MODERATE'?450000:150000;
-      const baseDT  = level==='HIGH'?1800000:level==='MODERATE'?700000:200000;
-      const baseRep = level==='HIGH'?1200000:level==='MODERATE'?500000:100000;
-      const total   = baseIR+baseDT+baseRep;
-
-      return { score, level, threat, downtime, criticalFail, baseIR, baseDT, baseRep, total };
+    function updateHUD(){
+      const total=SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+q.weight,0),0);
+      const got=SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+(answers[q.key]?q.weight:0),0),0);
+      const score=Math.round((got/total)*100);
+      document.getElementById('hud-score').textContent=score;
+      document.getElementById('hud-bar').style.width=score+'%';
+      const lv=score>=70?'LOW RISK':score>=40?'MODERATE':'HIGH RISK';
+      document.getElementById('hud-level').textContent=lv;
     }
 
-    function buildRecommendations(result) {
-      const recs=[];
-      if(!answers.mfa)       recs.push({level:'critical',icon:'fa-mobile-screen',title:'Enable MFA Immediately',body:'Enforce multi-factor authentication on all accounts. Use authenticator apps (not SMS). This single control blocks the vast majority of credential-based attacks.',tag:'CRITICAL',weight:15});
-      if(!answers.offline)   recs.push({level:'critical',icon:'fa-plug-circle-xmark',title:'Create Offline Backups',body:'Establish at least one backup copy completely disconnected from your network. Test it. Ransomware specifically targets and destroys connected backups before encrypting.',tag:'CRITICAL',weight:12});
-      if(!answers.detection) recs.push({level:'critical',icon:'fa-magnifying-glass',title:'Deploy 24/7 Threat Monitoring',body:'Implement a SIEM or engage a managed detection & response (MDR) provider. Attackers dwell undetected for 207 days on average without active monitoring.',tag:'CRITICAL',weight:15});
-      if(!answers.tested)    recs.push({level:'critical',icon:'fa-vial-circle-check',title:'Test Your Disaster Recovery Plan',body:'An untested backup is not a backup. Conduct a full DR rehearsal quarterly. Verify backup integrity and document recovery times.',tag:'CRITICAL',weight:8});
-      if(!answers.backups)   recs.push({level:'warn',icon:'fa-hard-drive',title:'Implement Automated Backups',body:'Deploy automated daily backups for all critical data. Follow the 3-2-1 rule: 3 copies, 2 media types, 1 offsite.',tag:'HIGH',weight:10});
-      if(!answers.edr)       recs.push({level:'warn',icon:'fa-virus-slash',title:'Deploy Endpoint Detection & Response',body:'Replace legacy antivirus with a modern EDR solution. Modern malware uses fileless techniques that traditional AV cannot detect.',tag:'HIGH',weight:7});
-      if(!answers.admin)     recs.push({level:'warn',icon:'fa-user-shield',title:'Segregate Admin Accounts',body:'Create dedicated privileged accounts used exclusively for admin tasks. Never use admin accounts for email, browsing, or daily work.',tag:'HIGH',weight:7});
-      if(!answers.patched)   recs.push({level:'warn',icon:'fa-arrows-rotate',title:'Enforce Patch Management',body:'Establish a formal patch process targeting 30-day remediation for critical vulnerabilities. Automate where possible.',tag:'MEDIUM',weight:8});
-      if(!answers.training)  recs.push({level:'warn',icon:'fa-graduation-cap',title:'Launch Security Awareness Training',body:'Implement quarterly security training including phishing simulations. Employees are your most targeted attack vector.',tag:'MEDIUM',weight:6});
-      if(!answers.password)  recs.push({level:'warn',icon:'fa-key',title:'Enforce a Password Policy',body:'Mandate minimum 14-character passwords and deploy a company-wide password manager. Eliminate password reuse.',tag:'MEDIUM',weight:6});
-      if(!answers.wifi)      recs.push({level:'warn',icon:'fa-wifi',title:'Segment Your Network',body:'Separate corporate, guest, and IoT networks using VLANs. Prevent a compromised device from reaching your critical systems.',tag:'MEDIUM',weight:5});
-      if(!answers.reporting) recs.push({level:'warn',icon:'fa-bell',title:'Create an Incident Reporting Process',body:'Document and communicate a clear procedure for reporting suspicious activity. Every minute of delay extends attacker dwell time.',tag:'LOW',weight:4});
-      if(answers.mfa&&answers.offline&&answers.tested&&answers.detection&&answers.backups) {
-        recs.push({level:'good',icon:'fa-circle-check',title:'Core Controls Solid',body:'You have the most critical controls in place. Focus on maturing detection capabilities and reducing mean-time-to-respond.',tag:'GOOD',weight:0});
-      }
-      return recs.slice(0,7);
+    function startAssessment(){
+      answers={}; currentSection=0;
+      showStep('step-questions');
+      showHUD();
+      renderSection();
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // RENDER QUESTIONS
-    // ─────────────────────────────────────────────────────────────────
-    function renderSection(sIdx) {
-      const sec=SECTIONS[sIdx];
-      const container=document.getElementById('questions-container');
-      container.innerHTML='';
-
-      sec.questions.forEach((q,i)=>{
-        const answered=answers[q.key];
-        const div=document.createElement('div');
-        div.className='q-card fade-up '+(answered===true?'answered-yes':answered===false?'answered-no':'');
-        div.style.animationDelay=(i*0.08)+'s';
-        div.innerHTML=`
-          <div class="flex items-start gap-4 mb-5">
-            <div class="w-11 h-11 rounded-xl flex-shrink-0 flex items-center justify-center"
-                 style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3)">
-              <i class="fas ${q.icon} text-sm" style="color:var(--pink)"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-white font-semibold text-base leading-snug mb-1">${q.text}</p>
-              <p class="text-gray-500 text-sm leading-relaxed">${q.sub}</p>
-            </div>
-            <div class="threat-tag ${answered===true?'threat-safe':answered===false?'threat-critical':'threat-warn'} hidden sm:block flex-shrink-0" style="font-size:.6rem">
-              ${answered===true?'✓ PASS':answered===false?'✗ RISK':`+${q.weight}pts`}
-            </div>
-          </div>
-          <div class="flex gap-3">
-            <button class="answer-btn ${answered===true?'selected-yes':''}" id="btn-yes-${q.key}" onclick="setAnswer('${q.key}',true,${sIdx})">
-              <i class="fas fa-check text-sm"></i> Yes, in place
-            </button>
-            <button class="answer-btn ${answered===false?'selected-no':''}" id="btn-no-${q.key}" onclick="setAnswer('${q.key}',false,${sIdx})">
-              <i class="fas fa-times text-sm"></i> Not yet
-            </button>
-          </div>
-          ${answered===false?`<div class="mt-4 p-3 rounded-xl" style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18)"><p class="text-xs text-red-400"><i class="fas fa-triangle-exclamation mr-1.5"></i>${q.threat}</p></div>`:''}
-          ${answered===true?`<div class="mt-4 p-3 rounded-xl" style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.18)"><p class="text-xs text-green-400"><i class="fas fa-circle-check mr-1.5"></i>${q.yes}</p></div>`:''}
-        `;
-        container.appendChild(div);
-      });
-
-      // progress
-      const totalDone=getAnsweredCount();
-      const pct=Math.round((totalDone/totalQuestions)*100);
+    function renderSection(){
+      const sec=SECTIONS[currentSection];
+      document.getElementById('section-label').textContent=sec.label;
+      document.getElementById('q-counter').textContent=`Section ${currentSection+1} of ${SECTIONS.length}`;
+      const pct=Math.round(((currentSection)/SECTIONS.length)*100);
       document.getElementById('progress-fill').style.width=pct+'%';
       document.getElementById('progress-pct').textContent=pct+'%';
-      document.getElementById('section-label').textContent=sec.label;
-      document.getElementById('q-counter').textContent=`Section ${sIdx+1} of ${SECTIONS.length} — ${sec.questions.length} questions`;
 
-      // section dots
-      const dots=document.getElementById('section-dots');
-      dots.innerHTML=SECTIONS.map((s,i)=>`
-        <div class="flex items-center gap-1">
-          <div style="width:10px;height:10px;border-radius:50%;
-            background:${i<=sIdx?'var(--pink)':'rgba(255,255,255,0.1)'};
-            opacity:${i===sIdx?1:i<sIdx?0.6:0.3};
-            box-shadow:${i===sIdx?'0 0 10px var(--pink)':'none'};
-            transition:all .3s ease"></div>
-          ${i<SECTIONS.length-1?'<div style="width:24px;height:2px;background:rgba(255,20,147,0.18);border-radius:1px"></div>':''}
-        </div>
-      `).join('');
+      // dots
+      const dotsEl=document.getElementById('section-dots');
+      dotsEl.innerHTML='';
+      SECTIONS.forEach((_,i)=>{
+        const d=document.createElement('div');
+        d.className='w-2 h-2 rounded-full transition-all duration-300';
+        d.style.background=i<currentSection?'#ff1493':i===currentSection?'rgba(255,20,147,.8)':'rgba(255,255,255,.12)';
+        dotsEl.appendChild(d);
+      });
 
-      document.getElementById('btn-prev').style.display=sIdx>0?'flex':'none';
-      updateNextBtn(sIdx);
+      const container=document.getElementById('questions-container');
+      container.innerHTML='';
+      sec.questions.forEach(q=>{
+        const card=document.createElement('div');
+        card.className='q-card';
+        if(answers[q.key]===true)  card.classList.add('answered-yes');
+        if(answers[q.key]===false) card.classList.add('answered-no');
+        card.innerHTML=`
+          <p class="font-semibold text-white text-base leading-relaxed mb-5">${q.text}</p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button class="answer-btn ${answers[q.key]===true?'selected-yes':''}"
+              onclick="answer('${q.key}',true,this)">
+              <i class="fas fa-check-circle text-sm"></i> YES — we have this in place
+            </button>
+            <button class="answer-btn ${answers[q.key]===false?'selected-no':''}"
+              onclick="answer('${q.key}',false,this)">
+              <i class="fas fa-times-circle text-sm"></i> NO — not implemented
+            </button>
+          </div>`;
+        container.appendChild(card);
+      });
+
+      const allAnswered=sec.questions.every(q=>answers[q.key]!==undefined);
+      document.getElementById('btn-next').disabled=!allAnswered;
+      document.getElementById('btn-prev').style.display=currentSection>0?'inline-flex':'none';
+      document.getElementById('btn-next').textContent=currentSection===SECTIONS.length-1?'VIEW RESULTS →':'NEXT →';
+    }
+
+    function answer(key,val,btn){
+      answers[key]=val;
+      const card=btn.closest('.q-card');
+      card.querySelectorAll('.answer-btn').forEach(b=>{b.classList.remove('selected-yes','selected-no');});
+      btn.classList.add(val?'selected-yes':'selected-no');
+      card.classList.remove('answered-yes','answered-no');
+      card.classList.add(val?'answered-yes':'answered-no');
+      const sec=SECTIONS[currentSection];
+      const allAnswered=sec.questions.every(q=>answers[q.key]!==undefined);
+      document.getElementById('btn-next').disabled=!allAnswered;
       updateHUD();
     }
 
-    function updateNextBtn(sIdx) {
-      const btn=document.getElementById('btn-next');
-      const allDone=allSectionAnswered(sIdx);
-      btn.disabled=!allDone;
-      const isLast=sIdx===SECTIONS.length-1;
-      btn.innerHTML=isLast
-        ?'<i class="fas fa-chart-bar text-xs"></i> VIEW MY RESULTS <i class="fas fa-chevron-right text-xs"></i>'
-        :'NEXT SECTION <i class="fas fa-chevron-right text-xs"></i>';
-    }
-
-    function setAnswer(key,val,sIdx) {
-      answers[key]=val;
-      renderSection(sIdx);
-    }
-
-    // ─────────────────────────────────────────────────────────────────
-    // NAVIGATION
-    // ─────────────────────────────────────────────────────────────────
-    function startAssessment() { showStep('step-questions'); currentSection=0; renderSection(0); }
-
-    function nextSection() {
-      if(currentSection<SECTIONS.length-1) {
+    function nextSection(){
+      if(currentSection<SECTIONS.length-1){
         currentSection++;
-        renderSection(currentSection);
+        renderSection();
         window.scrollTo({top:0,behavior:'smooth'});
       } else {
         showStep('step-email');
@@ -1176,100 +1094,82 @@
       }
     }
 
-    function prevSection() {
-      if(currentSection>0) { currentSection--; renderSection(currentSection); }
+    function prevSection(){
+      if(currentSection>0){ currentSection--; renderSection(); }
     }
 
-    function submitWithEmail() {
-      const email=document.getElementById('user-email').value.trim();
-      if(email&&!email.includes('@')) { document.getElementById('user-email').focus(); return; }
-      runCalculation();
-    }
-    function submitNoEmail() { runCalculation(); }
+    function submitWithEmail(){ showStep('step-loading'); runCalculation(); }
+    function submitNoEmail(){   showStep('step-loading'); runCalculation(); }
 
-    // ─────────────────────────────────────────────────────────────────
-    // CALCULATION LOADING SCREEN
-    // ─────────────────────────────────────────────────────────────────
-    function runCalculation() {
-      showStep('step-loading');
-      const labels=['Analysing identity controls…','Evaluating backup posture…','Scanning endpoint defences…','Assessing detection capability…','Calculating financial exposure…','Generating recommendations…','Compiling risk report…'];
+    function runCalculation(){
       const steps=['ls-1','ls-2','ls-3','ls-4','ls-5','ls-6'];
-      let pct=0,labelIdx=0,stepIdx=0;
       const bar=document.getElementById('calc-bar');
       const pctEl=document.getElementById('calc-pct');
-      const lblEl=document.getElementById('loading-label');
-
-      // animate loading steps
-      const stepTimer=setInterval(()=>{
-        if(stepIdx<steps.length){
-          const el=document.getElementById(steps[stepIdx]);
-          if(el){ el.style.color='#ff1493'; el.querySelector('i').style.color='#22c55e'; el.innerHTML=el.innerHTML.replace('fa-circle','fa-circle-check'); }
-          stepIdx++;
-        } else { clearInterval(stepTimer); }
-      },350);
-
-      const interval=setInterval(()=>{
-        pct+=Math.random()*18+5;
-        if(pct>100) pct=100;
-        bar.style.width=pct+'%';
-        pctEl.textContent=Math.round(pct)+'%';
-        if(pct>(labelIdx+1)*14&&labelIdx<labels.length-1){ labelIdx++; lblEl.textContent=labels[labelIdx]; }
-        if(pct>=100){ clearInterval(interval); setTimeout(showResults,400); }
-      },200);
+      let i=0;
+      const iv=setInterval(()=>{
+        if(i<steps.length){
+          document.getElementById(steps[i]).style.color='rgba(255,20,147,.8)';
+          document.getElementById(steps[i]).querySelector('i').style.color='#ff1493';
+          const p=Math.round(((i+1)/steps.length)*100);
+          bar.style.width=p+'%'; pctEl.textContent=p+'%';
+          i++;
+        } else {
+          clearInterval(iv);
+          setTimeout(showResults,600);
+        }
+      },520);
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // SHOW RESULTS
-    // ─────────────────────────────────────────────────────────────────
-    function showResults() {
-      const result=calculateRisk();
+    function showResults(){
+      const total=SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+q.weight,0),0);
+      const got=SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+(answers[q.key]?q.weight:0),0),0);
+      const score=Math.round((got/total)*100);
+
+      const result={
+        score,
+        level: score>=70?'LOW RISK':score>=40?'MODERATE RISK':'HIGH RISK',
+        badge: score>=70?'badge-low':score>=40?'badge-moderate':'badge-high',
+        threat: score>=70?'Phishing / Social Engineering':score>=40?'Ransomware / Credential Theft':'Total Ransomware / Data Loss',
+        downtime: score>=70?'2–5 days':score>=40?'1–3 weeks':'3–8 weeks',
+        breachCost: score>=70?'R800K–R1.5M':score>=40?'R2M–R5M':'R5M–R14M+',
+        ransom: score>=70?'R180K':score>=40?'R540K':'R1.8M+',
+        phish: score>=70?'R280K':score>=40?'R850K':'R2.5M+',
+        data: score>=70?'R120K':score>=40?'R360K':'R1.2M+'
+      };
+
       showStep('step-results');
 
-      // timestamp
-      document.getElementById('result-timestamp').textContent=new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      document.getElementById('result-score').textContent=score;
+      document.getElementById('result-timestamp').textContent=new Date().toLocaleString('en-ZA');
 
-      // score counter
-      let displayScore=0;
-      const scoreEl=document.getElementById('result-score');
-      const scoreInterval=setInterval(()=>{
-        displayScore+=2;
-        if(displayScore>=result.score){displayScore=result.score;clearInterval(scoreInterval);}
-        scoreEl.textContent=displayScore;
-      },30);
-
-      // gauge
-      const arcLen=376; // approx 3/4 circle
-      setTimeout(()=>{
-        const arc=document.getElementById('gauge-arc');
-        const color=result.level==='HIGH'?'#ef4444':result.level==='MODERATE'?'#f59e0b':'#22c55e';
-        arc.style.stroke=color;
-        arc.style.strokeDashoffset=126+(arcLen-(arcLen*(result.score/100)));
-      },300);
-
-      // badge
       const badge=document.getElementById('risk-level-badge');
       badge.textContent=result.level;
-      badge.className='font-display text-3xl font-black px-5 py-2 rounded-xl inline-block '+(result.level==='HIGH'?'badge-high':result.level==='MODERATE'?'badge-moderate':'badge-low');
+      badge.className='font-display text-3xl font-black px-5 py-2 rounded-xl inline-block '+result.badge;
 
-      // meta
       document.getElementById('primary-threat').textContent=result.threat;
-      document.getElementById('downtime-band').textContent=result.downtime+' to recover';
-      document.getElementById('cost-estimate').textContent='R'+formatZAR(result.total)+' est.';
-      document.getElementById('mc-score').textContent=result.score+'/100';
-      document.getElementById('mc-score-icon').textContent=result.level==='HIGH'?'🔴':result.level==='MODERATE'?'🟡':'🟢';
+      document.getElementById('downtime-band').textContent=result.downtime;
+      document.getElementById('cost-estimate').textContent=result.breachCost;
+      document.getElementById('mc-score').textContent=score+'/100';
+      document.getElementById('mc-score-icon').textContent=score>=70?'🟢':score>=40?'🟡':'🔴';
 
-      // critical flag
-      if(result.criticalFail) document.getElementById('critical-flag').classList.remove('hidden');
+      // Gauge arc
+      const arc=document.getElementById('gauge-arc');
+      const circumference=502;
+      const offset=circumference-(score/100)*(circumference*0.75);
+      setTimeout(()=>{ arc.style.strokeDashoffset=offset; },300);
 
-      // financial block
-      document.getElementById('cost-ir').textContent='R'+formatZAR(result.baseIR);
-      document.getElementById('cost-downtime').textContent='R'+formatZAR(result.baseDT);
-      document.getElementById('cost-rep').textContent='R'+formatZAR(result.baseRep);
+      // Critical flag
+      const criticals=['mfa','offline_backup','restore_test'];
+      const hasCrit=criticals.some(k=>answers[k]===false);
+      if(hasCrit) document.getElementById('critical-flag').classList.remove('hidden');
 
-      // category breakdown + radar
+      // Financial block
+      document.getElementById('cost-ir').textContent=result.ransom;
+      document.getElementById('cost-downtime').textContent=result.phish;
+      document.getElementById('cost-rep').textContent=result.data;
+
       renderBreakdownAndRadar();
 
-      // recommendations
       const recs=buildRecommendations(result);
       const recContainer=document.getElementById('recommendations');
       recContainer.innerHTML='';
@@ -1299,16 +1199,30 @@
       }
     }
 
-    function formatZAR(n) {
-      if(n>=1000000) return (n/1000000).toFixed(1)+'M';
-      if(n>=1000) return Math.round(n/1000)+'K';
-      return n.toString();
+    function buildRecommendations(result){
+      const recs=[];
+      const add=(key,level,icon,title,tag,body)=>{
+        if(answers[key]===false) recs.push({level,icon,title,tag,body});
+      };
+      add('mfa','critical','fa-mobile-screen','Enable MFA on All Accounts','CRITICAL','MFA is the single most impactful control against credential theft and account takeover. Enforce it on email, cloud, VPN, and all admin accounts immediately.');
+      add('offline_backup','critical','fa-hard-drive','Implement Offline / Immutable Backups','CRITICAL','Cloud-synced backups are deleted by ransomware. You need at least one offline or immutable copy — a 3-2-1 backup strategy is the industry baseline.');
+      add('restore_test','critical','fa-vial-circle-check','Test Backup Restoration','CRITICAL','Untested backups have a high failure rate. If you\'ve never restored from your backup under simulated incident conditions, you don\'t know if recovery will work.');
+      add('backup_exists','critical','fa-database','Implement Automated Backups','CRITICAL','Without regular automated backups, any ransomware or hardware failure results in permanent data loss. Implement daily automated backups of all critical systems now.');
+      add('edr','warn','fa-shield-virus','Deploy Endpoint Detection & Response','HIGH','Traditional antivirus misses modern threats. EDR tools provide behavioural detection, rollback capabilities, and forensic visibility that antivirus cannot.');
+      add('patching','warn','fa-arrows-rotate','Accelerate Patch Cadence','HIGH','Unpatched systems are the primary vector for ransomware and exploitation. Critical patches should be applied within 14 days; all patches within 30.');
+      add('segmented','warn','fa-network-wired','Segment Your Network','HIGH','Flat networks allow attackers to move laterally from a single compromised device to your entire environment. Segment staff, servers, IoT, and guest Wi-Fi.');
+      add('admin','warn','fa-user-lock','Separate Admin Accounts','HIGH','Using admin accounts for daily tasks dramatically increases blast radius when credentials are compromised. Require dedicated, monitored accounts for privileged access.');
+      add('passwords','warn','fa-key','Enforce a Password Policy','HIGH','Weak or reused passwords remain a top attack vector. Enforce minimum 14 characters, complexity, and no reuse — and consider a password manager rollout.');
+      add('training','warn','fa-graduation-cap','Run Security Awareness Training','MEDIUM','Phishing is the #1 initial access vector. Annual training with simulated phishing exercises significantly reduces click rates and improves incident reporting.');
+      add('reporting','warn','fa-bell','Create an Incident Reporting Process','MEDIUM','Staff who notice anomalies but have no clear process to report them create dangerous blind spots. A simple, low-friction reporting channel catches threats earlier.');
+      add('monitoring','warn','fa-magnifying-glass','Implement Active Security Monitoring','MEDIUM','Without monitoring, attackers go undetected for an average of 194 days. SIEM, log aggregation, or even cloud-native monitoring dramatically reduces dwell time.');
+      if(result.score>=70){
+        recs.push({level:'good',icon:'fa-circle-check',title:'Strong Security Posture',tag:'GOOD',body:'Your controls are broadly in place. A professional penetration test will identify any gaps between policy and technical reality — misconfigs, weak trust relationships, and exploitable vulnerabilities that self-assessments cannot detect.'});
+      }
+      return recs;
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // RENDER BREAKDOWN + RADAR
-    // ─────────────────────────────────────────────────────────────────
-    function renderBreakdownAndRadar() {
+    function renderBreakdownAndRadar(){
       const catContainer=document.getElementById('category-breakdown');
       catContainer.innerHTML='';
       const sectionPcts=[];
@@ -1336,29 +1250,24 @@
       });
 
       setTimeout(()=>document.querySelectorAll('.cat-fill').forEach(el=>el.style.width=el.dataset.target+'%'),600);
-
-      // Draw radar
       drawRadar(sectionPcts);
     }
 
-    function drawRadar(pcts) {
+    function drawRadar(pcts){
       const cx=120,cy=120,r=85;
       const n=4;
       const angles=[];
       for(let i=0;i<n;i++) angles.push((i*(2*Math.PI/n))-(Math.PI/2));
 
-      // rings
       [1,.75,.5,.25].forEach((frac,ri)=>{
         const pts=angles.map(a=>`${cx+r*frac*Math.cos(a)},${cy+r*frac*Math.sin(a)}`).join(' ');
         document.getElementById(`r-ring${ri+1}`).setAttribute('points',pts);
       });
-      // spokes
       angles.forEach((a,i)=>{
         const el=document.getElementById(`r-spoke${i}`);
         el.setAttribute('x2',cx+r*Math.cos(a));
         el.setAttribute('y2',cy+r*Math.sin(a));
       });
-      // fill (start at center, animate outward)
       const fillPts=angles.map((a,i)=>{
         const frac=pcts[i]/100;
         return `${cx+r*frac*Math.cos(a)},${cy+r*frac*Math.sin(a)}`;
@@ -1366,14 +1275,12 @@
       const fill=document.getElementById('r-fill');
       fill.setAttribute('points',angles.map(a=>`${cx},${cy}`).join(' '));
       setTimeout(()=>fill.setAttribute('points',fillPts),100);
-      // dots
       angles.forEach((a,i)=>{
         const frac=pcts[i]/100;
         const dot=document.getElementById(`r-dot${i}`);
         dot.setAttribute('cx',cx+r*frac*Math.cos(a));
         dot.setAttribute('cy',cy+r*frac*Math.sin(a));
       });
-      // labels
       const lblOffset=16;
       const lblData=[{lx:cx,ly:cy-r-lblOffset},{lx:cx+r+lblOffset+8,ly:cy+6},{lx:cx,ly:cy+r+lblOffset},{lx:cx-r-lblOffset-8,ly:cy+6}];
       lblData.forEach((d,i)=>{
@@ -1383,11 +1290,9 @@
       });
     }
 
-    function resetAssessment() { answers={}; currentSection=0; showStep('step-0'); hideHUD(); }
+    function resetAssessment(){ answers={}; currentSection=0; showStep('step-0'); hideHUD(); }
 
-    // ─────────────────────────────────────────────────────────────────
-    // THREE.JS PARTICLES
-    // ─────────────────────────────────────────────────────────────────
+    // ── THREE.JS PARTICLES ────────────────────────
     (function(){
       const canvas=document.getElementById('three-canvas');
       const scene=new THREE.Scene();
