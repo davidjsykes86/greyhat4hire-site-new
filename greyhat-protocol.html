@@ -577,9 +577,14 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
 
 @media(max-height:700px){#intro{padding:20px}.intro-inner{margin-top:80px;}.t1{font-size:clamp(2rem,8vw,3.5rem)}.brief{padding:14px 18px;margin-bottom:12px}.btn{padding:12px 40px}}
 @media(max-width:650px){#log,#info{display:none}}
+/* ── CURSOR ── */
+#cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+#cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
 </style>
 </head>
 <body>
+<div id="cur"></div>
+<div id="cur2"></div>
 
 <div class="scan-sweep"></div>
 <div id="alert-overlay"></div>
@@ -1952,6 +1957,16 @@ function closeMenuFn(){
 hamburger.addEventListener('click', openMenu);
 closeMenu.addEventListener('click', closeMenuFn);
 document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+</script>
+<script>
+  var cur  = document.getElementById('cur');
+  var cur2 = document.getElementById('cur2');
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    cur2.style.left = e.clientX + 'px';
+    cur2.style.top  = e.clientY + 'px';
+  });
 </script>
 </body>
 </html>
