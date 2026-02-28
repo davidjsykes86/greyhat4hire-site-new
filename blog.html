@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Threat Intelligence Blog — Greyhat4Hire</title>
+  <meta name="description" content="Cybersecurity insights, threat intelligence, and penetration testing knowledge from Greyhat4Hire."/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--pink:#ff1493;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18);}
+    .glass-strong{background:rgba(4,4,4,.94);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.3);}
+    .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
+    .pink-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .desktop-link:hover::after{width:100%;}
+    .desktop-link.active{color:#ff1493;}
+    .desktop-link.active::after{width:100%;}
+    #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;position:relative;overflow:hidden;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:none;background:transparent;transition:all .3s ease;text-decoration:none;}
+    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+    .hero-grid::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,transparent 30%,#000 100%);}
+    .featured-card{position:relative;overflow:hidden;border-radius:28px;background:rgba(8,8,8,.8);border:1px solid rgba(255,20,147,.2);transition:all .5s cubic-bezier(.4,0,.2,1);cursor:none;text-decoration:none;display:block;}
+    .featured-card::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.95) 100%);z-index:1;pointer-events:none;}
+    .featured-card:hover{border-color:rgba(255,20,147,.55);transform:translateY(-8px);box-shadow:0 30px 80px rgba(255,20,147,.25);}
+    .featured-img-placeholder{width:100%;height:380px;background:linear-gradient(135deg,rgba(255,20,147,.15),rgba(0,0,0,.8));display:flex;align-items:center;justify-content:center;font-size:5rem;transition:transform .7s ease;}
+    .featured-card:hover .featured-img-placeholder{transform:scale(1.03);}
+    .featured-content{position:absolute;bottom:0;left:0;right:0;padding:36px;z-index:2;}
+    .blog-card{background:rgba(8,8,8,.78);border:1px solid rgba(255,20,147,.13);border-radius:22px;overflow:hidden;transition:all .4s cubic-bezier(.4,0,.2,1);cursor:none;text-decoration:none;display:flex;flex-direction:column;position:relative;}
+    .blog-card::after{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);opacity:0;transition:opacity .4s ease;}
+    .blog-card:hover{border-color:rgba(255,20,147,.45);transform:translateY(-8px);box-shadow:0 20px 60px rgba(255,20,147,.18);}
+    .blog-card:hover::after{opacity:1;}
+    .card-thumb{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:3rem;overflow:hidden;transition:transform .4s ease;}
+    .blog-card:hover .card-thumb{transform:scale(1.04);}
+    .card-body{padding:24px;flex:1;display:flex;flex-direction:column;}
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#ef4444;}
+    .threat-high{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.4);color:#f97316;}
+    .threat-medium{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.4);color:#eab308;}
+    .threat-low{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;animation:threatPulse 1.4s infinite;}
+    .threat-critical .threat-dot{background:#ef4444;box-shadow:0 0 6px #ef4444;}
+    .threat-high .threat-dot{background:#f97316;box-shadow:0 0 6px #f97316;}
+    .threat-medium .threat-dot{background:#eab308;box-shadow:0 0 6px #eab308;}
+    .threat-low .threat-dot{background:#22c55e;box-shadow:0 0 6px #22c55e;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .cat-btn{padding:8px 20px;border-radius:10px;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;border:1px solid rgba(255,255,255,.1);color:#666;background:transparent;cursor:none;transition:all .3s ease;}
+    .cat-btn:hover{border-color:rgba(255,20,147,.3);color:#ff69b4;}
+    .cat-btn.active{border-color:rgba(255,20,147,.6);background:rgba(255,20,147,.1);color:#ff1493;}
+    .ticker-wrap{overflow:hidden;background:rgba(255,20,147,.05);border-top:1px solid rgba(255,20,147,.12);border-bottom:1px solid rgba(255,20,147,.12);}
+    .ticker{display:flex;animation:tickerMove 40s linear infinite;white-space:nowrap;}
+    @keyframes tickerMove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .ticker-item{display:inline-flex;align-items:center;gap:8px;padding:10px 28px;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(255,20,147,.55);letter-spacing:.05em;}
+    .ticker-sep{color:rgba(255,20,147,.2);}
+    .search-wrap{background:rgba(8,8,8,.6);border:1px solid rgba(255,20,147,.2);border-radius:14px;display:flex;align-items:center;overflow:hidden;transition:all .3s ease;}
+    .search-wrap:focus-within{border-color:rgba(255,20,147,.6);box-shadow:0 0 30px rgba(255,20,147,.15);}
+    .search-input{background:transparent;padding:14px 18px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;border:none;outline:none;flex:1;cursor:none;}
+    .search-input::placeholder{color:rgba(255,255,255,.25);}
+    .sidebar-widget{background:rgba(8,8,8,.72);border:1px solid rgba(255,20,147,.14);border-radius:18px;padding:24px;margin-bottom:20px;}
+    .read-more{display:inline-flex;align-items:center;gap:6px;color:var(--pink);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;text-decoration:none;transition:all .3s ease;border:none;background:transparent;cursor:none;padding:0;}
+    .read-more:hover{text-shadow:0 0 12px rgba(255,20,147,.8);}
+    .read-more:hover .arrow{transform:translateX(4px);}
+    .read-more .arrow{transition:transform .3s ease;}
+    .page-btn{width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,20,147,.2);background:transparent;color:#666;font-family:'Orbitron',monospace;font-size:.65rem;cursor:none;transition:all .3s ease;display:flex;align-items:center;justify-content:center;}
+    .page-btn:hover,.page-btn.active{border-color:rgba(255,20,147,.6);background:rgba(255,20,147,.1);color:#ff1493;}
+    .intel-feed{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.25);border-radius:14px;padding:16px;font-family:'Share Tech Mono',monospace;font-size:.68rem;line-height:2;overflow:hidden;}
+    .intel-line.new{animation:intelFadeIn .4s ease forwards;}
+    @keyframes intelFadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+    .intel-cursor{animation:blink .8s infinite;color:#ff1493;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .topic-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.08em;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.15);color:rgba(255,20,147,.7);transition:all .3s ease;text-decoration:none;cursor:none;}
+    .topic-tag:hover{background:rgba(255,20,147,.14);border-color:rgba(255,20,147,.4);color:#ff1493;}
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .hero-animate{animation:fadeUp .65s ease forwards;opacity:0;}
+    .hero-animate:nth-child(1){animation-delay:.05s;}
+    .hero-animate:nth-child(2){animation-delay:.18s;}
+    .hero-animate:nth-child(3){animation-delay:.32s;}
+    .hero-animate:nth-child(4){animation-delay:.44s;}
+    .hero-animate:nth-child(5){animation-delay:.56s;}
+
+    /* ── ENHANCED BLOG STYLES ── */
+    .glitch-title{transition:text-shadow .15s ease;}
+    .glitch-title:hover{text-shadow:-3px 0 #ff1493,3px 0 #00ffff,0 0 28px rgba(255,20,147,.85);}
+    @keyframes glitchShift{0%,100%{text-shadow:0 0 28px rgba(255,20,147,.85);}20%{text-shadow:-3px 0 #ff1493,3px 0 #00ffff,0 0 28px rgba(255,20,147,.85);}40%{text-shadow:3px 0 #ff1493,-3px 0 #00ffff,0 0 28px rgba(255,20,147,.85);}60%{text-shadow:0 0 28px rgba(255,20,147,.85);}}
+    .typewriter-cursor{display:inline-block;animation:blink .85s infinite;}
+    .stat-num{font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,20,147,.7);}
+
+    /* Better featured card - side by side on desktop */
+    @media(min-width:768px){
+      .featured-card-enhanced{display:grid!important;grid-template-columns:1fr 1fr;}
+      .featured-card-enhanced .featured-img-placeholder{height:100%;min-height:340px;}
+    }
+    .featured-card-enhanced{border-radius:28px;}
+    .featured-card-enhanced::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--pink),transparent);opacity:0;transition:opacity .4s ease;z-index:5;}
+    .featured-card-enhanced:hover::before{opacity:1;}
+    .featured-visual-wrap{position:relative;overflow:hidden;}
+    .featured-visual-wrap::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;}
+    .orbit-ring{position:absolute;border:1px solid rgba(255,20,147,.08);border-radius:50%;animation:orbitSpin 20s linear infinite;}
+    @keyframes orbitSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    .featured-icon-box{width:100px;height:100px;border-radius:24px;background:rgba(255,20,147,.08);border:2px solid rgba(255,20,147,.25);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;z-index:2;transition:all .5s ease;}
+    .featured-card:hover .featured-icon-box{transform:scale(1.08) rotate(3deg);box-shadow:0 0 60px rgba(255,20,147,.3);}
+
+    /* Better card thumbs with icons instead of emojis */
+    .card-icon-box{width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;position:relative;z-index:2;transition:all .4s ease;}
+    .blog-card:hover .card-icon-box{transform:scale(1.12) rotate(4deg);}
+    .blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.5),transparent);opacity:0;transition:opacity .4s ease;z-index:5;}
+    .blog-card:hover::before{opacity:1;}
+
+    /* Newsletter band */
+    .newsletter-band{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,20,147,.06),rgba(0,0,0,.9));border-top:1px solid rgba(255,20,147,.15);border-bottom:1px solid rgba(255,20,147,.15);}
+    .newsletter-band::before{content:'';position:absolute;top:-50%;right:-30%;width:80%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.06),transparent 60%);pointer-events:none;animation:pulseBg 6s infinite;}
+    @keyframes pulseBg{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.1);opacity:.7}}
+    .newsletter-input{background:rgba(0,0,0,.5);border:1px solid rgba(255,20,147,.25);border-radius:12px;padding:14px 18px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;cursor:none;transition:all .3s ease;}
+    .newsletter-input:focus{border-color:rgba(255,20,147,.6);box-shadow:0 0 20px rgba(255,20,147,.1);}
+    .newsletter-input::placeholder{color:rgba(255,255,255,.2);}
+
+    /* Sidebar widget hover */
+    .sidebar-widget{transition:border-color .3s ease;}
+    .sidebar-widget:hover{border-color:rgba(255,20,147,.25);}
+
+    /* Recent post hover slide */
+    .recent-post-link{transition:all .3s ease;}
+    .recent-post-link:hover{transform:translateX(4px);}
+
+    .gsap-hidden{opacity:0;transform:translateY(40px);}
+  </style>
+</head>
+<body>
+<div id="cur"></div><div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+    <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+    <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link active">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
+
+<!-- HERO -->
+<section class="min-h-[80vh] flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden" style="position:relative;z-index:2">
+  <div class="hero-grid"></div>
+  <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,20,147,.06) 0%,transparent 70%);top:-200px;right:-200px;pointer-events:none;"></div>
+  <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.04) 0%,transparent 70%);bottom:-100px;left:-150px;pointer-events:none;"></div>
+  <div class="max-w-5xl mx-auto text-center relative z-10">
+    <div class="hero-animate">
+      <div class="inline-flex items-center gap-2 px-5 py-2 glass rounded-full border border-pink-500/25 mb-7">
+        <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+        <span class="font-display text-xs tracking-widest text-pink-400">THREAT INTELLIGENCE · SECURITY RESEARCH · FIELD NOTES</span>
+      </div>
+    </div>
+    <h1 class="font-display font-black mb-5 leading-none hero-animate glitch-title" style="font-size:clamp(3rem,8vw,6rem);">
+      <span class="text-white">THE INTEL</span><br>
+      <span class="neon-pink">BRIEFING</span><span class="text-white">.</span>
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-4 hero-animate" style="font-weight:300;">Frontline research, real attack breakdowns, and security intelligence from the field.<br class="hidden sm:block">No fluff. No vendor noise. Just signal.</p>
+    <div class="font-mono mb-8 hero-animate" style="color:rgba(255,20,147,.45);font-size:.82rem;letter-spacing:.08em;min-height:1.5em;">
+      <span id="typed-text"></span><span class="typewriter-cursor" style="color:rgba(255,20,147,.7);">█</span>
+    </div>
+    <div class="max-w-xl mx-auto hero-animate">
+      <div class="search-wrap">
+        <i class="fas fa-terminal text-pink-400/40 ml-4 text-sm flex-shrink-0"></i>
+        <input type="text" class="search-input" placeholder="Search articles, CVEs, attack techniques..." id="search-input" oninput="filterPosts()">
+        <button class="btn-primary" style="border-radius:0 14px 14px 0;padding:14px 20px;font-size:.65rem;width:auto;" onclick="filterPosts()"><i class="fas fa-search"></i> SEARCH</button>
+      </div>
+    </div>
+    <!-- Hero Stats -->
+    <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto mt-12 hero-animate">
+      <div class="glass rounded-2xl py-4 px-3 text-center" style="border-color:rgba(255,20,147,.12);">
+        <div class="stat-num text-2xl sm:text-3xl" data-target="24" data-suffix="">0</div>
+        <div class="font-mono text-xs text-gray-600 mt-1" style="letter-spacing:.1em;">ARTICLES</div>
+      </div>
+      <div class="glass rounded-2xl py-4 px-3 text-center" style="border-color:rgba(255,20,147,.12);">
+        <div class="stat-num text-2xl sm:text-3xl" data-target="7" data-suffix="">0</div>
+        <div class="font-mono text-xs text-gray-600 mt-1" style="letter-spacing:.1em;">CATEGORIES</div>
+      </div>
+      <div class="glass rounded-2xl py-4 px-3 text-center" style="border-color:rgba(255,20,147,.12);">
+        <div class="stat-num text-2xl sm:text-3xl" data-target="42" data-suffix="k">0</div>
+        <div class="font-mono text-xs text-gray-600 mt-1" style="letter-spacing:.1em;">READERS</div>
+      </div>
+    </div>
+  </div>
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 flex flex-col items-center gap-2 pointer-events-none" style="opacity:.2;transform:translateX(-50%);">
+    <span class="font-mono text-xs text-pink-400" style="letter-spacing:.15em;">SCROLL</span>
+    <div style="width:1px;height:36px;background:linear-gradient(180deg,var(--pink),transparent);"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" style="position:relative;z-index:2">
+  <div class="ticker">
+    <span class="ticker-item"><span style="color:#ef4444;">●</span> CRITICAL: CVE-2025-0811 — Apache RCE — PATCH NOW</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#f97316;">●</span> HIGH: Phishing campaign targeting SA financial sector</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#eab308;">●</span> MEDIUM: Windows NTLM relay vector — limited exposure</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#ef4444;">●</span> CRITICAL: FortiGate SSL-VPN auth bypass — exploit in wild</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#22c55e;">●</span> SA CERT advisory: updated POPIA enforcement guidelines</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#f97316;">●</span> HIGH: LockBit 4.0 targeting construction sector in EMEA</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#ef4444;">●</span> CRITICAL: CVE-2025-0811 — Apache RCE — PATCH NOW</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#f97316;">●</span> HIGH: Phishing campaign targeting SA financial sector</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#eab308;">●</span> MEDIUM: Windows NTLM relay vector — limited exposure</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#ef4444;">●</span> CRITICAL: FortiGate SSL-VPN auth bypass — exploit in wild</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#22c55e;">●</span> SA CERT advisory: updated POPIA enforcement guidelines</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item"><span style="color:#f97316;">●</span> HIGH: LockBit 4.0 targeting construction sector in EMEA</span><span class="ticker-sep">◆</span>
+  </div>
+</div>
+
+<!-- CATEGORY FILTERS -->
+<section class="py-10 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-wrap gap-3 justify-center">
+      <button class="cat-btn active" onclick="filterCat('all',this)">ALL POSTS</button>
+      <button class="cat-btn" onclick="filterCat('pentest',this)">PENTESTING</button>
+      <button class="cat-btn" onclick="filterCat('threat',this)">THREAT INTEL</button>
+      <button class="cat-btn" onclick="filterCat('compliance',this)">COMPLIANCE</button>
+      <button class="cat-btn" onclick="filterCat('malware',this)">MALWARE</button>
+      <button class="cat-btn" onclick="filterCat('osint',this)">OSINT</button>
+      <button class="cat-btn" onclick="filterCat('awareness',this)">AWARENESS</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN + SIDEBAR -->
+<section class="pb-20 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <!-- FEATURED -->
+        <div class="mb-10">
+          <div class="section-tag mb-5 flex items-center gap-3"><span class="w-6 h-px bg-pink-500 opacity-60"></span>FEATURED INTELLIGENCE REPORT<span class="w-6 h-px bg-pink-500 opacity-60"></span></div>
+          <a href="blog-post.html" class="featured-card featured-card-enhanced" id="featured-post" data-cat="pentest" style="display:block;">
+            <!-- Visual side -->
+            <div class="featured-visual-wrap featured-img-placeholder relative flex items-center justify-center">
+              <div class="orbit-ring" style="width:260px;height:260px;top:50%;left:50%;margin-top:-130px;margin-left:-130px;position:absolute;"></div>
+              <div class="orbit-ring" style="width:180px;height:180px;top:50%;left:50%;margin-top:-90px;margin-left:-90px;position:absolute;animation-duration:14s;animation-direction:reverse;"></div>
+              <div class="featured-icon-box">
+                <i class="fas fa-skull-crossbones" style="color:#ff1493;filter:drop-shadow(0 0 16px rgba(255,20,147,.6));"></i>
+              </div>
+              <!-- Floating badge -->
+              <div style="position:absolute;top:20px;left:20px;z-index:3;">
+                <div class="threat-badge threat-critical"><span class="threat-dot"></span>CRITICAL THREAT</div>
+              </div>
+              <div style="position:absolute;bottom:20px;right:20px;z-index:3;">
+                <span class="font-mono text-xs" style="color:rgba(255,255,255,.2);letter-spacing:.1em;">14 MIN READ</span>
+              </div>
+            </div>
+            <!-- Content side -->
+            <div class="p-8 sm:p-10 flex flex-col justify-center" style="position:relative;z-index:2;">
+              <div class="flex items-center gap-3 mb-4 flex-wrap">
+                <span class="font-display px-3 py-1 rounded-md text-xs" style="font-size:.58rem;letter-spacing:.15em;color:rgba(255,20,147,.7);background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2);">PENETRATION TESTING</span>
+                <span class="font-mono text-xs text-gray-600">28 FEB 2026</span>
+              </div>
+              <h2 class="font-display font-black text-white text-xl sm:text-2xl mb-3 leading-tight">How We Pwned a Fintech in 4 Hours: A Full Kill Chain Walkthrough</h2>
+              <p class="text-gray-400 text-sm leading-relaxed mb-5 max-w-2xl">A real-world penetration test engagement, anonymised and dissected step by step. From initial recon through to domain admin — and why their R2M firewall didn't help.</p>
+              <div class="flex items-center gap-4 flex-wrap">
+                <div class="flex items-center gap-2">
+                  <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Orbitron',monospace;font-weight:700;color:#fff;flex-shrink:0;">GH</div>
+                  <span class="text-gray-400 text-xs">Greyhat4Hire Research</span>
+                </div>
+                <span class="read-more ml-auto">READ FULL REPORT <i class="fas fa-arrow-right arrow text-xs"></i></span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- GRID -->
+        <div class="grid sm:grid-cols-2 gap-5" id="posts-grid">
+          <a href="blog-post.html" class="blog-card" data-cat="threat" data-title="LockBit 4.0 South Africa ransomware">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(0,0,0,.95));"><div class="card-icon-box" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#ef4444;box-shadow:0 0 30px rgba(239,68,68,.15);"><i class="fas fa-virus"></i></div></div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-high"><span class="threat-dot"></span>HIGH</div><span class="font-mono text-xs text-gray-600">THREAT INTEL</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">LockBit 4.0: What South African Businesses Need to Know Right Now</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">The latest LockBit variant is actively targeting EMEA SMEs. Here's the TTPs and how to harden against them before you're next.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">14 FEB 2026 · 8 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+          <a href="blog-post.html" class="blog-card" data-cat="compliance" data-title="POPIA compliance penetration testing report">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(0,0,0,.95));"><div class="card-icon-box" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#3b82f6;box-shadow:0 0 30px rgba(59,130,246,.15);"><i class="fas fa-scale-balanced"></i></div></div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-medium"><span class="threat-dot"></span>MEDIUM</div><span class="font-mono text-xs text-gray-600">COMPLIANCE</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">POPIA Compliance: Does Your Pentest Report Actually Cover It?</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">Most pentest reports miss the POPIA control mappings that the Information Regulator now expects. Here's the gap and how to close it.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">07 FEB 2026 · 6 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+          <a href="blog-post.html" class="blog-card" data-cat="osint" data-title="passive recon OSINT techniques attacker">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(0,255,136,.06),rgba(0,0,0,.95));"><div class="card-icon-box" style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:#00ff88;box-shadow:0 0 30px rgba(0,255,136,.12);"><i class="fas fa-user-secret"></i></div></div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-low"><span class="threat-dot"></span>INFO</div><span class="font-mono text-xs text-gray-600">OSINT</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">What an Attacker Learns About You Before Sending the First Packet</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">Passive recon is free, legal, and devastatingly effective. Here's exactly what we find before any engagement begins.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">28 JAN 2026 · 10 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+          <a href="blog-post.html" class="blog-card" data-cat="malware" data-title="infostealer malware credential harvesting network">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(0,0,0,.95));"><div class="card-icon-box" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);color:#a855f7;box-shadow:0 0 30px rgba(168,85,247,.15);"><i class="fas fa-ghost"></i></div></div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-critical"><span class="threat-dot"></span>CRITICAL</div><span class="font-mono text-xs text-gray-600">MALWARE</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">Infostealer Malware: The Silent Credential Harvesters in Your Network</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">Infostealers have exploded in 2025. They're cheap, quiet, and they exfiltrate passwords, sessions, and cookies. Here's how they work.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">15 JAN 2026 · 12 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+          <a href="blog-post.html" class="blog-card" data-cat="awareness" data-title="social engineering vishing AI voice cloning CFO">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(0,0,0,.95));"><div class="card-icon-box" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b;box-shadow:0 0 30px rgba(245,158,11,.12);"><i class="fas fa-phone-volume"></i></div></div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-high"><span class="threat-dot"></span>HIGH</div><span class="font-mono text-xs text-gray-600">AWARENESS</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">Vishing in 2026: When AI Clones Your CEO's Voice to Call Your CFO</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">Voice cloning has made vishing attacks nearly undetectable. We demonstrate exactly how, and what your controls need to account for.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">02 JAN 2026 · 7 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+          <a href="blog-post.html" class="blog-card" data-cat="pentest" data-title="web application testing API security BOLA OWASP">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.95));"><div class="card-icon-box" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2);color:#ff1493;box-shadow:0 0 30px rgba(255,20,147,.12);"><i class="fas fa-code"></i></div></div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-high"><span class="threat-dot"></span>HIGH</div><span class="font-mono text-xs text-gray-600">PENTESTING</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">The Top 5 API Vulnerabilities We Find on Every Web App Engagement</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">BOLA, improper authentication, and mass assignment still dominate after dozens of web app pentests. Here's what to fix first.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">18 DEC 2025 · 9 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+        </div>
+        <div id="no-results" class="hidden text-center py-20"><div class="font-mono text-pink-400/40 text-4xl mb-4">[ NULL ]</div><p class="font-display text-sm text-gray-600 tracking-wide">No posts match that query.</p></div>
+        <div class="flex items-center justify-center gap-3 mt-12">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span class="text-gray-700 font-mono text-sm">···</span>
+          <button class="page-btn">8</button>
+          <button class="page-btn" style="width:auto;padding:0 16px;"><i class="fas fa-arrow-right text-xs"></i></button>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="lg:col-span-1">
+        <div class="sidebar-widget sticky top-24">
+          <div class="section-tag mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>LIVE THREAT INTEL FEED</div>
+          <p class="text-gray-600 text-xs mb-3 font-mono">Real-time threat intelligence stream.</p>
+          <div class="intel-feed" id="intel-feed" style="min-height:210px;max-height:250px;overflow:hidden;"><span class="intel-cursor">█</span></div>
+          <div class="mt-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><span class="font-mono text-xs text-gray-600">FEED ACTIVE · LIVE</span></div>
+        </div>
+        <div class="sidebar-widget">
+          <div class="section-tag mb-4">ABOUT THIS BLOG</div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Raw intelligence, real findings. Published by the Greyhat4Hire research team from active engagements and continuous threat monitoring.</p>
+          <a href="about.html" class="read-more">MEET THE TEAM <i class="fas fa-arrow-right arrow text-xs"></i></a>
+        </div>
+        <div class="sidebar-widget">
+          <div class="section-tag mb-4">TOPICS</div>
+          <div class="flex flex-wrap gap-2">
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>Ransomware</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>OWASP</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>Red Team</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>POPIA</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>CVE</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>BEC</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>Phishing</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>Zero Trust</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>Active Directory</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>OPSEC</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>Burp Suite</a>
+            <a href="#" class="topic-tag"><i class="fas fa-hashtag text-xs"></i>OSINT</a>
+          </div>
+        </div>
+        <div class="sidebar-widget" style="background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border-color:rgba(255,20,147,.25);">
+          <div class="section-tag mb-3" style="color:rgba(255,20,147,.8)">IS YOUR NETWORK EXPOSED?</div>
+          <p class="text-gray-300 text-sm leading-relaxed mb-4">Stop reading about breaches happening to others. Get a professional assessment before it's your headline.</p>
+          <a href="contact.html" class="btn-primary pulse-glow" style="font-size:.65rem;padding:14px 20px;"><i class="fas fa-shield-alt"></i> GET A PENTEST QUOTE</a>
+        </div>
+        <div class="sidebar-widget">
+          <div class="section-tag mb-4">RECENT POSTS</div>
+          <div class="space-y-4">
+            <a href="blog-post.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#ff1493;"><i class="fas fa-skull-crossbones"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">How We Pwned a Fintech in 4 Hours</p><p class="text-gray-600 font-mono text-xs mt-1">28 FEB 2026</p></div></a>
+            <a href="blog-post.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#ef4444;"><i class="fas fa-virus"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">LockBit 4.0: What SA Businesses Need to Know</p><p class="text-gray-600 font-mono text-xs mt-1">14 FEB 2026</p></div></a>
+            <a href="blog-post.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#3b82f6;"><i class="fas fa-scale-balanced"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">POPIA Compliance Pentest Report Gaps</p><p class="text-gray-600 font-mono text-xs mt-1">07 FEB 2026</p></div></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4 my-4" style="position:relative;z-index:2"></div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-band py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-3xl mx-auto text-center relative z-10">
+    <div class="section-tag mb-4">STAY IN THE LOOP</div>
+    <h2 class="font-display font-black text-white text-3xl sm:text-4xl mb-3">Get Intel Delivered <span class="neon-pink">Weekly</span></h2>
+    <p class="text-gray-400 text-sm sm:text-base max-w-lg mx-auto mb-6 leading-relaxed">Curated threat intelligence, new posts, and security advisories. No spam. Unsubscribe any time.</p>
+    <div class="flex gap-3 max-w-md mx-auto flex-wrap justify-center">
+      <input type="email" class="newsletter-input" placeholder="operator@yourcompany.co.za" style="min-width:240px;">
+      <button class="btn-primary" style="font-size:.68rem;padding:14px 28px;flex-shrink:0;">
+        <i class="fas fa-satellite-dish"></i> SUBSCRIBE
+      </button>
+    </div>
+    <p class="font-mono mt-4" style="font-size:.6rem;color:rgba(255,255,255,.1);letter-spacing:.05em;">WE RESPECT YOUR PRIVACY · NO THIRD-PARTY SHARING</p>
+  </div>
+</div>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
+      <div class="lg:col-span-1"><img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"><p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting providing ethical security testing and assurance across South Africa and beyond.</p><div class="flex gap-4"><a href="#" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a><a href="#" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a></div></div>
+      <div><h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3><ul class="space-y-2.5"><li><a href="index.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Home</a></li><li><a href="about.html" class="text-gray-400 hover:text-pink-400 transition text-sm">About</a></li><li><a href="services.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Services</a></li><li><a href="cyber-awareness.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li><li><a href="our-process.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Our Process</a></li><li><a href="blog.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Blog</a></li><li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Contact</a></li></ul></div>
+      <div><h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3><ul class="space-y-2.5"><li><a href="risk-assessment.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li><li><a href="hackers-dossier.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li><li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li><li><a href="vuln-lookup.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li><li><a href="reverse-image-search.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Reverse Image Search</a></li></ul></div>
+      <div><h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3><ul class="space-y-3"><li><a href="/cdn-cgi/l/email-protection#a4cdcac2cbe4c3d6c1ddccc5d090cccdd6c18ac7cbc9" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i><span class="__cf_email__" data-cfemail="7e171018113e190c1b07161f0a4a16170c1b501d1113">[email&#160;protected]</span></a></li><li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i>+27 84 635 3581</a></li><li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i>WhatsApp Chat</a></li><li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i>Book Consultation</a></li></ul></div>
+    </div>
+    <div class="border-t border-gray-800 pt-8"><div class="glass p-4 sm:p-5 rounded-2xl mb-7"><div class="flex items-start gap-3"><i class="fas fa-shield-alt text-pink-400 text-lg flex-shrink-0 mt-0.5"></i><p class="text-sm text-gray-300"><span class="font-bold text-pink-400">Confidentiality Guaranteed:</span> All engagements conducted under strict NDA. Blog posts use anonymised, client-approved case studies only.</p></div></div><div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500"><p>© 2026 Greyhat4Hire. All rights reserved.</p><p class="font-display text-xs text-pink-400 tracking-wider">INDEPENDENT · ETHICAL · EFFECTIVE</p></div></div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMenu);closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.blog-card').forEach(function(card,i){gsap.fromTo(card,{y:50,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out',scrollTrigger:{trigger:card,start:'top 90%',once:true},delay:(i%2)*.12});});
+gsap.fromTo('.featured-card',{y:40,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',scrollTrigger:{trigger:'.featured-card',start:'top 88%',once:true}});
+
+// TYPEWRITER
+var phrases=['> scanning threat feeds...','> analysing CVE databases...','> monitoring dark web chatter...','> compiling intel briefing...','> signal acquired.'];
+var pIdx=0,cIdx=0,isDel=false;
+var typedEl=document.getElementById('typed-text');
+function typeWriter(){
+  var p=phrases[pIdx];
+  if(!isDel){typedEl.textContent=p.substring(0,cIdx+1);cIdx++;
+    if(cIdx===p.length){setTimeout(function(){isDel=true;typeWriter();},2000);return;}
+    setTimeout(typeWriter,cIdx<3?120:40);
+  }else{typedEl.textContent=p.substring(0,cIdx-1);cIdx--;
+    if(cIdx===0){isDel=false;pIdx=(pIdx+1)%phrases.length;setTimeout(typeWriter,300);return;}
+    setTimeout(typeWriter,22);
+  }
+}
+setTimeout(typeWriter,600);
+
+// STAT COUNTERS
+function animateCounter(el,target,suffix){
+  var c=0,steps=50,dur=1800,inc=target/steps;
+  var iv=setInterval(function(){
+    c=Math.min(c+inc,target);
+    el.textContent=Math.round(c)+(suffix||'');
+    if(c>=target)clearInterval(iv);
+  },dur/steps);
+}
+var statObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-target]').forEach(function(el){
+        animateCounter(el,parseInt(el.dataset.target),el.dataset.suffix||'');
+      });
+      statObs.unobserve(e.target);
+    }
+  });
+},{threshold:.4});
+document.querySelectorAll('[data-target]').forEach(function(el){
+  var p=el.closest('.glass')||el.parentElement;
+  if(p)statObs.observe(p);
+});
+function filterCat(cat,btn){
+  document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');
+  var cards=document.querySelectorAll('.blog-card'),featured=document.getElementById('featured-post'),visible=0;
+  if(cat==='all'){cards.forEach(function(c){c.style.display='flex';});featured.style.display='';visible=cards.length+1;}
+  else{featured.style.display=(featured.dataset.cat===cat)?'':'none';if(featured.dataset.cat===cat)visible++;cards.forEach(function(c){var show=c.dataset.cat===cat;c.style.display=show?'flex':'none';if(show)visible++;});}
+  document.getElementById('no-results').classList.toggle('hidden',visible>0);
+}
+function filterPosts(){
+  var q=document.getElementById('search-input').value.toLowerCase();
+  if(!q){document.querySelectorAll('.blog-card').forEach(function(c){c.style.display='flex';});document.getElementById('featured-post').style.display='';document.getElementById('no-results').classList.add('hidden');return;}
+  var cards=document.querySelectorAll('.blog-card'),visible=0;
+  cards.forEach(function(c){var show=(c.dataset.title||'').includes(q)||c.querySelector('h3').textContent.toLowerCase().includes(q);c.style.display=show?'flex':'none';if(show)visible++;});
+  var featured=document.getElementById('featured-post');featured.style.display=featured.querySelector('h2').textContent.toLowerCase().includes(q)?'':'none';
+  document.getElementById('no-results').classList.toggle('hidden',visible>0);
+}
+// LIVE INTEL FEED
+var intelLines=[
+  {t:'[SYS]',m:'Feed initialised. Monitoring threat databases...',c:'rgba(255,20,147,.5)'},
+  {t:'[CRIT]',m:'CVE-2025-0811 Apache mod_proxy RCE — CVSS 9.8',c:'#ef4444'},
+  {t:'[HIGH]',m:'Phishing kit "SilverFox v3" — targeting ZA banks',c:'#f97316'},
+  {t:'[INFO]',m:'SA CERT: POPIA enforcement escalation Q1 2026',c:'#22c55e'},
+  {t:'[CRIT]',m:'FortiGate CVE-2025-1234 auth bypass — PoC public',c:'#ef4444'},
+  {t:'[HIGH]',m:'LockBit 4.0 affiliate activity ↑340% — EMEA',c:'#f97316'},
+  {t:'[MED]',m:'NTLM relay via IPv6 — unpatched Win10/11',c:'#eab308'},
+  {t:'[INFO]',m:'HIBP: 2.4M new credentials indexed today',c:'#22c55e'},
+  {t:'[HIGH]',m:'BEC: AI voice cloning CFO impersonation vector',c:'#f97316'},
+  {t:'[CRIT]',m:'VMware vCenter unauthenticated RCE — no patch',c:'#ef4444'},
+  {t:'[MED]',m:'Shodan: 14,200 exposed RDP — .za domain',c:'#eab308'},
+  {t:'[INFO]',m:'New post: Kill chain walkthrough — fintech',c:'rgba(255,20,147,.8)'},
+  {t:'[HIGH]',m:'Lumma stealer updated — targets crypto wallets',c:'#f97316'},
+  {t:'[MED]',m:'WordPress CVE-2025-0999 SQLi — 800k installs',c:'#eab308'},
+];
+var intelIdx=0,feedEl=document.getElementById('intel-feed');
+function addIntelLine(){
+  var line=intelLines[intelIdx%intelLines.length];intelIdx++;
+  var d=document.createElement('div');d.className='intel-line new';
+  d.innerHTML='<span style="color:rgba(255,255,255,.2);">['+new Date().toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+']</span> <span style="color:'+line.c+';font-weight:700;">'+line.t+'</span> <span style="color:rgba(200,200,200,.7);">'+line.m+'</span>';
+  var cursor=feedEl.querySelector('.intel-cursor');feedEl.insertBefore(d,cursor);
+  var lines=feedEl.querySelectorAll('.intel-line');if(lines.length>8)lines[0].remove();
+}
+for(var i=0;i<4;i++)addIntelLine();
+setInterval(addIntelLine,2800);
+// THREE.JS
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;col[i3]=.98+(Math.random()-.5)*.08;col[i3+1]=.08;col[i3+2]=.58+(Math.random()-.5)*.1;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);
+  var pageVisible=!document.hidden;
+  document.addEventListener('visibilitychange',function(){pageVisible=!document.hidden;});
+  var last=performance.now();
+  function animate(now){
+    requestAnimationFrame(animate);
+    if(!pageVisible){last=now;return;}
+    var dt=Math.min((now-last)/1000,0.05);last=now;
+    var p=pts.geometry.attributes.position.array;
+    var t=now*0.00008;
+    for(var j=1;j<p.length;j+=3){
+      p[j]+=1.3*dt;
+      p[j-1]+=Math.sin(t+j)*0.18*dt;
+      if(p[j]>130)p[j]=-120;
+    }
+    pts.geometry.attributes.position.needsUpdate=true;
+    pts.rotation.y+=0.009*dt;
+    renderer.render(scene,camera);
+  }
+  requestAnimationFrame(animate);
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+
+// CURSOR (handled above at line 508)
+// NAV & MOBILE MENU (handled above at line 510)
+</script>
+</body>
+</html>
