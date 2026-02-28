@@ -768,40 +768,21 @@
        CINEMATIC HERO — NEW STYLES
     ══════════════════════════════════════ */
 
-    /* ── INK BLEED ── */
+    /* ── INK BLEED (GPU-optimised) ── */
     .ink-word {
       display: inline-block;
       white-space: nowrap;
       opacity: 0;
-      filter: blur(20px) brightness(0) saturate(3);
+      will-change: opacity, filter;
+      transform: translateZ(0);
     }
     .ink-word.bleeding {
-      animation: inkBleed 1.2s cubic-bezier(.22,.8,.36,1) forwards;
+      animation: inkBleed .75s cubic-bezier(.25,.8,.35,1) forwards;
     }
     @keyframes inkBleed {
-      0%   { opacity:0;   filter:blur(24px) brightness(0)   saturate(4); transform:scale(1.06); }
-      15%  { opacity:.5;  filter:blur(12px) brightness(2)   saturate(5); transform:scale(1.03); }
-      40%  { opacity:.85; filter:blur(5px)  brightness(1.4) saturate(2.5); transform:scale(1.01); }
-      70%  { opacity:.95; filter:blur(1.5px) brightness(1.1) saturate(1.3); transform:scale(1.003); }
-      100% { opacity:1;   filter:blur(0) brightness(1) saturate(1); transform:scale(1); }
-    }
-    .ink-word::after {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      color: transparent;
-      text-shadow: 0 0 50px rgba(255,20,147,1), 0 0 100px rgba(255,20,147,.6), 0 0 180px rgba(255,20,147,.3);
-      opacity: 0;
-      pointer-events: none;
-    }
-    .ink-word.bleeding::after {
-      animation: inkHalo 1.2s cubic-bezier(.22,.8,.36,1) forwards;
-    }
-    @keyframes inkHalo {
-      0%   { opacity:0; }
-      18%  { opacity:1; }
-      65%  { opacity:.3; }
-      100% { opacity:0; }
+      0%   { opacity: 0;    filter: blur(16px); }
+      35%  { opacity: .75;  filter: blur(4px);  }
+      100% { opacity: 1;    filter: blur(0);    }
     }
 
     /* ── LOGO WATERMARK ── */
@@ -2299,24 +2280,30 @@
       }, delay);
     }
     window.addEventListener('load', function() {
+      // Watermark + reticle
       setTimeout(function() {
         var wm = document.getElementById('hero-watermark-img');
         if (wm) wm.classList.add('visible');
         var rt = document.getElementById('hero-reticle');
         if (rt) rt.classList.add('visible');
-      }, 80);
-      showEl('hero-eyebrow', 220);
+      }, 60);
+
+      showEl('hero-eyebrow', 150);
+
+      // Headline: words stagger at 90ms each — tight and punchy
       setTimeout(function() {
         var wrap = document.getElementById('hero-h1-wrap');
         if (wrap) { wrap.style.opacity='1'; wrap.style.transform='translateY(0)'; }
-        var stagger = [0, 170, 330, 500, 750, 910, 1060, 1210];
         var words = document.querySelectorAll('.ink-word');
         words.forEach(function(w, i) {
-          setTimeout(function() { w.classList.add('bleeding'); },
-            stagger[i] !== undefined ? stagger[i] : i * 160);
+          setTimeout(function() { w.classList.add('bleeding'); }, i * 90);
         });
-      }, 300);
-      showEl('hero-sub', 1900);
+      }, 200);
+
+      // Line 1 done at ~200 + 3*90 + 750 = ~1220ms
+      // Line 2 done at ~200 + 7*90 + 750 = ~1580ms
+      showEl('hero-sub',   1380);
+
       setTimeout(function() {
         var monoEl = document.getElementById('hero-mono');
         var textEl = document.getElementById('hero-mono-text');
@@ -2327,14 +2314,16 @@
         var iv = setInterval(function() {
           textEl.textContent = full.slice(0, c++);
           if (c > full.length) clearInterval(iv);
-        }, 20);
-      }, 2100);
-      showEl('hero-btns',  2500);
-      showEl('hero-stats', 2750);
+        }, 18);
+      }, 1550);
+
+      showEl('hero-btns',  1850);
+      showEl('hero-stats', 2050);
+
       setTimeout(function() {
         var sc = document.getElementById('hero-scroll');
         if (sc) sc.style.opacity = '.3';
-      }, 3200);
+      }, 2400);
     });
   })();
   // ══ END INK BLEED ══════════════════════════════════════════════
