@@ -70,7 +70,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
@@ -2379,6 +2379,7 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  tailwind.config = { theme: { extend: { colors: { pink: { 400:'#ff69b4', 500:'#ff1493' } } } } };
 
   // ── CURSOR ──
   var cur  = document.getElementById('cur');
@@ -2604,9 +2605,8 @@
       scrollTrigger:{trigger:card,start:'top 88%',once:true},delay:i*0.1});
   });
 
-  // ── THREE.JS PARTICLES ──────────────────────
+  // ── THREE.JS PARTICLES (smooth delta-time) ──────────────────────
   (function(){
-    // Skip entirely on reduced-motion preference
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     const canvas=document.getElementById('three-canvas');
     const scene=new THREE.Scene();
@@ -2616,8 +2616,7 @@
     renderer.setSize(innerWidth,innerHeight);
     renderer.setPixelRatio(Math.min(devicePixelRatio,1));
 
-    // 250 particles (down from 500) — halves geometry update cost
-    const count=250,geo=new THREE.BufferGeometry();
+    const count=200,geo=new THREE.BufferGeometry();
     const pos=new Float32Array(count*3),col=new Float32Array(count*3);
     for(let i=0;i<count;i++){
       const i3=i*3;
@@ -2626,32 +2625,33 @@
     }
     geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
     geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-    const mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+    const mat=new THREE.PointsMaterial({size:.7,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
     const pts=new THREE.Points(geo,mat);
     scene.add(pts);
 
-    // Pause when tab is hidden — zero CPU when user switches tabs
     let pageVisible=!document.hidden;
     document.addEventListener('visibilitychange',()=>{ pageVisible=!document.hidden; });
 
-    let f=0;
-    function animate(){
+    let last=performance.now();
+    function animate(now){
       requestAnimationFrame(animate);
-      if(!pageVisible) return;
-      // Render every 3rd frame (~20fps) — visually identical, 66% less work
-      if(++f%3) return;
+      if(!pageVisible){ last=now; return; }
+      const dt=Math.min((now-last)/1000,0.05);
+      last=now;
       const p=pts.geometry.attributes.position.array;
-      const t=Date.now()*.00008;
+      const t=now*0.00008;
+      const rise=1.3*dt;
+      const sway=0.18*dt;
       for(let i=1;i<p.length;i+=3){
-        p[i]+=.022;                         // remove per-particle Math.random()
-        p[i-1]+=Math.sin(t+i)*.003;
+        p[i]+=rise;
+        p[i-1]+=Math.sin(t+i)*sway;
         if(p[i]>130)p[i]=-120;
       }
       pts.geometry.attributes.position.needsUpdate=true;
-      pts.rotation.y+=.00015;
+      pts.rotation.y+=0.009*dt;
       renderer.render(scene,camera);
     }
-    animate();
+    requestAnimationFrame(animate);
     window.addEventListener('resize',()=>{
       camera.aspect=innerWidth/innerHeight;
       camera.updateProjectionMatrix();
