@@ -768,21 +768,64 @@
        CINEMATIC HERO — NEW STYLES
     ══════════════════════════════════════ */
 
-    /* ── INK BLEED (GPU-optimised) ── */
-    .ink-word {
+    /* ══ LINE DRAW REVEAL — compositor only ══ */
+
+    /* The sweeping laser line */
+    #draw-laser {
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      z-index: 15;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(0) translateZ(0);
+      will-change: transform, opacity;
+      /* Bright pink line with a long trailing glow */
+      background: linear-gradient(
+        180deg,
+        transparent        0%,
+        rgba(255,20,147,.0) 8%,
+        rgba(255,20,147,.7) 30%,
+        #ff1493             50%,
+        rgba(255,20,147,.7) 70%,
+        rgba(255,20,147,.0) 92%,
+        transparent        100%
+      );
+      box-shadow:
+        0 0 12px 4px rgba(255,20,147,.9),
+        0 0 40px 8px rgba(255,20,147,.5),
+        0 0 80px 16px rgba(255,20,147,.2);
+    }
+
+    /* Each headline word: clipped from the right, revealed as laser passes */
+    .draw-word {
       display: inline-block;
       white-space: nowrap;
-      opacity: 0;
-      will-change: opacity, filter;
-      transform: translateZ(0);
+      clip-path: inset(0 100% 0 0);
+      will-change: clip-path;
     }
-    .ink-word.bleeding {
-      animation: inkBleed .75s cubic-bezier(.25,.8,.35,1) forwards;
+    .draw-word.revealed {
+      animation: wordReveal .45s cubic-bezier(.4,0,.2,1) forwards;
     }
-    @keyframes inkBleed {
-      0%   { opacity: 0;    filter: blur(16px); }
-      35%  { opacity: .75;  filter: blur(4px);  }
-      100% { opacity: 1;    filter: blur(0);    }
+    @keyframes wordReveal {
+      0%   { clip-path: inset(0 100% 0 0); }
+      100% { clip-path: inset(0   0% 0 0); }
+    }
+
+    /* Tiny afterglow on newly-revealed words — opacity only, cheap */
+    .draw-word.revealed::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,20,147,.18);
+      border-radius: 2px;
+      animation: wordGlow .6s ease forwards;
+      pointer-events: none;
+    }
+    @keyframes wordGlow {
+      0%   { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     /* ── LOGO WATERMARK ── */
@@ -883,24 +926,113 @@
     @keyframes reticleSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
 
     /* ── STATUS BAR ── */
-    .hero-status-bar {
-      display: inline-flex; align-items: center; gap: 18px;
-      padding: 8px 22px;
-      background: rgba(0,0,0,.6);
-      border: 1px solid rgba(255,20,147,.2);
-      border-radius: 50px;
-      margin-bottom: 28px;
+    /* ── OPERATOR HUD ── */
+    .operator-hud {
+      display: inline-flex; align-items: stretch;
+      margin-bottom: 32px;
+      background: rgba(0,0,0,.72);
+      border: 1px solid rgba(255,20,147,.22);
+      border-radius: 10px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 0 1px rgba(255,20,147,.06), 0 8px 32px rgba(0,0,0,.5);
+    }
+
+    /* Top accent line */
+    .operator-hud::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,20,147,.6), rgba(255,20,147,.9), rgba(255,20,147,.6), transparent);
+    }
+
+    .hud-module {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 20px;
+      position: relative;
       font-family: 'Share Tech Mono', monospace;
-      font-size: .62rem; letter-spacing: .12em;
-      color: rgba(255,255,255,.4);
+      font-size: .63rem; letter-spacing: .1em;
     }
-    .hero-status-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #22c55e; box-shadow: 0 0 8px #22c55e;
-      animation: toolsDotPulse 1.6s infinite;
-      flex-shrink: 0;
+    /* Divider between modules */
+    .hud-module + .hud-module::before {
+      content: '';
+      position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(255,20,147,.25), transparent);
     }
-    .hero-status-sep { color: rgba(255,20,147,.2); }
+
+    /* Module 1 — SYSTEM STATUS */
+    .hud-status-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e, 0 0 14px rgba(34,197,94,.4);
+      animation: toolsDotPulse 1.8s ease-in-out infinite;
+    }
+    .hud-status-label {
+      color: rgba(255,255,255,.35);
+      font-size: .55rem; letter-spacing: .14em;
+      display: block; line-height: 1;
+      margin-bottom: 2px;
+    }
+    .hud-status-value {
+      color: #22c55e;
+      font-size: .68rem; letter-spacing: .12em;
+      display: block; line-height: 1;
+      text-shadow: 0 0 10px rgba(34,197,94,.6);
+    }
+
+    /* Module 2 — OPERATOR / LOCATION */
+    .hud-loc-icon {
+      font-size: .75rem; color: rgba(255,20,147,.7); flex-shrink: 0;
+    }
+    .hud-loc-label {
+      color: rgba(255,255,255,.3);
+      font-size: .55rem; letter-spacing: .14em;
+      display: block; line-height: 1;
+      margin-bottom: 2px;
+    }
+    .hud-loc-value {
+      color: rgba(255,255,255,.75);
+      font-size: .68rem; letter-spacing: .1em;
+      display: block; line-height: 1;
+    }
+
+    /* Module 3 — UPTIME COUNTER */
+    .hud-uptime-icon {
+      font-size: .7rem; color: rgba(255,20,147,.6); flex-shrink: 0;
+    }
+    .hud-uptime-label {
+      color: rgba(255,255,255,.3);
+      font-size: .55rem; letter-spacing: .14em;
+      display: block; line-height: 1;
+      margin-bottom: 2px;
+    }
+    .hud-uptime-value {
+      color: rgba(255,20,147,.85);
+      font-size: .68rem; letter-spacing: .08em;
+      display: block; line-height: 1;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 8px rgba(255,20,147,.4);
+    }
+
+    /* Module 4 — CREDENTIALS */
+    .hud-creds {
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .hud-cred-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .58rem; letter-spacing: .1em;
+      color: rgba(255,255,255,.38);
+    }
+    .hud-cred-dot {
+      width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,20,147,.6);
+    }
+
+    @media (max-width: 640px) {
+      .hud-module-hide-sm { display: none; }
+      .hud-module { padding: 10px 14px; }
+    }
 
   </style>
 </head>
@@ -1078,23 +1210,57 @@
       <div class="reticle-corner rc-br"></div>
     </div>
 
-    <div id="hero-eyebrow" style="opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;margin-bottom:1.5rem;">
-      <div class="hero-status-bar">
-        <span class="hero-status-dot"></span>
-        <span>SYSTEM ONLINE</span>
-        <span class="hero-status-sep">|</span>
-        <span>ZA-BASED OPERATOR</span>
-        <span class="hero-status-sep">|</span>
-        <span>INDEPENDENT &middot; ETHICAL &middot; EFFECTIVE</span>
+    <div id="hero-eyebrow" style="opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;margin-bottom:1.8rem;">
+      <div class="operator-hud" style="position:relative;">
+
+        <!-- Module 1: System status -->
+        <div class="hud-module">
+          <span class="hud-status-dot"></span>
+          <div>
+            <span class="hud-status-label">SYS STATUS</span>
+            <span class="hud-status-value">ONLINE</span>
+          </div>
+        </div>
+
+        <!-- Module 2: Location -->
+        <div class="hud-module">
+          <i class="fas fa-location-dot hud-loc-icon"></i>
+          <div>
+            <span class="hud-loc-label">OPERATOR</span>
+            <span class="hud-loc-value">SOUTH AFRICA</span>
+          </div>
+        </div>
+
+        <!-- Module 3: Live uptime counter -->
+        <div class="hud-module hud-module-hide-sm">
+          <i class="fas fa-clock hud-uptime-icon"></i>
+          <div>
+            <span class="hud-uptime-label">SESSION</span>
+            <span class="hud-uptime-value" id="hud-uptime">00:00:00</span>
+          </div>
+        </div>
+
+        <!-- Module 4: Credentials -->
+        <div class="hud-module hud-module-hide-sm">
+          <div class="hud-creds">
+            <div class="hud-cred-item"><span class="hud-cred-dot"></span>INDEPENDENT</div>
+            <div class="hud-cred-item"><span class="hud-cred-dot"></span>ETHICAL</div>
+            <div class="hud-cred-item"><span class="hud-cred-dot"></span>EFFECTIVE</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div id="hero-h1-wrap" style="opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease;margin-bottom:1.5rem;">
-      <h1 class="font-display font-black leading-none tracking-tight hero-headline">
-        <span id="ink-headline" style="position:relative;">
-          <span class="ink-word" data-text="WE" style="margin-right:.22em">WE</span><span class="ink-word" data-text="THINK" style="margin-right:.22em">THINK</span><span class="ink-word" data-text="LIKE" style="margin-right:.22em">LIKE</span><span class="ink-word" data-text="CRIMINALS.">CRIMINALS.</span>
-          <br>
-          <span class="ink-word neon-pink" data-text="WE" style="margin-right:.22em">WE</span><span class="ink-word neon-pink" data-text="WORK" style="margin-right:.22em">WORK</span><span class="ink-word neon-pink" data-text="FOR" style="margin-right:.22em">FOR</span><span class="ink-word neon-pink" data-text="YOU.">YOU.</span>
+    <div id="hero-h1-wrap" style="opacity:1;margin-bottom:1.5rem;position:relative;">
+      <!-- Laser sweep line -->
+      <div id="draw-laser"></div>
+      <h1 class="font-display font-black leading-none tracking-tight hero-headline" id="draw-headline">
+        <span id="draw-line1" style="display:block;margin-bottom:.08em;">
+          <span class="draw-word" style="margin-right:.22em;position:relative;">WE</span><span class="draw-word" style="margin-right:.22em;position:relative;">THINK</span><span class="draw-word" style="margin-right:.22em;position:relative;">LIKE</span><span class="draw-word" style="position:relative;">CRIMINALS.</span>
+        </span>
+        <span id="draw-line2" class="neon-pink" style="display:block;">
+          <span class="draw-word neon-pink" style="margin-right:.22em;position:relative;">WE</span><span class="draw-word neon-pink" style="margin-right:.22em;position:relative;">WORK</span><span class="draw-word neon-pink" style="margin-right:.22em;position:relative;">FOR</span><span class="draw-word neon-pink" style="position:relative;">YOU.</span>
         </span>
       </h1>
     </div>
@@ -2269,64 +2435,140 @@
   // ── GSAP ─────────────────────────────────────
   gsap.registerPlugin(ScrollTrigger);
 
-  // ══ INK BLEED HERO ════════════════════════════════════════════
+  // ══ LINE DRAW REVEAL ══════════════════════════════════════════
   (function() {
-    function showEl(id, delay) {
+
+    function showEl(id, delay, fromY) {
       setTimeout(function() {
         var el = document.getElementById(id);
         if (!el) return;
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
+        el.style.transition = 'opacity .55s ease, transform .55s ease';
+        el.style.opacity    = '1';
+        el.style.transform  = 'translateY(0)';
       }, delay);
     }
-    window.addEventListener('load', function() {
-      // Watermark + reticle
-      setTimeout(function() {
-        var wm = document.getElementById('hero-watermark-img');
-        if (wm) wm.classList.add('visible');
-        var rt = document.getElementById('hero-reticle');
-        if (rt) rt.classList.add('visible');
-      }, 60);
 
-      showEl('hero-eyebrow', 150);
+    // Watermark + reticle
+    setTimeout(function() {
+      var wm = document.getElementById('hero-watermark-img');
+      if (wm) wm.classList.add('visible');
+      var rt = document.getElementById('hero-reticle');
+      if (rt) rt.classList.add('visible');
+    }, 50);
 
-      // Headline: words stagger at 90ms each — tight and punchy
-      setTimeout(function() {
-        var wrap = document.getElementById('hero-h1-wrap');
-        if (wrap) { wrap.style.opacity='1'; wrap.style.transform='translateY(0)'; }
-        var words = document.querySelectorAll('.ink-word');
-        words.forEach(function(w, i) {
-          setTimeout(function() { w.classList.add('bleeding'); }, i * 90);
+    // Status pill
+    showEl('hero-eyebrow', 80);
+
+    // ── LASER LINE DRAW ──────────────────────────────────────────
+    setTimeout(function() {
+
+      var headline = document.getElementById('draw-headline');
+      var laser    = document.getElementById('draw-laser');
+      var words    = document.querySelectorAll('.draw-word');
+      if (!headline || !laser || !words.length) return;
+
+      var hRect    = headline.getBoundingClientRect();
+      var hWidth   = hRect.width;
+
+      // Duration the laser takes to cross the full headline width
+      // ~600px at 1000px/s feels cinematic but not slow
+      var SWEEP_MS  = Math.max(520, Math.min(hWidth, 900));
+      var SWEEP_PPS = hWidth / (SWEEP_MS / 1000); // pixels per second
+
+      // Reveal each word when the laser reaches its left edge
+      words.forEach(function(w) {
+        var wRect   = w.getBoundingClientRect();
+        var relLeft = wRect.left - hRect.left;
+        // Small head-start so text appears slightly before laser tip
+        var delay   = Math.max(0, (relLeft / SWEEP_PPS) * 1000 - 60);
+        setTimeout(function() { w.classList.add('revealed'); }, delay);
+      });
+
+      // Animate the laser: translateX from 0 → hWidth
+      laser.style.opacity   = '1';
+      laser.style.transition =
+        'transform ' + SWEEP_MS + 'ms linear, opacity 80ms ease';
+      // Use rAF so transition picks up after opacity is painted
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          laser.style.transform = 'translateX(' + hWidth + 'px) translateZ(0)';
         });
-      }, 200);
+      });
 
-      // Line 1 done at ~200 + 3*90 + 750 = ~1220ms
-      // Line 2 done at ~200 + 7*90 + 750 = ~1580ms
-      showEl('hero-sub',   1380);
-
+      // Fade laser out just before it exits frame
       setTimeout(function() {
-        var monoEl = document.getElementById('hero-mono');
-        var textEl = document.getElementById('hero-mono-text');
-        if (!monoEl || !textEl) return;
-        monoEl.style.opacity = '1';
-        var full = '> target.acquire() → scope.confirm() → attack.simulate() → report.generate() → threat.eliminated';
-        var c = 0;
-        var iv = setInterval(function() {
-          textEl.textContent = full.slice(0, c++);
-          if (c > full.length) clearInterval(iv);
-        }, 18);
-      }, 1550);
+        laser.style.transition = 'opacity 180ms ease';
+        laser.style.opacity    = '0';
+      }, SWEEP_MS - 100);
 
-      showEl('hero-btns',  1850);
-      showEl('hero-stats', 2050);
+    }, 220);
+    // ── END LASER ────────────────────────────────────────────────
 
-      setTimeout(function() {
-        var sc = document.getElementById('hero-scroll');
-        if (sc) sc.style.opacity = '.3';
-      }, 2400);
-    });
+    // Cascade rest of page
+    var SWEEP_END = 900; // conservative: laser done by ~900ms
+
+    // Sub copy
+    setTimeout(function() {
+      var el = document.getElementById('hero-sub');
+      if (!el) return;
+      el.style.transition = 'opacity .5s ease, transform .5s ease';
+      el.style.opacity    = '1';
+      el.style.transform  = 'translateY(0)';
+    }, SWEEP_END + 80);
+
+    // Typewriter mono
+    setTimeout(function() {
+      var monoEl = document.getElementById('hero-mono');
+      var textEl = document.getElementById('hero-mono-text');
+      if (!monoEl || !textEl) return;
+      monoEl.style.opacity = '1';
+      var full = '> target.acquire() \u2192 scope.confirm() \u2192 attack.simulate() \u2192 report.generate() \u2192 threat.eliminated';
+      var c = 0;
+      var iv = setInterval(function() {
+        textEl.textContent = full.slice(0, c++);
+        if (c > full.length) clearInterval(iv);
+      }, 16);
+    }, SWEEP_END + 220);
+
+    setTimeout(function() {
+      var el = document.getElementById('hero-btns');
+      if (!el) return;
+      el.style.transition = 'opacity .5s ease, transform .5s ease';
+      el.style.opacity    = '1';
+      el.style.transform  = 'translateY(0)';
+    }, SWEEP_END + 480);
+
+    setTimeout(function() {
+      var el = document.getElementById('hero-stats');
+      if (!el) return;
+      el.style.transition = 'opacity .5s ease, transform .5s ease';
+      el.style.opacity    = '1';
+      el.style.transform  = 'translateY(0)';
+    }, SWEEP_END + 680);
+
+    setTimeout(function() {
+      var sc = document.getElementById('hero-scroll');
+      if (sc) sc.style.opacity = '.3';
+    }, SWEEP_END + 1000);
+
   })();
-  // ══ END INK BLEED ══════════════════════════════════════════════
+  // ══ END LINE DRAW ══════════════════════════════════════════════
+
+  // ── HUD UPTIME COUNTER ──────────────────────────────────────────
+  (function() {
+    var start = Date.now();
+    var el    = document.getElementById('hud-uptime');
+    if (!el) return;
+    function pad(n) { return n < 10 ? '0' + n : n; }
+    setInterval(function() {
+      var s = Math.floor((Date.now() - start) / 1000);
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      el.textContent = pad(h) + ':' + pad(m) + ':' + pad(sec);
+    }, 1000);
+  })();
+  // ── END HUD UPTIME ──────────────────────────────────────────────
 
   gsap.utils.toArray('.gsap-card').forEach((card,i)=>{
     gsap.fromTo(card,{y:60,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',
