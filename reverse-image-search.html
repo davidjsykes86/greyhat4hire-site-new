@@ -24,14 +24,100 @@
     .glass-g{background:var(--green-faint);backdrop-filter:blur(20px);border:1px solid var(--gb);transition:all .3s ease}
     .glass-g:hover{border-color:var(--gbs);box-shadow:0 0 40px rgba(0,255,136,.1)}
     .glass-d{background:rgba(4,4,4,.95);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.25)}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .4s ease;padding:18px 24px}
-    .nav-s{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1)}
-    .nl{font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;text-decoration:none;position:relative;transition:all .3s ease}
-    .nl::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease}
-    .nl:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493}.nl:hover::after{width:100%}
-    .np{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.8)}
-    .ng{color:var(--green);text-shadow:0 0 28px rgba(0,255,136,.8)}
-    .ngd{color:rgba(0,255,136,.7)}
+
+    /* ── NAV ── */
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96)!important;backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;text-decoration:none;}
+    .desktop-link:hover{color:#ff69b4!important;text-shadow:0 0 20px #ff1493;}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .desktop-link:hover::after{width:100%;}
+    .desktop-link.active{color:#ff1493!important;}
+    .desktop-link.active::after{width:100%;}
+
+    /* ── MOBILE MENU ── */
+    #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;display:block;}
+
+    /* ── TOOLS DROPDOWN ── */
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+      font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+      cursor:none;transition:all .3s ease;padding:0;position:relative;
+    }
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{
+      width:6px;height:6px;border-radius:50%;background:#ff1493;
+      animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+    }
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{
+      position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+      width:360px;
+      background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+      border:1px solid rgba(255,20,147,.35);border-radius:20px;
+      padding:12px;
+      opacity:0;pointer-events:none;
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      z-index:200;
+      box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+    }
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{
+      opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+    }
+    .tools-dropdown-panel::before{
+      content:'';position:absolute;top:-6px;left:50%;
+      width:12px;height:12px;background:rgba(4,4,4,.97);
+      border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);
+      transform:translateX(-50%) rotate(45deg);
+    }
+    .tool-nav-item{
+      display:flex;align-items:center;gap:14px;
+      padding:14px 16px;border-radius:14px;
+      text-decoration:none;
+      transition:all .25s ease;
+      border:1px solid transparent;
+    }
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+    .tool-nav-icon{
+      width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+      transition:all .3s ease;
+    }
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+
+    /* ── MOBILE TOOL LINKS ── */
+    .mobile-tool-link{
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+      text-decoration:none;color:#e0e0e0;
+    }
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+    /* ── BUTTONS ── */
+    .btn-primary{
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      transition:all .3s ease;text-decoration:none;
+    }
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+
     .uz{border:2px dashed var(--gb);border-radius:20px;background:var(--green-faint);backdrop-filter:blur(12px);transition:all .3s ease;cursor:none;position:relative;overflow:hidden}
     .uz:hover,.uz.dov{border-color:var(--green);background:rgba(0,255,136,.1);box-shadow:0 0 60px rgba(0,255,136,.15)}
     .ui{background:rgba(0,0,0,.6);border:1px solid var(--gb);border-radius:12px;color:#e0e0e0;font-family:'Share Tech Mono',monospace;font-size:.875rem;outline:none;transition:all .3s ease;width:100%;padding:13px 16px}
@@ -96,7 +182,6 @@
     .cite span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .raw{font-family:'Share Tech Mono',monospace;font-size:.78rem;line-height:1.8;color:rgba(255,255,255,.68);white-space:pre-wrap;word-break:break-word}
     .raw strong,.raw b{color:var(--green)}
-    /* forensics card */
     .forensic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
     .forensic-item{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,136,.1);border-radius:10px;padding:10px 12px;transition:all .3s}
     .forensic-item:hover{border-color:rgba(0,255,136,.3)}
@@ -104,18 +189,16 @@
     .forensic-value{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.7);word-break:break-all}
     .hash-value{font-size:.62rem;color:rgba(0,255,136,.6);cursor:pointer;transition:color .2s}
     .hash-value:hover{color:var(--green)}
-    /* budget bar */
     .budget-bar{height:4px;border-radius:999px;background:rgba(255,176,32,.12);overflow:hidden;width:100%}
     .budget-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--amber));border-radius:999px;transition:width .5s ease}
     .budget-fill.danger{background:linear-gradient(90deg,var(--amber),var(--pink))}
-    /* streaming cursor */
     @keyframes streamBlink{0%,100%{opacity:1}50%{opacity:0}}
     .stream-cursor::after{content:'█';animation:streamBlink .6s infinite;color:var(--green);margin-left:2px}
-  
+
     /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
-    @media (hover: none), (pointer: coarse) {
-      #cur, #cur2 { display: none !important; }
-      body { cursor: auto !important; }
+    @media(hover:none),(pointer:coarse){
+      #cur,#cur2{display:none!important;}
+      body{cursor:auto!important;}
     }
   </style>
 </head>
@@ -124,19 +207,146 @@
 <div id="cur"></div><div id="cur2"></div>
 <div id="toast"></div>
 
-<!-- NAV -->
-<nav id="nav">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <a href="/" class="fd text-sm font-bold tracking-widest flex items-center gap-3" style="text-decoration:none;cursor:none">
-      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(255,20,147,.25),rgba(255,20,147,.08));border:1px solid rgba(255,20,147,.3);display:flex;align-items:center;justify-content:center"><i class="fas fa-shield-halved" style="color:var(--pink);font-size:.7rem"></i></div>
-      <span class="np" style="font-size:.85rem">GREYHAT<span style="color:#e0e0e0;text-shadow:none">4HIRE</span></span>
+<!-- WhatsApp Float -->
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
-    <div class="flex items-center gap-5">
-      <a href="/tools" class="nl">TOOLS</a><a href="/#services" class="nl">SERVICES</a><a href="/#contact" class="nl">CONTACT</a>
-      <div class="flex items-center gap-2"><div class="pdot"></div><span class="fm" style="font-size:.7rem;color:rgba(0,255,136,.65)">LIVE</span></div>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);">
+              <i class="fas fa-file-circle-exclamation"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);">
+              <i class="fas fa-bug-slash"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Vulnerability Intelligence</div>
+              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+            </div>
+          </a>
+
+          <a href="reverse-image-search.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);">
+              <i class="fas fa-image"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div>
+              <div class="tool-nav-name">Reverse Image Search</div>
+              <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
     </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:pointer;background:none;border:none;">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </nav>
+
+<!-- ══ MOBILE MENU ══ -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;background:none;border:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html" class="mobile-tool-link">
+      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+      <span style="font-size:1rem;">Risk Self-Assessment</span>
+    </a>
+    <a href="hackers-dossier.html" class="mobile-tool-link">
+      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+      <span style="font-size:1rem;">Hacker's Dossier</span>
+    </a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link">
+      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+      <span style="font-size:1rem;">Breach Cost Clock</span>
+    </a>
+    <a href="vuln-lookup.html" class="mobile-tool-link">
+      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
+      <span style="font-size:1rem;">Vulnerability Intelligence</span>
+    </a>
+    <a href="reverse-image-search.html" class="mobile-tool-link">
+      <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
+      <span style="font-size:1rem;">Reverse Image Search</span>
+    </a>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
 
 <main class="relative z-10 pt-28 pb-24 px-4 max-w-5xl mx-auto">
 
@@ -282,7 +492,6 @@
     <!-- RESULTS -->
     <div id="rpanel" style="display:none">
 
-      <!-- Forensics pre-scan -->
       <div id="r-forensics" class="glass-g rounded-3xl p-6 mb-5" style="display:none">
         <div class="flex items-center gap-3 mb-4">
           <span class="stag" style="background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.2);color:var(--amber)"><i class="fas fa-fingerprint"></i>FILE FORENSICS</span>
@@ -290,7 +499,6 @@
         <div class="forensic-grid" id="r-forensic-grid"></div>
       </div>
 
-      <!-- Vision -->
       <div class="glass-g rounded-3xl p-6 mb-5">
         <div class="flex items-center gap-3 mb-4">
           <span class="stag" style="background:rgba(0,255,136,.08);border:1px solid var(--gb);color:var(--green)"><i class="fas fa-eye"></i>WHAT THE AI SEES</span>
@@ -298,7 +506,6 @@
         <div id="r-vision" class="raw"></div>
       </div>
 
-      <!-- Sources -->
       <div class="glass-g rounded-3xl p-6 mb-5">
         <div class="flex items-center justify-between mb-4">
           <span class="stag" style="background:rgba(0,255,136,.08);border:1px solid var(--gb);color:var(--green)"><i class="fas fa-crosshairs"></i>SOURCES &amp; URLS FOUND</span>
@@ -308,7 +515,6 @@
         <div id="r-nosrc" style="display:none" class="fm text-xs" style="color:rgba(255,255,255,.28)">No direct URLs identified. Image may be original, private, or too obscure for web search.</div>
       </div>
 
-      <!-- Queries -->
       <div class="glass-g rounded-3xl p-6 mb-5">
         <div class="flex items-center gap-3 mb-4">
           <span class="stag" style="background:rgba(255,20,147,.07);border:1px solid rgba(255,20,147,.2);color:var(--pink)"><i class="fas fa-terminal"></i>SEARCH QUERIES EXECUTED</span>
@@ -316,7 +522,6 @@
         <div id="r-q" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <!-- Summary -->
       <div class="glass-d rounded-3xl p-6 mb-5" style="border-color:rgba(255,20,147,.2)">
         <div class="flex items-center gap-3 mb-4">
           <span class="stag" style="background:rgba(255,20,147,.07);border:1px solid rgba(255,20,147,.2);color:var(--pink)"><i class="fas fa-brain"></i>INTELLIGENCE SUMMARY</span>
@@ -324,7 +529,6 @@
         <div id="r-sum" class="raw"></div>
       </div>
 
-      <!-- Raw -->
       <div class="glass rounded-2xl p-4 mb-5" style="border-color:rgba(255,255,255,.07)">
         <details>
           <summary>FULL RAW RESPONSE</summary>
@@ -368,70 +572,65 @@
 </main>
 
 <footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
-
-        <div class="lg:col-span-1">
-          <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
-            onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-          <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
-          <div class="flex gap-4">
-            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
-            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="fd text-white text-sm tracking-widest mb-5">SERVICES</h3>
-          <ul class="space-y-3">
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="fd text-white text-sm tracking-widest mb-5">COMPANY</h3>
-          <ul class="space-y-3">
-            <li><a href="index.html#about" class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
-            <li><a href="index.html#industries" class="text-gray-500 hover:text-pink-400 transition text-sm">Industries</a></li>
-            <li><a href="cyber-awareness.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
-            <li><a href="pricing.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
-            <li><a href="contact.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="fd text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
-          <ul class="space-y-3">
-            <li><a href="/cdn-cgi/l/email-protection#90f9fef6ffd0f7e2f5e9f8f1e4a4f8f9e2f5bef3fffd" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i><span class="__cf_email__" data-cfemail="274e494148674055425e4f4653134f4e55420944484a">[email&#160;protected]</span></a></li>
-            <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i>+27 84 635 3581</a></li>
-            <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i>WhatsApp Chat</a></li>
-          </ul>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
-
-      <div class="border-t border-gray-800 pt-8">
-        <div class="glass p-5 rounded-2xl mb-8">
-          <div class="flex items-start gap-3">
-            <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
-            <p class="text-sm text-gray-400">
-              <span class="fd text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection. Images sent only to Anthropic API · No storage · POPIA compliant.
-            </p>
-          </div>
-        </div>
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
-          <p>© 2026 Greyhat4Hire. All rights reserved.</p>
-          <p class="fd text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
-        </div>
+      <div>
+        <h3 class="fd text-white text-sm tracking-widest mb-5">SERVICES</h3>
+        <ul class="space-y-3">
+          <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
+          <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
+          <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
+          <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
+          <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="fd text-white text-sm tracking-widest mb-5">COMPANY</h3>
+        <ul class="space-y-3">
+          <li><a href="index.html#about" class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
+          <li><a href="index.html#industries" class="text-gray-500 hover:text-pink-400 transition text-sm">Industries</a></li>
+          <li><a href="cyber-awareness.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="pricing.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
+          <li><a href="contact.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="fd text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
+        <ul class="space-y-3">
+          <li><a href="mailto:info@greyhat4hire.com" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i>info@greyhat4hire.com</a></li>
+          <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i>WhatsApp Chat</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="glass p-5 rounded-2xl mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+          <p class="text-sm text-gray-400">
+            <span class="fd text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection. Images sent only to Anthropic API · No storage · POPIA compliant.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="fd text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── CURSOR ──────────────────────────────────────────
 const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 document.addEventListener('mousemove',function(e){
@@ -440,10 +639,24 @@ document.addEventListener('mousemove',function(e){
   cur2.style.left=e.clientX+'px';
   cur2.style.top=e.clientY+'px';
 });
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-s',scrollY>40));
+
+// ── NAV SCROLL ──────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+// ── MOBILE MENU ─────────────────────────────────────
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobile-menu');
+const closeMenuBtn=document.getElementById('close-menu');
+
+function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(()=>mobileMenu.classList.add('open'),10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);}
+
+hamburger.addEventListener('click',openMenu);
+closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(l=>l.addEventListener('click',closeMenu));
 
 // ── CONFIG ──────────────────────────────────────────
-const PROXY_URL='/api/analyze';      // our Cloudflare Function proxy
+const PROXY_URL='/api/analyze';
 const MODEL='claude-sonnet-4-5-20250929';
 const MAX_TOKENS=4096;
 
@@ -483,8 +696,7 @@ async function procFile(file){
   r.onload=async ev=>{
     imgMime=file.type;imgB64=ev.target.result.split(',')[1];imgUrl=null;
     showPreview(ev.target.result,file.name,fmtBytes(file.size),file.type.split('/')[1].toUpperCase());
-    // run client-side forensics
-    await runForensics(file, ev.target.result);
+    await runForensics(file,ev.target.result);
   };
   r.readAsDataURL(file);
 }
@@ -510,7 +722,6 @@ async function capFrame(){
   imgMime='image/jpeg';imgB64=c.toDataURL('image/jpeg',.92).split(',')[1];imgUrl=null;
   const name=`frame_${(v.currentTime*1000).toFixed(0)}ms.jpg`;
   showPreview('data:image/jpeg;base64,'+imgB64,name,fmtBytes(c.width*c.height*3*.5),'JPEG FRAME');
-  // generate forensics from the frame data
   forensicData={dimensions:`${c.width} × ${c.height}`,source:'Video Frame Capture',note:'EXIF not available for captured frames'};
   renderForensics();
 }
@@ -535,15 +746,12 @@ function showPreview(src,name,size,type){
 }
 
 // ── CLIENT-SIDE FORENSICS ───────────────────────────
-async function runForensics(file, dataUrl){
+async function runForensics(file,dataUrl){
   forensicData={};
-  // file basics
   forensicData.fileName=file.name;
   forensicData.fileSize=fmtBytes(file.size);
   forensicData.mimeType=file.type;
   forensicData.lastModified=file.lastModified?new Date(file.lastModified).toISOString().replace('T',' ').slice(0,19)+' UTC':'Unknown';
-
-  // image dimensions
   const img=new Image();
   img.onload=()=>{
     forensicData.dimensions=img.naturalWidth+' × '+img.naturalHeight;
@@ -551,16 +759,12 @@ async function runForensics(file, dataUrl){
     renderForensics();
   };
   img.src=dataUrl;
-
-  // SHA-256 hash
   try{
     const buf=await file.arrayBuffer();
     const hashBuf=await crypto.subtle.digest('SHA-256',buf);
     const hashArr=Array.from(new Uint8Array(hashBuf));
     forensicData.sha256=hashArr.map(b=>b.toString(16).padStart(2,'0')).join('');
   }catch(e){forensicData.sha256='Unavailable'}
-
-  // basic EXIF extraction (lightweight, no library needed)
   try{
     const exif=await extractBasicExif(file);
     if(exif){
@@ -571,17 +775,14 @@ async function runForensics(file, dataUrl){
       if(exif.gps)forensicData.gps=exif.gps;
     }
   }catch(e){}
-
   renderForensics();
 }
 
-// Lightweight EXIF parser — reads APP1 marker from JPEG
 async function extractBasicExif(file){
   if(!file.type.includes('jpeg')&&!file.type.includes('jpg'))return null;
   const buf=await file.slice(0,128*1024).arrayBuffer();
   const view=new DataView(buf);
   if(view.getUint16(0)!==0xFFD8)return null;
-
   let offset=2;
   while(offset<view.byteLength-4){
     const marker=view.getUint16(offset);
@@ -598,15 +799,12 @@ async function extractBasicExif(file){
 
 function parseExifSegment(buf){
   const view=new DataView(buf);
-  // check for "Exif\0\0"
   const exifHeader=String.fromCharCode(view.getUint8(0),view.getUint8(1),view.getUint8(2),view.getUint8(3));
   if(exifHeader!=='Exif')return null;
-
   const tiffOffset=6;
-  const le=view.getUint16(tiffOffset)===0x4949; // little endian?
+  const le=view.getUint16(tiffOffset)===0x4949;
   const g16=(o)=>le?view.getUint16(tiffOffset+o,true):view.getUint16(tiffOffset+o,false);
   const g32=(o)=>le?view.getUint32(tiffOffset+o,true):view.getUint32(tiffOffset+o,false);
-
   const result={};
   try{
     const ifdOffset=g32(4);
@@ -617,8 +815,7 @@ function parseExifSegment(buf){
       const type=g16(entryOffset+2);
       const count=g32(entryOffset+4);
       const valOffset=g32(entryOffset+8);
-
-      if(type===2){ // ASCII string
+      if(type===2){
         const strOff=count>4?valOffset:entryOffset+8;
         let str='';
         for(let j=0;j<count-1&&tiffOffset+strOff+j<view.byteLength;j++){
@@ -629,10 +826,7 @@ function parseExifSegment(buf){
         if(tag===0x0132)result.dateTime=str.trim();
         if(tag===0x0131)result.software=str.trim();
       }
-      // GPS IFD pointer
-      if(tag===0x8825){
-        result.gps='GPS data present (detailed extraction requires full parser)';
-      }
+      if(tag===0x8825)result.gps='GPS data present (detailed extraction requires full parser)';
     }
   }catch(e){}
   return Object.keys(result).length?result:null;
@@ -642,7 +836,6 @@ function renderForensics(){
   const grid=document.getElementById('forensic-grid');
   const rgrid=document.getElementById('r-forensic-grid');
   grid.innerHTML='';
-
   const items=[
     {label:'DIMENSIONS',value:forensicData.dimensions,icon:'fa-expand'},
     {label:'MEGAPIXELS',value:forensicData.megapixels,icon:'fa-th'},
@@ -655,7 +848,6 @@ function renderForensics(){
     {label:'SOFTWARE',value:forensicData.software,icon:'fa-code'},
     {label:'GPS',value:forensicData.gps,icon:'fa-map-marker-alt'},
   ].filter(i=>i.value);
-
   items.forEach(item=>{
     const el=document.createElement('div');
     el.className='forensic-item';
@@ -664,11 +856,8 @@ function renderForensics(){
     el.innerHTML=`<div class="forensic-label"><i class="fas ${item.icon}" style="margin-right:4px"></i>${item.label}</div><div class="${valCls}"${copyAttr}>${item.hash?(item.value.slice(0,16)+'…'+item.value.slice(-8)):item.value}</div>`;
     grid.appendChild(el);
   });
-
   document.getElementById('forensics-card').style.display=items.length?'block':'none';
-
-  // clone into results section
-  if(rgrid){rgrid.innerHTML=grid.innerHTML}
+  if(rgrid)rgrid.innerHTML=grid.innerHTML;
 }
 
 // ── ANALYSIS (STREAMING) ────────────────────────────
@@ -676,19 +865,16 @@ async function runAnalysis(){
   if(!imgB64&&!imgUrl){toast('No image loaded','err');return}
   if(busy)return;
   busy=true;
-
   document.getElementById('apanel').style.display='block';
   document.getElementById('rpanel').style.display='none';
   document.getElementById('abtn').disabled=true;
   document.getElementById('apanel').scrollIntoView({behavior:'smooth',block:'start'});
-
   setPhase(0,'VISION ANALYSIS…');setStream('// Connecting to Anthropic API…');setProgress(5);
 
   const imgBlock=imgB64
     ?{type:'image',source:{type:'base64',media_type:imgMime,data:imgB64}}
     :{type:'image',source:{type:'url',url:imgUrl}};
 
-  // Build forensics context to include in prompt
   let forensicCtx='';
   if(forensicData.sha256)forensicCtx+=`\nFile SHA-256: ${forensicData.sha256}`;
   if(forensicData.dimensions)forensicCtx+=`\nDimensions: ${forensicData.dimensions}`;
@@ -732,21 +918,15 @@ Be thorough and cite every URL you find. Never fabricate URLs.`;
 
   try{
     addStream('// Sending image + OSINT prompt via secure proxy…');setProgress(8);
-
     const resp=await fetch(PROXY_URL,{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-      },
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:MODEL,
-        max_tokens:MAX_TOKENS,
-        stream:true,
+        model:MODEL,max_tokens:MAX_TOKENS,stream:true,
         tools:[{type:'web_search_20250305',name:'web_search',max_uses:8}],
         messages:[{role:'user',content:[imgBlock,{type:'text',text:prompt}]}]
       })
     });
-
     if(!resp.ok){
       const err=await resp.json().catch(()=>({error:{message:resp.statusText}}));
       const msg=err?.error?.message||'HTTP '+resp.status;
@@ -754,56 +934,34 @@ Be thorough and cite every URL you find. Never fabricate URLs.`;
       if(resp.status===502)throw new Error('Could not reach AI backend — try again in a moment');
       throw new Error(msg);
     }
-
-    // Stream the response
     setProgress(12);setPhase(0,'VISION ANALYSIS…');addStream('// Streaming response…');
-
     const reader=resp.body.getReader();
     const decoder=new TextDecoder();
-    let fullText='';
-    let queries=[];
-    let buffer='';
-    let searchCount=0;
-    let textStarted=false;
-    let lastPhase=0;
-
+    let fullText='',queries=[],buffer='',searchCount=0,textStarted=false,lastPhase=0;
     while(true){
       const{done,value}=await reader.read();
       if(done)break;
       buffer+=decoder.decode(value,{stream:true});
-
-      const lines=buffer.split('\n');
-      buffer=lines.pop()||'';
-
+      const lines=buffer.split('\n');buffer=lines.pop()||'';
       for(const line of lines){
         if(!line.startsWith('data: '))continue;
         const data=line.slice(6).trim();
         if(data==='[DONE]')continue;
-
         try{
           const evt=JSON.parse(data);
-
           if(evt.type==='content_block_start'){
             if(evt.content_block?.type==='tool_use'&&evt.content_block?.name==='web_search'){
               searchCount++;
               if(lastPhase<1){lastPhase=1;setPhase(1,'WEB SEARCHES RUNNING…');setProgress(25)}
               addStream(`// Web search #${searchCount} initiated…`);
             }
-            if(evt.content_block?.type==='text'&&!textStarted){
-              textStarted=true;
-              if(lastPhase<0){setPhase(0,'VISION ANALYSIS…');setProgress(15)}
-            }
+            if(evt.content_block?.type==='text'&&!textStarted){textStarted=true}
           }
-
           if(evt.type==='content_block_delta'){
             if(evt.delta?.type==='text_delta'&&evt.delta?.text){
               fullText+=evt.delta.text;
-              // Update the stream display with the latest line
               const lastLine=fullText.split('\n').filter(l=>l.trim()).pop()||'';
               setStream(lastLine.slice(0,120));
-
-              // Phase heuristics
-              if(!textStarted){textStarted=true}
               if(fullText.includes('PHASE 2')||fullText.includes('WEB SEARCH')||searchCount>0){
                 if(lastPhase<1){lastPhase=1;setPhase(1,'WEB SEARCHES RUNNING…')}
               }
@@ -813,51 +971,35 @@ Be thorough and cite every URL you find. Never fabricate URLs.`;
             }
             if(evt.delta?.type==='input_json_delta'&&evt.delta?.partial_json){
               try{
-                // try to extract search query from partial JSON
                 const match=evt.delta.partial_json.match(/"query"\s*:\s*"([^"]+)"/);
                 if(match)queries.push(match[1]);
               }catch(e){}
             }
           }
-
           if(evt.type==='content_block_stop'){
-            if(searchCount>0&&lastPhase<2){
-              setProgress(Math.min(25+searchCount*8,70));
-            }
+            if(searchCount>0&&lastPhase<2)setProgress(Math.min(25+searchCount*8,70));
           }
-
           if(evt.type==='message_delta'){
             if(evt.delta?.stop_reason==='end_turn'){
               setProgress(95);
               if(lastPhase<3){lastPhase=3;setPhase(3,'GENERATING REPORT…')}
             }
           }
-
-          // Extract search queries from tool_use blocks
           if(evt.type==='content_block_start'&&evt.content_block?.type==='tool_use'&&evt.content_block?.input?.query){
             queries.push(evt.content_block.input.query);
           }
-
-        }catch(e){/* skip unparseable SSE lines */}
+        }catch(e){}
       }
     }
-
-    // Extract URLs from full text
     const urlRx=/https?:\/\/[^\s\)>\]"',\n]+/g;
     const urls=[...new Set((fullText.match(urlRx)||[]).filter(u=>!u.includes('anthropic.com')&&u.length>12))];
-
-    // Also extract queries from text if we didn't get them from streaming
-    if(!queries.length){queries=extractQueriesFromText(fullText)}
+    if(!queries.length)queries=extractQueriesFromText(fullText);
     queries=[...new Set(queries)];
-
     addStream(`// ${searchCount} web searches · ${urls.length} URLs found · ${queries.length} queries tracked`);
-    setProgress(100);
-    markPhaseDone();
+    setProgress(100);markPhaseDone();
     document.getElementById('plabel').textContent='ANALYSIS COMPLETE';
     addStream('// Done — rendering intelligence report');
-
     renderResults({fullText,queries,urls});
-
   }catch(e){
     console.error(e);
     document.getElementById('plabel').textContent='ERROR';
@@ -871,7 +1013,6 @@ Be thorough and cite every URL you find. Never fabricate URLs.`;
 
 // ── RENDER RESULTS ──────────────────────────────────
 function renderResults({fullText,queries,urls}){
-  // Vision section — everything before PHASE 3 / report
   const reportIdx=Math.max(
     fullText.indexOf('**ORIGINAL SOURCE'),
     fullText.indexOf('ORIGINAL SOURCE:'),
@@ -880,12 +1021,8 @@ function renderResults({fullText,queries,urls}){
   );
   const visionText=reportIdx>0?fullText.slice(0,reportIdx).trim():fullText;
   document.getElementById('r-vision').innerHTML=fmtTxt(visionText);
-
-  // Summary (intelligence report)
   const sumText=reportIdx>0?fullText.slice(reportIdx):fullText.slice(-1500);
   document.getElementById('r-sum').innerHTML=fmtTxt(sumText);
-
-  // Sources
   const sc=document.getElementById('r-src');sc.innerHTML='';
   if(urls.length){
     urls.forEach(url=>{
@@ -905,8 +1042,6 @@ function renderResults({fullText,queries,urls}){
     document.getElementById('r-nosrc').style.display='block';
     document.getElementById('src-count').textContent='0';
   }
-
-  // Queries
   const qc=document.getElementById('r-q');qc.innerHTML='';
   const qList=queries.length?queries:extractQueriesFromText(fullText);
   if(qList.length){
@@ -920,13 +1055,10 @@ function renderResults({fullText,queries,urls}){
   }else{
     qc.innerHTML='<span class="fm text-xs" style="color:rgba(255,255,255,.28)">Search queries embedded in response above</span>';
   }
-
-  // Show forensics in results if available
   if(forensicData.sha256||forensicData.dimensions){
     document.getElementById('r-forensics').style.display='block';
     document.getElementById('r-forensic-grid').innerHTML=document.getElementById('forensic-grid').innerHTML;
   }
-
   document.getElementById('r-raw').textContent=fullText;
   document.getElementById('rpanel').style.display='block';
   setTimeout(()=>document.getElementById('rpanel').scrollIntoView({behavior:'smooth'}),200);
@@ -981,7 +1113,15 @@ function clearAll(){
 }
 
 // ── UTILS ───────────────────────────────────────────
+function fmtBytes(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB'}
+
+let toastTimer=null;
 function toast(msg,type=''){
   const t=document.getElementById('toast');t.textContent=msg;
   t.className='show'+(type==='err'?' err':'');
-  clearTime
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.className='',3200);
+}
+</script>
+</body>
+</html>
