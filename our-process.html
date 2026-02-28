@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Process — Greyhat4Hire</title>
+  <meta name="description" content="How Greyhat4Hire works — our engagement methodology, ethics framework, and step-by-step process from scoping to certification."/>
+  <link rel="canonical" href="https://greyhat4hire.co.za/our-process.html"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+<style>
+  :root {
+    --pink: #ff1493;
+    --pink-dim: rgba(255,20,147,0.55);
+    --pink-faint: rgba(255,20,147,0.1);
+    --cyan: #00d4ff;
+    --green: #00ff88;
+    --bg: #000;
+  }
+  *{box-sizing:border-box;}
+  html{overflow-x:hidden;scroll-behavior:smooth;}
+  body{
+    font-family:'Rajdhani',system-ui,sans-serif;
+    background:var(--bg);color:#e0e0e0;
+    overflow-x:hidden;cursor:none;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events:none;
+  }
+
+  /* CURSOR */
+  #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;transition:transform .1s ease;}
+  #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+  @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
+
+  /* FONTS */
+  .font-display{font-family:'Orbitron',monospace;}
+  .font-mono{font-family:'Share Tech Mono',monospace;}
+
+  /* GLASS */
+  .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18);}
+  .glass-strong{background:rgba(4,4,4,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.28);}
+
+  /* NEON */
+  .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
+  .neon-cyan{color:var(--cyan);text-shadow:0 0 20px rgba(0,212,255,.7);}
+
+  /* NAV */
+  nav{transition:all .4s ease;}
+  .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+  .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+  .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+  .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+  .desktop-link:hover::after{width:100%;}
+  .desktop-link.active{color:#ff1493;}
+  .desktop-link.active::after{width:100%;}
+  #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+  #mobile-menu.open{transform:translateY(0);}
+  .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+  .tools-dropdown-wrap{position:relative;}
+  .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+  .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+  .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+  .tools-dropdown-btn:hover::after{width:100%;}
+  .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+  .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+  .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+  @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+  .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);}
+  .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+  .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
+  .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+  .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+  .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+  .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+  .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+  .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+  .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+  .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+  .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.06);transition:all .3s;text-decoration:none;color:#e0e0e0;}
+  .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+  /* BUTTONS */
+  .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#c4006e);color:#fff;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:.12em;padding:13px 26px;border:none;cursor:pointer;transition:all .3s;text-decoration:none;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(255,20,147,.7);}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,20,147,.5);color:var(--pink);font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.1em;padding:12px 24px;background:transparent;cursor:pointer;transition:all .3s;text-decoration:none;}
+  .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+  .pulse-glow{animation:pulseGlow 2.4s infinite;}
+  @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.5),0 0 60px rgba(255,20,147,.2)}50%{box-shadow:0 0 70px rgba(255,20,147,1),0 0 130px rgba(255,20,147,.4)}}
+
+  /* DIVIDER */
+  .pink-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);}
+  .gsap-hidden{opacity:0;transform:translateY(40px);}
+
+  /* TOOL TAG */
+  .tool-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.2);color:rgba(255,20,147,.8);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;padding:4px 10px;border-radius:4px;}
+
+  /* ── HERO ── */
+  .hero-bg{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,20,147,.12) 0%,transparent 65%),
+      radial-gradient(ellipse 40% 40% at 20% 80%,rgba(0,212,255,.06) 0%,transparent 50%),
+      radial-gradient(ellipse 40% 30% at 80% 70%,rgba(255,20,147,.05) 0%,transparent 50%);
+  }
+
+  /* ── PHASE TIMELINE ── */
+  .phase-line{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:2px;top:0;bottom:0;
+    background:linear-gradient(180deg,
+      transparent 0%,
+      rgba(255,20,147,.15) 5%,
+      rgba(255,20,147,.35) 50%,
+      rgba(255,20,147,.15) 95%,
+      transparent 100%);
+  }
+  .phase-card{
+    position:relative;
+    background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
+    border:1px solid rgba(255,20,147,.18);
+    transition:all .4s ease;
+  }
+  .phase-card:hover{
+    border-color:rgba(255,20,147,.45);
+    box-shadow:0 0 60px rgba(255,20,147,.12),0 20px 40px rgba(0,0,0,.5);
+    transform:translateY(-4px);
+  }
+  .phase-num{
+    font-family:'Orbitron',monospace;font-weight:900;
+    font-size:4.5rem;line-height:1;
+    background:linear-gradient(180deg,rgba(255,20,147,.25) 0%,transparent 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    position:absolute;top:-10px;right:20px;
+    pointer-events:none;
+  }
+  .phase-dot{
+    width:16px;height:16px;border-radius:50%;
+    background:var(--pink);
+    box-shadow:0 0 20px rgba(255,20,147,.8),0 0 40px rgba(255,20,147,.3);
+    border:2px solid rgba(255,255,255,.2);
+    flex-shrink:0;
+  }
+  .phase-connector{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:2px;height:60px;
+    background:linear-gradient(180deg,rgba(255,20,147,.4),rgba(255,20,147,.1));
+  }
+
+  /* ── ETHICS GRID ── */
+  .ethics-card{
+    background:rgba(4,4,4,.8);
+    border:1px solid rgba(255,255,255,.06);
+    transition:all .35s ease;
+    position:relative;overflow:hidden;
+  }
+  .ethics-card::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,20,147,.04),rgba(0,212,255,.03));
+    opacity:0;transition:opacity .35s;
+  }
+  .ethics-card:hover{border-color:rgba(255,20,147,.3);}
+  .ethics-card:hover::before{opacity:1;}
+
+  /* ── ENGAGEMENT BUILDER (NOVEL FEATURE) ── */
+  #builder{
+    background:rgba(4,4,4,.9);
+    border:1px solid rgba(255,20,147,.3);
+    border-radius:0;
+    position:relative;overflow:hidden;
+  }
+  #builder::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--pink),var(--cyan),var(--pink),transparent);
+    animation:borderFlow 3s linear infinite;
+  }
+  @keyframes borderFlow{
+    0%{background-position:0% 0%;}
+    100%{background-position:200% 0%;}
+  }
+
+  .builder-step{display:none;}
+  .builder-step.active{display:block;}
+
+  .builder-option{
+    background:rgba(255,20,147,.04);
+    border:1px solid rgba(255,20,147,.15);
+    cursor:pointer;transition:all .25s ease;
+    font-family:'Rajdhani',sans-serif;font-weight:600;
+    padding:14px 18px;text-align:left;
+    display:flex;align-items:center;gap:12px;
+  }
+  .builder-option:hover{
+    background:rgba(255,20,147,.1);
+    border-color:rgba(255,20,147,.5);
+    transform:translateX(4px);
+  }
+  .builder-option.selected{
+    background:rgba(255,20,147,.14);
+    border-color:var(--pink);
+    box-shadow:inset 4px 0 0 var(--pink),0 0 20px rgba(255,20,147,.15);
+  }
+  .builder-option .opt-icon{
+    width:36px;height:36px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;
+  }
+
+  .progress-bar{
+    height:3px;background:rgba(255,20,147,.1);
+    margin-bottom:32px;position:relative;
+  }
+  .progress-fill{
+    height:100%;background:linear-gradient(90deg,var(--pink),var(--cyan));
+    transition:width .5s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 12px rgba(255,20,147,.6);
+  }
+  .step-indicator{
+    font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;
+    color:rgba(255,20,147,.5);margin-bottom:8px;
+  }
+  .step-title{
+    font-family:'Orbitron',monospace;font-weight:700;
+    font-size:clamp(.85rem,2vw,1.1rem);color:#fff;
+    margin-bottom:6px;
+  }
+  .step-subtitle{
+    font-size:.9rem;color:#666;margin-bottom:20px;
+    font-family:'Rajdhani',sans-serif;
+  }
+
+  /* RESULT */
+  #builder-result{
+    display:none;
+    background:rgba(0,255,136,.03);
+    border:1px solid rgba(0,255,136,.2);
+    padding:28px;
+  }
+  #result-text{
+    font-family:'Share Tech Mono',monospace;
+    font-size:.82rem;line-height:2;
+    color:#b0b0b0;
+    white-space:pre-wrap;
+  }
+  #result-text .hl{color:var(--green);}
+  #result-text .hl-pink{color:var(--pink);}
+  #result-text .hl-cyan{color:var(--cyan);}
+
+  .copy-btn{
+    font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.1em;
+    padding:10px 20px;background:transparent;
+    border:1px solid rgba(0,255,136,.4);color:rgba(0,255,136,.8);
+    cursor:pointer;transition:all .3s;margin-top:16px;
+  }
+  .copy-btn:hover{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.7);color:var(--green);}
+  .copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.12);}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+  .anim-fadein{animation:fadeUp .5s ease both;}
+  .builder-option{animation:slideIn .3s ease both;}
+
+  /* STAT BADGES */
+  .stat-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.2);
+    padding:8px 16px;
+    font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.08em;
+    color:rgba(255,20,147,.8);
+  }
+
+  /* GUARANTEE CARD */
+  .guarantee{
+    background:linear-gradient(135deg,rgba(0,212,255,.04),rgba(255,20,147,.04));
+    border:1px solid rgba(0,212,255,.2);
+    position:relative;overflow:hidden;
+  }
+  .guarantee::after{
+    content:'';position:absolute;inset:-1px;
+    background:linear-gradient(135deg,rgba(0,212,255,.15),transparent,rgba(255,20,147,.15));
+    opacity:0;transition:opacity .4s;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* SCROLL INDICATOR */
+  @keyframes scrollDown{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(8px);opacity:.4}}
+
+  /* MOBILE */
+  @media(max-width:768px){
+    .phase-line{display:none;}
+    .phase-connector{display:none;}
+  }
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+    </a>
+
+    <div class="hidden lg:flex gap-8 text-sm">
+      <a href="index.html" class="desktop-link">Home</a>
+      <a href="about.html" class="desktop-link">About</a>
+      <a href="services.html" class="desktop-link">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div>
+            <div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score across 12 controls</div></div>
+          </a>
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div>
+            <div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div></div>
+          </a>
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div>
+            <div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick up in real time</div></div>
+          </a>
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div>
+            <div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div></div>
+          </a>
+          <a href="reverse-image-search.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div>
+            <div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div></div>
+          </a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link">Cyber Awareness</a>
+      <a href="pricing.html" class="desktop-link">Pricing</a>
+      <a href="contact.html" class="desktop-link">Contact</a>
+    </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:pointer;">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span style="font-size:1rem;">Risk Self-Assessment</span></a>
+    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span style="font-size:1rem;">Hacker's Dossier</span></a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span style="font-size:1rem;">Breach Cost Clock</span></a>
+    <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span style="font-size:1rem;">Vulnerability Intelligence</span></a>
+    <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span style="font-size:1rem;">Reverse Image Search</span></a>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-24 pb-20 text-center overflow-hidden">
+  <div class="hero-bg"></div>
+
+  <!-- Floating grid lines -->
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
+
+  <div class="relative z-10 max-w-4xl mx-auto" id="hero-content">
+    <div class="gsap-hidden" id="hero-badge">
+      <span class="font-display text-xs tracking-widest" style="color:rgba(255,20,147,.5);letter-spacing:.25em;">◈ OUR METHODOLOGY ◈</span>
+    </div>
+
+    <h1 id="hero-h1" class="gsap-hidden font-display font-black leading-none tracking-tight mt-6 mb-6" style="font-size:clamp(2.8rem,8vw,6.5rem);">
+      <span class="neon-pink">HOW WE</span><br>
+      <span style="color:#fff;">OPERATE</span>
+    </h1>
+
+    <p class="gsap-hidden text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style="font-family:'Rajdhani',sans-serif;font-weight:400;" id="hero-sub">
+      No black boxes. No jargon. Just a clear, documented engagement from your first message to your final certification — with your security, ethics, and business continuity protected at every step.
+    </p>
+
+    <div class="gsap-hidden flex flex-wrap gap-3 justify-center mb-12" id="hero-stats">
+      <span class="stat-badge"><i class="fas fa-shield-check text-pink-400"></i> Ethics-First Approach</span>
+      <span class="stat-badge"><i class="fas fa-file-contract text-pink-400"></i> Signed Authorisation</span>
+      <span class="stat-badge"><i class="fas fa-lock text-pink-400"></i> Full NDA Included</span>
+      <span class="stat-badge"><i class="fas fa-rotate-right text-pink-400"></i> Free Retest Included</span>
+    </div>
+
+    <div class="gsap-hidden flex flex-wrap gap-4 justify-center" id="hero-ctas">
+      <a href="#phases" class="btn-ghost"><i class="fas fa-arrow-down text-xs"></i> See the Phases</a>
+      <a href="#builder" class="btn-primary"><i class="fas fa-wand-magic-sparkles"></i> Build Your Scope</a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-30" style="animation:scrollDown 2s ease infinite;">
+    <div style="width:1px;height:40px;background:linear-gradient(180deg,transparent,var(--pink));"></div>
+    <i class="fas fa-chevron-down text-pink-400 text-xs"></i>
+  </div>
+</section>
+
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+
+<!-- ══════════════════════════════════════════
+     PHASES TIMELINE
+══════════════════════════════════════════ -->
+<section id="phases" class="py-24 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-20 gsap-hidden">
+      <div class="font-display text-xs tracking-widest mb-3" style="color:rgba(255,20,147,.5);letter-spacing:.2em;">THE ENGAGEMENT LIFECYCLE</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Five Phases.<br>Zero Guesswork.</h2>
+      <p class="text-gray-500 max-w-xl mx-auto">Every engagement follows the same disciplined sequence. You always know exactly where we are and what happens next.</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative">
+      <!-- Vertical line (desktop only) -->
+      <div class="phase-line hidden md:block"></div>
+
+      <!-- PHASE 1 -->
+      <div class="relative flex flex-col md:flex-row items-start gap-8 mb-16 gsap-hidden">
+        <div class="md:w-1/2 md:pr-14 md:text-right order-2 md:order-1">
+          <div class="phase-card p-8 rounded-none relative">
+            <span class="phase-num">01</span>
+            <div class="font-display text-xs tracking-widest mb-2" style="color:rgba(0,212,255,.6);letter-spacing:.15em;">DISCOVERY &amp; SCOPING</div>
+            <h3 class="font-display font-bold text-white text-xl mb-4">We Listen First</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">Before a single packet is sent, we understand your environment, your concerns, and your compliance obligations. We define exact scope — what's in, what's out, and why.</p>
+            <div class="flex flex-wrap gap-2 md:justify-end">
+              <span class="tool-tag">Kick-off Call</span>
+              <span class="tool-tag">Asset Inventory</span>
+              <span class="tool-tag">Rules of Engagement</span>
+            </div>
+          </div>
+        </div>
+        <!-- Center dot -->
+        <div class="hidden md:flex items-center justify-center flex-shrink-0 w-4 self-center z-10 order-2">
+          <div class="phase-dot"></div>
+        </div>
+        <div class="md:w-1/2 md:pl-14 order-1 md:order-3 self-center">
+          <div class="font-mono text-xs text-green-400 leading-relaxed opacity-70" style="font-size:.72rem;">
+            <div style="color:rgba(0,212,255,.5);"># Phase 1 — Outputs</div>
+            <div style="color:#333;">─────────────────</div>
+            <div>✓ <span style="color:#ddd;">Signed Statement of Work</span></div>
+            <div>✓ <span style="color:#ddd;">Full NDA &amp; Liability Cover</span></div>
+            <div>✓ <span style="color:#ddd;">Written Authorisation Letter</span></div>
+            <div>✓ <span style="color:#ddd;">Defined Scope Document</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONNECTOR -->
+      <div class="hidden md:flex justify-center mb-4"><div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(255,20,147,.4),rgba(255,20,147,.1));"></div></div>
+
+      <!-- PHASE 2 -->
+      <div class="relative flex flex-col md:flex-row items-start gap-8 mb-16 gsap-hidden">
+        <div class="md:w-1/2 md:pr-14 self-center order-2 md:order-1">
+          <div class="font-mono text-xs leading-relaxed opacity-70 md:text-right" style="font-size:.72rem;">
+            <div style="color:rgba(0,212,255,.5);"># Phase 2 — Methodology</div>
+            <div style="color:#333;">─────────────────</div>
+            <div>→ <span style="color:#ddd;">OSINT &amp; Passive Recon</span></div>
+            <div>→ <span style="color:#ddd;">Network &amp; Port Discovery</span></div>
+            <div>→ <span style="color:#ddd;">Service Fingerprinting</span></div>
+            <div>→ <span style="color:#ddd;">Attack Surface Mapping</span></div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center justify-center flex-shrink-0 w-4 self-center z-10 order-2">
+          <div class="phase-dot"></div>
+        </div>
+        <div class="md:w-1/2 md:pl-14 order-1 md:order-3">
+          <div class="phase-card p-8 rounded-none relative">
+            <span class="phase-num">02</span>
+            <div class="font-display text-xs tracking-widest mb-2" style="color:rgba(0,212,255,.6);letter-spacing:.15em;">RECONNAISSANCE</div>
+            <h3 class="font-display font-bold text-white text-xl mb-4">We Map the Terrain</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">Passive and active intelligence gathering to understand your full attack surface — subdomains, exposed services, leaked credentials, technology stack, and open ports — before any exploitation begins.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">OSINT</span>
+              <span class="tool-tag">Shodan / Censys</span>
+              <span class="tool-tag">DNS Enumeration</span>
+              <span class="tool-tag">Cert Transparency</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden md:flex justify-center mb-4"><div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(255,20,147,.4),rgba(255,20,147,.1));"></div></div>
+
+      <!-- PHASE 3 -->
+      <div class="relative flex flex-col md:flex-row items-start gap-8 mb-16 gsap-hidden">
+        <div class="md:w-1/2 md:pr-14 md:text-right order-2 md:order-1">
+          <div class="phase-card p-8 rounded-none relative">
+            <span class="phase-num">03</span>
+            <div class="font-display text-xs tracking-widest mb-2" style="color:rgba(255,100,0,.7);letter-spacing:.15em;">EXPLOITATION</div>
+            <h3 class="font-display font-bold text-white text-xl mb-4">We Try to Break In</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">Manual, expert-led exploitation of discovered vulnerabilities — the same techniques real attackers use. Every finding is documented with proof-of-concept evidence, impact rating, and business context.</p>
+            <div class="flex flex-wrap gap-2 md:justify-end">
+              <span class="tool-tag" style="border-color:rgba(255,100,0,.3);color:rgba(255,140,0,.8);">Manual Testing</span>
+              <span class="tool-tag" style="border-color:rgba(255,100,0,.3);color:rgba(255,140,0,.8);">Social Engineering</span>
+              <span class="tool-tag" style="border-color:rgba(255,100,0,.3);color:rgba(255,140,0,.8);">CVE Exploitation</span>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center justify-center flex-shrink-0 w-4 self-center z-10 order-2">
+          <div style="width:16px;height:16px;border-radius:50%;background:#ff6600;box-shadow:0 0 20px rgba(255,100,0,.8),0 0 40px rgba(255,100,0,.3);border:2px solid rgba(255,255,255,.2);flex-shrink:0;"></div>
+        </div>
+        <div class="md:w-1/2 md:pl-14 order-1 md:order-3 self-center">
+          <div class="font-mono text-xs leading-relaxed opacity-70" style="font-size:.72rem;">
+            <div style="color:rgba(255,100,0,.6);"># Techniques (if in scope)</div>
+            <div style="color:#333;">─────────────────</div>
+            <div>→ <span style="color:#ddd;">Web App — OWASP Top 10</span></div>
+            <div>→ <span style="color:#ddd;">Network Penetration</span></div>
+            <div>→ <span style="color:#ddd;">Phishing Simulation</span></div>
+            <div>→ <span style="color:#ddd;">Privilege Escalation</span></div>
+            <div>→ <span style="color:#ddd;">Lateral Movement</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden md:flex justify-center mb-4"><div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(255,20,147,.4),rgba(255,20,147,.1));"></div></div>
+
+      <!-- PHASE 4 -->
+      <div class="relative flex flex-col md:flex-row items-start gap-8 mb-16 gsap-hidden">
+        <div class="md:w-1/2 md:pr-14 self-center order-2 md:order-1">
+          <div class="font-mono text-xs leading-relaxed opacity-70 md:text-right" style="font-size:.72rem;">
+            <div style="color:rgba(0,212,255,.5);"># Report Contents</div>
+            <div style="color:#333;">─────────────────</div>
+            <div>✓ <span style="color:#ddd;">Executive Summary</span></div>
+            <div>✓ <span style="color:#ddd;">Risk-Rated Findings</span></div>
+            <div>✓ <span style="color:#ddd;">Proof-of-Concept Evidence</span></div>
+            <div>✓ <span style="color:#ddd;">Step-by-step Remediation</span></div>
+            <div>✓ <span style="color:#ddd;">Compliance Mapping</span></div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center justify-center flex-shrink-0 w-4 self-center z-10 order-2">
+          <div class="phase-dot"></div>
+        </div>
+        <div class="md:w-1/2 md:pl-14 order-1 md:order-3">
+          <div class="phase-card p-8 rounded-none relative">
+            <span class="phase-num">04</span>
+            <div class="font-display text-xs tracking-widest mb-2" style="color:rgba(0,212,255,.6);letter-spacing:.15em;">REPORTING</div>
+            <h3 class="font-display font-bold text-white text-xl mb-4">We Tell You Everything</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">A dual-audience report: a plain-language executive summary for leadership, and a full technical breakdown for your IT team. Every finding includes impact, evidence, and a concrete remediation path.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">PDF Report</span>
+              <span class="tool-tag">CVSS Scoring</span>
+              <span class="tool-tag">Remediation Guide</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden md:flex justify-center mb-4"><div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(255,20,147,.4),rgba(0,255,136,.4));"></div></div>
+
+      <!-- PHASE 5 -->
+      <div class="relative flex flex-col md:flex-row items-start gap-8 gsap-hidden">
+        <div class="md:w-1/2 md:pr-14 md:text-right order-2 md:order-1">
+          <div class="phase-card p-8 rounded-none relative" style="border-color:rgba(0,255,136,.25);">
+            <span class="phase-num" style="color:rgba(0,255,136,.2);">05</span>
+            <div class="font-display text-xs tracking-widest mb-2" style="color:rgba(0,255,136,.6);letter-spacing:.15em;">RETEST &amp; CERTIFICATION</div>
+            <h3 class="font-display font-bold text-white text-xl mb-4">We Verify the Fix</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">After you remediate, we retest every finding at no extra charge. Once confirmed closed, you receive a Certification Report — suitable for clients, auditors, and insurers. The loop is fully closed.</p>
+            <div class="flex flex-wrap gap-2 md:justify-end">
+              <span class="tool-tag" style="border-color:rgba(0,255,136,.3);color:rgba(0,255,136,.8);">Free Retest</span>
+              <span class="tool-tag" style="border-color:rgba(0,255,136,.3);color:rgba(0,255,136,.8);">30-day Support</span>
+              <span class="tool-tag" style="border-color:rgba(0,255,136,.3);color:rgba(0,255,136,.8);">Cert Report</span>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center justify-center flex-shrink-0 w-4 self-center z-10 order-2">
+          <div style="width:16px;height:16px;border-radius:50%;background:var(--green);box-shadow:0 0 20px rgba(0,255,136,.8),0 0 40px rgba(0,255,136,.3);border:2px solid rgba(255,255,255,.2);flex-shrink:0;"></div>
+        </div>
+        <div class="md:w-1/2 md:pl-14 order-1 md:order-3 self-center">
+          <div style="background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);padding:20px 24px;" class="font-mono text-xs leading-relaxed" style="font-size:.72rem;">
+            <div style="color:rgba(0,255,136,.7);font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.1em;margin-bottom:8px;">✓ ENGAGEMENT COMPLETE</div>
+            <div style="color:#555;">────────────────────────</div>
+            <div style="color:#888;margin-top:8px;">Vulnerabilities remediated.</div>
+            <div style="color:#888;">Retest passed.</div>
+            <div style="color:#888;">Certificate issued.</div>
+            <div style="color:rgba(0,255,136,.8);margin-top:8px;">Status: <span style="color:var(--green);">CERTIFIED CLEAN ✓</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+
+<!-- ══════════════════════════════════════════
+     ETHICS FRAMEWORK
+══════════════════════════════════════════ -->
+<section class="py-24 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 gsap-hidden">
+      <div class="font-display text-xs tracking-widest mb-3" style="color:rgba(255,20,147,.5);letter-spacing:.2em;">THE GREYHAT4HIRE STANDARD</div>
+      <h2 class="font-display font-black text-white text-4xl sm:text-5xl mb-4">Ethics Not Optional.<br><span class="neon-pink">Built In.</span></h2>
+      <p class="text-gray-500 max-w-xl mx-auto">We operate in a space where trust is everything. These aren't marketing promises — they're the non-negotiables that govern every single engagement.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="ethics-card p-6 gsap-hidden">
+        <div class="w-12 h-12 flex items-center justify-center mb-4 text-2xl" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2);">
+          <i class="fas fa-file-signature" style="color:var(--pink);"></i>
+        </div>
+        <h4 class="font-display font-bold text-white text-sm mb-3 tracking-wide">Written Authorisation Always</h4>
+        <p class="text-gray-500 text-sm leading-relaxed">We never touch a single system without signed, written permission from the verified owner. No exceptions. This protects you and us legally.</p>
+      </div>
+
+      <div class="ethics-card p-6 gsap-hidden">
+        <div class="w-12 h-12 flex items-center justify-center mb-4 text-2xl" style="background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);">
+          <i class="fas fa-eye-slash" style="color:var(--cyan);"></i>
+        </div>
+        <h4 class="font-display font-bold text-white text-sm mb-3 tracking-wide">Your Data Stays Yours</h4>
+        <p class="text-gray-500 text-sm leading-relaxed">Any data accessed during testing is handled under strict NDA. We document what we touched, and everything is securely deleted post-engagement.</p>
+      </div>
+
+      <div class="ethics-card p-6 gsap-hidden">
+        <div class="w-12 h-12 flex items-center justify-center mb-4 text-2xl" style="background:rgba(255,204,0,.08);border:1px solid rgba(255,204,0,.2);">
+          <i class="fas fa-circle-exclamation" style="color:#ffcc00;"></i>
+        </div>
+        <h4 class="font-display font-bold text-white text-sm mb-3 tracking-wide">Critical Findings Disclosed Immediately</h4>
+        <p class="text-gray-500 text-sm leading-relaxed">If we discover a critical vulnerability mid-engagement, we notify you immediately — we don't wait for the final report while your systems are exposed.</p>
+      </div>
+
+      <div class="ethics-card p-6 gsap-hidden">
+        <div class="w-12 h-12 flex items-center justify-center mb-4 text-2xl" style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);">
+          <i class="fas fa-hand-fist" style="color:var(--green);"></i>
+        </div>
+        <h4 class="font-display font-bold text-white text-sm mb-3 tracking-wide">We Never Go Out of Scope</h4>
+        <p class="text-gray-500 text-sm leading-relaxed">If we encounter something interesting outside the agreed scope, we flag it and ask — we never chase it without explicit approval. Scope creep is a legal and ethical boundary.</p>
+      </div>
+
+      <div class="ethics-card p-6 gsap-hidden">
+        <div class="w-12 h-12 flex items-center justify-center mb-4 text-2xl" style="background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2);">
+          <i class="fas fa-building-shield" style="color:var(--pink);"></i>
+        </div>
+        <h4 class="font-display font-bold text-white text-sm mb-3 tracking-wide">Business Continuity Protected</h4>
+        <p class="text-gray-500 text-sm leading-relaxed">We test in ways that don't bring your systems down. Destructive tests (DoS, data wiping) only happen in isolated environments and only when explicitly contracted.</p>
+      </div>
+
+      <div class="ethics-card p-6 gsap-hidden">
+        <div class="w-12 h-12 flex items-center justify-center mb-4 text-2xl" style="background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);">
+          <i class="fas fa-scale-balanced" style="color:var(--cyan);"></i>
+        </div>
+        <h4 class="font-display font-bold text-white text-sm mb-3 tracking-wide">POPIA &amp; GDPR Compliant</h4>
+        <p class="text-gray-500 text-sm leading-relaxed">Our methodology aligns with South African POPIA and international GDPR requirements. Findings include compliance mapping where relevant.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+
+<!-- ══════════════════════════════════════════
+     ENGAGEMENT BUILDER — NOVEL FEATURE
+══════════════════════════════════════════ -->
+<section id="builder" class="py-24 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="font-display text-xs tracking-widest mb-3" style="color:rgba(0,212,255,.6);letter-spacing:.2em;">◈ INTERACTIVE TOOL ◈</div>
+      <h2 class="font-display font-black text-white text-4xl sm:text-5xl mb-4">
+        Engagement<br><span class="neon-cyan">Scope Builder</span>
+      </h2>
+      <p class="text-gray-500 max-w-lg mx-auto leading-relaxed">Answer 5 quick questions. Get a tailored engagement scope recommendation you can copy straight into your enquiry — no jargon, no guessing.</p>
+    </div>
+
+    <!-- BUILDER WIDGET -->
+    <div id="builder-widget" class="glass-strong p-8 sm:p-10 gsap-hidden" style="border:1px solid rgba(0,212,255,.2);position:relative;overflow:hidden;">
+      <!-- Animated top border -->
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--pink),var(--cyan),transparent);background-size:200% 100%;animation:borderFlow 3s linear infinite;"></div>
+
+      <!-- Progress bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:20%;"></div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="builder-step active" id="step-1">
+        <div class="step-indicator">STEP 01 / 05</div>
+        <div class="step-title">What best describes your organisation?</div>
+        <div class="step-subtitle">This helps us size and scope the engagement appropriately.</div>
+        <div class="space-y-3">
+          <button class="builder-option w-full" onclick="selectOption(1,'SME (1–50 staff)')">
+            <div class="opt-icon">🏢</div>
+            <div><div style="font-weight:700;color:#ddd;">SME (1–50 staff)</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Small business, local operations</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(1,'Mid-Market (50–500 staff)')">
+            <div class="opt-icon">🏬</div>
+            <div><div style="font-weight:700;color:#ddd;">Mid-Market (50–500 staff)</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Multiple departments, IT team present</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(1,'Healthcare / Dental Practice')">
+            <div class="opt-icon">🏥</div>
+            <div><div style="font-weight:700;color:#ddd;">Healthcare / Dental Practice</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Patient data, medical systems</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(1,'Financial Services / Professional Firm')">
+            <div class="opt-icon">💼</div>
+            <div><div style="font-weight:700;color:#ddd;">Financial Services / Professional Firm</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Accountants, attorneys, advisors</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="builder-step" id="step-2">
+        <div class="step-indicator">STEP 02 / 05</div>
+        <div class="step-title">What are you most concerned about?</div>
+        <div class="step-subtitle">Select your primary driver for this engagement.</div>
+        <div class="space-y-3">
+          <button class="builder-option w-full" onclick="selectOption(2,'External threat — someone hacking in from outside')">
+            <div class="opt-icon">🌐</div>
+            <div><div style="font-weight:700;color:#ddd;">External Threat</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Someone hacking in from the internet</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(2,'Internal threat — staff or insider misuse')">
+            <div class="opt-icon">👤</div>
+            <div><div style="font-weight:700;color:#ddd;">Internal Threat</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Staff misuse, insider access abuse</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(2,'Compliance — we need to meet a regulatory requirement')">
+            <div class="opt-icon">📋</div>
+            <div><div style="font-weight:700;color:#ddd;">Compliance</div><div style="font-size:.8rem;color:#555;margin-top:2px;">POPIA, ISO 27001, cyber insurance</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(2,'Post-incident — we had a breach and need assurance')">
+            <div class="opt-icon">🚨</div>
+            <div><div style="font-weight:700;color:#ddd;">Post-Incident</div><div style="font-size:.8rem;color:#555;margin-top:2px;">We had a breach or security scare</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="builder-step" id="step-3">
+        <div class="step-indicator">STEP 03 / 05</div>
+        <div class="step-title">What systems do you want tested?</div>
+        <div class="step-subtitle">Select all that apply — click multiple if needed, then click any to proceed.</div>
+        <div class="space-y-3" id="step3-options">
+          <button class="builder-option w-full" onclick="toggleMulti(this,'Website / Web Application')">
+            <div class="opt-icon">🌍</div>
+            <div><div style="font-weight:700;color:#ddd;">Website / Web Application</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Customer-facing or internal web apps</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="toggleMulti(this,'Internal Network / Office Infrastructure')">
+            <div class="opt-icon">🔌</div>
+            <div><div style="font-weight:700;color:#ddd;">Internal Network</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Servers, workstations, LAN infrastructure</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="toggleMulti(this,'Cloud Services (AWS / Azure / GCP)')">
+            <div class="opt-icon">☁️</div>
+            <div><div style="font-weight:700;color:#ddd;">Cloud Services</div><div style="font-size:.8rem;color:#555;margin-top:2px;">AWS, Azure, Google Cloud environments</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="toggleMulti(this,'Staff — Phishing / Social Engineering Simulation')">
+            <div class="opt-icon">📧</div>
+            <div><div style="font-weight:700;color:#ddd;">Staff Awareness</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Phishing simulation, social engineering test</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="toggleMulti(this,'Mobile Application (iOS / Android)')">
+            <div class="opt-icon">📱</div>
+            <div><div style="font-weight:700;color:#ddd;">Mobile Application</div><div style="font-size:.8rem;color:#555;margin-top:2px;">iOS or Android apps</div></div>
+          </button>
+        </div>
+        <button onclick="confirmMulti()" class="btn-ghost mt-6 w-full justify-center" style="font-size:.7rem;" id="step3-confirm" disabled>
+          <i class="fas fa-arrow-right text-xs"></i> Confirm Selection &amp; Continue
+        </button>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="builder-step" id="step-4">
+        <div class="step-indicator">STEP 04 / 05</div>
+        <div class="step-title">Do you have any compliance requirements?</div>
+        <div class="step-subtitle">This affects report format and evidence standards.</div>
+        <div class="space-y-3">
+          <button class="builder-option w-full" onclick="selectOption(4,'POPIA (South African data protection)')">
+            <div class="opt-icon">🇿🇦</div>
+            <div><div style="font-weight:700;color:#ddd;">POPIA</div><div style="font-size:.8rem;color:#555;margin-top:2px;">South African data protection compliance</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(4,'ISO 27001 or similar certification')">
+            <div class="opt-icon">📜</div>
+            <div><div style="font-weight:700;color:#ddd;">ISO 27001</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Working toward or maintaining certification</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(4,'Cyber insurance requirement')">
+            <div class="opt-icon">🛡️</div>
+            <div><div style="font-weight:700;color:#ddd;">Cyber Insurance</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Insurer is requesting a pentest</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(4,'No specific compliance requirement')">
+            <div class="opt-icon">—</div>
+            <div><div style="font-weight:700;color:#ddd;">No Specific Requirement</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Just want to know our risk posture</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="builder-step" id="step-5">
+        <div class="step-indicator">STEP 05 / 05</div>
+        <div class="step-title">When are you looking to engage?</div>
+        <div class="step-subtitle">Helps us allocate the right capacity and set realistic expectations.</div>
+        <div class="space-y-3">
+          <button class="builder-option w-full" onclick="selectOption(5,'Urgent — within 2 weeks')">
+            <div class="opt-icon">🔴</div>
+            <div><div style="font-weight:700;color:#ddd;">Urgent — within 2 weeks</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Active concern or incident response</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(5,'Soon — within 1 month')">
+            <div class="opt-icon">🟡</div>
+            <div><div style="font-weight:700;color:#ddd;">Soon — within 1 month</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Planning underway, budget approved</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(5,'Planning ahead — 1–3 months')">
+            <div class="opt-icon">🟢</div>
+            <div><div style="font-weight:700;color:#ddd;">Planning Ahead — 1–3 months</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Annual test or scheduled assurance</div></div>
+          </button>
+          <button class="builder-option w-full" onclick="selectOption(5,'Exploratory — just getting quotes')">
+            <div class="opt-icon">🔵</div>
+            <div><div style="font-weight:700;color:#ddd;">Exploratory</div><div style="font-size:.8rem;color:#555;margin-top:2px;">Researching options, no timeline yet</div></div>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /builder-widget -->
+
+    <!-- RESULT -->
+    <div id="builder-result" class="mt-6 p-8 gsap-hidden" style="background:rgba(0,255,136,.03);border:1px solid rgba(0,255,136,.2);">
+      <div class="font-display text-xs tracking-widest mb-4" style="color:rgba(0,255,136,.6);letter-spacing:.15em;">◈ YOUR TAILORED SCOPE RECOMMENDATION</div>
+      <pre id="result-text" style="font-family:'Share Tech Mono',monospace;font-size:.82rem;line-height:2;color:#b0b0b0;white-space:pre-wrap;word-break:break-word;"></pre>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <button class="copy-btn" id="copy-btn" onclick="copyResult()">
+          <i class="fas fa-copy mr-2"></i>Copy to Clipboard
+        </button>
+        <a href="contact.html" class="btn-primary" style="font-size:.72rem;">
+          <i class="fas fa-paper-plane"></i> Send to Greyhat4Hire
+        </a>
+        <button class="btn-ghost" onclick="resetBuilder()" style="font-size:.7rem;">
+          <i class="fas fa-rotate-left text-xs"></i> Start Over
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+
+<!-- ══════════════════════════════════════════
+     GUARANTEE / CTA
+══════════════════════════════════════════ -->
+<section class="py-24 px-4 sm:px-6" style="position:relative;z-index:2;">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="guarantee p-10 sm:p-14 text-center gsap-hidden" style="border:1px solid rgba(0,212,255,.2);">
+      <div class="font-display text-xs tracking-widest mb-4" style="color:rgba(0,212,255,.5);letter-spacing:.2em;">THE GREYHAT4HIRE GUARANTEE</div>
+      <h2 class="font-display font-black text-white text-3xl sm:text-4xl mb-6 leading-tight">
+        If we can't find anything,<br>
+        <span class="neon-pink">we tell you that too.</span>
+      </h2>
+      <p class="text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
+        We don't manufacture findings to justify our fee. A clean bill of health is still an outcome — and your report will document exactly what we tested and why we're confident in the result. That's a document you can show clients and auditors.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="contact.html" class="btn-primary pulse-glow text-sm">
+          <i class="fas fa-shield-alt"></i> Start Your Engagement
+        </a>
+        <a href="pricing.html" class="btn-ghost text-sm">
+          <i class="fas fa-tag text-xs"></i> View Pricing
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="py-12 px-4 sm:px-6 border-t border-pink-900/20" style="position:relative;z-index:2;">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+      <div class="md:col-span-2">
+        <div class="font-display font-black text-lg mb-3" style="color:var(--pink);text-shadow:0 0 18px rgba(255,20,147,.8);">GREY<span style="color:#fff;">HAT</span>4HIRE</div>
+        <p class="text-gray-500 text-sm leading-relaxed max-w-xs">Independent cybersecurity assurance for South African businesses. We breach you before they do.</p>
+      </div>
+      <div>
+        <div class="font-display text-xs tracking-widest mb-4" style="color:rgba(255,20,147,.5);letter-spacing:.15em;">SERVICES</div>
+        <div class="space-y-2">
+          <a href="services.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a>
+          <a href="services.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Risk Assessment</a>
+          <a href="services.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a>
+          <a href="our-process.html" class="block text-gray-400 hover:text-pink-400 transition text-sm">Our Process</a>
+        </div>
+      </div>
+      <div>
+        <div class="font-display text-xs tracking-widest mb-4" style="color:rgba(255,20,147,.5);letter-spacing:.15em;">COMPANY</div>
+        <div class="space-y-2">
+          <a href="about.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">About</a>
+          <a href="pricing.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a>
+          <a href="contact.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Contact</a>
+          <a href="privacy.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="pink-divider mb-6"></div>
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+      <span>© 2025 Greyhat4Hire. All rights reserved.</span>
+      <span style="font-family:'Share Tech Mono',monospace;color:rgba(255,20,147,.3);">// AUTHORISED TESTING ONLY</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// ── CURSOR ──
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+
+// ── NAV ──
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobile-menu');
+const closeMenuBtn=document.getElementById('close-menu');
+hamburger.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');setTimeout(()=>mobileMenu.classList.add('open'),10);});
+closeMenuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);});
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(l=>l.addEventListener('click',()=>{mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);}));
+
+// ── GSAP ANIMATIONS ──
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.gsap-hidden').forEach((el,i)=>{
+  gsap.to(el,{opacity:1,y:0,duration:.7,delay:i%3*0.12,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+});
+
+// ── ENGAGEMENT BUILDER ──
+var answers={};
+var step3selections=[];
+var currentStep=1;
+const totalSteps=5;
+
+function selectOption(step, value){
+  answers[step]=value;
+  nextStep(step);
+}
+
+function toggleMulti(btn, value){
+  btn.classList.toggle('selected');
+  if(btn.classList.contains('selected')){
+    if(!step3selections.includes(value)) step3selections.push(value);
+  } else {
+    step3selections=step3selections.filter(v=>v!==value);
+  }
+  var confirmBtn=document.getElementById('step3-confirm');
+  confirmBtn.disabled=step3selections.length===0;
+  confirmBtn.style.opacity=step3selections.length>0?'1':'0.4';
+}
+
+function confirmMulti(){
+  answers[3]=step3selections.join(', ');
+  nextStep(3);
+}
+
+function nextStep(fromStep){
+  var next=fromStep+1;
+  if(next>totalSteps){
+    buildResult();
+    return;
+  }
+  document.getElementById('step-'+fromStep).classList.remove('active');
+  var nextEl=document.getElementById('step-'+next);
+  nextEl.classList.add('active');
+  nextEl.style.animation='none';
+  nextEl.offsetHeight;
+  nextEl.style.animation='fadeUp .4s ease both';
+  currentStep=next;
+  var pct=(next/totalSteps)*100;
+  document.getElementById('progress-fill').style.width=pct+'%';
+}
+
+function buildResult(){
+  document.getElementById('builder-widget').style.display='none';
+  var result=document.getElementById('builder-result');
+  result.style.display='block';
+  result.style.animation='fadeUp .5s ease both';
+
+  var org=answers[1]||'Your Organisation';
+  var concern=answers[2]||'General security posture';
+  var systems=answers[3]||'To be confirmed';
+  var compliance=answers[4]||'None specified';
+  var timeline=answers[5]||'To be confirmed';
+
+  var scopeLines=generateScope(org,concern,systems,compliance,timeline);
+  var text=document.getElementById('result-text');
+  text.innerHTML=scopeLines;
+}
+
+function generateScope(org,concern,systems,compliance,timeline){
+  var lines=[];
+  var date=new Date().toLocaleDateString('en-ZA',{day:'2-digit',month:'long',year:'numeric'});
+
+  lines.push('<span style="color:rgba(255,20,147,.4);">─────────────────────────────────────────────────</span>');
+  lines.push('<span style="color:var(--pink);font-weight:700;">GREYHAT4HIRE — ENGAGEMENT SCOPE REQUEST</span>');
+  lines.push('<span style="color:rgba(255,20,147,.4);">─────────────────────────────────────────────────</span>');
+  lines.push('');
+  lines.push('<span style="color:rgba(0,212,255,.6);">Generated:</span>    '+date);
+  lines.push('<span style="color:rgba(0,212,255,.6);">Organisation:</span> <span style="color:#ddd;">'+org+'</span>');
+  lines.push('');
+
+  lines.push('<span style="color:rgba(255,20,147,.5);">// PRIMARY DRIVER</span>');
+  lines.push('  '+concern);
+  lines.push('');
+
+  lines.push('<span style="color:rgba(255,20,147,.5);">// REQUESTED TEST SCOPE</span>');
+  systems.split(', ').forEach(function(s){
+    lines.push('  ✓ <span style="color:#ddd;">'+s+'</span>');
+  });
+  lines.push('');
+
+  // Recommend engagement type
+  var types=recommendTypes(concern,systems);
+  lines.push('<span style="color:rgba(0,212,255,.5);">// RECOMMENDED ENGAGEMENT TYPE</span>');
+  types.forEach(function(t){
+    lines.push('  → <span style="color:var(--cyan);">'+t+'</span>');
+  });
+  lines.push('');
+
+  lines.push('<span style="color:rgba(255,20,147,.5);">// COMPLIANCE</span>');
+  lines.push('  '+compliance);
+  lines.push('');
+
+  lines.push('<span style="color:rgba(255,20,147,.5);">// PREFERRED TIMELINE</span>');
+  lines.push('  '+timeline);
+  lines.push('');
+
+  lines.push('<span style="color:rgba(0,255,136,.5);">// STANDARD INCLUSIONS (ALL ENGAGEMENTS)</span>');
+  lines.push('  ✓ <span style="color:#aaa;">Written authorisation &amp; signed NDA</span>');
+  lines.push('  ✓ <span style="color:#aaa;">Executive summary + technical report</span>');
+  lines.push('  ✓ <span style="color:#aaa;">Risk-rated findings with remediation steps</span>');
+  lines.push('  ✓ <span style="color:#aaa;">Free retest after remediation</span>');
+  lines.push('  ✓ <span style="color:#aaa;">30-day post-engagement support</span>');
+  if(compliance.toLowerCase().includes('iso')||compliance.toLowerCase().includes('popia')||compliance.toLowerCase().includes('insur')){
+    lines.push('  ✓ <span style="color:#aaa;">Compliance-mapped report ('+compliance+')</span>');
+  }
+  lines.push('');
+
+  lines.push('<span style="color:rgba(255,20,147,.4);">─────────────────────────────────────────────────</span>');
+  lines.push('<span style="color:#555;">Copy this and paste it into your contact message</span>');
+  lines.push('<span style="color:#555;">at greyhat4hire.co.za/contact.html</span>');
+  lines.push('<span style="color:rgba(255,20,147,.4);">─────────────────────────────────────────────────</span>');
+
+  return lines.join('\n');
+}
+
+function recommendTypes(concern,systems){
+  var types=[];
+  var s=systems.toLowerCase();
+  var c=concern.toLowerCase();
+
+  if(s.includes('website')||s.includes('web application')){
+    types.push('Web Application Penetration Test (OWASP Top 10)');
+  }
+  if(s.includes('internal network')){
+    types.push('Internal Network Penetration Test');
+  }
+  if(s.includes('external')||c.includes('external')){
+    types.push('External Infrastructure Assessment');
+  }
+  if(s.includes('cloud')){
+    types.push('Cloud Security Assessment ('+systems.match(/aws|azure|gcp/i)||'Cloud')+')';
+  }
+  if(s.includes('phishing')||s.includes('staff')){
+    types.push('Social Engineering / Phishing Simulation');
+  }
+  if(s.includes('mobile')){
+    types.push('Mobile Application Penetration Test');
+  }
+  if(c.includes('compliance')||c.includes('post-incident')){
+    types.push('Vulnerability Assessment &amp; Risk Register');
+  }
+  if(c.includes('insider')||c.includes('internal threat')){
+    types.push('Internal Threat &amp; Privilege Audit');
+  }
+  if(types.length===0){
+    types.push('Vulnerability Assessment — Full Scope');
+  }
+  return types;
+}
+
+function copyResult(){
+  var el=document.getElementById('result-text');
+  // Strip HTML tags for plain text copy
+  var text=el.innerText||el.textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=document.getElementById('copy-btn');
+    btn.classList.add('copied');
+    btn.innerHTML='<i class="fas fa-check mr-2"></i>Copied!';
+    setTimeout(function(){
+      btn.classList.remove('copied');
+      btn.innerHTML='<i class="fas fa-copy mr-2"></i>Copy to Clipboard';
+    },2500);
+  }).catch(function(){
+    // Fallback
+    var ta=document.createElement('textarea');
+    ta.value=el.textContent;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    var btn=document.getElementById('copy-btn');
+    btn.innerHTML='<i class="fas fa-check mr-2"></i>Copied!';
+    setTimeout(function(){btn.innerHTML='<i class="fas fa-copy mr-2"></i>Copy to Clipboard';},2500);
+  });
+}
+
+function resetBuilder(){
+  answers={};step3selections=[];currentStep=1;
+  document.querySelectorAll('.builder-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-1').classList.add('active');
+  document.getElementById('progress-fill').style.width='20%';
+  document.querySelectorAll('.builder-option').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('builder-widget').style.display='block';
+  document.getElementById('builder-result').style.display='none';
+  document.getElementById('step3-confirm').disabled=true;
+  document.getElementById('step3-confirm').style.opacity='0.4';
+}
+</script>
+</body>
+</html>
