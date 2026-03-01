@@ -483,11 +483,13 @@
       <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
       <span class="font-display text-xs tracking-widest text-pink-400">TRANSPARENT PRICING · ZAR · NO HIDDEN FEES</span>
     </div>
-    <h1 class="font-display font-black mb-5 leading-tight hero-animate" id="hero-title" style="font-size:clamp(2.6rem,7vw,5rem)">
-      <span class="hero-word hero-white" data-word="Choose">Choose</span>
-      <span class="hero-word hero-pink" data-word="Your">Your</span><br>
-      <span class="hero-word hero-white" data-word="Security">Security</span>
-      <span class="hero-word hero-pink" data-word="Plan">Plan</span>
+    <h1 class="font-display font-black mb-5 hero-animate" id="hero-title" style="font-size:clamp(2.6rem,7vw,5rem);line-height:1.15;">
+      <div style="white-space:nowrap;">
+        <span class="hero-word hero-white" data-word="Choose">Choose</span><span class="hero-word hero-pink" data-word="Your">Your</span>
+      </div>
+      <div style="white-space:nowrap;">
+        <span class="hero-word hero-white" data-word="Security">Security</span><span class="hero-word hero-pink" data-word="Plan">Plan</span>
+      </div>
     </h1>
     <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-6 hero-animate">
       Professional penetration testing and security assurance.<br class="hidden sm:block">
@@ -1059,72 +1061,85 @@
 // ── HERO WORD SCRAMBLE ──────────────────────────────────────────────
 (function() {
   var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
-  var words = document.querySelectorAll('.hero-word');
 
-  // Wrap each letter in a span, then lock the WORD container width
-  words.forEach(function(wordEl) {
-    var text = wordEl.getAttribute('data-word');
-    // Measure the word's natural width BEFORE touching innerHTML
-    var naturalWidth = wordEl.getBoundingClientRect().width;
-    // Now wrap letters
-    wordEl.innerHTML = text.split('').map(function(ch) {
-      return '<span class="letter">' + ch + '</span>';
-    }).join('');
-    // Lock the container so scrambled chars never push the layout
-    wordEl.style.minWidth   = naturalWidth + 'px';
-    wordEl.style.display    = 'inline-block';
-    wordEl.style.textAlign  = 'center';
-  });
+  function init() {
+    var title = document.getElementById('hero-title');
+    var words = document.querySelectorAll('.hero-word');
 
-  function scrambleWord(wordEl, delay) {
-    var letters  = wordEl.querySelectorAll('.letter');
-    var original = wordEl.getAttribute('data-word').split('');
-    var isPink   = wordEl.classList.contains('hero-pink');
-
-    letters.forEach(function(span, i) {
-      var totalTime  = delay + i * 55;   // stagger per letter
-      var scrambleMs = 320;              // how long each letter scrambles
-      var interval   = 38;
-      var elapsed    = 0;
-
-      setTimeout(function() {
-        span.classList.add('scrambling');
-        var ticker = setInterval(function() {
-          elapsed += interval;
-          span.textContent = CHARS[Math.floor(Math.random() * CHARS.length)];
-          if (elapsed >= scrambleMs) {
-            clearInterval(ticker);
-            span.textContent = original[i];
-            span.classList.remove('scrambling');
-            // restore correct colour class
-            if (isPink) {
-              span.style.color = '';
-              span.style.textShadow = '';
-            }
-          }
-        }, interval);
-      }, totalTime);
+    // ── STEP 1: Snapshot the h1's exact rendered size ─────────────────
+    var titleRect = title.getBoundingClientRect();
+    title.style.width    = titleRect.width  + 'px';
+    title.style.height   = titleRect.height + 'px';
+    title.style.overflow = 'hidden';
+    // Lock each line div too so neither can change height
+    title.querySelectorAll('div').forEach(function(line) {
+      var h = line.getBoundingClientRect().height;
+      line.style.height   = h + 'px';
+      line.style.overflow = 'hidden';
     });
-  }
 
-  // Fire after a short page-load pause
-  setTimeout(function() {
+    // ── STEP 2: Snapshot each word width, then wrap letters ────────────
+    var wordWidths = [];
+    words.forEach(function(wordEl) {
+      wordWidths.push(wordEl.getBoundingClientRect().width);
+    });
+    words.forEach(function(wordEl, wi) {
+      var text = wordEl.getAttribute('data-word');
+      wordEl.innerHTML = text.split('').map(function(ch) {
+        return '<span class="letter">' + ch + '</span>';
+      }).join('');
+      wordEl.style.minWidth  = wordWidths[wi] + 'px';
+      wordEl.style.display   = 'inline-block';
+      wordEl.style.textAlign = 'center';
+    });
+
+    // ── STEP 3: Scramble ───────────────────────────────────────────────
+    function scrambleWord(wordEl, delay) {
+      var letters  = wordEl.querySelectorAll('.letter');
+      var original = wordEl.getAttribute('data-word').split('');
+      letters.forEach(function(span, i) {
+        var totalTime  = delay + i * 55;
+        var scrambleMs = 320;
+        var interval   = 38;
+        var elapsed    = 0;
+        setTimeout(function() {
+          span.classList.add('scrambling');
+          var ticker = setInterval(function() {
+            elapsed += interval;
+            span.textContent = CHARS[Math.floor(Math.random() * CHARS.length)];
+            if (elapsed >= scrambleMs) {
+              clearInterval(ticker);
+              span.textContent = original[i];
+              span.classList.remove('scrambling');
+            }
+          }, interval);
+        }, totalTime);
+      });
+    }
+
     words.forEach(function(wordEl, idx) {
       scrambleWord(wordEl, idx * 160);
     });
-  }, 300);
 
-  // Re-scramble on hover
-  words.forEach(function(wordEl) {
-    var busy = false;
-    wordEl.addEventListener('mouseenter', function() {
-      if (busy) return;
-      busy = true;
-      scrambleWord(wordEl, 0);
-      var longestDelay = wordEl.getAttribute('data-word').length * 55 + 380;
-      setTimeout(function() { busy = false; }, longestDelay);
+    // Re-scramble on hover (desktop only)
+    words.forEach(function(wordEl) {
+      var busy = false;
+      wordEl.addEventListener('mouseenter', function() {
+        if (busy) return;
+        busy = true;
+        scrambleWord(wordEl, 0);
+        var longestDelay = wordEl.getAttribute('data-word').length * 55 + 380;
+        setTimeout(function() { busy = false; }, longestDelay);
+      });
     });
-  });
+  }
+
+  // Wait for fonts before measuring — prevents wrong sizes on fresh load
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(init);
+  } else {
+    window.addEventListener('load', init);
+  }
 })();
 </script>
 
