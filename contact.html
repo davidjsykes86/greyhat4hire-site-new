@@ -136,6 +136,15 @@
     }
     .mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
 
+    /* ── MOBILE TOOLS ACCORDION ── */
+    .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+    .mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:color .3s ease;}
+    .mobile-tools-toggle:hover{color:#ff69b4;}
+    .mobile-tools-chevron{font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+    .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-panel{max-height:300px;}
+
     /* ── BUTTONS ── */
     .btn-primary {
       display:inline-flex;align-items:center;gap:10px;
@@ -392,6 +401,7 @@
       <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
       <a href="our-process.html" class="desktop-link text-white">Our Process</a>
       <a href="pricing.html"          class="desktop-link text-white">Pricing</a>
+      <a href="blog.html"             class="desktop-link text-white">Blog</a>
       <a href="contact.html"          class="desktop-link active">Contact</a>
     </div>
 
@@ -412,29 +422,42 @@
     <a href="index.html"             class="mobile-link desktop-link text-white">Home</a>
     <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
     <a href="services.html"          class="mobile-link desktop-link text-white">Services</a>
-    <a href="risk-assessment.html"   class="mobile-tool-link">
-      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
-      <span style="font-size:1rem;">Risk Self-Assessment</span>
-    </a>
-    <a href="hackers-dossier.html"   class="mobile-tool-link">
-      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
-      <span style="font-size:1rem;">Hacker's Dossier</span>
-    </a>
-    <a href="breach-cost-clock.html" class="mobile-tool-link">
-      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
-      <span style="font-size:1rem;">Breach Cost Clock</span>
-    </a>
-    <a href="vuln-lookup.html"       class="mobile-tool-link">
-      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
-      <span style="font-size:1rem;">Vulnerability Intelligence</span>
-    </a>
-    <a href="reverse-image-search.html" class="mobile-tool-link">
-      <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
-      <span style="font-size:1rem;">Reverse Image Search</span>
-    </a>
+    <!-- Free Tools Accordion -->
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span class="tools-live-dot"></span>
+          <span>Free Tools</span>
+        </span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div id="mobile-tools-panel" class="mobile-tools-panel">
+        <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;">
+          <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
+          <span>Risk Self-Assessment</span>
+        </a>
+        <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;">
+          <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
+          <span>Hacker's Dossier</span>
+        </a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;">
+          <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
+          <span>Breach Cost Clock</span>
+        </a>
+        <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;">
+          <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
+          <span>Vulnerability Intelligence</span>
+        </a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;">
+          <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
+          <span>Reverse Image Search</span>
+        </a>
+      </div>
+    </div>
     <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
     <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
     <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html"             class="mobile-link desktop-link text-white">Blog</a>
     <a href="contact.html"          class="mobile-link desktop-link neon-pink">Contact</a>
   </div>
   <a href="https://wa.me/27846353581" target="_blank" class="btn-primary mt-8 pulse-glow">
@@ -867,6 +890,11 @@
   hamburger.addEventListener('click', openMenu);
   closeMenuBtn.addEventListener('click', closeMenu);
   document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l => l.addEventListener('click', closeMenu));
+
+  // ── MOBILE TOOLS ACCORDION ──
+  const mobileToolsToggle = document.getElementById('mobile-tools-toggle');
+  const mobileToolsAccordion = mobileToolsToggle.closest('.mobile-tools-accordion');
+  mobileToolsToggle.addEventListener('click', function(){ mobileToolsAccordion.classList.toggle('open'); });
 
   // ── TYPEWRITER ──
   const phrases = ['info@greyhat4hire.com','REQUEST A FREE CONSULTATION','FIND WHAT ATTACKERS FIND','INDEPENDENT · ETHICAL · EFFECTIVE'];
