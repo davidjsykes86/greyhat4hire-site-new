@@ -102,7 +102,7 @@
     #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff1493,#ff69b4);z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(255,20,147,.8);}
 
     /* ─── THREAT SCANNER RAIL ─── */
-    #threat-scanner{position:fixed;left:18px;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;gap:0;}
+    #threat-scanner{position:fixed;right:18px;left:auto;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;gap:0;}
     .scanner-track{width:2px;height:340px;background:rgba(255,20,147,.1);border-radius:1px;position:relative;overflow:hidden;}
     .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,#ff1493,#ff69b4);border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(255,20,147,.6);}
     .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:#ff1493;border-radius:2px;box-shadow:0 0 12px 4px rgba(255,20,147,.6);transition:top .3s ease;}
@@ -115,10 +115,6 @@
     .scanner-section-dot.active{background:#ff1493;box-shadow:0 0 8px rgba(255,20,147,.8);border-color:#ff1493;}
     .scanner-section-dot.passed{background:rgba(255,20,147,.3);border-color:rgba(255,20,147,.4);}
     @media(max-width:1100px){#threat-scanner{display:none;}}
-    @media(min-width:1101px){
-      #threat-scanner{left:14px;}
-      .scanner-offset{margin-left:72px;}
-    }
 
     /* ─── ARTICLE CONTENT ─── */
     .article-hero{background:linear-gradient(135deg,rgba(255,20,147,.12),rgba(0,0,0,.95));border-bottom:1px solid rgba(255,20,147,.15);padding:80px 0 50px;}
@@ -223,7 +219,7 @@
 
 <!-- NAV -->
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center scanner-offset">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
     <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
     <div class="hidden lg:flex items-center gap-7 text-sm">
       <a href="index.html" class="desktop-link text-white">Home</a>
@@ -272,7 +268,7 @@
 
 <!-- ARTICLE HERO -->
 <header class="article-hero pt-28" style="position:relative;z-index:2">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 scanner-offset">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
     <div class="flex items-center gap-2 mb-6 font-mono text-xs text-gray-600">
       <a href="index.html" class="hover:text-pink-400 transition" style="cursor:none;">HOME</a>
       <span>›</span>
@@ -320,7 +316,7 @@
 
 <!-- ARTICLE BODY + SIDEBAR -->
 <main class="py-14 px-4 sm:px-6" style="position:relative;z-index:2">
-  <div class="max-w-7xl mx-auto scanner-offset">
+  <div class="max-w-7xl mx-auto">
 
       <!-- ARTICLE -->
       <article class="xl:col-span-3 max-w-3xl">
@@ -605,7 +601,7 @@
 
 <!-- FOOTER -->
 <footer style="position:relative;z-index:2;background:rgba(0,0,0,.9);border-top:1px solid rgba(255,20,147,.1);padding:60px 24px 40px;">
-  <div class="max-w-7xl mx-auto scanner-offset">
+  <div class="max-w-7xl mx-auto">
       <div class="lg:col-span-2">
         <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8);margin-bottom:14px;">GREY<span style="color:#fff">HAT</span>4HIRE</div>
         <p style="color:rgba(160,160,160,.7);font-size:.88rem;line-height:1.7;max-width:340px;">Independent cybersecurity for South African healthcare, dental, and professional practices. We breach you before they do.</p>
