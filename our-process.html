@@ -8,12 +8,15 @@
   <link rel="canonical" href="https://greyhat4hire.com/our-process.html"/>
 
   <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
 <style>
+  #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+
   :root {
     --pink: #ff1493;
     --pink-dim: rgba(255,20,147,0.55);
@@ -63,7 +66,7 @@
   .desktop-link.active::after{width:100%;}
   #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
   #mobile-menu.open{transform:translateY(0);}
-  .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+  .mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
   .tools-dropdown-wrap{position:relative;}
   .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
   .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
@@ -86,6 +89,13 @@
   .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
   .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.06);transition:all .3s;text-decoration:none;color:#e0e0e0;}
   .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+  .mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;}
+  .mobile-tools-toggle:hover{color:#ff69b4;}
+  .mobile-tools-chevron{font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease;}
+  .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+  .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
 
   /* BUTTONS */
   .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#c4006e);color:#fff;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:.12em;padding:13px 26px;border:none;cursor:pointer;transition:all .3s;text-decoration:none;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
@@ -299,11 +309,55 @@
     .phase-line{display:none;}
     .phase-connector{display:none;}
   }
+
+  /* ── SCAN-LINE BURN-IN EFFECT ── */
+
+  /* Words start invisible — text is in its final layout position */
+  .scan-word {
+    display:inline-block;
+    margin:0 .2em;
+    opacity:0;
+    vertical-align:baseline;
+  }
+  .pink-word  { color:#ff1493; text-shadow:0 0 32px rgba(255,20,147,.9), 0 0 80px rgba(255,20,147,.35); }
+  .white-word { color:#ffffff; text-shadow:0 0 24px rgba(255,255,255,.15); }
+
+  /* The scan beam — absolutely positioned inside hero-h1 */
+  #scan-beam {
+    position:absolute;
+    left:0; right:0;
+    height:3px;
+    background:linear-gradient(90deg,
+      transparent 0%,
+      rgba(255,20,147,.15) 10%,
+      rgba(255,20,147,.9) 40%,
+      #ff1493 50%,
+      rgba(255,20,147,.9) 60%,
+      rgba(255,20,147,.15) 90%,
+      transparent 100%
+    );
+    box-shadow:0 0 18px 6px rgba(255,20,147,.55), 0 0 40px 12px rgba(255,20,147,.2);
+    opacity:0;
+    pointer-events:none;
+    z-index:10;
+  }
+
+  /* Word burn — ignites bright then fades to real colour */
+  @keyframes wordBurn {
+    0%   { opacity:0; filter:brightness(1) blur(4px); }
+    5%   { opacity:1; filter:brightness(4) blur(0px); }
+    30%  { filter:brightness(2.5); }
+    100% { opacity:1; filter:brightness(1) blur(0px); }
+  }
+  .scan-word.lit {
+    animation:wordBurn .7s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
 </style>
 </head>
 <body>
 <div id="cur"></div>
 <div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
 
 <!-- ══ NAV ══ -->
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
@@ -393,6 +447,7 @@
       <a href="cyber-awareness.html" class="desktop-link">Cyber Awareness</a>
       <a href="our-process.html" class="desktop-link active">Our Process</a>
       <a href="pricing.html" class="desktop-link">Pricing</a>
+      <a href="blog.html" class="desktop-link">Blog</a>
       <a href="contact.html" class="desktop-link">Contact</a>
     </div>
 
@@ -407,31 +462,45 @@
 </nav>
 
 <!-- MOBILE MENU -->
-<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
-  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;"><i class="fas fa-times"></i></button>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
     <a href="about.html" class="mobile-link desktop-link text-white">About</a>
     <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
-    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span style="font-size:1rem;">Risk Self-Assessment</span></a>
-    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span style="font-size:1rem;">Hacker's Dossier</span></a>
-    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span style="font-size:1rem;">Breach Cost Clock</span></a>
-    <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span style="font-size:1rem;">Vulnerability Intelligence</span></a>
-    <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span style="font-size:1rem;">Reverse Image Search</span></a>
+    <!-- Free Tools Accordion -->
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span class="tools-live-dot"></span>
+          <span>Free Tools</span>
+        </span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div id="mobile-tools-panel" class="mobile-tools-panel">
+        <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+        <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+        <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+      </div>
+    </div>
     <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="our-process.html" class="mobile-link desktop-link active">Our Process</a>
     <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link text-white">Blog</a>
     <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
   </div>
-  <a href="contact.html" class="btn-primary mt-8 pulse-glow"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
 </div>
 
 
 <!-- ══════════════════════════════════════════
      HERO
 ══════════════════════════════════════════ -->
-<section class="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-24 pb-20 text-center overflow-hidden">
+<section class="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-24 pb-20 text-center overflow-hidden" style="position:relative;">
   <div class="hero-bg"></div>
+  <div id="scan-beam"></div>
 
   <!-- Floating grid lines -->
   <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
@@ -441,9 +510,14 @@
       <span class="font-display text-xs tracking-widest" style="color:rgba(255,20,147,.5);letter-spacing:.25em;">◈ OUR METHODOLOGY ◈</span>
     </div>
 
-    <h1 id="hero-h1" class="gsap-hidden font-display font-black leading-none tracking-tight mt-6 mb-6" style="font-size:clamp(2.8rem,8vw,6.5rem);">
-      <span class="neon-pink">HOW WE</span><br>
-      <span style="color:#fff;">OPERATE</span>
+    <h1 id="hero-h1" class="font-display font-black leading-none tracking-tight mt-6 mb-6" style="font-size:clamp(2.8rem,8vw,6.5rem);">
+      <div class="scan-line-block" style="white-space:nowrap;">
+        <span class="scan-word pink-word">HOW</span>
+        <span class="scan-word pink-word">WE</span>
+      </div>
+      <div class="scan-line-block" style="white-space:nowrap;">
+        <span class="scan-word white-word">OPERATE</span>
+      </div>
     </h1>
 
     <p class="gsap-hidden text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style="font-family:'Rajdhani',sans-serif;font-weight:400;" id="hero-sub">
@@ -993,6 +1067,8 @@ const closeMenuBtn=document.getElementById('close-menu');
 hamburger.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');setTimeout(()=>mobileMenu.classList.add('open'),10);});
 closeMenuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);});
 document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(l=>l.addEventListener('click',()=>{mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);}));
+var mobileToolsToggle=document.getElementById('mobile-tools-toggle');
+if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobileToolsToggle.closest('.mobile-tools-accordion').classList.toggle('open');});}
 
 // ── GSAP ANIMATIONS ──
 gsap.registerPlugin(ScrollTrigger);
@@ -1185,6 +1261,109 @@ function resetBuilder(){
   document.getElementById('step3-confirm').disabled=true;
   document.getElementById('step3-confirm').style.opacity='0.4';
 }
+
+// ── THREE.JS PARTICLE BACKGROUND ─────────────────────────────────────
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;col[i3]=.98+(Math.random()-.5)*.08;col[i3+1]=.08;col[i3+2]=.58+(Math.random()-.5)*.1;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);
+  var pageVisible=!document.hidden;
+  document.addEventListener('visibilitychange',function(){pageVisible=!document.hidden;});
+  var last=performance.now();
+  function animate(now){
+    requestAnimationFrame(animate);
+    if(!pageVisible){last=now;return;}
+    var dt=Math.min((now-last)/1000,0.05);last=now;
+    var p=pts.geometry.attributes.position.array;
+    var t=now*0.00008;
+    for(var j=1;j<p.length;j+=3){
+      p[j]+=1.3*dt;
+      p[j-1]+=Math.sin(t+j)*0.18*dt;
+      if(p[j]>130)p[j]=-120;
+    }
+    pts.geometry.attributes.position.needsUpdate=true;
+    pts.rotation.y+=0.009*dt;
+    renderer.render(scene,camera);
+  }
+  requestAnimationFrame(animate);
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+
+// ── SCAN-LINE BURN-IN ────────────────────────────────────────────────
+(function(){
+  function runScan() {
+    var h1    = document.getElementById('hero-h1');
+    var beam  = document.getElementById('scan-beam');
+    var words = document.querySelectorAll('.scan-word');
+
+    if (!h1 || !beam || !words.length) return;
+
+    // Position beam at the top of h1
+    var h1Rect   = h1.getBoundingClientRect();
+    var h1Top    = h1.offsetTop;
+    var h1Height = h1Rect.height;
+    beam.style.top = h1Top + 'px';
+
+    // Build a list of {wordEl, midY} — midY relative to h1 top
+    var wordData = [];
+    words.forEach(function(w) {
+      var r   = w.getBoundingClientRect();
+      var mid = (r.top - h1Rect.top) + r.height * 0.5;
+      wordData.push({ el: w, mid: mid });
+    });
+
+    // Sort by vertical position so scan fires in reading order
+    wordData.sort(function(a, b) { return a.mid - b.mid; });
+
+    var duration  = 900;  // ms for beam to sweep full h1 height
+    var startTime = null;
+    var fired     = wordData.map(function(){ return false; });
+
+    beam.style.opacity = '1';
+
+    function tick(ts) {
+      if (!startTime) startTime = ts;
+      var elapsed  = ts - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+
+      // Move beam
+      var beamY = h1Top + progress * h1Height;
+      beam.style.top = beamY + 'px';
+
+      // Light up words as beam crosses their midpoint
+      wordData.forEach(function(wd, i) {
+        if (!fired[i] && progress * h1Height >= wd.mid) {
+          fired[i] = true;
+          wd.el.classList.add('lit');
+        }
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        // Fade out beam
+        beam.style.transition = 'opacity 0.4s ease';
+        beam.style.opacity    = '0';
+      }
+    }
+
+    // Short pause before sweep begins
+    setTimeout(function() {
+      requestAnimationFrame(tick);
+    }, 350);
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(runScan);
+  } else {
+    window.addEventListener('load', runScan);
+  }
+})();
 </script>
 </body>
 </html>
