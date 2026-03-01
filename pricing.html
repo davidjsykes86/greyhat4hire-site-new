@@ -271,9 +271,10 @@
     /* ── HERO WORD EFFECTS ── */
     .hero-word {
       display:inline-block;
-      margin:0 .18em;
+      margin:0 .25em;
       position:relative;
       transition:text-shadow .3s ease;
+      vertical-align:baseline;
     }
     .hero-pink {
       color:#ff1493;
@@ -304,7 +305,7 @@
     }
     /* individual letter scramble — letters flash before resolving */
     .hero-word .letter {
-      display:inline-block;
+      display:inline;
       transition:color .08s ease;
     }
     .hero-word .letter.scrambling {
@@ -1060,12 +1061,19 @@
   var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
   var words = document.querySelectorAll('.hero-word');
 
-  // Wrap each letter in a span
+  // Wrap each letter in a span, then lock the WORD container width
   words.forEach(function(wordEl) {
     var text = wordEl.getAttribute('data-word');
+    // Measure the word's natural width BEFORE touching innerHTML
+    var naturalWidth = wordEl.getBoundingClientRect().width;
+    // Now wrap letters
     wordEl.innerHTML = text.split('').map(function(ch) {
       return '<span class="letter">' + ch + '</span>';
     }).join('');
+    // Lock the container so scrambled chars never push the layout
+    wordEl.style.minWidth   = naturalWidth + 'px';
+    wordEl.style.display    = 'inline-block';
+    wordEl.style.textAlign  = 'center';
   });
 
   function scrambleWord(wordEl, delay) {
