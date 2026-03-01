@@ -64,7 +64,16 @@
 
     #mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
     #mobile-menu.open { transform:translateY(0); }
-    .mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+    .mobile-link { padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+    /* MOBILE TOOLS ACCORDION */
+    .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+    .mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;}
+    .mobile-tools-toggle:hover{color:#ff69b4;}
+    .mobile-tools-chevron{font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+    .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
 
     /* TOOLS DROPDOWN */
     .tools-dropdown-wrap { position:relative; }
@@ -258,6 +267,62 @@
       #cur, #cur2 { display: none !important; }
       body { cursor: auto !important; }
     }
+
+    /* ── HERO WORD EFFECTS ── */
+    .hero-word {
+      display:inline-block;
+      margin:0 .18em;
+      position:relative;
+      transition:text-shadow .3s ease;
+    }
+    .hero-pink {
+      color:#ff1493;
+      text-shadow:0 0 32px rgba(255,20,147,.9), 0 0 80px rgba(255,20,147,.35);
+    }
+    .hero-white {
+      color:#ffffff;
+      text-shadow:0 0 24px rgba(255,255,255,.25);
+    }
+    /* scan-line shimmer that sweeps across the whole title */
+    #hero-title {
+      position:relative;
+      overflow:visible;
+    }
+    #hero-title::after {
+      content:'';
+      position:absolute;
+      top:0; left:-100%; width:60%; height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,20,147,.12),rgba(255,255,255,.07),transparent);
+      animation:heroScan 3.6s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes heroScan {
+      0%   { left:-60%; opacity:0; }
+      10%  { opacity:1; }
+      90%  { opacity:1; }
+      100% { left:160%; opacity:0; }
+    }
+    /* individual letter scramble — letters flash before resolving */
+    .hero-word .letter {
+      display:inline-block;
+      transition:color .08s ease;
+    }
+    .hero-word .letter.scrambling {
+      color:rgba(255,20,147,.55);
+      text-shadow:0 0 14px rgba(255,20,147,.7);
+    }
+    /* glitch twitch on hover */
+    .hero-word:hover {
+      animation:wordGlitch .35s steps(1) forwards;
+    }
+    @keyframes wordGlitch {
+      0%  { transform:translate(0,0); }
+      20% { transform:translate(-3px,1px) skewX(-4deg); }
+      40% { transform:translate(3px,-1px) skewX(3deg); }
+      60% { transform:translate(-2px,0) skewX(-2deg); }
+      80% { transform:translate(2px,1px); }
+      100%{ transform:translate(0,0); }
+    }
   </style>
   <link rel="canonical" href="https://greyhat4hire.com/pricing.html"/>
 </head>
@@ -363,6 +428,7 @@
       <a href="cyber-awareness.html"  class="desktop-link text-white">Cyber Awareness</a>
       <a href="our-process.html" class="desktop-link text-white">Our Process</a>
       <a href="pricing.html"          class="desktop-link active">Pricing</a>
+      <a href="blog.html"             class="desktop-link text-white">Blog</a>
       <a href="contact.html"          class="desktop-link text-white">Contact</a>
     </div>
 
@@ -377,40 +443,36 @@
 </nav>
 
 <!-- MOBILE MENU -->
-<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
-  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
     <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
     <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
-    <a href="risk-assessment.html"  class="mobile-tool-link">
-      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
-      <span style="font-size:1rem;">Risk Self-Assessment</span>
-    </a>
-    <a href="hackers-dossier.html"  class="mobile-tool-link">
-      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
-      <span style="font-size:1rem;">Hacker's Dossier</span>
-    </a>
-    <a href="breach-cost-clock.html" class="mobile-tool-link">
-      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
-      <span style="font-size:1rem;">Breach Cost Clock</span>
-    </a>
-    <a href="vuln-lookup.html"      class="mobile-tool-link">
-      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
-      <span style="font-size:1rem;">Vulnerability Intelligence</span>
-    </a>
-    <a href="reverse-image-search.html" class="mobile-tool-link">
-      <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
-      <span style="font-size:1rem;">Reverse Image Search</span>
-    </a>
+    <!-- Free Tools Accordion -->
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span class="tools-live-dot"></span>
+          <span>Free Tools</span>
+        </span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div id="mobile-tools-panel" class="mobile-tools-panel">
+        <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+        <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+        <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+      </div>
+    </div>
     <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="our-process.html"      class="mobile-link desktop-link text-white">Our Process</a>
     <a href="pricing.html"          class="mobile-link desktop-link active">Pricing</a>
+    <a href="blog.html"             class="mobile-link desktop-link text-white">Blog</a>
     <a href="contact.html"          class="mobile-link desktop-link text-white">Contact</a>
   </div>
-  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;">
-    <i class="fas fa-shield-alt"></i> Get a Quote
-  </a>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
 </div>
 
 <!-- HERO -->
@@ -420,8 +482,11 @@
       <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
       <span class="font-display text-xs tracking-widest text-pink-400">TRANSPARENT PRICING · ZAR · NO HIDDEN FEES</span>
     </div>
-    <h1 class="font-display font-black neon-pink mb-5 leading-tight hero-animate" style="font-size:clamp(2.6rem,7vw,5rem)">
-      Choose Your<br>Security Plan
+    <h1 class="font-display font-black mb-5 leading-tight hero-animate" id="hero-title" style="font-size:clamp(2.6rem,7vw,5rem)">
+      <span class="hero-word hero-white" data-word="Choose">Choose</span>
+      <span class="hero-word hero-pink" data-word="Your">Your</span><br>
+      <span class="hero-word hero-white" data-word="Security">Security</span>
+      <span class="hero-word hero-pink" data-word="Plan">Plan</span>
     </h1>
     <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-6 hero-animate">
       Professional penetration testing and security assurance.<br class="hidden sm:block">
@@ -872,6 +937,16 @@
   closeMenuBtn.addEventListener('click', closeMenu);
   document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(function(l) { l.addEventListener('click', closeMenu); });
 
+  // MOBILE TOOLS ACCORDION
+  var mobileToolsToggle = document.getElementById('mobile-tools-toggle');
+  var mobileToolsPanel  = document.getElementById('mobile-tools-panel');
+  var mobileToolsAccordion = mobileToolsToggle ? mobileToolsToggle.closest('.mobile-tools-accordion') : null;
+  if (mobileToolsToggle) {
+    mobileToolsToggle.addEventListener('click', function() {
+      mobileToolsAccordion.classList.toggle('open');
+    });
+  }
+
   // FAQ
   function toggleFAQ(trigger) {
     var body   = trigger.nextElementSibling;
@@ -977,6 +1052,72 @@
       renderer.setSize(innerWidth, innerHeight);
     });
   })();
+</script>
+
+<script>
+// ── HERO WORD SCRAMBLE ──────────────────────────────────────────────
+(function() {
+  var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+  var words = document.querySelectorAll('.hero-word');
+
+  // Wrap each letter in a span
+  words.forEach(function(wordEl) {
+    var text = wordEl.getAttribute('data-word');
+    wordEl.innerHTML = text.split('').map(function(ch) {
+      return '<span class="letter">' + ch + '</span>';
+    }).join('');
+  });
+
+  function scrambleWord(wordEl, delay) {
+    var letters  = wordEl.querySelectorAll('.letter');
+    var original = wordEl.getAttribute('data-word').split('');
+    var isPink   = wordEl.classList.contains('hero-pink');
+
+    letters.forEach(function(span, i) {
+      var totalTime  = delay + i * 55;   // stagger per letter
+      var scrambleMs = 320;              // how long each letter scrambles
+      var interval   = 38;
+      var elapsed    = 0;
+
+      setTimeout(function() {
+        span.classList.add('scrambling');
+        var ticker = setInterval(function() {
+          elapsed += interval;
+          span.textContent = CHARS[Math.floor(Math.random() * CHARS.length)];
+          if (elapsed >= scrambleMs) {
+            clearInterval(ticker);
+            span.textContent = original[i];
+            span.classList.remove('scrambling');
+            // restore correct colour class
+            if (isPink) {
+              span.style.color = '';
+              span.style.textShadow = '';
+            }
+          }
+        }, interval);
+      }, totalTime);
+    });
+  }
+
+  // Fire after a short page-load pause
+  setTimeout(function() {
+    words.forEach(function(wordEl, idx) {
+      scrambleWord(wordEl, idx * 160);
+    });
+  }, 300);
+
+  // Re-scramble on hover
+  words.forEach(function(wordEl) {
+    var busy = false;
+    wordEl.addEventListener('mouseenter', function() {
+      if (busy) return;
+      busy = true;
+      scrambleWord(wordEl, 0);
+      var longestDelay = wordEl.getAttribute('data-word').length * 55 + 380;
+      setTimeout(function() { busy = false; }, longestDelay);
+    });
+  });
+})();
 </script>
 
 </body>
