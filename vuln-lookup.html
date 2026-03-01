@@ -74,7 +74,7 @@ nav{transition:all .4s ease;}
 /* ── MOBILE MENU ── */
 #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
 #mobile-menu.open{transform:translateY(0);}
-.mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;display:block;}
+.mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;display:block;}
 
 /* ── TOOLS DROPDOWN ── */
 .tools-dropdown-wrap{position:relative;}
@@ -141,6 +141,13 @@ nav{transition:all .4s ease;}
   text-decoration:none;color:#e0e0e0;
 }
 .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+.mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;}
+.mobile-tools-toggle:hover{color:#ff69b4;}
+.mobile-tools-chevron{font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease;}
+.mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+.mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
 
 /* ── BUTTONS ── */
 .btn-primary{
@@ -595,6 +602,7 @@ main{
       <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
       <a href="our-process.html" class="desktop-link text-white">Our Process</a>
       <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link text-white">Blog</a>
       <a href="contact.html" class="desktop-link text-white">Contact</a>
     </div>
 
@@ -609,38 +617,36 @@ main{
 </nav>
 
 <!-- ══ MOBILE MENU ══ -->
-<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
-  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:pointer;background:none;border:none;"><i class="fas fa-times"></i></button>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="background:rgba(0,0,0,0.97);padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="cursor:pointer;z-index:110;background:none;border:none;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
-    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
-    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
-    <a href="risk-assessment.html" class="mobile-tool-link">
-      <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
-      <span style="font-size:1rem;">Risk Self-Assessment</span>
-    </a>
-    <a href="hackers-dossier.html" class="mobile-tool-link">
-      <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
-      <span style="font-size:1rem;">Hacker's Dossier</span>
-    </a>
-    <a href="breach-cost-clock.html" class="mobile-tool-link">
-      <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
-      <span style="font-size:1rem;">Breach Cost Clock</span>
-    </a>
-    <a href="vuln-lookup.html" class="mobile-tool-link">
-      <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
-      <span style="font-size:1rem;">Vulnerability Intelligence</span>
-    </a>
-    <a href="reverse-image-search.html" class="mobile-tool-link">
-      <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
-      <span style="font-size:1rem;">Reverse Image Search</span>
-    </a>
+    <a href="index.html"           class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"           class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"        class="mobile-link desktop-link text-white">Services</a>
+    <!-- Free Tools Accordion -->
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span class="tools-live-dot"></span>
+          <span>Free Tools</span>
+        </span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div id="mobile-tools-panel" class="mobile-tools-panel">
+        <a href="risk-assessment.html"   class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+        <a href="hackers-dossier.html"   class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+        <a href="vuln-lookup.html"       class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+      </div>
+    </div>
     <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
-    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
-    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+    <a href="our-process.html"     class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html"         class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html"            class="mobile-link desktop-link text-white">Blog</a>
+    <a href="contact.html"         class="mobile-link desktop-link text-white">Contact</a>
   </div>
-  <a href="contact.html" class="btn-primary mt-8 pulse-glow"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
 </div>
 
 <!-- Detail overlay / panel -->
@@ -1168,12 +1174,17 @@ document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeDetai
 (function(){
   var cur  = document.getElementById('cur');
   var cur2 = document.getElementById('cur2');
-  document.addEventListener('mousemove', function(e) {
-    cur.style.left  = e.clientX + 'px';
-    cur.style.top   = e.clientY + 'px';
-    cur2.style.left = e.clientX + 'px';
-    cur2.style.top  = e.clientY + 'px';
-  });
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', function(e) {
+      cur.style.left  = e.clientX + 'px';
+      cur.style.top   = e.clientY + 'px';
+      cur2.style.left = e.clientX + 'px';
+      cur2.style.top  = e.clientY + 'px';
+    });
+  } else {
+    cur.style.display  = 'none';
+    cur2.style.display = 'none';
+  }
 })();
 
 /* ═══════════════════════════
@@ -1202,6 +1213,8 @@ function closeMenu() {
 hamburger.addEventListener('click', openMenu);
 closeMenuBtn.addEventListener('click', closeMenu);
 document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l => l.addEventListener('click', closeMenu));
+var mobileToolsToggle = document.getElementById('mobile-tools-toggle');
+if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobileToolsToggle.closest('.mobile-tools-accordion').classList.toggle('open');});}
 
 /* ═══════════════════════════
    THREE.JS PARTICLES
