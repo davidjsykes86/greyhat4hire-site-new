@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ransomware for Under $5: Why Your Dental Practice Is a Prime Target — Greyhat4Hire</title>
+  <meta name="description" content="A ransomware kit costs less than a cup of coffee on the dark web. No expertise required. Here's why dental practices are the perfect target — and how to make yours the wrong one."/>
+  <link rel="canonical" href="https://greyhat4hire.com/ransomware-under-5-dollars.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://greyhat4hire.com/ransomware-under-5-dollars.html"/>
+  <meta property="og:title" content="Ransomware for Under $5: Why Your Dental Practice Is a Prime Target"/>
+  <meta property="og:description" content="A ransomware kit costs less than a cup of coffee on the dark web. No expertise required. Here's why dental practices are the perfect target — and how to make yours the wrong one."/>
+  <meta property="og:image" content="https://greyhat4hire.com/og-image.png"/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="og:site_name" content="Greyhat4Hire"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Ransomware for Under $5: Why Your Dental Practice Is a Prime Target"/>
+  <meta name="twitter:description" content="A ransomware kit costs less than a cup of coffee on the dark web. No expertise required. Here's why dental practices are the perfect target."/>
+  <meta name="twitter:image" content="https://greyhat4hire.com/og-image.png"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Ransomware for Under $5: Why Your Dental Practice Is a Prime Target",
+    "description": "A ransomware kit costs less than a cup of coffee on the dark web. No expertise required. Here's why dental practices are the perfect target — and how to make yours the wrong one.",
+    "author": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
+    "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com", "logo": {"@type": "ImageObject", "url": "https://greyhat4hire.com/logo.png"}},
+    "datePublished": "2026-03-01",
+    "dateModified": "2026-03-01",
+    "url": "https://greyhat4hire.com/ransomware-under-5-dollars.html",
+    "image": "https://greyhat4hire.com/og-image.png",
+    "inLanguage": "en-ZA",
+    "keywords": "ransomware, dental practice cybersecurity, dark web, RaaS, patient data, POPIA, South Africa"
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--pink:#ff1493;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18);}
+    .glass-strong{background:rgba(4,4,4,.94);backdrop-filter:blur(26px);border:1px solid rgba(255,20,147,.3);}
+    .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
+    .pink-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .desktop-link:hover::after{width:100%;}
+    .desktop-link.active{color:#ff1493;}
+    .desktop-link.active::after{width:100%;}
+    #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;position:relative;overflow:hidden;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:none;background:transparent;transition:all .3s ease;text-decoration:none;}
+    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+
+    /* ─── READING PROGRESS BAR ─── */
+    #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff1493,#ff69b4);z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(255,20,147,.8);}
+
+    /* ─── THREAT SCANNER RAIL ─── */
+    #threat-scanner{position:fixed;left:18px;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;gap:0;}
+    .scanner-track{width:2px;height:340px;background:rgba(255,20,147,.1);border-radius:1px;position:relative;overflow:hidden;}
+    .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,#ff1493,#ff69b4);border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(255,20,147,.6);}
+    .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:#ff1493;border-radius:2px;box-shadow:0 0 12px 4px rgba(255,20,147,.6);transition:top .3s ease;}
+    .scanner-label{font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(255,20,147,.5);writing-mode:vertical-rl;text-orientation:mixed;margin-top:10px;text-transform:uppercase;}
+    .scanner-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:900;color:#ff1493;text-shadow:0 0 8px rgba(255,20,147,.8);margin-bottom:10px;}
+    .scanner-threat-level{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.35);border-radius:10px;padding:8px 6px;text-align:center;margin-bottom:8px;min-width:52px;transition:all .5s ease;}
+    .scanner-threat-label{font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(255,20,147,.5);text-transform:uppercase;display:block;margin-bottom:3px;}
+    .scanner-threat-value{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;display:block;transition:color .5s ease,text-shadow .5s ease;}
+    .scanner-section-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,20,147,.25);background:transparent;margin:3px 0;transition:all .4s ease;cursor:none;}
+    .scanner-section-dot.active{background:#ff1493;box-shadow:0 0 8px rgba(255,20,147,.8);border-color:#ff1493;}
+    .scanner-section-dot.passed{background:rgba(255,20,147,.3);border-color:rgba(255,20,147,.4);}
+    @media(max-width:1100px){#threat-scanner{display:none;}}
+    @media(min-width:1101px){
+      #threat-scanner{left:14px;}
+      .scanner-offset{margin-left:72px;}
+    }
+
+    /* ─── ARTICLE CONTENT ─── */
+    .article-hero{background:linear-gradient(135deg,rgba(255,20,147,.12),rgba(0,0,0,.95));border-bottom:1px solid rgba(255,20,147,.15);padding:80px 0 50px;}
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#ef4444;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;animation:threatPulse 1.4s infinite;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+    .article-body h2{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;padding-top:1rem;position:relative;}
+    .article-body h2::before{content:'//';color:rgba(255,20,147,.5);margin-right:10px;font-size:.9rem;}
+    .article-body h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#ff69b4;margin:1.8rem 0 .8rem;}
+    .article-body p{color:rgba(220,220,220,.85);line-height:1.85;margin-bottom:1.2rem;font-size:1rem;font-weight:400;}
+    .article-body strong{color:#fff;font-weight:700;}
+    .article-body ul{margin:1rem 0 1.5rem 0;}
+    .article-body ul li{color:rgba(220,220,220,.8);line-height:1.7;padding-left:1.4rem;position:relative;font-size:.97rem;margin-bottom:.4rem;}
+    .article-body ul li::before{content:'▸';position:absolute;left:0;color:#ff1493;font-size:.75rem;}
+    .article-body a{color:#ff69b4;text-decoration:underline;text-underline-offset:3px;transition:color .2s ease;}
+    .article-body a:hover{color:#ff1493;}
+
+    .code-block{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.2);border-radius:14px;overflow:hidden;margin:1.5rem 0;}
+    .code-header{background:rgba(255,20,147,.06);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,20,147,.12);}
+    .code-lang{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(255,20,147,.6);}
+    .code-dots{display:flex;gap:6px;}
+    .code-dot{width:9px;height:9px;border-radius:50%;}
+    .code-body{padding:20px 22px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.8;color:#a0d0b0;overflow-x:auto;}
+    .code-body .c-cmd{color:#ff69b4;}
+    .code-body .c-out{color:rgba(255,255,255,.4);}
+    .code-body .c-flag{color:#f59e0b;}
+    .code-body .c-url{color:#38bdf8;}
+    .code-body .c-crit{color:#ef4444;}
+
+    .callout{border-radius:14px;padding:20px 22px;margin:1.5rem 0;display:flex;gap:14px;align-items:flex-start;}
+    .callout-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);}
+    .callout-info{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.3);}
+    .callout-tip{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.3);}
+    .callout-key{background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.25);}
+    .callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .callout-body p{margin:0;font-size:.9rem;line-height:1.65;}
+    .callout-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;font-weight:700;margin-bottom:6px;}
+
+    .mitre-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.08em;color:rgba(168,85,247,.9);margin:3px;}
+
+    .toc-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;transition:all .3s ease;text-decoration:none;cursor:none;}
+    .toc-item:hover,.toc-item.active{background:rgba(255,20,147,.08);}
+    .toc-num{font-family:'Orbitron',monospace;font-size:.52rem;color:rgba(255,20,147,.4);width:20px;flex-shrink:0;}
+    .toc-text{font-size:.82rem;color:#888;transition:color .3s ease;}
+    .toc-item:hover .toc-text,.toc-item.active .toc-text{color:#ff69b4;}
+
+    .sidebar-widget{background:rgba(8,8,8,.72);border:1px solid rgba(255,20,147,.14);border-radius:18px;padding:24px;margin-bottom:20px;}
+    .read-more{display:inline-flex;align-items:center;gap:6px;color:var(--pink);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;text-decoration:none;transition:all .3s ease;border:none;background:transparent;cursor:none;padding:0;}
+    .read-more:hover{text-shadow:0 0 12px rgba(255,20,147,.8);}
+    .read-more:hover .arrow{transform:translateX(4px);}
+    .read-more .arrow{transition:transform .3s ease;}
+    .topic-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.08em;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.15);color:rgba(255,20,147,.7);transition:all .3s ease;text-decoration:none;cursor:none;}
+    .topic-tag:hover{background:rgba(255,20,147,.14);border-color:rgba(255,20,147,.4);color:#ff1493;}
+
+    .author-card{background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border:1px solid rgba(255,20,147,.25);border-radius:22px;padding:32px;}
+    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#888;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .share-btn:hover{border-color:rgba(255,20,147,.35);color:#ff69b4;background:rgba(255,20,147,.06);}
+    .related-card{background:rgba(8,8,8,.78);border:1px solid rgba(255,20,147,.12);border-radius:18px;overflow:hidden;transition:all .4s ease;cursor:none;text-decoration:none;display:block;}
+    .related-card:hover{border-color:rgba(255,20,147,.4);transform:translateY(-6px);box-shadow:0 16px 50px rgba(255,20,147,.15);}
+    .related-thumb{width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+    .related-body{padding:18px;}
+
+    /* Price callout stat boxes */
+    .stat-box{background:rgba(0,0,0,.6);border:1px solid rgba(255,20,147,.2);border-radius:16px;padding:20px 24px;text-align:center;}
+    .stat-val{font-family:'Orbitron',monospace;font-weight:900;color:#ff1493;text-shadow:0 0 20px rgba(255,20,147,.6);}
+
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
+  </style>
+</head>
+<body>
+<div id="read-progress-bar"></div>
+<div id="cur"></div><div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<!-- ═══ THREAT SCANNER RAIL ═══ -->
+<div id="threat-scanner">
+  <div class="scanner-pct" id="scan-pct">0%</div>
+  <div class="scanner-threat-level">
+    <span class="scanner-threat-label">THREAT</span>
+    <span class="scanner-threat-value" id="scan-level">LOW</span>
+  </div>
+  <div class="scanner-track">
+    <div class="scanner-fill" id="scan-fill" style="height:0%;"></div>
+    <div class="scanner-beam" id="scan-beam" style="top:0%;"></div>
+  </div>
+  <div class="scanner-label">READ</div>
+  <div style="margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div class="scanner-section-dot" id="dot-0" title="The $5 Problem"></div>
+    <div class="scanner-section-dot" id="dot-1" title="What You're Buying"></div>
+    <div class="scanner-section-dot" id="dot-2" title="Why Dentists"></div>
+    <div class="scanner-section-dot" id="dot-3" title="How an Attack Unfolds"></div>
+    <div class="scanner-section-dot" id="dot-4" title="What Prepared Looks Like"></div>
+    <div class="scanner-section-dot" id="dot-5" title="Your Action Plan"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center scanner-offset">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+    <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+    <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link active">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
+
+<!-- ARTICLE HERO -->
+<header class="article-hero pt-28" style="position:relative;z-index:2">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 scanner-offset">
+    <div class="flex items-center gap-2 mb-6 font-mono text-xs text-gray-600">
+      <a href="index.html" class="hover:text-pink-400 transition" style="cursor:none;">HOME</a>
+      <span>›</span>
+      <a href="blog.html" class="hover:text-pink-400 transition" style="cursor:none;">INTEL BRIEFING</a>
+      <span>›</span>
+      <span class="text-gray-500">RANSOMWARE &amp; HEALTHCARE</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 mb-5">
+      <div class="threat-badge threat-critical"><span class="threat-dot"></span>CRITICAL THREAT LEVEL</div>
+      <span class="font-mono text-xs text-gray-500">RANSOMWARE · DENTAL PRACTICES</span>
+      <span class="font-mono text-xs text-gray-600">· 10 min read</span>
+    </div>
+    <h1 class="font-display font-black text-white leading-tight mb-5" style="font-size:clamp(1.8rem,5vw,3.2rem)">
+      Ransomware for Under $5:<br>Why Your Dental Practice<br><span class="neon-pink">Is the Perfect Target</span>
+    </h1>
+    <p class="text-gray-300 text-lg leading-relaxed mb-8 max-w-2xl">A fully operational ransomware kit costs less than a cup of coffee on the dark web — and requires zero technical expertise to deploy. Here's what that means for your practice, your patients, and your livelihood.</p>
+    <div class="flex flex-wrap items-center gap-5 mb-6">
+      <div class="flex items-center gap-3">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:700;font-size:.7rem;color:#fff;flex-shrink:0;">DS</div>
+        <div><div class="text-white font-bold text-sm">Dr David Sykes</div><div class="text-gray-500 text-xs font-mono">Cybersecurity Practitioner · Umhlanga, ZA</div></div>
+      </div>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <span class="text-gray-500 text-xs font-mono">01 MAR 2026</span>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <span class="text-gray-500 text-xs font-mono">10 MIN READ</span>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <div class="flex items-center gap-1">
+        <i class="fas fa-tooth text-pink-400/50 text-xs"></i>
+        <span class="text-gray-600 text-xs font-mono">Dental Practice Security</span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-1 mb-8">
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1566 · Phishing</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1486 · Data Encryption</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1083 · File Discovery</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1490 · Inhibit Recovery</span>
+    </div>
+    <div class="flex flex-wrap gap-3 pb-8 border-b border-gray-900">
+      <a href="https://www.linkedin.com/shareArticle?url=https://greyhat4hire.com/ransomware-under-5-dollars.html" target="_blank" class="share-btn"><i class="fab fa-linkedin text-blue-400"></i> Share</a>
+      <a href="https://twitter.com/intent/tweet?url=https://greyhat4hire.com/ransomware-under-5-dollars.html" target="_blank" class="share-btn"><i class="fab fa-twitter text-sky-400"></i> Tweet</a>
+      <button id="copy-link-btn" class="share-btn"><i class="fas fa-link"></i> Copy Link</button>
+    </div>
+  </div>
+</header>
+
+<!-- ARTICLE BODY + SIDEBAR -->
+<main class="py-14 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto scanner-offset">
+
+      <!-- ARTICLE -->
+      <article class="xl:col-span-3 max-w-3xl">
+        <div class="article-body">
+
+          <!-- ═══ SECTION 1 ═══ -->
+          <div id="section-intro">
+            <div class="callout callout-warn mb-8">
+              <span class="callout-icon">⚠️</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ef4444;">IMPORTANT NOTE</div>
+                <p>This article describes the dark web ransomware ecosystem for defensive awareness purposes only. No links, sources, or purchasing guidance are provided. The goal is to help dental practitioners understand the threat landscape so they can protect their patients and their practices.</p>
+              </div>
+            </div>
+
+            <h2 id="s0">The $5 Problem</h2>
+            <p>Picture the kind of criminal who used to threaten your practice. You'd imagine someone technically sophisticated — a seasoned hacker who spent years learning the craft. That person still exists. But today they've been joined by tens of thousands of others who need nothing more than a browser, a cryptocurrency wallet, and less than $5.</p>
+            <p>The dark web has industrialised cybercrime. Ransomware is no longer a weapon — it's a product. And like any successful product, it's been packaged, marketed, and sold with customer support, reviews, and money-back guarantees. The barrier to launching a ransomware attack against your practice is now lower than the barrier to booking a patient appointment online.</p>
+            <p>This isn't a distant hypothetical. It is the current reality of the threat environment your practice operates in, right now, in South Africa.</p>
+
+            <!-- Stat boxes -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-8">
+              <div class="stat-box">
+                <div class="stat-val text-3xl mb-1">$5</div>
+                <div class="text-xs text-gray-500 font-mono">Entry-level RaaS kit</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-val text-3xl mb-1">10×</div>
+                <div class="text-xs text-gray-500 font-mono">Health record vs. credit card value</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-val text-2xl mb-1">72hrs</div>
+                <div class="text-xs text-gray-500 font-mono">POPIA breach notification window</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-val text-2xl mb-1">R10M</div>
+                <div class="text-xs text-gray-500 font-mono">Max POPIA penalty</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 2 ═══ -->
+          <div id="section-raas">
+            <h2 id="s1">What You're Actually Buying</h2>
+            <p>The model behind cheap ransomware is called <strong>Ransomware-as-a-Service (RaaS)</strong> — and it mirrors legitimate software business models more closely than you might expect. A developer creates the malware, hosts the infrastructure, and offers it to "affiliates" who handle the deployment. Revenue is split, typically 70–80% to the affiliate and 20–30% to the developer.</p>
+            <p>For under $5, an affiliate can access a basic kit. For $10–$30, they get a polished package that includes:</p>
+            <ul>
+              <li>A pre-compiled malware binary that encrypts files using AES-256 or ChaCha20 — the same algorithms used in legitimate security software</li>
+              <li>An auto-generated ransom note, customisable with the victim's name and a payment deadline</li>
+              <li>A command-and-control (C2) panel accessible via Tor, showing which victims have been infected and which have paid</li>
+              <li>Automated cryptocurrency payment processing — no manual involvement needed from the attacker</li>
+              <li>Evasion techniques that attempt to disable Windows Defender and shadow copy backups before encryption begins</li>
+            </ul>
+
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-dots"><div class="code-dot" style="background:#ff5f56;"></div><div class="code-dot" style="background:#ffbd2e;"></div><div class="code-dot" style="background:#27c93f;"></div></div>
+                <span class="code-lang">ILLUSTRATIVE · TYPICAL RAAS EXECUTION CHAIN</span>
+              </div>
+              <div class="code-body">
+<span class="c-out">// Simplified representation of a common RaaS attack flow</span>
+<span class="c-out">// This is for educational awareness — not operational detail</span>
+<span class="c-out"></span>
+<span class="c-cmd">Step 1 — Delivery:</span>
+<span class="c-out">  Phishing email → malicious attachment → victim opens → dropper executes</span>
+<span class="c-out"></span>
+<span class="c-cmd">Step 2 — Persistence &amp; Evasion:</span>
+<span class="c-out">  Registry run key added for persistence</span>
+<span class="c-crit">  vssadmin.exe delete shadows /all   ← deletes Windows backup snapshots</span>
+<span class="c-crit">  wbadmin delete catalog -quiet      ← removes Windows Backup catalog</span>
+<span class="c-out"></span>
+<span class="c-cmd">Step 3 — Encryption:</span>
+<span class="c-out">  File scanner targets: *.prf *.xls *.doc *.pdf *.jpg *.db</span>
+<span class="c-flag">  Common targets: *.xls *.doc *.pdf *.jpg *.db *.bak — anything business-critical</span>
+<span class="c-out">  Each file renamed: patientrecords.prf → patientrecords.prf.LOCKED</span>
+<span class="c-out"></span>
+<span class="c-cmd">Step 4 — Ransom note dropped:</span>
+<span class="c-crit">  YOUR FILES ARE ENCRYPTED. Pay 0.05 BTC within 72 hours or lose them forever.</span>
+              </div>
+            </div>
+
+            <div class="callout callout-key">
+              <span class="callout-icon">🔑</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ff69b4;">KEY INSIGHT</div>
+                <p>Ransomware doesn't discriminate by industry — it encrypts whatever is most critical to your operations. For a dental practice, that means your patient database, appointment system, and X-ray archives. The leverage isn't technical sophistication. It's the fact that you cannot see patients without that data.</p>
+              </div>
+            </div>
+
+            <p>What makes this especially dangerous is that the attacker running the campaign might be a 19-year-old with no technical background. The expertise is baked into the product. <strong>They don't need to understand encryption — they just need to press send on a phishing email.</strong></p>
+          </div>
+
+          <!-- ═══ SECTION 3 ═══ -->
+          <div id="section-dental">
+            <h2 id="s2">Why Dental Practices Are the Perfect Target</h2>
+            <p>You might assume that hospitals and large medical aid schemes are the primary targets. They are targeted — but they also have dedicated IT security teams, enterprise-grade firewalls, and compliance officers. Your practice, by contrast, offers attackers a much more attractive proposition: <strong>extremely valuable data, with significantly less protection.</strong></p>
+
+            <h3>Patient Data Is Worth More Than Financial Records</h3>
+            <p>This is well-documented in cybersecurity research: stolen health records command significantly higher prices on dark web markets than stolen credit card numbers. A card gets cancelled within days. A full health record — name, ID number, medical history, contact details, medical aid membership — remains exploitable for years. It can be used for identity fraud, insurance fraud, and highly targeted scams that are far harder for victims to detect than a fraudulent transaction.</p>
+            <p>Exact prices fluctuate and vary widely by market and data quality, so it would be misleading to quote a specific figure here. What is consistent across the research is the <strong>relative value gap</strong>: health data is treated as a premium commodity, and smaller healthcare providers — who hold real patient data but typically lack enterprise security — are an attractive proposition for that reason.</p>
+
+            <div class="callout callout-info">
+              <span class="callout-icon">📋</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#60a5fa;">POPIA EXPOSURE</div>
+                <p>Under the Protection of Personal Information Act, you are legally obligated to report a data breach to the Information Regulator and affected patients within <strong>72 hours</strong> of becoming aware of it. Failure to secure patient data — and failure to report — carries penalties of up to <strong>R10 million</strong> and/or 10 years imprisonment for responsible parties. Ransomware events are reportable breaches even if you pay the ransom and recover the data, because the data was accessed by an unauthorised party.</p>
+              </div>
+            </div>
+
+            <h3>Why Attackers Choose Healthcare Over Banks</h3>
+            <p>There's a second reason dental practices are favoured targets — and it's purely operational. Ransomware attackers are rational. They attack targets that are likely to pay, quickly, without much resistance. Dental practices and small healthcare providers have historically shown a very high payment rate because:</p>
+            <ul>
+              <li><strong>Operational dependency is immediate.</strong> You cannot see patients without access to records, X-rays, treatment histories, and appointment schedules. Every hour of downtime is direct revenue lost, plus reputational damage to patients who arrive for appointments and are turned away.</li>
+              <li><strong>Backup practices are typically weak.</strong> Most practices rely on in-system backup features within their dental software, which are often the first thing ransomware disables. Offsite, air-gapped backups are rare at the small practice level.</li>
+              <li><strong>There is no dedicated IT security response.</strong> When a large bank is hit, a security operations centre engages within minutes. When your practice is hit at 2am, you call the dental software support line in the morning — and discover they can't help because the files are encrypted.</li>
+              <li><strong>The ransom amounts are calibrated to be affordable.</strong> Attackers targeting small practices typically demand R15,000–R80,000 — painful, but less than the perceived cost of downtime, data loss, and legal exposure. This is a deliberate pricing strategy.</li>
+            </ul>
+          </div>
+
+          <!-- ═══ SECTION 4 ═══ -->
+          <div id="section-attack">
+            <h2 id="s3">How an Attack Actually Unfolds</h2>
+            <p>Let's walk through a realistic <strong>illustrative scenario</strong> — not a documented incident, but a composite that reflects how these attacks typically unfold at a small practice. Two dentists, a reception PC, a few workstations, and a server running their practice management software. Tuesday morning, 7:52am.</p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-dots"><div class="code-dot" style="background:#ff5f56;"></div><div class="code-dot" style="background:#ffbd2e;"></div><div class="code-dot" style="background:#27c93f;"></div></div>
+                <span class="code-lang">SCENARIO · TUESDAY MORNING ATTACK TIMELINE</span>
+              </div>
+              <div class="code-body">
+<span class="c-flag">07:52</span>  <span class="c-out">Receptionist opens email: "Revised invoice - payment overdue.pdf.exe"</span>
+<span class="c-out">        Sender appears to be known supplier. Attachment opened.</span>
+<span class="c-out"></span>
+<span class="c-flag">07:53</span>  <span class="c-crit">Dropper executes silently. No visible window. AV scan evaded.</span>
+<span class="c-out">        Malware establishes persistence via scheduled task.</span>
+<span class="c-out">        Begins network enumeration — finds server and 3 workstations.</span>
+<span class="c-out"></span>
+<span class="c-flag">07:55</span>  <span class="c-crit">Shadow copies and Windows Backup catalog deleted on all reachable drives.</span>
+<span class="c-out">        Encryption process begins. Targets: *.prf *.db *.xls *.pdf *.jpg</span>
+<span class="c-out"></span>
+<span class="c-flag">08:02</span>  <span class="c-out">First patient arrives. Receptionist attempts to open practice management software.</span>
+<span class="c-crit">        ERROR: Database file corrupted or inaccessible.</span>
+<span class="c-out">        X-ray images: not loading. Patient records: gone.</span>
+<span class="c-out"></span>
+<span class="c-flag">08:15</span>  <span class="c-out">Ransom note discovered on desktop of every machine:</span>
+<span class="c-crit">        "Your files are encrypted. Pay 0.08 BTC (≈ R65,000) within 72 hours."</span>
+<span class="c-out">        "Do not contact police. Do not try to recover files yourself."</span>
+<span class="c-out">        "After 72 hours the price doubles. After 7 days, files deleted."</span>
+<span class="c-out"></span>
+<span class="c-flag">08:20</span>  <span class="c-out">Dentist calls dental software support. They cannot assist with encryption.</span>
+<span class="c-out">        IT contractor called. Estimated on-site: 2-3 hours.</span>
+<span class="c-flag">72hrs+</span> <span class="c-crit">Practice has been closed for 3 days. 4 patients missed. R48,000 revenue lost.</span>
+<span class="c-out">        POPIA breach notification obligation triggered. Legal consultation required.</span>
+              </div>
+            </div>
+
+            <div class="callout callout-warn">
+              <span class="callout-icon">🚨</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ef4444;">PAYING THE RANSOM DOES NOT GUARANTEE RECOVERY</div>
+                <p>Between 30–40% of organisations that pay a ransomware demand do not receive a working decryption key. Cybercriminals are not bound by any agreement. Additionally, paying confirms to the attacker that your practice is a profitable target — you may be attacked again, or your details shared with other criminal groups. Payment should always be a last resort, not a first response.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 5 ═══ -->
+          <div id="section-prepared">
+            <h2 id="s4">What Prepared Actually Looks Like</h2>
+            <p>Good news: you do not need a large IT budget or specialist staff to significantly reduce your risk. What you need is a structured approach applied consistently. These are the controls that matter most for a dental practice of any size.</p>
+
+            <h3>1. The 3-2-1 Backup Rule — Non-Negotiable</h3>
+            <p>Three copies of your data. Two on different media types. One stored offsite or in the cloud with versioning enabled. The offsite copy must be <strong>air-gapped</strong> — not connected to your practice network — so that ransomware cannot reach it. This single control is the most effective recovery tool available. A tested daily backup means ransomware becomes an inconvenience rather than a catastrophe.</p>
+
+            <h3>2. Multi-Factor Authentication on Everything External</h3>
+            <p>Remote desktop access, your practice email, your cloud storage, your dental software web portal — any service accessible from outside your building must require MFA. The most common initial access vector for small practice attacks is compromised email credentials obtained from previous data breaches. MFA stops credential theft from becoming a foothold, even if the password was already stolen.</p>
+
+            <h3>3. Patch Management — Set It and Actually Run It</h3>
+            <p>Ransomware frequently exploits known vulnerabilities in unpatched Windows systems. Most small practices disable automatic updates because they fear disrupting the dental software. The risk calculus here is badly skewed: the disruption from an unexpected reboot is minutes. The disruption from ransomware is days to weeks. Enable automatic updates. Test your dental software after updates. Accept the minor inconvenience.</p>
+
+            <h3>4. Staff Awareness — Your Biggest Risk and Your Best Defence</h3>
+            <p>The vast majority of ransomware enters a network the same way it entered the practice in our scenario: through a phishing email opened by a staff member. Training doesn't need to be complex. Your team needs to know three things: never open unexpected attachments, verify unexpected requests by calling the sender on a known number, and report anything suspicious immediately without embarrassment. Creating a culture where staff feel safe reporting a suspicious click — rather than hiding it — is the single most operationally valuable security behaviour you can instil.</p>
+
+            <h3>5. An Incident Response Plan — Even a One-Page One</h3>
+            <p>When ransomware hits, panic is expensive. A simple written plan that covers who to call, what not to do (don't try to decrypt files yourself, don't pay without legal advice), how to isolate affected machines, and what your POPIA notification obligations are — reduces response time and decision quality dramatically. You do not need a sophisticated document. You need something that exists and that your staff know about.</p>
+
+            <div class="callout callout-tip">
+              <span class="callout-icon">✅</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#22c55e;">QUICK WIN CHECKLIST</div>
+                <p><strong>This week:</strong> Verify your offsite backup exists and test restoring one file. Enable MFA on your practice email. Check when Windows last updated on your server.<br><br><strong>This month:</strong> Brief your staff on phishing. Locate your dental software vendor's disaster recovery documentation. Ensure your cyber incident response contacts are saved somewhere offline.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 6 ═══ -->
+          <div id="section-action">
+            <h2 id="s5">Your Action Plan</h2>
+            <p>The threat is real, it is cheap to deploy, and dental practices are explicitly valued targets. But this is not a situation where you need to be afraid — it is a situation where you need to be prepared. The difference between a practice that survives a ransomware incident and one that doesn't is almost never budget. It is almost always preparation.</p>
+            <p>As someone who has spent two decades in both dentistry and cybersecurity, I can tell you that the security posture of the average South African dental practice is significantly below where it should be — not because practitioners don't care, but because the threat has been allowed to feel abstract. It isn't. The tools to attack your practice are cheaper than your morning coffee. The tools to defend it are not expensive either — but they require intention and action.</p>
+            <p>If you are uncertain about where your practice stands, a structured risk assessment will identify your specific exposures, prioritise remediation by impact and cost, and give you a clear, actionable roadmap. It does not require bringing in a team of people, shutting the practice down, or spending large amounts of money upfront.</p>
+            <p>The question is not whether practices like yours are being targeted. They are. The question is whether yours will be worth attacking when the scan hits it.</p>
+
+            <!-- CTA Block -->
+            <div style="background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.8));border:1px solid rgba(255,20,147,.3);border-radius:22px;padding:36px;text-align:center;margin:2.5rem 0;">
+              <div class="section-tag mb-3">TAKE ACTION</div>
+              <h3 style="font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:12px;">Is Your Practice Prepared?</h3>
+              <p style="color:rgba(220,220,220,.75);margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto;">A targeted risk assessment for dental practices takes under a day to complete and will show you exactly where your exposure lies — before someone else finds it first.</p>
+              <div class="flex flex-wrap gap-4 justify-center">
+                <a href="contact.html" class="btn-primary pulse-glow"><i class="fas fa-shield-alt"></i> Get a Free Consultation</a>
+                <a href="risk-assessment.html" class="btn-ghost"><i class="fas fa-search"></i> Self-Assessment Tool</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUTHOR CARD -->
+          <div class="author-card mt-10">
+            <div class="flex items-start gap-5 flex-wrap sm:flex-nowrap">
+              <img src="portrait.jpg" alt="Dr David Sykes" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,20,147,.4);flex-shrink:0;" onerror="this.outerHTML='<div style=\'width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-family:Orbitron,monospace;font-weight:700;font-size:1rem;color:#fff;flex-shrink:0;\'>DS</div>'">
+              <div>
+                <div class="section-tag mb-1">AUTHOR</div>
+                <div class="font-bold text-white text-lg mb-1" style="font-family:'Orbitron',monospace;">Dr David Sykes</div>
+                <p style="color:rgba(200,200,200,.7);font-size:.9rem;line-height:1.65;margin:0;">Independent cybersecurity practitioner and practicing dentist based in Umhlanga, South Africa. Founder of Greyhat4Hire. Two decades of precision in both disciplines — and a deep awareness of exactly how exposed most healthcare practices are to the threats covered here.</p>
+                <a href="about.html" class="read-more mt-3">About Dr Sykes <span class="arrow">→</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST TAGS -->
+          <div class="flex flex-wrap gap-2 mt-8 pt-8 border-t border-gray-900">
+            <span class="topic-tag"><i class="fas fa-tag"></i>Ransomware</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Dental Security</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>POPIA</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Dark Web</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Patient Data</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>RaaS</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>South Africa</span>
+          </div>
+
+        </div><!-- /article-body -->
+      </article>
+
+      <!-- SIDEBAR -->
+      <aside class="hidden xl:block xl:col-span-1 space-y-5">
+
+        <!-- TOC -->
+        <div class="sidebar-widget sticky top-28">
+          <div class="section-tag mb-4">Contents</div>
+          <nav>
+            <a href="#s0" class="toc-item"><span class="toc-num">01</span><span class="toc-text">The $5 Problem</span></a>
+            <a href="#s1" class="toc-item"><span class="toc-num">02</span><span class="toc-text">What You're Buying</span></a>
+            <a href="#s2" class="toc-item"><span class="toc-num">03</span><span class="toc-text">Why Dentists</span></a>
+            <a href="#s3" class="toc-item"><span class="toc-num">04</span><span class="toc-text">How an Attack Unfolds</span></a>
+            <a href="#s4" class="toc-item"><span class="toc-num">05</span><span class="toc-text">What Prepared Looks Like</span></a>
+            <a href="#s5" class="toc-item"><span class="toc-num">06</span><span class="toc-text">Your Action Plan</span></a>
+          </nav>
+        </div>
+
+        <!-- CTA Widget -->
+        <div class="sidebar-widget" style="background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border-color:rgba(255,20,147,.25);">
+          <div class="section-tag mb-3">Free Assessment</div>
+          <p style="font-size:.85rem;color:rgba(200,200,200,.7);margin-bottom:16px;line-height:1.6;">Not sure if your practice is protected? Take our free 90-second risk assessment — no registration required.</p>
+          <a href="risk-assessment.html" class="btn-primary w-full" style="font-size:.65rem;padding:12px 16px;"><i class="fas fa-shield-halved"></i> Check My Exposure</a>
+        </div>
+
+        <!-- Related Posts -->
+        <div class="sidebar-widget">
+          <div class="section-tag mb-4">Related Reading</div>
+          <a href="blog.html" class="related-card mb-3">
+            <div class="related-thumb" style="background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(0,0,0,.8));">🔐</div>
+            <div class="related-body">
+              <div style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(255,20,147,.6);margin-bottom:4px;">INTEL BRIEFING</div>
+              <div style="font-weight:700;color:#fff;font-size:.9rem;margin-bottom:6px;">More from the Threat Intelligence Blog</div>
+              <a href="blog.html" class="read-more" style="font-size:.55rem;">View all posts <span class="arrow">→</span></a>
+            </div>
+          </a>
+        </div>
+
+      </aside>
+    </div><!-- /grid -->
+  </div><!-- /max-w -->
+</main>
+
+<!-- FOOTER -->
+<footer style="position:relative;z-index:2;background:rgba(0,0,0,.9);border-top:1px solid rgba(255,20,147,.1);padding:60px 24px 40px;">
+  <div class="max-w-7xl mx-auto scanner-offset">
+      <div class="lg:col-span-2">
+        <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8);margin-bottom:14px;">GREY<span style="color:#fff">HAT</span>4HIRE</div>
+        <p style="color:rgba(160,160,160,.7);font-size:.88rem;line-height:1.7;max-width:340px;">Independent cybersecurity for South African healthcare, dental, and professional practices. We breach you before they do.</p>
+      </div>
+      <div>
+        <div class="section-tag mb-4">Services</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Penetration Testing</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Risk Assessments</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Incident Response</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Security Awareness Training</a>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag mb-4">Company</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="about.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">About</a>
+          <a href="blog.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Blog</a>
+          <a href="pricing.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Pricing</a>
+          <a href="contact.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Contact</a>
+          <a href="privacy.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;transition:color .2s ease;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-xs text-pink-400 tracking-wider">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMen(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMen);closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+
+// ─── READING PROGRESS + THREAT SCANNER ───
+var sections=['section-intro','section-raas','section-dental','section-attack','section-prepared','section-action'];
+var threatLevels=[
+  {label:'LOW',color:'#22c55e',glow:'rgba(34,197,94,.6)'},
+  {label:'MEDIUM',color:'#eab308',glow:'rgba(234,179,8,.6)'},
+  {label:'HIGH',color:'#f97316',glow:'rgba(249,115,22,.6)'},
+  {label:'HIGH',color:'#ef4444',glow:'rgba(239,68,68,.7)'},
+  {label:'CRITICAL',color:'#ef4444',glow:'rgba(239,68,68,.9)'},
+  {label:'CRITICAL',color:'#ff1493',glow:'rgba(255,20,147,.9)'}
+];
+
+function updateScanner(){
+  var scrollTop=window.scrollY;
+  var docH=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round((scrollTop/docH)*100));
+  document.getElementById('read-progress-bar').style.width=pct+'%';
+  document.getElementById('scan-pct').textContent=pct+'%';
+  document.getElementById('scan-fill').style.height=pct+'%';
+  document.getElementById('scan-beam').style.top='calc('+pct+'% - 3px)';
+  var currentSection=0;
+  sections.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el){var rect=el.getBoundingClientRect();if(rect.top<window.innerHeight*0.5)currentSection=i;}
+  });
+  var tl=threatLevels[currentSection];
+  var lvEl=document.getElementById('scan-level');
+  lvEl.textContent=tl.label;
+  lvEl.style.color=tl.color;
+  lvEl.style.textShadow='0 0 10px '+tl.glow;
+  sections.forEach(function(_,i){
+    var dot=document.getElementById('dot-'+i);
+    if(!dot)return;
+    dot.classList.remove('active','passed');
+    if(i===currentSection)dot.classList.add('active');
+    else if(i<currentSection)dot.classList.add('passed');
+  });
+  document.querySelectorAll('.toc-item').forEach(function(item,i){
+    item.classList.toggle('active',i===currentSection);
+  });
+}
+window.addEventListener('scroll',updateScanner,{passive:true});
+updateScanner();
+
+// Copy link
+document.getElementById('copy-link-btn').addEventListener('click',function(e){
+  e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    var btn=document.getElementById('copy-link-btn');
+    btn.innerHTML='<i class="fas fa-check text-green-400"></i> Copied!';
+    setTimeout(function(){btn.innerHTML='<i class="fas fa-link"></i> Copy Link';},2000);
+  });
+});
+
+// GSAP
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.code-block').forEach(function(el){
+  gsap.fromTo(el,{x:-20,opacity:0},{x:0,opacity:1,duration:.6,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true}});
+});
+document.querySelectorAll('.callout').forEach(function(el){
+  gsap.fromTo(el,{y:20,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.stat-box').forEach(function(el,i){
+  gsap.fromTo(el,{y:30,opacity:0},{y:0,opacity:1,duration:.5,delay:i*0.1,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+
+// THREE.JS
+(function(){
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;col[i3]=.98+(Math.random()-.5)*.08;col[i3+1]=.08;col[i3+2]=.58+(Math.random()-.5)*.1;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
+  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022+Math.random()*.026;p[j-1]+=Math.sin(Date.now()*.00008+j)*.003;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+</script>
+</body>
+</html>
