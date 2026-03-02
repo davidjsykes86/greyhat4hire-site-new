@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Hacker's Toolkit: Dangerous Gadgets Anyone Can Buy Online — Greyhat4Hire</title>
+  <meta name="description" content="From a dolphin-shaped device that clones keycards to a charging cable with a hidden computer inside — these off-the-shelf hacking tools are real, legal to own, and increasingly used against businesses like yours."/>
+  <link rel="canonical" href="https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html"/>
+  <meta property="og:title" content="The Hacker's Toolkit: Dangerous Gadgets Anyone Can Buy Online"/>
+  <meta property="og:description" content="From a dolphin-shaped device that clones keycards to a charging cable with a hidden computer inside — these off-the-shelf hacking tools are real, legal to own, and increasingly used against businesses like yours."/>
+  <meta property="og:image" content="https://greyhat4hire.com/og-image.png"/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="og:site_name" content="Greyhat4Hire"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="The Hacker's Toolkit: Dangerous Gadgets Anyone Can Buy Online"/>
+  <meta name="twitter:description" content="These off-the-shelf hacking tools are real, legal to own, and increasingly used against businesses like yours."/>
+  <meta name="twitter:image" content="https://greyhat4hire.com/og-image.png"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "The Hacker's Toolkit: Dangerous Gadgets Anyone Can Buy Online",
+    "description": "From a dolphin-shaped device that clones keycards to a charging cable with a hidden computer inside — these off-the-shelf hacking tools are real, legal to own, and increasingly used against businesses like yours.",
+    "author": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
+    "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com", "logo": {"@type": "ImageObject", "url": "https://greyhat4hire.com/logo.png"}},
+    "datePublished": "2026-03-02",
+    "dateModified": "2026-03-02",
+    "url": "https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html",
+    "image": "https://greyhat4hire.com/og-image.png",
+    "inLanguage": "en-ZA",
+    "keywords": "hacking gadgets, Flipper Zero, USB Rubber Ducky, WiFi Pineapple, O.MG cable, physical security, cybersecurity, South Africa"
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--pink:#ff1493;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18);}
+    .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .desktop-link:hover::after{width:100%;}
+    .desktop-link.active{color:#ff1493;}
+    .desktop-link.active::after{width:100%;}
+    #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:none;background:transparent;transition:all .3s ease;text-decoration:none;}
+    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+
+    #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff1493,#ff69b4);z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(255,20,147,.8);}
+
+    #threat-scanner{position:fixed;right:18px;left:auto;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;gap:0;}
+    .scanner-track{width:2px;height:340px;background:rgba(255,20,147,.1);border-radius:1px;position:relative;overflow:hidden;}
+    .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,#ff1493,#ff69b4);border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(255,20,147,.6);}
+    .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:#ff1493;border-radius:2px;box-shadow:0 0 12px 4px rgba(255,20,147,.6);transition:top .3s ease;}
+    .scanner-label{font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(255,20,147,.5);writing-mode:vertical-rl;text-orientation:mixed;margin-top:10px;text-transform:uppercase;}
+    .scanner-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:900;color:#ff1493;text-shadow:0 0 8px rgba(255,20,147,.8);margin-bottom:10px;}
+    .scanner-threat-level{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.35);border-radius:10px;padding:8px 6px;text-align:center;margin-bottom:8px;min-width:52px;transition:all .5s ease;}
+    .scanner-threat-label{font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(255,20,147,.5);text-transform:uppercase;display:block;margin-bottom:3px;}
+    .scanner-threat-value{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;display:block;transition:color .5s ease,text-shadow .5s ease;}
+    .scanner-section-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,20,147,.25);background:transparent;margin:3px 0;transition:all .4s ease;cursor:none;}
+    .scanner-section-dot.active{background:#ff1493;box-shadow:0 0 8px rgba(255,20,147,.8);border-color:#ff1493;}
+    .scanner-section-dot.passed{background:rgba(255,20,147,.3);border-color:rgba(255,20,147,.4);}
+    @media(max-width:1100px){#threat-scanner{display:none;}}
+
+    .article-hero{background:linear-gradient(135deg,rgba(255,20,147,.12),rgba(0,0,0,.95));border-bottom:1px solid rgba(255,20,147,.15);padding:80px 0 50px;}
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#ef4444;}
+    .threat-high{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.4);color:#f97316;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;animation:threatPulse 1.4s infinite;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+    .article-body h2{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;padding-top:1rem;position:relative;}
+    .article-body h2::before{content:'//';color:rgba(255,20,147,.5);margin-right:10px;font-size:.9rem;}
+    .article-body h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#ff69b4;margin:1.8rem 0 .8rem;}
+    .article-body p{color:rgba(220,220,220,.85);line-height:1.85;margin-bottom:1.2rem;font-size:1rem;font-weight:400;}
+    .article-body strong{color:#fff;font-weight:700;}
+    .article-body ul{margin:1rem 0 1.5rem 0;}
+    .article-body ul li{color:rgba(220,220,220,.8);line-height:1.7;padding-left:1.4rem;position:relative;font-size:.97rem;margin-bottom:.4rem;}
+    .article-body ul li::before{content:'▸';position:absolute;left:0;color:#ff1493;font-size:.75rem;}
+    .article-body a{color:#ff69b4;text-decoration:underline;text-underline-offset:3px;transition:color .2s ease;}
+    .article-body a:hover{color:#ff1493;}
+
+    /* ── DEVICE CARDS ── */
+    .device-card{background:rgba(6,6,6,.9);border:1px solid rgba(255,20,147,.18);border-radius:22px;overflow:hidden;margin:2rem 0;transition:border-color .3s ease;}
+    .device-card:hover{border-color:rgba(255,20,147,.45);}
+    .device-card-img{width:100%;height:260px;object-fit:cover;object-position:center;display:block;background:#0a0a0a;}
+    .device-card-img-wrap{position:relative;overflow:hidden;}
+    .device-card-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,rgba(0,0,0,.95));}
+    .device-card-body{padding:24px 26px 28px;}
+    .device-price-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;margin-bottom:14px;}
+    .price-low{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .price-mid{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:#f59e0b;}
+    .price-high{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+    .device-name{font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;color:#fff;margin-bottom:6px;}
+    .device-subtitle{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(255,20,147,.6);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+    .device-desc{color:rgba(210,210,210,.8);font-size:.95rem;line-height:1.75;margin-bottom:16px;}
+    .device-threat-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:14px;border-top:1px solid rgba(255,20,147,.1);}
+    .threat-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.1em;font-weight:700;}
+    .pill-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+    .pill-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;}
+    .pill-purple{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;}
+    .pill-blue{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#3b82f6;}
+    .pill-green{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .device-img-caption{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.25);text-align:center;padding:8px 16px;border-top:1px solid rgba(255,20,147,.06);}
+
+    .code-block{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.2);border-radius:14px;overflow:hidden;margin:1.5rem 0;}
+    .code-header{background:rgba(255,20,147,.06);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,20,147,.12);}
+    .code-lang{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(255,20,147,.6);}
+    .code-dots{display:flex;gap:6px;}
+    .code-dot{width:9px;height:9px;border-radius:50%;}
+    .code-body{padding:20px 22px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.8;color:#a0d0b0;overflow-x:auto;}
+    .code-body .c-cmd{color:#ff69b4;}
+    .code-body .c-out{color:rgba(255,255,255,.4);}
+    .code-body .c-flag{color:#f59e0b;}
+    .code-body .c-crit{color:#ef4444;}
+
+    .callout{border-radius:14px;padding:20px 22px;margin:1.5rem 0;display:flex;gap:14px;align-items:flex-start;}
+    .callout-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);}
+    .callout-info{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.3);}
+    .callout-tip{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.3);}
+    .callout-key{background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.25);}
+    .callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .callout-body p{margin:0;font-size:.9rem;line-height:1.65;}
+    .callout-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;font-weight:700;margin-bottom:6px;}
+
+    .mitre-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.08em;color:rgba(168,85,247,.9);margin:3px;}
+
+    .toc-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;transition:all .3s ease;text-decoration:none;cursor:none;}
+    .toc-item:hover,.toc-item.active{background:rgba(255,20,147,.08);}
+    .toc-num{font-family:'Orbitron',monospace;font-size:.52rem;color:rgba(255,20,147,.4);width:20px;flex-shrink:0;}
+    .toc-text{font-size:.82rem;color:#888;transition:color .3s ease;}
+    .toc-item:hover .toc-text,.toc-item.active .toc-text{color:#ff69b4;}
+
+    .sidebar-widget{background:rgba(8,8,8,.72);border:1px solid rgba(255,20,147,.14);border-radius:18px;padding:24px;margin-bottom:20px;}
+    .read-more{display:inline-flex;align-items:center;gap:6px;color:var(--pink);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;text-decoration:none;transition:all .3s ease;border:none;background:transparent;cursor:none;padding:0;}
+    .read-more:hover{text-shadow:0 0 12px rgba(255,20,147,.8);}
+    .read-more:hover .arrow{transform:translateX(4px);}
+    .read-more .arrow{transition:transform .3s ease;}
+    .topic-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.08em;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.15);color:rgba(255,20,147,.7);transition:all .3s ease;text-decoration:none;cursor:none;}
+    .topic-tag:hover{background:rgba(255,20,147,.14);border-color:rgba(255,20,147,.4);color:#ff1493;}
+    .author-card{background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border:1px solid rgba(255,20,147,.25);border-radius:22px;padding:32px;}
+    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#888;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .share-btn:hover{border-color:rgba(255,20,147,.35);color:#ff69b4;background:rgba(255,20,147,.06);}
+
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
+  </style>
+</head>
+<body>
+<div id="read-progress-bar"></div>
+<div id="cur"></div><div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:90px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<!-- THREAT SCANNER RAIL — right side -->
+<div id="threat-scanner">
+  <div class="scanner-pct" id="scan-pct">0%</div>
+  <div class="scanner-threat-level">
+    <span class="scanner-threat-label">THREAT</span>
+    <span class="scanner-threat-value" id="scan-level">LOW</span>
+  </div>
+  <div class="scanner-track">
+    <div class="scanner-fill" id="scan-fill" style="height:0%;"></div>
+    <div class="scanner-beam" id="scan-beam" style="top:0%;"></div>
+  </div>
+  <div class="scanner-label">READ</div>
+  <div style="margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div class="scanner-section-dot" id="dot-0" title="Introduction"></div>
+    <div class="scanner-section-dot" id="dot-1" title="Flipper Zero"></div>
+    <div class="scanner-section-dot" id="dot-2" title="O.MG Cable"></div>
+    <div class="scanner-section-dot" id="dot-3" title="USB Rubber Ducky"></div>
+    <div class="scanner-section-dot" id="dot-4" title="WiFi Pineapple"></div>
+    <div class="scanner-section-dot" id="dot-5" title="More Gadgets"></div>
+    <div class="scanner-section-dot" id="dot-6" title="What To Do"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+    <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+    <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+    <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link active">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
+
+<!-- ARTICLE HERO -->
+<header class="article-hero pt-28" style="position:relative;z-index:2">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center gap-2 mb-6 font-mono text-xs text-gray-600">
+      <a href="index.html" class="hover:text-pink-400 transition" style="cursor:none;">HOME</a>
+      <span>›</span>
+      <a href="blog.html" class="hover:text-pink-400 transition" style="cursor:none;">INTEL BRIEFING</a>
+      <span>›</span>
+      <span class="text-gray-500">PHYSICAL SECURITY · THREAT TOOLS</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 mb-5">
+      <div class="threat-badge threat-high"><span class="threat-dot" style="background:#f97316;box-shadow:0 0 6px #f97316;"></span>HIGH THREAT LEVEL</div>
+      <span class="font-mono text-xs text-gray-500">PHYSICAL SECURITY · HARDWARE ATTACKS</span>
+      <span class="font-mono text-xs text-gray-600">· 12 min read</span>
+    </div>
+    <h1 class="font-display font-black text-white leading-tight mb-5" style="font-size:clamp(1.8rem,5vw,3.2rem)">
+      The Hacker's Toolkit:<br>Dangerous Gadgets <span class="neon-pink">Anyone</span><br>Can Buy Online
+    </h1>
+    <p class="text-gray-300 text-lg leading-relaxed mb-8 max-w-2xl">A dolphin-shaped device that clones your access card. A charging cable indistinguishable from the one on your desk — with a hidden computer inside. A USB stick that types 1,000 keystrokes per second the moment it's plugged in. These are not spy movie props. They are commercially available, shipped to South Africa, and increasingly used in real attacks.</p>
+    <div class="flex flex-wrap items-center gap-5 mb-6">
+      <div class="flex items-center gap-3">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:700;font-size:.7rem;color:#fff;flex-shrink:0;">DS</div>
+        <div><div class="text-white font-bold text-sm">Dr David Sykes</div><div class="text-gray-500 text-xs font-mono">Cybersecurity Practitioner · Umhlanga, ZA</div></div>
+      </div>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <span class="text-gray-500 text-xs font-mono">02 MAR 2026</span>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <span class="text-gray-500 text-xs font-mono">12 MIN READ</span>
+    </div>
+    <div class="flex flex-wrap gap-1 mb-8">
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1200 · Hardware Additions</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1091 · Removable Media</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1557 · Adversary-in-the-Middle</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1056 · Input Capture</span>
+    </div>
+    <div class="flex flex-wrap gap-3 pb-8 border-b border-gray-900">
+      <a href="https://www.linkedin.com/shareArticle?url=https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html" target="_blank" class="share-btn"><i class="fab fa-linkedin text-blue-400"></i> Share</a>
+      <a href="https://twitter.com/intent/tweet?url=https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html" target="_blank" class="share-btn"><i class="fab fa-twitter text-sky-400"></i> Tweet</a>
+      <button id="copy-link-btn" class="share-btn"><i class="fas fa-link"></i> Copy Link</button>
+    </div>
+  </div>
+</header>
+
+<!-- ARTICLE BODY + SIDEBAR -->
+<main class="py-14 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid xl:grid-cols-4 gap-10">
+
+      <article class="xl:col-span-3 max-w-3xl">
+        <div class="article-body">
+
+          <!-- ═══ SECTION 1: INTRO ═══ -->
+          <div id="section-intro">
+            <div class="callout callout-warn mb-6">
+              <span class="callout-icon">⚠️</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ef4444;">AWARENESS PURPOSE ONLY</div>
+                <p>Every device covered in this article is a legitimate, commercially available product used by cybersecurity professionals for authorised testing. We describe them here so you know what they look like, what they can do, and how to protect against them — not to enable misuse.</p>
+              </div>
+            </div>
+
+            <h2 id="s0">The Threat Has Gone Physical</h2>
+            <p>Most cybersecurity awareness focuses on the digital: phishing emails, weak passwords, unpatched software. These remain critical. But there is a parallel threat that gets far less attention — <strong>physical attack hardware</strong> that can compromise a system, network, or building in seconds, often without leaving any trace in your logs.</p>
+            <p>The devices covered in this article are not custom-built by nation-state hackers. They are sold openly online, have active hobbyist communities, tutorial YouTube channels, and ship within a week. Prices range from under $100 to a few hundred dollars. Some look like ordinary consumer electronics. That is precisely what makes them dangerous in the wrong hands.</p>
+            <p>Understanding what these tools are — and what they can do — is the first step to making your practice, office, or business a harder target.</p>
+          </div>
+
+          <!-- ═══ SECTION 2: FLIPPER ZERO ═══ -->
+          <div id="section-flipper">
+            <h2 id="s1">01 — Flipper Zero</h2>
+
+            <div class="device-card">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://ghacks.net/wp-content/uploads/2023/01/flipper-zero-review.jpg"
+                  alt="Flipper Zero portable multi-tool hacking device"
+                  class="device-card-img"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+                  <i class="fas fa-mobile-screen-button" style="font-size:3rem;color:rgba(255,20,147,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(255,20,147,.4);letter-spacing:.15em;">FLIPPER ZERO</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">Flipper Zero — the multi-tool that looks like a toy and acts like a skeleton key</div>
+              <div class="device-card-body">
+                <div class="flex items-center gap-3 flex-wrap mb-3">
+                  <span class="device-price-tag price-low"><i class="fas fa-tag"></i> ~$170 USD</span>
+                  <span class="device-price-tag price-low"><i class="fas fa-globe"></i> Ships worldwide</span>
+                </div>
+                <div class="device-name">Flipper Zero</div>
+                <div class="device-subtitle">Portable Multi-Tool · RF · NFC · RFID · IR · Sub-GHz</div>
+                <div class="device-desc">
+                  <p>At first glance, it looks like a children's game — a small orange device with a dolphin mascot on a pixel display. Do not be fooled. The Flipper Zero is a portable, programmable multi-tool capable of interacting with a remarkable range of radio frequencies and protocols. It has become one of the most widely discussed security research tools in recent years, and for good reason.</p>
+                  <p>In the right hands, it can read and clone the RFID card used to enter your building, replay the IR signal from your air conditioning remote, intercept Sub-GHz signals from garage door openers, and emulate contactless bank cards for NFC testing. It can even act as a USB HID device — making a connected computer think a keyboard is typing commands.</p>
+                  <p>The legitimate use case is security research and authorised penetration testing. The concern for businesses is that someone with a Flipper Zero can casually walk past your reception desk and silently read the access card in your pocket or wallet without you knowing.</p>
+                </div>
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-red"><i class="fas fa-id-card"></i> RFID/NFC CLONING</span>
+                  <span class="threat-pill pill-orange"><i class="fas fa-wifi"></i> SUB-GHZ REPLAY</span>
+                  <span class="threat-pill pill-purple"><i class="fas fa-keyboard"></i> USB HID EMULATION</span>
+                  <span class="threat-pill pill-blue"><i class="fas fa-tv"></i> IR CAPTURE</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="callout callout-key">
+              <span class="callout-icon">🔑</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ff69b4;">WHAT THIS MEANS FOR YOUR BUSINESS</div>
+                <p>If your building uses older RFID access cards (125kHz EM4100 or HID Prox formats — very common in South African commercial buildings), they can be cloned silently at close range. An attacker who brushes past you in a corridor could walk back in after hours with a copy of your card. Upgrade to MIFARE DESFire or equivalent encrypted card systems, and combine with PIN entry for sensitive areas.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 3: O.MG CABLE ═══ -->
+          <div id="section-omg">
+            <h2 id="s2">02 — The O.MG Cable</h2>
+
+            <div class="device-card">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://krebsonsecurity.com/wp-content/uploads/2024/01/omgcable.jpg"
+                  alt="O.MG malicious charging cable with hidden computer inside"
+                  class="device-card-img"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+                  <i class="fas fa-plug" style="font-size:3rem;color:rgba(239,68,68,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(239,68,68,.4);letter-spacing:.15em;">O.MG CABLE</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">The O.MG Cable — visually identical to a standard Lightning or USB-C cable, with a full computer hidden in the connector head</div>
+              <div class="device-card-body">
+                <div class="flex items-center gap-3 flex-wrap mb-3">
+                  <span class="device-price-tag price-mid"><i class="fas fa-tag"></i> ~$180–$250 USD</span>
+                  <span class="device-price-tag price-red" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Indistinguishable visually</span>
+                </div>
+                <div class="device-name">O.MG Cable</div>
+                <div class="device-subtitle">Malicious USB Cable · WiFi-Enabled · Keystroke Injection · Payload Delivery</div>
+                <div class="device-desc">
+                  <p>This is the one that tends to shock people the most when they first encounter it. The O.MG Cable — created originally as a security research tool by researcher MG — is a USB charging cable that is, to all external appearances, completely indistinguishable from the cable that came in the box with your phone or laptop. Same feel, same weight, same connectors.</p>
+                  <p>Inside the cable's connector housing — a space smaller than a fingernail — is a fully functional microcontroller with built-in WiFi. When plugged into a computer, the cable can present itself as a keyboard and type pre-programmed malicious commands at machine speed. The attacker can trigger payloads remotely over WiFi, from up to about 90 metres away, without being anywhere near the target machine.</p>
+                  <p>The attack vector is simple: leave a cable in a conference room, hand one to a colleague as a "spare," or swap it on someone's desk. Most people have several cables lying around and wouldn't think twice about picking one up.</p>
+                </div>
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-red"><i class="fas fa-keyboard"></i> KEYSTROKE INJECTION</span>
+                  <span class="threat-pill pill-orange"><i class="fas fa-wifi"></i> REMOTE TRIGGER</span>
+                  <span class="threat-pill pill-purple"><i class="fas fa-eye-slash"></i> ZERO VISUAL INDICATOR</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="callout callout-warn">
+              <span class="callout-icon">🚨</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ef4444;">SIMPLE RULE — OWN YOUR CABLES</div>
+                <p>Only use charging cables you purchased yourself and have kept in your possession. Never plug in a cable given to you by someone else, found at a conference, or borrowed from a shared space. This applies to your phone, laptop, and any device that accepts USB. A USB data blocker ("USB condom") can also prevent data transfer through an untrusted cable, though it won't protect against a cable that masquerades as a keyboard.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 4: USB RUBBER DUCKY ═══ -->
+          <div id="section-ducky">
+            <h2 id="s3">03 — USB Rubber Ducky</h2>
+
+            <div class="device-card">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://store.hak5.org/cdn/shop/products/USB-Rubber-Ducky-2022_800x.jpg"
+                  alt="Hak5 USB Rubber Ducky keystroke injection tool"
+                  class="device-card-img"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+                  <i class="fas fa-usb" style="font-size:3rem;color:rgba(245,158,11,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(245,158,11,.4);letter-spacing:.15em;">USB RUBBER DUCKY</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">Hak5 USB Rubber Ducky — looks like a standard flash drive, acts like a keyboard typing at 1,000 keystrokes per second</div>
+              <div class="device-card-body">
+                <div class="flex items-center gap-3 flex-wrap mb-3">
+                  <span class="device-price-tag price-low"><i class="fas fa-tag"></i> ~$80 USD</span>
+                  <span class="device-price-tag price-low"><i class="fas fa-clock"></i> Active in seconds</span>
+                </div>
+                <div class="device-name">USB Rubber Ducky</div>
+                <div class="device-subtitle">Keystroke Injection Tool · HID Attack · Hak5</div>
+                <div class="device-desc">
+                  <p>Plug a USB drive into a computer and Windows immediately asks what to do with it. But plug in a USB Rubber Ducky and Windows sees a keyboard — and keyboards are trusted unconditionally. No warning, no prompt, no security scan. The Ducky begins typing pre-loaded commands at up to 1,000 keystrokes per second, far faster than any human. Within seconds, it can open a terminal, download and execute a payload, create a new administrator account, exfiltrate saved passwords, or establish a persistent backdoor — then sit silently as an apparently empty flash drive.</p>
+                  <p>The attack requires physical access to an unlocked machine. Five seconds is enough. An unattended reception computer, a laptop left open at a café, a workstation whose user stepped away for a moment — these are the opportunities. The Ducky has been around in various forms since 2010 and remains one of the most effective physical attack tools available precisely because of how computers fundamentally trust keyboards.</p>
+                </div>
+
+                <div class="code-block" style="margin:16px 0;">
+                  <div class="code-header">
+                    <div class="code-dots"><div class="code-dot" style="background:#ff5f56;"></div><div class="code-dot" style="background:#ffbd2e;"></div><div class="code-dot" style="background:#27c93f;"></div></div>
+                    <span class="code-lang">ILLUSTRATIVE · DUCKY SCRIPT ATTACK FLOW</span>
+                  </div>
+                  <div class="code-body">
+<span class="c-out">// Device plugged in — Windows sees a keyboard</span>
+<span class="c-out">// Entire sequence executes in under 8 seconds</span>
+<span class="c-out"></span>
+<span class="c-flag">0.5s</span>  <span class="c-out">Open Run dialog (WIN+R)</span>
+<span class="c-flag">1.2s</span>  <span class="c-out">Type: powershell -w hidden -ep bypass</span>
+<span class="c-flag">2.0s</span>  <span class="c-out">Execute hidden PowerShell window</span>
+<span class="c-flag">3.1s</span>  <span class="c-crit">Download &amp; run remote payload from attacker server</span>
+<span class="c-flag">5.8s</span>  <span class="c-crit">Reverse shell established — attacker has remote access</span>
+<span class="c-flag">7.5s</span>  <span class="c-out">Ducky sits idle — appears as empty USB drive</span>
+<span class="c-out"></span>
+<span class="c-out">// Your AV saw a keyboard typing. Completely trusted.</span>
+                  </div>
+                </div>
+
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-red"><i class="fas fa-keyboard"></i> KEYSTROKE INJECTION</span>
+                  <span class="threat-pill pill-orange"><i class="fas fa-terminal"></i> REMOTE SHELL</span>
+                  <span class="threat-pill pill-blue"><i class="fas fa-user-shield"></i> BYPASSES AV</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 5: WIFI PINEAPPLE ═══ -->
+          <div id="section-pineapple">
+            <h2 id="s4">04 — WiFi Pineapple</h2>
+
+            <div class="device-card">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://hak5.org/cdn/shop/files/wifi-pineapple-mark-vii-1_800x.jpg"
+                  alt="Hak5 WiFi Pineapple wireless network auditing device"
+                  class="device-card-img"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+                  <i class="fas fa-wifi" style="font-size:3rem;color:rgba(34,197,94,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(34,197,94,.4);letter-spacing:.15em;">WIFI PINEAPPLE</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">Hak5 WiFi Pineapple Mark VII — a purpose-built rogue access point that intercepts wireless traffic at scale</div>
+              <div class="device-card-body">
+                <div class="flex items-center gap-3 flex-wrap mb-3">
+                  <span class="device-price-tag price-mid"><i class="fas fa-tag"></i> ~$200 USD</span>
+                  <span class="device-price-tag price-mid"><i class="fas fa-building"></i> Effective in public &amp; offices</span>
+                </div>
+                <div class="device-name">WiFi Pineapple</div>
+                <div class="device-subtitle">Rogue Access Point · Man-in-the-Middle · Wireless Auditing</div>
+                <div class="device-desc">
+                  <p>Your phone and laptop remember WiFi networks they've connected to before, and they quietly broadcast the names of those networks looking for them. The WiFi Pineapple listens to these broadcasts and responds — pretending to be every network your device is looking for. Your device connects automatically, without any prompt, because as far as it knows it found a trusted network.</p>
+                  <p>Once connected through the Pineapple, an attacker can inspect all unencrypted traffic, strip HTTPS from connections that don't enforce HSTS, capture credentials entered on login pages, and inject malicious content into web pages you visit. It broadcasts from a device small enough to fit in a bag, plugged into a powerbank, operating silently in a waiting room, car park, or adjacent office.</p>
+                  <p>This is why public WiFi carries real risk — and why even "secure" environments can be compromised if someone gains physical proximity to the building.</p>
+                </div>
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-red"><i class="fas fa-network-wired"></i> ROGUE ACCESS POINT</span>
+                  <span class="threat-pill pill-orange"><i class="fas fa-eye"></i> TRAFFIC INTERCEPTION</span>
+                  <span class="threat-pill pill-purple"><i class="fas fa-lock-open"></i> CREDENTIAL CAPTURE</span>
+                  <span class="threat-pill pill-green"><i class="fas fa-fingerprint"></i> AUTO-CONNECT EXPLOIT</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 6: MORE GADGETS ═══ -->
+          <div id="section-more">
+            <h2 id="s5">05 — Four More You Should Know About</h2>
+
+            <h3>Bash Bunny</h3>
+            <div class="device-card" style="margin-bottom:1.5rem;">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://detective-store.com/29512-large_default/usb-attack-platform-hak5-bash-bunny-mark-ii.jpg"
+                  alt="Hak5 Bash Bunny USB attack platform"
+                  class="device-card-img"
+                  style="height:200px;"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;">
+                  <i class="fas fa-usb" style="font-size:2.5rem;color:rgba(168,85,247,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(168,85,247,.4);letter-spacing:.15em;">BASH BUNNY</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">Hak5 Bash Bunny — a more powerful USB attack platform that can emulate multiple devices simultaneously</div>
+              <div class="device-card-body" style="padding:20px 24px 22px;">
+                <div class="device-name" style="font-size:1rem;">Bash Bunny (~$120 USD)</div>
+                <div class="device-subtitle">Multi-Vector USB Attack Platform</div>
+                <div class="device-desc" style="font-size:.9rem;">
+                  <p>Think of the Rubber Ducky's more capable sibling. The Bash Bunny can simultaneously emulate a keyboard, a network adapter, and a USB storage device. This means it can both inject keystrokes and exfiltrate files over a spoofed network connection in the same attack sequence. It runs a full Linux operating system and can execute complex multi-stage attack scripts. Used by professional penetration testers for physical access assessments.</p>
+                </div>
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-purple"><i class="fas fa-layer-group"></i> MULTI-VECTOR</span>
+                  <span class="threat-pill pill-red"><i class="fas fa-file-export"></i> FILE EXFILTRATION</span>
+                </div>
+              </div>
+            </div>
+
+            <h3>Proxmark 3</h3>
+            <div class="device-card" style="margin-bottom:1.5rem;">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://www.ryscc.com/cdn/shop/products/Proxmark3RDv4Kit_1024x1024.jpg"
+                  alt="Proxmark 3 RFID NFC card cloning research device"
+                  class="device-card-img"
+                  style="height:200px;"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;">
+                  <i class="fas fa-id-card" style="font-size:2.5rem;color:rgba(59,130,246,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(59,130,246,.4);letter-spacing:.15em;">PROXMARK 3</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">Proxmark 3 RDv4 — the professional tool for RFID and NFC security research, capable of cloning most access cards</div>
+              <div class="device-card-body" style="padding:20px 24px 22px;">
+                <div class="device-name" style="font-size:1rem;">Proxmark 3 (~$300 USD)</div>
+                <div class="device-subtitle">RFID / NFC Research &amp; Cloning Tool</div>
+                <div class="device-desc" style="font-size:.9rem;">
+                  <p>Where the Flipper Zero is a generalist, the Proxmark 3 is a specialist. It is the professional tool of choice for RFID and NFC security research, capable of reading, cloning, emulating, and analysing a wide range of contactless card systems — including many that are used for building access, loyalty programmes, and transit cards. The Proxmark can work on encrypted card formats that the Flipper Zero cannot, making it significantly more capable against hardened physical access systems. Used extensively by professional security teams doing physical penetration tests.</p>
+                </div>
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-blue"><i class="fas fa-clone"></i> ADVANCED RFID CLONING</span>
+                  <span class="threat-pill pill-purple"><i class="fas fa-lock-open"></i> ENCRYPTED CARD BYPASS</span>
+                </div>
+              </div>
+            </div>
+
+            <h3>LAN Turtle</h3>
+            <div class="device-card" style="margin-bottom:1.5rem;">
+              <div class="device-card-img-wrap">
+                <img
+                  src="https://hak5.org/cdn/shop/products/lan-turtle-3g-800x.jpg"
+                  alt="Hak5 LAN Turtle covert network tap"
+                  class="device-card-img"
+                  style="height:200px;"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;">
+                  <i class="fas fa-ethernet" style="font-size:2.5rem;color:rgba(245,158,11,.4);"></i>
+                  <span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(245,158,11,.4);letter-spacing:.15em;">LAN TURTLE</span>
+                </div>
+              </div>
+              <div class="device-card-img-caption">Hak5 LAN Turtle — plugs between your Ethernet port and cable, providing persistent covert network access</div>
+              <div class="device-card-body" style="padding:20px 24px 22px;">
+                <div class="device-name" style="font-size:1rem;">LAN Turtle (~$60 USD)</div>
+                <div class="device-subtitle">Covert Network Implant · Remote Access</div>
+                <div class="device-desc" style="font-size:.9rem;">
+                  <p>The LAN Turtle disguises itself as a USB Ethernet adapter. It plugs into a USB port on a target computer, with an Ethernet cable connected between it and the wall. To the machine, it looks like a network adapter. In reality, it's a covert implant sitting between the computer and the network, capable of intercepting traffic, providing remote access to the attacker over the internet, and running automated attack modules. Once physically planted — which takes about five seconds — it can persist undetected for days or weeks.</p>
+                </div>
+                <div class="device-threat-row">
+                  <span class="threat-pill pill-orange"><i class="fas fa-plug"></i> NETWORK IMPLANT</span>
+                  <span class="threat-pill pill-red"><i class="fas fa-globe"></i> PERSISTENT REMOTE ACCESS</span>
+                </div>
+              </div>
+            </div>
+
+            <h3>Screen Crab &amp; Packet Squirrel</h3>
+            <p>Rounding out the Hak5 toolkit: the <strong>Screen Crab</strong> ($100) is a covert HDMI man-in-the-middle implant that records or streams whatever is displayed on a monitor — planted between a screen and a computer, it captures everything shown on that display and can exfiltrate it over WiFi. The <strong>Packet Squirrel</strong> ($60) is a similar implant for network cables, designed to silently capture network traffic or create a VPN tunnel back to an attacker for ongoing access. Both are small enough to be hidden behind a monitor or under a desk.</p>
+
+            <div class="callout callout-info">
+              <span class="callout-icon">📋</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#60a5fa;">COMMON THREAD</div>
+                <p>Notice what all of these tools require: <strong>brief physical access.</strong> A moment alone with a computer, a cable lying on a desk, walking past someone in a corridor, sitting in your waiting room. This is why physical security — who enters your premises, what they can touch, and what your staff notice — is as important as any software control.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ SECTION 7: WHAT TO DO ═══ -->
+          <div id="section-defence">
+            <h2 id="s6">What Vigilance Actually Looks Like</h2>
+            <p>Awareness is step one. But awareness without action doesn't protect you. Here's what you can do to reduce your exposure to physical attack tools — most of which costs nothing.</p>
+
+            <h3>Physical Security Basics</h3>
+            <ul>
+              <li><strong>Lock screens when you step away.</strong> Windows+L takes one second. An unlocked, unattended machine is an open door to every USB-based attack described here.</li>
+              <li><strong>Control USB access.</strong> Consider USB port blockers for computers that don't need removable storage, or group policy settings that restrict which USB device classes can connect. Reception computers especially should not accept arbitrary USB devices.</li>
+              <li><strong>Own your cables.</strong> Never plug in a cable you didn't purchase yourself. Keep your own cables labelled. Be particularly cautious with cables received as gifts, found in conference goody bags, or borrowed from a shared drawer.</li>
+              <li><strong>Audit who enters your premises.</strong> The most sophisticated physical attack tool is useless if the attacker never gets through the door. A visitor log, escorted access for non-staff, and a culture where staff challenge unfamiliar faces are all effective controls.</li>
+              <li><strong>Check what's plugged in.</strong> Periodically look at what is connected to the USB and Ethernet ports of computers in your practice, particularly machines in less-monitored areas. A LAN Turtle or Bash Bunny is only effective if nobody looks behind the machine.</li>
+            </ul>
+
+            <h3>Network &amp; Wireless</h3>
+            <ul>
+              <li><strong>Segment your guest WiFi.</strong> Any network accessible to patients, visitors, or anyone outside your staff should be completely isolated from your practice systems. A WiFi Pineapple in your waiting room cannot reach your clinical network if they're properly segmented.</li>
+              <li><strong>Disable auto-connect on work devices.</strong> Configure staff laptops and phones to not automatically connect to open or remembered networks without confirmation.</li>
+              <li><strong>Use a VPN on public or untrusted networks.</strong> If your staff work from coffee shops, hotels, or anywhere that isn't your office network, a VPN is non-negotiable.</li>
+            </ul>
+
+            <h3>Access Control</h3>
+            <ul>
+              <li><strong>Audit your access card system.</strong> If your building uses older 125kHz RFID cards, they can be cloned by the Flipper Zero and Proxmark with minimal effort. Ask your access control provider what card technology you're using and whether it supports encrypted authentication.</li>
+              <li><strong>Combine card access with PIN for sensitive areas.</strong> A cloned card alone cannot satisfy a two-factor access system. Server rooms, file storage, and admin areas benefit significantly from dual-factor physical access.</li>
+            </ul>
+
+            <!-- CTA Block -->
+            <div style="background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.8));border:1px solid rgba(255,20,147,.3);border-radius:22px;padding:36px;text-align:center;margin:2.5rem 0;">
+              <div class="section-tag mb-3">TAKE ACTION</div>
+              <h3 style="font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:12px;">How Exposed Is Your Practice?</h3>
+              <p style="color:rgba(220,220,220,.75);margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto;">A physical penetration test from Greyhat4Hire uses these exact tools — legally, with your permission — to show you precisely which of these attacks would succeed against your business before someone with bad intentions tries them.</p>
+              <div class="flex flex-wrap gap-4 justify-center">
+                <a href="contact.html" class="btn-primary pulse-glow"><i class="fas fa-shield-alt"></i> Book a Physical Pentest</a>
+                <a href="risk-assessment.html" class="btn-ghost"><i class="fas fa-search"></i> Free Self-Assessment</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUTHOR CARD -->
+          <div class="author-card mt-10">
+            <div class="flex items-start gap-5 flex-wrap sm:flex-nowrap">
+              <img src="portrait.jpg" alt="Dr David Sykes" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,20,147,.4);flex-shrink:0;" onerror="this.outerHTML='<div style=\'width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-family:Orbitron,monospace;font-weight:700;font-size:1rem;color:#fff;flex-shrink:0;\'>DS</div>'">
+              <div>
+                <div class="section-tag mb-1">AUTHOR</div>
+                <div class="font-bold text-white text-lg mb-1" style="font-family:'Orbitron',monospace;">Dr David Sykes</div>
+                <p style="color:rgba(200,200,200,.7);font-size:.9rem;line-height:1.65;margin:0;">Independent cybersecurity practitioner and practicing dentist based in Umhlanga, South Africa. Founder of Greyhat4Hire. Two decades of precision in both disciplines — including hands-on physical penetration testing using the tools described in this article.</p>
+                <a href="about.html" class="read-more mt-3">About Dr Sykes <span class="arrow">→</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAGS -->
+          <div class="flex flex-wrap gap-2 mt-8 pt-8 border-t border-gray-900">
+            <span class="topic-tag"><i class="fas fa-tag"></i>Flipper Zero</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>USB Rubber Ducky</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>WiFi Pineapple</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>O.MG Cable</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Physical Security</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Hardware Attacks</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Pentesting</span>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- SIDEBAR -->
+      <aside class="hidden xl:block xl:col-span-1 space-y-5">
+        <div class="sidebar-widget sticky top-28">
+          <div class="section-tag mb-4">Contents</div>
+          <nav>
+            <a href="#s0" class="toc-item"><span class="toc-num">01</span><span class="toc-text">The Threat Goes Physical</span></a>
+            <a href="#s1" class="toc-item"><span class="toc-num">02</span><span class="toc-text">Flipper Zero</span></a>
+            <a href="#s2" class="toc-item"><span class="toc-num">03</span><span class="toc-text">O.MG Cable</span></a>
+            <a href="#s3" class="toc-item"><span class="toc-num">04</span><span class="toc-text">USB Rubber Ducky</span></a>
+            <a href="#s4" class="toc-item"><span class="toc-num">05</span><span class="toc-text">WiFi Pineapple</span></a>
+            <a href="#s5" class="toc-item"><span class="toc-num">06</span><span class="toc-text">Four More Gadgets</span></a>
+            <a href="#s6" class="toc-item"><span class="toc-num">07</span><span class="toc-text">What To Do</span></a>
+          </nav>
+        </div>
+
+        <div class="sidebar-widget" style="background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border-color:rgba(255,20,147,.25);">
+          <div class="section-tag mb-3">Free Assessment</div>
+          <p style="font-size:.85rem;color:rgba(200,200,200,.7);margin-bottom:16px;line-height:1.6;">Find out how exposed your business is with our free 90-second risk self-assessment.</p>
+          <a href="risk-assessment.html" class="btn-primary w-full" style="font-size:.65rem;padding:12px 16px;"><i class="fas fa-shield-halved"></i> Check My Exposure</a>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="section-tag mb-4">Related Reading</div>
+          <a href="ransomware-under-5-dollars.html" class="block" style="background:rgba(6,6,6,.9);border:1px solid rgba(255,20,147,.12);border-radius:16px;overflow:hidden;text-decoration:none;transition:all .3s ease;" onmouseover="this.style.borderColor='rgba(255,20,147,.4)'" onmouseout="this.style.borderColor='rgba(255,20,147,.12)'">
+            <div style="height:100px;background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(0,0,0,.9));display:flex;align-items:center;justify-content:center;font-size:2rem;">🔒</div>
+            <div style="padding:14px 16px;">
+              <div style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(255,20,147,.6);margin-bottom:4px;">RANSOMWARE</div>
+              <div style="font-weight:700;color:#fff;font-size:.85rem;margin-bottom:8px;">Ransomware for Under $5</div>
+              <span class="read-more" style="font-size:.55rem;">Read post <span class="arrow">→</span></span>
+            </div>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer style="position:relative;z-index:2;background:rgba(0,0,0,.9);border-top:1px solid rgba(255,20,147,.1);padding:60px 24px 40px;">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div class="lg:col-span-2">
+        <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8);margin-bottom:14px;">GREY<span style="color:#fff">HAT</span>4HIRE</div>
+        <p style="color:rgba(160,160,160,.7);font-size:.88rem;line-height:1.7;max-width:340px;">Independent cybersecurity for South African healthcare, dental, and professional practices. We breach you before they do.</p>
+      </div>
+      <div>
+        <div class="section-tag mb-4">Services</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Penetration Testing</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Risk Assessments</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Incident Response</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Security Awareness Training</a>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag mb-4">Company</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="about.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">About</a>
+          <a href="blog.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Blog</a>
+          <a href="pricing.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Pricing</a>
+          <a href="contact.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Contact</a>
+          <a href="privacy.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-xs text-pink-400 tracking-wider">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMen(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMen);closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+
+var sections=['section-intro','section-flipper','section-omg','section-ducky','section-pineapple','section-more','section-defence'];
+var threatLevels=[
+  {label:'LOW',   color:'#22c55e',glow:'rgba(34,197,94,.6)'},
+  {label:'MEDIUM',color:'#eab308',glow:'rgba(234,179,8,.6)'},
+  {label:'MEDIUM',color:'#f97316',glow:'rgba(249,115,22,.6)'},
+  {label:'HIGH',  color:'#f97316',glow:'rgba(249,115,22,.8)'},
+  {label:'HIGH',  color:'#ef4444',glow:'rgba(239,68,68,.8)'},
+  {label:'CRITICAL',color:'#ef4444',glow:'rgba(239,68,68,.9)'},
+  {label:'CRITICAL',color:'#ff1493',glow:'rgba(255,20,147,.9)'}
+];
+
+function updateScanner(){
+  var scrollTop=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round((scrollTop/docH)*100));
+  document.getElementById('read-progress-bar').style.width=pct+'%';
+  document.getElementById('scan-pct').textContent=pct+'%';
+  document.getElementById('scan-fill').style.height=pct+'%';
+  document.getElementById('scan-beam').style.top='calc('+pct+'% - 3px)';
+  var cur=0;
+  sections.forEach(function(id,i){var el=document.getElementById(id);if(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight*.5)cur=i;}});
+  var tl=threatLevels[cur];
+  var lv=document.getElementById('scan-level');
+  lv.textContent=tl.label;lv.style.color=tl.color;lv.style.textShadow='0 0 10px '+tl.glow;
+  sections.forEach(function(_,i){
+    var d=document.getElementById('dot-'+i);if(!d)return;
+    d.classList.remove('active','passed');
+    if(i===cur)d.classList.add('active');else if(i<cur)d.classList.add('passed');
+  });
+  document.querySelectorAll('.toc-item').forEach(function(item,i){item.classList.toggle('active',i===cur);});
+}
+window.addEventListener('scroll',updateScanner,{passive:true});
+updateScanner();
+
+document.getElementById('copy-link-btn').addEventListener('click',function(){
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    var btn=document.getElementById('copy-link-btn');
+    btn.innerHTML='<i class="fas fa-check text-green-400"></i> Copied!';
+    setTimeout(function(){btn.innerHTML='<i class="fas fa-link"></i> Copy Link';},2000);
+  });
+});
+
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.device-card').forEach(function(el,i){
+  gsap.fromTo(el,{y:40,opacity:0},{y:0,opacity:1,duration:.7,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.callout').forEach(function(el){
+  gsap.fromTo(el,{y:20,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.code-block').forEach(function(el){
+  gsap.fromTo(el,{x:-20,opacity:0},{x:0,opacity:1,duration:.6,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true}});
+});
+
+(function(){
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;col[i3]=.98+(Math.random()-.5)*.08;col[i3+1]=.08;col[i3+2]=.58+(Math.random()-.5)*.1;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
+  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022+Math.random()*.026;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+</script>
+</body>
+</html>
