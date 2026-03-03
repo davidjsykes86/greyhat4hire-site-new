@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LockBit 4.0: What It Means for Your Small Business | Greyhat4Hire</title>
+  <meta name="description" content="LockBit 4.0 launched in February 2025 and its affiliate model puts every small business at risk — not just enterprises. Dr David Sykes breaks down what changed, how it gets in, and what you must do now."/>
+  <link rel="canonical" href="https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Dr David Sykes — Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html"/>
+  <meta property="og:title" content="LockBit 4.0: What It Means for Your Small Business"/>
+  <meta property="og:description" content="LockBit 4.0 launched in February 2025. Average ransom demands now exceed $1.5M. The affiliate model means any business is a valid target. Here's what you need to know."/>
+  <meta property="og:image" content="https://greyhat4hire.com/og-image.png"/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="og:site_name" content="Greyhat4Hire"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockBit 4.0: What It Means for Your Small Business"/>
+  <meta name="twitter:description" content="New version. New evasion. Same target list — and your SME is on it."/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "LockBit 4.0: What It Means for Your Small Business",
+    "description": "LockBit 4.0 launched in February 2025 with polymorphic code, EDR bypass, and a RaaS model that makes any SME a valid target. Dr David Sykes explains the threat and what South African small businesses must do now.",
+    "author": {"@type": "Person", "name": "Dr David Sykes", "url": "https://greyhat4hire.com/about.html"},
+    "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
+    "datePublished": "2026-03-03",
+    "dateModified": "2026-03-03",
+    "url": "https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html",
+    "inLanguage": "en-ZA",
+    "keywords": "LockBit 4.0, ransomware small business, LockBit Neo, RaaS ransomware, POPIA ransomware, South Africa cybersecurity, SME ransomware protection, double extortion"
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--pink:#ff1493;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,20,147,.18);}
+    .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .desktop-link:hover::after{width:100%;}
+    .desktop-link.active{color:#ff1493;}
+    .desktop-link.active::after{width:100%;}
+    #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;position:relative;overflow:hidden;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;cursor:none;background:transparent;transition:all .3s ease;text-decoration:none;}
+    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+    #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff1493,#ff69b4);z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(255,20,147,.8);}
+    #threat-scanner{position:fixed;right:18px;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;}
+    .scanner-track{width:2px;height:340px;background:rgba(255,20,147,.1);border-radius:1px;position:relative;overflow:hidden;}
+    .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,#ff1493,#ff69b4);border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(255,20,147,.6);}
+    .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:#ff1493;border-radius:2px;box-shadow:0 0 12px 4px rgba(255,20,147,.6);transition:top .3s ease;}
+    .scanner-label{font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(255,20,147,.5);writing-mode:vertical-rl;margin-top:10px;text-transform:uppercase;}
+    .scanner-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:900;color:#ff1493;text-shadow:0 0 8px rgba(255,20,147,.8);margin-bottom:10px;}
+    .scanner-threat-level{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.35);border-radius:10px;padding:8px 6px;text-align:center;margin-bottom:8px;min-width:52px;}
+    .scanner-threat-label{font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(255,20,147,.5);text-transform:uppercase;display:block;margin-bottom:3px;}
+    .scanner-threat-value{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;display:block;transition:color .5s ease,text-shadow .5s ease;}
+    .scanner-section-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,20,147,.25);background:transparent;margin:3px 0;transition:all .4s ease;}
+    .scanner-section-dot.active{background:#ff1493;box-shadow:0 0 8px rgba(255,20,147,.8);border-color:#ff1493;}
+    .scanner-section-dot.passed{background:rgba(255,20,147,.3);border-color:rgba(255,20,147,.4);}
+    @media(max-width:1100px){#threat-scanner{display:none;}}
+    .article-hero{background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.97));border-bottom:1px solid rgba(255,20,147,.2);padding:80px 0 50px;}
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.5);color:#ef4444;}
+    .threat-high{background:rgba(249,115,22,.13);border:1px solid rgba(249,115,22,.45);color:#f97316;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;animation:threatPulse 1.4s infinite;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .article-body h2{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;padding-top:1rem;position:relative;}
+    .article-body h2::before{content:'//';color:rgba(255,20,147,.5);margin-right:10px;font-size:.9rem;}
+    .article-body h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#ff69b4;margin:1.8rem 0 .8rem;}
+    .article-body p{color:rgba(220,220,220,.85);line-height:1.88;margin-bottom:1.25rem;font-size:1.02rem;}
+    .article-body strong{color:#fff;font-weight:700;}
+    .article-body em{color:#ff69b4;font-style:italic;}
+    .article-body ul{margin:1rem 0 1.5rem 0;}
+    .article-body ul li{color:rgba(220,220,220,.8);line-height:1.72;padding-left:1.4rem;position:relative;font-size:.97rem;margin-bottom:.5rem;}
+    .article-body ul li::before{content:'▸';position:absolute;left:0;color:#ff1493;font-size:.75rem;}
+    .timeline{margin:2rem 0;position:relative;}
+    .timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,rgba(255,20,147,.6),rgba(255,20,147,.1));border-radius:1px;}
+    .timeline-item{display:flex;gap:20px;margin-bottom:0;position:relative;}
+    .timeline-dot-wrap{flex-shrink:0;width:58px;display:flex;flex-direction:column;align-items:center;}
+    .timeline-dot{width:18px;height:18px;border-radius:50%;border:2px solid;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;margin-top:18px;}
+    .timeline-dot-inner{width:6px;height:6px;border-radius:50%;}
+    .timeline-time{font-family:'Orbitron',monospace;font-size:.58rem;font-weight:900;margin-top:19px;text-align:center;letter-spacing:.05em;min-width:42px;}
+    .timeline-card{flex:1;background:rgba(6,6,6,.9);border-radius:18px;padding:20px 22px;margin-bottom:12px;transition:border-color .3s ease;}
+    .timeline-card:hover{border-color:rgba(255,20,147,.4)!important;}
+    .timeline-card-title{font-family:'Orbitron',monospace;font-size:.8rem;font-weight:700;margin-bottom:8px;}
+    .timeline-card-body{font-size:.92rem;color:rgba(200,200,200,.75);line-height:1.72;}
+    .timeline-card-body strong{color:#fff;}
+    .code-block{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.2);border-radius:14px;overflow:hidden;margin:1.5rem 0;}
+    .code-header{background:rgba(255,20,147,.06);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,20,147,.12);}
+    .code-lang{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(255,20,147,.6);}
+    .code-dots{display:flex;gap:6px;}
+    .code-dot{width:9px;height:9px;border-radius:50%;}
+    .code-body{padding:20px 22px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.9;color:#a0d0b0;overflow-x:auto;}
+    .c-pink{color:#ff69b4;}.c-red{color:#ef4444;}.c-yellow{color:#f59e0b;}.c-dim{color:rgba(255,255,255,.28);}.c-green{color:#22c55e;}.c-purple{color:#c084fc;}.c-white{color:#fff;}
+    .callout{border-radius:14px;padding:20px 22px;margin:1.5rem 0;display:flex;gap:14px;align-items:flex-start;}
+    .callout-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);}
+    .callout-info{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.3);}
+    .callout-tip{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.3);}
+    .callout-key{background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.25);}
+    .callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .callout-body p{margin:0;font-size:.92rem;line-height:1.68;}
+    .callout-body p+p{margin-top:8px;}
+    .callout-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;font-weight:700;margin-bottom:6px;}
+    .finding-card{background:rgba(6,6,6,.92);border-radius:20px;overflow:hidden;margin:1.5rem 0;}
+    .finding-header{padding:18px 22px;display:flex;align-items:center;gap:14px;}
+    .finding-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .finding-body{padding:0 22px 22px;}
+    .finding-body p{color:rgba(210,210,210,.82);line-height:1.82;font-size:.95rem;margin-bottom:.9rem;}
+    .finding-body p:last-child{margin-bottom:0;}
+    .finding-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+    .pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.08em;font-weight:700;}
+    .pill-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+    .pill-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;}
+    .pill-yellow{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;}
+    .pill-purple{background:rgba(192,132,252,.1);border:1px solid rgba(192,132,252,.3);color:#c084fc;}
+    .pill-green{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .pill-pink{background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff69b4;}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:1.8rem 0;}
+    .stat-card{background:rgba(6,6,6,.92);border-radius:16px;padding:20px 16px;text-align:center;border:1px solid rgba(255,20,147,.12);transition:all .3s ease;}
+    .stat-card:hover{border-color:rgba(255,20,147,.35);transform:translateY(-4px);}
+    .stat-value{font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;color:#ff1493;text-shadow:0 0 20px rgba(255,20,147,.6);line-height:1;}
+    .stat-label{font-size:.78rem;color:rgba(180,180,180,.65);margin-top:6px;line-height:1.4;}
+    .fix-list{margin:1.5rem 0;display:flex;flex-direction:column;gap:10px;}
+    .fix-item{background:rgba(6,6,6,.9);border:1px solid rgba(34,197,94,.18);border-radius:14px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px;transition:all .3s ease;}
+    .fix-item:hover{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.04);}
+    .fix-num{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.6);flex-shrink:0;margin-top:2px;}
+    .fix-content-title{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:5px;}
+    .fix-content-body{font-size:.9rem;color:rgba(200,200,200,.72);line-height:1.68;}
+    .toc-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;text-decoration:none;transition:all .3s ease;border:1px solid transparent;margin-bottom:4px;}
+    .toc-item:hover,.toc-item.active{background:rgba(255,20,147,.06);border-color:rgba(255,20,147,.2);}
+    .toc-num{font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(255,20,147,.5);flex-shrink:0;width:24px;}
+    .toc-text{font-size:.82rem;color:#888;transition:color .3s ease;}
+    .toc-item:hover .toc-text,.toc-item.active .toc-text{color:#ff69b4;}
+    .sidebar-widget{background:rgba(8,8,8,.72);border:1px solid rgba(255,20,147,.14);border-radius:18px;padding:24px;margin-bottom:20px;}
+    .read-more{display:inline-flex;align-items:center;gap:6px;color:var(--pink);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;text-decoration:none;transition:all .3s ease;border:none;background:transparent;cursor:none;padding:0;}
+    .read-more:hover{text-shadow:0 0 12px rgba(255,20,147,.8);}
+    .read-more:hover .arrow{transform:translateX(4px);}
+    .read-more .arrow{transition:transform .3s ease;}
+    .topic-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.08em;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.15);color:rgba(255,20,147,.7);transition:all .3s ease;text-decoration:none;cursor:none;}
+    .topic-tag:hover{background:rgba(255,20,147,.14);border-color:rgba(255,20,147,.4);color:#ff1493;}
+    .author-card{background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border:1px solid rgba(255,20,147,.25);border-radius:22px;padding:32px;}
+    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#888;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .share-btn:hover{border-color:rgba(255,20,147,.35);color:#ff69b4;background:rgba(255,20,147,.06);}
+    .version-bar{display:flex;flex-wrap:wrap;gap:6px;margin:1.5rem 0;}
+    .v-step{flex:1;min-width:80px;background:rgba(6,6,6,.9);border-radius:12px;padding:14px 12px;text-align:center;border:1px solid rgba(255,255,255,.06);transition:all .3s ease;}
+    .v-step.active{border-color:rgba(255,20,147,.5);background:rgba(255,20,147,.06);}
+    .v-step-label{font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;margin-bottom:4px;}
+    .v-step-year{font-size:.7rem;color:rgba(180,180,180,.5);}
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
+  </style>
+</head>
+<body>
+<div id="read-progress-bar"></div>
+<div id="cur"></div><div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:90px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<!-- SCANNER -->
+<div id="threat-scanner">
+  <div class="scanner-pct" id="scan-pct">0%</div>
+  <div class="scanner-threat-level">
+    <span class="scanner-threat-label">PHASE</span>
+    <span class="scanner-threat-value" id="scan-level" style="font-size:.55rem;">INTEL</span>
+  </div>
+  <div class="scanner-track">
+    <div class="scanner-fill" id="scan-fill" style="height:0%;"></div>
+    <div class="scanner-beam" id="scan-beam" style="top:0%;"></div>
+  </div>
+  <div class="scanner-label">READ</div>
+  <div style="margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div class="scanner-section-dot" id="dot-0"></div>
+    <div class="scanner-section-dot" id="dot-1"></div>
+    <div class="scanner-section-dot" id="dot-2"></div>
+    <div class="scanner-section-dot" id="dot-3"></div>
+    <div class="scanner-section-dot" id="dot-4"></div>
+    <div class="scanner-section-dot" id="dot-5"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#ff1493;"></span><span>Risk Self-Assessment</span></a>
+    <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;"></span><span>The Hacker's Dossier</span></a>
+    <a href="blog.html" class="mobile-link desktop-link text-white">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="article-hero pt-28">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    <div class="flex flex-wrap gap-2 mb-6">
+      <span class="threat-badge threat-critical"><span class="threat-dot" style="background:#ef4444;"></span>CRITICAL THREAT</span>
+      <span class="topic-tag"><i class="fas fa-lock" style="margin-right:4px;font-size:.5rem;"></i>RANSOMWARE</span>
+      <span class="topic-tag"><i class="fas fa-store" style="margin-right:4px;font-size:.5rem;"></i>SMALL BUSINESS</span>
+      <span class="topic-tag"><i class="fas fa-flag" style="margin-right:4px;font-size:.5rem;"></i>SOUTH AFRICA</span>
+    </div>
+    <h1 style="font-family:'Orbitron',monospace;font-size:clamp(1.7rem,4vw,2.9rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:1.2rem;">LockBit 4.0: What It Means<br/><span class="neon-pink">For Your Small Business</span></h1>
+    <p style="font-size:1.1rem;color:rgba(200,200,200,.75);max-width:700px;line-height:1.8;margin-bottom:1.8rem;">It launched in February 2025. Average ransom demands now exceed $1.5M. Its affiliate model means <em>any</em> business is a valid target — including yours. Here's exactly what changed, how it gets in, and what you must do before it finds you.</p>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-bottom:2rem;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(255,20,147,.3),rgba(0,0,0,.8));border:2px solid rgba(255,20,147,.4);display:flex;align-items:center;justify-content:center;font-size:.9rem;">🦷</div>
+        <div>
+          <div style="font-family:'Orbitron',monospace;font-size:.6rem;color:#fff;font-weight:700;">DR DAVID SYKES</div>
+          <div style="font-size:.72rem;color:rgba(160,160,160,.6);">Dentist · Pentester · Greyhat4Hire</div>
+        </div>
+      </div>
+      <div style="height:24px;width:1px;background:rgba(255,255,255,.1);"></div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(160,160,160,.5);">03 MARCH 2026</div>
+      <div style="height:24px;width:1px;background:rgba(255,255,255,.1);"></div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(160,160,160,.5);"><i class="fas fa-clock" style="margin-right:5px;color:rgba(255,20,147,.5);"></i>12 MIN READ</div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;">
+      <button id="copy-link-btn" class="share-btn"><i class="fas fa-link"></i> Copy Link</button>
+      <a href="https://twitter.com/intent/tweet?text=LockBit+4.0%3A+What+It+Means+For+Your+Small+Business&url=https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html" target="_blank" class="share-btn"><i class="fab fa-twitter"></i> Share</a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html" target="_blank" class="share-btn"><i class="fab fa-linkedin"></i> Share</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main style="position:relative;z-index:2;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 xl:grid xl:grid-cols-4 xl:gap-10">
+    <!-- ARTICLE -->
+    <article class="article-body xl:col-span-3">
+
+      <!-- ══ SECTION 0: INTRO ══ -->
+      <div id="section-intro">
+        <p id="s0">I want to tell you something the security industry usually doesn't bother to say to a small business owner: <strong>LockBit 4.0 is not an enterprise problem.</strong> It's not a "big company" problem. It's not a government problem. It is your problem — right now, today, whether you run a two-dentist practice in Sandton or a four-person accounting firm in the Cape Winelands.</p>
+        <p>LockBit is a Ransomware-as-a-Service operation. That means the people who built the malware aren't the ones attacking you. They've licensed it out to hundreds of criminal affiliates — the same way a franchise licences its brand — and those affiliates are hunting for targets everywhere, at all times, across every industry and every size of business. LockBit's developers get a cut. The affiliates do the work. And the affiliates have no minimum target size.</p>
+
+        <!-- STAT GRID -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-value">$1.5M+</div>
+            <div class="stat-label">Average ransom demand in 2025 LockBit attacks</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">22</div>
+            <div class="stat-label">Average days of downtime after a LockBit incident</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">45 min</div>
+            <div class="stat-label">Time to encrypt 90% of file servers in a documented 2026 attack</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">Feb '25</div>
+            <div class="stat-label">Official release date of LockBit 4.0 — active right now</div>
+          </div>
+        </div>
+
+        <p>The statistics above are not hypothetical worst-case scenarios. They're documented outcomes from real attacks in the past twelve months. That 22-day downtime figure is particularly savage for a small business. You do not have 22 days of revenue to lose. You probably don't have the cash reserves to survive it, let alone pay a seven-figure ransom on top.</p>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <div class="callout-title" style="color:#ef4444;">THIS IS NOT FEARMONGERING</div>
+            <p>Everything in this article is sourced from verified threat intelligence, published researcher reports, and documented incident data. I'm not trying to sell you paranoia. I'm trying to give you the same briefing I'd give to a hospital CISO — but translated into language that's useful to a business owner who doesn't have an IT department.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 1: WHAT IS LOCKBIT 4.0 ══ -->
+      <div id="section-what">
+        <h2 id="s1">What Exactly Is LockBit 4.0?</h2>
+        <p>LockBit has been active since 2019. Over six years it has gone through multiple major versions, each more dangerous than the last. In February 2024, international law enforcement — the NCA, FBI, and Europol — executed a major takedown called <strong>Operation Cronos</strong>, seizing LockBit's servers and infrastructure. Most observers assumed that was the end.</p>
+        <p>It wasn't. Within days the group had restored servers and resumed operations. By December 2024, LockBit announced version 4.0 — which had been under development even as their infrastructure was being seized. It launched officially in February 2025.</p>
+
+        <!-- VERSION PROGRESSION -->
+        <div class="version-bar">
+          <div class="v-step"><div class="v-step-label" style="color:#888;">v1.0</div><div class="v-step-year">2019</div></div>
+          <div class="v-step"><div class="v-step-label" style="color:#888;">v2.0</div><div class="v-step-year">2021</div></div>
+          <div class="v-step"><div class="v-step-label" style="color:#888;">v3.0 Black</div><div class="v-step-year">2022</div></div>
+          <div class="v-step"><div class="v-step-label" style="color:#f97316;">Cronos Takedown</div><div class="v-step-year">Feb 2024</div></div>
+          <div class="v-step active"><div class="v-step-label" style="color:#ff1493;">v4.0 Neo</div><div class="v-step-year">Feb 2025</div></div>
+        </div>
+
+        <p>LockBit 4.0 — also called <em>LockBit Neo</em> — was built from the ground up to be harder to detect, harder to stop, and harder to recover from. The people who built it watched every law enforcement and security team response to the previous versions and engineered around those responses. Here is what is new and what it means for you.</p>
+
+        <!-- FEATURE CARDS -->
+        <div class="finding-card" style="border:1px solid rgba(239,68,68,.25);">
+          <div class="finding-header" style="background:rgba(239,68,68,.06);">
+            <div class="finding-icon" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-dna"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;">Feature 01 — Polymorphic Code</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(239,68,68,.6);margin-top:3px;">Your antivirus cannot see it coming · July 2025 variant</div>
+            </div>
+            <span class="pill pill-red" style="margin-left:auto;">CRITICAL</span>
+          </div>
+          <div class="finding-body">
+            <p>Traditional antivirus works by recognising known malware signatures — specific patterns of code that identify a known threat. LockBit 4.0's July 2025 variant introduced <strong>fully polymorphic code</strong>: the malware rewrites its own signature with every single deployment. It looks different every time it is deployed. Your antivirus has never seen this particular version before and cannot recognise it as malicious. The scan comes back clean. The malware runs.</p>
+            <p>This is not a minor upgrade. It renders signature-based endpoint protection — which is what most small businesses rely on — effectively useless as a first line of defence against this threat.</p>
+            <div class="finding-pills">
+              <span class="pill pill-red"><i class="fas fa-eye-slash"></i> INVISIBLE TO SIGNATURE AV</span>
+              <span class="pill pill-orange"><i class="fas fa-dna"></i> REWRITES ITSELF EACH DEPLOY</span>
+              <span class="pill pill-purple"><i class="fas fa-microscope"></i> DETECTS SANDBOX ENVIRONMENTS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="finding-card" style="border:1px solid rgba(249,115,22,.25);">
+          <div class="finding-header" style="background:rgba(249,115,22,.06);">
+            <div class="finding-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;"><i class="fas fa-ghost"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;">Feature 02 — EDR &amp; Telemetry Bypass</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(249,115,22,.6);margin-top:3px;">Blinds your monitoring tools before encrypting</div>
+            </div>
+            <span class="pill pill-orange" style="margin-left:auto;">CRITICAL</span>
+          </div>
+          <div class="finding-body">
+            <p>Endpoint Detection and Response tools — EDR — are the more sophisticated cousin of antivirus. Rather than just looking for known signatures, they monitor for suspicious behaviour: a process that starts encrypting large numbers of files, a script that disables Windows security settings, a program that attempts to escalate its own privileges. EDR is often cited as the answer to polymorphic malware.</p>
+            <p>LockBit 4.0 was designed specifically to defeat it. It patches <span style="font-family:'Share Tech Mono',monospace;color:#ff69b4;">EtwEventWrite</span> — the Windows event tracing function — by overwriting it with a single return instruction, effectively silencing the event log. It then clears existing Windows event logs via <span style="font-family:'Share Tech Mono',monospace;color:#ff69b4;">EvtClearLog</span>. Your monitoring tools are blind. The malware deletes itself from disk after execution to frustrate forensic recovery. By the time your EDR would normally flag something, there is nothing left to find except encrypted files.</p>
+            <div class="finding-pills">
+              <span class="pill pill-orange"><i class="fas fa-bell-slash"></i> DISABLES EVENT TRACING</span>
+              <span class="pill pill-red"><i class="fas fa-trash"></i> SELF-DELETES POST-EXECUTION</span>
+              <span class="pill pill-yellow"><i class="fas fa-eraser"></i> WIPES WINDOWS EVENT LOGS</span>
+              <span class="pill pill-purple"><i class="fas fa-puzzle-piece"></i> DLL UNHOOKING + PROCESS HOLLOWING</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="finding-card" style="border:1px solid rgba(234,179,8,.25);">
+          <div class="finding-header" style="background:rgba(234,179,8,.05);">
+            <div class="finding-icon" style="background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;"><i class="fas fa-copy"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;">Feature 03 — Double Extortion</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(234,179,8,.6);margin-top:3px;">Your data is stolen before it is encrypted</div>
+            </div>
+            <span class="pill pill-yellow" style="margin-left:auto;">HIGH</span>
+          </div>
+          <div class="finding-body">
+            <p>Older ransomware had one lever: pay us or lose your data. Backups defeated it. LockBit 4.0 operates on a double-extortion model that removes backups as a solution entirely. Before a single file is encrypted, the malware exfiltrates your data to an external server. Your patient records. Your client files. Your financial data. Your staff information. All of it is copied out to attacker-controlled infrastructure first.</p>
+            <p>Now the attacker holds two guns. The first: pay us or your systems stay encrypted. The second: pay us or we publish everything we took on our dark web leak site — where journalists, competitors, and regulators will find it. <strong>A backup does not stop the second threat.</strong> Even if you restore from backup in four hours, the attacker still holds your data and the demand stands.</p>
+            <p>For South African businesses subject to POPIA, this second threat is often more terrifying than the encryption itself. A confirmed data leak triggers mandatory breach notification to the Information Regulator — which means your clients find out, your regulator finds out, and the reputational and legal consequences begin regardless of whether you pay.</p>
+            <div class="finding-pills">
+              <span class="pill pill-yellow"><i class="fas fa-upload"></i> DATA EXFILTRATED FIRST</span>
+              <span class="pill pill-red"><i class="fas fa-globe"></i> DARK WEB LEAK SITE</span>
+              <span class="pill pill-orange"><i class="fas fa-scale-balanced"></i> BACKUPS DON'T STOP THREAT 2</span>
+              <span class="pill pill-pink"><i class="fas fa-gavel"></i> TRIGGERS POPIA BREACH NOTIFICATION</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 2: HOW IT GETS IN ══ -->
+      <div id="section-entry">
+        <h2 id="s2">How LockBit 4.0 Gets Into a Small Business</h2>
+        <p>LockBit doesn't need a zero-day exploit or nation-state tooling to compromise your business. It relies on entry paths that exist in almost every small business in South Africa right now — the same misconfigurations and oversights that have always existed, combined with automation that makes finding them trivially easy at scale.</p>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#f97316;">PATH 01</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#f97316;background:rgba(249,115,22,.12);">
+                <div class="timeline-dot-inner" style="background:#f97316;box-shadow:0 0 6px #f97316;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(249,115,22,.2);">
+              <div class="timeline-card-title" style="color:#f97316;"><i class="fas fa-envelope-open-text" style="margin-right:8px;"></i>Phishing — The Favourite Entry Point</div>
+              <div class="timeline-card-body">A convincing email arrives containing either a malicious attachment (often a PDF or Office document with an embedded macro) or a link to a credential-harvesting page that looks exactly like your Microsoft 365 or Google login. One click. One wrong password entered on a fake login page. That's all it takes. LockBit affiliates send targeted spear-phishing campaigns — researching your business via LinkedIn, your website, and Google before crafting a message that feels genuine. An invoice from a supplier. A quote request. A SARS document. The email looks real because it was designed to look real.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#ef4444;">PATH 02</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#ef4444;background:rgba(239,68,68,.12);">
+                <div class="timeline-dot-inner" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(239,68,68,.2);">
+              <div class="timeline-card-title" style="color:#ef4444;"><i class="fas fa-door-open" style="margin-right:8px;"></i>Exposed RDP — The Favourite Target</div>
+              <div class="timeline-card-body">Remote Desktop Protocol (RDP) is how you — or your IT support — remotely access your business computers. If your server or workstation has RDP enabled and is reachable from the internet, LockBit affiliates will find it. Automated scanners run constantly, mapping every internet-connected device in every IP range. Once an exposed RDP endpoint is found, attackers run credential-stuffing attacks with leaked password lists, or brute-force common username/password combinations. <strong>No phishing required.</strong> They connect directly to your machine as if they were sitting at the keyboard. RDP with weak credentials, no MFA, and no network restriction is one of the single most common entry points for ransomware globally.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#eab308;">PATH 03</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#eab308;background:rgba(234,179,8,.1);">
+                <div class="timeline-dot-inner" style="background:#eab308;box-shadow:0 0 6px #eab308;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(234,179,8,.2);">
+              <div class="timeline-card-title" style="color:#eab308;"><i class="fas fa-puzzle-piece" style="margin-right:8px;"></i>Unpatched Software — The Silent Vulnerability</div>
+              <div class="timeline-card-body">Every piece of software you run — Windows, your firewall, your practice management system, your VPN client — has known vulnerabilities that are publicly documented in the CVE database. When a patch is released, the vulnerability it fixes is also disclosed, which means attackers immediately have a list of exactly what to exploit on systems that haven't yet applied the update. LockBit affiliates actively scan for businesses running vulnerable versions of Citrix, Fortinet, Microsoft Exchange, and dozens of other platforms. If your systems are behind on patches — which is extremely common in small businesses that rely on a part-time IT contractor — you may already be flagged as a viable target.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#c084fc;">PATH 04</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#c084fc;background:rgba(192,132,252,.1);">
+                <div class="timeline-dot-inner" style="background:#c084fc;box-shadow:0 0 6px #c084fc;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(192,132,252,.2);">
+              <div class="timeline-card-title" style="color:#c084fc;"><i class="fas fa-handshake" style="margin-right:8px;"></i>Supply Chain &amp; Trusted Third Parties</div>
+              <div class="timeline-card-body">Your IT support provider, your accounting software vendor, your managed print service — they all have access to your systems. If any of them are compromised, attackers can use that trusted access as a bridge directly into your network. This is a particularly insidious entry path because it bypasses all of your perimeter defences: you've explicitly granted access to someone who, from your network's perspective, looks completely legitimate. The attacker isn't coming through the front door — they're using a key that you handed to your IT guy, who left it on a hook in a room that got broken into.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <div class="callout-title" style="color:#ff69b4;">THE AFFILIATE MODEL CHANGES EVERYTHING</div>
+            <p>LockBit's RaaS model means <strong>none of these attacks require a skilled attacker.</strong> The affiliate buys access to the tooling for roughly $500 in Bitcoin, receives a full management dashboard, and is handed ready-made attack infrastructure. A moderately motivated criminal with no deep technical skills can run a successful LockBit campaign. The barrier to entry is lower than ever — and the volume of attacks reflects that reality.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 3: ATTACK TIMELINE ══ -->
+      <div id="section-timeline">
+        <h2 id="s3">What a LockBit 4.0 Attack Looks Like From the Inside</h2>
+        <p>The attack doesn't announce itself. From your perspective, everything is normal — until it isn't. Here is how a typical LockBit 4.0 campaign against a small business unfolds, drawn from documented incident response data.</p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#22c55e;">DAYS<br/>1–14</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#22c55e;background:rgba(34,197,94,.1);">
+                <div class="timeline-dot-inner" style="background:#22c55e;box-shadow:0 0 6px #22c55e;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(34,197,94,.2);">
+              <div class="timeline-card-title" style="color:#22c55e;"><i class="fas fa-magnifying-glass" style="margin-right:8px;"></i>Silent Reconnaissance — You Notice Nothing</div>
+              <div class="timeline-card-body">The attacker is inside your network using a compromised credential or exploited vulnerability. They are not encrypting anything. They are <em>watching</em>. They map your network, identify all connected devices, locate your backup systems, find your most valuable data stores, understand your business operations, and identify the staff accounts with the most privilege. <strong>This phase can last days or weeks.</strong> During this time your normal security tools see nothing unusual because the attacker is using legitimate tools and legitimate credentials to move around.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#f97316;">DAYS<br/>15–17</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#f97316;background:rgba(249,115,22,.1);">
+                <div class="timeline-dot-inner" style="background:#f97316;box-shadow:0 0 6px #f97316;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(249,115,22,.2);">
+              <div class="timeline-card-title" style="color:#f97316;"><i class="fas fa-upload" style="margin-right:8px;"></i>Data Exfiltration — The Data Leaves Before Encryption</div>
+              <div class="timeline-card-body">Having identified your most valuable data — client records, financial files, staff information, intellectual property — the attacker begins systematically copying it out to an external server they control. <strong>This is the double-extortion setup.</strong> For a small business, the data that matters most is often small enough in size that this exfiltration completes in hours and doesn't generate obvious network traffic anomalies that a non-monitored environment would ever detect. Your cloud backup continues running. Your systems remain functional. You have no idea this is happening.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#ef4444;">DAY 18<br/>02:00</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#ef4444;background:rgba(239,68,68,.12);">
+                <div class="timeline-dot-inner" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(239,68,68,.2);">
+              <div class="timeline-card-title" style="color:#ef4444;"><i class="fas fa-moon" style="margin-right:8px;"></i>Deployment — Always at Night or on a Weekend</div>
+              <div class="timeline-card-body">Ransomware is almost always deployed outside business hours. The attacker wants maximum encryption time before anyone notices. LockBit 4.0 patches Windows event tracing, clears logs, then begins encrypting. It targets network shares as well as local drives — meaning every PC connected to your server at that time is encrypted simultaneously. <strong>A manufacturing firm hit in January 2026 had 90% of file servers encrypted in under 45 minutes.</strong> Backup systems are targeted first, specifically to eliminate your recovery path before you even know an attack is in progress.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" style="color:#ff1493;">DAY 18<br/>07:30</div>
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot" style="border-color:#ff1493;background:rgba(255,20,147,.12);">
+                <div class="timeline-dot-inner" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></div>
+              </div>
+            </div>
+            <div class="timeline-card" style="border:1px solid rgba(255,20,147,.25);">
+              <div class="timeline-card-title" style="color:#ff1493;"><i class="fas fa-desktop" style="margin-right:8px;"></i>You Arrive at Work to Find a Ransom Note</div>
+              <div class="timeline-card-body">Every desktop wallpaper has been replaced with a ransom note. Every folder contains a text file with payment instructions. Some printers print the note automatically. Your files have randomised 16-character extensions — they are completely inaccessible. Your practice management software won't open. Your accounting system won't open. Your backup drive shows the same encrypted files. The note gives you a deadline — typically 72 hours — and a dark web address for negotiation. <strong>Average recovery time without paying: 22 days.</strong> Average ransom demand for small businesses: between R500,000 and R2,000,000. And even if you pay, there is no guarantee the decryption key works.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 4: POPIA ══ -->
+      <div id="section-popia">
+        <h2 id="s4">The POPIA Dimension — Why South African Businesses Face a Second Crisis</h2>
+
+        <p>Most cybersecurity articles written for a global audience stop after describing the operational disruption. For South African businesses, there is a second crisis that runs in parallel — and in many cases causes more lasting damage than the ransomware itself.</p>
+
+        <p>The <strong>Protection of Personal Information Act (POPIA)</strong> places specific obligations on any "responsible party" — that's any business that processes the personal information of South African residents. If LockBit's double-extortion attack succeeds in exfiltrating your data, POPIA's breach notification provisions are triggered. You are required to notify the Information Regulator and, in most cases, your affected data subjects — your clients, your patients, your employees — as soon as reasonably possible after becoming aware of the breach.</p>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚖️</span>
+          <div class="callout-body">
+            <div class="callout-title" style="color:#ef4444;">PAYING THE RANSOM DOESN'T MAKE YOU COMPLIANT</div>
+            <p>This is a critical misunderstanding. Some business owners believe that paying the ransom, recovering the decryption key, and restoring systems means the incident "didn't happen" from a regulatory perspective. It did happen. Your data left your control. Whether the attacker honours the ransom and deletes their copy — which is unverifiable and frequently not true — is irrelevant to your POPIA obligations. The breach occurred the moment the data was exfiltrated. Notification is required. The Information Regulator has enforcement powers including administrative fines and, in serious cases, criminal prosecution of responsible parties.</p>
+          </div>
+        </div>
+
+        <p>The practical consequence of this is that a successful LockBit 4.0 attack against a South African small business triggers a cascade of simultaneous crises: operational shutdown, financial ransom demand, mandatory regulatory notification, client notification and the resulting reputational damage, potential civil claims from affected data subjects, and the costs of forensic investigation to determine exactly what was taken. Small businesses routinely underestimate how expensive the regulatory and reputational tail of a ransomware incident is relative to the ransom itself.</p>
+      </div>
+
+      <!-- ══ SECTION 5: WHAT TO DO ══ -->
+      <div id="section-fixes">
+        <h2 id="s5">Six Things to Do Before LockBit Finds You</h2>
+        <p>LockBit 4.0's evasion capabilities are real and significant. But the same truth applies here as it does to almost every cyberattack: the attackers still need an entry point. They still need to find you, get in, move around undetected, and exfiltrate your data before encrypting. Every one of those steps can be disrupted. None of these fixes require an enterprise IT budget.</p>
+
+        <div class="fix-list">
+          <div class="fix-item">
+            <div class="fix-num">01</div>
+            <div>
+              <div class="fix-content-title">Implement Multi-Factor Authentication Everywhere</div>
+              <div class="fix-content-body">MFA is the single highest-impact, lowest-cost security control available to a small business. Enable it on your Microsoft 365 or Google Workspace account, your remote access solution, your cloud storage, and your banking platform. An attacker with your password cannot log in without also having physical access to your phone. The brute-forced or phished credential — LockBit's most common entry mechanism — becomes useless. This is free, takes less than 30 minutes to implement, and makes you dramatically harder to attack than businesses without it.</div>
+            </div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-num">02</div>
+            <div>
+              <div class="fix-content-title">Audit and Restrict RDP — Close It or Lock It Down</div>
+              <div class="fix-content-body">If you don't need RDP exposed to the internet, disable it or put it behind a VPN. If your IT support needs remote access, use a dedicated remote management tool that requires authentication rather than raw RDP. Check your router — many small businesses have had RDP port-forwarded for IT convenience years ago and forgotten about it. If you don't know whether your RDP is exposed, Greyhat4Hire's free Hacker's Dossier tool will show you exactly what's visible from the internet on your domain in under 60 seconds.</div>
+            </div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-num">03</div>
+            <div>
+              <div class="fix-content-title">Maintain Offline, Air-Gapped Backups</div>
+              <div class="fix-content-body">LockBit targets backup systems specifically. Any backup that is continuously connected to your network — a NAS drive, an always-on cloud sync, a USB drive left plugged in — will be encrypted along with everything else. You need a backup that is physically or logically disconnected from your network at the time of attack. The simplest implementation: a rotation of external drives that you physically disconnect and store off-site after each backup. The 3-2-1 rule — three copies, on two different media types, with one kept off-site — is the standard. It survives ransomware.</div>
+            </div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-num">04</div>
+            <div>
+              <div class="fix-content-title">Patch Aggressively and on a Schedule</div>
+              <div class="fix-content-body">Unpatched systems are one of the most reliable entry paths in LockBit's playbook. Enable automatic updates on Windows. Make patching your firewall, VPN appliance, and any internet-facing services a scheduled, documented monthly task rather than something that happens whenever someone gets around to it. Every day a critical patch sits unapplied is a day your system is on an active exploit list that criminals can purchase for less than the price of a coffee.</div>
+            </div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-num">05</div>
+            <div>
+              <div class="fix-content-title">Train Your Staff to Recognise Phishing</div>
+              <div class="fix-content-body">Your staff are not the weakest link in your security chain — they are the most powerful one if they know what to look for. A brief, practical training session on how to identify phishing emails — urgency cues, mismatched sender addresses, unexpected attachments, requests that bypass normal process — changes the outcome of a phishing attack from "one click and we're in" to "staff member reports suspicious email." Greyhat4Hire offers security awareness training specifically designed for small professional practice teams, not for enterprise IT departments.</div>
+            </div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-num">06</div>
+            <div>
+              <div class="fix-content-title">Know What You're Exposed To — Get Tested</div>
+              <div class="fix-content-body">You cannot defend what you cannot see. A penetration test conducted by someone who thinks like an attacker — which is, incidentally, exactly what I do — will identify your real entry points: the exposed services, the weak credentials, the network misconfigurations, the gaps in your backup strategy. It gives you a prioritised, practical remediation list. The cost of a small business penetration test is a fraction of one day of ransomware downtime, let alone a seven-figure ransom demand.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 6: CLOSE ══ -->
+      <div id="section-close">
+        <h2 id="s5b">From One South African to Another</h2>
+        <p>I built Greyhat4Hire because I kept seeing the same story. A small practice owner — dentist, attorney, accountant, physio — who ran a good business, looked after their clients, and had absolutely no reason to think they were a target for serious cybercrime. Then they were. The attack didn't care how good they were at their job or how loyal their clients were. It cared that their RDP was exposed, or that someone on their team clicked a link, or that their backups were plugged into the network 24 hours a day.</p>
+        <p>LockBit 4.0 is not a more dangerous version of the same old threat because the code got better — although it did. It's more dangerous because the affiliate model means the number of attackers looking for businesses like yours has increased by an order of magnitude, the barrier to running an attack has dropped to near zero, and the detection gap created by polymorphic code and telemetry bypass means your existing defences are less effective than they were a year ago.</p>
+        <p><strong>The good news is that the fundamentals still work.</strong> MFA, offline backups, patch management, and staff awareness would prevent the overwhelming majority of LockBit attacks. These are not exotic or expensive interventions. They are basic hygiene that the vast majority of South African small businesses have not yet implemented.</p>
+        <p>If you are not sure whether your business would survive a LockBit attack, it would be my pleasure to find out for you — before the attackers do.</p>
+
+        <!-- AUTHOR CARD -->
+        <div class="author-card mt-10">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(255,20,147,.3),rgba(0,0,0,.8));border:2px solid rgba(255,20,147,.45);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">🦷</div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:.95rem;color:#fff;">Dr David Sykes</div>
+              <div style="font-size:.82rem;color:rgba(180,180,180,.6);margin-top:2px;">Dentist · Penetration Tester · Founder, Greyhat4Hire · South Africa</div>
+            </div>
+          </div>
+          <p style="font-size:.9rem;color:rgba(200,200,200,.7);line-height:1.75;margin-bottom:18px;">Dr Sykes runs a dental practice and a cybersecurity consultancy out of the same brain. His unusual position — understanding both how healthcare and professional practices operate and how attackers think about them — drives Greyhat4Hire's focus on small South African businesses that have been largely ignored by the enterprise-focused security industry.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <a href="contact.html" class="btn-primary" style="padding:12px 24px;font-size:.68rem;"><i class="fas fa-shield-alt"></i> Book a Pentest</a>
+            <a href="risk-assessment.html" class="btn-ghost" style="padding:12px 24px;font-size:.68rem;"><i class="fas fa-chart-bar"></i> Free Risk Assessment</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHARE ROW -->
+      <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,20,147,.1);">
+        <div class="section-tag mb-4">Share This Article</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <button id="copy-link-btn-2" class="share-btn"><i class="fas fa-link"></i> Copy Link</button>
+          <a href="https://twitter.com/intent/tweet?text=LockBit+4.0%3A+What+It+Means+For+Your+Small+Business&url=https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html" target="_blank" class="share-btn"><i class="fab fa-twitter"></i> Twitter</a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html" target="_blank" class="share-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="hidden xl:block xl:col-span-1 space-y-5">
+      <div class="sidebar-widget sticky top-28">
+        <div class="section-tag mb-4">Contents</div>
+        <nav>
+          <a href="#s0" class="toc-item"><span class="toc-num">01</span><span class="toc-text">Why This Affects You</span></a>
+          <a href="#s1" class="toc-item"><span class="toc-num">02</span><span class="toc-text">What Is LockBit 4.0?</span></a>
+          <a href="#s2" class="toc-item"><span class="toc-num">03</span><span class="toc-text">How It Gets In</span></a>
+          <a href="#s3" class="toc-item"><span class="toc-num">04</span><span class="toc-text">Attack Timeline</span></a>
+          <a href="#s4" class="toc-item"><span class="toc-num">05</span><span class="toc-text">POPIA &amp; Compliance</span></a>
+          <a href="#s5" class="toc-item"><span class="toc-num">06</span><span class="toc-text">Six Fixes</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-widget" style="background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border-color:rgba(255,20,147,.25);">
+        <div class="section-tag mb-3">Are You Exposed to LockBit?</div>
+        <p style="font-size:.85rem;color:rgba(200,200,200,.7);margin-bottom:16px;line-height:1.6;">8 questions. 90 seconds. Know your real risk score.</p>
+        <a href="risk-assessment.html" class="btn-primary w-full" style="font-size:.65rem;padding:12px 16px;"><i class="fas fa-shield-halved"></i> Check My Exposure</a>
+      </div>
+
+      <div class="sidebar-widget" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+        <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(239,68,68,.7);margin-bottom:14px;"><i class="fas fa-clipboard-check" style="margin-right:6px;"></i>QUICK SELF-AUDIT</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;flex-shrink:0;"></div><span style="font-size:.82rem;color:rgba(200,200,200,.7);">RDP exposed to the internet?</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;flex-shrink:0;"></div><span style="font-size:.82rem;color:rgba(200,200,200,.7);">No MFA on email or remote access?</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;flex-shrink:0;"></div><span style="font-size:.82rem;color:rgba(200,200,200,.7);">Backups always connected to network?</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;flex-shrink:0;"></div><span style="font-size:.82rem;color:rgba(200,200,200,.7);">Systems not patched in 3+ months?</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;flex-shrink:0;"></div><span style="font-size:.82rem;color:rgba(200,200,200,.7);">Staff never had phishing training?</span></div>
+        </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(239,68,68,.1);font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(239,68,68,.6);">Any yes = you are a viable LockBit target today.</div>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="section-tag mb-4">Related Reading</div>
+        <a href="hacked-dental-practice-11-minutes.html" class="block mb-3" style="background:rgba(6,6,6,.9);border:1px solid rgba(255,20,147,.12);border-radius:16px;overflow:hidden;text-decoration:none;transition:all .3s ease;" onmouseover="this.style.borderColor='rgba(255,20,147,.4)'" onmouseout="this.style.borderColor='rgba(255,20,147,.12)'">
+          <div style="height:80px;background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.9));display:flex;align-items:center;justify-content:center;font-size:1.6rem;">🦷</div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(255,20,147,.6);margin-bottom:4px;">DENTAL · BREACH</div>
+            <div style="font-weight:700;color:#fff;font-size:.82rem;margin-bottom:6px;">We Hacked a Dental Practice in 11 Minutes</div>
+            <span class="read-more" style="font-size:.55rem;">Read post <span class="arrow">→</span></span>
+          </div>
+        </a>
+        <a href="popia-pentest-compliance.html" class="block" style="background:rgba(6,6,6,.9);border:1px solid rgba(255,20,147,.12);border-radius:16px;overflow:hidden;text-decoration:none;transition:all .3s ease;" onmouseover="this.style.borderColor='rgba(255,20,147,.4)'" onmouseout="this.style.borderColor='rgba(255,20,147,.12)'">
+          <div style="height:80px;background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(0,0,0,.9));display:flex;align-items:center;justify-content:center;font-size:1.6rem;">⚖️</div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(255,20,147,.6);margin-bottom:4px;">COMPLIANCE · POPIA</div>
+            <div style="font-weight:700;color:#fff;font-size:.82rem;margin-bottom:6px;">Does a Pentest Make You POPIA Compliant?</div>
+            <span class="read-more" style="font-size:.55rem;">Read post <span class="arrow">→</span></span>
+          </div>
+        </a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer style="position:relative;z-index:2;background:rgba(0,0,0,.9);border-top:1px solid rgba(255,20,147,.1);padding:60px 24px 40px;">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div class="lg:col-span-2">
+        <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8);margin-bottom:14px;">GREY<span style="color:#fff">HAT</span>4HIRE</div>
+        <p style="color:rgba(160,160,160,.7);font-size:.88rem;line-height:1.7;max-width:340px;">Independent cybersecurity for South African healthcare, dental, and professional practices. We breach you before they do.</p>
+      </div>
+      <div>
+        <div class="section-tag mb-4">Services</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Penetration Testing</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Dental Practice Assessments</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Risk Assessments</a>
+          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Security Awareness Training</a>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag mb-4">Company</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="about.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">About</a>
+          <a href="blog.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Blog</a>
+          <a href="pricing.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Pricing</a>
+          <a href="contact.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Contact</a>
+          <a href="privacy.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-xs text-pink-400 tracking-wider">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMen(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMen);closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+
+var sections=['section-intro','section-what','section-entry','section-timeline','section-popia','section-fixes'];
+var phases=[
+  {label:'INTEL',  color:'#22c55e', glow:'rgba(34,197,94,.7)'},
+  {label:'INTEL',  color:'#f59e0b', glow:'rgba(245,158,11,.7)'},
+  {label:'ATTACK', color:'#ef4444', glow:'rgba(239,68,68,.9)'},
+  {label:'BREACH', color:'#ff1493', glow:'rgba(255,20,147,.9)'},
+  {label:'LEGAL',  color:'#c084fc', glow:'rgba(192,132,252,.7)'},
+  {label:'DEFEND', color:'#22c55e', glow:'rgba(34,197,94,.7)'}
+];
+
+function updateScanner(){
+  var scrollTop=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round((scrollTop/docH)*100));
+  document.getElementById('read-progress-bar').style.width=pct+'%';
+  document.getElementById('scan-pct').textContent=pct+'%';
+  document.getElementById('scan-fill').style.height=pct+'%';
+  document.getElementById('scan-beam').style.top='calc('+pct+'% - 3px)';
+  var cur=0;
+  sections.forEach(function(id,i){var el=document.getElementById(id);if(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight*.5)cur=i;}});
+  var ph=phases[cur];
+  var lv=document.getElementById('scan-level');
+  lv.textContent=ph.label;lv.style.color=ph.color;lv.style.textShadow='0 0 10px '+ph.glow;
+  sections.forEach(function(_,i){
+    var d=document.getElementById('dot-'+i);if(!d)return;
+    d.classList.remove('active','passed');
+    if(i===cur)d.classList.add('active');else if(i<cur)d.classList.add('passed');
+  });
+  document.querySelectorAll('.toc-item').forEach(function(item,i){item.classList.toggle('active',i===cur);});
+}
+window.addEventListener('scroll',updateScanner,{passive:true});
+updateScanner();
+
+document.getElementById('copy-link-btn').addEventListener('click',function(){
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    var btn=document.getElementById('copy-link-btn');
+    btn.innerHTML='<i class="fas fa-check text-green-400"></i> Copied!';
+    setTimeout(function(){btn.innerHTML='<i class="fas fa-link"></i> Copy Link';},2000);
+  });
+});
+document.getElementById('copy-link-btn-2').addEventListener('click',function(){
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    var btn=document.getElementById('copy-link-btn-2');
+    btn.innerHTML='<i class="fas fa-check text-green-400"></i> Copied!';
+    setTimeout(function(){btn.innerHTML='<i class="fas fa-link"></i> Copy Link';},2000);
+  });
+});
+
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.finding-card').forEach(function(el){
+  gsap.fromTo(el,{y:35,opacity:0},{y:0,opacity:1,duration:.65,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.timeline-card').forEach(function(el,i){
+  gsap.fromTo(el,{x:30,opacity:0},{x:0,opacity:1,duration:.5,delay:i*.05,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 95%',once:true}});
+});
+document.querySelectorAll('.callout').forEach(function(el){
+  gsap.fromTo(el,{y:20,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.fix-item').forEach(function(el,i){
+  gsap.fromTo(el,{x:-20,opacity:0},{x:0,opacity:1,duration:.5,delay:i*.07,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',once:true}});
+});
+document.querySelectorAll('.stat-card').forEach(function(el,i){
+  gsap.fromTo(el,{y:20,opacity:0},{y:0,opacity:1,duration:.5,delay:i*.08,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',once:true}});
+});
+
+(function(){
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;col[i3]=.98+(Math.random()-.5)*.08;col[i3+1]=.08;col[i3+2]=.58+(Math.random()-.5)*.1;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.82,vertexColors:true,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
+  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+</script>
+</body>
+</html>
