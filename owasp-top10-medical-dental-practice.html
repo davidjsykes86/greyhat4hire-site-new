@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OWASP Top 10 for Medical &amp; Dental Practices: How Hackers Actually Break Into Your Web Apps | Greyhat4Hire</title>
+  <meta name="description" content="A dentist-turned-pentester maps all 10 OWASP web application vulnerabilities to real attack scenarios against South African medical and dental practices — from SQL-injecting your patient portal to hijacking your booking system session."/>
+  <link rel="canonical" href="https://greyhat4hire.com/owasp-top10-medical-dental-practice.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Dr David Sykes — Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="OWASP Top 10 for Medical &amp; Dental Practices — Real Attacks, Real Consequences"/>
+  <meta property="og:description" content="Broken access control, SQL injection, security misconfigurations — here's how each OWASP Top 10 web vulnerability maps to your practice management portal, booking system, or billing app."/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="og:site_name" content="Greyhat4Hire"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "OWASP Top 10 for Medical & Dental Practices: How Hackers Actually Break Into Your Web Apps",
+    "description": "A full breakdown of all 10 OWASP web application vulnerabilities mapped to real attack scenarios against South African medical and dental practices. Includes SQL injection, broken access control, SSRF, security misconfigurations, POPIA implications, and hardening steps.",
+    "author": {"@type": "Person", "name": "Dr David Sykes", "url": "https://greyhat4hire.com/about.html"},
+    "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
+    "datePublished": "2026-03-03",
+    "dateModified": "2026-03-03",
+    "url": "https://greyhat4hire.com/owasp-top10-medical-dental-practice.html",
+    "inLanguage": "en-ZA",
+    "keywords": "OWASP Top 10, web application security, medical practice cybersecurity, dental practice hacking, SQL injection healthcare, broken access control, POPIA compliance, South Africa, patient portal security, web app pentest"
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--purple:#a855f7;--purple-dim:rgba(168,85,247,.7);--pink:#ff1493;--cyan:#22d3ee;--green:#22c55e;--red:#ef4444;--orange:#f97316;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .neon-cyan{color:var(--cyan);text-shadow:0 0 28px rgba(34,211,238,.85);}
+    .neon-purple{color:var(--purple);text-shadow:0 0 28px rgba(168,85,247,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(34,211,238,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#67e8f9;text-shadow:0 0 20px var(--cyan);}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s ease;}
+    .desktop-link:hover::after,.desktop-link.active::after{width:100%;}
+    .desktop-link.active{color:var(--cyan);}
+
+    /* TOOLS DROPDOWN */
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#67e8f9;text-shadow:0 0 20px var(--cyan);}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,211,238,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(34,211,238,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100%+16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(34,211,238,.28);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(34,211,238,.12);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(34,211,238,.28);border-top:1px solid rgba(34,211,238,.28);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(34,211,238,.05);border-color:rgba(34,211,238,.18);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(34,211,238,.4));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(34,211,238,.08);}
+    #mobile-menu{background:rgba(0,0,0,.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+    .mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;}
+    .mobile-tools-toggle:hover{color:#67e8f9;}
+    .mobile-tools-chevron{font-size:.8rem;color:rgba(34,211,238,.7);transition:transform .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+    .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(34,211,238,.45);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(34,211,238,.35)}50%{box-shadow:0 0 65px rgba(34,211,238,.7)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(34,211,238,.15);}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
+
+    /* PROGRESS */
+    #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cyan),var(--purple));z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(34,211,238,.8);}
+
+    /* SCANNER */
+    #threat-scanner{position:fixed;right:18px;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;}
+    .scanner-track{width:2px;height:340px;background:rgba(34,211,238,.1);border-radius:1px;position:relative;overflow:hidden;}
+    .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,var(--cyan),var(--purple));border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(34,211,238,.6);}
+    .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:var(--cyan);border-radius:2px;box-shadow:0 0 12px 4px rgba(34,211,238,.6);transition:top .3s ease;}
+    .scanner-label{font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(34,211,238,.5);writing-mode:vertical-rl;margin-top:10px;text-transform:uppercase;}
+    .scanner-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:900;color:var(--cyan);text-shadow:0 0 8px rgba(34,211,238,.8);margin-bottom:10px;}
+    .scanner-threat-level{background:rgba(0,0,0,.9);border:1px solid rgba(34,211,238,.35);border-radius:10px;padding:8px 6px;text-align:center;margin-bottom:8px;min-width:52px;}
+    .scanner-threat-label{font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(34,211,238,.5);text-transform:uppercase;display:block;margin-bottom:3px;}
+    .scanner-threat-value{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;display:block;transition:color .5s ease,text-shadow .5s ease;}
+    .scanner-section-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(34,211,238,.25);background:transparent;margin:3px 0;transition:all .4s ease;}
+    .scanner-section-dot.active{background:var(--cyan);box-shadow:0 0 8px rgba(34,211,238,.8);border-color:var(--cyan);}
+    .scanner-section-dot.passed{background:rgba(34,211,238,.3);border-color:rgba(34,211,238,.4);}
+    @media(max-width:1100px){#threat-scanner{display:none;}}
+
+    /* HERO */
+    .article-hero{background:linear-gradient(135deg,rgba(34,211,238,.05),rgba(168,85,247,.05),rgba(0,0,0,.97));border-bottom:1px solid rgba(34,211,238,.12);padding:80px 0 50px;}
+
+    /* BADGES */
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.5);color:#ef4444;}
+    .threat-cyan{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.4);color:#22d3ee;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;animation:threatPulse 1.4s infinite;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+    /* ARTICLE BODY */
+    .article-body h2{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;padding-top:1rem;}
+    .article-body h2::before{content:'//';color:rgba(34,211,238,.5);margin-right:10px;font-size:.9rem;}
+    .article-body h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#67e8f9;margin:1.8rem 0 .8rem;}
+    .article-body p{color:rgba(220,220,220,.85);line-height:1.88;margin-bottom:1.25rem;font-size:1.02rem;}
+    .article-body strong{color:#fff;font-weight:700;}
+    .article-body em{color:#67e8f9;font-style:italic;}
+    .article-body ul{margin:1rem 0 1.5rem 0;}
+    .article-body ul li{color:rgba(220,220,220,.8);line-height:1.72;padding-left:1.4rem;position:relative;font-size:.97rem;margin-bottom:.5rem;}
+    .article-body ul li::before{content:'▸';position:absolute;left:0;color:var(--cyan);font-size:.75rem;}
+
+    /* CODE */
+    .code-block{background:rgba(0,0,0,.9);border:1px solid rgba(34,211,238,.2);border-radius:14px;overflow:hidden;margin:1.5rem 0;}
+    .code-header{background:rgba(34,211,238,.04);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(34,211,238,.1);}
+    .code-lang{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(34,211,238,.6);}
+    .code-dots{display:flex;gap:6px;}
+    .code-dot{width:9px;height:9px;border-radius:50%;}
+    .code-body{padding:20px 22px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.9;color:#a5f3fc;overflow-x:auto;white-space:pre;}
+    .c-purple{color:#c084fc;}.c-pink{color:#ff69b4;}.c-red{color:#ef4444;}.c-yellow{color:#f59e0b;}
+    .c-dim{color:rgba(255,255,255,.28);}.c-green{color:#22c55e;}.c-white{color:#fff;}.c-blue{color:#60a5fa;}
+    .c-cyan{color:#22d3ee;}.c-orange{color:#fb923c;}.c-teal{color:#2dd4bf;}
+
+    /* CALLOUTS */
+    .callout{border-radius:14px;padding:20px 22px;margin:1.5rem 0;display:flex;gap:14px;align-items:flex-start;}
+    .callout-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);}
+    .callout-info{background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.25);}
+    .callout-tip{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.25);}
+    .callout-key{background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.25);}
+    .callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .callout-body p{margin:0;font-size:.92rem;line-height:1.68;}
+    .callout-body p+p{margin-top:8px;}
+    .callout-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;font-weight:700;margin-bottom:6px;}
+
+    /* OWASP VULN CARDS */
+    .vuln-card{background:rgba(6,6,6,.94);border-radius:20px;overflow:hidden;margin-bottom:28px;transition:all .35s ease;border:1px solid rgba(255,255,255,.04);}
+    .vuln-card:hover{transform:translateY(-4px);}
+    .vuln-header{padding:20px 24px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,.04);}
+    .vuln-number{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;min-width:56px;line-height:1;}
+    .vuln-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .vuln-meta{flex:1;}
+    .vuln-owasp-id{font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.15em;opacity:.55;margin-bottom:3px;}
+    .vuln-title{font-family:'Orbitron',monospace;font-size:.92rem;font-weight:700;color:#fff;line-height:1.3;}
+    .vuln-body{padding:20px 24px 22px;}
+    .vuln-body p{color:rgba(210,210,210,.8);line-height:1.78;font-size:.95rem;margin-bottom:.9rem;}
+    .vuln-body p:last-of-type{margin-bottom:0;}
+    .vuln-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;}
+    .pill{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:7px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.07em;font-weight:700;}
+    .pill-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+    .pill-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;}
+    .pill-yellow{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;}
+    .pill-purple{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#c084fc;}
+    .pill-green{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .pill-pink{background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff69b4;}
+    .pill-blue{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;}
+    .pill-cyan{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.3);color:#22d3ee;}
+
+    /* FIX ITEMS */
+    .fix-item{display:flex;gap:14px;align-items:flex-start;padding:16px;background:rgba(6,6,6,.92);border:1px solid rgba(34,197,94,.2);border-radius:14px;margin-bottom:10px;transition:all .3s ease;}
+    .fix-item:hover{border-color:rgba(34,197,94,.45);background:rgba(34,197,94,.04);}
+    .fix-num{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:900;color:#22c55e;min-width:28px;}
+    .fix-title{font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:.06em;}
+    .fix-desc{color:rgba(200,200,200,.75);font-size:.88rem;line-height:1.65;}
+
+    /* STAT CARDS */
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin:2rem 0;}
+    .stat-card{background:rgba(8,8,8,.95);border-radius:16px;padding:20px 18px;text-align:center;transition:all .35s ease;}
+    .stat-card:hover{transform:translateY(-4px);}
+    .stat-num{font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:6px;}
+    .stat-label{font-size:.78rem;color:rgba(180,180,180,.65);line-height:1.4;}
+
+    /* TOC */
+    .toc-item{padding:8px 14px;border-left:2px solid rgba(34,211,238,.1);cursor:pointer;transition:all .3s ease;font-size:.78rem;color:rgba(180,180,180,.6);}
+    .toc-item:hover,.toc-item.active{border-left-color:var(--cyan);color:#fff;background:rgba(34,211,238,.04);}
+
+    /* SEVERITY BAR */
+    .sev-bar-wrap{display:flex;align-items:center;gap:10px;margin:12px 0 16px;}
+    .sev-label{font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.12em;color:rgba(255,255,255,.4);min-width:64px;}
+    .sev-bar{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;}
+    .sev-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(34,211,238,.35)}50%{box-shadow:0 0 65px rgba(34,211,238,.75)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+  </style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+<div id="read-progress-bar"></div>
+
+<!-- THREAT SCANNER -->
+<div id="threat-scanner">
+  <div class="scanner-pct" id="scan-pct">0%</div>
+  <div class="scanner-threat-level">
+    <span class="scanner-threat-label">Vuln</span>
+    <span class="scanner-threat-value" id="scan-level" style="color:var(--cyan);">A01</span>
+  </div>
+  <div class="scanner-track">
+    <div class="scanner-fill" id="scan-fill" style="height:0%;"></div>
+    <div class="scanner-beam" id="scan-beam" style="top:-3px;"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:14px;">
+    <div class="scanner-section-dot" id="dot-0"></div>
+    <div class="scanner-section-dot" id="dot-1"></div>
+    <div class="scanner-section-dot" id="dot-2"></div>
+    <div class="scanner-section-dot" id="dot-3"></div>
+    <div class="scanner-section-dot" id="dot-4"></div>
+    <div class="scanner-section-dot" id="dot-5"></div>
+    <div class="scanner-section-dot" id="dot-6"></div>
+    <div class="scanner-section-dot" id="dot-7"></div>
+    <div class="scanner-section-dot" id="dot-8"></div>
+    <div class="scanner-section-dot" id="dot-9"></div>
+    <div class="scanner-section-dot" id="dot-10"></div>
+    <div class="scanner-section-dot" id="dot-11"></div>
+  </div>
+  <div class="scanner-label">OWASP</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#22d3ee;text-shadow:0 0 18px rgba(34,211,238,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(34,211,238,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.25);color:#22d3ee;--glow-color:rgba(34,211,238,.4);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(34,211,238,.6);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl hover:opacity-75 transition" style="color:var(--cyan);cursor:none;"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl" style="color:var(--cyan);cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;"><span class="tools-live-dot"></span><span>Free Tools</span></span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div class="mobile-tools-panel">
+        <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#22d3ee;"></span>Risk Self-Assessment</a>
+        <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;"></span>Hacker's Dossier</a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;"></span>Breach Cost Clock</a>
+        <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;"></span>Vulnerability Intelligence</a>
+        <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;"></span>Reverse Image Search</a>
+      </div>
+    </div>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link" style="color:var(--cyan);">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+    <a href="contact.html" class="btn-primary mt-6" style="padding:14px 28px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="article-hero" style="padding-top:110px;">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="section-tag mb-4">Web Application Security · OWASP · 2026</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+      <span class="threat-badge threat-critical"><span class="threat-dot" style="background:#ef4444;"></span>CRITICAL RISK</span>
+      <span class="threat-badge threat-cyan"><span class="threat-dot" style="background:#22d3ee;"></span>OWASP TOP 10 · 2021</span>
+      <span class="threat-badge" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);color:#c084fc;"><span class="threat-dot" style="background:#a855f7;"></span>POPIA RELEVANT</span>
+    </div>
+    <h1 style="font-family:'Orbitron',monospace;font-size:clamp(1.5rem,4vw,2.6rem);font-weight:900;color:#fff;line-height:1.18;margin-bottom:1.2rem;">
+      OWASP Top 10 for<br/>
+      <span style="color:var(--cyan);text-shadow:0 0 40px rgba(34,211,238,.6);">Medical &amp; Dental</span> Practices
+    </h1>
+    <p style="font-size:1.12rem;color:rgba(210,210,210,.75);line-height:1.8;max-width:720px;margin-bottom:2rem;">
+      Your patient portal has a login page. Your booking system processes form data. Your billing app calls an API. Every single one of those web interactions is a potential attack surface — and there's a globally maintained list of exactly how attackers exploit them. Here's what that list looks like when the target is <em>your</em> practice.
+    </p>
+
+    <!-- AUTHOR -->
+    <div style="display:flex;align-items:center;gap:16px;padding:18px 22px;background:rgba(34,211,238,.04);border:1px solid rgba(34,211,238,.12);border-radius:14px;max-width:600px;">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:900;font-size:.85rem;color:#000;flex-shrink:0;">DS</div>
+      <div>
+        <div style="font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;color:#fff;margin-bottom:2px;">Dr David Sykes</div>
+        <div style="font-size:.8rem;color:rgba(180,180,180,.65);">BChD · Pentester · Greyhat4Hire · Johannesburg, ZA</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;flex-shrink:0;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,211,238,.5);">03 MAR 2026</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(180,180,180,.4);">~18 min read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT -->
+<div class="max-w-6xl mx-auto px-6 py-12 flex gap-10">
+
+  <!-- TOC SIDEBAR -->
+  <aside class="hidden lg:block" style="width:220px;flex-shrink:0;">
+    <div style="position:sticky;top:90px;">
+      <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(34,211,238,.5);margin-bottom:12px;text-transform:uppercase;">In This Article</div>
+      <div id="toc">
+        <div class="toc-item active" onclick="document.getElementById('section-intro').scrollIntoView({behavior:'smooth'})">What is OWASP?</div>
+        <div class="toc-item" onclick="document.getElementById('section-a01').scrollIntoView({behavior:'smooth'})">A01: Broken Access Control</div>
+        <div class="toc-item" onclick="document.getElementById('section-a02').scrollIntoView({behavior:'smooth'})">A02: Crypto Failures</div>
+        <div class="toc-item" onclick="document.getElementById('section-a03').scrollIntoView({behavior:'smooth'})">A03: Injection</div>
+        <div class="toc-item" onclick="document.getElementById('section-a04').scrollIntoView({behavior:'smooth'})">A04: Insecure Design</div>
+        <div class="toc-item" onclick="document.getElementById('section-a05').scrollIntoView({behavior:'smooth'})">A05: Security Misconfiguration</div>
+        <div class="toc-item" onclick="document.getElementById('section-a06').scrollIntoView({behavior:'smooth'})">A06: Vulnerable Components</div>
+        <div class="toc-item" onclick="document.getElementById('section-a07').scrollIntoView({behavior:'smooth'})">A07: Auth Failures</div>
+        <div class="toc-item" onclick="document.getElementById('section-a08').scrollIntoView({behavior:'smooth'})">A08: Data Integrity Failures</div>
+        <div class="toc-item" onclick="document.getElementById('section-a09').scrollIntoView({behavior:'smooth'})">A09: Logging Failures</div>
+        <div class="toc-item" onclick="document.getElementById('section-a10').scrollIntoView({behavior:'smooth'})">A10: SSRF</div>
+        <div class="toc-item" onclick="document.getElementById('section-defence').scrollIntoView({behavior:'smooth'})">Hardening Your Apps</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ARTICLE -->
+  <article class="article-body flex-1 min-w-0">
+
+    <!-- INTRO -->
+    <section id="section-intro" style="scroll-margin-top:80px;">
+      <h2>What Is OWASP — And Why Should Your Practice Care?</h2>
+      <p>
+        The <strong>Open Worldwide Application Security Project (OWASP)</strong> is a non-profit that maintains the most widely referenced list of web application vulnerabilities in the world. The OWASP Top 10 — last updated in 2021 — represents the ten most critical categories of risk affecting web apps, ranked by incidence, exploitability, and impact. Security teams and developers globally use it as their baseline for testing and hardening.
+      </p>
+      <p>
+        Here's the thing: when most doctors and dentists think about cybersecurity, they think about their local network — their NAS, their Carestream box, their Windows workstations. The WiFi in the waiting room. That's all real and important. But your <em>web-facing</em> attack surface is just as dangerous, and it's reachable by anyone on the planet without needing to be anywhere near Sandton or Bryanston or wherever your practice is.
+      </p>
+      <p>
+        Your online booking system. Your patient portal. Your practice management software that has a web interface. Your billing app. Your reception desk's browser-based scheduling tool. Every single one of those is a web application — and every single one is a potential entry point for the OWASP Top 10.
+      </p>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">🦷</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:#ef4444;">FROM THE DENTIST'S SIDE OF THE DRILL</div>
+          <p>I've run web application penetration tests against practice management portals and booking systems used by South African medical and dental practices. What I find routinely isn't sophisticated zero-days. It's OWASP Top 10 basics — the same vulnerabilities that have been on that list for years, sitting open and unaddressed. This article walks through each one, what it means in practice, and exactly what an attacker does with it.</p>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card" style="border:1px solid rgba(239,68,68,.25);">
+          <div class="stat-num" style="color:#ef4444;">#1</div>
+          <div class="stat-label">Broken Access Control — most common OWASP finding, present in 94% of tested apps</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(249,115,22,.25);">
+          <div class="stat-num" style="color:#f97316;">40×</div>
+          <div class="stat-label">Medical records worth more than credit card data on dark web markets</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(168,85,247,.25);">
+          <div class="stat-num" style="color:#a855f7);">R10M</div>
+          <div class="stat-label">Maximum POPIA administrative fine for non-compliance after a breach</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(34,211,238,.25);">
+          <div class="stat-num" style="color:var(--cyan);">10</div>
+          <div class="stat-label">Vulnerability classes. Every single one is directly applicable to a medical practice web app.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A01 -->
+    <section id="section-a01" style="scroll-margin-top:80px;">
+      <h2>A01 — Broken Access Control</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(239,68,68,.04);border-bottom:1px solid rgba(239,68,68,.12);">
+          <div class="vuln-number" style="color:#ef4444;">01</div>
+          <div class="vuln-icon" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#ef4444;"><i class="fas fa-lock-open"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(239,68,68,.6);">OWASP A01:2021 · CRITICAL</div>
+            <div class="vuln-title">Broken Access Control</div>
+          </div>
+          <span class="threat-badge threat-critical" style="margin-left:auto;"><span class="threat-dot" style="background:#ef4444;"></span>MOST COMMON</span>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:96%;background:linear-gradient(90deg,#ef4444,#ff1493);"></div></div></div>
+          <p>Access control means "this user should only see their own data." Broken access control means that restriction isn't enforced properly. It's the number one finding in modern web app testing — present in 94% of applications tested according to OWASP data.</p>
+          <p>In a medical or dental context, the scenario is brutally straightforward. Your patient portal shows appointment history and clinical notes at a URL like <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">https://portal.yourpractice.co.za/patient/records?id=1042</code>. An attacker logs in as patient 1041, then simply changes that ID to 1043, 1044, 1050, 1100. If the server doesn't verify that the logged-in user actually owns record 1042 — it just returns it — every patient file in your system is exposed. This is called an <strong>Insecure Direct Object Reference (IDOR)</strong>, and it is shockingly common.</p>
+          <p>I have found IDOR vulnerabilities in South African practice management portals where changing a single integer in a URL exposed the full clinical history, identity documents, and medical aid details of a completely different patient. No hacking tools required. Just a browser and curiosity.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">HTTP · IDOR ATTACK EXAMPLE</span>
+              <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+            </div>
+            <div class="code-body"><span class="c-dim"># Attacker is legitimately logged in as patient ID 1041</span>
+<span class="c-dim"># They notice the URL structure while viewing their own records</span>
+
+GET /patient/records<span class="c-red">?id=1041</span> HTTP/1.1
+Host: portal.yourpractice.co.za
+Cookie: session=eyJhbGciOiJIUzI1NiJ9...
+
+<span class="c-dim"># Response: Their own records. Now they try:</span>
+
+GET /patient/records<span class="c-red">?id=1042</span> HTTP/1.1  <span class="c-yellow">← Someone else's record</span>
+GET /patient/records<span class="c-red">?id=1</span> HTTP/1.1    <span class="c-yellow">← Probably the first patient ever registered</span>
+GET /patient/records<span class="c-red">?id=9999</span> HTTP/1.1  <span class="c-yellow">← Iterate. Automate. Exfiltrate.</span>
+
+<span class="c-dim"># With Burp Suite Intruder, they automate this in seconds:</span>
+<span class="c-green"># 200 OK → record exists and is returned</span>
+<span class="c-red"># 403 Forbidden → proper access control (rare)</span>
+<span class="c-dim"># In a typical vulnerable portal: 200 OK on every request.</span>
+
+<span class="c-red"># Result: Full database dump of every patient record. No brute force.</span>
+<span class="c-red"># No malware. One browser. Five minutes.</span></div>
+          </div>
+
+          <p><strong>The POPIA angle:</strong> Under POPIA, you are the Responsible Party for every patient record you hold. An IDOR vulnerability that exposes patient data is a security compromise. You are legally obligated to report it to the Information Regulator within 72 hours of becoming aware of it, notify affected patients, and demonstrate that you had reasonable security measures in place. "We didn't know about it" is not a defence — a pentester would have found it in five minutes.</p>
+          <div class="vuln-pills">
+            <span class="pill pill-red">IDOR</span>
+            <span class="pill pill-red">FORCED BROWSING</span>
+            <span class="pill pill-orange">PRIVILEGE ESCALATION</span>
+            <span class="pill pill-purple">POPIA S22</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A02 -->
+    <section id="section-a02" style="scroll-margin-top:80px;">
+      <h2>A02 — Cryptographic Failures</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(249,115,22,.04);border-bottom:1px solid rgba(249,115,22,.12);">
+          <div class="vuln-number" style="color:#f97316;">02</div>
+          <div class="vuln-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:#f97316;"><i class="fas fa-key"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(249,115,22,.6);">OWASP A02:2021 · HIGH</div>
+            <div class="vuln-title">Cryptographic Failures</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:82%;background:linear-gradient(90deg,#f97316,#ef4444);"></div></div></div>
+          <p>Previously called "Sensitive Data Exposure," this category covers all the ways that data is inadequately protected in transit or at rest — weak encryption, no encryption, deprecated algorithms, or improper key management. For healthcare, where the data is about as sensitive as it gets, getting this wrong is catastrophic.</p>
+          <p>The most common finding in practice portals? <strong>Passwords stored as MD5 hashes.</strong> MD5 is not a password hashing function — it's a checksum. It's fast to compute, which is terrible for password storage, and there are precomputed lookup tables (rainbow tables) for billions of common passwords. If an attacker dumps your user database through a SQL injection (see A03), MD5 password hashes are cracked in minutes using tools like Hashcat on a modern GPU.</p>
+          <p>Also common: web apps that transmit patient data over HTTP instead of HTTPS — or that have HTTPS but accept insecure HTTP too without redirecting. On an open network (coffee shop, your own waiting room WiFi), a man-in-the-middle attacker intercepts the plaintext and reads everything in real time.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">BASH · MD5 CRACK WITH HASHCAT</span>
+              <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+            </div>
+            <div class="code-body"><span class="c-dim"># Attacker obtains leaked DB dump — finds MD5 password hashes</span>
+<span class="c-dim"># Example hash for "Welcome1" (the most common SA corporate password)</span>
+
+<span class="c-yellow">5f4dcc3b5aa765d61d8327deb882cf99</span>  <span class="c-dim">← MD5 of "password"</span>
+<span class="c-yellow">e6d7e7f7c3f49b7c0f7b54543b8b5b5c</span>  <span class="c-dim">← MD5 of "Welcome1"</span>
+<span class="c-yellow">d8578edf8458ce06fbc5bb76a58c5ca4</span>  <span class="c-dim">← MD5 of "qwerty"</span>
+
+<span class="c-dim"># Hashcat with rockyou wordlist — RTX 4090 cracks billions/sec for MD5</span>
+<span class="c-cyan">hashcat</span> -m 0 hashes.txt rockyou.txt
+
+<span class="c-green">5f4dcc3b5aa765d61d8327deb882cf99:password</span>      <span class="c-red">← CRACKED in 0.001s</span>
+<span class="c-green">e6d7e7f7c3f49b7c0f7b54543b8b5b5c:Welcome1</span>      <span class="c-red">← CRACKED in 0.001s</span>
+
+<span class="c-dim"># Correct approach — bcrypt with cost factor 12:</span>
+<span class="c-teal">$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewKyBAAmijXN5P5e</span>
+<span class="c-dim"># Same GPU: ~200 hashes/second. Wordlist attack becomes infeasible.</span></div>
+          </div>
+
+          <div class="vuln-pills">
+            <span class="pill pill-orange">WEAK HASHING</span>
+            <span class="pill pill-red">PLAINTEXT TRANSMISSION</span>
+            <span class="pill pill-yellow">HTTP MIXED CONTENT</span>
+            <span class="pill pill-purple">RAINBOW TABLES</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A03 -->
+    <section id="section-a03" style="scroll-margin-top:80px;">
+      <h2>A03 — Injection</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(239,68,68,.06);border-bottom:1px solid rgba(239,68,68,.15);">
+          <div class="vuln-number" style="color:#ef4444;">03</div>
+          <div class="vuln-icon" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-syringe"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(239,68,68,.6);">OWASP A03:2021 · CRITICAL</div>
+            <div class="vuln-title">Injection (SQL, NoSQL, OS, LDAP)</div>
+          </div>
+          <span class="threat-badge threat-critical" style="margin-left:auto;"><span class="threat-dot" style="background:#ef4444;"></span>DB DUMP RISK</span>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:94%;background:linear-gradient(90deg,#ef4444,#ff1493);"></div></div></div>
+          <p>SQL injection has been on the OWASP list since its inception. It should be effectively extinct by now. It isn't. SQL injection is still found in production healthcare web apps, and when it is present in a medical practice portal, it means the attacker can dump the entire patient database in one command.</p>
+          <p>The attack works when user-supplied input — a name, a date, an ID number in a search field — is concatenated directly into a SQL query without sanitisation. The attacker injects SQL syntax into that input, changing the logic of the query itself. Against a practice portal with a patient search field, this can mean: authenticate without a password, extract every patient record, read files from the server, or in some configurations execute operating system commands.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">SQL · INJECTION ATTACK — PATIENT PORTAL SEARCH</span>
+              <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+            </div>
+            <div class="code-body"><span class="c-dim">-- Vulnerable PHP backend query (what the dev wrote):</span>
+<span class="c-purple">$query</span> = <span class="c-green">"SELECT * FROM patients WHERE surname = '"</span> . <span class="c-purple">$_GET</span>[<span class="c-green">'name'</span>] . <span class="c-green">"'"</span>;
+
+<span class="c-dim">-- Normal request: ?name=Nkosi</span>
+<span class="c-teal">SELECT * FROM patients WHERE surname = 'Nkosi'</span>
+
+<span class="c-dim">-- Attacker's input: ?name=' OR '1'='1</span>
+<span class="c-red">SELECT * FROM patients WHERE surname = '' OR '1'='1'</span>
+<span class="c-dim">-- '1'='1' is always true → returns ALL patient records</span>
+
+<span class="c-dim">-- Extracting database version + all table names:</span>
+<span class="c-dim">-- ?name=' UNION SELECT table_name,2,3,4 FROM information_schema.tables--</span>
+<span class="c-red">SELECT * FROM patients WHERE surname='' UNION SELECT table_name...</span>
+
+<span class="c-dim">-- SQLmap automates all of this in one command:</span>
+<span class="c-cyan">sqlmap</span> -u <span class="c-green">"https://portal.practice.co.za/search?name=test"</span> <span class="c-white">--dump-all</span>
+<span class="c-yellow"># Result: Full DB dump. Every patient. Every record. Every password hash.</span>
+<span class="c-yellow"># Elapsed time on a typical small-practice DB: under 4 minutes.</span></div>
+          </div>
+
+          <p><strong>XSS (Cross-Site Scripting)</strong> also falls in this category. An attacker injects malicious JavaScript into a field your practice app displays to other users — a patient name, an appointment note, a referral comment. When a receptionist or doctor opens that record, the script executes in their browser, stealing their session cookie and giving the attacker full access to their authenticated session. From the server's perspective, the attacker <em>is</em> the doctor.</p>
+          <div class="vuln-pills">
+            <span class="pill pill-red">SQL INJECTION</span>
+            <span class="pill pill-red">XSS</span>
+            <span class="pill pill-orange">SQLMAP</span>
+            <span class="pill pill-yellow">SESSION HIJACKING</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A04 -->
+    <section id="section-a04" style="scroll-margin-top:80px;">
+      <h2>A04 — Insecure Design</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(168,85,247,.04);border-bottom:1px solid rgba(168,85,247,.12);">
+          <div class="vuln-number" style="color:#a855f7;">04</div>
+          <div class="vuln-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);color:#a855f7;"><i class="fas fa-pencil-ruler"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(168,85,247,.6);">OWASP A04:2021 · HIGH</div>
+            <div class="vuln-title">Insecure Design</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:74%;background:linear-gradient(90deg,#a855f7,#f97316);"></div></div></div>
+          <p>This is the one that can't be patched. Insecure design means the security flaw is architectural — it was baked into the design of the application before a single line of code was written. You can patch a missing input validation check. You cannot patch a fundamentally broken trust model.</p>
+          <p>Classic example for practices: an online appointment booking system that sends a confirmation email with a "cancel appointment" link. The link is <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">https://book.practice.co.za/cancel?appt=8842</code>. No authentication. No token. Just the appointment ID. Any person who guesses or enumerates that ID can cancel any patient's appointment — including cancelling every appointment in your schedule for the next month. Or, more sinisterly, cancelling specific patients' oncology follow-ups or post-surgical check-ins.</p>
+          <p>Another insecure design pattern common in local practice management systems: the "forgot password" flow uses a <strong>predictable reset token</strong> — based on the patient's ID number and the timestamp, for example. An attacker who can guess or obtain a patient's ID number can generate a valid reset token themselves and take over the account without ever receiving the email.</p>
+          <div class="vuln-pills">
+            <span class="pill pill-purple">THREAT MODELLING</span>
+            <span class="pill pill-orange">INSECURE TOKENS</span>
+            <span class="pill pill-yellow">UNAUTHENTICATED ACTIONS</span>
+            <span class="pill pill-blue">DESIGN FLAW</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A05 -->
+    <section id="section-a05" style="scroll-margin-top:80px;">
+      <h2>A05 — Security Misconfiguration</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(234,179,8,.04);border-bottom:1px solid rgba(234,179,8,.12);">
+          <div class="vuln-number" style="color:#eab308;">05</div>
+          <div class="vuln-icon" style="background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.25);color:#eab308;"><i class="fas fa-sliders"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(234,179,8,.6);">OWASP A05:2021 · HIGH</div>
+            <div class="vuln-title">Security Misconfiguration</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:78%;background:linear-gradient(90deg,#eab308,#f97316);"></div></div></div>
+          <p>The most democratised vulnerability on the list. You don't need a developer to introduce it — anyone who deploys software can misconfigure it. And in a small medical practice where the IT was "set up by a guy" years ago and nobody has touched it since, security misconfiguration is almost guaranteed.</p>
+          <p>The scenarios I encounter most often: cloud-hosted practice management software with the <strong>admin panel exposed on the public internet</strong> at <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">/admin</code> with default credentials (<code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">admin/admin</code> or <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">admin/password</code>). Web servers with <strong>directory listing enabled</strong> — visit a folder URL and the server helpfully lists every file inside it, including database backups. <strong>Error messages in production</strong> that display full stack traces with database connection strings, file paths, and framework versions — a roadmap for the next attack.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">BASH · COMMON MISCONFIGURATION DISCOVERY</span>
+              <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+            </div>
+            <div class="code-body"><span class="c-dim"># Gobuster: brute-force hidden directories and admin panels</span>
+<span class="c-cyan">gobuster</span> dir -u https://portal.yourpractice.co.za -w /usr/share/wordlists/dirb/common.txt
+
+<span class="c-green">/admin</span>              <span class="c-white">(Status: 200)</span>  <span class="c-red">← Admin panel — publicly accessible</span>
+<span class="c-green">/backup</span>             <span class="c-white">(Status: 200)</span>  <span class="c-red">← Backup folder with directory listing ON</span>
+<span class="c-green">/phpinfo.php</span>        <span class="c-white">(Status: 200)</span>  <span class="c-yellow">← PHP config dump, DB creds visible</span>
+<span class="c-green">/.env</span>               <span class="c-white">(Status: 200)</span>  <span class="c-red">← Environment file: DB password, API keys</span>
+<span class="c-green">/db_backup_2024.sql</span> <span class="c-white">(Status: 200)</span>  <span class="c-red">← Entire patient database. Downloadable.</span>
+
+<span class="c-dim"># The .env file contents:</span>
+<span class="c-yellow">DB_HOST=localhost</span>
+<span class="c-yellow">DB_USER=practiceadmin</span>
+<span class="c-red">DB_PASS=Practice@2023!</span>  <span class="c-dim">← Now attacker has full DB access</span>
+<span class="c-yellow">MAIL_PASSWORD=smtp_secret_key</span></div>
+          </div>
+
+          <p>A <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">.env</code> file left in a public web directory is a single file that hands the attacker your database password, your email credentials, your API keys, and sometimes your cloud storage access. It happens constantly. I have found them on South African medical web apps. The file is often left there by a developer during setup and simply forgotten.</p>
+          <div class="vuln-pills">
+            <span class="pill pill-yellow">DEFAULT CREDS</span>
+            <span class="pill pill-red">EXPOSED .ENV</span>
+            <span class="pill pill-orange">DIRECTORY LISTING</span>
+            <span class="pill pill-blue">GOBUSTER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A06 -->
+    <section id="section-a06" style="scroll-margin-top:80px;">
+      <h2>A06 — Vulnerable &amp; Outdated Components</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(34,211,238,.04);border-bottom:1px solid rgba(34,211,238,.12);">
+          <div class="vuln-number" style="color:var(--cyan);">06</div>
+          <div class="vuln-icon" style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.25);color:#22d3ee;"><i class="fas fa-puzzle-piece"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(34,211,238,.6);">OWASP A06:2021 · HIGH</div>
+            <div class="vuln-title">Vulnerable &amp; Outdated Components</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:76%;background:linear-gradient(90deg,var(--cyan),#a855f7);"></div></div></div>
+          <p>Modern web applications aren't written from scratch — they're assembled from components: frameworks, libraries, plugins, CMSs, third-party integrations. Every component has its own vulnerability history. Running an outdated version of any component means every known vulnerability in that version is available to an attacker who can look it up on a CVE database in 30 seconds.</p>
+          <p>The classic South African healthcare web app scenario: a practice website or portal built on <strong>WordPress with outdated plugins</strong>. WordPress itself is fine when maintained. But "contact form by practice admin," "appointment booking plugin v2.1 (2019)," and "PDF attachment handler v1.3" — all unpatched for three years — each carries known exploits. The <strong>WPScan</strong> tool enumerates every installed plugin and theme, identifies versions, and cross-references against a vulnerability database. It takes about ninety seconds.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">BASH · WPSCAN AGAINST A PRACTICE WORDPRESS SITE</span>
+              <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+            </div>
+            <div class="code-body"><span class="c-cyan">wpscan</span> --url https://www.yourpractice.co.za --enumerate p,t,u
+
+<span class="c-teal">[+] WordPress version 6.1.1 identified</span>  <span class="c-yellow">← 3 versions behind, known vulns</span>
+<span class="c-teal">[+] Plugin: contact-form-7 v5.3.2</span>
+<span class="c-red">    | [!] Title: Unrestricted File Upload → RCE</span>
+<span class="c-red">    | Fixed in: 5.3.3</span>
+<span class="c-red">    | CVE: CVE-2020-35489 · CVSS: 9.8 CRITICAL</span>
+
+<span class="c-teal">[+] Plugin: booking-appointments v2.1.0</span>
+<span class="c-red">    | [!] Title: SQL Injection via booking fields</span>
+<span class="c-red">    | CVE: CVE-2021-24145 · CVSS: 9.8 CRITICAL</span>
+
+<span class="c-teal">[+] Users: admin, drsmith, receptionist</span>  <span class="c-yellow">← Username enumeration</span>
+
+<span class="c-dim"># Contact Form 7 CVE-2020-35489: upload a .php file disguised as an image</span>
+<span class="c-dim"># Server executes it. Attacker now has a web shell on your server.</span>
+<span class="c-red"># Game over. Full server access. Patient data. Everything.</span></div>
+          </div>
+
+          <div class="vuln-pills">
+            <span class="pill pill-cyan">CVE DATABASE</span>
+            <span class="pill pill-red">RCE</span>
+            <span class="pill pill-orange">WPSCAN</span>
+            <span class="pill pill-yellow">UNPATCHED PLUGINS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A07 -->
+    <section id="section-a07" style="scroll-margin-top:80px;">
+      <h2>A07 — Identification &amp; Authentication Failures</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(255,20,147,.04);border-bottom:1px solid rgba(255,20,147,.12);">
+          <div class="vuln-number" style="color:#ff1493;">07</div>
+          <div class="vuln-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);color:#ff1493;"><i class="fas fa-id-badge"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(255,20,147,.6);">OWASP A07:2021 · HIGH</div>
+            <div class="vuln-title">Identification &amp; Authentication Failures</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:80%;background:linear-gradient(90deg,#ff1493,#ef4444);"></div></div></div>
+          <p>This covers every failure in the authentication and session management layer — weak passwords allowed, no rate limiting on login attempts, insecure "remember me" tokens, sessions that don't expire, and session IDs exposed in URLs. For a practice portal, authentication is the front door. If it's broken, everything inside is accessible.</p>
+          <p>The most immediately dangerous issue here is <strong>credential stuffing</strong>. Your receptionist's login for the practice portal is <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">receptionist@practice.co.za / Welcome1!</code> — the same password she uses for her personal Gmail, her Takealot account, and three other services. Two of those services have been breached; her credentials are in the RockYou2024 compilation. An attacker runs an automated credential stuffing tool against your portal's login endpoint with a list of known-breached email/password pairs. No brute force. No guessing. <em>Known working credentials</em>, tested against your system at 500 attempts per minute because there's no rate limiting and no MFA.</p>
+
+          <div class="callout callout-info">
+            <div class="callout-icon"><i class="fas fa-database" style="color:var(--cyan);"></i></div>
+            <div class="callout-body">
+              <div class="callout-title" style="color:var(--cyan);">ROCKYOU2024: THE CONTEXT</div>
+              <p>The RockYou2024 compilation, released in mid-2024, contains approximately 10 billion unique plaintext passwords from thousands of data breaches. Your staff's old passwords are almost certainly in it. Credential stuffing tools load this list and test login endpoints automatically — your portal has no idea it's not a real user logging in unless you implement rate limiting, CAPTCHA, and MFA.</p>
+            </div>
+          </div>
+
+          <div class="vuln-pills">
+            <span class="pill pill-pink">CREDENTIAL STUFFING</span>
+            <span class="pill pill-red">NO MFA</span>
+            <span class="pill pill-orange">NO RATE LIMITING</span>
+            <span class="pill pill-yellow">SESSION FIXATION</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A08 -->
+    <section id="section-a08" style="scroll-margin-top:80px;">
+      <h2>A08 — Software &amp; Data Integrity Failures</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(59,130,246,.04);border-bottom:1px solid rgba(59,130,246,.12);">
+          <div class="vuln-number" style="color:#60a5fa;">08</div>
+          <div class="vuln-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#60a5fa;"><i class="fas fa-shield-virus"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(59,130,246,.6);">OWASP A08:2021 · HIGH</div>
+            <div class="vuln-title">Software &amp; Data Integrity Failures</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:72%;background:linear-gradient(90deg,#60a5fa,#a855f7);"></div></div></div>
+          <p>This category covers assumptions about software updates, CI/CD pipelines, and serialised data — all without verifying integrity. The most famous real-world example is the <strong>SolarWinds supply chain attack</strong>, where attackers compromised a software vendor's build process and pushed malicious updates to thousands of organisations. Every one of those organisations automatically trusted and installed the update because it came from a trusted source.</p>
+          <p>For a medical practice, the most relevant scenario is <strong>insecure deserialisation</strong> in practice management APIs. Your practice management system might transmit session data or user preferences as a serialised object in a cookie or API request. If the server deserialises that data without validating it first, an attacker can craft a malicious serialised object that, when deserialised, executes arbitrary code on the server. It's an arcane attack, but the impact is remote code execution — the highest possible severity.</p>
+          <p>More practically: if your practice uses a third-party billing integration or pathology lab API that pulls a JavaScript library from an external CDN without a <strong>Subresource Integrity (SRI) hash</strong>, and that CDN is compromised, malicious JavaScript runs in every staff member's browser who opens the billing page. Skimming patient card details. Exfiltrating data. In real time.</p>
+          <div class="vuln-pills">
+            <span class="pill pill-blue">SUPPLY CHAIN</span>
+            <span class="pill pill-red">INSECURE DESERIALISATION</span>
+            <span class="pill pill-orange">NO SRI HASHES</span>
+            <span class="pill pill-purple">RCE RISK</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A09 -->
+    <section id="section-a09" style="scroll-margin-top:80px;">
+      <h2>A09 — Security Logging &amp; Monitoring Failures</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(34,197,94,.04);border-bottom:1px solid rgba(34,197,94,.12);">
+          <div class="vuln-number" style="color:#22c55e;">09</div>
+          <div class="vuln-icon" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#22c55e;"><i class="fas fa-eye-slash"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(34,197,94,.6);">OWASP A09:2021 · MEDIUM-HIGH</div>
+            <div class="vuln-title">Security Logging &amp; Monitoring Failures</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:62%;background:linear-gradient(90deg,#22c55e,var(--cyan));"></div></div></div>
+          <p>This one is subtle. It doesn't let attackers <em>in</em> — but it's what allows them to stay in undetected. The global average dwell time for an attacker in a network is over 200 days. That's more than six months between initial compromise and detection. In a practice with no logging and no monitoring, that number could be indefinitely longer — or forever.</p>
+          <p>What this means practically: the IDOR attack in A01 enumerated 500 patient records. No alert was raised. The failed login attempts from credential stuffing in A07 — 3,000 attempts in twenty minutes from a Romanian IP — generated no alert. The attacker who finally authenticated with a stolen credential and has been browsing patient files for three weeks? No audit trail, no anomaly detection, nothing.</p>
+          <p>Under <strong>POPIA Section 22</strong>, you must notify the Information Regulator and affected data subjects "as soon as reasonably possible" after becoming aware of a compromise. If you have no logs, you never become aware. You also cannot fulfil your notification obligation, demonstrate the scope of the breach, or prove what data was and was not accessed. In a regulatory investigation, that absence of evidence becomes evidence of negligence.</p>
+
+          <div class="callout callout-warn">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-body">
+              <div class="callout-title" style="color:#ef4444;">THE POPIA LOGGING OBLIGATION</div>
+              <p>The Information Regulator's guidance makes clear that adequate security measures include the ability to detect and respond to incidents. A practice that cannot demonstrate it logged access to patient data — and would not have known if that data was accessed — is in a difficult position when a breach is reported by a third party (like a patient who received phishing emails using information only in your records). Implement access logging. Now.</p>
+            </div>
+          </div>
+
+          <div class="vuln-pills">
+            <span class="pill pill-green">AUDIT LOGS</span>
+            <span class="pill pill-yellow">DWELL TIME</span>
+            <span class="pill pill-purple">POPIA S22</span>
+            <span class="pill pill-orange">NO ALERTING</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A10 -->
+    <section id="section-a10" style="scroll-margin-top:80px;">
+      <h2>A10 — Server-Side Request Forgery (SSRF)</h2>
+
+      <div class="vuln-card">
+        <div class="vuln-header" style="background:rgba(168,85,247,.04);border-bottom:1px solid rgba(168,85,247,.12);">
+          <div class="vuln-number" style="color:#a855f7;">10</div>
+          <div class="vuln-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);color:#a855f7;"><i class="fas fa-server"></i></div>
+          <div class="vuln-meta">
+            <div class="vuln-owasp-id" style="color:rgba(168,85,247,.6);">OWASP A10:2021 · HIGH</div>
+            <div class="vuln-title">Server-Side Request Forgery</div>
+          </div>
+        </div>
+        <div class="vuln-body">
+          <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:78%;background:linear-gradient(90deg,#a855f7,#ff1493);"></div></div></div>
+          <p>SSRF earned its place on the 2021 list after being weaponised in some of the most significant breaches of recent years — including the Capital One AWS breach in 2019. It's less well known to non-security practitioners, but it's particularly dangerous in cloud-hosted healthcare applications.</p>
+          <p>The attack works like this: your practice's patient portal has a feature that fetches an external URL — perhaps to display a referral PDF from a pathology lab, or to pull a profile photo from a URL, or to preview a link a patient submits. The attacker supplies not an external URL, but an internal one: <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">http://169.254.169.254/latest/meta-data/</code>. On AWS, that address is the Instance Metadata Service — it returns the server's IAM credentials, which can be used to access your entire AWS account, including any S3 buckets holding patient backups.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">HTTP · SSRF AGAINST AWS METADATA SERVICE</span>
+              <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+            </div>
+            <div class="code-body"><span class="c-dim"># Vulnerable endpoint: portal fetches a URL and displays contents</span>
+POST /portal/fetch-document HTTP/1.1
+Content-Type: application/json
+
+{"url": "<span class="c-red">http://169.254.169.254/latest/meta-data/iam/security-credentials/</span>"}
+
+<span class="c-dim"># Server (running on AWS EC2) makes that request internally</span>
+<span class="c-dim"># Response returned to attacker:</span>
+
+<span class="c-yellow">{
+  "Code": "Success",
+  "AccessKeyId": "ASIA5EXAMPLE",
+  "SecretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+  "Token": "AQoDYXdzEJr...(long token)",
+  "Expiration": "2026-03-03T18:00:00Z"
+}</span>
+
+<span class="c-dim"># Attacker now uses these credentials with AWS CLI:</span>
+<span class="c-cyan">aws s3 ls</span>  <span class="c-dim">← Lists all S3 buckets in your account</span>
+<span class="c-red">s3://practice-patient-backups-2024</span>  <span class="c-dim">← There it is.</span>
+<span class="c-cyan">aws s3 sync s3://practice-patient-backups-2024 ./loot</span>  <span class="c-red">← Done.</span></div>
+          </div>
+
+          <div class="vuln-pills">
+            <span class="pill pill-purple">SSRF</span>
+            <span class="pill pill-red">AWS METADATA</span>
+            <span class="pill pill-orange">CLOUD PIVOT</span>
+            <span class="pill pill-blue">IAM CREDENTIALS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRIEF A-ROUND-UP for missing vulns in less detail -->
+      <div class="callout callout-info" style="margin-top:2rem;">
+        <div class="callout-icon"><i class="fas fa-list-check" style="color:var(--cyan);"></i></div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:var(--cyan);">WHAT ABOUT THE OTHERS? — A QUICK NOTE</div>
+          <p>The OWASP list also includes entries we haven't given a full card to here. <strong>A04: Insecure Design</strong> and <strong>A08: Integrity Failures</strong> were covered above. The full 2021 list rounded out with these ten is the definitive reference — and every single one maps to real attack scenarios in healthcare web apps. For a full technical breakdown of any specific vulnerability category, <a href="contact.html" style="color:var(--cyan);">book a consultation</a> or check the OWASP documentation directly at owasp.org.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEFENCE -->
+    <section id="section-defence" style="scroll-margin-top:80px;">
+      <h2>Hardening Your Practice Web Apps</h2>
+      <p>
+        The OWASP Top 10 isn't a counsel of despair. Every vulnerability on the list has well-established mitigations. The problem in small healthcare practices isn't that the fixes are complicated — it's that nobody is looking. Here's the starting checklist.
+      </p>
+
+      <div class="fix-item">
+        <div class="fix-num">01</div>
+        <div>
+          <div class="fix-title">ENFORCE OBJECT-LEVEL AUTHORISATION ON EVERY API ENDPOINT</div>
+          <div class="fix-desc">Every request that returns patient data must verify that the authenticated user owns that specific record. Not just "are you logged in" — "do you own record ID 1042?" This must be enforced server-side. It cannot be enforced client-side. If you use a practice management portal, ask your vendor directly: "How do you prevent IDOR?" If they don't know what that means, escalate.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">02</div>
+        <div>
+          <div class="fix-title">HASH PASSWORDS WITH BCRYPT, ARGON2, OR SCRYPT — NEVER MD5 OR SHA1</div>
+          <div class="fix-desc">If your system still stores MD5 or SHA1 password hashes, force a password reset for all users and migrate to bcrypt with a cost factor of at least 12. Enforce HTTPS everywhere — no mixed content, HSTS headers enabled, TLS 1.2 minimum (TLS 1.3 preferred). If your vendor can't confirm how passwords are stored, that is a critical finding.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">03</div>
+        <div>
+          <div class="fix-title">USE PARAMETERISED QUERIES — NO EXCEPTIONS</div>
+          <div class="fix-desc">SQL injection is 100% preventable with parameterised queries (prepared statements). User input never goes directly into a SQL string. If you have developers building your portal, this is non-negotiable. If you're using off-the-shelf software, run SQLmap against it yourself in a test environment, or have a pentester do it. If it's injectable, your vendor needs to fix it immediately.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">04</div>
+        <div>
+          <div class="fix-title">ENFORCE MFA ON ALL STAFF ACCOUNTS — NO EXCEPTIONS</div>
+          <div class="fix-desc">Multi-factor authentication defeats credential stuffing completely. Even if an attacker has your receptionist's exact email and password from a data breach, they cannot log in without the second factor. TOTP authenticator apps (Google Authenticator, Authy) are free and take ten minutes to set up. If your practice management portal doesn't support MFA, tell your vendor it's a requirement and document that conversation in writing for POPIA purposes.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">05</div>
+        <div>
+          <div class="fix-title">REMOVE .ENV FILES, BACKUPS, AND DEBUG ENDPOINTS FROM WEB ROOTS</div>
+          <div class="fix-desc">Run Gobuster or Nikto against your own domain. If it finds .env, phpinfo.php, /admin with default credentials, or SQL backup files downloadable over HTTP — those must be removed or secured immediately. Disable directory listing on your web server. Remove all debug error output from production (use generic error pages). Disable server version headers (Apache/2.4.41 in your HTTP response is a free invitation to search for CVEs for that exact version).</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">06</div>
+        <div>
+          <div class="fix-title">UPDATE EVERY PLUGIN, THEME, AND FRAMEWORK — WEEKLY</div>
+          <div class="fix-desc">If your practice website runs WordPress, enable automatic updates for WordPress core, plugins, and themes. Uninstall every plugin you're not actively using — a deactivated plugin with a known RCE vulnerability is still exploitable. Subscribe to vulnerability notification services for your specific stack. Run WPScan against your own site monthly. Any critical CVE on an installed component gets patched within 24 hours, not "when we get around to it."</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">07</div>
+        <div>
+          <div class="fix-title">IMPLEMENT LOGGING AND SET UP ALERTING FOR SUSPICIOUS PATTERNS</div>
+          <div class="fix-desc">Log every authentication attempt (success and failure) with IP, timestamp, and user agent. Log every access to patient records — who, when, which record. Set up alerts for: more than 10 failed logins from a single IP within 5 minutes; access to more than 20 patient records in a single session; logins from unusual geographic locations; any access outside business hours. This is your intrusion detection system. It also satisfies your POPIA obligation to demonstrate reasonable security measures and enables the Section 22 notification process if a breach occurs.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">08</div>
+        <div>
+          <div class="fix-title">BLOCK SSRF — VALIDATE AND RESTRICT ALL SERVER-SIDE URL FETCHES</div>
+          <div class="fix-desc">If your application fetches external URLs (document preview, profile images, webhook callbacks), implement an allowlist of permitted domains. Block all requests to private IP ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) and the AWS metadata address (169.254.169.254). If you're on AWS, enable IMDSv2 (which requires a session token for metadata access and defeats most SSRF attacks against the metadata service). If you don't know whether your application fetches external URLs, ask your developer or vendor.</div>
+        </div>
+      </div>
+
+      <!-- CLOSING -->
+      <h2>The Bottom Line</h2>
+      <p>
+        The OWASP Top 10 is not a new list. A01: Broken Access Control has been the most common web app vulnerability for years. A03: Injection has been on the list since OWASP's inception over twenty years ago. These aren't obscure, exotic attack classes discovered by nation-state actors — they're basic, well-documented, highly automatable vulnerabilities that free tools can identify in minutes.
+      </p>
+      <p>
+        The reason they persist in healthcare web apps isn't technical complexity. It's a combination of three things: vendors who don't prioritise security, practices who don't ask the right questions of their vendors, and nobody running even basic tests against the web-facing attack surface. A thirty-minute scan with free tools — Gobuster, SQLmap, WPScan — will tell you more about your web app security posture than most practices have ever known about theirs.
+      </p>
+      <p>
+        Under POPIA, you are not required to be perfect. You are required to have taken <em>reasonable</em> security measures. An IDOR vulnerability that exposes patient records, or an injectable patient search field, or a WordPress installation running plugins with CVSS 9.8 critical CVEs — none of those are defensible as "reasonable security measures." The Information Regulator will not accept "we didn't know" when a pentester would have found it in under an hour.
+      </p>
+
+      <div class="callout callout-tip" style="margin-top:2rem;">
+        <div class="callout-icon">🛡️</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:#22c55e;">WANT YOUR WEB APPS TESTED?</div>
+          <p>I test medical and dental practice web applications specifically — patient portals, booking systems, billing integrations, practice management web interfaces. I know the platforms, I know the common vulnerabilities, and I know what the Information Regulator expects. A web application penetration test against your practice's external-facing apps, documented with a professional report for POPIA compliance purposes, takes one to two days. <strong><a href="contact.html" style="color:#22c55e;">Get in touch</a></strong> to discuss scope and pricing.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </article>
+</div>
+
+<!-- FOOTER -->
+<footer class="border-t bg-black/50" style="border-color:rgba(34,211,238,.1);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#22d3ee\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting providing ethical security testing and assurance across South Africa and beyond.</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-400 hover:text-cyan-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-400 hover:text-cyan-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-cyan-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3>
+        <ul class="space-y-2.5">
+          <li><a href="index.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Home</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">About</a></li>
+          <li><a href="services.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Services</a></li>
+          <li><a href="cyber-awareness.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="our-process.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Our Process</a></li>
+          <li><a href="blog.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Blog</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
+        <ul class="space-y-2.5">
+          <li><a href="risk-assessment.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="vuln-lookup.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Vulnerability Intelligence</a></li>
+          <li><a href="reverse-image-search.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Reverse Image Search</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
+        <ul class="space-y-3">
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>hello@greyhat4hire.com</a></li>
+          <li><a href="tel:+27846353581" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>WhatsApp Chat</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>Book Consultation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="glass p-4 sm:p-5 rounded-2xl mb-7">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-lg flex-shrink-0 mt-0.5" style="color:#22d3ee;"></i>
+          <p class="text-sm text-gray-300"><span class="font-bold" style="color:#22d3ee;">Confidentiality Guaranteed:</span> All engagements conducted under strict NDA. Blog posts use anonymised, client-approved case studies only.</p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>&#169; 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-xs tracking-wider" style="color:#22d3ee;">INDEPENDENT &#183; ETHICAL &#183; EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+
+var sections=['section-intro','section-a01','section-a02','section-a03','section-a04','section-a05','section-a06','section-a07','section-a08','section-a09','section-a10','section-defence'];
+var phases=[
+  {label:'INTRO', color:'#22d3ee', glow:'rgba(34,211,238,.8)'},
+  {label:'A01',   color:'#ef4444', glow:'rgba(239,68,68,.9)'},
+  {label:'A02',   color:'#f97316', glow:'rgba(249,115,22,.8)'},
+  {label:'A03',   color:'#ef4444', glow:'rgba(239,68,68,.9)'},
+  {label:'A04',   color:'#a855f7', glow:'rgba(168,85,247,.8)'},
+  {label:'A05',   color:'#eab308', glow:'rgba(234,179,8,.8)'},
+  {label:'A06',   color:'#22d3ee', glow:'rgba(34,211,238,.8)'},
+  {label:'A07',   color:'#ff1493', glow:'rgba(255,20,147,.9)'},
+  {label:'A08',   color:'#60a5fa', glow:'rgba(96,165,250,.8)'},
+  {label:'A09',   color:'#22c55e', glow:'rgba(34,197,94,.7)'},
+  {label:'A10',   color:'#a855f7', glow:'rgba(168,85,247,.8)'},
+  {label:'DEFEND',color:'#22c55e', glow:'rgba(34,197,94,.7)'}
+];
+function updateScanner(){
+  var scrollTop=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round((scrollTop/docH)*100));
+  document.getElementById('read-progress-bar').style.width=pct+'%';
+  document.getElementById('scan-pct').textContent=pct+'%';
+  document.getElementById('scan-fill').style.height=pct+'%';
+  document.getElementById('scan-beam').style.top='calc('+pct+'% - 3px)';
+  var cur=0;
+  sections.forEach(function(id,i){var el=document.getElementById(id);if(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight*.5)cur=i;}});
+  var ph=phases[cur];
+  var lv=document.getElementById('scan-level');
+  lv.textContent=ph.label;lv.style.color=ph.color;lv.style.textShadow='0 0 10px '+ph.glow;
+  sections.forEach(function(_,i){var d=document.getElementById('dot-'+i);if(!d)return;d.classList.remove('active','passed');if(i===cur)d.classList.add('active');else if(i<cur)d.classList.add('passed');});
+  document.querySelectorAll('.toc-item').forEach(function(item,i){item.classList.toggle('active',i===cur);});
+}
+window.addEventListener('scroll',updateScanner,{passive:true});
+updateScanner();
+
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.vuln-card').forEach(function(el,i){
+  gsap.fromTo(el,{y:28,opacity:0},{y:0,opacity:1,duration:.6,delay:i*.04,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 93%',once:true}});
+});
+document.querySelectorAll('.fix-item').forEach(function(el,i){
+  gsap.fromTo(el,{x:-18,opacity:0},{x:0,opacity:1,duration:.45,delay:i*.06,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',once:true}});
+});
+document.querySelectorAll('.stat-card').forEach(function(el,i){
+  gsap.fromTo(el,{y:18,opacity:0},{y:0,opacity:1,duration:.45,delay:i*.07,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',once:true}});
+});
+document.querySelectorAll('.callout').forEach(function(el){
+  gsap.fromTo(el,{y:16,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+
+// Animate severity bars on scroll
+document.querySelectorAll('.sev-fill').forEach(function(el){
+  var w=el.style.width;
+  el.style.width='0%';
+  gsap.to(el,{width:w,duration:1.2,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true}});
+});
+
+(function(){
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;
+    pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;
+    col[i3]=.1+(Math.random()-.5)*.1;col[i3+1]=.75+(Math.random()-.5)*.15;col[i3+2]=.9+(Math.random()-.5)*.08;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.78,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
+  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+
+// MOBILE MENU
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMenu);
+closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+var mobileToolsToggle=document.getElementById('mobile-tools-toggle');
+var mobileToolsAccordion=document.querySelector('.mobile-tools-accordion');
+if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobileToolsAccordion.classList.toggle('open');});}
+</script>
+</body>
+</html>
