@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Dangers of Your WiFi: Why Sharing Your Practice Password Could Cost You Everything | Greyhat4Hire</title>
+  <meta name="description" content="A dentist-turned-pentester breaks down how a patient sitting in your waiting room can silently enumerate your entire network, pivot to your patient records, and exfiltrate data — using tools anyone can download for free."/>
+  <link rel="canonical" href="https://greyhat4hire.com/wifi-dangers-dental-medical-practice.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Dr David Sykes — Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="The Dangers of Your WiFi — Lateral Spread, Network Enumeration & What Nessus Sees From Your Car Park"/>
+  <meta property="og:description" content="Sharing your WiFi password with patients is the single most overlooked attack surface in small medical and dental practices. Here's what happens next."/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="og:site_name" content="Greyhat4Hire"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "The Dangers of Your WiFi: Why Sharing Your Practice Password Could Cost You Everything",
+    "description": "A full breakdown of how attackers — from patients in your waiting room to adversaries parked outside — enumerate your network, move laterally to clinical systems, and exfiltrate protected health information. With real Nessus scan context, network segmentation advice, and POPIA compliance implications.",
+    "author": {"@type": "Person", "name": "Dr David Sykes", "url": "https://greyhat4hire.com/about.html"},
+    "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
+    "datePublished": "2026-03-03",
+    "dateModified": "2026-03-03",
+    "url": "https://greyhat4hire.com/wifi-dangers-dental-medical-practice.html",
+    "inLanguage": "en-ZA",
+    "keywords": "WiFi security dental practice, patient WiFi risks, network segmentation, lateral movement, Nessus scan, network enumeration, POPIA compliance, medical practice cybersecurity, South Africa, guest WiFi"
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--purple:#a855f7;--purple-dim:rgba(168,85,247,.7);--pink:#ff1493;--cyan:#22d3ee;--green:#22c55e;--red:#ef4444;--orange:#f97316;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #cur{position:fixed;width:18px;height:18px;border:2px solid var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #cur2{position:fixed;width:5px;height:5px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .neon-cyan{color:var(--cyan);text-shadow:0 0 28px rgba(34,211,238,.85);}
+    .neon-purple{color:var(--purple);text-shadow:0 0 28px rgba(168,85,247,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(34,211,238,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#67e8f9;text-shadow:0 0 20px var(--cyan);}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s ease;}
+    .desktop-link:hover::after,.desktop-link.active::after{width:100%;}
+    .desktop-link.active{color:var(--cyan);}
+
+    /* PROGRESS */
+    #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cyan),var(--purple));z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(34,211,238,.8);}
+
+    /* SCANNER */
+    #threat-scanner{position:fixed;right:18px;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;}
+    .scanner-track{width:2px;height:340px;background:rgba(34,211,238,.1);border-radius:1px;position:relative;overflow:hidden;}
+    .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,var(--cyan),var(--purple));border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(34,211,238,.6);}
+    .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:var(--cyan);border-radius:2px;box-shadow:0 0 12px 4px rgba(34,211,238,.6);transition:top .3s ease;}
+    .scanner-label{font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(34,211,238,.5);writing-mode:vertical-rl;margin-top:10px;text-transform:uppercase;}
+    .scanner-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:900;color:var(--cyan);text-shadow:0 0 8px rgba(34,211,238,.8);margin-bottom:10px;}
+    .scanner-threat-level{background:rgba(0,0,0,.9);border:1px solid rgba(34,211,238,.35);border-radius:10px;padding:8px 6px;text-align:center;margin-bottom:8px;min-width:52px;}
+    .scanner-threat-label{font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(34,211,238,.5);text-transform:uppercase;display:block;margin-bottom:3px;}
+    .scanner-threat-value{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;display:block;transition:color .5s ease,text-shadow .5s ease;}
+    .scanner-section-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(34,211,238,.25);background:transparent;margin:3px 0;transition:all .4s ease;}
+    .scanner-section-dot.active{background:var(--cyan);box-shadow:0 0 8px rgba(34,211,238,.8);border-color:var(--cyan);}
+    .scanner-section-dot.passed{background:rgba(34,211,238,.3);border-color:rgba(34,211,238,.4);}
+    @media(max-width:1100px){#threat-scanner{display:none;}}
+
+    /* HERO */
+    .article-hero{background:linear-gradient(135deg,rgba(34,211,238,.05),rgba(168,85,247,.05),rgba(0,0,0,.97));border-bottom:1px solid rgba(34,211,238,.12);padding:80px 0 50px;}
+
+    /* BADGES */
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.5);color:#ef4444;}
+    .threat-cyan{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.4);color:#22d3ee;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;animation:threatPulse 1.4s infinite;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+    /* ARTICLE BODY */
+    .article-body h2{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;padding-top:1rem;}
+    .article-body h2::before{content:'//';color:rgba(34,211,238,.5);margin-right:10px;font-size:.9rem;}
+    .article-body h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#67e8f9;margin:1.8rem 0 .8rem;}
+    .article-body p{color:rgba(220,220,220,.85);line-height:1.88;margin-bottom:1.25rem;font-size:1.02rem;}
+    .article-body strong{color:#fff;font-weight:700;}
+    .article-body em{color:#67e8f9;font-style:italic;}
+    .article-body ul{margin:1rem 0 1.5rem 0;}
+    .article-body ul li{color:rgba(220,220,220,.8);line-height:1.72;padding-left:1.4rem;position:relative;font-size:.97rem;margin-bottom:.5rem;}
+    .article-body ul li::before{content:'▸';position:absolute;left:0;color:var(--cyan);font-size:.75rem;}
+
+    /* CODE */
+    .code-block{background:rgba(0,0,0,.9);border:1px solid rgba(34,211,238,.2);border-radius:14px;overflow:hidden;margin:1.5rem 0;}
+    .code-header{background:rgba(34,211,238,.04);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(34,211,238,.1);}
+    .code-lang{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(34,211,238,.6);}
+    .code-dots{display:flex;gap:6px;}
+    .code-dot{width:9px;height:9px;border-radius:50%;}
+    .code-body{padding:20px 22px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.9;color:#a5f3fc;overflow-x:auto;white-space:pre;}
+
+    /* COLOURS FOR CODE */
+    .c-purple{color:#c084fc;}.c-pink{color:#ff69b4;}.c-red{color:#ef4444;}.c-yellow{color:#f59e0b;}
+    .c-dim{color:rgba(255,255,255,.28);}.c-green{color:#22c55e;}.c-white{color:#fff;}.c-blue{color:#60a5fa;}
+    .c-cyan{color:#22d3ee;}.c-orange{color:#fb923c;}.c-teal{color:#2dd4bf;}
+
+    /* CALLOUTS */
+    .callout{border-radius:14px;padding:20px 22px;margin:1.5rem 0;display:flex;gap:14px;align-items:flex-start;}
+    .callout-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);}
+    .callout-info{background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.25);}
+    .callout-tip{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.25);}
+    .callout-key{background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.25);}
+    .callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .callout-body p{margin:0;font-size:.92rem;line-height:1.68;}
+    .callout-body p+p{margin-top:8px;}
+    .callout-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;font-weight:700;margin-bottom:6px;}
+
+    /* ATTACK PHASE CARDS */
+    .phase-card{background:rgba(6,6,6,.94);border-radius:20px;overflow:hidden;margin-bottom:14px;transition:all .35s ease;}
+    .phase-card:hover{transform:translateY(-4px);}
+    .phase-header{padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(255,255,255,.04);}
+    .phase-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .phase-body{padding:16px 22px 20px;}
+    .phase-body p{color:rgba(210,210,210,.8);line-height:1.78;font-size:.93rem;margin-bottom:.8rem;}
+    .phase-body p:last-of-type{margin-bottom:0;}
+    .phase-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+    .pill{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:7px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.07em;font-weight:700;}
+    .pill-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+    .pill-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;}
+    .pill-yellow{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;}
+    .pill-purple{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#c084fc;}
+    .pill-green{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .pill-pink{background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff69b4;}
+    .pill-blue{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;}
+    .pill-cyan{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.3);color:#22d3ee;}
+
+    /* FIX ITEMS */
+    .fix-item{display:flex;gap:14px;align-items:flex-start;padding:16px;background:rgba(6,6,6,.92);border:1px solid rgba(34,197,94,.2);border-radius:14px;margin-bottom:10px;transition:all .3s ease;}
+    .fix-item:hover{border-color:rgba(34,197,94,.45);background:rgba(34,197,94,.04);}
+    .fix-num{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:900;color:#22c55e;min-width:28px;}
+    .fix-title{font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:.06em;}
+    .fix-desc{color:rgba(200,200,200,.75);font-size:.88rem;line-height:1.65;}
+
+    /* STAT CARDS */
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin:2rem 0;}
+    .stat-card{background:rgba(8,8,8,.95);border-radius:16px;padding:20px 18px;text-align:center;transition:all .35s ease;}
+    .stat-card:hover{transform:translateY(-4px);}
+    .stat-num{font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:6px;}
+    .stat-label{font-size:.78rem;color:rgba(180,180,180,.65);line-height:1.4;}
+
+    /* WIFI ARCH DIAGRAM */
+    .arch-box{background:rgba(6,6,6,.96);border:1px solid rgba(34,211,238,.18);border-radius:20px;padding:28px;margin:2rem 0;overflow-x:auto;}
+    .arch-zone{border-radius:12px;padding:14px 18px;margin-bottom:12px;position:relative;}
+    .arch-zone-label{font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.18em;font-weight:700;margin-bottom:10px;text-transform:uppercase;}
+    .arch-device{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;font-size:.78rem;margin:4px;font-family:'Share Tech Mono',monospace;}
+
+    /* TOC */
+    .toc-item{padding:8px 14px;border-left:2px solid rgba(34,211,238,.1);cursor:pointer;transition:all .3s ease;font-size:.78rem;color:rgba(180,180,180,.6);}
+    .toc-item:hover,.toc-item.active{border-left-color:var(--cyan);color:#fff;background:rgba(34,211,238,.04);}
+
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(34,211,238,.35)}50%{box-shadow:0 0 65px rgba(34,211,238,.75)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+  </style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="three-canvas"></canvas>
+<div id="read-progress-bar"></div>
+
+<!-- THREAT SCANNER -->
+<div id="threat-scanner">
+  <div class="scanner-pct" id="scan-pct">0%</div>
+  <div class="scanner-threat-level">
+    <span class="scanner-threat-label">Phase</span>
+    <span class="scanner-threat-value" id="scan-level" style="color:var(--cyan);">TRUST</span>
+  </div>
+  <div class="scanner-track">
+    <div class="scanner-fill" id="scan-fill" style="height:0%;"></div>
+    <div class="scanner-beam" id="scan-beam" style="top:-3px;"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:14px;">
+    <div class="scanner-section-dot" id="dot-0"></div>
+    <div class="scanner-section-dot" id="dot-1"></div>
+    <div class="scanner-section-dot" id="dot-2"></div>
+    <div class="scanner-section-dot" id="dot-3"></div>
+    <div class="scanner-section-dot" id="dot-4"></div>
+    <div class="scanner-section-dot" id="dot-5"></div>
+    <div class="scanner-section-dot" id="dot-6"></div>
+  </div>
+  <div class="scanner-label">SCAN</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <a href="https://greyhat4hire.com" style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;color:#fff;text-decoration:none;letter-spacing:.06em;">
+      GREYHAT<span style="color:var(--cyan);">4HIRE</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="https://greyhat4hire.com" class="desktop-link text-sm text-gray-300">Home</a>
+      <a href="https://greyhat4hire.com/blog.html" class="desktop-link text-sm text-gray-300 active">Blog</a>
+      <a href="https://greyhat4hire.com/services.html" class="desktop-link text-sm text-gray-300">Services</a>
+      <a href="https://greyhat4hire.com/about.html" class="desktop-link text-sm text-gray-300">About</a>
+      <a href="https://greyhat4hire.com/contact.html" style="background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-family:'Orbitron',monospace;font-size:.68rem;font-weight:700;padding:10px 22px;border-radius:10px;text-decoration:none;letter-spacing:.08em;">CONSULT</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="article-hero" id="section-intro">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="flex flex-wrap gap-3 mb-6">
+      <span class="threat-badge threat-critical"><span class="threat-dot" style="background:#ef4444;"></span>CRITICAL RISK</span>
+      <span class="threat-badge threat-cyan"><span class="threat-dot" style="background:var(--cyan);"></span>WIFI SECURITY</span>
+      <span class="threat-badge" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.35);color:#c084fc;"><span class="threat-dot" style="background:#c084fc;"></span>POPIA RELEVANT</span>
+    </div>
+    <div class="section-tag mb-4">Greyhat4Hire · Defensive Intelligence · March 2026</div>
+    <h1 style="font-family:'Orbitron',monospace;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;line-height:1.12;color:#fff;margin-bottom:1.5rem;">
+      The Dangers of<br/><span class="neon-cyan">Your WiFi</span>
+    </h1>
+    <p style="font-size:1.18rem;color:rgba(220,220,220,.75);line-height:1.82;max-width:760px;margin-bottom:2rem;">
+      You put the password on a little card at reception. Maybe you wrote it on the whiteboard. Either way — the moment a patient connects to your practice WiFi, they are on the same logical network as your dental management software, your X-ray workstation, and your patient records. This is what happens next.
+    </p>
+
+    <!-- AUTHOR + META -->
+    <div style="display:flex;align-items:center;gap:16px;padding:18px 22px;background:rgba(34,211,238,.04);border:1px solid rgba(34,211,238,.12);border-radius:14px;max-width:600px;">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:900;font-size:.85rem;color:#000;flex-shrink:0;">DS</div>
+      <div>
+        <div style="font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;color:#fff;margin-bottom:2px;">Dr David Sykes</div>
+        <div style="font-size:.8rem;color:rgba(180,180,180,.65);">BChD · Pentester · Greyhat4Hire · Johannesburg, ZA</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;flex-shrink:0;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,211,238,.5);">03 MAR 2026</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(180,180,180,.4);">~14 min read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT -->
+<div class="max-w-6xl mx-auto px-6 py-12 flex gap-10">
+
+  <!-- TOC SIDEBAR -->
+  <aside class="hidden lg:block" style="width:220px;flex-shrink:0;">
+    <div style="position:sticky;top:90px;">
+      <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(34,211,238,.5);margin-bottom:12px;text-transform:uppercase;">In This Article</div>
+      <div id="toc">
+        <div class="toc-item active" onclick="document.getElementById('section-intro').scrollIntoView({behavior:'smooth'})">The Setup</div>
+        <div class="toc-item" onclick="document.getElementById('section-recon').scrollIntoView({behavior:'smooth'})">Passive Recon</div>
+        <div class="toc-item" onclick="document.getElementById('section-enum').scrollIntoView({behavior:'smooth'})">Network Enumeration</div>
+        <div class="toc-item" onclick="document.getElementById('section-nessus').scrollIntoView({behavior:'smooth'})">Nessus & Vuln Scanning</div>
+        <div class="toc-item" onclick="document.getElementById('section-lateral').scrollIntoView({behavior:'smooth'})">Lateral Movement</div>
+        <div class="toc-item" onclick="document.getElementById('section-carpark').scrollIntoView({behavior:'smooth'})">The Car Park Threat</div>
+        <div class="toc-item" onclick="document.getElementById('section-defence').scrollIntoView({behavior:'smooth'})">Hardening Your Network</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ARTICLE -->
+  <article class="article-body flex-1 min-w-0">
+
+    <!-- SECTION 1: THE SETUP -->
+    <section id="section-intro" style="scroll-margin-top:80px;">
+      <h2>The Setup: A Normal Tuesday</h2>
+      <p>
+        It's 09:15. A patient walks in for a routine scale-and-polish. They sit in your waiting room, pull out their phone, and ask your receptionist for the WiFi password. Your receptionist recites it without a second thought — it's been the same password for three years, printed on every appointment card.
+      </p>
+      <p>
+        That patient connects. Their phone handshakes with your AP, gets an IP from your DHCP server, and is now a fully routed node on the same broadcast domain as every other device in your building. <strong>Including your Carestream CS3600 intraoral scanner. Your Dentrix workstation. Your billing server. Your NAS.</strong>
+      </p>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">🦷</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:#ef4444;">A NOTE FROM THE DENTIST IN THE ROOM</div>
+          <p>I run a dental practice and I run penetration tests. I have sat in my own waiting room with a laptop and mapped my entire clinical network in under four minutes before I hardened it. This article is about what I found — and what an actual attacker would do with it. The tools I used are free. They require no special skills. Anyone can do this.</p>
+        </div>
+      </div>
+
+      <h3>Why Practices Are Especially Vulnerable</h3>
+      <p>
+        Dental and medical practices sit in a uniquely dangerous position. They hold <strong>protected health information (PHI)</strong> — some of the most valuable data on the criminal market, worth up to 40× more than a payment card number — yet most run with the security posture of a home network. Clinical imaging systems, patient management software, and billing portals often run on Windows 10 workstations that haven't been patched since the software vendor last visited. SMB shares are open. RDP is enabled. Default credentials are still in place on network printers and IP cameras.
+      </p>
+      <p>
+        And crucially — in South Africa, <strong>POPIA (Protection of Personal Information Act)</strong> places legal obligations on you as the Responsible Party for that data. A network breach that exposes patient records is not merely an IT problem. It is a <em>regulatory event</em> with mandatory reporting obligations to the Information Regulator and potentially significant financial penalties.
+      </p>
+
+      <div class="stat-grid">
+        <div class="stat-card" style="border:1px solid rgba(239,68,68,.25);">
+          <div class="stat-num" style="color:#ef4444;">40×</div>
+          <div class="stat-label">More valuable than credit card data — medical records on dark web markets</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(249,115,22,.25);">
+          <div class="stat-num" style="color:#f97316;">4 min</div>
+          <div class="stat-label">Time to fully enumerate a flat dental practice network using free tools</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(234,179,8,.25);">
+          <div class="stat-num" style="color:#eab308;">82%</div>
+          <div class="stat-label">Of small practices run a single flat WiFi network with no guest VLAN separation</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(34,211,238,.25);">
+          <div class="stat-num" style="color:var(--cyan);">300m+</div>
+          <div class="stat-label">Effective range of a high-gain directional antenna — your car park is in range</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: PASSIVE RECON -->
+    <section id="section-recon" style="scroll-margin-top:80px;">
+      <h2>Step One: Passive Recon Before You Even Connect</h2>
+      <p>
+        An attacker doesn't even need your WiFi password to start learning about you. From the car park — or any location within radio range — they can run <strong>passive wireless reconnaissance</strong> without transmitting a single packet.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">BASH · PASSIVE WIFI RECON</span>
+          <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+        </div>
+        <div class="code-body"><span class="c-dim"># Put wireless card in monitor mode</span>
+<span class="c-cyan">sudo</span> airmon-ng start wlan0
+
+<span class="c-dim"># Passive capture — no packets sent, completely silent</span>
+<span class="c-cyan">sudo</span> airodump-ng wlan0mon
+
+<span class="c-dim"># What this reveals without connecting:</span>
+<span class="c-green"># BSSID (router MAC address)</span>
+<span class="c-green"># SSID names (network names)</span>
+<span class="c-green"># Channel, signal strength, encryption type</span>
+<span class="c-green"># Client MACs — every device currently connected</span>
+<span class="c-green"># Probe requests — SSIDs devices have connected to before</span>
+<span class="c-yellow"># → Reveals: "DrSykes-Practice", "DrSykes-Admin", "DESKTOP-C3KX91"</span></div>
+      </div>
+
+      <p>
+        Tools like <strong>Kismet</strong> and <strong>Wireshark</strong> in promiscuous mode go further. Unencrypted or weakly encrypted traffic — multicast DNS (mDNS), NetBIOS name broadcasts, UPnP announcements — leaks device names, operating systems, software versions, and sometimes hostnames that directly identify clinical systems, all before a single authentication has taken place.
+      </p>
+
+      <div class="callout callout-info">
+        <div class="callout-icon"><i class="fas fa-wifi" style="color:var(--cyan);"></i></div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:var(--cyan);">WHAT PROBE REQUESTS REVEAL</div>
+          <p>Every device that has ever connected to a named WiFi network will periodically broadcast that SSID in a probe request, asking if it's nearby. A patient in your waiting room may be leaking the SSIDs of their home network, their employer's network, and every coffee shop they've visited. An attacker with a rogue access point can respond to those probes and capture credentials. This is a side threat — but it illustrates how much information flows through WiFi without anyone noticing.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: NETWORK ENUMERATION -->
+    <section id="section-enum" style="scroll-margin-top:80px;">
+      <h2>Step Two: Active Network Enumeration</h2>
+      <p>
+        Once connected — with the password from your reception desk, or from the WiFi card on your waiting room table — the attacker begins active enumeration. This is where the damage compounds rapidly. Every device on an unsegmented network is discoverable, and most clinical environments have devices that were never designed to face a hostile network.
+      </p>
+
+      <h3>Host Discovery: Finding Every Device</h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">BASH · NMAP HOST DISCOVERY</span>
+          <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+        </div>
+        <div class="code-body"><span class="c-dim"># Ping sweep — who's alive on this subnet?</span>
+<span class="c-cyan">nmap</span> -sn 192.168.1.0/24
+
+<span class="c-dim"># Results from a real (anonymised) dental practice:</span>
+<span class="c-green">192.168.1.1    </span><span class="c-white">— TP-Link router (admin/admin default creds, confirmed)</span>
+<span class="c-green">192.168.1.10   </span><span class="c-white">— DESKTOP-DENTRIX   Windows 10, Dentrix G7</span>
+<span class="c-green">192.168.1.11   </span><span class="c-white">— DESKTOP-XRAY      Windows 7(!), Carestream CS software</span>
+<span class="c-green">192.168.1.14   </span><span class="c-white">— NAS-SYNOLOGY       Synology DS920+, DSM 7.0</span>
+<span class="c-green">192.168.1.20   </span><span class="c-white">— HP-LaserJet        Printer, web admin on port 80</span>
+<span class="c-green">192.168.1.55   </span><span class="c-white">— IP-CAM-HIKVISION   Hikvision camera, default creds</span>
+<span class="c-yellow">192.168.1.100  </span><span class="c-white">— Attacker's machine (that's us)</span>
+<span class="c-red">192.168.1.110  </span><span class="c-white">— Patient's iPhone   (shouldn't see clinical devices)</span></div>
+      </div>
+
+      <p>
+        That output above is not hypothetical. It is a <em>representative composite</em> of what I have found during practice assessments. <strong>Windows 7 running clinical imaging software</strong> is not unusual — Carestream, Planmeca, and other vendors have historically locked practices to specific OS versions for driver compatibility, and upgrade cycles lag years behind patch schedules. Windows 7 reached end-of-life in January 2020. It no longer receives security updates. Any known vulnerability from the last six years is permanently unpatched and permanently exploitable.
+      </p>
+
+      <h3>Service Enumeration: What's Running and How Old Is It?</h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">BASH · NMAP SERVICE + VERSION DETECTION</span>
+          <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+        </div>
+        <div class="code-body"><span class="c-dim"># Full port scan + service version + OS fingerprint</span>
+<span class="c-cyan">nmap</span> -sV -sC -O -p- 192.168.1.10
+
+<span class="c-dim"># Condensed example output — Dentrix workstation:</span>
+<span class="c-teal">PORT      STATE SERVICE       VERSION</span>
+<span class="c-green">135/tcp</span>   open  msrpc         Microsoft Windows RPC
+<span class="c-green">139/tcp</span>   open  netbios-ssn   Microsoft Windows netbios-ssn
+<span class="c-red">445/tcp</span>   open  microsoft-ds  <span class="c-yellow">Windows 10 SMBv1 enabled</span>
+<span class="c-red">3389/tcp</span>  open  ms-wbt-server <span class="c-yellow">Remote Desktop Protocol — exposed</span>
+<span class="c-green">49152/tcp</span> open  msrpc
+
+<span class="c-red">SMBv1 ENABLED → EternalBlue (MS17-010) potentially applicable</span>
+<span class="c-red">RDP EXPOSED   → BlueKeep / DejaBlue attack surface on unpatched systems</span>
+
+<span class="c-dim"># Shares discovered via SMB enumeration:</span>
+<span class="c-cyan">smbclient</span> -L //192.168.1.10 -N
+<span class="c-green">  PatientImages     — READ/WRITE, no auth required</span>
+<span class="c-green">  DentrixBackups    — READ/WRITE, no auth required</span>
+<span class="c-green">  Accounts2024      — READ/WRITE, no auth required</span></div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:#ef4444;">SMBv1 IS A SERIOUS PROBLEM IN CLINICAL ENVIRONMENTS</div>
+          <p>SMBv1 is the protocol exploited by EternalBlue, the NSA-developed exploit leaked by Shadow Brokers in 2017 and weaponised in WannaCry and NotPetya. Both of those ransomware campaigns specifically devastated healthcare providers worldwide. SMBv1 is disabled by default in Windows 10 — but it is frequently re-enabled by clinical software installers and IT contractors who find it "easier" to leave it on for legacy compatibility. Check yours. Right now.</p>
+        </div>
+      </div>
+
+      <h3>ARP Poisoning &amp; Traffic Interception</h3>
+      <p>
+        On a flat network, an attacker can perform <strong>ARP cache poisoning</strong> — sending forged ARP responses to make the router think the attacker's machine is a legitimate host, and vice versa. This positions the attacker in a man-in-the-middle (MitM) position, allowing them to intercept, read, and modify all traffic between selected devices and the gateway — including unencrypted HTTP sessions to practice management portals, internal web admin pages for printers and NAS devices, and any clinical software that communicates over plain TCP.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">BASH · ARP POISON + MITM (ETTERCAP)</span>
+          <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+        </div>
+        <div class="code-body"><span class="c-dim"># ARP poisoning — position between Dentrix workstation and router</span>
+<span class="c-cyan">ettercap</span> -T -M arp:remote /192.168.1.10// /192.168.1.1//
+
+<span class="c-dim"># Once MitM is established, all traffic flows through attacker</span>
+<span class="c-dim"># Capture credentials, session tokens, unencrypted data</span>
+<span class="c-red">→ Practice management login: admin / Password1!</span>
+<span class="c-red">→ NAS web UI session cookie captured</span>
+<span class="c-red">→ Printer admin page accessed — firmware extraction possible</span></div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: NESSUS -->
+    <section id="section-nessus" style="scroll-margin-top:80px;">
+      <h2>Nessus: The Same View Whether You're Inside or Outside</h2>
+      <p>
+        This is the part that surprises most practice owners when I demonstrate it. <strong>Nessus Essentials</strong> — the free tier of one of the world's most widely used vulnerability scanners — is available to anyone. And when it comes to what it can see on your network, <em>there is functionally no difference between someone connecting via your waiting room WiFi and someone running a scan from inside your building on a physical cable.</em>
+      </p>
+      <p>
+        Once an attacker has a routed IP address on your network — whether via WiFi or Ethernet — Nessus sees the same hosts, the same open ports, the same running services, and returns the same vulnerability findings. The physical medium is irrelevant. Network access is network access.
+      </p>
+
+      <div class="arch-box">
+        <div style="font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.18em;color:rgba(34,211,238,.6);margin-bottom:18px;text-transform:uppercase;">Nessus Scan: Typical Small Practice Findings</div>
+
+        <div class="phase-card" style="border:1px solid rgba(239,68,68,.28);margin-bottom:10px;">
+          <div class="phase-header" style="background:rgba(239,68,68,.06);">
+            <div class="phase-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-skull"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#ef4444;">CRITICAL</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(239,68,68,.55);">MS17-010 · EternalBlue SMB RCE · CVSSv3 9.8</div>
+            </div>
+            <span class="pill pill-red" style="margin-left:auto;">RCE — NO AUTH</span>
+          </div>
+          <div class="phase-body">
+            <p>SMBv1 enabled on Windows 7/10 workstation. Remote code execution without authentication. An attacker on the same network segment can gain SYSTEM-level shell on this machine in under 90 seconds using publicly available Metasploit modules. This single finding means complete compromise of the affected workstation is trivial.</p>
+          </div>
+        </div>
+
+        <div class="phase-card" style="border:1px solid rgba(239,68,68,.28);margin-bottom:10px;">
+          <div class="phase-header" style="background:rgba(239,68,68,.06);">
+            <div class="phase-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-key"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#ef4444;">CRITICAL</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(239,68,68,.55);">Default Credentials · Router / IP Camera / NAS</div>
+            </div>
+            <span class="pill pill-red" style="margin-left:auto;">AUTH BYPASS</span>
+          </div>
+          <div class="phase-body">
+            <p>Multiple devices responding to default manufacturer credentials (admin/admin, admin/password, root/root). TP-Link router, Hikvision camera, and HP printer all fully accessible with vendor defaults. Camera provides live and recorded footage of the clinical area. Router admin access allows DNS manipulation, traffic redirection, and persistent backdoor installation via firmware modification.</p>
+          </div>
+        </div>
+
+        <div class="phase-card" style="border:1px solid rgba(249,115,22,.28);margin-bottom:10px;">
+          <div class="phase-header" style="background:rgba(249,115,22,.05);">
+            <div class="phase-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;"><i class="fas fa-lock-open"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#f97316;">HIGH</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(249,115,22,.55);">Unauthenticated SMB Shares · CVSSv3 8.1</div>
+            </div>
+            <span class="pill pill-orange" style="margin-left:auto;">DATA EXFIL</span>
+          </div>
+          <div class="phase-body">
+            <p>SMB file shares accessible without authentication contain patient images (DICOM files), practice management backups, and financial records. An attacker can exfiltrate the entire contents of these shares silently. Patient images alone constitute protected health information under POPIA. This is a notifiable breach on its own.</p>
+          </div>
+        </div>
+
+        <div class="phase-card" style="border:1px solid rgba(234,179,8,.28);">
+          <div class="phase-header" style="background:rgba(234,179,8,.05);">
+            <div class="phase-icon" style="background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;"><i class="fas fa-shield-halved"></i></div>
+            <div>
+              <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#eab308;">MEDIUM</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:rgba(234,179,8,.55);">SSL/TLS Deprecated Protocols · Self-Signed Certs</div>
+            </div>
+            <span class="pill pill-yellow" style="margin-left:auto;">MITM RISK</span>
+          </div>
+          <div class="phase-body">
+            <p>Internal web services (NAS admin, printer, IP camera) using TLS 1.0 or unencrypted HTTP. Self-signed certificates with no chain of trust. Users have been trained to click through certificate warnings. Any traffic to these internal services is susceptible to interception.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon"><i class="fas fa-info-circle" style="color:var(--cyan);"></i></div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:var(--cyan);">NESSUS ESSENTIALS IS FREE FOR UP TO 16 IPs</div>
+          <p>Tenable offers Nessus Essentials at no cost — unlimited scans against up to 16 IP addresses. A typical small practice has fewer than 16 devices. This means a complete professional-grade vulnerability assessment of your entire network is available to anyone who can reach your network. Your IT contractor should be running this against your practice quarterly. If they haven't mentioned Nessus, ask them why.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: LATERAL MOVEMENT -->
+    <section id="section-lateral" style="scroll-margin-top:80px;">
+      <h2>Lateral Movement: From Patient Phone to Patient Records</h2>
+      <p>
+        This is the attack chain that matters most. An attacker doesn't need to immediately target your most sensitive system. They can start anywhere — even from a patient's compromised phone — and work their way across the network. Each compromised device becomes a launching pad for the next attack.
+      </p>
+
+      <!-- ATTACK CHAIN -->
+      <div style="margin:2rem 0;">
+        <div style="display:flex;flex-direction:column;gap:0;">
+
+          <div style="display:flex;gap:16px;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(34,211,238,.15);border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;color:var(--cyan);flex-shrink:0;">1</div>
+              <div style="width:2px;height:40px;background:linear-gradient(180deg,var(--cyan),rgba(249,115,22,.6));"></div>
+            </div>
+            <div style="padding-bottom:24px;flex:1;">
+              <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:4px;">INITIAL ACCESS — WIFI PASSWORD</div>
+              <p style="font-size:.9rem;color:rgba(200,200,200,.75);margin:0;">Patient connects to practice WiFi. Receives 192.168.1.x IP via DHCP. Is now a fully routed member of the internal network. No firewall rules exist between WiFi clients and clinical devices because everything is on the same flat subnet.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:16px;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(249,115,22,.15);border:2px solid #f97316;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;color:#f97316;flex-shrink:0;">2</div>
+              <div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(249,115,22,.6),rgba(239,68,68,.6));"></div>
+            </div>
+            <div style="padding-bottom:24px;flex:1;">
+              <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:4px;">DISCOVERY — HOST &amp; SERVICE ENUMERATION</div>
+              <p style="font-size:.9rem;color:rgba(200,200,200,.75);margin:0;">nmap -sV reveals all hosts. NetBIOS/mDNS passively identifies device names. SMB enumeration finds open shares. Printer web interface accessible on port 80 without credentials. Nessus scan returns full vulnerability list within minutes.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:16px;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,.15);border:2px solid #ef4444;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;color:#ef4444;flex-shrink:0;">3</div>
+              <div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(239,68,68,.6),rgba(168,85,247,.6));"></div>
+            </div>
+            <div style="padding-bottom:24px;flex:1;">
+              <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:4px;">EXPLOITATION — INITIAL FOOTHOLD</div>
+              <p style="font-size:.9rem;color:rgba(200,200,200,.75);margin:0;">Router accessed with default credentials. DNS settings modified to redirect traffic. Or: SMBv1 exploited on the X-ray workstation via EternalBlue. Metasploit delivers a Meterpreter shell in under 2 minutes. The attacker now has a persistent local presence.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:16px;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(168,85,247,.15);border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;color:#c084fc;flex-shrink:0;">4</div>
+              <div style="width:2px;height:40px;background:linear-gradient(180deg,rgba(168,85,247,.6),rgba(255,20,147,.6));"></div>
+            </div>
+            <div style="padding-bottom:24px;flex:1;">
+              <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:4px;">LATERAL MOVEMENT — PIVOTING ACROSS DEVICES</div>
+              <p style="font-size:.9rem;color:rgba(200,200,200,.75);margin:0;">From the compromised workstation, credentials are harvested from memory using Mimikatz. Those same credentials are reused across other hosts (credential stuffing internally). Pass-the-hash attacks allow authentication to the Dentrix server and NAS without ever cracking a password.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:16px;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,20,147,.15);border:2px solid var(--pink);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;color:var(--pink);flex-shrink:0;">5</div>
+            </div>
+            <div style="padding-bottom:0;flex:1;">
+              <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:4px;">OBJECTIVE — DATA EXFIL OR RANSOMWARE</div>
+              <p style="font-size:.9rem;color:rgba(200,200,200,.75);margin:0;">Patient records, clinical images, financial data, and staff credentials exfiltrated silently. Or: ransomware deployed across all reachable hosts simultaneously. The entire practice encrypted. Clinical operations halted. The ransom note appears on every screen.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">💀</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:#ef4444;">MIMIKATZ IN A DENTAL PRACTICE</div>
+          <p>Mimikatz is a credential extraction tool that reads plaintext passwords and NTLM hashes from Windows memory (lsass.exe). It requires local admin or SYSTEM access — which EternalBlue delivers. Once you have credentials from one machine, you attempt them everywhere. Most small practices reuse the same local admin password across all workstations. One successful EternalBlue exploit on the X-ray machine can cascade into full control of every Windows host in the building within minutes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: CAR PARK -->
+    <section id="section-carpark" style="scroll-margin-top:80px;">
+      <h2>The Car Park Threat: You Don't Need to Come Inside</h2>
+      <p>
+        Here is the thing that most practice owners fail to internalise: <strong>physical presence in your building is not required for any of the above.</strong>
+      </p>
+      <p>
+        Modern 802.11n/ac/ax access points have a typical indoor range of 30–50 metres. In open air — like a car park — signal propagates further. A standard laptop WiFi card can comfortably associate with most practice APs from a car parked outside. A <strong>Alfa AWUS036ACH</strong> USB adapter with a directional antenna extends effective range to 200–300 metres. An attacker sitting in their car, in your car park, on their laptop, is network-equivalent to a patient sitting in your waiting room.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">SCENARIO · CAR PARK ATTACK</span>
+          <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+        </div>
+        <div class="code-body"><span class="c-dim"># Attacker is parked 40m from your entrance</span>
+<span class="c-dim"># They obtained your WiFi password trivially:</span>
+<span class="c-red">  → Asked a patient who remembered it</span>
+<span class="c-red">  → Read it off your WiFi card shared on social media</span>
+<span class="c-red">  → Brute-forced WPS PIN (common on consumer APs)</span>
+<span class="c-red">  → Performed PMKID attack on WPA2 handshake passively</span>
+
+<span class="c-dim"># They are now on your network. Nessus scan initiated:</span>
+<span class="c-yellow">10:43:12</span> <span class="c-white">Starting Nessus scan against 192.168.1.0/24</span>
+<span class="c-yellow">10:46:55</span> <span class="c-white">Scan complete. 14 hosts discovered.</span>
+<span class="c-red">10:46:55</span> <span class="c-white">Critical: 3  High: 7  Medium: 12  Info: 44</span>
+
+<span class="c-dim"># They haven't touched a door handle</span>
+<span class="c-dim"># Your CCTV shows an empty car park</span>
+<span class="c-dim"># The breach has already happened</span></div>
+      </div>
+
+      <h3>WPA2 Is Not As Safe As You Think</h3>
+      <p>
+        WPA2-Personal (the PSK mode virtually every practice uses) has a well-documented offline cracking attack. When any device connects to your network, a 4-way EAPOL handshake is transmitted over the air. An attacker can passively capture this handshake — or force a re-authentication by sending a single deauth frame — and then take the handshake offline for dictionary and brute-force attacks. Tools like <strong>hashcat</strong> running on a mid-range GPU can test billions of password combinations per second. A weak password ("Practice@2021", "Dental123", the street address) falls quickly.
+      </p>
+      <p>
+        The PMKID attack, published in 2018, is even more convenient — it doesn't even require capturing a client handshake. An attacker can derive the cracking hash directly from the router's beacon frames. No client needs to connect. No one needs to be in the building.
+      </p>
+
+      <div class="callout callout-key">
+        <div class="callout-icon">🔑</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:var(--pink);">YOUR WIFI PASSWORD IS THE FRONT DOOR</div>
+          <p>A WiFi password is only as strong as its entropy. "DrSmith2024!" can be cracked in hours with rockyou-based wordlists and rule mutations. A true random 20-character password (e.g., <span style="font-family:'Share Tech Mono',monospace;color:#67e8f9;">xK9#mQ2vBp$nL4wJtY7r</span>) is computationally infeasible to crack. The difference in user experience is one extra second of typing. The difference in security is everything.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: DEFENCE -->
+    <section id="section-defence" style="scroll-margin-top:80px;">
+      <h2>Hardening Your Network: What You Must Do</h2>
+      <p>
+        The good news: the gap between a fatally vulnerable practice network and a defensible one is not enormous. You do not need enterprise-grade hardware or a full-time security team. You need the right architecture and a handful of non-negotiable configuration changes.
+      </p>
+
+      <!-- NETWORK ARCHITECTURE DIAGRAM -->
+      <div class="arch-box">
+        <div style="font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.18em;color:rgba(34,211,238,.6);margin-bottom:18px;text-transform:uppercase;">Correct Network Architecture: Segmented Practice Network</div>
+
+        <div class="arch-zone" style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);">
+          <div class="arch-zone-label" style="color:#ef4444;"><i class="fas fa-wifi"></i> &nbsp;GUEST / PATIENT VLAN — Isolated, Internet Only</div>
+          <span class="arch-device" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:rgba(220,200,200,.8);"><i class="fas fa-mobile-screen" style="color:#ef4444;"></i> Patient Phones</span>
+          <span class="arch-device" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:rgba(220,200,200,.8);"><i class="fas fa-laptop" style="color:#ef4444;"></i> Visitor Laptops</span>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(239,68,68,.5);margin-top:10px;">→ Internet access only. No access to any other VLAN. Client isolation enabled. Separate SSID. Rotate password monthly.</div>
+        </div>
+
+        <div style="text-align:center;padding:8px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.2);">▼ FIREWALL / VLAN BOUNDARY — No cross-VLAN routing ▼</div>
+
+        <div class="arch-zone" style="background:rgba(249,115,22,.04);border:1px solid rgba(249,115,22,.18);">
+          <div class="arch-zone-label" style="color:#f97316;"><i class="fas fa-stethoscope"></i> &nbsp;CLINICAL VLAN — Wired preferred, isolated WiFi if needed</div>
+          <span class="arch-device" style="background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.2);color:rgba(220,210,200,.8);"><i class="fas fa-desktop" style="color:#f97316;"></i> Dentrix / Exact / Carestream</span>
+          <span class="arch-device" style="background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.2);color:rgba(220,210,200,.8);"><i class="fas fa-x-ray" style="color:#f97316;"></i> X-ray / Imaging PCs</span>
+          <span class="arch-device" style="background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.2);color:rgba(220,210,200,.8);"><i class="fas fa-server" style="color:#f97316;"></i> NAS / Patient Data</span>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(249,115,22,.5);margin-top:10px;">→ Wired Ethernet wherever possible. No patient devices ever reachable. Patched. Monitored.</div>
+        </div>
+
+        <div style="text-align:center;padding:8px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.2);">▼ FIREWALL / VLAN BOUNDARY ▼</div>
+
+        <div class="arch-zone" style="background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.18);">
+          <div class="arch-zone-label" style="color:#22c55e;"><i class="fas fa-briefcase"></i> &nbsp;ADMIN / STAFF VLAN — Separate from clinical and guest</div>
+          <span class="arch-device" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);color:rgba(210,220,210,.8);"><i class="fas fa-laptop" style="color:#22c55e;"></i> Reception PC</span>
+          <span class="arch-device" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);color:rgba(210,220,210,.8);"><i class="fas fa-print" style="color:#22c55e;"></i> Printer</span>
+          <span class="arch-device" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);color:rgba(210,220,210,.8);"><i class="fas fa-phone" style="color:#22c55e;"></i> VoIP Phones</span>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,197,94,.45);margin-top:10px;">→ Limited access to clinical VLAN via firewall rules. No access from guest VLAN ever.</div>
+        </div>
+      </div>
+
+      <h3>The Non-Negotiable Hardening Checklist</h3>
+
+      <div class="fix-item">
+        <div class="fix-num">01</div>
+        <div>
+          <div class="fix-title">VLAN SEGMENTATION — SEPARATE EVERYTHING</div>
+          <div class="fix-desc">This is the single highest-impact change you can make. A guest VLAN must have no routed access to clinical or admin VLANs — only Internet. Most modern APs (UniFi, Mikrotik, even consumer TP-Link Omada) support VLANs and multiple SSIDs natively. If your current AP doesn't, replace it. A UniFi U6 Lite is under R1,500. A notifiable data breach will cost you infinitely more.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">02</div>
+        <div>
+          <div class="fix-title">ENABLE CLIENT ISOLATION ON GUEST SSID</div>
+          <div class="fix-desc">Client isolation prevents devices on the same WiFi SSID from communicating directly with each other. Even on the guest network, patient devices should not be able to talk to other patient devices. This prevents one compromised patient device from attacking another guest, and blocks certain ARP-based attacks. This is a single checkbox in your AP's guest network settings.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">03</div>
+        <div>
+          <div class="fix-title">STRONG, ROTATED WIFI PASSWORDS + WPA3</div>
+          <div class="fix-desc">Guest network password: minimum 16 random characters, rotated monthly. Display it on a screen that refreshes, not on a permanent card. Use WPA3 where supported — it uses SAE (Simultaneous Authentication of Equals) which eliminates offline PMKID and dictionary attacks entirely. For your clinical SSID (if WiFi is unavoidable), WPA2-Enterprise with 802.1X authentication and individual certificates per device is the gold standard.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">04</div>
+        <div>
+          <div class="fix-title">DISABLE SMBv1 AND AUDIT OPEN SHARES</div>
+          <div class="fix-desc">Run: <span style="font-family:'Share Tech Mono',monospace;color:#67e8f9;">Get-SmbServerConfiguration | Select EnableSMB1Protocol</span> on every Windows machine. If it returns True, run <span style="font-family:'Share Tech Mono',monospace;color:#67e8f9;">Set-SmbServerConfiguration -EnableSMB1Protocol $false</span>. Then audit every shared folder. Nothing should be writable without authentication. Nothing clinical should be readable without authentication. No exceptions for "convenience."</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">05</div>
+        <div>
+          <div class="fix-title">CHANGE ALL DEFAULT CREDENTIALS IMMEDIATELY</div>
+          <div class="fix-desc">Every router, printer, IP camera, NAS, and access point must have its default password changed before it touches your network. Compile a credential inventory. Use a password manager. Nessus default-credential checks are run by every script kiddie with a laptop. Do not be found by them. This takes 30 minutes and closes a critical-severity finding.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">06</div>
+        <div>
+          <div class="fix-title">RUN NESSUS ESSENTIALS AGAINST YOUR OWN NETWORK — QUARTERLY</div>
+          <div class="fix-desc">Download Nessus Essentials for free from Tenable. Scan your practice from inside (on the clinical VLAN). Then scan from the guest VLAN. Compare what's visible. If the guest scan can see clinical hosts, your segmentation is misconfigured. Remediate and re-scan. This is the same view an attacker gets — know your attack surface before they do.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">07</div>
+        <div>
+          <div class="fix-title">PATCH. EVERYTHING. ALWAYS.</div>
+          <div class="fix-desc">Windows Update must not be deferred indefinitely. If your clinical software vendor says you cannot update Windows, engage them to provide a supported OS version or accept the liability in writing. An unsupported OS with unpatched critical vulnerabilities on a network connected to patient data is a POPIA compliance failure. Document every patching decision and its rationale. The Information Regulator will ask.</div>
+        </div>
+      </div>
+
+      <div class="fix-item">
+        <div class="fix-num">08</div>
+        <div>
+          <div class="fix-title">DISABLE WPS ON YOUR ACCESS POINT</div>
+          <div class="fix-desc">WiFi Protected Setup (WPS) PIN brute-force attacks can recover your WPA2 passphrase in hours on most consumer APs, regardless of password complexity. WPS is enabled by default on most routers. Log into your AP admin panel and disable it. There is no legitimate reason for WPS to be enabled in a professional environment.</div>
+        </div>
+      </div>
+
+      <!-- CLOSING -->
+      <h2>The Bottom Line</h2>
+      <p>
+        Sharing your WiFi password with patients is not a small kindness — it is an access grant to a node on your clinical network. Every unpatched system, every default credential, every open SMB share that exists on that network is now reachable by anyone who has ever sat in your waiting room. And they don't need to be in your waiting room at all. They just need to be close enough to connect.
+      </p>
+      <p>
+        The attacker in this scenario doesn't need to be sophisticated. They need nmap, Nessus Essentials, and the password from your reception desk. The entire attack chain described in this article uses free, publicly available tools that appear in every penetration testing course on the internet. The tools are not the problem. <strong>The flat, unsegmented network is the problem.</strong>
+      </p>
+      <p>
+        VLAN segmentation, strong passwords, WPA3, disabled SMBv1, changed default credentials, and quarterly Nessus scans. Those eight things, implemented properly, close the majority of the attack surface described above. They cost almost nothing compared to the cost of a breach, a ransomware payment, an Information Regulator investigation, or the reputational damage of telling your patients their medical records were compromised because you shared the WiFi password.
+      </p>
+
+      <div class="callout callout-tip" style="margin-top:2rem;">
+        <div class="callout-icon">🛡️</div>
+        <div class="callout-body">
+          <div class="callout-title" style="color:#22c55e;">WANT A REAL ASSESSMENT?</div>
+          <p>I assess dental and medical practices across South Africa from both the guest WiFi and the clinical network perspective. I know your software. I know what Nessus finds. I know where the bodies are buried. If you want to know what an attacker sees when they sit in your waiting room — before an attacker sits in your waiting room — <strong><a href="https://greyhat4hire.com/contact.html" style="color:#22c55e;">get in touch</a></strong>.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </article>
+</div>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid rgba(34,211,238,.08);padding:40px 24px;margin-top:60px;">
+  <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-6">
+    <div>
+      <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1rem;color:#fff;margin-bottom:4px;">GREYHAT<span style="color:var(--cyan);">4HIRE</span></div>
+      <div style="font-size:.8rem;color:rgba(180,180,180,.5);">Penetration Testing · South Africa · Dr David Sykes</div>
+    </div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(120,120,120,.6);">
+      © 2026 Greyhat4Hire. For educational and authorised security use only.
+    </div>
+  </div>
+</footer>
+
+<script>
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+
+var sections=['section-intro','section-recon','section-enum','section-nessus','section-lateral','section-carpark','section-defence'];
+var phases=[
+  {label:'TRUST',  color:'#22d3ee', glow:'rgba(34,211,238,.8)'},
+  {label:'RECON',  color:'#a855f7', glow:'rgba(168,85,247,.8)'},
+  {label:'ENUM',   color:'#f97316', glow:'rgba(249,115,22,.8)'},
+  {label:'SCAN',   color:'#eab308', glow:'rgba(234,179,8,.8)'},
+  {label:'PIVOT',  color:'#ef4444', glow:'rgba(239,68,68,.9)'},
+  {label:'PWNED',  color:'#ff1493', glow:'rgba(255,20,147,.9)'},
+  {label:'DEFEND', color:'#22c55e', glow:'rgba(34,197,94,.7)'}
+];
+function updateScanner(){
+  var scrollTop=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round((scrollTop/docH)*100));
+  document.getElementById('read-progress-bar').style.width=pct+'%';
+  document.getElementById('scan-pct').textContent=pct+'%';
+  document.getElementById('scan-fill').style.height=pct+'%';
+  document.getElementById('scan-beam').style.top='calc('+pct+'% - 3px)';
+  var cur=0;
+  sections.forEach(function(id,i){var el=document.getElementById(id);if(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight*.5)cur=i;}});
+  var ph=phases[cur];
+  var lv=document.getElementById('scan-level');
+  lv.textContent=ph.label;lv.style.color=ph.color;lv.style.textShadow='0 0 10px '+ph.glow;
+  sections.forEach(function(_,i){var d=document.getElementById('dot-'+i);if(!d)return;d.classList.remove('active','passed');if(i===cur)d.classList.add('active');else if(i<cur)d.classList.add('passed');});
+  document.querySelectorAll('.toc-item').forEach(function(item,i){item.classList.toggle('active',i===cur);});
+}
+window.addEventListener('scroll',updateScanner,{passive:true});
+updateScanner();
+
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.phase-card').forEach(function(el,i){
+  gsap.fromTo(el,{y:28,opacity:0},{y:0,opacity:1,duration:.6,delay:i*.06,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 93%',once:true}});
+});
+document.querySelectorAll('.fix-item').forEach(function(el,i){
+  gsap.fromTo(el,{x:-18,opacity:0},{x:0,opacity:1,duration:.45,delay:i*.06,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',once:true}});
+});
+document.querySelectorAll('.stat-card').forEach(function(el,i){
+  gsap.fromTo(el,{y:18,opacity:0},{y:0,opacity:1,duration:.45,delay:i*.07,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',once:true}});
+});
+document.querySelectorAll('.callout').forEach(function(el){
+  gsap.fromTo(el,{y:16,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+
+(function(){
+  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
+  for(var i=0;i<count;i++){var i3=i*3;
+    pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;
+    col[i3]=.1+(Math.random()-.5)*.1;col[i3+1]=.75+(Math.random()-.5)*.15;col[i3+2]=.9+(Math.random()-.5)*.08;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var mat=new THREE.PointsMaterial({size:.78,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
+  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
+  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+</script>
+</body>
+</html>
