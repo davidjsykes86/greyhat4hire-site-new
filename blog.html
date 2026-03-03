@@ -156,7 +156,7 @@
     .featured-visual-wrap::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;}
     .orbit-ring{position:absolute;border:1px solid rgba(255,20,147,.08);border-radius:50%;animation:orbitSpin 20s linear infinite;}
     @keyframes orbitSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-    .featured-icon-box{width:100px;height:100px;border-radius:24px;background:rgba(255,20,147,.08);border:2px solid rgba(255,20,147,.25);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;z-index:2;transition:all .5s ease;}
+    .featured-icon-box{width:110px;height:110px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative;z-index:2;transition:all .4s ease;}
     .featured-card:hover .featured-icon-box{transform:scale(1.08) rotate(3deg);box-shadow:0 0 60px rgba(255,20,147,.3);}
 
     /* Better card thumbs with icons instead of emojis */
@@ -277,10 +277,10 @@
         <button class="btn-primary" style="border-radius:0 14px 14px 0;padding:14px 20px;font-size:.65rem;width:auto;" onclick="filterPosts()"><i class="fas fa-search"></i> SEARCH</button>
       </div>
     </div>
-    <!-- Hero Stats -->
+    <!-- Hero Stats — updated to 12 articles -->
     <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mt-12 hero-animate">
       <div class="glass rounded-2xl py-4 px-3 text-center" style="border-color:rgba(255,20,147,.12);">
-        <div class="stat-num text-2xl sm:text-3xl" data-target="11" data-suffix="">0</div>
+        <div class="stat-num text-2xl sm:text-3xl" data-target="12" data-suffix="">0</div>
         <div class="font-mono text-xs text-gray-600 mt-1" style="letter-spacing:.1em;">ARTICLES</div>
       </div>
       <div class="glass rounded-2xl py-4 px-3 text-center" style="border-color:rgba(255,20,147,.12);">
@@ -376,6 +376,22 @@
         </div>
           <!-- POSTS GRID -->
         <div class="grid sm:grid-cols-2 gap-5" id="posts-grid">
+
+          <!-- ═══ NEW CARD: OWASP TOP 10 ═══ -->
+          <a href="owasp-top10-medical-dental-practice.html" class="blog-card" data-cat="pentest" data-title="OWASP top 10 web application vulnerabilities medical dental practice SQL injection broken access control SSRF POPIA South Africa web app pentest patient portal">
+            <div class="card-thumb" style="background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(168,85,247,.06),rgba(0,0,0,.95));position:relative;">
+              <div class="card-icon-box" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.3);color:#22d3ee;box-shadow:0 0 30px rgba(34,211,238,.2);"><i class="fas fa-globe"></i></div>
+              <div style="position:absolute;top:14px;right:14px;font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(34,211,238,.85);background:rgba(0,0,0,.7);border:1px solid rgba(34,211,238,.4);padding:3px 8px;border-radius:4px;">NEW POST</div>
+              <div style="position:absolute;bottom:14px;left:14px;font-family:'Orbitron',monospace;font-size:.38rem;letter-spacing:.1em;color:rgba(34,211,238,.5);background:rgba(0,0,0,.6);border:1px solid rgba(34,211,238,.15);padding:3px 8px;border-radius:4px;">OWASP · A01–A10</div>
+            </div>
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-3 flex-wrap"><div class="threat-badge threat-critical"><span class="threat-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>CRITICAL</div><span class="font-mono text-xs text-gray-600">WEB APP · DENTAL</span></div>
+              <h3 class="font-display font-bold text-white text-sm leading-snug mb-2">OWASP Top 10 for Medical &amp; Dental Practices: How Hackers Actually Break Into Your Web Apps</h3>
+              <p class="text-gray-500 text-xs leading-relaxed mb-4 flex-1">SQL injection, broken access control, SSRF — all 10 OWASP vulnerabilities mapped to real attack scenarios against SA practice portals. Code examples and POPIA implications included.</p>
+              <div class="flex items-center justify-between mt-auto"><span class="text-gray-600 text-xs font-mono">03 MAR 2026 · 18 min</span><span class="read-more">READ <i class="fas fa-arrow-right arrow text-xs"></i></span></div>
+            </div>
+          </a>
+
           <a href="hacked-dental-practice-11-minutes.html" class="blog-card" data-cat="pentest" data-title="dental practice hacked USB rubber ducky WiFi flat network POPIA patient records penetration testing physical security">
             <div class="card-thumb" style="background:linear-gradient(135deg,rgba(255,20,147,.12),rgba(0,0,0,.95));position:relative;">
               <div class="card-icon-box" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;box-shadow:0 0 30px rgba(255,20,147,.2);"><i class="fas fa-tooth"></i></div>
@@ -516,6 +532,8 @@
         <div class="sidebar-widget">
           <div class="section-tag mb-4">RECENT POSTS</div>
           <div class="space-y-4">
+            <!-- NEW: OWASP article added at top of recent posts -->
+            <a href="owasp-top10-medical-dental-practice.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#22d3ee;"><i class="fas fa-globe"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">OWASP Top 10 for Medical &amp; Dental Practices</p><p class="text-gray-600 font-mono text-xs mt-1">03 MAR 2026</p></div></a>
             <a href="wifi-dangers-dental-medical-practice.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#22d3ee;"><i class="fas fa-wifi"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">The Dangers of Your WiFi</p><p class="text-gray-600 font-mono text-xs mt-1">03 MAR 2026</p></div></a>
             <a href="hacked-dental-practice-11-minutes.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(255,20,147,.08);border:1px solid rgba(255,20,147,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#ff1493;"><i class="fas fa-tooth"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">We Hacked a Dental Practice in 11 Minutes</p><p class="text-gray-600 font-mono text-xs mt-1">03 MAR 2026</p></div></a>
             <a href="vishing-2026-voice-cloning-phishing.html" class="flex items-start gap-3 group recent-post-link" style="text-decoration:none;"><div style="width:44px;height:44px;border-radius:10px;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:#a855f7;"><i class="fas fa-microphone-lines"></i></div><div><p class="text-white text-xs font-semibold leading-snug group-hover:text-pink-400 transition">Vishing in 2026: AI Voice Cloning &amp; 7 Novel Attacks</p><p class="text-gray-600 font-mono text-xs mt-1">03 MAR 2026</p></div></a>
@@ -643,6 +661,7 @@ var intelLines=[
   {t:'[HIGH]',m:'BEC: AI voice cloning CFO impersonation vector',c:'#f97316'},
   {t:'[CRIT]',m:'VMware vCenter unauthenticated RCE — no patch',c:'#ef4444'},
   {t:'[MED]',m:'Shodan: 14,200 exposed RDP — .za domain',c:'#eab308'},
+  {t:'[INFO]',m:'New post: OWASP Top 10 for medical practices — read now',c:'rgba(255,20,147,.8)'},
   {t:'[INFO]',m:'New post: The Dangers of Your WiFi — read now',c:'rgba(255,20,147,.8)'},
   {t:'[HIGH]',m:'Lumma stealer updated — targets crypto wallets',c:'#f97316'},
   {t:'[MED]',m:'WordPress CVE-2025-0999 SQLi — 800k installs',c:'#eab308'},
