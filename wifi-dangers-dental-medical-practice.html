@@ -58,6 +58,45 @@
     .desktop-link:hover::after,.desktop-link.active::after{width:100%;}
     .desktop-link.active{color:var(--cyan);}
 
+    /* TOOLS DROPDOWN */
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#67e8f9;text-shadow:0 0 20px var(--cyan);}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,211,238,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(34,211,238,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100%+16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(34,211,238,.28);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(34,211,238,.12);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(34,211,238,.28);border-top:1px solid rgba(34,211,238,.28);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(34,211,238,.05);border-color:rgba(34,211,238,.18);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(34,211,238,.4));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(34,211,238,.08);}
+    #mobile-menu{background:rgba(0,0,0,.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+    .mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;}
+    .mobile-tools-toggle:hover{color:#67e8f9;}
+    .mobile-tools-chevron{font-size:.8rem;color:rgba(34,211,238,.7);transition:transform .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+    .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(34,211,238,.45);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(34,211,238,.35)}50%{box-shadow:0 0 65px rgba(34,211,238,.7)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+    .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(34,211,238,.15);}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
     /* PROGRESS */
     #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cyan),var(--purple));z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(34,211,238,.8);}
 
@@ -174,6 +213,7 @@
 <div id="cur"></div>
 <div id="cur2"></div>
 <canvas id="three-canvas"></canvas>
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 <div id="read-progress-bar"></div>
 
 <!-- THREAT SCANNER -->
@@ -200,20 +240,61 @@
 </div>
 
 <!-- NAV -->
-<nav id="nav" class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <a href="https://greyhat4hire.com" style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;color:#fff;text-decoration:none;letter-spacing:.06em;">
-      GREYHAT<span style="color:var(--cyan);">4HIRE</span>
-    </a>
-    <div class="hidden md:flex items-center gap-8">
-      <a href="https://greyhat4hire.com" class="desktop-link text-sm text-gray-300">Home</a>
-      <a href="https://greyhat4hire.com/blog.html" class="desktop-link text-sm text-gray-300 active">Blog</a>
-      <a href="https://greyhat4hire.com/services.html" class="desktop-link text-sm text-gray-300">Services</a>
-      <a href="https://greyhat4hire.com/about.html" class="desktop-link text-sm text-gray-300">About</a>
-      <a href="https://greyhat4hire.com/contact.html" style="background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-family:'Orbitron',monospace;font-size:.68rem;font-weight:700;padding:10px 22px;border-radius:10px;text-decoration:none;letter-spacing:.08em;">CONSULT</a>
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#22d3ee;text-shadow:0 0 18px rgba(34,211,238,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(34,211,238,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.25);color:#22d3ee;--glow-color:rgba(34,211,238,.4);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(34,211,238,.6);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
     </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl hover:opacity-75 transition" style="color:var(--cyan);cursor:none;"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl" style="color:var(--cyan);cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;"><span class="tools-live-dot"></span><span>Free Tools</span></span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div id="mobile-tools-panel" class="mobile-tools-panel">
+        <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#22d3ee;box-shadow:0 0 6px #22d3ee;"></span><span>Risk Self-Assessment</span></a>
+        <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+        <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+      </div>
+    </div>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link active">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
 
 <!-- HERO -->
 <section class="article-hero" id="section-intro">
@@ -779,17 +860,65 @@
 </div>
 
 <!-- FOOTER -->
-<footer style="border-top:1px solid rgba(34,211,238,.08);padding:40px 24px;margin-top:60px;">
-  <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-6">
-    <div>
-      <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1rem;color:#fff;margin-bottom:4px;">GREYHAT<span style="color:var(--cyan);">4HIRE</span></div>
-      <div style="font-size:.8rem;color:rgba(180,180,180,.5);">Penetration Testing · South Africa · Dr David Sykes</div>
+<footer class="border-t bg-black/50" style="border-color:rgba(34,211,238,.1);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#22d3ee\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting providing ethical security testing and assurance across South Africa and beyond.</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-400 hover:text-cyan-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-400 hover:text-cyan-400 transition text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-cyan-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3>
+        <ul class="space-y-2.5">
+          <li><a href="index.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Home</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">About</a></li>
+          <li><a href="services.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Services</a></li>
+          <li><a href="cyber-awareness.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="our-process.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Our Process</a></li>
+          <li><a href="blog.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Blog</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
+        <ul class="space-y-2.5">
+          <li><a href="risk-assessment.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="vuln-lookup.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Vulnerability Intelligence</a></li>
+          <li><a href="reverse-image-search.html" class="text-gray-400 hover:text-cyan-400 transition text-sm">Reverse Image Search</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
+        <ul class="space-y-3">
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>hello@greyhat4hire.com</a></li>
+          <li><a href="tel:+27846353581" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>WhatsApp Chat</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>Book Consultation</a></li>
+        </ul>
+      </div>
     </div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(120,120,120,.6);">
-      © 2026 Greyhat4Hire. For educational and authorised security use only.
+    <div class="border-t border-gray-800 pt-8">
+      <div class="glass p-4 sm:p-5 rounded-2xl mb-7">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-lg flex-shrink-0 mt-0.5" style="color:#22d3ee;"></i>
+          <p class="text-sm text-gray-300"><span class="font-bold" style="color:#22d3ee;">Confidentiality Guaranteed:</span> All engagements conducted under strict NDA. Blog posts use anonymised, client-approved case studies only.</p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>&#169; 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-xs tracking-wider" style="color:#22d3ee;">INDEPENDENT &#183; ETHICAL &#183; EFFECTIVE</p>
+      </div>
     </div>
   </div>
 </footer>
+
 
 <script>
 var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
@@ -852,6 +981,16 @@ document.querySelectorAll('.callout').forEach(function(el){
   animate();
   window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 })();
+
+// MOBILE MENU
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMenu);
+closeMenuBtn.addEventListener('click',closeMenu);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+var mobileToolsToggle=document.getElementById('mobile-tools-toggle');
+mobileToolsToggle.addEventListener('click',function(){mobileToolsToggle.closest('.mobile-tools-accordion').classList.toggle('open');});
 </script>
 </body>
 </html>
