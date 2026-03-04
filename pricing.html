@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pricing — Greyhat4Hire</title>
-  <meta name="description" content="Transparent penetration testing pricing in South African Rand. No hidden fees. Retest included in every plan."/>
+  <meta name="description" content="Transparent penetration testing pricing in South African Rand. Build your custom security package with add-ons like phishing simulation, staff training, cloud security, and POPIA compliance. Interactive quote builder."/>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -152,6 +152,197 @@
 
     @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
     .pulse-glow { animation:pulseGlow 2.8s infinite; }
+
+    /* ══ ADD-ONS SECTION ══ */
+    .addon-card {
+      background: rgba(8,8,8,.75);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 20px;
+      transition: all .35s cubic-bezier(.4,0,.2,1);
+      cursor: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .addon-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,20,147,.3), transparent);
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .addon-card:hover {
+      border-color: rgba(255,20,147,.35);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(255,20,147,.15);
+    }
+    .addon-card:hover::before { opacity: 1; }
+    .addon-card.selected {
+      border-color: rgba(255,20,147,.6);
+      background: rgba(255,20,147,.08);
+      box-shadow: 0 8px 32px rgba(255,20,147,.25);
+    }
+    .addon-card.selected::before { opacity: 1; background: linear-gradient(90deg, transparent, #ff1493, transparent); }
+    .addon-checkbox {
+      width: 22px; height: 22px;
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .25s ease;
+      flex-shrink: 0;
+    }
+    .addon-card.selected .addon-checkbox {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border-color: #ff1493;
+    }
+    .addon-checkbox i { opacity: 0; color: #fff; font-size: .7rem; transition: opacity .2s ease; }
+    .addon-card.selected .addon-checkbox i { opacity: 1; }
+    .addon-price {
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      font-weight: 700;
+      color: #ff1493;
+    }
+    .addon-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .addon-popular {
+      position: absolute;
+      top: 12px; right: 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: .5rem;
+      letter-spacing: .1em;
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .addon-category {
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      letter-spacing: .18em;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    /* ══ QUOTE BUILDER (STICKY) ══ */
+    .quote-builder {
+      position: sticky;
+      top: 100px;
+      background: rgba(4,4,4,.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,20,147,.25);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 40px rgba(255,20,147,.1);
+    }
+    .quote-builder-header {
+      font-family: 'Orbitron', monospace;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      color: rgba(255,20,147,.7);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .quote-builder-header::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #ff1493;
+      border-radius: 50%;
+      animation: toolsDotPulse 1.8s infinite;
+    }
+    .quote-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: .85rem;
+    }
+    .quote-line:last-child { border-bottom: none; }
+    .quote-line.base-package { color: #fff; font-weight: 600; }
+    .quote-line.addon-line { color: rgba(255,255,255,.6); font-size: .8rem; }
+    .quote-line.addon-line .addon-remove {
+      color: rgba(255,255,255,.3);
+      font-size: .7rem;
+      margin-left: 6px;
+      transition: color .2s ease;
+    }
+    .quote-line.addon-line:hover .addon-remove { color: #ef4444; }
+    .quote-total {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid rgba(255,20,147,.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quote-total-label {
+      font-family: 'Orbitron', monospace;
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: rgba(255,255,255,.5);
+    }
+    .quote-total-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ff1493;
+      text-shadow: 0 0 20px rgba(255,20,147,.5);
+    }
+    .quote-empty {
+      text-align: center;
+      padding: 20px 0;
+      color: rgba(255,255,255,.3);
+      font-size: .85rem;
+    }
+    .quote-empty i { font-size: 1.5rem; margin-bottom: 10px; display: block; color: rgba(255,20,147,.3); }
+
+    /* Package selector in quote builder */
+    .package-selector {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .package-select-btn {
+      padding: 10px 8px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      background: transparent;
+      color: rgba(255,255,255,.5);
+      font-family: 'Orbitron', monospace;
+      font-size: .55rem;
+      letter-spacing: .05em;
+      cursor: none;
+      transition: all .25s ease;
+    }
+    .package-select-btn:hover {
+      border-color: rgba(255,20,147,.3);
+      color: rgba(255,255,255,.8);
+    }
+    .package-select-btn.active {
+      border-color: #ff1493;
+      background: rgba(255,20,147,.15);
+      color: #ff1493;
+    }
+    .package-select-btn .pkg-price {
+      display: block;
+      font-size: .7rem;
+      font-weight: 700;
+      margin-top: 4px;
+      color: inherit;
+    }
 
     /* PRICING CARDS */
     .price-card {
@@ -612,8 +803,8 @@
           <li class="feature-row"><i class="fas fa-minus minus"></i><span class="text-gray-600">No exploitation / proof-of-concept</span></li>
           <li class="feature-row"><i class="fas fa-minus minus"></i><span class="text-gray-600">Retest not included</span></li>
         </ul>
-        <button class="btn-ghost" onclick="openModal('SCOUT – Vulnerability Assessment','R18,000')" style="cursor:none;">
-          <i class="fas fa-arrow-right text-xs"></i> <span>Get Started</span>
+        <button class="btn-ghost" onclick="selectPackageAndScroll('scout', 18000)" style="cursor:none;">
+          <i class="fas fa-arrow-right text-xs"></i> <span>Select & Customise</span>
         </button>
       </div>
 
@@ -636,8 +827,8 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>1× Full retest included</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>PCI DSS / POPIA compliance support</span></li>
         </ul>
-        <button class="btn-ghost" onclick="openModal('INFILTRATE – Full Penetration Test','R32,000')" style="cursor:none;">
-          <i class="fas fa-arrow-right text-xs"></i> <span>Get Started</span>
+        <button class="btn-ghost" onclick="selectPackageAndScroll('infiltrate', 32000)" style="cursor:none;">
+          <i class="fas fa-arrow-right text-xs"></i> <span>Select & Customise</span>
         </button>
       </div>
 
@@ -660,8 +851,8 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Full compliance reporting (POPIA, PCI, ISO)</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Priority response SLA</span></li>
         </ul>
-        <button class="btn-primary pulse-glow" onclick="openModal('SENTINEL – Quarterly Retainer','R85,000/year')" style="cursor:none;">
-          <i class="fas fa-shield-alt"></i> <span>Get Started</span>
+        <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 85000)" style="cursor:none;">
+          <i class="fas fa-shield-alt"></i> <span>Select & Customise</span>
         </button>
       </div>
 
@@ -683,7 +874,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Monthly continuous assessments</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Custom SLA &amp; scope</span></li>
         </ul>
-        <button class="btn-ghost" onclick="openModal('PHANTOM – Enterprise Red Team','Custom POA')" style="cursor:none;">
+        <button class="btn-ghost" onclick="selectPackageAndScroll('phantom', 0)" style="cursor:none;">
           <i class="fas fa-arrow-right text-xs"></i> <span>Discuss Scope</span>
         </button>
       </div>
@@ -694,7 +885,316 @@
 
 <div class="pink-divider max-w-4xl mx-auto px-4 my-4" style="position:relative;z-index:2"></div>
 
-<!-- FEATURE COMPARISON TABLE -->
+<!-- ══════════════════════════════════════════════════════════════════════════
+     ENHANCE YOUR PACKAGE — ADD-ONS SECTION
+     ══════════════════════════════════════════════════════════════════════════ -->
+<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2" id="addons-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="section-tag mb-3">Customise Your Engagement</div>
+      <h2 class="font-display font-black neon-pink text-3xl sm:text-4xl mb-3">Enhance Your Package</h2>
+      <p class="text-gray-400 text-sm max-w-xl mx-auto">Add specialised services to any package. Select what you need — see your quote update in real time.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- LEFT: ADD-ON CARDS -->
+      <div class="lg:col-span-2 space-y-8">
+
+        <!-- CATEGORY: OFFENSIVE TESTING -->
+        <div>
+          <div class="addon-category"><i class="fas fa-crosshairs mr-2"></i>OFFENSIVE TESTING</div>
+          <div class="grid sm:grid-cols-2 gap-4">
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="webapp" data-price="8000" data-name="Web App Deep Dive">
+              <span class="addon-popular">POPULAR</span>
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(59,130,246,.15);color:#3b82f6;border:1px solid rgba(59,130,246,.25);">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Web App Deep Dive</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Extended Burp Pro testing, full OWASP Top 10 coverage, business logic flaws, auth bypass attempts.</p>
+                  <div class="addon-price">R8,000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="api" data-price="6000" data-name="API Security Testing">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.25);">
+                  <i class="fas fa-code"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">API Security Testing</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">REST/GraphQL endpoint testing, authentication flaws, rate limiting, injection, BOLA/IDOR vulnerabilities.</p>
+                  <div class="addon-price">R6,000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="wireless" data-price="5000" data-name="Wireless Assessment">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(34,211,238,.15);color:#22d3ee;border:1px solid rgba(34,211,238,.25);">
+                  <i class="fas fa-wifi"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Wireless Assessment</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">WiFi security audit, rogue AP detection, WPA2/WPA3 testing, guest network isolation verification.</p>
+                  <div class="addon-price">R5,000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="cloud" data-price="10000" data-name="Cloud Security Review">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.25);">
+                  <i class="fas fa-cloud"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Cloud Security Review</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">AWS/Azure/GCP configuration audit, IAM review, S3/blob exposure, security group analysis.</p>
+                  <div class="addon-price">R10,000</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CATEGORY: SOCIAL ENGINEERING -->
+        <div>
+          <div class="addon-category"><i class="fas fa-user-secret mr-2"></i>SOCIAL ENGINEERING</div>
+          <div class="grid sm:grid-cols-2 gap-4">
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="phishing" data-price="5000" data-name="Phishing Simulation">
+              <span class="addon-popular">POPULAR</span>
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.25);">
+                  <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Phishing Simulation</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Custom phishing campaign targeting up to 50 employees with tracking, credential capture, and detailed report.</p>
+                  <div class="addon-price">R5,000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="vishing" data-price="4000" data-name="Vishing Test">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.25);">
+                  <i class="fas fa-phone-volume"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Vishing Test</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Voice/phone social engineering test. Pretexting calls to reception, IT helpdesk, or specified targets.</p>
+                  <div class="addon-price">R4,000</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CATEGORY: TRAINING & AWARENESS -->
+        <div>
+          <div class="addon-category"><i class="fas fa-graduation-cap mr-2"></i>TRAINING & AWARENESS</div>
+          <div class="grid sm:grid-cols-2 gap-4">
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="training" data-price="3500" data-name="Staff Security Training">
+              <span class="addon-popular">POPULAR</span>
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.25);">
+                  <i class="fas fa-chalkboard-user"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Staff Security Training</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">2-hour interactive session for up to 20 staff. Covers phishing, passwords, social engineering, safe browsing.</p>
+                  <div class="addon-price">R3,500</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="executive" data-price="5000" data-name="Executive Briefing">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(139,92,246,.15);color:#8b5cf6;border:1px solid rgba(139,92,246,.25);">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Executive Briefing</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">1-hour board/C-suite presentation. Risk landscape, findings summary, strategic recommendations.</p>
+                  <div class="addon-price">R5,000</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CATEGORY: COMPLIANCE & CONTINUITY -->
+        <div>
+          <div class="addon-category"><i class="fas fa-clipboard-check mr-2"></i>COMPLIANCE & CONTINUITY</div>
+          <div class="grid sm:grid-cols-2 gap-4">
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="popia" data-price="8000" data-name="POPIA Compliance Pack">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(255,20,147,.15);color:#ff1493;border:1px solid rgba(255,20,147,.25);">
+                  <i class="fas fa-scale-balanced"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">POPIA Compliance Pack</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Gap analysis, documentation review, compliance roadmap, and Information Officer support guidance.</p>
+                  <div class="addon-price">R8,000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="backup" data-price="4500" data-name="Backup & DR Validation">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(14,165,233,.15);color:#0ea5e9;border:1px solid rgba(14,165,233,.25);">
+                  <i class="fas fa-database"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Backup & DR Validation</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Test your backup restoration, RTO/RPO verification, ransomware resilience check.</p>
+                  <div class="addon-price">R4,500</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="darkweb" data-price="6000" data-name="Dark Web Monitoring">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(100,116,139,.15);color:#64748b;border:1px solid rgba(100,116,139,.25);">
+                  <i class="fas fa-mask"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Dark Web Monitoring</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">12-month credential leak monitoring for your domain. Instant alerts when employee data appears.</p>
+                  <div class="addon-price">R6,000<span class="text-gray-500 text-xs font-normal">/yr</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="ir" data-price="7500" data-name="IR Plan Development">
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(220,38,38,.15);color:#dc2626;border:1px solid rgba(220,38,38,.25);">
+                  <i class="fas fa-fire-extinguisher"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">IR Plan Development</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Custom incident response plan, escalation procedures, communication templates, tabletop exercise.</p>
+                  <div class="addon-price">R7,500</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: QUOTE BUILDER (STICKY) -->
+      <div class="lg:col-span-1">
+        <div class="quote-builder" id="quote-builder">
+          <div class="quote-builder-header">LIVE QUOTE BUILDER</div>
+
+          <!-- Package Selector -->
+          <div class="text-xs text-gray-500 mb-2">Select base package:</div>
+          <div class="package-selector">
+            <button class="package-select-btn" onclick="selectPackage('scout', 18000, this)">
+              SCOUT<span class="pkg-price">R18K</span>
+            </button>
+            <button class="package-select-btn" onclick="selectPackage('infiltrate', 32000, this)">
+              INFILTRATE<span class="pkg-price">R32K</span>
+            </button>
+            <button class="package-select-btn active" onclick="selectPackage('sentinel', 85000, this)">
+              SENTINEL<span class="pkg-price">R85K</span>
+            </button>
+            <button class="package-select-btn" onclick="selectPackage('phantom', 0, this)">
+              PHANTOM<span class="pkg-price">POA</span>
+            </button>
+          </div>
+
+          <!-- Quote Lines -->
+          <div id="quote-lines">
+            <div class="quote-line base-package">
+              <span id="quote-package-name">SENTINEL Package</span>
+              <span id="quote-package-price" class="font-display text-pink-400">R85,000</span>
+            </div>
+            <div id="quote-addons-container">
+              <!-- Add-ons will be inserted here -->
+            </div>
+          </div>
+
+          <div id="quote-empty" class="quote-empty hidden">
+            <i class="fas fa-plus-circle"></i>
+            Select add-ons to enhance your package
+          </div>
+
+          <!-- Total -->
+          <div class="quote-total">
+            <span class="quote-total-label">ESTIMATED TOTAL</span>
+            <span class="quote-total-value" id="quote-total">R85,000</span>
+          </div>
+
+          <p class="text-gray-600 text-xs mt-4 mb-5 text-center">Final pricing confirmed in written scope of work</p>
+
+          <button class="btn-primary pulse-glow w-full" onclick="requestQuote()" style="cursor:none;">
+            <i class="fas fa-paper-plane"></i> <span>Request This Quote</span>
+          </button>
+
+          <div class="flex gap-2 mt-3">
+            <a href="https://wa.me/27846353581" target="_blank" class="btn-ghost flex-1 text-xs py-3" style="padding:12px 8px;border-color:#22c55e;color:#22c55e;">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <button onclick="clearAddons()" class="btn-ghost flex-1 text-xs py-3" style="padding:12px 8px;border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.4);">
+              <i class="fas fa-rotate-left"></i> Reset
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 <section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-12">
@@ -834,7 +1334,7 @@
               <div class="text-xs text-gray-500 mt-1">breach exposure ÷ SENTINEL annual cost</div>
             </div>
           </div>
-          <button class="btn-primary pulse-glow" onclick="openModal('SENTINEL – Quarterly Retainer','R85,000/year')" style="cursor:none;">
+          <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 85000)" style="cursor:none;">
             <i class="fas fa-shield-halved"></i> <span>Lock In This Protection</span>
           </button>
         </div>
@@ -1035,6 +1535,165 @@
 
   // MODAL
   var currentPlan = '', currentPrice = '';
+  var selectedAddons = [];
+  var basePackage = { name: 'SENTINEL', price: 85000, key: 'sentinel' };
+
+  // Package definitions
+  var packages = {
+    scout: { name: 'SCOUT', price: 18000, display: 'R18,000' },
+    infiltrate: { name: 'INFILTRATE', price: 32000, display: 'R32,000' },
+    sentinel: { name: 'SENTINEL', price: 85000, display: 'R85,000' },
+    phantom: { name: 'PHANTOM', price: 0, display: 'POA' }
+  };
+
+  function selectPackage(key, price, btn) {
+    basePackage = { name: packages[key].name, price: price, key: key };
+    
+    // Update button states
+    document.querySelectorAll('.package-select-btn').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    
+    // Update quote display
+    document.getElementById('quote-package-name').textContent = packages[key].name + ' Package';
+    document.getElementById('quote-package-price').textContent = price > 0 ? formatRand(price) : 'POA';
+    
+    updateQuoteTotal();
+  }
+
+  function selectPackageAndScroll(key, price) {
+    // Find and click the corresponding button in the quote builder
+    var buttons = document.querySelectorAll('.package-select-btn');
+    buttons.forEach(function(btn) {
+      if (btn.textContent.toLowerCase().includes(key)) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    
+    selectPackage(key, price, null);
+    
+    // Smooth scroll to add-ons section
+    document.getElementById('addons-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function toggleAddon(card) {
+    var addonKey = card.dataset.addon;
+    var addonPrice = parseInt(card.dataset.price);
+    var addonName = card.dataset.name;
+    
+    if (card.classList.contains('selected')) {
+      // Remove addon
+      card.classList.remove('selected');
+      selectedAddons = selectedAddons.filter(function(a) { return a.key !== addonKey; });
+    } else {
+      // Add addon
+      card.classList.add('selected');
+      selectedAddons.push({ key: addonKey, name: addonName, price: addonPrice });
+    }
+    
+    updateQuoteDisplay();
+  }
+
+  function updateQuoteDisplay() {
+    var container = document.getElementById('quote-addons-container');
+    var emptyMsg = document.getElementById('quote-empty');
+    
+    container.innerHTML = '';
+    
+    if (selectedAddons.length === 0) {
+      emptyMsg.classList.remove('hidden');
+    } else {
+      emptyMsg.classList.add('hidden');
+      selectedAddons.forEach(function(addon) {
+        var line = document.createElement('div');
+        line.className = 'quote-line addon-line';
+        line.innerHTML = '<span>' + addon.name + ' <i class="fas fa-times addon-remove" onclick="removeAddon(\'' + addon.key + '\', event)"></i></span><span class="font-mono text-pink-400/70">+' + formatRand(addon.price) + '</span>';
+        container.appendChild(line);
+      });
+    }
+    
+    updateQuoteTotal();
+  }
+
+  function removeAddon(key, event) {
+    event.stopPropagation();
+    
+    // Deselect the card
+    var card = document.querySelector('.addon-card[data-addon="' + key + '"]');
+    if (card) card.classList.remove('selected');
+    
+    // Remove from array
+    selectedAddons = selectedAddons.filter(function(a) { return a.key !== key; });
+    
+    updateQuoteDisplay();
+  }
+
+  function clearAddons() {
+    selectedAddons = [];
+    document.querySelectorAll('.addon-card.selected').forEach(function(card) {
+      card.classList.remove('selected');
+    });
+    updateQuoteDisplay();
+  }
+
+  function updateQuoteTotal() {
+    var total = basePackage.price;
+    selectedAddons.forEach(function(addon) { total += addon.price; });
+    
+    var totalEl = document.getElementById('quote-total');
+    if (basePackage.key === 'phantom' || total === 0) {
+      totalEl.textContent = 'POA';
+    } else {
+      totalEl.textContent = formatRand(total);
+    }
+  }
+
+  function formatRand(amount) {
+    if (amount >= 1000) {
+      return 'R' + amount.toLocaleString('en-ZA');
+    }
+    return 'R' + amount;
+  }
+
+  function requestQuote() {
+    // Build the quote summary
+    var summary = basePackage.name + ' Package';
+    if (basePackage.price > 0) summary += ' (' + formatRand(basePackage.price) + ')';
+    
+    if (selectedAddons.length > 0) {
+      summary += '\n\nAdd-ons selected:';
+      selectedAddons.forEach(function(addon) {
+        summary += '\n• ' + addon.name + ' (' + formatRand(addon.price) + ')';
+      });
+      
+      var total = basePackage.price;
+      selectedAddons.forEach(function(addon) { total += addon.price; });
+      if (total > 0) {
+        summary += '\n\nEstimated Total: ' + formatRand(total);
+      }
+    }
+    
+    currentPlan = basePackage.name;
+    currentPrice = basePackage.price > 0 ? formatRand(basePackage.price) : 'POA';
+    
+    // Update modal with full details
+    var modalText = basePackage.name + ' Package';
+    if (selectedAddons.length > 0) {
+      modalText += ' + ' + selectedAddons.length + ' add-on' + (selectedAddons.length > 1 ? 's' : '');
+    }
+    var total = basePackage.price;
+    selectedAddons.forEach(function(a) { total += a.price; });
+    if (total > 0) {
+      modalText += ' — ' + formatRand(total);
+    } else {
+      modalText += ' — POA';
+    }
+    
+    document.getElementById('modal-plan-name').textContent = modalText;
+    document.getElementById('contact-modal').classList.add('open');
+  }
+
   function openModal(plan, price) {
     currentPlan = plan; currentPrice = price;
     document.getElementById('modal-plan-name').textContent = plan + ' (' + price + ')';
@@ -1042,12 +1701,47 @@
   }
   function closeModal() { document.getElementById('contact-modal').classList.remove('open'); }
   document.getElementById('contact-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+  
   function contactWhatsApp() {
-    window.open('https://wa.me/27846353581?text=' + encodeURIComponent("Hi! I'm interested in the " + currentPlan + " plan (" + currentPrice + "). I'd like to discuss security testing for my organisation."), '_blank');
+    var message = "Hi! I'm interested in the " + currentPlan + " plan";
+    if (currentPrice) message += " (" + currentPrice + ")";
+    
+    // Add add-ons to message
+    if (selectedAddons.length > 0) {
+      message += "\n\nAdd-ons I'm interested in:";
+      selectedAddons.forEach(function(addon) {
+        message += "\n• " + addon.name;
+      });
+    }
+    
+    message += "\n\nI'd like to discuss security testing for my organisation.";
+    
+    window.open('https://wa.me/27846353581?text=' + encodeURIComponent(message), '_blank');
     closeModal();
   }
   function contactEmail() {
-    window.location.href = 'mailto:info@greyhat4hire.com?subject=' + encodeURIComponent("Inquiry: " + currentPlan + " Plan") + '&body=' + encodeURIComponent("Hi,\n\nI'm interested in the " + currentPlan + " plan (" + currentPrice + ").\n\nPlease contact me at your earliest convenience.\n\nThank you!");
+    var subject = "Inquiry: " + currentPlan + " Plan";
+    var body = "Hi,\n\nI'm interested in the " + currentPlan + " plan";
+    if (currentPrice) body += " (" + currentPrice + ")";
+    body += ".";
+    
+    // Add add-ons to email
+    if (selectedAddons.length > 0) {
+      body += "\n\nAdd-ons I'm interested in:";
+      selectedAddons.forEach(function(addon) {
+        body += "\n• " + addon.name + " (" + formatRand(addon.price) + ")";
+      });
+      
+      var total = basePackage.price;
+      selectedAddons.forEach(function(a) { total += a.price; });
+      if (total > 0) {
+        body += "\n\nEstimated Total: " + formatRand(total);
+      }
+    }
+    
+    body += "\n\nPlease contact me at your earliest convenience.\n\nThank you!";
+    
+    window.location.href = 'mailto:info@greyhat4hire.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     closeModal();
   }
 
@@ -1065,6 +1759,14 @@
   gsap.utils.toArray('.faq-item').forEach(function(el, i) {
     gsap.fromTo(el, {opacity:0,x:-20}, {opacity:1,x:0,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true},delay:i*0.05});
   });
+  
+  // Add-on cards animation
+  gsap.utils.toArray('.addon-card').forEach(function(el, i) {
+    gsap.fromTo(el, {opacity:0,y:30,scale:0.95}, {opacity:1,y:0,scale:1,duration:.6,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},delay:(i%4)*0.08});
+  });
+  
+  // Quote builder animation
+  gsap.fromTo('.quote-builder', {opacity:0,x:40}, {opacity:1,x:0,duration:.8,ease:'power3.out',scrollTrigger:{trigger:'#addons-section',start:'top 70%',once:true},delay:0.3});
   gsap.utils.toArray('.roi-bar').forEach(function(bar) {
     var target = bar.style.width; bar.style.width = '0%';
     gsap.to(bar, {width:target,duration:1.5,ease:'power2.out',scrollTrigger:{trigger:bar,start:'top 85%',once:true}});
