@@ -397,16 +397,16 @@
     .trust-badge:hover { border-color:rgba(255,20,147,.35);background:rgba(255,20,147,.05); }
 
     /* COMPARE TABLE */
-    .compare-row { display:grid;grid-template-columns:1fr repeat(4,100px);gap:0;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .3s ease;align-items:center; }
+    .compare-row { display:grid;grid-template-columns:1fr repeat(5,75px);gap:0;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .3s ease;align-items:center; }
     .compare-row:hover { background:rgba(255,20,147,.035); }
     .compare-row.header { border-bottom:2px solid rgba(255,20,147,.25);padding-bottom:14px; }
-    .compare-tick  { text-align:center;font-size:.9rem; }
-    .compare-label { font-size:.88rem;color:#ccc; }
+    .compare-tick  { text-align:center;font-size:.85rem; }
+    .compare-label { font-size:.85rem;color:#ccc; }
     .compare-label strong { color:#fff; }
-    @media(max-width:640px) {
-      .compare-row { grid-template-columns:1fr repeat(4,60px);padding:10px; }
-      .compare-tick  { font-size:.7rem; }
-      .compare-label { font-size:.78rem; }
+    @media(max-width:768px) {
+      .compare-row { grid-template-columns:1fr repeat(5,52px);padding:8px 10px; }
+      .compare-tick  { font-size:.6rem; }
+      .compare-label { font-size:.72rem; }
     }
 
     /* FAQ */
@@ -782,7 +782,7 @@
 <!-- PRICING CARDS -->
 <section class="py-10 sm:py-14 px-4 sm:px-6" style="position:relative;z-index:2" id="pricing-grid">
   <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 items-start">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-5 items-start">
 
       <!-- SCOUT -->
       <div class="price-card" id="card-0">
@@ -832,6 +832,31 @@
         </button>
       </div>
 
+      <!-- CLINIC -->
+      <div class="price-card" id="card-clinic" style="border-color:rgba(34,197,94,.35);background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(8,8,8,.85));">
+        <div class="card-tier-tag" style="color:rgba(34,197,94,.9)">Healthcare</div>
+        <div style="position:absolute;top:12px;right:12px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.08em;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:4px 10px;border-radius:4px;"><i class="fas fa-gift" style="margin-right:4px;"></i>FREE WIFI SCAN</div>
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="font-display font-bold text-white text-base leading-tight">CLINIC<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Medical &amp; Dental Security</span></h3>
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ml-2" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);"><i class="fas fa-stethoscope" style="color:#22c55e;"></i></div>
+        </div>
+        <div class="price-display mb-1" style="color:#22c55e;text-shadow:0 0 25px rgba(34,197,94,.6);">R28,000</div>
+        <p class="text-gray-500 text-xs mb-6">once-off · built for healthcare · POPIA-ready</p>
+        <ul class="space-y-0 mb-8 flex-1">
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Everything in INFILTRATE</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span><strong style="color:#22c55e;">FREE</strong> WiFi security assessment</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Practice management system testing</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Patient data exposure audit</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>POPIA healthcare compliance report</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Medical device network isolation check</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Staff phishing awareness tips</span></li>
+          <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>1× Full retest included</span></li>
+        </ul>
+        <button class="btn-primary" onclick="selectPackageAndScroll('clinic', 28000)" style="cursor:none;background:linear-gradient(135deg,#22c55e,#16a34a);">
+          <i class="fas fa-stethoscope"></i> <span>Protect My Practice</span>
+        </button>
+      </div>
+
       <!-- SENTINEL -->
       <div class="price-card featured" id="card-2">
         <div class="popular-badge">MOST POPULAR</div>
@@ -845,7 +870,7 @@
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in INFILTRATE</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Quarterly penetration tests (×4/yr)</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Unlimited retests</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Retest after each assessment</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Dedicated security advisor</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Annual security posture roadmap</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Full compliance reporting (POPIA, PCI, ISO)</span></li>
@@ -1136,12 +1161,15 @@
 
           <!-- Package Selector -->
           <div class="text-xs text-gray-500 mb-2">Select base package:</div>
-          <div class="package-selector">
+          <div class="package-selector" style="grid-template-columns:repeat(3,1fr);">
             <button class="package-select-btn" onclick="selectPackage('scout', 18000, this)">
               SCOUT<span class="pkg-price">R18K</span>
             </button>
             <button class="package-select-btn" onclick="selectPackage('infiltrate', 32000, this)">
               INFILTRATE<span class="pkg-price">R32K</span>
+            </button>
+            <button class="package-select-btn" onclick="selectPackage('clinic', 28000, this)" style="border-color:rgba(34,197,94,.4);color:#22c55e;">
+              CLINIC<span class="pkg-price">R28K</span>
             </button>
             <button class="package-select-btn active" onclick="selectPackage('sentinel', 85000, this)">
               SENTINEL<span class="pkg-price">R85K</span>
@@ -1207,29 +1235,39 @@
         <div class="compare-label"><strong>Feature</strong></div>
         <div class="compare-tick font-display text-gray-500" style="font-size:.55rem;letter-spacing:.1em">SCOUT</div>
         <div class="compare-tick font-display text-gray-500" style="font-size:.55rem;letter-spacing:.1em">INFILTRATE</div>
+        <div class="compare-tick font-display" style="font-size:.55rem;letter-spacing:.1em;color:#22c55e">CLINIC</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.55rem;letter-spacing:.1em">SENTINEL</div>
         <div class="compare-tick font-display text-gray-500" style="font-size:.55rem;letter-spacing:.1em">PHANTOM</div>
       </div>
-      <div class="compare-row"><div class="compare-label">Nessus Pro automated scan</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
-      <div class="compare-row"><div class="compare-label">Manual penetration testing</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
-      <div class="compare-row"><div class="compare-label">Burp Suite Pro exploitation</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Executive report</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Technical findings + PoC evidence</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Remediation roadmap</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Retest / verification</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ ×1</div><div class="compare-tick text-pink-400">Unlimited</div><div class="compare-tick text-pink-400">Unlimited</div></div>
-      <div class="compare-row"><div class="compare-label">POPIA / PCI-DSS compliance support</div><div class="compare-tick text-pink-400">Notes only</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ Full</div><div class="compare-tick text-pink-400">✓ Custom</div></div>
-      <div class="compare-row"><div class="compare-label">Dedicated security advisor</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Incident response support</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ 24/7</div></div>
-      <div class="compare-row"><div class="compare-label">Red team &amp; social engineering</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Security awareness training</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">NDA &amp; confidentiality</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Nessus Pro automated scan</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
+      <div class="compare-row"><div class="compare-label">Manual penetration testing</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
+      <div class="compare-row"><div class="compare-label">Burp Suite Pro exploitation</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Executive report</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Technical findings + PoC evidence</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Remediation roadmap</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Retest / verification</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ ×1</div><div class="compare-tick" style="color:#22c55e">✓ ×1</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Per test</div></div>
+      <div class="compare-row"><div class="compare-label">POPIA / PCI-DSS compliance support</div><div class="compare-tick text-pink-400">Notes</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓ Healthcare</div><div class="compare-tick text-pink-400">✓ Full</div><div class="compare-tick text-pink-400">✓ Custom</div></div>
+      <div class="compare-row"><div class="compare-label">WiFi security assessment</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick" style="color:#22c55e;font-weight:bold">✓ FREE</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
+      <div class="compare-row"><div class="compare-label">Practice management / patient data audit</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div></div>
+      <div class="compare-row"><div class="compare-label">Dedicated security advisor</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Incident response support</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ 24/7</div></div>
+      <div class="compare-row"><div class="compare-label">Phishing &amp; social engineering</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
+      <div class="compare-row"><div class="compare-label">Security awareness training</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick" style="color:#22c55e;font-size:.65rem">Tips inc.</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
+      <div class="compare-row"><div class="compare-label">NDA &amp; confidentiality</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
       <div class="compare-row" style="background:rgba(255,20,147,.04);border-bottom:none">
         <div class="compare-label"><strong class="text-white">Price</strong></div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R18k</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R32k</div>
+        <div class="compare-tick font-display" style="font-size:.7rem;color:#22c55e">R28k</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R85k/yr</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">POA</div>
       </div>
+    </div>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-6 text-xs">
+      <div class="flex items-center gap-2"><span class="text-pink-400">✓</span> <span class="text-gray-500">Included</span></div>
+      <div class="flex items-center gap-2"><span style="color:#22c55e">✓</span> <span class="text-gray-500">Clinic package</span></div>
+      <div class="flex items-center gap-2"><span class="text-cyan-400">+Add-on</span> <span class="text-gray-500">Available — <a href="#addons-section" class="text-pink-400 hover:text-pink-300 underline">see add-ons</a></span></div>
+      <div class="flex items-center gap-2"><span class="text-gray-600">—</span> <span class="text-gray-500">Not available</span></div>
     </div>
   </div>
 </section>
@@ -1542,6 +1580,7 @@
   var packages = {
     scout: { name: 'SCOUT', price: 18000, display: 'R18,000' },
     infiltrate: { name: 'INFILTRATE', price: 32000, display: 'R32,000' },
+    clinic: { name: 'CLINIC', price: 28000, display: 'R28,000' },
     sentinel: { name: 'SENTINEL', price: 85000, display: 'R85,000' },
     phantom: { name: 'PHANTOM', price: 0, display: 'POA' }
   };
@@ -1750,6 +1789,9 @@
   [0,1,2,3].forEach(function(i) {
     gsap.fromTo('#card-' + i, {y:70,opacity:0}, {y:0,opacity:1,duration:.75,ease:'power3.out',scrollTrigger:{trigger:'#pricing-grid',start:'top 82%',once:true},delay:i*0.12});
   });
+  // CLINIC card animation
+  gsap.fromTo('#card-clinic', {y:70,opacity:0}, {y:0,opacity:1,duration:.75,ease:'power3.out',scrollTrigger:{trigger:'#pricing-grid',start:'top 82%',once:true},delay:0.24});
+  
   gsap.utils.toArray('.compare-row').forEach(function(row, i) {
     gsap.fromTo(row, {opacity:0,x:-20}, {opacity:1,x:0,duration:.5,ease:'power2.out',scrollTrigger:{trigger:row,start:'top 92%',once:true},delay:i*0.04});
   });
