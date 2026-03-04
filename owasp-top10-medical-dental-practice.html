@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OWASP Top 10 for Medical &amp; Dental Practices: How Hackers Actually Break Into Your Web Apps | Greyhat4Hire</title>
+  <title>OWASP Top 10 for Medical & Dental Practices | Greyhat4Hire</title>
   <meta name="description" content="A dentist-turned-pentester maps all 10 OWASP web application vulnerabilities to real attack scenarios against South African medical and dental practices — from SQL-injecting your patient portal to hijacking your booking system session."/>
   <link rel="canonical" href="https://greyhat4hire.com/owasp-top10-medical-dental-practice.html"/>
   <meta name="robots" content="index, follow"/>
@@ -717,7 +717,7 @@ GET /patient/records<span class="c-red">?id=9999</span> HTTP/1.1  <span class="c
         <div class="vuln-body">
           <div class="sev-bar-wrap"><span class="sev-label">SEVERITY</span><div class="sev-bar"><div class="sev-fill" style="width:80%;background:linear-gradient(90deg,#ff1493,#ef4444);"></div></div></div>
           <p>This covers every failure in the authentication and session management layer — weak passwords allowed, no rate limiting on login attempts, insecure "remember me" tokens, sessions that don't expire, and session IDs exposed in URLs. For a practice portal, authentication is the front door. If it's broken, everything inside is accessible.</p>
-          <p>The most immediately dangerous issue here is <strong>credential stuffing</strong>. Your receptionist's login for the practice portal is <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;">receptionist@practice.co.za / Welcome1!</code> — the same password she uses for her personal Gmail, her Takealot account, and three other services. Two of those services have been breached; her credentials are in the RockYou2024 compilation. An attacker runs an automated credential stuffing tool against your portal's login endpoint with a list of known-breached email/password pairs. No brute force. No guessing. <em>Known working credentials</em>, tested against your system at 500 attempts per minute because there's no rate limiting and no MFA.</p>
+          <p>The most immediately dangerous issue here is <strong>credential stuffing</strong>. Your receptionist's login for the practice portal is <code style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:#22d3ee;background:rgba(34,211,238,.08);padding:2px 7px;border-radius:5px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bac8dfd9dfcaced3d5d4d3c9cefacac8dbd9ced3d9df94d9d594c0db">[email&#160;protected]</a> / Welcome1!</code> — the same password she uses for her personal Gmail, her Takealot account, and three other services. Two of those services have been breached; her credentials are in the RockYou2024 compilation. An attacker runs an automated credential stuffing tool against your portal's login endpoint with a list of known-breached email/password pairs. No brute force. No guessing. <em>Known working credentials</em>, tested against your system at 500 attempts per minute because there's no rate limiting and no MFA.</p>
 
           <div class="callout callout-info">
             <div class="callout-icon"><i class="fas fa-database" style="color:var(--cyan);"></i></div>
@@ -1001,7 +1001,7 @@ Content-Type: application/json
       <div>
         <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
         <ul class="space-y-3">
-          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>hello@greyhat4hire.com</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i><span class="__cf_email__" data-cfemail="7d15181111123d1a0f1804151c094915140f18531e1210">[email&#160;protected]</span></a></li>
           <li><a href="tel:+27846353581" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>+27 84 635 3581</a></li>
           <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>WhatsApp Chat</a></li>
           <li><a href="contact.html" class="text-gray-400 hover:text-cyan-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar mt-0.5 flex-shrink-0" style="color:#22d3ee;"></i>Book Consultation</a></li>
@@ -1023,7 +1023,7 @@ Content-Type: application/json
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
 window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
@@ -1103,10 +1103,4 @@ function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){
 function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
 hamburger.addEventListener('click',openMenu);
 closeMenuBtn.addEventListener('click',closeMenu);
-document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
-var mobileToolsToggle=document.getElementById('mobile-tools-toggle');
-var mobileToolsAccordion=document.querySelector('.mobile-tools-accordion');
-if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobileToolsAccordion.classList.toggle('open');});}
-</script>
-</body>
-</html>
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEv
