@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>What an Attacker Finds Out About You Before Sending the First Packet | Greyhat4Hire</title>
+  <title>OSINT: What Attackers Know Before They Strike | Greyhat4Hire</title>
   <meta name="description" content="Shodan, theHarvester, crt.sh, Google Dorks, HIBP, GitHub leaks — the full OSINT arsenal attackers use before touching your network. Dr David Sykes walks through every source and how to lock them down."/>
   <link rel="canonical" href="https://greyhat4hire.com/osint-what-attackers-find-before-first-packet.html"/>
   <meta name="robots" content="index, follow"/>
@@ -489,7 +489,7 @@
           <span class="callout-icon">📋</span>
           <div class="callout-body">
             <div class="callout-title" style="color:#f97316;">THE DMARC PROBLEM IS BIGGER THAN YOU THINK</div>
-            <p>In South Africa, fewer than 30% of .co.za domains have a properly enforced DMARC policy (p=reject or p=quarantine). The rest are either missing DMARC entirely or have it set to <span style="font-family:'Share Tech Mono',monospace;color:#f97316;">p=none</span> — which means the policy is monitoring-only and does nothing to prevent spoofing. An attacker who checks your MX records and finds no DMARC enforcement can send email from <span style="font-family:'Share Tech Mono',monospace;color:#f97316;">ceo@yourpractice.co.za</span> that passes most mail client authenticity checks.</p>
+            <p>In South Africa, fewer than 30% of .co.za domains have a properly enforced DMARC policy (p=reject or p=quarantine). The rest are either missing DMARC entirely or have it set to <span style="font-family:'Share Tech Mono',monospace;color:#f97316;">p=none</span> — which means the policy is monitoring-only and does nothing to prevent spoofing. An attacker who checks your MX records and finds no DMARC enforcement can send email from <span style="font-family:'Share Tech Mono',monospace;color:#f97316;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="791a1c163900160c0b090b181a0d101a1c571a16570318">[email&#160;protected]</a></span> that passes most mail client authenticity checks.</p>
           </div>
         </div>
       </div>
@@ -540,11 +540,11 @@
 <span class="c-dim">$ </span><span class="c-green">theHarvester</span> <span class="c-yellow">-d</span> demo-practice.co.za <span class="c-yellow">-b</span> all<br/>
 <br/>
 <span class="c-cyan">[ Emails Found ]</span><br/>
-  <span class="c-green">david@demo-practice.co.za</span><br/>
-  <span class="c-green">reception@demo-practice.co.za</span><br/>
-  <span class="c-green">sarah.m@demo-practice.co.za</span><br/>
-  <span class="c-green">accounts@demo-practice.co.za</span><br/>
-  <span class="c-green">it@demo-practice.co.za</span>       <span class="c-dim">← IT contact = high value target</span><br/>
+  <span class="c-green"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="acc8cddac5c8ecc8c9c1c381dcdecdcfd8c5cfc982cfc382d6cd">[email&#160;protected]</a></span><br/>
+  <span class="c-green"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cab8afa9afbabea3a5a48aaeafa7a5e7bab8aba9bea3a9afe4a9a5e4b0ab">[email&#160;protected]</a></span><br/>
+  <span class="c-green"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6f1c0e1d0e0741022f0b0a0200421f1d0e0c1b060c0a410c0041150e">[email&#160;protected]</a></span><br/>
+  <span class="c-green"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cdacaeaea2b8a3b9be8da9a8a0a2e0bdbfacaeb9a4aea8e3aea2e3b7ac">[email&#160;protected]</a></span><br/>
+  <span class="c-green"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0e677a4e6a6b6361237e7c6f6d7a676d6b206d6120746f">[email&#160;protected]</a></span>       <span class="c-dim">← IT contact = high value target</span><br/>
 <br/>
 <span class="c-cyan">[ Hosts Found ]</span><br/>
   <span class="c-yellow">mail.demo-practice.co.za</span>    <span class="c-dim">196.22.x.x</span><br/>
@@ -689,7 +689,7 @@
           </div>
           <div class="dossier-row">
             <div class="dossier-key">EMAIL FORMAT</div>
-            <div class="dossier-val"><span class="hit">firstname@highvelddental.co.za</span> · confirmed via Hunter.io (3 hits)</div>
+            <div class="dossier-val"><span class="hit"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95f3fce7e6e1fbf4f8f0d5fdfcf2fde3f0f9f1f1f0fbe1f4f9bbf6fabbeff4">[email&#160;protected]</a></span> · confirmed via Hunter.io (3 hits)</div>
           </div>
           <div class="dossier-row">
             <div class="dossier-key">EXPOSED PORTS</div>
@@ -701,7 +701,7 @@
           </div>
           <div class="dossier-row">
             <div class="dossier-key">BREACHED CREDS</div>
-            <div class="dossier-val"><span class="hit">sarah@highvelddental.co.za</span> found in RockYou2021 + LinkedIn 2021 breach · <span class="warn">password hash recoverable</span></div>
+            <div class="dossier-val"><span class="hit"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3c4f5d4e5d547c54555b544a595058585952485d50125f5312465d">[email&#160;protected]</a></span> found in RockYou2021 + LinkedIn 2021 breach · <span class="warn">password hash recoverable</span></div>
           </div>
           <div class="dossier-row">
             <div class="dossier-key">DMARC STATUS</div>
@@ -713,7 +713,7 @@
           </div>
           <div class="dossier-row">
             <div class="dossier-key">PLANNED ATTACK</div>
-            <div class="dossier-val"><span class="hit">Spear phish Nompumelelo (new, less suspicious)</span> · Send as <span class="hit">sarah@highvelddental.co.za</span> · Subject: "IT system password reset required — action by COB"</div>
+            <div class="dossier-val"><span class="hit">Spear phish Nompumelelo (new, less suspicious)</span> · Send as <span class="hit"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="56253724373e163e3f313e20333a3232333822373a783539782c37">[email&#160;protected]</a></span> · Subject: "IT system password reset required — action by COB"</div>
           </div>
         </div>
 
@@ -923,7 +923,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
 window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
@@ -995,18 +995,4 @@ gsap.fromTo('.dossier-box',{y:25,opacity:0},{y:0,opacity:1,duration:.65,ease:'po
 
 (function(){
   var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
-  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
-  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
-  for(var i=0;i<count;i++){var i3=i*3;pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;
-    // Green-tinted particles for OSINT theme
-    col[i3]=0;col[i3+1]=.9+(Math.random()-.5)*.2;col[i3+2]=.4+(Math.random()-.5)*.2;}
-  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-  var mat=new THREE.PointsMaterial({size:.75,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
-  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
-  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
-  animate();
-  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-})();
-</script>
-</body>
-</html>
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer
