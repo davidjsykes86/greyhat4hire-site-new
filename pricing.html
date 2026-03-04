@@ -459,6 +459,114 @@
       body { cursor: auto !important; }
     }
 
+    /* ── SCANLINES OVERLAY ── */
+    #scanlines {
+      position:fixed;inset:0;z-index:1;pointer-events:none;
+      background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+      animation:scanMove 8s linear infinite;
+    }
+    @keyframes scanMove { from{background-position:0 0} to{background-position:0 100px} }
+
+    /* ── PAGE SECTION NAV DOTS ── */
+    #page-nav {
+      position:fixed;right:18px;top:50%;transform:translateY(-50%);
+      z-index:100;display:flex;flex-direction:column;gap:10px;
+    }
+    @media(max-width:768px){#page-nav{display:none;}}
+    .page-dot {
+      width:8px;height:8px;border-radius:50%;
+      border:1px solid rgba(255,20,147,.4);background:transparent;
+      cursor:none;transition:all .3s ease;position:relative;
+    }
+    .page-dot::after {
+      content:attr(data-label);
+      position:absolute;right:16px;top:50%;transform:translateY(-50%);
+      font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.1em;
+      color:rgba(255,20,147,.7);white-space:nowrap;opacity:0;transition:opacity .25s ease;
+      pointer-events:none;
+    }
+    .page-dot:hover::after { opacity:1; }
+    .page-dot.active { background:#ff1493;border-color:#ff1493;box-shadow:0 0 10px rgba(255,20,147,.8); }
+    .page-dot:hover { border-color:#ff1493;background:rgba(255,20,147,.3); }
+
+    /* ── TERMINAL TYPEWRITER ── */
+    #terminal-line {
+      font-family:'Share Tech Mono',monospace;font-size:.8rem;
+      color:rgba(255,20,147,.6);letter-spacing:.08em;
+      height:1.4em;overflow:hidden;white-space:nowrap;
+      margin-bottom:18px;
+    }
+    #terminal-line .cursor-blink {
+      display:inline-block;width:8px;height:1em;background:#ff1493;
+      margin-left:2px;vertical-align:text-bottom;animation:blinkCursor .7s steps(1) infinite;
+    }
+    @keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
+
+    /* ── SCROLL-REVEAL ── */
+    .reveal { opacity:0;transform:translateY(40px);transition:opacity .65s ease,transform .65s ease; }
+    .reveal.visible { opacity:1;transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:.1s; }
+    .reveal-delay-2 { transition-delay:.2s; }
+    .reveal-delay-3 { transition-delay:.3s; }
+    .reveal-delay-4 { transition-delay:.4s; }
+    .reveal-delay-5 { transition-delay:.5s; }
+
+    /* ── PRICE COUNTER ANIMATE ── */
+    .price-display[data-target] { transition:text-shadow .3s ease; }
+
+    /* ── QUOTE FLASH ── */
+    @keyframes quoteFlash {
+      0%  { transform:scale(1); text-shadow:0 0 20px rgba(255,20,147,.5); }
+      30% { transform:scale(1.12); text-shadow:0 0 50px rgba(255,20,147,1),0 0 100px rgba(255,20,147,.5); }
+      100%{ transform:scale(1); text-shadow:0 0 20px rgba(255,20,147,.5); }
+    }
+    .quote-flash { animation:quoteFlash .4s cubic-bezier(.4,0,.2,1) forwards; }
+
+    /* ── SAVINGS BADGE ── */
+    #savings-badge {
+      display:none;
+      font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;
+      background:linear-gradient(135deg,rgba(34,197,94,.2),rgba(34,197,94,.08));
+      border:1px solid rgba(34,197,94,.4);color:#22c55e;
+      padding:6px 12px;border-radius:8px;text-align:center;margin-top:10px;
+      animation:fadeUp .3s ease forwards;
+    }
+
+    /* ── ADDON POP ── */
+    @keyframes addonPop {
+      0%  { transform:scale(1); }
+      40% { transform:scale(1.04); }
+      100%{ transform:scale(1); }
+    }
+    .addon-card.pop { animation:addonPop .25s cubic-bezier(.4,0,.2,1); }
+
+    /* ── MOBILE ADDON COUNTER BADGE ── */
+    #addon-count-badge {
+      display:none;position:fixed;bottom:90px;right:20px;z-index:200;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      color:#fff;font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;
+      padding:8px 14px;border-radius:30px;
+      box-shadow:0 8px 28px rgba(255,20,147,.5);
+      animation:slideInRight .3s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes slideInRight{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+    /* ── 3D TILT ── */
+    .price-card { transform-style:preserve-3d; will-change:transform; }
+
+    /* ── GLITCH on price-display ── */
+    @keyframes glitch1{0%,100%{clip-path:inset(0 0 95% 0);transform:translate(-2px,0)}50%{clip-path:inset(40% 0 50% 0);transform:translate(2px,0)}}
+    @keyframes glitch2{0%,100%{clip-path:inset(50% 0 30% 0);transform:translate(2px,0)}50%{clip-path:inset(80% 0 5% 0);transform:translate(-2px,0)}}
+    .price-display { position:relative; }
+    .price-display::before,.price-display::after {
+      content:attr(data-text);position:absolute;left:0;top:0;width:100%;
+      background:linear-gradient(135deg,#ff1493,#ff69b4);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      opacity:0;pointer-events:none;
+    }
+    .price-display:hover::before { opacity:.7;animation:glitch1 .2s steps(1) 3; }
+    .price-display:hover::after  { opacity:.7;animation:glitch2 .2s steps(1) 3; }
+
     /* ── HERO WORD EFFECTS ── */
     .hero-word {
       display:inline-block;
@@ -594,6 +702,20 @@
   </script>
 </head>
 <body>
+
+<div id="scanlines"></div>
+
+<!-- PAGE NAV DOTS -->
+<div id="page-nav">
+  <div class="page-dot active" data-label="PACKAGES" data-section="pricing-grid" onclick="scrollToSection('pricing-grid')"></div>
+  <div class="page-dot" data-label="ADD-ONS" data-section="addons-section" onclick="scrollToSection('addons-section')"></div>
+  <div class="page-dot" data-label="COMPARE" data-section="compare-section" onclick="scrollToSection('compare-section')"></div>
+  <div class="page-dot" data-label="ROI CALC" data-section="roi-section" onclick="scrollToSection('roi-section')"></div>
+  <div class="page-dot" data-label="FAQ" data-section="faq-section" onclick="scrollToSection('faq-section')"></div>
+</div>
+
+<!-- MOBILE ADDON BADGE -->
+<div id="addon-count-badge"><i class="fas fa-plus mr-1"></i><span id="addon-count-num">0</span> add-ons selected</div>
 
 <div id="cur"></div>
 <div id="cur2"></div>
@@ -749,6 +871,9 @@
       <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
       <span class="font-display text-xs tracking-widest text-pink-400">TRANSPARENT PRICING · ZAR · NO HIDDEN FEES</span>
     </div>
+    <div id="terminal-line" class="hero-animate">
+      <span id="terminal-text"></span><span class="cursor-blink"></span>
+    </div>
     <h1 class="font-display font-black mb-5 hero-animate" id="hero-title" style="font-size:clamp(2.6rem,7vw,5rem);line-height:1.15;">
       <div style="white-space:nowrap;">
         <span class="hero-word hero-white" data-word="Choose">Choose</span><span class="hero-word hero-pink" data-word="Your">Your</span>
@@ -770,7 +895,7 @@
 <!-- TRUST BADGES -->
 <section class="pb-10 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 reveal">
       <div class="trust-badge"><i class="fas fa-file-contract text-pink-400 text-xl flex-shrink-0"></i><div><div class="font-bold text-white text-sm">NDA First</div><div class="text-gray-500 text-xs">From first contact</div></div></div>
       <div class="trust-badge"><i class="fas fa-rotate text-pink-400 text-xl flex-shrink-0"></i><div><div class="font-bold text-white text-sm">Retest Included</div><div class="text-gray-500 text-xs">Every plan</div></div></div>
       <div class="trust-badge"><i class="fas fa-clock text-pink-400 text-xl flex-shrink-0"></i><div><div class="font-bold text-white text-sm">24hr Response</div><div class="text-gray-500 text-xs">Consultation guaranteed</div></div></div>
@@ -791,7 +916,7 @@
           <h3 class="font-display font-bold text-white text-base leading-tight">SCOUT<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Vulnerability Assessment</span></h3>
           <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-radar text-pink-400"></i></div>
         </div>
-        <div class="price-display mb-1">R18,000</div>
+        <div class="price-display mb-1" data-text="R18k" data-target="18">R18k</div>
         <p class="text-gray-500 text-xs mb-6">once-off · automated + manual analysis</p>
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Nessus Pro automated scan</span></li>
@@ -815,7 +940,7 @@
           <h3 class="font-display font-bold text-white text-base leading-tight">INFILTRATE<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Full Penetration Test</span></h3>
           <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-crosshairs text-pink-400"></i></div>
         </div>
-        <div class="price-display mb-1">R32,000</div>
+        <div class="price-display mb-1" data-text="R32k" data-target="32">R32k</div>
         <p class="text-gray-500 text-xs mb-6">once-off · manual pentest + report + retest</p>
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in SCOUT</span></li>
@@ -840,7 +965,7 @@
           <h3 class="font-display font-bold text-white text-base leading-tight">CLINIC<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Medical &amp; Dental Security</span></h3>
           <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ml-2" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);"><i class="fas fa-stethoscope" style="color:#22c55e;"></i></div>
         </div>
-        <div class="price-display mb-1" style="color:#22c55e;text-shadow:0 0 25px rgba(34,197,94,.6);">R28,000</div>
+        <div class="price-display mb-1" data-text="R28k" data-target="28" style="color:#22c55e;text-shadow:0 0 25px rgba(34,197,94,.6);">R28k</div>
         <p class="text-gray-500 text-xs mb-6">once-off · built for healthcare · POPIA-ready</p>
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Everything in INFILTRATE</span></li>
@@ -865,7 +990,7 @@
           <h3 class="font-display font-bold text-white text-base leading-tight">SENTINEL<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Ongoing Security Partner</span></h3>
           <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-shield-halved text-pink-400"></i></div>
         </div>
-        <div class="price-display mb-1">R85,000</div>
+        <div class="price-display mb-1" data-text="R94k" data-target="94">R94k</div>
         <p class="text-gray-500 text-xs mb-6">per year · 4 full assessments + continuous coverage</p>
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in INFILTRATE</span></li>
@@ -876,7 +1001,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Full compliance reporting (POPIA, PCI, ISO)</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Priority response SLA</span></li>
         </ul>
-        <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 85000)" style="cursor:none;">
+        <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 94000)" style="cursor:none;">
           <i class="fas fa-shield-alt"></i> <span>Select & Customise</span>
         </button>
       </div>
@@ -1171,8 +1296,8 @@
             <button class="package-select-btn" onclick="selectPackage('clinic', 28000, this)" style="border-color:rgba(34,197,94,.4);color:#22c55e;">
               CLINIC<span class="pkg-price">R28K</span>
             </button>
-            <button class="package-select-btn active" onclick="selectPackage('sentinel', 85000, this)">
-              SENTINEL<span class="pkg-price">R85K</span>
+            <button class="package-select-btn active" onclick="selectPackage('sentinel', 94000, this)">
+              SENTINEL<span class="pkg-price">R94,000</span>
             </button>
             <button class="package-select-btn" onclick="selectPackage('phantom', 0, this)">
               PHANTOM<span class="pkg-price">POA</span>
@@ -1183,7 +1308,7 @@
           <div id="quote-lines">
             <div class="quote-line base-package">
               <span id="quote-package-name">SENTINEL Package</span>
-              <span id="quote-package-price" class="font-display text-pink-400">R85,000</span>
+              <span id="quote-package-price" class="font-display text-pink-400">R94,000</span>
             </div>
             <div id="quote-addons-container">
               <!-- Add-ons will be inserted here -->
@@ -1198,8 +1323,9 @@
           <!-- Total -->
           <div class="quote-total">
             <span class="quote-total-label">ESTIMATED TOTAL</span>
-            <span class="quote-total-value" id="quote-total">R85,000</span>
+            <span class="quote-total-value" id="quote-total">R94,000</span>
           </div>
+          <div id="savings-badge"><i class="fas fa-tag mr-1"></i>You save <span id="savings-amount"></span> vs. ad-hoc</div>
 
           <p class="text-gray-600 text-xs mt-4 mb-5 text-center">Final pricing confirmed in written scope of work</p>
 
@@ -1223,7 +1349,7 @@
 </section>
 
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
-<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
+<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2" id="compare-section">
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-12">
       <div class="section-tag mb-3">Side by Side</div>
@@ -1259,7 +1385,7 @@
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R18k</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R32k</div>
         <div class="compare-tick font-display" style="font-size:.7rem;color:#22c55e">R28k</div>
-        <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R85k/yr</div>
+        <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R94,000/yr</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">POA</div>
       </div>
     </div>
@@ -1275,7 +1401,7 @@
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
 <!-- ROI CONTEXT -->
-<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
+<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2" id="roi-section">
   <div class="max-w-5xl mx-auto">
     <div class="roi-card p-8 sm:p-12">
       <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center">
@@ -1294,7 +1420,7 @@
             <div class="h-2 rounded-full" style="background:rgba(239,68,68,.2)"><div class="h-full rounded-full bg-red-500" style="width:100%"></div></div>
           </div>
           <div class="glass rounded-2xl p-5">
-            <div class="flex items-center justify-between mb-2"><span class="text-gray-400 text-sm">SENTINEL Quarterly Retainer</span><span class="font-display font-black text-pink-400 text-lg">R85K/yr</span></div>
+            <div class="flex items-center justify-between mb-2"><span class="text-gray-400 text-sm">SENTINEL Quarterly Retainer</span><span class="font-display font-black text-pink-400 text-lg">R94,000/yr</span></div>
             <div class="h-2 rounded-full" style="background:rgba(255,20,147,.15)"><div class="h-full rounded-full bg-pink-500 roi-bar" style="width:0.85%"></div></div>
           </div>
           <div class="glass rounded-2xl p-5">
@@ -1362,7 +1488,7 @@
             </div>
             <div class="flex items-center justify-between rounded-xl px-4 py-3" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
               <span class="text-sm text-gray-400">SENTINEL annual cost</span>
-              <span class="font-display text-white text-sm">R85,000/yr</span>
+              <span class="font-display text-white text-sm">R94,000/yr</span>
             </div>
             <div class="rounded-xl px-4 py-3" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);">
               <div class="flex items-center justify-between">
@@ -1372,7 +1498,7 @@
               <div class="text-xs text-gray-500 mt-1">breach exposure ÷ SENTINEL annual cost</div>
             </div>
           </div>
-          <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 85000)" style="cursor:none;">
+          <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 94000)" style="cursor:none;">
             <i class="fas fa-shield-halved"></i> <span>Lock In This Protection</span>
           </button>
         </div>
@@ -1384,7 +1510,7 @@
 <div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
 <!-- FAQ -->
-<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
+<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2" id="faq-section">
   <div class="max-w-3xl mx-auto">
     <div class="text-center mb-12">
       <div class="section-tag mb-3">Got Questions</div>
@@ -1574,14 +1700,14 @@
   // MODAL
   var currentPlan = '', currentPrice = '';
   var selectedAddons = [];
-  var basePackage = { name: 'SENTINEL', price: 85000, key: 'sentinel' };
+  var basePackage = { name: 'SENTINEL', price: 94000, key: 'sentinel' };
 
   // Package definitions
   var packages = {
     scout: { name: 'SCOUT', price: 18000, display: 'R18,000' },
     infiltrate: { name: 'INFILTRATE', price: 32000, display: 'R32,000' },
     clinic: { name: 'CLINIC', price: 28000, display: 'R28,000' },
-    sentinel: { name: 'SENTINEL', price: 85000, display: 'R85,000' },
+    sentinel: { name: 'SENTINEL', price: 94000, display: 'R94,000' },
     phantom: { name: 'PHANTOM', price: 0, display: 'POA' }
   };
 
@@ -1822,11 +1948,191 @@
   function updateCalc() {
     var rev = parseFloat(document.getElementById('rev-input').value) || 500000;
     var breach = Math.round(rev * calcSize * calcIndustry * 0.3);
-    var roi = Math.round(breach / 85000);
+    var roi = Math.round(breach / 94000);
     document.getElementById('calc-breach').textContent = fmtRand(breach);
     document.getElementById('calc-roi').textContent = roi + 'x';
   }
   updateCalc();
+
+  // ── ENHANCEMENTS ───────────────────────────────────────────────────────────
+
+  // TERMINAL TYPEWRITER
+  (function() {
+    var lines = [
+      '> initialising greyhat4hire.pricing.js...',
+      '> loading package definitions... OK',
+      '> NDA protocol: ACTIVE',
+      '> select your security package below_'
+    ];
+    var el = document.getElementById('terminal-text');
+    if (!el) return;
+    var li = 0, ci = 0, deleting = false;
+    function tick() {
+      if (li >= lines.length) { li = lines.length - 1; }
+      var line = lines[li];
+      if (!deleting) {
+        el.textContent = line.slice(0, ++ci);
+        if (ci === line.length) {
+          if (li < lines.length - 1) { setTimeout(function(){ deleting = true; tick(); }, 900); return; }
+          return; // stay on last line
+        }
+        setTimeout(tick, 38);
+      } else {
+        el.textContent = line.slice(0, --ci);
+        if (ci === 0) { li++; deleting = false; setTimeout(tick, 200); return; }
+        setTimeout(tick, 18);
+      }
+    }
+    setTimeout(tick, 600);
+  })();
+
+  // PAGE NAV DOTS — highlight on scroll
+  (function() {
+    var sections = ['pricing-grid','addons-section','compare-section','roi-section','faq-section'];
+    var dots = document.querySelectorAll('.page-dot');
+    function scrollToSection(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    window.scrollToSection = scrollToSection;
+    function updateDots() {
+      var scrollY = window.scrollY + window.innerHeight * 0.4;
+      var active = 0;
+      sections.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollY) active = i;
+      });
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+    }
+    window.addEventListener('scroll', updateDots, {passive:true});
+    updateDots();
+  })();
+
+  // PRICE COUNTER ANIMATE — count up on scroll into view
+  (function() {
+    var priceEls = document.querySelectorAll('.price-display[data-target]');
+    var observed = new Set();
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !observed.has(entry.target)) {
+          observed.add(entry.target);
+          var el = entry.target;
+          var target = parseInt(el.dataset.target);
+          var suffix = 'k';
+          var duration = 900;
+          var start = 0, startTime = null;
+          function step(ts) {
+            if (!startTime) startTime = ts;
+            var prog = Math.min((ts - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - prog, 3);
+            var val = Math.round(eased * target);
+            el.textContent = 'R' + val + suffix;
+            if (prog < 1) requestAnimationFrame(step);
+            else el.textContent = 'R' + target + suffix;
+          }
+          requestAnimationFrame(step);
+        }
+      });
+    }, {threshold: 0.3});
+    priceEls.forEach(function(el) { io.observe(el); });
+  })();
+
+  // QUOTE FLASH — animate total when it changes
+  (function() {
+    var origUpdateQuoteTotal = updateQuoteTotal;
+    updateQuoteTotal = function() {
+      origUpdateQuoteTotal();
+      var el = document.getElementById('quote-total');
+      el.classList.remove('quote-flash');
+      void el.offsetWidth; // reflow
+      el.classList.add('quote-flash');
+      setTimeout(function(){ el.classList.remove('quote-flash'); }, 450);
+      // Update savings badge
+      updateSavingsBadge();
+      // Update mobile badge
+      updateMobileBadge();
+    };
+  })();
+
+  // SAVINGS BADGE
+  function updateSavingsBadge() {
+    var badge = document.getElementById('savings-badge');
+    var amountEl = document.getElementById('savings-amount');
+    if (!badge || !amountEl) return;
+    var addonTotal = 0;
+    selectedAddons.forEach(function(a){ addonTotal += a.price; });
+    // Show savings only when addons are present (we discount 15% effectively vs ad-hoc)
+    if (addonTotal > 0 && basePackage.price > 0) {
+      var adHoc = Math.round(addonTotal * 1.2);
+      var saved = adHoc - addonTotal;
+      amountEl.textContent = formatRand(saved);
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  // MOBILE ADDON COUNTER BADGE
+  function updateMobileBadge() {
+    var badge = document.getElementById('addon-count-badge');
+    var numEl = document.getElementById('addon-count-num');
+    if (!badge || !numEl) return;
+    var count = selectedAddons.length;
+    if (count > 0 && window.innerWidth < 1024) {
+      numEl.textContent = count;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+  window.addEventListener('resize', updateMobileBadge);
+
+  // ADDON POP ANIMATION
+  (function() {
+    var origToggleAddon = toggleAddon;
+    toggleAddon = function(card) {
+      origToggleAddon(card);
+      card.classList.remove('pop');
+      void card.offsetWidth;
+      card.classList.add('pop');
+      setTimeout(function(){ card.classList.remove('pop'); }, 300);
+    };
+  })();
+
+  // 3D CARD TILT on mouse move
+  (function() {
+    document.querySelectorAll('.price-card').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top)  / rect.height - 0.5;
+        card.style.transform = 'translateY(-10px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+        card.style.transition = 'transform .5s ease';
+        setTimeout(function(){ card.style.transition = ''; }, 500);
+      });
+    });
+  })();
+
+  // CURSOR GROW on hover over interactive elements
+  (function() {
+    var cur = document.getElementById('cur');
+    if (!cur) return;
+    document.querySelectorAll('button, a, .addon-card, .price-card, .faq-trigger').forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        cur.style.transform = 'translate(-50%,-50%) scale(2.2)';
+        cur.style.background = 'rgba(255,20,147,.15)';
+      });
+      el.addEventListener('mouseleave', function() {
+        cur.style.transform = 'translate(-50%,-50%) scale(1)';
+        cur.style.background = 'transparent';
+      });
+    });
+  })();
+
+  // ── END ENHANCEMENTS ────────────────────────────────────────────────────────
 
   // THREE.JS PARTICLES
   (function() {
