@@ -3,7 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Greyhat Protocol</title>
+<title>Greyhat Protocol — Penetration Test Simulator | Greyhat4Hire</title>
+<meta name="description" content="Experience ethical hacking through our interactive penetration test simulator. Learn real-world attack vectors, exploit techniques, and defensive strategies in a gamified environment."/>
+<link rel="canonical" href="https://greyhat4hire.com/greyhat-protocol.html"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="Dr David Sykes — Greyhat4Hire"/>
+<meta name="geo.region" content="ZA"/>
+
+<!-- ══ OPEN GRAPH ══ -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://greyhat4hire.com/greyhat-protocol.html"/>
+<meta property="og:title" content="Greyhat Protocol — Penetration Test Simulator"/>
+<meta property="og:description" content="Experience ethical hacking through our interactive penetration test simulator. Learn real-world attack vectors and defensive strategies."/>
+<meta property="og:image" content="https://greyhat4hire.com/og-image.png"/>
+<meta property="og:locale" content="en_ZA"/>
+<meta property="og:site_name" content="Greyhat4Hire"/>
+
+<!-- ══ TWITTER/X CARD ══ -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:url" content="https://greyhat4hire.com/greyhat-protocol.html"/>
+<meta name="twitter:title" content="Greyhat Protocol — Penetration Test Simulator"/>
+<meta name="twitter:description" content="Experience ethical hacking through our interactive penetration test simulator. Learn real-world attack vectors."/>
+<meta name="twitter:image" content="https://greyhat4hire.com/og-image.png"/>
+
+<!-- ══ JSON-LD STRUCTURED DATA ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Greyhat Protocol",
+  "description": "Interactive penetration test simulator that teaches real-world attack vectors, exploit techniques, and defensive strategies through gamified scenarios.",
+  "url": "https://greyhat4hire.com/greyhat-protocol.html",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "ZAR"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Greyhat4Hire",
+    "url": "https://greyhat4hire.com"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Dr David Sykes",
+    "url": "https://greyhat4hire.com/about.html"
+  }
+}
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +70,7 @@
   --font-game:'Orbitron',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 html,body{height:100%;background:var(--bg);font-family:var(--font-mono);color:#bbb;overflow-x:hidden;}
 
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.1) 2px,rgba(0,0,0,.1) 3px);}
@@ -738,6 +788,7 @@ nav{transition:all .4s ease;background:rgba(2,4,9,.97);backdrop-filter:blur(20px
   <canvas id="matrix-canvas"></canvas>
   <div class="intro-inner">
     <div class="classified">CLASSIFIED // AUTHORIZED PENTEST // GREYHAT4HIRE</div>
+    <h1 class="sr-only">Greyhat Protocol — Interactive Penetration Test Simulator</h1>
     <div class="t1">GREYHAT</div>
     <div class="t2">PROTOCOL</div>
     <div class="t3">PENETRATION TEST SIMULATOR v3.0</div>
