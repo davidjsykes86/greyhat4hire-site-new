@@ -40,7 +40,7 @@
   body{
     font-family:'Rajdhani',system-ui,sans-serif;
     background:var(--bg);color:#e0e0e0;
-    overflow-x:hidden;cursor:none;
+    overflow-x:hidden;cursor: auto;
   }
   body::before{
     content:'';position:fixed;inset:0;z-index:0;
@@ -78,7 +78,7 @@
   #mobile-menu.open{transform:translateY(0);}
   .mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
   .tools-dropdown-wrap{position:relative;}
-  .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+  .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;transition:all .3s ease;padding:0;position:relative;}
   .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
   .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
   .tools-dropdown-btn:hover::after{width:100%;}
@@ -445,8 +445,6 @@
   </script>
 </head>
 <body>
-<div id="cur"></div>
-<div id="cur2"></div>
 <canvas id="three-canvas"></canvas>
 
 <!-- ══ NAV ══ -->
@@ -560,7 +558,7 @@
     <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
     <!-- Free Tools Accordion -->
     <div class="mobile-tools-accordion w-full" style="max-width:300px;">
-      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
         <span style="display:flex;align-items:center;gap:8px;">
           <span class="tools-live-dot"></span>
           <span>Free Tools</span>

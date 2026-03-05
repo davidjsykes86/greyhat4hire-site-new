@@ -42,7 +42,7 @@ body{
   font-family:'Syne',sans-serif;
   background:var(--bg);color:var(--t1);
   min-height:100vh;overflow-x:hidden;line-height:1.6;
-  cursor:none;
+  cursor: auto;
 }
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
@@ -55,10 +55,6 @@ body::after{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(ellipse 90% 50% at 50% -5%,rgba(0,212,255,.06) 0%,transparent 65%);
 }
-
-/* ── CURSOR ── */
-#cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
-#cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
 #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
 /* ── NAV ── */
@@ -82,7 +78,7 @@ nav{transition:all .4s ease;}
   display:inline-flex;align-items:center;gap:6px;
   font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
   font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
-  cursor:none;transition:all .3s ease;padding:0;position:relative;
+  transition:all .3s ease;padding:0;position:relative;
 }
 .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
 .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
@@ -154,7 +150,7 @@ nav{transition:all .4s ease;}
   display:inline-flex;align-items:center;gap:10px;
   background:linear-gradient(135deg,#ff1493,#ff69b4);
   color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
-  padding:18px 40px;border-radius:14px;border:none;cursor:none;
+  padding:18px 40px;border-radius:14px;border:none;
   transition:all .3s ease;text-decoration:none;
 }
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
@@ -514,9 +510,6 @@ main{
   <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>
 </head>
 <body>
-
-<div id="cur"></div>
-<div id="cur2"></div>
 <canvas id="three-canvas"></canvas>
 
 <!-- WhatsApp Float -->
@@ -635,7 +628,7 @@ main{
     <a href="services.html"        class="mobile-link desktop-link text-white">Services</a>
     <!-- Free Tools Accordion -->
     <div class="mobile-tools-accordion w-full" style="max-width:300px;">
-      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
         <span style="display:flex;align-items:center;gap:8px;">
           <span class="tools-live-dot"></span>
           <span>Free Tools</span>

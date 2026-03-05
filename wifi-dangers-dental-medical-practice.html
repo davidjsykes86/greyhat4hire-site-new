@@ -40,7 +40,7 @@
     :root{--purple:#a855f7;--purple-dim:rgba(168,85,247,.7);--pink:#ff1493;--cyan:#22d3ee;--green:#22c55e;--red:#ef4444;--orange:#f97316;}
     *{box-sizing:border-box;margin:0;padding:0;}
     html{overflow-x:hidden;scroll-behavior:smooth;}
-    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:none;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor: auto;}
     body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
     #cur{position:fixed;width:18px;height:18px;border:2px solid var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #cur2{position:fixed;width:5px;height:5px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
@@ -60,7 +60,7 @@
 
     /* TOOLS DROPDOWN */
     .tools-dropdown-wrap{position:relative;}
-    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;cursor:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;transition:all .3s ease;padding:0;position:relative;}
     .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s ease;}
     .tools-dropdown-btn:hover{color:#67e8f9;text-shadow:0 0 20px var(--cyan);}
     .tools-dropdown-btn:hover::after{width:100%;}
@@ -91,7 +91,7 @@
     .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
     .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
     .mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
-    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;cursor:none;transition:all .3s ease;text-decoration:none;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;transition:all .3s ease;text-decoration:none;}
     .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(34,211,238,.45);}
     @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(34,211,238,.35)}50%{box-shadow:0 0 65px rgba(34,211,238,.7)}}
     .pulse-glow{animation:pulseGlow 2.8s infinite;}
@@ -210,8 +210,6 @@
   </style>
 </head>
 <body>
-<div id="cur"></div>
-<div id="cur2"></div>
 <canvas id="three-canvas"></canvas>
 <a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 <div id="read-progress-bar"></div>
@@ -265,7 +263,7 @@
       <a href="contact.html" class="desktop-link text-white">Contact</a>
     </div>
     <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
-    <button id="hamburger" class="lg:hidden text-3xl hover:opacity-75 transition" style="color:var(--cyan);cursor:none;"><i class="fas fa-bars"></i></button>
+    <button id="hamburger" class="lg:hidden text-3xl hover:opacity-75 transition" style="color:var(--cyan);"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
@@ -275,7 +273,7 @@
     <a href="about.html" class="mobile-link desktop-link text-white">About</a>
     <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
     <div class="mobile-tools-accordion w-full" style="max-width:300px;">
-      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
         <span style="display:flex;align-items:center;gap:8px;"><span class="tools-live-dot"></span><span>Free Tools</span></span>
         <i class="fas fa-chevron-down mobile-tools-chevron"></i>
       </button>

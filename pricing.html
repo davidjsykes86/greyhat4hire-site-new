@@ -17,7 +17,7 @@
     :root { --pink:#ff1493; }
     * { box-sizing:border-box; margin:0; padding:0; }
     html { overflow-x:hidden; scroll-behavior:smooth; }
-    body { font-family:'Rajdhani',system-ui,sans-serif; background:#000; color:#e0e0e0; overflow-x:hidden; cursor:none; }
+    body { font-family:'Rajdhani',system-ui,sans-serif; background:#000; color:#e0e0e0; overflow-x:hidden; cursor: auto; }
     body::before {
       content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
@@ -81,7 +81,7 @@
       display:inline-flex;align-items:center;gap:6px;
       font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
       font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
-      cursor:none;transition:all .3s ease;padding:0;position:relative;
+      transition:all .3s ease;padding:0;position:relative;
     }
     .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
     .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
@@ -134,7 +134,7 @@
       display:inline-flex;align-items:center;gap:10px;justify-content:center;
       background:linear-gradient(135deg,#ff1493,#ff69b4);
       color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;
-      padding:16px 32px;border-radius:14px;border:none;cursor:none;width:100%;
+      padding:16px 32px;border-radius:14px;border:none;width:100%;
       transition:all .3s ease;text-decoration:none;position:relative;overflow:hidden;
     }
     .btn-primary::before { content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.25);transform:translate(-50%,-50%);transition:width .6s ease,height .6s ease;z-index:0; }
@@ -145,7 +145,7 @@
       display:inline-flex;align-items:center;gap:8px;justify-content:center;
       border:2px solid var(--pink);color:var(--pink);
       font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
-      padding:16px 32px;border-radius:14px;cursor:none;width:100%;
+      padding:16px 32px;border-radius:14px;width:100%;
       background:transparent;transition:all .3s ease;text-decoration:none;
     }
     .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
@@ -411,7 +411,7 @@
 
     /* FAQ */
     .faq-item { border-bottom:1px solid rgba(255,20,147,.1);overflow:hidden; }
-    .faq-trigger { width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:none;text-align:left;background:transparent;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;transition:color .3s ease; }
+    .faq-trigger { width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;text-align:left;background:transparent;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;transition:color .3s ease; }
     .faq-trigger:hover { color:var(--pink); }
     .faq-icon { color:var(--pink);transition:transform .35s ease;flex-shrink:0;margin-left:16px; }
     .faq-trigger.open .faq-icon { transform:rotate(45deg); }
@@ -424,7 +424,7 @@
     #contact-modal.open { display:flex; }
     .modal-card { background:rgba(6,3,8,.98);border:1px solid rgba(255,20,147,.45);border-radius:28px;padding:40px;max-width:420px;width:100%;position:relative;animation:modalIn .35s cubic-bezier(.4,0,.2,1); }
     @keyframes modalIn { from{opacity:0;transform:scale(.94) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
-    .modal-contact-btn { display:flex;align-items:center;gap:14px;width:100%;padding:16px 20px;border-radius:14px;border:1px solid rgba(255,20,147,.25);background:rgba(255,20,147,.06);color:#fff;cursor:none;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;transition:all .3s ease;text-decoration:none; }
+    .modal-contact-btn { display:flex;align-items:center;gap:14px;width:100%;padding:16px 20px;border-radius:14px;border:1px solid rgba(255,20,147,.25);background:rgba(255,20,147,.06);color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;transition:all .3s ease;text-decoration:none; }
     .modal-contact-btn:hover { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.14);transform:translateX(4px); }
     .modal-contact-btn .btn-icon { width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0; }
 
@@ -433,11 +433,11 @@
     .roi-card::before { content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.07),transparent 65%);pointer-events:none; }
 
     /* CALCULATOR */
-    .calc-size-btn { padding:12px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.1);font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;color:#777;background:transparent;cursor:none;transition:all .3s ease;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;text-transform:uppercase; }
+    .calc-size-btn { padding:12px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.1);font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;color:#777;background:transparent;transition:all .3s ease;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;text-transform:uppercase; }
     .calc-size-btn.active { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.12);color:#ff1493; }
     .calc-size-btn .csub { font-family:'Rajdhani',sans-serif;font-size:.65rem;color:#555;letter-spacing:0;font-weight:400;text-transform:none; }
     .calc-size-btn.active .csub { color:#bbb; }
-    .calc-ind-btn { padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.06em;color:#777;background:transparent;cursor:none;transition:all .3s ease;display:flex;flex-direction:column;gap:3px;width:100%;text-align:left;text-transform:uppercase; }
+    .calc-ind-btn { padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.06em;color:#777;background:transparent;transition:all .3s ease;display:flex;flex-direction:column;gap:3px;width:100%;text-align:left;text-transform:uppercase; }
     .calc-ind-btn.active { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.12);color:#ff1493; }
     .calc-ind-btn .csub { font-family:'Rajdhani',sans-serif;font-size:.65rem;color:#555;letter-spacing:0;font-weight:400;text-transform:none; }
     .calc-ind-btn.active .csub { color:#bbb; }
@@ -456,7 +456,6 @@
     /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
     @media (hover: none), (pointer: coarse) {
       #cur, #cur2 { display: none !important; }
-      body { cursor: auto !important; }
     }
 
     /* ── SCANLINES OVERLAY ── */
@@ -476,7 +475,7 @@
     .page-dot {
       width:8px;height:8px;border-radius:50%;
       border:1px solid rgba(255,20,147,.4);background:transparent;
-      cursor:none;transition:all .3s ease;position:relative;
+      transition:all .3s ease;position:relative;
     }
     .page-dot::after {
       content:attr(data-label);
@@ -716,9 +715,6 @@
 
 <!-- MOBILE ADDON BADGE -->
 <div id="addon-count-badge"><i class="fas fa-plus mr-1"></i><span id="addon-count-num">0</span> add-ons selected</div>
-
-<div id="cur"></div>
-<div id="cur2"></div>
 <canvas id="three-canvas"></canvas>
 
 <!-- WhatsApp Float -->
@@ -825,7 +821,7 @@
       <i class="fas fa-shield-alt"></i> Get a Quote
     </a>
 
-    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition">
       <i class="fas fa-bars"></i>
     </button>
   </div>
@@ -840,7 +836,7 @@
     <a href="services.html"         class="mobile-link desktop-link text-white">Services</a>
     <!-- Free Tools Accordion -->
     <div class="mobile-tools-accordion w-full" style="max-width:300px;">
-      <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
         <span style="display:flex;align-items:center;gap:8px;">
           <span class="tools-live-dot"></span>
           <span>Free Tools</span>
@@ -925,7 +921,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>POPIA / ISO 27001 alignment notes</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>NDA signed before any work begins</span></li>
         </ul>
-        <button class="btn-ghost" onclick="selectPackageAndScroll('scout', 18000)" style="cursor:none;">
+        <button class="btn-ghost" onclick="selectPackageAndScroll('scout', 18000)">
           <i class="fas fa-arrow-right text-xs"></i> <span>Select & Customise</span>
         </button>
       </div>
@@ -947,7 +943,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>1× Full retest — every hole verified closed</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>PCI DSS / POPIA compliance support</span></li>
         </ul>
-        <button class="btn-ghost" onclick="selectPackageAndScroll('infiltrate', 32000)" style="cursor:none;">
+        <button class="btn-ghost" onclick="selectPackageAndScroll('infiltrate', 32000)">
           <i class="fas fa-arrow-right text-xs"></i> <span>Select & Customise</span>
         </button>
       </div>
@@ -970,7 +966,7 @@
           <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>Medical device network isolation verified</span></li>
           <li class="feature-row"><i class="fas fa-check" style="color:#22c55e;"></i><span>1× Full retest included</span></li>
         </ul>
-        <button class="btn-primary" onclick="selectPackageAndScroll('clinic', 28000)" style="cursor:none;background:linear-gradient(135deg,#22c55e,#16a34a);">
+        <button class="btn-primary" onclick="selectPackageAndScroll('clinic', 28000)" style="background:linear-gradient(135deg,#22c55e,#16a34a);">
           <i class="fas fa-stethoscope"></i> <span>Protect My Practice</span>
         </button>
       </div>
@@ -994,7 +990,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Full compliance reporting (POPIA, PCI DSS, ISO 27001)</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Priority 4-hour response SLA</span></li>
         </ul>
-        <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 94000)" style="cursor:none;">
+        <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 94000)">
           <i class="fas fa-shield-alt"></i> <span>Select & Customise</span>
         </button>
       </div>
@@ -1017,7 +1013,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Monthly continuous assessments</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Custom SLA &amp; compliance framework</span></li>
         </ul>
-        <button class="btn-ghost" onclick="selectPackageAndScroll('phantom', 0)" style="cursor:none;">
+        <button class="btn-ghost" onclick="selectPackageAndScroll('phantom', 0)">
           <i class="fas fa-arrow-right text-xs"></i> <span>Discuss Scope</span>
         </button>
       </div>
@@ -1322,7 +1318,7 @@
 
           <p class="text-gray-600 text-xs mt-4 mb-5 text-center">Final pricing confirmed in written scope of work</p>
 
-          <button class="btn-primary pulse-glow w-full" onclick="requestQuote()" style="cursor:none;">
+          <button class="btn-primary pulse-glow w-full" onclick="requestQuote()">
             <i class="fas fa-paper-plane"></i> <span>Request This Quote</span>
           </button>
 
@@ -1462,7 +1458,7 @@
             <div class="relative">
               <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#ff1493;font-family:'Orbitron',monospace;font-weight:700;font-size:.9rem;">R</span>
               <input id="rev-input" type="number" value="500000" min="10000" max="500000000" oninput="updateCalc()"
-                style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,20,147,.3);border-radius:12px;padding:13px 12px 13px 34px;color:#fff;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;cursor:none;transition:border-color .3s ease;"
+                style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,20,147,.3);border-radius:12px;padding:13px 12px 13px 34px;color:#fff;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;transition:border-color .3s ease;"
                 onfocus="this.style.borderColor='rgba(255,20,147,.75)'"
                 onblur="this.style.borderColor='rgba(255,20,147,.3)'">
             </div>
@@ -1491,7 +1487,7 @@
               <div class="text-xs text-gray-500 mt-1">breach exposure ÷ SENTINEL annual cost</div>
             </div>
           </div>
-          <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 94000)" style="cursor:none;">
+          <button class="btn-primary pulse-glow" onclick="selectPackageAndScroll('sentinel', 94000)">
             <i class="fas fa-shield-halved"></i> <span>Lock In This Protection</span>
           </button>
         </div>

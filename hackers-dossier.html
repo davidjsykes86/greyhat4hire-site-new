@@ -27,7 +27,7 @@
       background: #000;
       color: #e0e0e0;
       overflow-x: hidden;
-      cursor: none;
+      cursor: auto;
     }
 
     /* ── NOISE OVERLAY ── */
@@ -37,10 +37,6 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
     }
-
-    /* ── CURSOR ── */
-    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
-    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas { position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none; }
 
     .font-display { font-family: 'Orbitron', monospace; }
@@ -74,7 +70,7 @@
       display:inline-flex;align-items:center;gap:6px;
       font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
       font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
-      cursor:none;transition:all .3s ease;padding:0;position:relative;
+      transition:all .3s ease;padding:0;position:relative;
     }
     .tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease; }
     .tools-dropdown-btn:hover { color:#ff69b4;text-shadow:0 0 20px #ff1493; }
@@ -150,7 +146,7 @@
       display:inline-flex;align-items:center;gap:10px;
       background:linear-gradient(135deg,#ff1493,#ff69b4);
       color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
-      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      padding:18px 40px;border-radius:14px;border:none;
       transition:all .3s ease;text-decoration:none;
     }
     .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
@@ -158,7 +154,7 @@
       display:inline-flex;align-items:center;gap:8px;
       border:2px solid var(--pink);color:var(--pink);
       font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;
-      padding:16px 32px;border-radius:14px;cursor:none;
+      padding:16px 32px;border-radius:14px;
       background:transparent;transition:all .3s ease;text-decoration:none;
     }
     .btn-ghost:hover { background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3); }
@@ -296,7 +292,6 @@
     /* ── HIDE CUSTOM CURSOR ON TOUCH / MOBILE ── */
     @media (hover: none), (pointer: coarse) {
       #cur, #cur2 { display: none !important; }
-      body { cursor: auto !important; }
     }
   </style>
   <link rel="canonical" href="https://greyhat4hire.com/hackers-dossier.html"/>
@@ -312,9 +307,6 @@
   <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>
 </head>
 <body>
-
-  <div id="cur"></div>
-  <div id="cur2"></div>
   <canvas id="three-canvas"></canvas>
 
   <!-- WhatsApp Float -->
@@ -423,7 +415,7 @@
         <i class="fas fa-shield-alt"></i> Get a Quote
       </a>
 
-      <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+      <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -439,7 +431,7 @@
       <a href="services.html"        class="mobile-link desktop-link text-white">Services</a>
       <!-- Free Tools Accordion -->
       <div class="mobile-tools-accordion w-full" style="max-width:300px;">
-        <button id="mobile-tools-toggle" type="button" style="cursor:none;" class="mobile-tools-toggle">
+        <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
           <span style="display:flex;align-items:center;gap:8px;">
             <span class="tools-live-dot"></span>
             <span>Free Tools</span>

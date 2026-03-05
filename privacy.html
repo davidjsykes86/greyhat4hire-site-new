@@ -31,7 +31,7 @@
       background: #000;
       color: #e0e0e0;
       overflow-x: hidden;
-      cursor: none;
+      cursor: auto;
     }
 
     body::before {
@@ -66,7 +66,7 @@
       display:inline-flex;align-items:center;gap:10px;
       background:linear-gradient(135deg,#ff1493,#ff69b4);
       color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
-      padding:18px 40px;border-radius:14px;border:none;cursor:none;
+      padding:18px 40px;border-radius:14px;border:none;
       transition:all .3s ease;text-decoration:none;
     }
     .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
@@ -164,10 +164,6 @@
   </style>
 </head>
 <body>
-
-<div id="cur"></div>
-<div id="cur2"></div>
-
 <a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
@@ -191,14 +187,14 @@
     <a href="contact.html" class="hidden lg:inline-flex btn-primary" style="padding:12px 24px;font-size:.72rem;">
       <i class="fas fa-shield-alt"></i> Get a Quote
     </a>
-    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:none;">
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition">
       <i class="fas fa-bars"></i>
     </button>
   </div>
 </nav>
 
 <div id="mobile-menu" class="hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
-  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400" style="cursor:none;"><i class="fas fa-times"></i></button>
+  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html"            class="mobile-link desktop-link text-white">Home</a>
     <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
