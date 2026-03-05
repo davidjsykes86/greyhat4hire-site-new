@@ -14,12 +14,10 @@
   <meta name="twitter:url"         content="https://greyhat4hire.com/reverse-image-search.html"/>
   <meta name="twitter:title"       content="Reverse Image & Frame Search — Greyhat4Hire Tools"/>
   <meta name="twitter:description" content="Free AI-powered reverse image search. Upload any image or video frame and Greyhat4Hire traces its origins, exposes fakes, and surfaces matches using AI vision and live OSINT."/>
-  <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <style>
     /* ── ROOT ── */
     :root{
@@ -531,7 +529,7 @@
       <div class="div-g mb-5"></div>
       <div class="flex flex-wrap gap-5 items-start">
         <div class="flex-shrink-0">
-          <img loading="lazy" id="prev-img" src="" alt="Preview" style="max-width:130px;max-height:130px;border-radius:10px;border:1px solid var(--gb);object-fit:contain;background:rgba(0,0,0,.4);">
+          <img id="prev-img" src="" alt="Preview" style="max-width:130px;max-height:130px;border-radius:10px;border:1px solid var(--gb);object-fit:contain;background:rgba(0,0,0,.4);">
         </div>
         <div class="flex-1">
           <div class="flex gap-2 flex-wrap mb-3" id="prev-bdg"></div>
@@ -654,7 +652,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
       <div class="lg:col-span-1">
-        <img loading="lazy" src="logo.png" alt="Greyhat4Hire" style="height:2.5rem;margin-bottom:1.25rem;"
+        <img src="logo.png" alt="Greyhat4Hire" style="height:2.5rem;margin-bottom:1.25rem;"
              onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
         <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
         <div class="flex gap-4">
