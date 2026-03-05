@@ -76,7 +76,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
   <style>
     :root {
@@ -1190,7 +1194,7 @@
 
   <!-- Ghost logo watermark -->
   <div class="hero-watermark-wrap" aria-hidden="true">
-    <img src="logo.png" alt="Greyhat4Hire logo" class="hero-watermark-img" id="hero-watermark-img" onerror="this.parentElement.style.display='none'">
+    <img loading="lazy" src="logo.png" alt="Greyhat4Hire logo" class="hero-watermark-img" id="hero-watermark-img" onerror="this.parentElement.style.display='none'">
   </div>
 
   <!-- Main content -->
@@ -2273,7 +2277,7 @@
 <section class="py-16 px-4 sm:px-6" style="position:relative;z-index:2">
   <div class="max-w-5xl mx-auto">
     <a href="about.html" class="glass rounded-3xl p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-8 hover:border-pink-500/40 transition-all duration-300 group block" style="text-decoration:none;">
-      <img src="portrait.webp" alt="Consultant" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover object-top flex-shrink-0 border border-pink-500/20 group-hover:border-pink-500/50 transition-all"
+      <img loading="lazy" src="portrait.webp" alt="Consultant" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover object-top flex-shrink-0 border border-pink-500/20 group-hover:border-pink-500/50 transition-all"
         onerror="this.style.display='none'">
       <div class="flex-1 text-center sm:text-left">
         <div class="section-tag mb-2">Independent. Accountable. Effective.</div>
@@ -2317,7 +2321,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
       <div class="lg:col-span-1">
-        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+        <img loading="lazy" src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
           onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
         <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting firm providing ethical security testing and assurance services across South Africa and beyond.</p>
         <div class="flex gap-4">
