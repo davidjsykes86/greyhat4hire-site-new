@@ -34,7 +34,6 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -993,6 +992,39 @@ document.querySelectorAll('.stat-card').forEach(function(el,i){
 });
 gsap.fromTo('.dossier-box',{y:25,opacity:0},{y:0,opacity:1,duration:.65,ease:'power3.out',scrollTrigger:{trigger:'.dossier-box',start:'top 90%',once:true}});
 
-(function(){
-  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
-  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer
+window.addEventListener('load',function(){
+  var canvas=document.getElementById('three-canvas');
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  if(!ctx) return;
+  var W,H,pts;
+  function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
+  function makePts(){
+    pts=[];
+    for(var i=0;i<200;i++){
+      pts.push({x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+        r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,
+        pink:Math.random()>.4});
+    }
+  }
+  resize();makePts();
+  window.addEventListener('resize',function(){resize();makePts();});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i];
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+});
+</script>
+</body>
+</html>

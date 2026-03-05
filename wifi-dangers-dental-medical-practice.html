@@ -32,7 +32,6 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -965,20 +964,39 @@ document.querySelectorAll('.callout').forEach(function(el){
   gsap.fromTo(el,{y:16,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
 });
 
-(function(){
-  var canvas=document.getElementById('three-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,400);camera.position.z=80;
-  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
-  var count=500,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3),col=new Float32Array(count*3);
-  for(var i=0;i<count;i++){var i3=i*3;
-    pos[i3]=(Math.random()-.5)*180;pos[i3+1]=(Math.random()-.5)*260-80;pos[i3+2]=(Math.random()-.5)*50;
-    col[i3]=.1+(Math.random()-.5)*.1;col[i3+1]=.75+(Math.random()-.5)*.15;col[i3+2]=.9+(Math.random()-.5)*.08;}
-  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
-  var mat=new THREE.PointsMaterial({size:.78,vertexColors:true,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthTest:false});
-  var pts=new THREE.Points(geo,mat);scene.add(pts);var f=0;
-  function animate(){requestAnimationFrame(animate);if(++f%2)return;var p=pts.geometry.attributes.position.array;for(var j=1;j<p.length;j+=3){p[j]+=.022;if(p[j]>100){p[j]=-160;p[j-1]=(Math.random()-.5)*160;}}pts.geometry.attributes.position.needsUpdate=true;pts.rotation.y+=.0003;renderer.render(scene,camera);}
-  animate();
-  window.addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-})();
+window.addEventListener('load',function(){
+  var canvas=document.getElementById('three-canvas');
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  if(!ctx) return;
+  var W,H,pts;
+  function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
+  function makePts(){
+    pts=[];
+    for(var i=0;i<200;i++){
+      pts.push({x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+        r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,
+        pink:Math.random()>.4});
+    }
+  }
+  resize();makePts();
+  window.addEventListener('resize',function(){resize();makePts();});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i];
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+});
 
 // MOBILE MENU
 var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
@@ -988,3 +1006,6 @@ hamburger.addEventListener('click',openMenu);
 closeMenuBtn.addEventListener('click',closeMenu);
 document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
 var mobileToolsToggle=docume
+</script>
+</body>
+</html>
