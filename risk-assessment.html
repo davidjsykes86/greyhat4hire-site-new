@@ -206,16 +206,63 @@
 
     /* ── QUESTION CARD ── */
     .q-card {
-      background:rgba(8,8,8,.72);backdrop-filter:blur(18px);
-      border:1px solid rgba(255,20,147,.15);
-      border-radius:20px;padding:28px 32px;margin-bottom:16px;
-      transition:all .35s ease;position:relative;overflow:hidden;
+      background: linear-gradient(145deg, rgba(14,14,14,.9) 0%, rgba(6,6,6,.96) 100%);
+      backdrop-filter: blur(28px);
+      border: 1px solid rgba(255,20,147,.1);
+      border-radius: 22px;
+      padding: 28px 30px 26px;
+      margin-bottom: 14px;
+      transition: all .4s cubic-bezier(.4,0,.2,1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.03);
     }
-    .q-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--pink),transparent);opacity:0;transition:opacity .4s ease; }
-    .q-card:hover { border-color:rgba(255,20,147,.35); }
-    .q-card:hover::before { opacity:1; }
-    .q-card.answered-yes { border-color:rgba(34,197,94,.4);background:rgba(8,8,8,.8); }
-    .q-card.answered-no  { border-color:rgba(239,68,68,.4);background:rgba(8,8,8,.8); }
+    .q-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,20,147,.5) 40%, rgba(255,105,180,.3) 70%, transparent 100%);
+      opacity: 0; transition: opacity .4s ease;
+    }
+    .q-card::after {
+      content: '';
+      position: absolute; inset: 0; border-radius: 22px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,20,147,.04) 0%, transparent 60%);
+      pointer-events: none; opacity: 0; transition: opacity .4s ease;
+    }
+    .q-card:hover { border-color: rgba(255,20,147,.28); transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(255,20,147,.06), inset 0 1px 0 rgba(255,255,255,.04); }
+    .q-card:hover::before { opacity: 1; }
+    .q-card:hover::after  { opacity: 1; }
+    .q-card.answered-yes { border-color: rgba(34,197,94,.3); box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 0 20px rgba(34,197,94,.06); }
+    .q-card.answered-yes::before { opacity: 0; }
+    .q-card.answered-no  { border-color: rgba(239,68,68,.3); box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 0 20px rgba(239,68,68,.06); }
+    .q-card.answered-no::before  { opacity: 0; }
+
+    /* ── QUESTION NUMBER ── */
+    .q-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .7rem;
+      color: rgba(255,20,147,.4);
+      letter-spacing: .12em;
+      line-height: 1;
+      padding-top: 3px;
+      min-width: 28px;
+      user-select: none;
+    }
+
+    /* ── QUESTION TEXT TYPOGRAPHY ── */
+    .q-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.08rem;
+      font-weight: 400;
+      color: rgba(210,210,220,.82);
+      line-height: 1.7;
+      letter-spacing: .01em;
+    }
+    .q-text strong {
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: .015em;
+    }
 
     /* ── ANSWER BUTTONS ── */
     .answer-btn {
@@ -1025,33 +1072,33 @@ if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobi
       {
         id:'identity', label:'Identity & Access', icon:'fa-user-shield', color:'#ff1493',
         questions:[
-          {key:'mfa',      text:'Is multi-factor authentication (MFA) enforced for all staff accounts, including email and cloud services?', weight:18},
-          {key:'admin',    text:'Are admin/privileged accounts separate from day-to-day user accounts?', weight:14},
-          {key:'passwords',text:'Does your organisation enforce a password policy (minimum length, complexity, no reuse)?', weight:10},
+          {key:'mfa',      text:'Is <strong>multi-factor authentication (MFA)</strong> enforced for <strong>all staff accounts</strong>, including email and cloud services?', weight:18},
+          {key:'admin',    text:'Are <strong>admin and privileged accounts</strong> kept completely separate from <strong>day-to-day user accounts</strong>?', weight:14},
+          {key:'passwords',text:'Does your organisation enforce a <strong>password policy</strong> — minimum length, complexity requirements, and <strong>no password reuse</strong>?', weight:10},
         ]
       },
       {
         id:'backup', label:'Backup & Recovery', icon:'fa-hard-drive', color:'#f59e0b',
         questions:[
-          {key:'backup_exists', text:'Does your organisation perform regular, automated backups of all critical data?', weight:16},
-          {key:'offline_backup',text:'Are backups stored offline or in an air-gapped / immutable location (not just cloud sync)?', weight:16},
-          {key:'restore_test',  text:'Has your team successfully tested restoring from backup in the last 12 months?', weight:14},
+          {key:'backup_exists', text:'Does your organisation perform <strong>regular, automated backups</strong> of all <strong>critical business data</strong>?', weight:16},
+          {key:'offline_backup',text:'Are backups stored <strong>offline or in an air-gapped / immutable location</strong> — not solely reliant on cloud sync?', weight:16},
+          {key:'restore_test',  text:'Has your team <strong>successfully tested a full restore</strong> from backup within the <strong>last 12 months</strong>?', weight:14},
         ]
       },
       {
         id:'endpoints', label:'Endpoints & Patching', icon:'fa-laptop', color:'#3b82f6',
         questions:[
-          {key:'patching',  text:'Are operating systems and software on all devices kept up to date with security patches within 30 days?', weight:12},
-          {key:'edr',       text:'Is Endpoint Detection & Response (EDR) or advanced antivirus deployed on all endpoints?', weight:12},
-          {key:'segmented', text:'Is your network segmented — e.g., staff devices are separated from servers and guest Wi-Fi?', weight:10},
+          {key:'patching',  text:'Are operating systems and software on all devices kept current with <strong>security patches applied within 30 days</strong>?', weight:12},
+          {key:'edr',       text:'Is <strong>Endpoint Detection & Response (EDR)</strong> or advanced behavioural antivirus deployed on <strong>all endpoints</strong>?', weight:12},
+          {key:'segmented', text:'Is your <strong>network segmented</strong> — with staff devices, servers, IoT, and guest Wi-Fi on <strong>separate network zones</strong>?', weight:10},
         ]
       },
       {
         id:'detection', label:'Detection & Culture', icon:'fa-magnifying-glass', color:'#22c55e',
         questions:[
-          {key:'training',  text:'Have all staff received security awareness training (phishing simulation, social engineering) in the past year?', weight:10},
-          {key:'reporting', text:'Is there a clear, documented process for staff to report suspicious emails or incidents?', weight:8},
-          {key:'monitoring',text:'Does your organisation have active monitoring or alerting for unusual login attempts, data transfers, or system changes?', weight:10},
+          {key:'training',  text:'Have all staff completed <strong>security awareness training</strong>, including <strong>phishing simulation</strong>, within the past year?', weight:10},
+          {key:'reporting', text:'Is there a <strong>clear, documented process</strong> for staff to report suspicious emails or <strong>potential security incidents</strong>?', weight:8},
+          {key:'monitoring',text:'Does your organisation have <strong>active monitoring and alerting</strong> for unusual login attempts, data transfers, or system changes?', weight:10},
         ]
       },
     ];
@@ -1104,22 +1151,27 @@ if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobi
 
       const container=document.getElementById('questions-container');
       container.innerHTML='';
-      sec.questions.forEach(q=>{
+      sec.questions.forEach((q,qi)=>{
         const card=document.createElement('div');
         card.className='q-card';
         if(answers[q.key]===true)  card.classList.add('answered-yes');
         if(answers[q.key]===false) card.classList.add('answered-no');
         card.innerHTML=`
-          <p class="font-semibold text-white text-base leading-relaxed mb-5">${q.text}</p>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <button class="answer-btn ${answers[q.key]===true?'selected-yes':''}"
-              onclick="answer('${q.key}',true,this)">
-              <i class="fas fa-check-circle text-sm"></i> YES — we have this in place
-            </button>
-            <button class="answer-btn ${answers[q.key]===false?'selected-no':''}"
-              onclick="answer('${q.key}',false,this)">
-              <i class="fas fa-times-circle text-sm"></i> NO — not implemented
-            </button>
+          <div class="flex gap-4">
+            <div class="q-num">${String(qi + 1).padStart(2,'0')}</div>
+            <div class="flex-1">
+              <p class="q-text mb-6">${q.text}</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <button class="answer-btn ${answers[q.key]===true?'selected-yes':''}"
+                  onclick="answer('${q.key}',true,this)">
+                  <i class="fas fa-check-circle text-sm"></i> YES — we have this in place
+                </button>
+                <button class="answer-btn ${answers[q.key]===false?'selected-no':''}"
+                  onclick="answer('${q.key}',false,this)">
+                  <i class="fas fa-times-circle text-sm"></i> NO — not implemented
+                </button>
+              </div>
+            </div>
           </div>`;
         container.appendChild(card);
       });
