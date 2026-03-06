@@ -298,6 +298,9 @@
     }
 
     .gsap-hidden { opacity:0;transform:translateY(40px); }
+
+    /* Safety net: if GSAP hasn't run yet these won't be invisible forever */
+    #hero-mono { opacity:1; transition: opacity 0.3s; }
   </style>
 
   <script type="application/ld+json">
@@ -1107,6 +1110,7 @@
   document.querySelectorAll('.stat-item').forEach(el => obs.observe(el.parentElement));
 
   // ── GSAP ──
+  try {
   gsap.registerPlugin(ScrollTrigger);
 
   const tl = gsap.timeline();
@@ -1117,6 +1121,14 @@
     .fromTo('#hero-btns',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.4)
     .fromTo('#hero-loc',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.6, ease:'power3.out' }, 1.6)
     .fromTo('#hero-portrait', { x:40, opacity:0 }, { x:0, opacity:1, duration:1,  ease:'power3.out' }, 0.4);
+  } catch(e) {
+    // If GSAP fails, ensure hero elements are visible so typewriter still shows
+    ['hero-eyebrow','hero-heading','hero-mono','hero-sub','hero-btns','hero-loc','hero-portrait'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el){ el.style.opacity='1'; el.style.transform='none'; }
+    });
+    document.querySelectorAll('.gsap-hidden').forEach(function(el){ el.style.opacity='1'; el.style.transform='none'; });
+  }
 
   gsap.utils.toArray('.gsap-card').forEach((card, i) => {
     gsap.fromTo(card, { y:60, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
