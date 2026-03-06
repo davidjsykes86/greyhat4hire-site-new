@@ -674,6 +674,152 @@
     }
     /* ── END EMERGENCY CTA ── */
 
+    /* ══ CREDENTIALS / WHY-US ══ */
+    .cert-badge {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 12px; padding: 28px 20px;
+      background: rgba(8,8,8,.75);
+      border: 1px solid rgba(255,20,147,.18);
+      border-radius: 20px;
+      text-align: center;
+      transition: all .4s ease;
+      position: relative; overflow: hidden;
+    }
+    .cert-badge::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cert-color, var(--pink)), transparent);
+      opacity: 0; transition: opacity .4s ease;
+    }
+    .cert-badge:hover {
+      border-color: rgba(255,20,147,.45);
+      box-shadow: 0 16px 50px rgba(255,20,147,.12);
+      transform: translateY(-5px);
+    }
+    .cert-badge:hover::before { opacity: 1; }
+    .cert-icon-ring {
+      width: 72px; height: 72px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      border: 2px solid; flex-shrink: 0;
+      transition: all .4s ease;
+    }
+    .cert-badge:hover .cert-icon-ring {
+      transform: scale(1.1) rotate(5deg);
+    }
+    .cert-name {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900; font-size: .72rem;
+      letter-spacing: .1em; color: #fff;
+      line-height: 1.3;
+    }
+    .cert-issuer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .6rem; letter-spacing: .12em;
+      color: rgba(255,255,255,.35);
+    }
+    .cert-status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 99px;
+      font-family: 'Orbitron', monospace;
+      font-size: .48rem; font-weight: 700; letter-spacing: .1em;
+    }
+
+    .why-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px 22px;
+      background: rgba(8,8,8,.6);
+      border: 1px solid rgba(255,20,147,.1);
+      border-radius: 16px;
+      transition: all .35s ease;
+    }
+    .why-item:hover {
+      border-color: rgba(255,20,147,.35);
+      background: rgba(255,20,147,.04);
+      transform: translateX(6px);
+    }
+    .why-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      background: rgba(255,20,147,.1);
+      border: 1px solid rgba(255,20,147,.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--pink); font-size: 1rem;
+      transition: all .35s ease;
+    }
+    .why-item:hover .why-icon {
+      background: rgba(255,20,147,.18);
+      box-shadow: 0 0 20px rgba(255,20,147,.35);
+    }
+
+    /* ══ FAQ ACCORDION ══ */
+    .faq-item {
+      background: rgba(8,8,8,.72);
+      border: 1px solid rgba(255,20,147,.13);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color .3s ease;
+      margin-bottom: 10px;
+    }
+    .faq-item.open {
+      border-color: rgba(255,20,147,.38);
+      box-shadow: 0 8px 32px rgba(255,20,147,.08);
+    }
+    .faq-trigger {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 22px 24px;
+      background: transparent; border: none; cursor: pointer;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .faq-trigger:hover .faq-q { color: #fff; }
+    .faq-q {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; font-size: 1.05rem;
+      color: rgba(255,255,255,.85);
+      line-height: 1.35;
+      transition: color .25s ease;
+    }
+    .faq-chevron {
+      width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+      background: rgba(255,20,147,.08);
+      border: 1px solid rgba(255,20,147,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--pink); font-size: .7rem;
+      transition: all .35s ease;
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      background: rgba(255,20,147,.18);
+      border-color: rgba(255,20,147,.45);
+    }
+    .faq-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .45s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+      opacity: 0;
+    }
+    .faq-item.open .faq-body {
+      max-height: 600px; opacity: 1;
+    }
+    .faq-answer {
+      padding: 0 24px 22px;
+      font-size: .95rem;
+      color: rgba(255,255,255,.55);
+      line-height: 1.7;
+      border-top: 1px solid rgba(255,20,147,.08);
+      padding-top: 16px;
+    }
+    .faq-answer strong { color: rgba(255,255,255,.85); font-weight: 600; }
+    .faq-answer a { color: var(--pink); text-decoration: underline; text-underline-offset: 3px; }
+    .faq-answer ul { margin: 10px 0; padding-left: 0; list-style: none; }
+    .faq-answer ul li {
+      display: flex; align-items: flex-start; gap: 8px;
+      margin-bottom: 6px; font-size: .9rem;
+    }
+    .faq-answer ul li::before {
+      content: '›'; color: var(--pink); font-size: 1rem;
+      line-height: 1.5; flex-shrink: 0;
+    }
+    /* ══ END FAQ ══ */
+
     /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:#000; }
@@ -1657,36 +1803,45 @@
   </div>
 </section>
 
-<!-- ══ STANDARDS MARQUEE ══ -->
-<div class="py-6 border-t border-b border-pink-500/10 marquee-wrap" style="position:relative;z-index:2">
-  <div class="marquee flex whitespace-nowrap">
-    <div class="flex">
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27001</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>NIST CSF</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>OWASP Top 10</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>PCI DSS</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>HIPAA</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>GDPR</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>POPIA</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>SOC 2 Type II</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>MITRE ATT&amp;CK</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CIS Controls</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27701</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CCPA</span>
-    </div>
-    <div class="flex" aria-hidden="true">
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27001</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>NIST CSF</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>OWASP Top 10</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>PCI DSS</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>HIPAA</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>GDPR</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>POPIA</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>SOC 2 Type II</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>MITRE ATT&amp;CK</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CIS Controls</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>ISO 27701</span>
-      <span class="marquee-item"><i class="fas fa-certificate marquee-sep"></i>CCPA</span>
+<!-- ══ FRAMEWORKS MARQUEE ══ -->
+<div style="position:relative;z-index:2;">
+  <div style="text-align:center;padding:14px 0 0;background:rgba(0,0,0,0);">
+    <span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.22em;color:rgba(255,20,147,.35);text-transform:uppercase;">▸ Frameworks &amp; Standards We Test Against</span>
+  </div>
+  <div class="py-4 border-t border-b border-pink-500/10 marquee-wrap" style="margin-top:8px;">
+    <div class="marquee flex whitespace-nowrap">
+      <div class="flex">
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>ISO 27001</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>NIST CSF</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>OWASP Top 10</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>PCI DSS</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>HIPAA</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>GDPR</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>POPIA</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>SOC 2 Type II</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>MITRE ATT&amp;CK</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>CIS Controls</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>ISO 27701</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>CCPA</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>PTES</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>OSSTMM</span>
+      </div>
+      <div class="flex" aria-hidden="true">
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>ISO 27001</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>NIST CSF</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>OWASP Top 10</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>PCI DSS</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>HIPAA</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>GDPR</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>POPIA</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>SOC 2 Type II</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>MITRE ATT&amp;CK</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>CIS Controls</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>ISO 27701</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>CCPA</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>PTES</span>
+        <span class="marquee-item"><i class="fas fa-shield-halved marquee-sep"></i>OSSTMM</span>
+      </div>
     </div>
   </div>
 </div>
@@ -2635,6 +2790,282 @@
     </a>
   </div>
 </section>
+
+<!-- ══ CREDENTIALS + WHY US ══ -->
+<section class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-3">Verified Expertise</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Qualified. Independent. Accountable.</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto leading-relaxed">Industry-certified expertise — and all the advantages of working directly with the operator who runs your engagement, not a project manager who farms it out.</p>
+    </div>
+
+    <!-- Cert Badges Row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16 gsap-hidden">
+
+      <!-- CompTIA PenTest+ -->
+      <div class="cert-badge" style="--cert-color:rgba(255,20,147,.8);">
+        <div class="cert-icon-ring" style="background:rgba(255,20,147,.1);border-color:rgba(255,20,147,.4);color:#ff1493;box-shadow:0 0 20px rgba(255,20,147,.15);">
+          <i class="fas fa-award"></i>
+        </div>
+        <div>
+          <div class="cert-name mb-1">PenTest+</div>
+          <div class="cert-issuer mb-2">CompTIA</div>
+          <div class="cert-status-pill" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#22c55e;">
+            <span style="width:5px;height:5px;border-radius:50%;background:#22c55e;"></span>
+            CERTIFIED
+          </div>
+        </div>
+      </div>
+
+      <!-- MITRE ATT&CK Practitioner -->
+      <div class="cert-badge" style="--cert-color:rgba(239,68,68,.7);">
+        <div class="cert-icon-ring" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3);color:#ef4444;box-shadow:0 0 20px rgba(239,68,68,.1);">
+          <i class="fas fa-crosshairs"></i>
+        </div>
+        <div>
+          <div class="cert-name mb-1">MITRE ATT&amp;CK</div>
+          <div class="cert-issuer mb-2">Framework Practitioner</div>
+          <div class="cert-status-pill" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;">
+            <span style="width:5px;height:5px;border-radius:50%;background:#60a5fa;"></span>
+            APPLIED
+          </div>
+        </div>
+      </div>
+
+      <!-- OWASP Top 10 -->
+      <div class="cert-badge" style="--cert-color:rgba(245,158,11,.7);">
+        <div class="cert-icon-ring" style="background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.3);color:#f59e0b;box-shadow:0 0 20px rgba(245,158,11,.1);">
+          <i class="fas fa-bug"></i>
+        </div>
+        <div>
+          <div class="cert-name mb-1">OWASP Top 10</div>
+          <div class="cert-issuer mb-2">Web App Security</div>
+          <div class="cert-status-pill" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;">
+            <span style="width:5px;height:5px;border-radius:50%;background:#60a5fa;"></span>
+            APPLIED
+          </div>
+        </div>
+      </div>
+
+      <!-- POPIA Compliance -->
+      <div class="cert-badge" style="--cert-color:rgba(34,197,94,.7);">
+        <div class="cert-icon-ring" style="background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3);color:#22c55e;box-shadow:0 0 20px rgba(34,197,94,.1);">
+          <i class="fas fa-scale-balanced"></i>
+        </div>
+        <div>
+          <div class="cert-name mb-1">POPIA</div>
+          <div class="cert-issuer mb-2">Compliance Testing</div>
+          <div class="cert-status-pill" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;">
+            <span style="width:5px;height:5px;border-radius:50%;background:#60a5fa;"></span>
+            APPLIED
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Why Independent > Big Firm -->
+    <div class="grid md:grid-cols-2 gap-5 gsap-hidden">
+
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-user-check"></i></div>
+        <div>
+          <h4 class="font-display font-bold text-white text-base mb-1">You hire the expert who does the work</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">No handoffs. No junior analysts running your engagement while the senior consultant is on the proposal. The person you speak to is the person running the tools.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-comments-dollar"></i></div>
+        <div>
+          <h4 class="font-display font-bold text-white text-base mb-1">Enterprise-grade methodology, SME-friendly pricing</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">Large firms charge for floors of overhead. We don't. You get the same manual, MITRE ATT&CK-mapped methodology at a fraction of the cost.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-file-signature"></i></div>
+        <div>
+          <h4 class="font-display font-bold text-white text-base mb-1">NDA from first contact — without the legal circus</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">Every engagement is covered by a mutual NDA before any information is shared. Confidentiality isn't a paid add-on — it's the default.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+        <div>
+          <h4 class="font-display font-bold text-white text-base mb-1">Reports written for humans, not scanners</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">No 400-page Nessus exports. Every finding is manually validated, contextualised for your business, and written so your team can actually fix it.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-map-location-dot"></i></div>
+        <div>
+          <h4 class="font-display font-bold text-white text-base mb-1">South Africa-first threat intelligence</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">We understand the local threat landscape — SAPS cyber division, SA-specific ransomware groups, POPIA enforcement priorities — not just global frameworks copy-pasted for local clients.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-rotate-right"></i></div>
+        <div>
+          <h4 class="font-display font-bold text-white text-base mb-1">Retest included — every time</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">We don't report and disappear. A full retest of every finding is included in every engagement. We verify the fix is real, not just patched on paper for the auditors.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- ══ FAQ ══ -->
+<section id="faq" class="py-20 md:py-28 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="section-tag mb-3">Common Questions</div>
+      <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">Before You Book</h2>
+      <p class="text-gray-400 max-w-xl mx-auto leading-relaxed">Everything prospects actually want to know — answered plainly, without the sales spin.</p>
+    </div>
+
+    <div id="faq-list" class="gsap-hidden">
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">Are you actually qualified — do you hold any certifications?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            Yes. I hold the <strong>CompTIA PenTest+</strong> certification — an industry-recognised, hands-on penetration testing qualification that covers planning, scoping, vulnerability assessment, exploitation, lateral movement, and reporting. Engagements follow the <strong>MITRE ATT&CK</strong> framework and <strong>OWASP</strong> methodology. I hold a current NDA-grade client confidentiality standard as standard practice. Continuing professional development is ongoing — the threat landscape doesn't pause, and neither does the training.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">Will the testing break or disrupt my live systems?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            Not if scoped correctly — and correct scoping is our job. Before any testing begins we agree on explicit rules of engagement: which systems are in scope, what testing windows are allowed, what constitutes a stop condition, and what to do if something unexpected happens. For production environments we typically test during low-traffic windows and avoid techniques known to cause disruption. Anything genuinely high-risk is tested on staging first, or flagged with your team before execution.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">Do you sign an NDA? What happens to our data?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            A mutual NDA is signed before any sensitive information is shared — from the first discovery call. Your systems, architecture, findings, and business data are never shared with third parties. Test data is handled according to agreed retention policies: most engagements use encrypted handling and secure deletion after report delivery. You'll have this in writing before we start.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">How long does a typical engagement take?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            It depends on scope, but typical timelines look like this:
+            <ul>
+              <li><strong>Vulnerability Assessment</strong> — 3 to 5 business days (scan + manual review + report)</li>
+              <li><strong>Web Application Pentest</strong> — 5 to 10 business days depending on complexity</li>
+              <li><strong>Internal Network Pentest</strong> — 5 to 10 business days on-site or remote</li>
+              <li><strong>Healthcare / SME Risk Assessment</strong> — 2 to 4 days + report</li>
+              <li><strong>Full retest</strong> — included, typically 1 to 2 days after remediation</li>
+            </ul>
+            We'll agree on a precise timeline during scoping. Rush engagements can sometimes be accommodated — ask.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">What does it actually cost?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            Pricing is scoped per engagement — there's no one-size-fits-all rate because a single-page web app and a 50-machine internal network are very different jobs. That said, we're transparent: our <a href="pricing.html">full pricing guide is here</a>, with indicative ranges for every service tier. A basic vulnerability assessment for a small practice starts significantly lower than big-firm quotes. The free consultation call is the right place to get an accurate number for your specific environment — no obligation, no sales pressure.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">Why not use a large, established security firm?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            Large firms are the right choice for large enterprises needing a 12-person red team and a compliance paper trail. For SMEs, dental practices, clinics, and professional firms — they're often overkill, overpriced, and impersonal. With Greyhat4Hire you get:
+            <ul>
+              <li>The senior consultant doing the actual work — not a graduate analyst</li>
+              <li>Direct communication — no account manager layer</li>
+              <li>Faster turnaround — no internal queues and project handoffs</li>
+              <li>Reports written for your team — not templated boilerplate</li>
+              <li>Pricing that doesn't assume you have a corporate procurement budget</li>
+            </ul>
+            You're not paying for someone else's office lease.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" type="button">
+          <span class="faq-q">We've never had a security test before — where do we start?</span>
+          <span class="faq-chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-body">
+          <div class="faq-answer">
+            Start with our free <a href="risk-assessment.html">Risk Self-Assessment</a> — it takes 90 seconds and gives you a breach exposure score across 12 critical controls. That score will tell you where your biggest gaps are and help frame the conversation. Then book a free consultation: we'll look at your environment, explain exactly what we'd test and what we'd expect to find, and recommend the right engagement type for your situation. No commitment required at that stage.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end faq-list -->
+
+    <div class="text-center mt-10">
+      <p class="text-gray-600 text-sm mb-4">Still have a question not answered here?</p>
+      <a href="contact.html" class="btn-ghost" style="font-size:.78rem;padding:14px 28px;">
+        <i class="fas fa-message"></i> Ask Us Directly
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function (item) {
+    var trigger = item.querySelector('.faq-trigger');
+    if (!trigger) return;
+    trigger.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      // Close all
+      items.forEach(function (i) { i.classList.remove('open'); });
+      // Toggle clicked
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+})();
+</script>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
 
 <!-- ══ FINAL CTA ══ -->
 <section class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
