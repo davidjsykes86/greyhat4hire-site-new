@@ -1103,7 +1103,7 @@
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: .4 });
+  }, { threshold: 0.15 });
   document.querySelectorAll(".stat-item").forEach(el => obs.observe(el));
 
   // ── GSAP ──
