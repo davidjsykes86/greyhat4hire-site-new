@@ -298,6 +298,7 @@
     }
 
     .gsap-hidden { opacity:0;transform:translateY(40px); }
+    .pink-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);}
   </style>
 
   <script type="application/ld+json">
@@ -943,102 +944,58 @@
 </section>
 
 <!-- ══ FOOTER ══ -->
-<footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
-
-      <div class="lg:col-span-1">
-        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
-          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
-        <div class="flex gap-4">
-          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
-          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
-          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+<footer class="py-12 px-4 sm:px-6 border-t border-pink-900/20" style="position:relative;z-index:2;">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+      <div class="md:col-span-2">
+        <div class="font-display font-black text-lg mb-3" style="color:var(--pink);text-shadow:0 0 18px rgba(255,20,147,.8);">GREY<span style="color:#fff;">HAT</span>4HIRE</div>
+        <p class="text-gray-500 text-sm leading-relaxed max-w-xs">Independent cybersecurity assurance for South African businesses. We breach you before they do.</p>
+      </div>
+      <div>
+        <div class="font-display text-xs tracking-widest mb-4" style="color:rgba(255,20,147,.5);letter-spacing:.15em;">SERVICES</div>
+        <div class="space-y-2">
+          <a href="services.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a>
+          <a href="services.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Risk Assessment</a>
+          <a href="services.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a>
+          <a href="our-process.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Our Process</a>
         </div>
       </div>
-
       <div>
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">SERVICES</h3>
-        <ul class="space-y-3">
-          <li><a href="services.html#s1" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
-          <li><a href="services.html#s2" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
-          <li><a href="services.html#s3" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
-          <li><a href="services.html#s4" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
-          <li><a href="services.html#s5" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Awareness Training</a></li>
-          <li><a href="services.html#s6" class="text-gray-500 hover:text-pink-400 transition text-sm">Remediation &amp; Retest</a></li>
-        </ul>
+        <div class="font-display text-xs tracking-widest mb-4" style="color:rgba(255,20,147,.5);letter-spacing:.15em;">COMPANY</div>
+        <div class="space-y-2">
+          <a href="about.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">About</a>
+          <a href="pricing.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a>
+          <a href="contact.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Contact</a>
+          <a href="privacy.html" class="block text-gray-500 hover:text-pink-400 transition text-sm">Privacy Policy</a>
+        </div>
       </div>
-
-      <div>
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">COMPANY</h3>
-        <ul class="space-y-3">
-          <li><a href="index.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">Home</a></li>
-          <li><a href="about.html"            class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
-          <li><a href="greyhat-protocol.html" class="text-gray-500 hover:text-pink-400 transition text-sm">The Greyhat Protocol</a></li>
-          <li><a href="cyber-awareness.html"  class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
-          <li><a href="pricing.html"          class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
-          <li><a href="contact.html"          class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="font-display text-white text-sm tracking-widests mb-5">GET IN TOUCH</h3>
-        <ul class="space-y-3">
-          <li>
-            <a href="/cdn-cgi/l/email-protection#40292e262f002732253928213474282932256e232f6e3a21" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
-              <i class="fas fa-envelope text-pink-400 mt-0.5"></i> <span class="__cf_email__" data-cfemail="660f080009260114031f0e0712520e0f1403480509481c07">[email&#160;protected]</span>
-            </a>
-          </li>
-          <li>
-            <a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
-              <i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581
-            </a>
-          </li>
-          <li>
-            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2">
-              <i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat
-            </a>
-          </li>
-        </ul>
-      </div>
-
     </div>
-
-    <div class="border-t border-gray-800 pt-8">
-      <div class="glass p-5 rounded-2xl mb-8">
-        <div class="flex items-start gap-3">
-          <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
-          <p class="text-sm text-gray-400">
-            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
-          </p>
-        </div>
-      </div>
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
-        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
-        <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
-      </div>
+    <div class="pink-divider mb-6"></div>
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+      <span>© 2026 Greyhat4Hire. All rights reserved.</span>
+      <span style="font-family:'Share Tech Mono',monospace;color:rgba(255,20,147,.3);">// AUTHORISED TESTING ONLY</span>
     </div>
   </div>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
+
   // ── CURSOR ──
   var cur  = document.getElementById('cur');
   var cur2 = document.getElementById('cur2');
-  // Only run custom cursor on true pointer devices — never on touch
   if (window.matchMedia('(pointer: fine)').matches) {
-    document.addEventListener('mousemove', function(e) {
-      cur.style.left  = e.clientX + 'px';
-      cur.style.top   = e.clientY + 'px';
-      cur2.style.left = e.clientX + 'px';
-      cur2.style.top  = e.clientY + 'px';
-    });
+    if (cur && cur2) {
+      document.addEventListener('mousemove', function(e) {
+        cur.style.left  = e.clientX + 'px';
+        cur.style.top   = e.clientY + 'px';
+        cur2.style.left = e.clientX + 'px';
+        cur2.style.top  = e.clientY + 'px';
+      });
+    }
   } else {
-    // Touch device — keep cursors permanently off-screen
-    cur.style.display  = 'none';
-    cur2.style.display = 'none';
+    if (cur)  cur.style.display  = 'none';
+    if (cur2) cur2.style.display = 'none';
   }
 
   // ── NAV ──
@@ -1069,19 +1026,21 @@
   const phrases = ['DENTIST. HACKER. CONSULTANT.','CLINICAL PRECISION. DIGITAL DEFENCE.','AUTHORIZED ACCESS ONLY.','UMHLANGA · SOUTH AFRICA','INDEPENDENT SECURITY RESEARCH'];
   let pIdx = 0, cIdx = 0, del = false;
   const typedEl = document.getElementById('typed-text');
-  function typeWriter() {
-    const p = phrases[pIdx];
-    if (!del) {
-      typedEl.textContent = p.substring(0, cIdx + 1); cIdx++;
-      if (cIdx === p.length) { setTimeout(() => { del = true; typeWriter(); }, 2400); return; }
-      setTimeout(typeWriter, cIdx < 5 ? 120 : 52);
-    } else {
-      typedEl.textContent = p.substring(0, cIdx - 1); cIdx--;
-      if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(typeWriter, 500); return; }
-      setTimeout(typeWriter, 30);
+  if (typedEl) {
+    function typeWriter() {
+      const p = phrases[pIdx];
+      if (!del) {
+        typedEl.textContent = p.substring(0, cIdx + 1); cIdx++;
+        if (cIdx === p.length) { setTimeout(() => { del = true; typeWriter(); }, 2400); return; }
+        setTimeout(typeWriter, cIdx < 5 ? 120 : 52);
+      } else {
+        typedEl.textContent = p.substring(0, cIdx - 1); cIdx--;
+        if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(typeWriter, 500); return; }
+        setTimeout(typeWriter, 30);
+      }
     }
+    setTimeout(typeWriter, 1200);
   }
-  setTimeout(typeWriter, 1200);
 
   // ── STAT COUNTERS ──
   function animateCounter(el, target, suffix) {
@@ -1103,30 +1062,41 @@
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.15 });
-  document.querySelectorAll(".stat-item").forEach(el => obs.observe(el));
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.stat-item').forEach(el => obs.observe(el));
 
   // ── GSAP ──
-  gsap.registerPlugin(ScrollTrigger);
+  // On mobile, skip scroll-triggered hide/show to avoid blank sections
+  var isMobile = window.innerWidth < 768;
 
-  const tl = gsap.timeline();
-  tl.fromTo('#hero-eyebrow',  { y:30, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 0.3)
-    .fromTo('#hero-heading',  { y:50, opacity:0 }, { y:0, opacity:1, duration:.9, ease:'back.out(1.2)' }, 0.5)
-    .fromTo('#hero-sub',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.1)
-    .fromTo('#hero-btns',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.4)
-    .fromTo('#hero-loc',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.6, ease:'power3.out' }, 1.6)
-    .fromTo('#hero-portrait', { x:40, opacity:0 }, { x:0, opacity:1, duration:1,  ease:'power3.out' }, 0.4);
+  if (!isMobile) {
+    gsap.registerPlugin(ScrollTrigger);
+    const tl = gsap.timeline();
+    tl.fromTo('#hero-eyebrow',  { y:30, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 0.3)
+      .fromTo('#hero-heading',  { y:50, opacity:0 }, { y:0, opacity:1, duration:.9, ease:'back.out(1.2)' }, 0.5)
+      .fromTo('#hero-sub',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.1)
+      .fromTo('#hero-btns',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.4)
+      .fromTo('#hero-loc',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.6, ease:'power3.out' }, 1.6)
+      .fromTo('#hero-portrait', { x:40, opacity:0 }, { x:0, opacity:1, duration:1,  ease:'power3.out' }, 0.4);
 
-  gsap.utils.toArray('.gsap-card').forEach((card, i) => {
-    gsap.fromTo(card, { y:60, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
-      scrollTrigger:{ trigger:card, start:'top 88%', once:true }, delay:(i % 3) * 0.12 });
-  });
+    gsap.utils.toArray('.gsap-card').forEach((card, i) => {
+      gsap.fromTo(card, { y:60, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
+        scrollTrigger:{ trigger:card, start:'top 90%', once:true }, delay:(i % 3) * 0.12 });
+    });
 
-  gsap.utils.toArray('.gsap-hidden').forEach(el => {
-    gsap.fromTo(el, { y:40, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
-      scrollTrigger:{ trigger:el, start:'top 88%', once:true },
-      delay: parseFloat(el.style.getPropertyValue('--delay') || 0) });
-  });
+    gsap.utils.toArray('.gsap-hidden').forEach(el => {
+      gsap.fromTo(el, { y:40, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 90%', once:true },
+        delay: parseFloat(el.style.getPropertyValue('--delay') || 0) });
+    });
+  } else {
+    // Mobile: instantly show everything, no scroll-triggered animations
+    document.querySelectorAll('.gsap-hidden, .gsap-card').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }
+
 
   window.addEventListener('load',function(){
   var canvas=document.getElementById('three-canvas');
