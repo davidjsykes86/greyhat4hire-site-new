@@ -1401,511 +1401,243 @@ if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobi
       const {jsPDF}=window.jspdf;
       const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
 
-      // ── Score data ─────────────────────────────────────────────────────────
+      // Score data
       const total=SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+q.weight,0),0);
-      const got=SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+(answers[q.key]?q.weight:0),0),0);
-      const score=Math.round((got/total)*100);
-      const level    = score>=70?'LOW RISK'      : score>=40?'MODERATE RISK'            : 'HIGH RISK';
-      const lvlRGB   = score>=70?[34,197,94]     : score>=40?[245,158,11]               : [239,68,68];
-      const threat   = score>=70?'Phishing / Social Engineering' : score>=40?'Ransomware / Credential Theft' : 'Total Ransomware / Data Loss';
-      const downtime = score>=70?'2–5 days'      : score>=40?'1–3 weeks'                : '3–8 weeks';
-      const bCost    = score>=70?'R800K–R1.5M'   : score>=40?'R2M–R5M'                 : 'R5M–R14M+';
-      const irCost   = score>=70?'R180K'          : score>=40?'R540K'                   : 'R1.8M+';
-      const dtCost   = score>=70?'R280K'          : score>=40?'R850K'                   : 'R2.5M+';
-      const repCost  = score>=70?'R120K'          : score>=40?'R360K'                   : 'R1.2M+';
-      const dateStr  = new Date().toLocaleDateString('en-ZA',{year:'numeric',month:'long',day:'numeric'});
-      const recs     = buildRecommendations({score,level,badge:'',threat,downtime,breachCost:bCost});
+      const got  =SECTIONS.reduce((s,sec)=>s+sec.questions.reduce((ss,q)=>ss+(answers[q.key]?q.weight:0),0),0);
+      const score   =Math.round((got/total)*100);
+      const level   =score>=70?'LOW RISK'    :score>=40?'MODERATE RISK'                  :'HIGH RISK';
+      const lvlRGB  =score>=70?[34,197,94]   :score>=40?[245,158,11]                     :[239,68,68];
+      const threat  =score>=70?'Phishing / Social Engineering':score>=40?'Ransomware / Credential Theft':'Total Ransomware / Data Loss';
+      const downtime=score>=70?'2-5 days'    :score>=40?'1-3 weeks'                      :'3-8 weeks';
+      const bCost   =score>=70?'R800K-R1.5M' :score>=40?'R2M-R5M'                       :'R5M-R14M+';
+      const irCost  =score>=70?'R180K'        :score>=40?'R540K'                         :'R1.8M+';
+      const dtCost  =score>=70?'R280K'        :score>=40?'R850K'                         :'R2.5M+';
+      const repCost =score>=70?'R120K'        :score>=40?'R360K'                         :'R1.2M+';
+      const dateStr =new Date().toLocaleDateString('en-ZA',{year:'numeric',month:'long',day:'numeric'});
+      const recs    =buildRecommendations({score,level,badge:'',threat,downtime,breachCost:bCost});
 
-      const W=210, H=297;
-      const PK=[255,20,147],  // pink
-            PD=[255,105,180], // pink dim
-            BG=[5,2,7],       // near black
-            S1=[14,5,18],     // surface 1
-            S2=[22,8,28],     // surface 2
-            GR=[120,100,115], // grey text
-            DG=[60,45,55];    // dim grey
+      const W=210,H=297;
+      // Palette - all solid RGB, no GState/opacity
+      const BG =[5,2,7],   S1=[18,8,22],  S2=[28,12,34];
+      const PK =[255,20,147], PKD=[90,8,52], PKM=[32,6,20];
+      const GR =[130,110,125], DG=[70,50,65], WH=[255,255,255];
+      const RED=[239,68,68],   AMB=[245,158,11], GRN=[34,197,94];
 
-      // ── Utility helpers ────────────────────────────────────────────────────
-      const alpha=(a)=>{ doc.setGState(new doc.GState({opacity:a})); };
-      const resetAlpha=()=>{ doc.setGState(new doc.GState({opacity:1})); };
+      const lw=n=>doc.setLineWidth(n);
+      const ff=(r,g,b)=>doc.setFillColor(r,g,b);
+      const fd=(r,g,b)=>doc.setDrawColor(r,g,b);
+      const ft=(r,g,b)=>doc.setTextColor(r,g,b);
+      const fs=n=>doc.setFontSize(n);
+      const fw=w=>doc.setFont('helvetica',w);
 
-      function fillBg(){ doc.setFillColor(...BG); doc.rect(0,0,W,H,'F'); }
+      function fillBg(){ ff(...BG); doc.rect(0,0,W,H,'F'); }
+      function dots(){ ff(22,5,15); for(let x=8;x<W;x+=10) for(let y=8;y<H;y+=10) doc.circle(x,y,.35,'F'); }
+      function topBar(){ ff(...PK); doc.rect(0,0,W,2,'F'); ff(80,8,50); doc.rect(0,2,W,.5,'F'); }
+      function botBar(){ ff(...PK); doc.rect(0,H-2,W,2,'F'); }
 
-      function noiseDots(){
-        doc.setFillColor(...PK); alpha(.025);
-        for(let x=8;x<W;x+=10) for(let y=8;y<H;y+=10) doc.circle(x,y,.4,'F');
-        resetAlpha();
-      }
-
-      function topBar(){
-        // full-width magenta bar
-        doc.setFillColor(...PK); alpha(1);
-        doc.rect(0,0,W,2.2,'F');
-        // fade-out gradient sim: second lighter strip
-        doc.setFillColor(...PD); alpha(.4);
-        doc.rect(0,2.2,W,.8,'F');
-        resetAlpha();
-      }
-
-      function bottomBar(){
-        doc.setFillColor(...PK); alpha(1);
-        doc.rect(0,H-2.2,W,2.2,'F');
-        resetAlpha();
-      }
-
-      function pageHeader(pageNum,totalPages){
-        topBar();
-        doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
-        doc.setTextColor(...PK); alpha(.9);
-        doc.text('GREYHAT4HIRE',14,10);
-        resetAlpha();
-        doc.setFont('helvetica','normal'); doc.setFontSize(6);
-        doc.setTextColor(...DG);
+      function pageChrome(pg,tot){
+        topBar(); botBar();
+        fw('bold'); fs(6.5); ft(...PK); doc.text('GREYHAT4HIRE',14,10);
+        fw('normal'); fs(6); ft(...DG);
         doc.text('CYBER RISK ASSESSMENT  //  CONFIDENTIAL',14,15);
-        doc.setTextColor(...DG);
-        doc.text(`Page ${pageNum} of ${totalPages}`,W-14,15,{align:'right'});
-        // header rule
-        doc.setDrawColor(...PK); alpha(.15); doc.setLineWidth(.3);
-        doc.line(14,18,W-14,18);
-        resetAlpha();
-      }
-
-      function pageFooter(){
-        bottomBar();
-        doc.setDrawColor(...PK); alpha(.12); doc.setLineWidth(.3);
-        doc.line(14,H-10,W-14,H-10);
-        resetAlpha();
-        doc.setFont('helvetica','normal'); doc.setFontSize(6);
-        doc.setTextColor(...DG);
+        doc.text('Page '+pg+' of '+tot,W-14,15,{align:'right'});
+        fd(...PKD); lw(.25); doc.line(14,18,W-14,18);
+        fd(...PKD); lw(.25); doc.line(14,H-10,W-14,H-10);
+        fw('normal'); fs(6); ft(...DG);
         doc.text('greyhat4hire.com  //  +27 84 635 3581  //  info@greyhat4hire.com',14,H-6);
         doc.text(dateStr,W-14,H-6,{align:'right'});
       }
 
-      function sectionLabel(text,x,y){
-        doc.setFont('helvetica','bold'); doc.setFontSize(6);
-        doc.setTextColor(...PK); alpha(.8);
-        doc.text(text,x,y);
-        resetAlpha();
-      }
+      function rule(y){ fd(...PKD); lw(.25); doc.line(14,y,W-14,y); }
+      function slabel(txt,x,y,ctr){ fw('bold'); fs(6); ft(...PK); doc.text(txt,x,y,ctr?{align:'center'}:null); }
+      function card(x,y,w,h,r,fillC,borderC){ ff(...(fillC||S1)); doc.roundedRect(x,y,w,h,r,r,'F'); fd(...(borderC||PKD)); lw(.3); doc.roundedRect(x,y,w,h,r,r,'D'); }
+      function acbar(x,y,h,c){ ff(...c); doc.roundedRect(x,y,2.5,h,1,1,'F'); }
 
-      function rule(y){ doc.setDrawColor(...PK); alpha(.1); doc.setLineWidth(.25); doc.line(14,y,W-14,y); resetAlpha(); }
+      // ── PAGE 1: COVER ─────────────────────────────────────────────
+      fillBg(); dots(); topBar(); botBar();
+      ff(30,5,20); doc.ellipse(W/2,142,72,58,'F');
+      ff(20,3,14); doc.ellipse(W/2,142,60,48,'F');
 
-      function glowCard(x,y,w,h,r=3,borderRgb=null,fillRgb=null){
-        const fr=fillRgb||S1, br=borderRgb||[...PK];
-        doc.setFillColor(...fr); alpha(.95);
-        doc.roundedRect(x,y,w,h,r,r,'F');
-        resetAlpha();
-        doc.setDrawColor(...br); alpha(.3); doc.setLineWidth(.35);
-        doc.roundedRect(x,y,w,h,r,r,'D');
-        resetAlpha();
-      }
+      fw('bold'); fs(11); ft(...PK); doc.text('GREYHAT4HIRE',14,16);
+      fw('normal'); fs(7); ft(...DG); doc.text('OFFENSIVE SECURITY',14,22);
 
-      function accentBar(x,y,h,rgb){ doc.setFillColor(...rgb); alpha(.9); doc.roundedRect(x,y,2.5,h,1,1,'F'); resetAlpha(); }
+      // Confidential pill
+      ff(60,12,20); doc.roundedRect(W-58,9,48,8,2,2,'F');
+      fd(...RED); lw(.3); doc.roundedRect(W-58,9,48,8,2,2,'D');
+      fw('bold'); fs(5.5); ft(...RED); doc.text('CONFIDENTIAL - CLIENT EYES ONLY',W-34,14.2,{align:'center'});
 
-      // ══════════════════════════════════════════════════════════════════
-      // PAGE 1 — COVER
-      // ══════════════════════════════════════════════════════════════════
-      fillBg(); noiseDots(); topBar(); bottomBar();
-
-      // Big radial glow behind score
-      doc.setFillColor(...PK); alpha(.05);
-      doc.ellipse(W/2,140,80,65,'F');
-      resetAlpha();
-
-      // Brand block
-      doc.setFont('helvetica','bold'); doc.setFontSize(11);
-      doc.setTextColor(...PK);
-      doc.text('GREYHAT4HIRE',14,16);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7);
-      doc.setTextColor(...DG);
-      doc.text('OFFENSIVE SECURITY',14,21.5);
-
-      // Confidential pill (top right)
-      doc.setFillColor(239,68,68); alpha(.12);
-      doc.roundedRect(W-56,9,46,8,2,2,'F');
-      resetAlpha();
-      doc.setDrawColor(239,68,68); alpha(.4); doc.setLineWidth(.3);
-      doc.roundedRect(W-56,9,46,8,2,2,'D');
-      resetAlpha();
-      doc.setFont('helvetica','bold'); doc.setFontSize(5.5);
-      doc.setTextColor(239,68,68);
-      doc.text('CONFIDENTIAL — CLIENT EYES ONLY',W-33,14.2,{align:'center'});
-
-      // Thin horizontal rule
       rule(28);
+      slabel('EXECUTIVE SECURITY ASSESSMENT REPORT',W/2,37,true);
 
-      // Report type tag
-      sectionLabel('EXECUTIVE SECURITY ASSESSMENT REPORT',W/2,38,);
-      doc.setTextColor(W/2,38); // reset — using correct API below
-      doc.setFont('helvetica','bold'); doc.setFontSize(6);
-      doc.setTextColor(...PK); alpha(.7);
-      doc.text('EXECUTIVE SECURITY ASSESSMENT REPORT',W/2,38,{align:'center'});
-      resetAlpha();
+      fw('bold'); fs(38); ft(...WH); doc.text('CYBER RISK',W/2,64,{align:'center'});
+      ft(...PK); doc.text('REPORT',W/2,84,{align:'center'});
+      fd(...PKD); lw(.5); doc.line(W/2-42,91,W/2+42,91);
 
-      // Main headline
-      doc.setFont('helvetica','bold'); doc.setFontSize(38);
-      doc.setTextColor(255,255,255);
-      doc.text('CYBER RISK',W/2,62,{align:'center'});
-      doc.setTextColor(...PK);
-      doc.text('REPORT',W/2,82,{align:'center'});
+      // Score ring
+      const cx=W/2,cy=142,cr=28;
+      ff(35,8,28); doc.circle(cx,cy,cr+8,'F');
+      ff(25,5,18); doc.circle(cx,cy,cr+4,'F');
+      ff(...S2);   doc.circle(cx,cy,cr,'F');
+      ff(lvlRGB[0]*.12+8, lvlRGB[1]*.12+3, lvlRGB[2]*.12+10); doc.circle(cx,cy,cr,'F');
+      fd(...lvlRGB); lw(1); doc.circle(cx,cy,cr,'D');
 
-      // Sub-rule
-      doc.setDrawColor(...PK); alpha(.3); doc.setLineWidth(.4);
-      doc.line(W/2-40,89,W/2+40,89);
-      resetAlpha();
+      fw('bold'); fs(26); ft(...lvlRGB); doc.text(String(score),cx,cy+5,{align:'center'});
+      fw('normal'); fs(8); ft(...GR); doc.text('/ 100',cx,cy+12,{align:'center'});
+      slabel('RISK SCORE',cx,cy-cr-4,true);
 
-      // Score ring (drawn as concentric circles)
-      const cx=W/2, cy=140, cr=28;
-      // Outer glow ring
-      doc.setFillColor(...PK); alpha(.06);
-      doc.circle(cx,cy,cr+8,'F');
-      resetAlpha();
-      // Middle ring
-      doc.setFillColor(...PK); alpha(.1);
-      doc.circle(cx,cy,cr+3,'F');
-      resetAlpha();
-      // Main circle bg
-      doc.setFillColor(...S2); alpha(1);
-      doc.circle(cx,cy,cr,'F');
-      resetAlpha();
-      // Coloured fill to show score
-      doc.setFillColor(...lvlRGB); alpha(.18);
-      doc.circle(cx,cy,cr,'F');
-      resetAlpha();
-      // Border
-      doc.setDrawColor(...lvlRGB); alpha(.8); doc.setLineWidth(.8);
-      doc.circle(cx,cy,cr,'D');
-      resetAlpha();
-      // Score number
-      doc.setFont('helvetica','bold'); doc.setFontSize(28);
-      doc.setTextColor(...lvlRGB);
-      doc.text(String(score),cx,cy+5.5,{align:'center'});
-      // /100
-      doc.setFont('helvetica','normal'); doc.setFontSize(8);
-      doc.setTextColor(...GR);
-      doc.text('/100',cx,cy+12,{align:'center'});
-      // SCORE label above
-      doc.setFont('helvetica','bold'); doc.setFontSize(6);
-      doc.setTextColor(...PK); alpha(.7);
-      doc.text('RISK SCORE',cx,cy-cr-4,{align:'center'});
-      resetAlpha();
+      const bw2=52,bh=9,bx2=cx-bw2/2,by2=cy+cr+8;
+      ff(lvlRGB[0]*.2+5, lvlRGB[1]*.1+2, lvlRGB[2]*.1+6); doc.roundedRect(bx2,by2,bw2,bh,4.5,4.5,'F');
+      fd(...lvlRGB); lw(.5); doc.roundedRect(bx2,by2,bw2,bh,4.5,4.5,'D');
+      fw('bold'); fs(9); ft(...lvlRGB); doc.text(level,cx,by2+6.3,{align:'center'});
 
-      // Risk level badge below score ring
-      const bw=50, bh=9, bx=cx-bw/2, by=cy+cr+8;
-      doc.setFillColor(...lvlRGB); alpha(.15);
-      doc.roundedRect(bx,by,bw,bh,4.5,4.5,'F');
-      resetAlpha();
-      doc.setDrawColor(...lvlRGB); alpha(.7); doc.setLineWidth(.5);
-      doc.roundedRect(bx,by,bw,bh,4.5,4.5,'D');
-      resetAlpha();
-      doc.setFont('helvetica','bold'); doc.setFontSize(9);
-      doc.setTextColor(...lvlRGB);
-      doc.text(level,cx,by+6.3,{align:'center'});
-
-      // 3 info pills below badge
-      const pills=[
-        {icon:'⚠', label:'THREAT VECTOR', val:threat},
-        {icon:'⏱', label:'EST. DOWNTIME',  val:downtime},
-        {icon:'💰', label:'BREACH EXPOSURE', val:bCost},
-      ];
-      const pw=(W-28-8)/3, ph=18;
-      pills.forEach((p,i)=>{
-        const px=14+i*(pw+4), py=by+bh+10;
-        glowCard(px,py,pw,ph,3,PK,S1);
-        doc.setFont('helvetica','bold'); doc.setFontSize(5.5);
-        doc.setTextColor(...PK); alpha(.65);
-        doc.text(p.label,px+pw/2,py+5.5,{align:'center'});
-        resetAlpha();
-        doc.setFont('helvetica','bold'); doc.setFontSize(7.5);
-        doc.setTextColor(230,210,225);
-        doc.text(p.val,px+pw/2,py+12.5,{align:'center'});
+      const pw=(W-28-8)/3,ph=18;
+      [['THREAT VECTOR',threat],['EST. DOWNTIME',downtime],['BREACH EXPOSURE',bCost]].forEach((p,i)=>{
+        const px=14+i*(pw+4),py=by2+bh+10;
+        card(px,py,pw,ph,3,S1,PKD);
+        slabel(p[0],px+pw/2,py+5.5,true);
+        fw('bold'); fs(7.5); ft(220,200,215);
+        doc.text(doc.splitTextToSize(p[1],pw-4)[0],px+pw/2,py+12.5,{align:'center'});
       });
 
-      // Footer
       rule(H-18);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7);
-      doc.setTextColor(...DG);
+      fw('normal'); fs(7); ft(...DG);
       doc.text('Assessment Date: '+dateStr,14,H-12);
       doc.text('Powered by Greyhat4Hire Risk Engine',W-14,H-12,{align:'right'});
-      doc.setFont('helvetica','normal'); doc.setFontSize(6.5);
-      doc.setTextColor(...DG); alpha(.6);
-      doc.text('This document is confidential and intended solely for the recipient. Not for distribution.',W/2,H-7,{align:'center'});
-      resetAlpha();
 
-      // ══════════════════════════════════════════════════════════════════
-      // PAGE 2 — DOMAIN BREAKDOWN + FULL Q&A
-      // ══════════════════════════════════════════════════════════════════
-      doc.addPage(); fillBg(); noiseDots();
-      pageHeader(2,4); pageFooter();
+      // ── PAGE 2: DOMAIN BREAKDOWN + Q&A ────────────────────────────
+      doc.addPage(); fillBg(); dots(); pageChrome(2,4);
 
-      // Section title
-      sectionLabel('DOMAIN BREAKDOWN',14,27);
-      doc.setFont('helvetica','bold'); doc.setFontSize(15);
-      doc.setTextColor(255,255,255);
-      doc.text('Security Control Domains',14,34);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-      doc.setTextColor(...GR);
-      doc.text('Scoring across all 4 assessed domains with per-question detail',14,40);
+      slabel('DOMAIN BREAKDOWN',14,27);
+      fw('bold'); fs(15); ft(...WH); doc.text('Security Control Domains',14,34);
+      fw('normal'); fs(7.5); ft(...GR); doc.text('Scoring across all 4 assessed domains with per-question detail',14,40);
       rule(44);
 
       let dy=50;
-      SECTIONS.forEach((sec,si)=>{
+      SECTIONS.forEach(sec=>{
         const secMax=sec.questions.reduce((s,q)=>s+q.weight,0);
         const secGot=sec.questions.reduce((s,q)=>s+(answers[q.key]?q.weight:0),0);
         const pct=Math.round((secGot/secMax)*100);
-        const dc=pct>=80?[34,197,94]:pct>=50?[245,158,11]:[239,68,68];
-        const [dr,dg,db]=dc;
+        const dc=pct>=80?GRN:pct>=50?AMB:RED;
+        const [dr,dg2,db]=dc;
 
-        // Domain header card
-        glowCard(14,dy,W-28,12,2,dc,S1);
-        accentBar(14,dy,12,dc);
+        ff(dr*.08+8,dg2*.04+3,db*.06+12); doc.roundedRect(14,dy,W-28,13,2,2,'F');
+        fd(dr*.35,dg2*.18,db*.25); lw(.3); doc.roundedRect(14,dy,W-28,13,2,2,'D');
+        acbar(14,dy,13,dc);
 
-        // Icon area
-        doc.setFillColor(dr,dg,db); alpha(.12);
-        doc.roundedRect(19,dy+2,8,8,2,2,'F');
-        resetAlpha();
+        fw('bold'); fs(9); ft(...WH); doc.text(sec.label,21,dy+8.5);
+        ft(dr,dg2,db); doc.text(secGot+'/'+secMax,W-18,dy+8.5,{align:'right'});
 
-        doc.setFont('helvetica','bold'); doc.setFontSize(9);
-        doc.setTextColor(255,255,255);
-        doc.text(sec.label,31,dy+7.5);
+        const barX=21,barY=dy+10,barW=W-44,barH=2.5;
+        ff(30,10,22); doc.roundedRect(barX,barY,barW,barH,1,1,'F');
+        ff(dr,dg2,db); doc.roundedRect(barX,barY,Math.max(2,barW*pct/100),barH,1,1,'F');
+        fw('bold'); fs(6.5); ft(dr,dg2,db); doc.text(pct+'%',W-14,barY+2,{align:'right'});
+        dy+=18;
 
-        // Score fraction
-        doc.setFont('helvetica','bold'); doc.setFontSize(9);
-        doc.setTextColor(dr,dg,db);
-        doc.text(secGot+'/'+secMax,W-18,dy+7.5,{align:'right'});
-
-        // Progress bar
-        const barX=31, barY=dy+9.5, barW=W-28-20, barH=2.5;
-        doc.setFillColor(30,10,22); alpha(1);
-        doc.roundedRect(barX,barY,barW,barH,1,1,'F');
-        doc.setFillColor(dr,dg,db); alpha(.85);
-        doc.roundedRect(barX,barY,Math.max(2,barW*pct/100),barH,1,1,'F');
-        resetAlpha();
-
-        // Percent
-        doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
-        doc.setTextColor(dr,dg,db);
-        doc.text(pct+'%',W-14,dy+10.5,{align:'right'});
-
-        dy+=17;
-
-        // Per-question rows
-        sec.questions.forEach((q,qi)=>{
-          if(dy>H-22){ doc.addPage(); fillBg(); noiseDots(); pageHeader(2,4); pageFooter(); dy=26; }
+        sec.questions.forEach(q=>{
+          if(dy>H-22){ doc.addPage(); fillBg(); dots(); pageChrome(2,4); dy=24; }
           const ans=answers[q.key];
-          const ac=ans===true?[34,197,94]:ans===false?[239,68,68]:[120,100,110];
-          const [ar,ag,ab]=ac;
-          const mark=ans===true?'YES':ans===false?'NO ':'—';
+          const ac=ans===true?GRN:ans===false?RED:[100,85,95];
+          const [ar,ag2,ab]=ac;
+          const mark=ans===true?'YES':ans===false?'NO ':'---';
 
-          // Row bg
-          doc.setFillColor(ar,ag,ab); alpha(.04);
-          doc.roundedRect(16,dy,W-32,9,1.5,1.5,'F');
-          resetAlpha();
+          ff(ar*.07+8,ag2*.04+3,ab*.05+10); doc.roundedRect(16,dy,W-32,9,1.5,1.5,'F');
+          acbar(16,dy,9,ac);
 
-          // Left mini accent
-          doc.setFillColor(ar,ag,ab); alpha(.7);
-          doc.roundedRect(16,dy,1.5,9,1,1,'F');
-          resetAlpha();
+          ff(ar*.2+8,ag2*.1+3,ab*.15+10); doc.roundedRect(W-38,dy+1.5,14,6,3,3,'F');
+          fd(ar*.4,ag2*.2,ab*.3); lw(.25); doc.roundedRect(W-38,dy+1.5,14,6,3,3,'D');
+          fw('bold'); fs(5.5); ft(ar,ag2,ab); doc.text(mark,W-31,dy+5.5,{align:'center'});
 
-          // YES/NO pill
-          doc.setFillColor(ar,ag,ab); alpha(.15);
-          doc.roundedRect(W-38,dy+1.5,14,6,3,3,'F');
-          resetAlpha();
-          doc.setFont('helvetica','bold'); doc.setFontSize(5.5);
-          doc.setTextColor(ar,ag,ab);
-          doc.text(mark,W-31,dy+5.5,{align:'center'});
-
-          // Question text
-          const plainQ=q.text.replace(/<[^>]+>/g,'');
-          doc.setFont('helvetica','normal'); doc.setFontSize(7);
-          doc.setTextColor(190,170,185);
-          const lines=doc.splitTextToSize(plainQ,W-60);
-          doc.text(lines[0],22,dy+5.5);
-
+          fw('normal'); fs(7); ft(190,170,185);
+          doc.text(doc.splitTextToSize(q.text.replace(/<[^>]+>/g,''),W-58)[0],23,dy+5.5);
           dy+=11;
         });
         dy+=5;
       });
 
-      // ══════════════════════════════════════════════════════════════════
-      // PAGE 3 — REMEDIATION PLAN
-      // ══════════════════════════════════════════════════════════════════
-      doc.addPage(); fillBg(); noiseDots();
-      pageHeader(3,4); pageFooter();
+      // ── PAGE 3: REMEDIATION PLAN ───────────────────────────────────
+      doc.addPage(); fillBg(); dots(); pageChrome(3,4);
 
-      sectionLabel('PRIORITISED REMEDIATION PLAN',14,27);
-      doc.setFont('helvetica','bold'); doc.setFontSize(15);
-      doc.setTextColor(255,255,255);
-      doc.text('Recommended Actions',14,34);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-      doc.setTextColor(...GR);
-      doc.text('Sorted by risk impact — address critical items before high, high before medium',14,40);
+      slabel('PRIORITISED REMEDIATION PLAN',14,27);
+      fw('bold'); fs(15); ft(...WH); doc.text('Recommended Actions',14,34);
+      fw('normal'); fs(7.5); ft(...GR); doc.text('Address critical items before high, high before medium',14,40);
       rule(44);
 
       let ry=50;
       if(recs.length===0){
-        // All good card
-        glowCard(14,ry,W-28,22,4,[34,197,94],[8,20,12]);
-        doc.setFont('helvetica','bold'); doc.setFontSize(10);
-        doc.setTextColor(34,197,94);
-        doc.text('Outstanding — All Critical Controls In Place',W/2,ry+10,{align:'center'});
-        doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-        doc.setTextColor(...GR);
-        doc.text('Consider a professional penetration test to validate technical depth.',W/2,ry+16.5,{align:'center'});
+        card(14,ry,W-28,22,4,[8,22,12],[30,100,50]);
+        fw('bold'); fs(10); ft(...GRN); doc.text('Outstanding - All Critical Controls In Place',W/2,ry+10,{align:'center'});
+        fw('normal'); fs(7.5); ft(...GR); doc.text('Consider a professional penetration test to validate technical depth.',W/2,ry+16.5,{align:'center'});
       } else {
-        recs.forEach((r,ri)=>{
-          if(ry>H-30){ doc.addPage(); fillBg(); noiseDots(); pageHeader(3,4); pageFooter(); ry=26; }
-          const rc=r.level==='critical'?[239,68,68]:r.level==='good'?[34,197,94]:[245,158,11];
-          const [rr,rg,rb]=rc;
-          const bodyLines=doc.splitTextToSize(r.body,W-58);
-          const cardH=Math.max(24, 14 + bodyLines.length*4.5 + 4);
+        recs.forEach(r=>{
+          const rc=r.level==='critical'?RED:r.level==='good'?GRN:AMB;
+          const [rr,rg2,rb]=rc;
+          const bodyLines=doc.splitTextToSize(r.body,W-56);
+          const cardH=Math.max(24,14+bodyLines.length*4.5+4);
+          if(ry+cardH>H-18){ doc.addPage(); fillBg(); dots(); pageChrome(3,4); ry=24; }
 
-          // Card
-          doc.setFillColor(...S1); alpha(.97);
-          doc.roundedRect(14,ry,W-28,cardH,3,3,'F');
-          resetAlpha();
-          // Top border tint
-          doc.setFillColor(rr,rg,rb); alpha(.07);
-          doc.roundedRect(14,ry,W-28,cardH,3,3,'F');
-          resetAlpha();
-          // Left accent bar
-          accentBar(14,ry,cardH,rc);
-          // Border
-          doc.setDrawColor(rr,rg,rb); alpha(.3); doc.setLineWidth(.3);
-          doc.roundedRect(14,ry,W-28,cardH,3,3,'D');
-          resetAlpha();
+          ff(rr*.08+8,rg2*.04+3,rb*.06+10); doc.roundedRect(14,ry,W-28,cardH,3,3,'F');
+          fd(rr*.35,rg2*.18,rb*.25); lw(.3); doc.roundedRect(14,ry,W-28,cardH,3,3,'D');
+          acbar(14,ry,cardH,rc);
 
-          // Tag pill
-          doc.setFillColor(rr,rg,rb); alpha(.18);
-          doc.roundedRect(W-40,ry+4,24,7,3.5,3.5,'F');
-          resetAlpha();
-          doc.setFont('helvetica','bold'); doc.setFontSize(5.5);
-          doc.setTextColor(rr,rg,rb);
-          doc.text(r.tag,W-28,ry+8.8,{align:'center'});
+          ff(rr*.2+8,rg2*.1+3,rb*.15+10); doc.roundedRect(W-40,ry+4,24,7,3.5,3.5,'F');
+          fd(rr*.5,rg2*.3,rb*.4); lw(.25); doc.roundedRect(W-40,ry+4,24,7,3.5,3.5,'D');
+          fw('bold'); fs(5.5); ft(rr,rg2,rb); doc.text(r.tag,W-28,ry+8.8,{align:'center'});
 
-          // Title
-          doc.setFont('helvetica','bold'); doc.setFontSize(9);
-          doc.setTextColor(255,255,255);
-          doc.text(r.title,21,ry+9);
-
-          // Body
-          doc.setFont('helvetica','normal'); doc.setFontSize(7);
-          doc.setTextColor(160,140,155);
-          doc.text(bodyLines,21,ry+15);
-
+          fw('bold'); fs(9); ft(...WH); doc.text(r.title,21,ry+9);
+          fw('normal'); fs(7); ft(160,140,155); doc.text(bodyLines,21,ry+15);
           ry+=cardH+5;
         });
       }
 
-      // ══════════════════════════════════════════════════════════════════
-      // PAGE 4 — FINANCIAL EXPOSURE + CTA
-      // ══════════════════════════════════════════════════════════════════
-      doc.addPage(); fillBg(); noiseDots();
-      pageHeader(4,4); pageFooter();
+      // ── PAGE 4: FINANCIAL EXPOSURE + CTA ──────────────────────────
+      doc.addPage(); fillBg(); dots(); pageChrome(4,4);
 
-      sectionLabel('FINANCIAL EXPOSURE ANALYSIS',14,27);
-      doc.setFont('helvetica','bold'); doc.setFontSize(15);
-      doc.setTextColor(255,255,255);
-      doc.text('Estimated Breach Costs',14,34);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-      doc.setTextColor(...GR);
-      doc.text('IBM Cost of a Data Breach 2024  //  SA-specific incident response benchmarks',14,40);
+      slabel('FINANCIAL EXPOSURE ANALYSIS',14,27);
+      fw('bold'); fs(15); ft(...WH); doc.text('Estimated Breach Costs',14,34);
+      fw('normal'); fs(7.5); ft(...GR); doc.text('IBM Cost of a Data Breach 2024  //  SA-specific benchmarks',14,40);
       rule(44);
 
-      const finCards=[
-        {label:'INCIDENT RESPONSE',      sublabel:'Forensics, IR firm, ransomware demand', value:irCost,  rgb:[239,68,68]},
-        {label:'OPERATIONAL DOWNTIME',   sublabel:'Revenue lost during '+downtime+' recovery window',     value:dtCost,  rgb:[245,158,11]},
-        {label:'REPUTATIONAL & LEGAL',   sublabel:'POPIA fines, regulatory penalties, client churn', value:repCost, rgb:[255,20,147]},
-      ];
-
       let fy=50;
-      finCards.forEach(fc=>{
-        const [fr,fg,fb]=fc.rgb;
-        glowCard(14,fy,W-28,24,3,fc.rgb,S1);
-        // coloured glow fill
-        doc.setFillColor(fr,fg,fb); alpha(.06);
-        doc.roundedRect(14,fy,W-28,24,3,3,'F');
-        resetAlpha();
-        // Left bar
-        accentBar(14,fy,24,fc.rgb);
-        // Label
-        doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
-        doc.setTextColor(fr,fg,fb); alpha(.85);
-        doc.text(fc.label,22,fy+8);
-        resetAlpha();
-        // Sub
-        doc.setFont('helvetica','normal'); doc.setFontSize(7);
-        doc.setTextColor(...GR);
-        doc.text(fc.sublabel,22,fy+14);
-        // Value
-        doc.setFont('helvetica','bold'); doc.setFontSize(14);
-        doc.setTextColor(fr,fg,fb);
-        doc.text(fc.value,W-18,fy+17,{align:'right'});
+      [['INCIDENT RESPONSE','Forensics, IR firm, ransomware demand',irCost,RED],
+       ['OPERATIONAL DOWNTIME','Revenue lost during '+downtime+' recovery',dtCost,AMB],
+       ['REPUTATIONAL & LEGAL','POPIA fines, regulatory penalties, client churn',repCost,PK]
+      ].forEach(([lbl,sub,val,c])=>{
+        const [fr,fg2,fb]=c;
+        ff(fr*.08+8,fg2*.04+3,fb*.06+10); doc.roundedRect(14,fy,W-28,24,3,3,'F');
+        fd(fr*.35,fg2*.18,fb*.25); lw(.3); doc.roundedRect(14,fy,W-28,24,3,3,'D');
+        acbar(14,fy,24,c);
+        fw('bold'); fs(6.5); ft(fr,fg2,fb); doc.text(lbl,22,fy+8);
+        fw('normal'); fs(7); ft(...GR); doc.text(sub,22,fy+14);
+        fw('bold'); fs(14); ft(fr,fg2,fb); doc.text(val,W-18,fy+17,{align:'right'});
         fy+=30;
       });
 
-      // Total exposure card
       const totY=fy+4;
-      doc.setFillColor(255,20,147); alpha(.08);
-      doc.roundedRect(14,totY,W-28,18,4,4,'F');
-      resetAlpha();
-      doc.setDrawColor(...PK); alpha(.5); doc.setLineWidth(.5);
-      doc.roundedRect(14,totY,W-28,18,4,4,'D');
-      resetAlpha();
-      doc.setFont('helvetica','bold'); doc.setFontSize(8);
-      doc.setTextColor(...GR);
-      doc.text('TOTAL ESTIMATED EXPOSURE RANGE',22,totY+8);
-      doc.setFont('helvetica','bold'); doc.setFontSize(16);
-      doc.setTextColor(...PK);
-      doc.text(bCost,W-20,totY+13,{align:'right'});
+      ff(...PKM); doc.roundedRect(14,totY,W-28,18,4,4,'F');
+      fd(...PKD); lw(.5); doc.roundedRect(14,totY,W-28,18,4,4,'D');
+      fw('bold'); fs(8); ft(...GR); doc.text('TOTAL ESTIMATED EXPOSURE',22,totY+8);
+      fw('bold'); fs(16); ft(...PK); doc.text(bCost,W-20,totY+13,{align:'right'});
 
-      // CTA panel
-      const ctaY=totY+30;
-      const ctaH=68;
-      // Background card
-      doc.setFillColor(255,20,147); alpha(.06);
-      doc.roundedRect(14,ctaY,W-28,ctaH,5,5,'F');
-      resetAlpha();
-      doc.setDrawColor(...PK); alpha(.4); doc.setLineWidth(.5);
-      doc.roundedRect(14,ctaY,W-28,ctaH,5,5,'D');
-      resetAlpha();
-      // Top pink rule inside card
-      doc.setFillColor(...PK); alpha(.6);
-      doc.roundedRect(14,ctaY,W-28,1.5,5,5,'F');
-      resetAlpha();
+      const ctaY=totY+28,ctaH=72;
+      ff(22,5,16); doc.roundedRect(14,ctaY,W-28,ctaH,5,5,'F');
+      fd(...PKD); lw(.5); doc.roundedRect(14,ctaY,W-28,ctaH,5,5,'D');
+      ff(...PK); doc.roundedRect(14,ctaY,W-28,1.5,5,5,'F');
 
-      doc.setFont('helvetica','bold'); doc.setFontSize(6);
-      doc.setTextColor(...PK); alpha(.7);
-      doc.text('THE NEXT STEP',W/2,ctaY+10,{align:'center'});
-      resetAlpha();
+      slabel('THE NEXT STEP',W/2,ctaY+10,true);
+      fw('bold'); fs(14); ft(...WH); doc.text('Want the Full Picture?',W/2,ctaY+20,{align:'center'});
+      ft(...PK); doc.text("We'll Find What This Can't.",W/2,ctaY+29,{align:'center'});
+      fw('normal'); fs(7.5); ft(...GR);
+      const ctaTxt='This self-assessment measures your policy posture. A Greyhat4Hire penetration test exposes the exact vulnerabilities attackers will exploit - misconfigured services, weak credentials, lateral movement paths - before they do.';
+      doc.text(doc.splitTextToSize(ctaTxt,W-44),W/2,ctaY+38,{align:'center'});
 
-      doc.setFont('helvetica','bold'); doc.setFontSize(14);
-      doc.setTextColor(255,255,255);
-      doc.text("Want the Full Picture?",W/2,ctaY+20,{align:'center'});
-      doc.setTextColor(...PK);
-      doc.text("We'll Find What This Can't.",W/2,ctaY+29,{align:'center'});
-
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-      doc.setTextColor(160,140,155);
-      const ctaTxt="This self-assessment measures your policy posture. A Greyhat4Hire penetration test exposes the exact vulnerabilities attackers will exploit — misconfigured services, weak credentials, lateral movement paths — before they do.";
-      const ctaLines=doc.splitTextToSize(ctaTxt,W-48);
-      doc.text(ctaLines,W/2,ctaY+38,{align:'center'});
-
-      // Contact buttons
-      const btnY=ctaY+ctaH-16;
-      [['+27 84 635 3581','fa-phone'],[' WhatsApp Us','fa-whatsapp'],['greyhat4hire.com','fa-globe']].forEach((c,ci)=>{
-        const bx=14+(ci*(W-28+4)/3), bw2=(W-28-8)/3;
-        doc.setFillColor(...PK); alpha(.1);
-        doc.roundedRect(bx,btnY,bw2,10,3,3,'F');
-        resetAlpha();
-        doc.setFont('helvetica','bold'); doc.setFontSize(7);
-        doc.setTextColor(...PK);
-        doc.text(c[0],bx+bw2/2,btnY+6.5,{align:'center'});
+      [['+27 84 635 3581'],['WhatsApp Us'],['greyhat4hire.com']].forEach((c2,i)=>{
+        const cpw=(W-36)/3,cpx=14+i*(cpw+4),cpy=ctaY+ctaH-14;
+        ff(...PKM); doc.roundedRect(cpx,cpy,cpw,10,3,3,'F');
+        fd(...PKD); lw(.25); doc.roundedRect(cpx,cpy,cpw,10,3,3,'D');
+        fw('bold'); fs(7); ft(...PK); doc.text(c2[0],cpx+cpw/2,cpy+6.5,{align:'center'});
       });
 
-      // Save
-      const fn='GH4H-Cyber-Risk-Report-'+score+'pts-'+new Date().toISOString().slice(0,10)+'.pdf';
-      doc.save(fn);
+      doc.save('GH4H-Risk-Report-'+score+'pts-'+new Date().toISOString().slice(0,10)+'.pdf');
     }
 
     function buildRecommendations(result){
