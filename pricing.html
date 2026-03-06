@@ -431,6 +431,44 @@
     .roi-card { background:linear-gradient(135deg,rgba(255,20,147,.07),rgba(255,20,147,.02));border:1px solid rgba(255,20,147,.28);border-radius:24px;position:relative;overflow:hidden; }
     .roi-card::before { content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,20,147,.07),transparent 65%);pointer-events:none; }
 
+    /* ── PROCESS BLOCK ── */
+    .process-step {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      position: relative; flex: 1;
+    }
+    .process-step::after {
+      content: '';
+      position: absolute; top: 28px; left: calc(50% + 40px);
+      width: calc(100% - 80px); height: 1px;
+      background: linear-gradient(90deg, rgba(255,20,147,.4), rgba(255,20,147,.1));
+    }
+    .process-step:last-child::after { display: none; }
+    .process-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,20,147,.1);
+      border: 2px solid rgba(255,20,147,.45);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem;
+      color: var(--pink); margin-bottom: 16px;
+      box-shadow: 0 0 24px rgba(255,20,147,.2);
+      position: relative; z-index: 1;
+      transition: all .35s ease;
+    }
+    .process-step:hover .process-num {
+      background: rgba(255,20,147,.2);
+      box-shadow: 0 0 40px rgba(255,20,147,.5);
+      transform: scale(1.08);
+    }
+    .process-title {
+      font-family: 'Orbitron', monospace; font-weight: 700; font-size: .72rem;
+      letter-spacing: .1em; color: #fff; margin-bottom: 8px;
+    }
+    .process-desc {
+      font-size: .88rem; color: rgba(255,255,255,.45);
+      line-height: 1.6; max-width: 180px;
+    }
+    /* ── END PROCESS BLOCK ── */
+
     /* CALCULATOR */
     .calc-size-btn { padding:12px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.1);font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;color:#777;background:transparent;transition:all .3s ease;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;text-transform:uppercase; }
     .calc-size-btn.active { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.12);color:#ff1493; }
@@ -918,6 +956,7 @@
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Manual validation — no false-positive noise</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Plain-English fix list, prioritised by impact</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>POPIA / ISO 27001 alignment notes</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Automated recheck — verify top fixes closed</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>NDA signed before any work begins</span></li>
         </ul>
         <button class="btn-ghost" onclick="selectPackageAndScroll('scout', 18000)">
@@ -972,7 +1011,7 @@
 
       <!-- SENTINEL -->
       <div class="price-card featured" id="card-2">
-        <div class="popular-badge">MOST POPULAR</div>
+        <div class="popular-badge">BEST VALUE</div>
         <div class="card-tier-tag" style="color:rgba(255,20,147,.8)">Quarterly Retainer</div>
         <div class="flex items-start justify-between mb-4">
           <h3 class="font-display font-bold text-white text-base leading-tight">SENTINEL<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Ongoing Security Partner</span></h3>
@@ -1145,6 +1184,23 @@
                   </div>
                   <p class="text-gray-500 text-xs mb-3">Voice/phone social engineering test. Pretexting calls to reception, IT helpdesk, or specified targets.</p>
                   <div class="addon-price">R4,000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="evilginx" data-price="7500" data-name="Evilginx2 MFA Bypass Simulation">
+              <span class="addon-popular" style="background:linear-gradient(135deg,#ef4444,#b91c1c);">ADVANCED</span>
+              <div class="flex items-start gap-4">
+                <div class="addon-icon" style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.35);">
+                  <i class="fas fa-fish-fins"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4 class="font-bold text-white text-sm">Evilginx2 MFA Bypass Simulation</h4>
+                    <div class="addon-checkbox"><i class="fas fa-check"></i></div>
+                  </div>
+                  <p class="text-gray-500 text-xs mb-3">Adversary-in-the-middle phishing simulation that bypasses MFA. Tests whether your staff — and your authentication controls — can withstand real credential-harvesting attacks that standard phishing tests don't catch.</p>
+                  <div class="addon-price">R7,500</div>
                 </div>
               </div>
             </div>
@@ -1359,7 +1415,7 @@
       <div class="compare-row"><div class="compare-label">Executive report</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
       <div class="compare-row"><div class="compare-label">Technical findings + PoC evidence</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
       <div class="compare-row"><div class="compare-label">Remediation roadmap</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Retest / verification</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ ×1</div><div class="compare-tick" style="color:#22c55e">✓ ×1</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Per test</div></div>
+      <div class="compare-row"><div class="compare-label">Retest / verification</div><div class="compare-tick text-pink-400" style="font-size:.65rem">✓ Recheck</div><div class="compare-tick text-pink-400">✓ ×1</div><div class="compare-tick" style="color:#22c55e">✓ ×1</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Per test</div></div>
       <div class="compare-row"><div class="compare-label">POPIA / PCI-DSS compliance support</div><div class="compare-tick text-pink-400">Notes</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick" style="color:#22c55e">✓ Healthcare</div><div class="compare-tick text-pink-400">✓ Full</div><div class="compare-tick text-pink-400">✓ Custom</div></div>
       <div class="compare-row"><div class="compare-label">WiFi security assessment</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick" style="color:#22c55e;font-weight:bold">✓ FREE</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
       <div class="compare-row"><div class="compare-label">Practice management / patient data audit</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick" style="color:#22c55e">✓</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div></div>
@@ -1534,6 +1590,60 @@
         <div class="faq-body"><p>Automated scanners find what they're programmed to find — usually the obvious stuff. They don't chain vulnerabilities together, miss business logic flaws, generate enormous false-positive noise, and produce reports that mean nothing to a board or insurer. Real attackers are human. Our testers think like humans. A scanner has never found SQL injection hidden behind a custom authentication layer. We have.</p></div>
       </div>
     </div>
+  </div>
+</section>
+
+<div class="pink-divider max-w-4xl mx-auto px-4" style="position:relative;z-index:2"></div>
+
+<!-- HOW IT WORKS -->
+<section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-12">
+      <div class="section-tag mb-3">Zero Guesswork</div>
+      <h2 class="font-display font-black neon-pink text-3xl sm:text-4xl mb-3">How It Works</h2>
+      <p class="text-gray-500 text-sm max-w-lg mx-auto">From first contact to final report — here's exactly what happens, in order. No surprises, no upsells after you've signed.</p>
+    </div>
+
+    <div class="glass rounded-3xl p-8 sm:p-12">
+      <div class="flex flex-col sm:flex-row gap-10 sm:gap-4">
+
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <div class="process-title">FREE CONSULTATION</div>
+          <div class="process-desc">30-minute call — you describe your environment, we tell you exactly what we'd test and what we'd expect to find. Zero obligation, zero hard sell.</div>
+        </div>
+
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <div class="process-title">WRITTEN SCOPE & NDA</div>
+          <div class="process-desc">We issue a Statement of Work with a fixed price, explicit scope boundaries, rules of engagement, and timeline. You sign the NDA. Nothing starts until you approve both in writing.</div>
+        </div>
+
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <div class="process-title">ENGAGEMENT BEGINS</div>
+          <div class="process-desc">Testing runs to the agreed schedule. You receive a full report, a live debrief, and a retest once your team has addressed the findings. Final invoice on completion.</div>
+        </div>
+
+      </div>
+
+      <div class="mt-10 pt-8 border-t border-pink-500/10 grid sm:grid-cols-3 gap-4 text-center">
+        <div>
+          <div class="font-display text-pink-400 text-xs tracking-widest mb-1">RESPONSE TIME</div>
+          <div class="font-mono text-white text-sm">Within 24 hours</div>
+        </div>
+        <div>
+          <div class="font-display text-pink-400 text-xs tracking-widest mb-1">PAYMENT</div>
+          <div class="font-mono text-white text-sm">50% deposit · 50% on delivery</div>
+        </div>
+        <div>
+          <div class="font-display text-pink-400 text-xs tracking-widest mb-1">CONFIDENTIALITY</div>
+          <div class="font-mono text-white text-sm">NDA before any info shared</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
