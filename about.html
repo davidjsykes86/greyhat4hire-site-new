@@ -298,9 +298,8 @@
     }
 
     .gsap-hidden { opacity:0;transform:translateY(40px); }
-
-    /* Safety net: if GSAP hasn't run yet these won't be invisible forever */
-    #hero-mono { opacity:1; transition: opacity 0.3s; }
+    /* Safety net: hero-mono visible by default so typewriter always shows */
+    #hero-mono { opacity:1; }
   </style>
 
   <script type="application/ld+json">
@@ -541,7 +540,7 @@
             <i class="fas fa-shield-virus text-pink-400 text-sm"></i>
           </div>
           <div>
-            <div class="font-display text-pink-400 text-xs tracking-widest">20+ YEARS</div>
+            <div class="font-display text-pink-400 text-xs tracking-widest">25 YRS HACKING · 13 YRS CLINICAL</div>
             <div class="font-mono text-xs text-gray-500">DUAL DISCIPLINE</div>
           </div>
         </div>
@@ -606,7 +605,7 @@
           <div>
             <div class="font-mono text-xs text-pink-400/60 tracking-widest mb-1">DISCIPLINE 01</div>
             <h3 class="font-display font-bold text-white text-xl tracking-wide">CLINICAL DENTIST</h3>
-            <div class="font-mono text-xs text-gray-600 mt-1">UMHLANGA DENTAL · 20+ YEARS</div>
+            <div class="font-mono text-xs text-gray-600 mt-1">UMHLANGA DENTAL · EST. JAN 2012</div>
           </div>
         </div>
         <p class="text-gray-400 leading-relaxed mb-6" style="font-weight:400;">
@@ -1121,14 +1120,6 @@
     .fromTo('#hero-btns',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.4)
     .fromTo('#hero-loc',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.6, ease:'power3.out' }, 1.6)
     .fromTo('#hero-portrait', { x:40, opacity:0 }, { x:0, opacity:1, duration:1,  ease:'power3.out' }, 0.4);
-  } catch(e) {
-    // If GSAP fails, ensure hero elements are visible so typewriter still shows
-    ['hero-eyebrow','hero-heading','hero-mono','hero-sub','hero-btns','hero-loc','hero-portrait'].forEach(function(id){
-      var el = document.getElementById(id);
-      if(el){ el.style.opacity='1'; el.style.transform='none'; }
-    });
-    document.querySelectorAll('.gsap-hidden').forEach(function(el){ el.style.opacity='1'; el.style.transform='none'; });
-  }
 
   gsap.utils.toArray('.gsap-card').forEach((card, i) => {
     gsap.fromTo(card, { y:60, opacity:0 }, { y:0, opacity:1, duration:.8, ease:'power3.out',
@@ -1140,6 +1131,12 @@
       scrollTrigger:{ trigger:el, start:'top 88%', once:true },
       delay: parseFloat(el.style.getPropertyValue('--delay') || 0) });
   });
+  } catch(e) {
+    ['hero-eyebrow','hero-heading','hero-mono','hero-sub','hero-btns','hero-loc','hero-portrait'].forEach(function(id){
+      var el=document.getElementById(id); if(el){el.style.opacity='1';el.style.transform='none';}
+    });
+    document.querySelectorAll('.gsap-hidden,.gsap-card').forEach(function(el){el.style.opacity='1';el.style.transform='none';});
+  }
 
   window.addEventListener('load',function(){
   var canvas=document.getElementById('three-canvas');
