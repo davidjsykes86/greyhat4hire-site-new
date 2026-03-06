@@ -298,6 +298,149 @@
     }
 
     .gsap-hidden { opacity:0;transform:translateY(40px); }
+
+    /* ══ CERT BLOCK ══ */
+    .cert-showcase {
+      background: rgba(4,4,4,.92);
+      border: 1px solid rgba(255,20,147,.35);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .cert-showcase::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, #ff1493, #ff69b4, #ff1493, transparent);
+      background-size: 200% 100%;
+      animation: certStripe 3s linear infinite;
+    }
+    @keyframes certStripe {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+    .cert-main-badge {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 36px 28px; text-align: center;
+      border-right: 1px solid rgba(255,20,147,.15);
+      position: relative;
+    }
+    .cert-ring-outer {
+      width: 110px; height: 110px; border-radius: 50%;
+      border: 2px solid rgba(255,20,147,.35);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px; position: relative;
+      background: rgba(255,20,147,.06);
+      box-shadow: 0 0 40px rgba(255,20,147,.2), inset 0 0 20px rgba(255,20,147,.06);
+      animation: certRingPulse 3s ease-in-out infinite;
+    }
+    @keyframes certRingPulse {
+      0%,100% { box-shadow: 0 0 30px rgba(255,20,147,.2), inset 0 0 20px rgba(255,20,147,.06); }
+      50%      { box-shadow: 0 0 60px rgba(255,20,147,.4), inset 0 0 30px rgba(255,20,147,.1); }
+    }
+    .cert-ring-outer::after {
+      content: '';
+      position: absolute; inset: -6px; border-radius: 50%;
+      border: 1px solid rgba(255,20,147,.15);
+    }
+    .cert-ring-icon { font-size: 2.8rem; color: var(--pink); filter: drop-shadow(0 0 12px rgba(255,20,147,.8)); }
+    .cert-title { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1rem; color: #fff; letter-spacing: .06em; margin-bottom: 4px; }
+    .cert-subtitle { font-family: 'Share Tech Mono', monospace; font-size: .65rem; color: rgba(255,20,147,.7); letter-spacing: .18em; margin-bottom: 14px; }
+    .cert-verified-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 99px;
+      background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.35);
+      font-family: 'Orbitron', monospace; font-size: .52rem; font-weight: 700; letter-spacing: .14em; color: #22c55e;
+    }
+    .cert-detail-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,20,147,.07);
+    }
+    .cert-detail-row:last-child { border-bottom: none; }
+    .cert-detail-icon {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(255,20,147,.08); border: 1px solid rgba(255,20,147,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--pink); font-size: .85rem;
+    }
+    .cert-detail-label {
+      font-family: 'Orbitron', monospace; font-size: .52rem; letter-spacing: .14em;
+      color: rgba(255,20,147,.55); margin-bottom: 3px;
+    }
+    .cert-detail-value {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: .95rem; color: rgba(255,255,255,.85);
+    }
+
+    /* ══ TOOLS / SKILLS SECTION ══ */
+    .tool-showcase-card {
+      background: rgba(8,8,8,.82);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 20px;
+      padding: 24px;
+      transition: all .35s ease;
+      position: relative; overflow: hidden;
+    }
+    .tool-showcase-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      opacity: 0; transition: opacity .35s ease;
+    }
+    .tool-showcase-card:hover { transform: translateY(-5px); }
+    .tool-showcase-card:hover::before { opacity: 1; }
+
+    /* per-tool colour vars set inline */
+    .tool-showcase-card:hover { border-color: var(--tool-border, rgba(255,20,147,.4)); box-shadow: 0 16px 48px var(--tool-shadow, rgba(255,20,147,.12)); }
+    .tool-showcase-card::before { background: linear-gradient(90deg, transparent, var(--tool-line, #ff1493), transparent); }
+
+    .tool-logo-wrap {
+      width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 16px;
+      transition: all .35s ease;
+    }
+    .tool-showcase-card:hover .tool-logo-wrap { transform: scale(1.1) rotate(4deg); }
+
+    .tool-cat-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 6px;
+      font-family: 'Orbitron', monospace; font-size: .45rem; font-weight: 700; letter-spacing: .12em;
+      margin-bottom: 10px;
+    }
+    .tool-name { font-family: 'Orbitron', monospace; font-weight: 900; font-size: .88rem; color: #fff; letter-spacing: .06em; margin-bottom: 6px; }
+    .tool-use { font-size: .85rem; color: rgba(255,255,255,.45); line-height: 1.5; margin-bottom: 14px; }
+    .tool-capability {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; margin: 2px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px; font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem; color: rgba(255,255,255,.4);
+    }
+
+    .skill-bar-row { margin-bottom: 14px; }
+    .skill-bar-row:last-child { margin-bottom: 0; }
+    .skill-bar-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+      font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: .88rem;
+      color: rgba(255,255,255,.65);
+    }
+    .skill-bar-pct { font-family: 'Share Tech Mono', monospace; font-size: .65rem; color: rgba(255,20,147,.7); }
+    .skill-bar-track { height: 5px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; }
+    .skill-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--pink), #ff69b4);
+      width: 0;
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+    }
+    .skill-bar-fill::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+      animation: skillShimmer 2s ease infinite;
+    }
+    @keyframes skillShimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+    /* ══ END NEW STYLES ══ */
     .pink-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,20,147,.4),transparent);}
   </style>
 
@@ -676,21 +819,104 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
       <div class="stat-card stat-item gsap-card">
         <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="25" data-suffix="+">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">YEARS IN BOTH<br>DISCIPLINES</div>
+        <div class="font-mono text-xs text-gray-600 tracking-wider">YEARS ACTIVE<br>IN SECURITY</div>
       </div>
       <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="1" data-suffix="st">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">IN KZN: WATERLASE<br>EXPRESS TECH</div>
+        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="4" data-suffix="">0</div>
+        <div class="font-mono text-xs text-gray-600 tracking-wider">ENTERPRISE TOOLS<br>IN ACTIVE USE</div>
       </div>
       <div class="stat-card stat-item gsap-card">
         <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="100" data-suffix="%">0</div>
         <div class="font-mono text-xs text-gray-600 tracking-wider">DIRECT SENIOR<br>INVOLVEMENT</div>
       </div>
       <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="0" data-suffix="">0</div>
-        <div class="font-mono text-xs text-gray-600 tracking-wider">UNAUTHORIZED<br>ENGAGEMENTS EVER</div>
+        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="13" data-suffix="+">0</div>
+        <div class="font-mono text-xs text-gray-600 tracking-wider">YEARS CLINICAL<br>HEALTHCARE OPS</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══ CERTIFICATION ══ -->
+<section class="py-20 px-4 sm:px-6 relative z-10">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-12 gsap-hidden">
+      <div class="section-tag mb-3 flex items-center justify-center gap-3">
+        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+        VERIFIED CREDENTIALS
+        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      </div>
+      <h2 class="font-display font-black text-white mb-3" style="font-size:clamp(1.6rem,3.5vw,2.8rem);">
+        QUALIFIED TO <span class="neon-pink">TEST YOUR DEFENCES</span>
+      </h2>
+      <p class="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">Industry-recognised certification backed by hands-on tooling and structured methodology — not just theoretical knowledge.</p>
+    </div>
+
+    <div class="cert-showcase gsap-hidden">
+      <div class="grid md:grid-cols-[240px_1fr]">
+
+        <!-- Left: main badge -->
+        <div class="cert-main-badge">
+          <div class="cert-ring-outer">
+            <i class="fas fa-award cert-ring-icon"></i>
+          </div>
+          <div class="cert-title">PenTest+</div>
+          <div class="cert-subtitle">COMPTIA CERTIFIED</div>
+          <div class="cert-verified-pill">
+            <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
+            ACTIVE · VERIFIED
+          </div>
+        </div>
+
+        <!-- Right: detail rows -->
+        <div class="p-8">
+          <div class="font-mono text-xs text-pink-400/40 tracking-widest mb-6">// CERTIFICATION DETAIL</div>
+
+          <div class="cert-detail-row">
+            <div class="cert-detail-icon"><i class="fas fa-certificate"></i></div>
+            <div>
+              <div class="cert-detail-label">CERTIFICATION</div>
+              <div class="cert-detail-value">CompTIA PenTest+ (PT0-002)</div>
+            </div>
+          </div>
+
+          <div class="cert-detail-row">
+            <div class="cert-detail-icon"><i class="fas fa-bullseye"></i></div>
+            <div>
+              <div class="cert-detail-label">COVERS</div>
+              <div class="cert-detail-value">Planning · Scoping · Recon · Exploitation · Post-Exploitation · Reporting</div>
+            </div>
+          </div>
+
+          <div class="cert-detail-row">
+            <div class="cert-detail-icon"><i class="fas fa-layer-group"></i></div>
+            <div>
+              <div class="cert-detail-label">METHODOLOGY ALIGNMENT</div>
+              <div class="cert-detail-value">MITRE ATT&amp;CK · OWASP Top 10 · PTES · NIST SP 800-115</div>
+            </div>
+          </div>
+
+          <div class="cert-detail-row">
+            <div class="cert-detail-icon"><i class="fas fa-shield-halved"></i></div>
+            <div>
+              <div class="cert-detail-label">VALIDATED SKILLS</div>
+              <div class="cert-detail-value">Web App · Network · Cloud · Social Engineering · Wireless · Physical</div>
+            </div>
+          </div>
+
+          <div class="cert-detail-row">
+            <div class="cert-detail-icon"><i class="fas fa-rotate"></i></div>
+            <div>
+              <div class="cert-detail-label">CONTINUING DEVELOPMENT</div>
+              <div class="cert-detail-value">Ongoing — threat landscape evolves, training keeps pace</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- end cert-showcase -->
+
   </div>
 </section>
 
@@ -858,6 +1084,173 @@
         </p>
         <div class="mt-5 font-mono text-xs text-pink-400/50 tracking-widest">— DR DAVID SYKES</div>
       </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ TOOLS & SKILLS ══ -->
+<section class="py-24 px-4 sm:px-6 relative z-10">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-14 gsap-hidden">
+      <div class="section-tag mb-3 flex items-center justify-center gap-3">
+        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+        ARSENAL
+        <span class="inline-block w-8 h-px bg-pink-500 opacity-60"></span>
+      </div>
+      <h2 class="font-display font-black text-white mb-3" style="font-size:clamp(1.6rem,3.5vw,2.8rem);">
+        TOOLS OF THE <span class="neon-pink">TRADE</span>
+      </h2>
+      <p class="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">Enterprise-grade platforms used by the world's leading security teams — operated by a practitioner who understands both the technical output and the business context.</p>
+    </div>
+
+    <!-- Tool cards grid -->
+    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-14 gsap-hidden">
+
+      <!-- Burp Suite Pro -->
+      <div class="tool-showcase-card" style="--tool-border:rgba(255,102,0,.45);--tool-shadow:rgba(255,102,0,.12);--tool-line:#ff6600;">
+        <div class="tool-logo-wrap" style="background:rgba(255,102,0,.1);border:1px solid rgba(255,102,0,.3);">
+          <i class="fas fa-spider" style="color:#ff6600;filter:drop-shadow(0 0 8px rgba(255,102,0,.6));"></i>
+        </div>
+        <div class="tool-cat-tag" style="background:rgba(255,102,0,.1);border:1px solid rgba(255,102,0,.25);color:#ff6600;">
+          <span style="width:4px;height:4px;border-radius:50%;background:#ff6600;"></span>
+          WEB APP TESTING
+        </div>
+        <div class="tool-name">Burp Suite Pro</div>
+        <div class="tool-use">Industry-standard web application security testing platform. Used for manual and automated discovery of OWASP Top 10 vulnerabilities, auth flaws, business logic issues, and API weaknesses.</div>
+        <div>
+          <span class="tool-capability">Intercepting Proxy</span>
+          <span class="tool-capability">Active Scanner</span>
+          <span class="tool-capability">Intruder</span>
+          <span class="tool-capability">Repeater</span>
+          <span class="tool-capability">API Testing</span>
+        </div>
+      </div>
+
+      <!-- Nessus Pro -->
+      <div class="tool-showcase-card" style="--tool-border:rgba(0,180,255,.4);--tool-shadow:rgba(0,180,255,.1);--tool-line:#00b4ff;">
+        <div class="tool-logo-wrap" style="background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.25);">
+          <i class="fas fa-radar" style="color:#00b4ff;filter:drop-shadow(0 0 8px rgba(0,180,255,.6));"></i>
+        </div>
+        <div class="tool-cat-tag" style="background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.22);color:#00b4ff;">
+          <span style="width:4px;height:4px;border-radius:50%;background:#00b4ff;"></span>
+          VULNERABILITY SCANNING
+        </div>
+        <div class="tool-name">Nessus Pro</div>
+        <div class="tool-use">The gold standard in vulnerability assessment. Used for comprehensive network scanning, CVE identification, and configuration auditing across servers, endpoints, cloud, and network devices.</div>
+        <div>
+          <span class="tool-capability">CVE Detection</span>
+          <span class="tool-capability">Config Audit</span>
+          <span class="tool-capability">Compliance Checks</span>
+          <span class="tool-capability">Cloud Scanning</span>
+        </div>
+      </div>
+
+      <!-- RidgeBot -->
+      <div class="tool-showcase-card" style="--tool-border:rgba(255,20,147,.45);--tool-shadow:rgba(255,20,147,.12);--tool-line:#ff1493;">
+        <div class="tool-logo-wrap" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);">
+          <i class="fas fa-robot" style="color:#ff1493;filter:drop-shadow(0 0 8px rgba(255,20,147,.7));"></i>
+        </div>
+        <div class="tool-cat-tag" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);color:#ff1493;">
+          <span style="width:4px;height:4px;border-radius:50%;background:#ff1493;animation:toolsDotPulse 1.8s infinite;"></span>
+          AUTOMATED PENTEST
+        </div>
+        <div class="tool-name">RidgeBot</div>
+        <div class="tool-use">AI-driven automated penetration testing platform. Continuously discovers, exploits, and validates vulnerabilities across the attack surface — used alongside manual testing for complete coverage.</div>
+        <div>
+          <span class="tool-capability">AI-Driven Exploitation</span>
+          <span class="tool-capability">Attack Chaining</span>
+          <span class="tool-capability">Risk Validation</span>
+          <span class="tool-capability">Continuous Testing</span>
+        </div>
+      </div>
+
+      <!-- Evilginx2 -->
+      <div class="tool-showcase-card" style="--tool-border:rgba(239,68,68,.4);--tool-shadow:rgba(239,68,68,.1);--tool-line:#ef4444;">
+        <div class="tool-logo-wrap" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);">
+          <i class="fas fa-fish-fins" style="color:#ef4444;filter:drop-shadow(0 0 8px rgba(239,68,68,.6));"></i>
+        </div>
+        <div class="tool-cat-tag" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);color:#ef4444;">
+          <span style="width:4px;height:4px;border-radius:50%;background:#ef4444;"></span>
+          PHISHING SIMULATION
+        </div>
+        <div class="tool-name">Evilginx2</div>
+        <div class="tool-use">Advanced adversary-in-the-middle phishing framework. Used for authorised social engineering simulations that bypass MFA — testing whether staff can detect and resist real-world credential harvesting attacks.</div>
+        <div>
+          <span class="tool-capability">AiTM Phishing</span>
+          <span class="tool-capability">MFA Bypass Sim</span>
+          <span class="tool-capability">Session Hijack</span>
+          <span class="tool-capability">Credential Harvest</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Skill depth bars -->
+    <div class="grid md:grid-cols-2 gap-8 gsap-hidden">
+
+      <div class="identity-card p-8">
+        <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-6">// ATTACK DOMAIN COVERAGE</div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>Web Application Security</span><span class="skill-bar-pct">95%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>Network Penetration Testing</span><span class="skill-bar-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>Social Engineering / Phishing</span><span class="skill-bar-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>Vulnerability Assessment</span><span class="skill-bar-pct">95%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>OSINT &amp; Reconnaissance</span><span class="skill-bar-pct">92%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>Cloud Security Assessment</span><span class="skill-bar-pct">78%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div>
+        </div>
+      </div>
+
+      <div class="identity-card p-8">
+        <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-6">// SUPPORTING TOOLKIT</div>
+        <div class="flex flex-wrap gap-2">
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Metasploit</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Nmap</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Wireshark</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>BloodHound</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Impacket</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Responder</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>FFUF</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Nuclei</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Shodan</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>theHarvester</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Kali Linux</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>OWASP ZAP</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>SQLMap</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>CrackMapExec</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>John the Ripper</span>
+          <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>Hashcat</span>
+        </div>
+        <div class="mt-6 pt-5 border-t border-pink-500/10">
+          <div class="font-mono text-xs text-pink-400/40 tracking-widest mb-3">// FRAMEWORKS &amp; STANDARDS</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>MITRE ATT&amp;CK</span>
+            <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>OWASP Top 10</span>
+            <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>PTES</span>
+            <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>NIST CSF</span>
+            <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>POPIA</span>
+            <span class="attr-pill"><i class="fas fa-circle text-pink-400 text-xs"></i>HIPAA</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -1064,6 +1457,21 @@
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.stat-item').forEach(el => obs.observe(el));
+
+  // ── SKILL BARS ──
+  const skillObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-bar-fill[data-width]').forEach(bar => {
+          setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 150);
+        });
+        skillObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.skill-bar-fill[data-width]').forEach(bar => {
+    skillObs.observe(bar.closest('.identity-card') || bar.parentElement);
+  });
 
   // ── GSAP ──
   // On mobile, skip scroll-triggered hide/show to avoid blank sections
