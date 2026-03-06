@@ -34,6 +34,11 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Preconnect hints -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="tw.css"/>
@@ -886,37 +891,63 @@
 </main>
 
 <!-- FOOTER -->
-<footer style="position:relative;z-index:2;background:rgba(0,0,0,.9);border-top:1px solid rgba(255,20,147,.1);padding:60px 24px 40px;">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-      <div class="lg:col-span-2">
-        <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8);margin-bottom:14px;">GREY<span style="color:#fff">HAT</span>4HIRE</div>
-        <p style="color:rgba(160,160,160,.7);font-size:.88rem;line-height:1.7;max-width:340px;">Independent cybersecurity for South African healthcare, dental, and professional practices. We breach you before they do.</p>
-      </div>
-      <div>
-        <div class="section-tag mb-4">Services</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Penetration Testing</a>
-          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Dental Practice Assessments</a>
-          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Risk Assessments</a>
-          <a href="services.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Security Awareness Training</a>
+<footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting firm providing ethical security testing and assurance services across South Africa and beyond.</p>
+        <div class="flex gap-4">
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-xl" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div>
-        <div class="section-tag mb-4">Company</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <a href="about.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">About</a>
-          <a href="blog.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Blog</a>
-          <a href="pricing.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Pricing</a>
-          <a href="contact.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Contact</a>
-          <a href="privacy.html" style="color:rgba(160,160,160,.6);font-size:.85rem;text-decoration:none;" onmouseover="this.style.color='#ff69b4'" onmouseout="this.style.color='rgba(160,160,160,.6)'">Privacy Policy</a>
-        </div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3>
+        <ul class="space-y-2.5">
+          <li><a href="index.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">Home</a></li>
+          <li><a href="about.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">About</a></li>
+          <li><a href="services.html"         class="text-gray-400 hover:text-pink-400 transition text-sm">Services</a></li>
+          <li><a href="cyber-awareness.html"  class="text-gray-400 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="our-process.html"      class="text-gray-400 hover:text-pink-400 transition text-sm">Our Process</a></li>
+          <li><a href="pricing.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Pricing</a></li>
+          <li><a href="blog.html"             class="text-gray-400 hover:text-pink-400 transition text-sm">Blog</a></li>
+          <li><a href="contact.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
+        <ul class="space-y-2.5">
+          <li><a href="risk-assessment.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="vuln-lookup.html"       class="text-gray-400 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li>
+          <li><a href="reverse-image-search.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Reverse Image Search</a></li>
+          <li><a href="downloads.html"         class="text-gray-400 hover:text-pink-400 transition text-sm">Downloads</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
+        <ul class="space-y-3">
+          <li><a href="mailto:info@greyhat4hire.com" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i>info@greyhat4hire.com</a></li>
+          <li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i>WhatsApp Chat</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i>Book Consultation</a></li>
+        </ul>
       </div>
     </div>
     <div class="border-t border-gray-800 pt-8">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-        <p>© 2026 Greyhat4Hire. All rights reserved.</p>
-        <p class="font-display text-xs text-pink-400 tracking-wider">INDEPENDENT · ETHICAL · EFFECTIVE</p>
+      <div class="glass p-5 rounded-2xl mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+          <p class="text-sm text-gray-400">
+            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection. We never disclose client names, findings, or engagement details without written permission.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+        <p>&copy; 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT &middot; ETHICAL &middot; EFFECTIVE</p>
       </div>
     </div>
   </div>

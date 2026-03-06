@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="tw.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Preconnect hints -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&family=Special+Elite&display=swap" rel="stylesheet"/>
 
@@ -304,6 +309,26 @@
   <meta name="twitter:title"       content="The Hacker's Dossier — Greyhat4Hire | Live Threat Intelligence"/>
   <meta name="twitter:description" content="Enter a domain. We run real OSINT — live DNS, certificate transparency, Shodan, WHOIS — then compile the intelligence file an attacker would build on you."/>
   <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "The Hacker's Dossier",
+  "description": "Live OSINT intelligence tool. Enter any domain and see what attackers already know — DNS records, certificates, exposed services, and more.",
+  "url": "https://greyhat4hire.com/hackers-dossier.html",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "ZAR"
+  },
+  "provider": {
+    "@id": "https://greyhat4hire.com/#org"
+  }
+}
+  </script>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
@@ -701,70 +726,67 @@
   </section>
 
   <!-- ══ FOOTER ══ -->
-  <footer class="border-t border-gray-900/50 bg-black/40 relative z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
-
-        <div class="lg:col-span-1">
-          <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
-            onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-          <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
-          <div class="flex gap-4">
-            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
-            <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
-          </div>
+  <footer class="border-t border-gray-900/50 bg-black/50" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-12">
+      <div class="lg:col-span-1">
+        <img src="logo.png" alt="Greyhat4Hire" class="h-10 mb-5"
+          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+        <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting firm providing ethical security testing and assurance services across South Africa and beyond.</p>
+        <div class="flex gap-4">
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-xl" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
-
-        <div>
-          <h3 class="font-display text-white text-sm tracking-widest mb-5">SERVICES</h3>
-          <ul class="space-y-3">
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Penetration Testing</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Vulnerability Assessments</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Security Audits &amp; Compliance</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Incident Response Planning</a></li>
-            <li><a href="services.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-display text-white text-sm tracking-widest mb-5">COMPANY</h3>
-          <ul class="space-y-3">
-            <li><a href="index.html#about" class="text-gray-500 hover:text-pink-400 transition text-sm">About Us</a></li>
-            <li><a href="index.html#industries" class="text-gray-500 hover:text-pink-400 transition text-sm">Industries</a></li>
-            <li><a href="cyber-awareness.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
-            <li><a href="pricing.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Pricing</a></li>
-            <li><a href="contact.html" class="text-gray-500 hover:text-pink-400 transition text-sm">Contact</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-display text-white text-sm tracking-widest mb-5">GET IN TOUCH</h3>
-          <ul class="space-y-3">
-            <li><span class="text-gray-500 text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3f565159507f584d5a46575e4b0b57564d5a115c5011455e">[email&#160;protected]</a></span></li>
-            <li><a href="tel:+27846353581" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5"></i> +27 84 635 3581</a></li>
-            <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5"></i> WhatsApp Chat</a></li>
-          </ul>
-        </div>
-
       </div>
-
-      <div class="border-t border-gray-800 pt-8">
-        <div class="glass p-5 rounded-2xl mb-8">
-          <div class="flex items-start gap-3">
-            <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
-            <p class="text-sm text-gray-400">
-              <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection.
-            </p>
-          </div>
-        </div>
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
-          <p>© 2026 Greyhat4Hire. All rights reserved.</p>
-          <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT · ETHICAL · EFFECTIVE</p>
-        </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Pages</h3>
+        <ul class="space-y-2.5">
+          <li><a href="index.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">Home</a></li>
+          <li><a href="about.html"            class="text-gray-400 hover:text-pink-400 transition text-sm">About</a></li>
+          <li><a href="services.html"         class="text-gray-400 hover:text-pink-400 transition text-sm">Services</a></li>
+          <li><a href="cyber-awareness.html"  class="text-gray-400 hover:text-pink-400 transition text-sm">Cyber Awareness</a></li>
+          <li><a href="our-process.html"      class="text-gray-400 hover:text-pink-400 transition text-sm">Our Process</a></li>
+          <li><a href="pricing.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Pricing</a></li>
+          <li><a href="blog.html"             class="text-gray-400 hover:text-pink-400 transition text-sm">Blog</a></li>
+          <li><a href="contact.html"          class="text-gray-400 hover:text-pink-400 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Free Tools</h3>
+        <ul class="space-y-2.5">
+          <li><a href="risk-assessment.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Risk Self-Assessment</a></li>
+          <li><a href="hackers-dossier.html"   class="text-gray-400 hover:text-pink-400 transition text-sm">Hacker's Dossier</a></li>
+          <li><a href="breach-cost-clock.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Breach Cost Clock</a></li>
+          <li><a href="vuln-lookup.html"       class="text-gray-400 hover:text-pink-400 transition text-sm">Vulnerability Intelligence</a></li>
+          <li><a href="reverse-image-search.html" class="text-gray-400 hover:text-pink-400 transition text-sm">Reverse Image Search</a></li>
+          <li><a href="downloads.html"         class="text-gray-400 hover:text-pink-400 transition text-sm">Downloads</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm text-white font-bold mb-4 tracking-wider">Get in Touch</h3>
+        <ul class="space-y-3">
+          <li><a href="mailto:info@greyhat4hire.com" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-envelope text-pink-400 mt-0.5 flex-shrink-0"></i>info@greyhat4hire.com</a></li>
+          <li><a href="tel:+27846353581" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-phone text-pink-400 mt-0.5 flex-shrink-0"></i>+27 84 635 3581</a></li>
+          <li><a href="https://wa.me/27846353581" target="_blank" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fab fa-whatsapp text-pink-400 mt-0.5 flex-shrink-0"></i>WhatsApp Chat</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-pink-400 transition text-sm flex items-start gap-2"><i class="fas fa-calendar text-pink-400 mt-0.5 flex-shrink-0"></i>Book Consultation</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="glass p-5 rounded-2xl mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-shield-alt text-pink-400 text-xl flex-shrink-0 mt-0.5"></i>
+          <p class="text-sm text-gray-400">
+            <span class="font-display text-pink-400 tracking-wide">CONFIDENTIALITY GUARANTEED</span>&nbsp;— All engagements conducted under strict NDA with complete data protection. We never disclose client names, findings, or engagement details without written permission.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+        <p>&copy; 2026 Greyhat4Hire. All rights reserved.</p>
+        <p class="font-display text-pink-400/50 tracking-widest">INDEPENDENT &middot; ETHICAL &middot; EFFECTIVE</p>
+      </div>
+    </div>
+  </div>
+</footer>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
