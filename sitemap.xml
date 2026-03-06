@@ -5,41 +5,41 @@
               http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <!-- CORE PAGES -->
-  <url><loc>https://greyhat4hire.com/</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>1.00</priority></url>
-  <url><loc>https://greyhat4hire.com/services.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.90</priority></url>
-  <url><loc>https://greyhat4hire.com/pricing.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://greyhat4hire.com/contact.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://greyhat4hire.com/about.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>1.00</priority></url>
+  <url><loc>https://greyhat4hire.com/services.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.90</priority></url>
+  <url><loc>https://greyhat4hire.com/pricing.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://greyhat4hire.com/contact.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://greyhat4hire.com/about.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
 
   <!-- BLOG INDEX -->
-  <url><loc>https://greyhat4hire.com/blog.html</loc><lastmod>2026-03-03</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/blog.html</loc><lastmod>2026-03-06</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
 
   <!-- FREE TOOLS -->
-  <url><loc>https://greyhat4hire.com/risk-assessment.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://greyhat4hire.com/hackers-dossier.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://greyhat4hire.com/breach-cost-clock.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://greyhat4hire.com/vuln-lookup.html</loc><lastmod>2026-03-03</lastmod><changefreq>weekly</changefreq><priority>0.65</priority></url>
-  <url><loc>https://greyhat4hire.com/reverse-image-search.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.60</priority></url>
+  <url><loc>https://greyhat4hire.com/risk-assessment.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/hackers-dossier.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://greyhat4hire.com/breach-cost-clock.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://greyhat4hire.com/vuln-lookup.html</loc><lastmod>2026-03-06</lastmod><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://greyhat4hire.com/reverse-image-search.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.60</priority></url>
 
   <!-- SUPPORTING PAGES -->
-  <url><loc>https://greyhat4hire.com/our-process.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://greyhat4hire.com/cyber-awareness.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://greyhat4hire.com/greyhat-protocol.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://greyhat4hire.com/downloads.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://greyhat4hire.com/greyhat4hire-badge.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.50</priority></url>
-  <url><loc>https://greyhat4hire.com/privacy.html</loc><lastmod>2026-03-03</lastmod><changefreq>yearly</changefreq><priority>0.40</priority></url>
+  <url><loc>https://greyhat4hire.com/our-process.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://greyhat4hire.com/cyber-awareness.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://greyhat4hire.com/greyhat-protocol.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://greyhat4hire.com/downloads.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://greyhat4hire.com/greyhat4hire-badge.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.50</priority></url>
+  <url><loc>https://greyhat4hire.com/privacy.html</loc><lastmod>2026-03-06</lastmod><changefreq>yearly</changefreq><priority>0.40</priority></url>
 
   <!-- BLOG ARTICLES -->
-  <url><loc>https://greyhat4hire.com/owasp-top10-medical-dental-practice.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://greyhat4hire.com/wifi-dangers-dental-medical-practice.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://greyhat4hire.com/hacked-dental-practice-11-minutes.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://greyhat4hire.com/infostealer-malware-credential-harvesters.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://greyhat4hire.com/vishing-2026-voice-cloning-phishing.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://greyhat4hire.com/popia-pentest-compliance.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://greyhat4hire.com/ransomware-under-5-dollars.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://greyhat4hire.com/osint-what-attackers-find-before-first-packet.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://greyhat4hire.com/password-hygiene-haveibeenpwned.html</loc><lastmod>2026-03-03</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://greyhat4hire.com/owasp-top10-medical-dental-practice.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://greyhat4hire.com/wifi-dangers-dental-medical-practice.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://greyhat4hire.com/hacked-dental-practice-11-minutes.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://greyhat4hire.com/infostealer-malware-credential-harvesters.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://greyhat4hire.com/vishing-2026-voice-cloning-phishing.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://greyhat4hire.com/popia-pentest-compliance.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/lockbit-4-what-it-means-for-small-business.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/hacker-gadgets-anyone-can-buy.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/ransomware-under-5-dollars.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://greyhat4hire.com/osint-what-attackers-find-before-first-packet.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://greyhat4hire.com/password-hygiene-haveibeenpwned.html</loc><lastmod>2026-03-06</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
 
 </urlset>
