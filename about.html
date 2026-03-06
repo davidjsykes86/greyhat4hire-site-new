@@ -298,8 +298,6 @@
     }
 
     .gsap-hidden { opacity:0;transform:translateY(40px); }
-    /* Safety net: hero-mono visible by default so typewriter always shows */
-    #hero-mono { opacity:1; }
   </style>
 
   <script type="application/ld+json">
@@ -676,7 +674,7 @@
   <div class="max-w-5xl mx-auto">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
       <div class="stat-card stat-item gsap-card">
-        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="20" data-suffix="+">0</div>
+        <div class="stat-num text-4xl sm:text-5xl mb-2" data-target="25" data-suffix="+">0</div>
         <div class="font-mono text-xs text-gray-600 tracking-wider">YEARS IN BOTH<br>DISCIPLINES</div>
       </div>
       <div class="stat-card stat-item gsap-card">
@@ -1106,16 +1104,14 @@
       }
     });
   }, { threshold: .4 });
-  document.querySelectorAll('.stat-item').forEach(el => obs.observe(el.parentElement));
+  document.querySelectorAll(".stat-item").forEach(el => obs.observe(el));
 
   // ── GSAP ──
-  try {
   gsap.registerPlugin(ScrollTrigger);
 
   const tl = gsap.timeline();
   tl.fromTo('#hero-eyebrow',  { y:30, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 0.3)
     .fromTo('#hero-heading',  { y:50, opacity:0 }, { y:0, opacity:1, duration:.9, ease:'back.out(1.2)' }, 0.5)
-    .fromTo('#hero-mono',     { opacity:0 },       { opacity:1, duration:.5 }, 1.0)
     .fromTo('#hero-sub',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.1)
     .fromTo('#hero-btns',     { y:20, opacity:0 }, { y:0, opacity:1, duration:.7, ease:'power3.out' }, 1.4)
     .fromTo('#hero-loc',      { y:20, opacity:0 }, { y:0, opacity:1, duration:.6, ease:'power3.out' }, 1.6)
@@ -1131,12 +1127,6 @@
       scrollTrigger:{ trigger:el, start:'top 88%', once:true },
       delay: parseFloat(el.style.getPropertyValue('--delay') || 0) });
   });
-  } catch(e) {
-    ['hero-eyebrow','hero-heading','hero-mono','hero-sub','hero-btns','hero-loc','hero-portrait'].forEach(function(id){
-      var el=document.getElementById(id); if(el){el.style.opacity='1';el.style.transform='none';}
-    });
-    document.querySelectorAll('.gsap-hidden,.gsap-card').forEach(function(el){el.style.opacity='1';el.style.transform='none';});
-  }
 
   window.addEventListener('load',function(){
   var canvas=document.getElementById('three-canvas');
