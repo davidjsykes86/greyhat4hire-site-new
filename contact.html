@@ -35,10 +35,15 @@
   </script>
 
   <link rel="stylesheet" href="tw.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- ══ PRECONNECT HINTS ══ -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <style>
     :root {
@@ -751,6 +756,17 @@
           </div>
 
           <form id="contact-form" class="space-y-5" action="https://formspree.io/f/mjgevzda" method="POST">
+            <!-- Honeypot spam trap — hidden from humans -->
+            <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+              <label for="_gotcha">Leave empty</label>
+              <input type="text" name="_gotcha" id="_gotcha" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- Availability indicator -->
+            <div class="flex items-center gap-2 mb-2" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:10px 14px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6);animation:pulse 2s infinite;flex-shrink:0;"></span>
+              <span class="font-mono text-xs" style="color:rgba(34,197,94,.8);letter-spacing:.05em;">CURRENTLY ACCEPTING NEW ENGAGEMENTS</span>
+            </div>
             <div>
               <label class="form-label">Full Name</label>
               <input type="text" name="name" placeholder="John Smith" required class="form-input w-full px-5 py-4 rounded-xl">
@@ -836,6 +852,9 @@
             <div class="flex items-center justify-center gap-2 text-xs text-gray-500 font-mono">
               <i class="fas fa-lock text-pink-400/50"></i>
               Encrypted &nbsp;•&nbsp; Strictly confidential &nbsp;•&nbsp; No spam
+            </div>
+            <div class="text-center mt-3" style="background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.1);border-radius:10px;padding:10px 14px;">
+              <p class="text-xs text-gray-400 leading-relaxed"><i class="fas fa-bolt text-pink-400 mr-1"></i> <strong style="color:rgba(255,255,255,.7);">Avg. response time: 4 hours</strong> during business hours (SAST). After hours enquiries answered by 9am next business day.</p>
             </div>
           </form>
         </div>
@@ -943,9 +962,7 @@
           onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1rem;color:#ff1493\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
         <p class="text-gray-400 text-sm leading-relaxed mb-5">Independent cybersecurity consulting. Ethical testing, clear reporting, real results.</p>
         <div class="flex gap-4">
-          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-linkedin"></i></a>
-          <a href="#" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-twitter"></i></a>
-          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://wa.me/27846353581" target="_blank" class="text-gray-500 hover:text-pink-400 transition text-xl" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
 
