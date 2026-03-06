@@ -248,6 +248,91 @@
     .submit-btn:hover { transform:translateY(-4px);box-shadow:0 14px 48px rgba(255,20,147,.65); }
     .submit-btn:hover::after { opacity:1; }
 
+    /* ── FORM SUCCESS STATE ── */
+    .form-success {
+      display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 48px 24px;
+      min-height: 420px;
+    }
+    .form-success.visible { display: flex; }
+    .success-ring {
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 3px solid rgba(34,197,94,.5);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px; position: relative;
+      background: rgba(34,197,94,.08);
+      box-shadow: 0 0 50px rgba(34,197,94,.3);
+      animation: successPop .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes successPop { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
+    .success-ring::after {
+      content: '';
+      position: absolute; inset: -8px; border-radius: 50%;
+      border: 1px solid rgba(34,197,94,.2);
+      animation: successRipple 2s ease-out infinite;
+    }
+    @keyframes successRipple { 0%{transform:scale(1);opacity:.6} 100%{transform:scale(1.4);opacity:0} }
+    .success-check { font-size: 2.4rem; color: #22c55e; filter: drop-shadow(0 0 12px rgba(34,197,94,.8)); }
+    .success-title {
+      font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.2rem;
+      color: #fff; letter-spacing: .06em; margin-bottom: 10px;
+      animation: fadeUp .5s .2s both ease-out;
+    }
+    .success-sub {
+      font-size: .95rem; color: rgba(255,255,255,.5); line-height: 1.6;
+      max-width: 320px; margin-bottom: 28px;
+      animation: fadeUp .5s .35s both ease-out;
+    }
+    .success-steps {
+      display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 320px;
+      animation: fadeUp .5s .45s both ease-out;
+    }
+    .success-step {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      background: rgba(34,197,94,.06); border: 1px solid rgba(34,197,94,.15);
+      font-size: .82rem; color: rgba(255,255,255,.55); text-align: left;
+    }
+    .success-step i { color: #22c55e; font-size: .7rem; flex-shrink: 0; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── NOT-SURE HELPER ── */
+    .not-sure-block {
+      display: none;
+      padding: 16px; border-radius: 14px;
+      background: rgba(255,20,147,.05);
+      border: 1px solid rgba(255,20,147,.2);
+      margin-top: 10px;
+      animation: fadeUp .35s ease both;
+    }
+    .not-sure-block.visible { display: block; }
+    .not-sure-tool {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 9px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      text-decoration: none; color: inherit;
+      transition: all .25s ease; margin-bottom: 6px;
+    }
+    .not-sure-tool:last-child { margin-bottom: 0; }
+    .not-sure-tool:hover { border-color: rgba(255,20,147,.35); background: rgba(255,20,147,.06); }
+    .not-sure-tool-icon {
+      width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: .85rem;
+    }
+
+    /* ── ORG SIZE BUTTONS ── */
+    .size-btn {
+      padding: 10px 6px; border-radius: 10px; border: 1px solid rgba(255,20,147,.18);
+      background: rgba(8,8,8,.72); backdrop-filter: blur(18px);
+      font-family: 'Orbitron', monospace; font-size: .55rem; font-weight: 700;
+      letter-spacing: .06em; color: rgba(224,224,224,.55);
+      transition: all .25s ease; cursor: pointer; text-align: center; line-height: 1.4;
+    }
+    .size-btn:hover { border-color: rgba(255,20,147,.5); color: #ff1493; }
+    /* ── END FORM EXTRAS ── */
+
     /* ── PROCESS TIMELINE ── */
     .timeline-step {
       background:rgba(8,8,8,.7);border:1px solid rgba(255,20,147,.13);
@@ -650,7 +735,22 @@
             Request a <span class="neon-pink">Free Consultation</span>
           </h2>
 
-          <form id="contact-form" class="space-y-5" action="https://formspree.io/f/your-form-id" method="POST">
+          <!-- SUCCESS STATE (hidden until submit) -->
+          <div class="form-success" id="form-success">
+            <div class="success-ring">
+              <i class="fas fa-check success-check"></i>
+            </div>
+            <div class="success-title">MESSAGE RECEIVED</div>
+            <div class="success-sub">Thanks — your enquiry is in. Here's exactly what happens next:</div>
+            <div class="success-steps">
+              <div class="success-step"><i class="fas fa-circle-dot"></i> You'll get an acknowledgement email within the hour</div>
+              <div class="success-step"><i class="fas fa-circle-dot"></i> A human response within 24 hours — no bots</div>
+              <div class="success-step"><i class="fas fa-circle-dot"></i> Discovery call scheduled at a time that suits you</div>
+              <div class="success-step"><i class="fas fa-circle-dot"></i> NDA signed before any sensitive information is shared</div>
+            </div>
+          </div>
+
+          <form id="contact-form" class="space-y-5" action="https://formspree.io/f/mjgevzda" method="POST">
             <div>
               <label class="form-label">Full Name</label>
               <input type="text" name="name" placeholder="John Smith" required class="form-input w-full px-5 py-4 rounded-xl">
@@ -658,6 +758,16 @@
             <div>
               <label class="form-label">Company / Organisation</label>
               <input type="text" name="company" placeholder="Acme Corp" required class="form-input w-full px-5 py-4 rounded-xl">
+            </div>
+            <div>
+              <label class="form-label">Organisation Size</label>
+              <div class="grid grid-cols-4 gap-2" id="size-group">
+                <button type="button" class="size-btn" data-val="1-10">1–10<br><span style="font-size:.5rem;opacity:.6;font-family:'Rajdhani',sans-serif;">staff</span></button>
+                <button type="button" class="size-btn" data-val="11-50">11–50<br><span style="font-size:.5rem;opacity:.6;font-family:'Rajdhani',sans-serif;">staff</span></button>
+                <button type="button" class="size-btn" data-val="51-200">51–200<br><span style="font-size:.5rem;opacity:.6;font-family:'Rajdhani',sans-serif;">staff</span></button>
+                <button type="button" class="size-btn" data-val="200+">200+<br><span style="font-size:.5rem;opacity:.6;font-family:'Rajdhani',sans-serif;">staff</span></button>
+              </div>
+              <input type="hidden" name="org_size" id="orgsize-input" value="">
             </div>
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
@@ -671,17 +781,39 @@
             </div>
             <div>
               <label class="form-label">Service Interest</label>
-              <select name="service" required class="form-input w-full px-5 py-4 rounded-xl">
+              <select name="service" id="service-select" required class="form-input w-full px-5 py-4 rounded-xl">
                 <option value="">Select a service...</option>
                 <option>Penetration Testing (Web / API / Network)</option>
                 <option>Vulnerability Assessment</option>
                 <option>Security Audit &amp; Compliance</option>
-                <option>Risk Assessment</option>
+                <option>Healthcare / Dental Risk Assessment</option>
                 <option>Social Engineering / Phishing Simulation</option>
                 <option>Remediation &amp; Retest</option>
                 <option>Annual Assurance Program</option>
-                <option>Not sure — I need guidance</option>
+                <option value="notsure">Not sure — I need guidance</option>
               </select>
+
+              <!-- NOT-SURE HELPER — shown when "not sure" is selected -->
+              <div class="not-sure-block" id="not-sure-block">
+                <div class="font-mono text-xs text-pink-400/60 tracking-widest mb-8" style="margin-bottom:10px;">// START HERE — FREE, NO COMMITMENT</div>
+                <a href="risk-assessment.html" class="not-sure-tool">
+                  <div class="not-sure-tool-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.25);color:#ff1493;"><i class="fas fa-shield-halved"></i></div>
+                  <div>
+                    <div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(255,20,147,.7);margin-bottom:2px;">FREE · 90 SECONDS</div>
+                    <div style="font-size:.85rem;color:rgba(255,255,255,.75);font-weight:600;">Risk Self-Assessment</div>
+                    <div style="font-size:.75rem;color:rgba(255,255,255,.35);">Get a breach exposure score — then we can talk specifics</div>
+                  </div>
+                </a>
+                <a href="hackers-dossier.html" class="not-sure-tool">
+                  <div class="not-sure-tool-icon" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#ef4444;"><i class="fas fa-file-circle-exclamation"></i></div>
+                  <div>
+                    <div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(239,68,68,.7);margin-bottom:2px;">FREE · LIVE OSINT</div>
+                    <div style="font-size:.85rem;color:rgba(255,255,255,.75);font-weight:600;">Hacker's Dossier</div>
+                    <div style="font-size:.75rem;color:rgba(255,255,255,.35);">See exactly what attackers already know about your domain</div>
+                  </div>
+                </a>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.3);margin-top:10px;text-align:center;">Or just fill in the form and we'll guide you on the call ↓</div>
+              </div>
             </div>
             <div>
               <label class="form-label">Tell Us About Your Needs</label>
@@ -698,7 +830,7 @@
               </div>
               <input type="hidden" name="timeframe" id="timeframe-input" value="">
             </div>
-            <button type="submit" class="submit-btn w-full py-5 rounded-2xl font-display text-sm tracking-widest">
+            <button type="submit" class="submit-btn w-full py-5 rounded-2xl font-display text-sm tracking-widest" id="submit-btn">
               <i class="fas fa-paper-plane mr-3"></i> SEND SECURE MESSAGE
             </button>
             <div class="flex items-center justify-center gap-2 text-xs text-gray-500 font-mono">
@@ -947,6 +1079,75 @@
       document.getElementById('timeframe-input').value = btn.dataset.val;
     });
   });
+
+  // ── ORG SIZE SELECTOR ──
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach(b => {
+        b.style.borderColor = 'rgba(255,20,147,.18)';
+        b.style.color       = 'rgba(224,224,224,.55)';
+        b.style.background  = 'rgba(8,8,8,.72)';
+      });
+      btn.style.borderColor = 'rgba(255,20,147,.7)';
+      btn.style.color       = '#ff1493';
+      btn.style.background  = 'rgba(255,20,147,.1)';
+      document.getElementById('orgsize-input').value = btn.dataset.val;
+    });
+  });
+
+  // ── NOT-SURE HELPER ──
+  var serviceSelect = document.getElementById('service-select');
+  var notSureBlock  = document.getElementById('not-sure-block');
+  if (serviceSelect && notSureBlock) {
+    serviceSelect.addEventListener('change', function () {
+      if (this.value === 'notsure') {
+        notSureBlock.classList.add('visible');
+      } else {
+        notSureBlock.classList.remove('visible');
+      }
+    });
+  }
+
+  // ── FORM SUBMISSION — async with success state ──
+  var form        = document.getElementById('contact-form');
+  var successPane = document.getElementById('form-success');
+  var submitBtn   = document.getElementById('submit-btn');
+  if (form && successPane) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-3"></i> SENDING...';
+      submitBtn.style.opacity = '0.7';
+      try {
+        var resp = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          // Swap form for success panel
+          form.style.transition = 'opacity .35s ease';
+          form.style.opacity = '0';
+          setTimeout(function () {
+            form.style.display = 'none';
+            successPane.classList.add('visible');
+          }, 350);
+        } else {
+          // Server error — restore button
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle mr-3"></i> TRY AGAIN';
+          submitBtn.style.opacity = '1';
+          submitBtn.style.background = 'linear-gradient(135deg,#ef4444,#b91c1c)';
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle mr-3"></i> TRY AGAIN';
+        submitBtn.style.opacity = '1';
+        submitBtn.style.background = 'linear-gradient(135deg,#ef4444,#b91c1c)';
+      }
+    });
+  }
 
   // ── GSAP ──
   gsap.registerPlugin(ScrollTrigger);
