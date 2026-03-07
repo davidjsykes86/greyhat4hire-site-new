@@ -27,8 +27,8 @@
     "description": "A complete breakdown of passive OSINT reconnaissance — Shodan, theHarvester, crt.sh, Google Dorks, HIBP, GitHub secrets — and how South African small businesses can reduce their attack surface.",
     "author": {"@type": "Person", "name": "Dr David Sykes", "url": "https://greyhat4hire.com/about.html"},
     "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
-    "datePublished": "2026-03-03",
-    "dateModified": "2026-03-03",
+    "datePublished": "2025-09-14",
+    "dateModified": "2025-09-14",
     "url": "https://greyhat4hire.com/osint-what-attackers-find-before-first-packet.html",
     "inLanguage": "en-ZA",
     "keywords": "OSINT, passive recon, Shodan, theHarvester, Google Dorks, spear phishing, attack surface, South Africa, POPIA, penetration testing, cybersecurity small business"
@@ -50,8 +50,6 @@
     html{overflow-x:hidden;scroll-behavior:smooth;}
     body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor: auto;}
     body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
-    #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
-    #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
     .font-display{font-family:'Orbitron',monospace;}
     .font-mono{font-family:'Share Tech Mono',monospace;}
@@ -239,12 +237,10 @@
     .dossier-val .warn{color:#f97316;}
     .dossier-val .ok{color:#00ff88;}
     ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(0,255,136,.3);border-radius:2px;}
-    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
   </style>
 </head>
 <body>
 <div id="read-progress-bar"></div>
-<div id="cur"></div>
 <canvas id="three-canvas"></canvas>
 
 <a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:90px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
@@ -979,7 +975,6 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
 window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
 var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
 function openMen(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}

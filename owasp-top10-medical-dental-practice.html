@@ -25,8 +25,8 @@
     "description": "A full breakdown of all 10 OWASP web application vulnerabilities mapped to real attack scenarios against South African medical and dental practices. Includes SQL injection, broken access control, SSRF, security misconfigurations, POPIA implications, and hardening steps.",
     "author": {"@type": "Person", "name": "Dr David Sykes", "url": "https://greyhat4hire.com/about.html"},
     "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
-    "datePublished": "2026-03-03",
-    "dateModified": "2026-03-03",
+    "datePublished": "2026-02-17",
+    "dateModified": "2026-02-17",
     "url": "https://greyhat4hire.com/owasp-top10-medical-dental-practice.html",
     "inLanguage": "en-ZA",
     "keywords": "OWASP Top 10, web application security, medical practice cybersecurity, dental practice hacking, SQL injection healthcare, broken access control, POPIA compliance, South Africa, patient portal security, web app pentest"
@@ -48,8 +48,6 @@
     html{overflow-x:hidden;scroll-behavior:smooth;}
     body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor: auto;}
     body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
-    #cur{position:fixed;width:18px;height:18px;border:2px solid var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
-    #cur2{position:fixed;width:5px;height:5px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px var(--cyan);transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
     .font-display{font-family:'Orbitron',monospace;}
     .font-mono{font-family:'Share Tech Mono',monospace;}
@@ -102,7 +100,6 @@
     @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(34,211,238,.35)}50%{box-shadow:0 0 65px rgba(34,211,238,.7)}}
     .pulse-glow{animation:pulseGlow 2.8s infinite;}
     .glass{background:rgba(8,8,8,.72);backdrop-filter:blur(18px);border:1px solid rgba(34,211,238,.15);}
-    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}body{cursor:auto!important;}}
 
     /* PROGRESS */
     #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cyan),var(--purple));z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(34,211,238,.8);}
@@ -337,7 +334,7 @@
         <div style="font-size:.8rem;color:rgba(180,180,180,.65);">BChD · Pentester · Greyhat4Hire · Johannesburg, ZA</div>
       </div>
       <div style="margin-left:auto;text-align:right;flex-shrink:0;">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,211,238,.5);">03 MAR 2026</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,211,238,.5);">17 FEB 2026</div>
         <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(180,180,180,.4);">~18 min read</div>
       </div>
     </div>
@@ -1054,7 +1051,6 @@ Content-Type: application/json
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
 window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
 
 var sections=['section-intro','section-a01','section-a02','section-a03','section-a04','section-a05','section-a06','section-a07','section-a08','section-a09','section-a10','section-defence'];
