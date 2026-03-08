@@ -1208,6 +1208,7 @@ document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeDetai
 (function(){
   var cur  = document.getElementById('cur');
   var cur2 = document.getElementById('cur2');
+  if (!cur || !cur2) return;
   if (window.matchMedia('(pointer: fine)').matches) {
     document.addEventListener('mousemove', function(e) {
       cur.style.left  = e.clientX + 'px';
