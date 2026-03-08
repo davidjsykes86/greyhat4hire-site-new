@@ -431,6 +431,12 @@
     .modal-contact-btn { display:flex;align-items:center;gap:14px;width:100%;padding:16px 20px;border-radius:14px;border:1px solid rgba(255,20,147,.25);background:rgba(255,20,147,.06);color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;transition:all .3s ease;text-decoration:none; }
     .modal-contact-btn:hover { border-color:rgba(255,20,147,.55);background:rgba(255,20,147,.14);transform:translateX(4px); }
     .modal-contact-btn .btn-icon { width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0; }
+    #modal-success { display:none;flex-direction:column;align-items:center;text-align:center;padding:12px 0 4px; }
+    #modal-success.visible { display:flex; }
+    .modal-success-ring { width:80px;height:80px;border-radius:50%;border:2px solid rgba(34,197,94,.5);display:flex;align-items:center;justify-content:center;background:rgba(34,197,94,.08);box-shadow:0 0 40px rgba(34,197,94,.25);margin-bottom:18px;animation:successPop .45s cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes successPop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .modal-success-ring::after { content:'';position:absolute;width:96px;height:96px;border-radius:50%;border:1px solid rgba(34,197,94,.2);animation:successRipple 2s ease-out infinite; }
+    @keyframes successRipple { 0%{transform:scale(1);opacity:.5} 100%{transform:scale(1.5);opacity:0} }
 
     /* ROI */
     .roi-card { background:linear-gradient(135deg,rgba(255,20,147,.07),rgba(255,20,147,.02));border:1px solid rgba(255,20,147,.28);border-radius:24px;position:relative;overflow:hidden; }
@@ -1736,8 +1742,8 @@
 
     <!-- ── Contact strip ── -->
     <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2rem;">
-      <a href="mailto:info@greyhat4hire.com" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
-        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i>info@greyhat4hire.com
+      <a href="/cdn-cgi/l/email-protection#b2dbdcd4ddf2d5c0d7cbdad3c686dadbc0d79cd1dddf" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
+        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i><span class="__cf_email__" data-cfemail="741d1a121b341306110d1c1500401c1d06115a171b19">[email&#160;protected]</span>
       </a>
       <a href="tel:+27846353581" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
         <i class="fas fa-phone" style="color:#ff1493;font-size:.7rem;"></i>+27 84 635 3581
@@ -1787,6 +1793,20 @@
         <div class="text-left flex-1"><div class="font-bold text-white">Email</div><div class="text-xs text-gray-500"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3c55525a537c5b4e5945545d480854554e59125f5312465d">[email&#160;protected]</a></div></div>
         <i class="fas fa-chevron-right text-pink-400/50 text-xs"></i>
       </button>
+      <button class="modal-contact-btn" id="formspree-btn" onclick="submitToFormspree()">
+        <div class="btn-icon" style="background:rgba(255,20,147,.18);color:#ff1493"><i class="fas fa-paper-plane"></i></div>
+        <div class="text-left flex-1"><div class="font-bold text-white">Submit Quote Request</div><div class="text-xs text-gray-500">Sends directly to our inbox — no email app needed</div></div>
+        <i class="fas fa-chevron-right text-pink-400/50 text-xs" id="formspree-chevron"></i>
+      </button>
+      <!-- success state (hidden until submit) -->
+      <div id="modal-success">
+        <div class="modal-success-ring" style="position:relative;">
+          <i class="fas fa-check" style="font-size:1.8rem;color:#22c55e;filter:drop-shadow(0 0 8px rgba(34,197,94,.8));"></i>
+        </div>
+        <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1rem;color:#fff;letter-spacing:.06em;margin-bottom:8px;">REQUEST SENT!</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.45);max-width:280px;line-height:1.6;margin-bottom:16px;">We've received your quote request and will be in touch within 24 hours.</div>
+        <button onclick="closeModal()" class="btn-primary" style="font-size:.72rem;padding:12px 28px;"><span>Close</span></button>
+      </div>
       <a href="contact.html" class="modal-contact-btn" style="text-decoration:none">
         <div class="btn-icon" style="background:rgba(255,20,147,.1);color:#ff1493"><i class="fas fa-calendar"></i></div>
         <div class="text-left flex-1"><div class="font-bold text-white">Book Consultation</div><div class="text-xs text-gray-500">Fill out our contact form</div></div>
@@ -1796,7 +1816,7 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
@@ -2010,7 +2030,62 @@
     document.getElementById('modal-plan-name').textContent = plan + ' (' + price + ')';
     document.getElementById('contact-modal').classList.add('open');
   }
-  function closeModal() { document.getElementById('contact-modal').classList.remove('open'); }
+  function closeModal() {
+    document.getElementById('contact-modal').classList.remove('open');
+    // Reset modal state for next open
+    setTimeout(function() {
+      document.getElementById('modal-success').classList.remove('visible');
+      document.querySelectorAll('#contact-modal .space-y-3 > *:not(#modal-success)').forEach(function(el){ el.style.display=''; });
+      var btn = document.getElementById('formspree-btn');
+      if (btn) { btn.disabled=false; btn.querySelector('.text-left div').textContent='Submit Quote Request'; }
+    }, 400);
+  }
+
+  async function submitToFormspree() {
+    var btn = document.getElementById('formspree-btn');
+    var label = btn.querySelector('.text-left > div:first-child');
+    var chevron = document.getElementById('formspree-chevron');
+
+    // Build payload from current quote state
+    var addonNames = selectedAddons.map(function(a){ return a.name + ' (' + formatRand(a.price) + ')'; }).join(', ') || 'None';
+    var total = basePackage ? basePackage.price : 0;
+    selectedAddons.forEach(function(a){ total += a.price; });
+    var totalStr = total > 0 ? formatRand(total) : 'POA';
+
+    // Loading state
+    btn.disabled = true;
+    label.textContent = 'Sending...';
+    chevron.className = 'fas fa-circle-notch fa-spin text-pink-400/50 text-xs';
+
+    try {
+      var resp = await fetch('https://formspree.io/f/mjgevzda', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Quote Request: ' + currentPlan + ' Plan',
+          plan: currentPlan,
+          price: currentPrice || 'POA',
+          addons: addonNames,
+          estimated_total: totalStr,
+          message: 'Quote request submitted from the pricing page.'
+        })
+      });
+      if (resp.ok) {
+        // Hide all buttons, show success
+        document.querySelectorAll('#contact-modal .space-y-3 > *:not(#modal-success)').forEach(function(el){ el.style.display='none'; });
+        document.getElementById('modal-success').classList.add('visible');
+        document.querySelector('#contact-modal .modal-card p').style.display='none';
+      } else {
+        label.textContent = 'Failed — Try Again';
+        chevron.className = 'fas fa-exclamation-triangle text-red-400 text-xs';
+        btn.disabled = false;
+      }
+    } catch(err) {
+      label.textContent = 'Failed — Try Again';
+      chevron.className = 'fas fa-exclamation-triangle text-red-400 text-xs';
+      btn.disabled = false;
+    }
+  }
   document.getElementById('contact-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
   
   function contactWhatsApp() {
@@ -2394,14 +2469,9 @@
     });
   }
 
-  // Wait for fonts before measuring — prevents wrong sizes on fresh load
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(init);
-  } else {
-    window.addEventListener('load', init);
-  }
-})();
-</script>
+  //   // Init
+  initScramble();
 
+</script>
 </body>
 </html>
