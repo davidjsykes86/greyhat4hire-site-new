@@ -1006,8 +1006,8 @@
 
     <!-- ── Contact strip ── -->
     <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2rem;">
-      <a href="/cdn-cgi/l/email-protection#1d74737b725d7a6f7864757c692975746f78337e7270" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
-        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i><span class="__cf_email__" data-cfemail="0f666169604f687d6a76676e7b3b67667d6a216c6062">[email&#160;protected]</span>
+      <a href="/cdn-cgi/l/email-protection#bdd4d3dbd2fddacfd8c4d5dcc989d5d4cfd893ded2d0" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
+        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i><span class="__cf_email__" data-cfemail="98f1f6fef7d8ffeafde1f0f9ecacf0f1eafdb6fbf7f5">[email&#160;protected]</span>
       </a>
       <a href="tel:+27846353581" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
         <i class="fas fa-phone" style="color:#ff1493;font-size:.7rem;"></i>+27 84 635 3581
@@ -1156,7 +1156,11 @@
           setTimeout(function () {
             form.style.display = 'none';
             successPane.classList.add('visible');
-            successPane.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            requestAnimationFrame(function(){
+              requestAnimationFrame(function(){
+                document.getElementById('contact-form-wrapper').scrollIntoView({behavior:'smooth',block:'start'});
+              });
+            });
           }, 350);
         } else {
           // Server error — restore button
@@ -1235,3 +1239,16 @@
       p.x+=p.vx;p.y+=p.vy;
       if(p.x<0)p.x=W;if(p.x>W)p.x=0;
       if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,255,255,'+p.a+')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  });
+
+</script>
+</body>
+</html>
