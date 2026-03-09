@@ -1772,6 +1772,24 @@
   .n-vector-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:nBarShimmer 2.5s ease infinite}
   .n-vector-pct{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.4);width:40px;text-align:right;flex-shrink:0}
   @media(max-width:640px){.n-vector-label{width:75px;font-size:.72rem}}
+  .n-card[data-fact]{cursor:pointer}
+  .n-card[data-fact]:hover .n-tap-hint{opacity:1}
+  .n-tap-hint{position:absolute;top:10px;right:12px;font-family:'Share Tech Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:rgba(255,255,255,.2);opacity:0;transition:opacity .3s ease;pointer-events:none}
+  .n-fact-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  .n-fact-overlay.open{opacity:1;pointer-events:all}
+  .n-fact-panel{position:relative;max-width:440px;width:100%;background:rgba(6,6,6,.97);border:1px solid rgba(255,20,147,.35);border-radius:22px;padding:0;overflow:hidden;transform:translateY(20px) scale(.96);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+  .n-fact-overlay.open .n-fact-panel{transform:translateY(0) scale(1)}
+  .n-fact-hdr{padding:16px 22px;border-bottom:1px solid rgba(255,20,147,.12);display:flex;align-items:center;justify-content:space-between}
+  .n-fact-hdr-tag{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(255,20,147,.6)}
+  .n-fact-close{background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s ease;font-size:.8rem}
+  .n-fact-close:hover{border-color:rgba(255,20,147,.5);color:#ff69b4}
+  .n-fact-body{padding:22px}
+  .n-fact-stat{font-family:'Orbitron',monospace;font-weight:900;font-size:2rem;line-height:1;margin-bottom:4px}
+  .n-fact-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:rgba(255,255,255,.65);margin-bottom:18px}
+  .n-fact-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
+  .n-fact-item{display:flex;align-items:flex-start;gap:12px;font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.55}
+  .n-fact-item i{color:var(--glow);margin-top:4px;font-size:.65rem;flex-shrink:0}
+  .n-fact-src{margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);font-family:'Share Tech Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.18);letter-spacing:.08em}
 </style>
 
 <section id="the-numbers" class="py-20 md:py-32 px-4 sm:px-6" style="position:relative;z-index:2">
@@ -1810,7 +1828,7 @@
           <div class="grid sm:grid-cols-2 gap-4 mb-6">
 
             <!-- SA Breach Cost -->
-            <div class="n-card gsap-hidden" data-color="pink">
+            <div class="n-card gsap-hidden" data-fact="0" data-color="pink">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#ff1493;text-shadow:0 0 20px rgba(255,20,147,.6);">R44.1M</div>
                 <div class="n-chip" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e;">
@@ -1819,11 +1837,12 @@
               </div>
               <div class="n-label">Average breach cost — South Africa</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#ff1493,#ff69b4);" data-width="54%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(255,20,147,.4);">DOWN FROM R53.1M IN 2024</div>
             </div>
 
             <!-- SA Financial Sector -->
-            <div class="n-card gsap-hidden" data-color="red">
+            <div class="n-card gsap-hidden" data-fact="1" data-color="red">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#ef4444;text-shadow:0 0 20px rgba(239,68,68,.5);">R70.2M</div>
                 <div class="n-chip" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#ef4444;">
@@ -1832,11 +1851,12 @@
               </div>
               <div class="n-label">Financial sector — costliest SA industry</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#ef4444,#ff6b6b);" data-width="86%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(239,68,68,.4);">FOLLOWED BY HOSPITALITY R57.5M</div>
             </div>
 
             <!-- SA Supply Chain -->
-            <div class="n-card gsap-hidden" data-color="amber">
+            <div class="n-card gsap-hidden" data-fact="2" data-color="amber">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#f59e0b;text-shadow:0 0 20px rgba(245,158,11,.5);">17%</div>
                 <div class="n-chip" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#f59e0b;">
@@ -1849,7 +1869,7 @@
             </div>
 
             <!-- SA AI Savings -->
-            <div class="n-card gsap-hidden" data-color="green">
+            <div class="n-card gsap-hidden" data-fact="3" data-color="green">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#22c55e;text-shadow:0 0 20px rgba(34,197,94,.5);">32%</div>
                 <div class="n-chip" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#22c55e;">
@@ -1858,6 +1878,7 @@
               </div>
               <div class="n-label">Lower breach costs with AI + automation</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#22c55e,#4ade80);" data-width="32%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(34,197,94,.4);">SA ORGS USING SECURITY AI</div>
             </div>
 
@@ -1869,7 +1890,7 @@
           <div class="grid sm:grid-cols-2 gap-4 mb-4">
 
             <!-- Global Breach Cost -->
-            <div class="n-card gsap-hidden" data-color="pink">
+            <div class="n-card gsap-hidden" data-fact="4" data-color="pink">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#ff1493;text-shadow:0 0 20px rgba(255,20,147,.6);">$4.44M</div>
                 <div class="n-chip" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e;">
@@ -1878,11 +1899,13 @@
               </div>
               <div class="n-label">Global average breach cost</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#ff1493,#ff69b4);" data-width="45%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(255,20,147,.35);">FIRST DECLINE IN 5 YEARS</div>
             </div>
 
             <!-- Breach Lifecycle -->
-            <div class="n-card gsap-hidden" data-color="blue">
+            <div class="n-card gsap-hidden" data-fact="5" data-color="blue">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#3b82f6;text-shadow:0 0 20px rgba(59,130,246,.5);">241<span style="font-size:.5em;opacity:.6;">days</span></div>
                 <div class="n-chip" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#3b82f6;">
@@ -1891,11 +1914,12 @@
               </div>
               <div class="n-label">Average breach lifecycle — detect + contain</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#3b82f6,#60a5fa);" data-width="66%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(59,130,246,.35);">76% TOOK 100+ DAYS TO FULLY RECOVER</div>
             </div>
 
             <!-- Customer PII -->
-            <div class="n-card gsap-hidden" data-color="purple">
+            <div class="n-card gsap-hidden" data-fact="6" data-color="purple">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#a855f7;text-shadow:0 0 20px rgba(168,85,247,.5);">53%</div>
                 <div class="n-chip" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);color:#a855f7;">
@@ -1904,11 +1928,12 @@
               </div>
               <div class="n-label">Breaches that exposed customer PII</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#8b5cf6,#a78bfa);" data-width="53%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(168,85,247,.35);">IP COSTLIEST AT $178/RECORD</div>
             </div>
 
             <!-- Ransomware Refusals -->
-            <div class="n-card gsap-hidden" data-color="green">
+            <div class="n-card gsap-hidden" data-fact="7" data-color="green">
               <div class="flex items-center justify-between mb-2">
                 <div class="n-val text-3xl" style="color:#22c55e;text-shadow:0 0 20px rgba(34,197,94,.5);">63%</div>
                 <div class="n-chip" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#22c55e;">
@@ -1917,6 +1942,7 @@
               </div>
               <div class="n-label">Organisations that refused to pay ransom</div>
               <div class="n-bar-track"><div class="n-bar-fill n-bar-anim" style="background:linear-gradient(90deg,#22c55e,#4ade80);" data-width="63%"></div></div>
+              <div class="n-tap-hint"><i class="fas fa-expand-alt"></i> TAP</div>
               <div class="n-sub" style="color:rgba(34,197,94,.35);">EXTORTION BREACHES STILL COST $5.08M</div>
             </div>
 
@@ -3384,5 +3410,150 @@
   })();
 </script>
 
+
+<!-- ══ BREACH FACT POPUP ══ -->
+<div class="n-fact-overlay" id="nFactOverlay">
+  <div class="n-fact-panel">
+    <div class="n-fact-hdr">
+      <div class="n-fact-hdr-tag" id="nFactTag">INTEL</div>
+      <button class="n-fact-close" id="nFactClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="n-fact-body">
+      <div class="n-fact-stat" id="nFactStat"></div>
+      <div class="n-fact-title" id="nFactTitle"></div>
+      <ul class="n-fact-list" id="nFactList"></ul>
+      <div class="n-fact-src" id="nFactSrc"></div>
+    </div>
+  </div>
+</div>
+<script>
+  // ── BREACH CARD FACT POPUPS ──
+  (function(){
+    var facts = [
+      {
+        tag:'SOUTH AFRICA · BREACH COST',stat:'R44.1M',color:'#ff1493',title:'Average breach cost — South Africa (2025)',
+        items:[
+          {icon:'fa-chart-line-down',text:'South Africa saw a <strong style="color:#22c55e;">17% year-on-year decrease</strong> — one of the sharpest drops globally. In 2024, the figure was R53.1M.'},
+          {icon:'fa-globe-africa',text:'SA ranks <strong style="color:#ff69b4;">15th globally</strong> in average breach cost — lower than the global average but climbing in real terms when adjusted for inflation.'},
+          {icon:'fa-user-doctor',text:'Healthcare breaches in SA cost significantly more than this average. A dental practice or clinic breach involving patient records will likely land well above R44M once regulatory penalties, lost patients, and remediation are factored in.'},
+          {icon:'fa-clock',text:'SA organisations take an average of <strong style="color:#f59e0b;">238 days</strong> to identify a breach and 72 days to contain it — that\'s 310 days of exposure.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · Ponemon Institute'
+      },
+      {
+        tag:'SOUTH AFRICA · FINANCIAL SECTOR',stat:'R70.2M',color:'#ef4444',title:'Financial sector — costliest SA industry',
+        items:[
+          {icon:'fa-building-columns',text:'The financial services sector in SA pays <strong style="color:#ef4444;">59% more</strong> per breach than the national average — driven by regulatory fines, fraud remediation, and customer compensation.'},
+          {icon:'fa-bed-pulse',text:'Hospitality follows at R57.5M, then services and transport sectors. <strong style="color:#f59e0b;">Healthcare isn\'t broken out for SA</strong> specifically, but globally it\'s the costliest sector for 14 consecutive years.'},
+          {icon:'fa-scale-balanced',text:'Under POPIA, financial institutions face dual regulatory scrutiny — from both the Information Regulator and the FSCA — making breaches disproportionately expensive.'},
+          {icon:'fa-person-walking-dashed-line-arrow-right',text:'Post-breach customer churn in financial services averages <strong style="color:#ef4444;">3.2%</strong> — the highest of any sector.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · SABRIC Annual Crime Stats'
+      },
+      {
+        tag:'SOUTH AFRICA · ATTACK VECTORS',stat:'17%',color:'#f59e0b',title:'Supply chain compromise — #1 SA attack vector',
+        items:[
+          {icon:'fa-link-slash',text:'In South Africa, <strong style="color:#f59e0b;">supply chain compromise</strong> overtook stolen credentials and phishing as the leading initial attack vector for the first time in 2025.'},
+          {icon:'fa-money-bill-trend-up',text:'Supply chain breaches cost 8–12% more than other vectors because attackers already have trusted access — they bypass perimeter defences entirely.'},
+          {icon:'fa-handshake-slash',text:'Think: your IT provider, cloud vendor, payment processor, or practice management software. If <em>their</em> systems are breached, <em>your</em> data walks out with it.'},
+          {icon:'fa-stethoscope',text:'For medical and dental practices, the risk is acute — most use third-party billing, imaging, and scheduling platforms that hold patient PII without the practice even realising.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · Verizon DBIR 2025'
+      },
+      {
+        tag:'SOUTH AFRICA · AI IMPACT',stat:'32%',color:'#22c55e',title:'Lower breach costs with AI + automation',
+        items:[
+          {icon:'fa-robot',text:'SA organisations that extensively deployed <strong style="color:#22c55e;">security AI and automation</strong> reduced breach costs by 32% compared to those with no deployment — that\'s roughly R14M in savings.'},
+          {icon:'fa-shield-halved',text:'AI-powered security tools can detect threats in <strong style="color:#22c55e;">97 fewer days</strong> on average — cutting the breach lifecycle almost in half.'},
+          {icon:'fa-coins',text:'Globally, the savings gap is even wider: organisations with extensive AI saved <strong style="color:#22c55e;">$2.22M per breach</strong> versus those without — the largest cost differential in the entire report.'},
+          {icon:'fa-triangle-exclamation',text:'However, only 1 in 3 SA organisations have deployed these tools. If your competitor adopts AI-assisted monitoring and you don\'t, the gap in breach readiness will widen fast.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · Ponemon Institute'
+      },
+      {
+        tag:'GLOBAL · BREACH COST',stat:'$4.44M',color:'#ff1493',title:'Global average breach cost (2025)',
+        items:[
+          {icon:'fa-chart-line-down',text:'The global average dropped <strong style="color:#22c55e;">9% year-on-year</strong> — the first decline in five years. AI adoption, faster detection, and improved incident response are driving the drop.'},
+          {icon:'fa-ranking-star',text:'The costliest countries: <strong style="color:#ef4444;">USA ($9.36M)</strong>, Middle East ($8.75M), and Benelux ($5.90M). South Africa sits at 15th.'},
+          {icon:'fa-industry',text:'<strong style="color:#ef4444;">Healthcare ($7.42M)</strong> remains the costliest industry globally for the 14th consecutive year — more than financial services, pharmaceuticals, or energy.'},
+          {icon:'fa-user-secret',text:'Breaches involving stolen credentials are the most common vector globally (16%) and take the longest to contain — an average of <strong style="color:#f59e0b;">292 days</strong>.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · 600 Organisations · 17 Industries'
+      },
+      {
+        tag:'GLOBAL · BREACH LIFECYCLE',stat:'241 days',color:'#3b82f6',title:'Average time to detect + contain a breach',
+        items:[
+          {icon:'fa-stopwatch',text:'It takes an average of <strong style="color:#3b82f6;">194 days to detect</strong> a breach and another <strong style="color:#3b82f6;">47 days to contain</strong> it. That\'s 8 months of an attacker sitting in your systems.'},
+          {icon:'fa-clock-rotate-left',text:'While 241 days is a 9-year low, <strong style="color:#f59e0b;">76% of organisations still took over 100 days</strong> to fully recover from a breach — meaning business impact continued long after containment.'},
+          {icon:'fa-money-bill-wave',text:'Breaches contained in under 200 days cost <strong style="color:#22c55e;">$1.1M less</strong> on average. Speed isn\'t just operational — it directly reduces financial impact.'},
+          {icon:'fa-bug',text:'For a dental or medical practice: 241 days means a threat actor could be exfiltrating patient records, billing data, and medical histories for <strong style="color:#ef4444;">8 months</strong> before anyone notices.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · Ponemon Institute'
+      },
+      {
+        tag:'GLOBAL · DATA TYPES',stat:'53%',color:'#a855f7',title:'Breaches that exposed customer PII',
+        items:[
+          {icon:'fa-id-card',text:'Over half of all breaches involved customer <strong style="color:#a855f7;">personally identifiable information</strong> — names, emails, ID numbers, phone numbers, and addresses.'},
+          {icon:'fa-file-medical',text:'Employee PII was the second most common (37%), followed by <strong style="color:#a855f7;">intellectual property</strong> — which is the costliest per record at $178 each.'},
+          {icon:'fa-tooth',text:'For dental and medical practices, patient PII includes <strong style="color:#ef4444;">medical aid numbers, ID numbers, treatment histories, and X-rays</strong> — all classified as special personal information under POPIA, carrying the highest regulatory risk.'},
+          {icon:'fa-database',text:'Customer PII records cost an average of <strong style="color:#a855f7;">$176 per record</strong>. A practice with 5,000 patient records faces a theoretical exposure of over R16M in per-record costs alone.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · POPIA Section 26 (Special Personal Information)'
+      },
+      {
+        tag:'GLOBAL · RANSOMWARE',stat:'63%',color:'#22c55e',title:'Organisations that refused to pay ransom',
+        items:[
+          {icon:'fa-hand',text:'The refusal rate rose from 59% to <strong style="color:#22c55e;">63%</strong> — organisations are increasingly rejecting ransom demands, partly because payment doesn\'t guarantee data recovery.'},
+          {icon:'fa-sack-dollar',text:'But here\'s the catch: extortion-related breaches still cost an average of <strong style="color:#ef4444;">$5.08M</strong>. Not paying the ransom doesn\'t eliminate the cost — you still face recovery, forensics, regulatory fines, and reputational damage.'},
+          {icon:'fa-handshake-slash',text:'Involving law enforcement reduced ransomware breach costs by an average of <strong style="color:#22c55e;">$1M</strong> and shortened containment by 16 days. In SA, report to SAPS Cybercrime and the Information Regulator.'},
+          {icon:'fa-shield-virus',text:'The best defence remains prevention: <strong style="color:#ff69b4;">immutable offline backups, endpoint detection, network segmentation, and tested incident response plans</strong>. Our free IR template covers all of this.'}
+        ],
+        src:'IBM Cost of a Data Breach Report 2025 · Verizon DBIR 2025'
+      }
+    ];
+
+    var overlay = document.getElementById('nFactOverlay');
+    var statEl  = document.getElementById('nFactStat');
+    var titleEl = document.getElementById('nFactTitle');
+    var listEl  = document.getElementById('nFactList');
+    var tagEl   = document.getElementById('nFactTag');
+    var srcEl   = document.getElementById('nFactSrc');
+
+    function openFact(id){
+      var f = facts[id];
+      if(!f) return;
+      tagEl.textContent = f.tag;
+      statEl.style.color = f.color;
+      statEl.style.textShadow = '0 0 24px '+f.color+'99';
+      statEl.textContent = f.stat;
+      titleEl.textContent = f.title;
+      listEl.innerHTML = f.items.map(function(item){
+        return '<li class="n-fact-item" style="--glow:'+f.color+'"><i class="fas '+item.icon+'"></i><span>'+item.text+'</span></li>';
+      }).join('');
+      srcEl.textContent = f.src;
+      overlay.classList.add('open');
+      document.body.style.overflow='hidden';
+    }
+
+    function closeFact(){
+      overlay.classList.remove('open');
+      document.body.style.overflow='';
+    }
+
+    document.querySelectorAll('.n-card[data-fact]').forEach(function(card){
+      card.addEventListener('click', function(){
+        openFact(parseInt(this.getAttribute('data-fact')));
+      });
+    });
+
+    document.getElementById('nFactClose').addEventListener('click', closeFact);
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) closeFact();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeFact();
+    });
+  })();
+</script>
 </body>
 </html>
