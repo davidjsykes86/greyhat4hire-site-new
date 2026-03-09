@@ -1235,11 +1235,11 @@
       </a>
 
       <!-- Email -->
-      <a href="mailto:info@greyhat4hire.com?subject=URGENT%3A%20Active%20Security%20Incident&body=We%20are%20experiencing%20an%20active%20security%20incident%20and%20require%20immediate%20assistance." class="emg-action-btn email-emg">
+      <a href="/cdn-cgi/l/email-protection#5d34333b321d3a2f3824353c296935342f38733e3230622e283f37383e2960080f1a181309786e1c786f6d1c3e29342b38786f6d0e383e282f342924786f6d14333e34393833297b3f323924600a38786f6d3c2f38786f6d38252d382f3438333e34333a786f6d3c33786f6d3c3e29342b38786f6d2e383e282f342924786f6d34333e3439383329786f6d3c3339786f6d2f382c28342f38786f6d3430303839343c2938786f6d3c2e2e342e293c333e3873" class="emg-action-btn email-emg">
         <div class="emg-btn-icon"><i class="fas fa-envelope"></i></div>
         <div>
           <div class="emg-btn-label">EMAIL — INCIDENT REPORT</div>
-          <div class="emg-btn-value">info@greyhat4hire.com</div>
+          <div class="emg-btn-value"><span class="__cf_email__" data-cfemail="d6bfb8b0b996b1a4b3afbeb7a2e2bebfa4b3f8b5b9bb">[email&#160;protected]</span></div>
         </div>
       </a>
 
@@ -1262,7 +1262,7 @@
 </div>
 <!-- ══ END EMERGENCY CTA ══ -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function () {
   var cta     = document.getElementById('emergency-cta');
   var trigger = document.getElementById('emergency-trigger');
@@ -1432,14 +1432,14 @@
       <i class="fas fa-shield-alt"></i> Get a Quote
     </a>
 
-    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition">
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="border:none;outline:none;background:none;">
       <i class="fas fa-bars"></i>
     </button>
   </div>
 </nav>
 
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
-  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="z-index:110;"><i class="fas fa-times"></i></button>
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="z-index:110;border:none;outline:none;background:none;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html"            class="mobile-link desktop-link text-white active">Home</a>
     <a href="about.html"            class="mobile-link desktop-link text-white">About</a>
@@ -3035,8 +3035,8 @@
 
     <!-- ── Contact strip ── -->
     <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2rem;">
-      <a href="mailto:info@greyhat4hire.com" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
-        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i>info@greyhat4hire.com
+      <a href="/cdn-cgi/l/email-protection#a0c9cec6cfe0c7d2c5d9c8c1d494c8c9d2c58ec3cfcd" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
+        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i><span class="__cf_email__" data-cfemail="731a1d151c331401160a1b1207471b1a01165d101c1e">[email&#160;protected]</span>
       </a>
       <a href="tel:+27846353581" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
         <i class="fas fa-phone" style="color:#ff1493;font-size:.7rem;"></i>+27 84 635 3581
@@ -3068,7 +3068,7 @@
   </style>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── NAV ──────────────────────────────────────
@@ -3537,28 +3537,4 @@
       }).join('');
       srcEl.textContent = f.src;
       overlay.classList.add('open');
-      document.body.style.overflow='hidden';
-    }
-
-    function closeFact(){
-      overlay.classList.remove('open');
-      document.body.style.overflow='';
-    }
-
-    document.querySelectorAll('.n-card[data-fact]').forEach(function(card){
-      card.addEventListener('click', function(){
-        openFact(parseInt(this.getAttribute('data-fact')));
-      });
-    });
-
-    document.getElementById('nFactClose').addEventListener('click', closeFact);
-    overlay.addEventListener('click', function(e){
-      if(e.target === overlay) closeFact();
-    });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape') closeFact();
-    });
-  })();
-</script>
-</body>
-</html>
+      document.body.style.overflow='hid
