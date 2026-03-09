@@ -1639,6 +1639,15 @@ window.addEventListener('load',function(){
       <button class="modal-submit" id="modal-submit-btn" onclick="submitScopeModal()">
         <i class="fas fa-paper-plane" style="margin-right:8px;"></i> SEND SCOPE REQUEST
       </button>
+
+      <div style="text-align:center;margin-top:18px;">
+        <a id="modal-cancel-link" href="#" onclick="cancelToContact(event)"
+           style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s;"
+           onmouseover="this.style.color='rgba(255,20,147,.7)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">
+          <i class="fas fa-arrow-right" style="margin-right:5px;font-size:.55rem;"></i>
+          FILL IN THE FULL CONTACT FORM INSTEAD
+        </a>
+      </div>
     </div>
 
     <!-- SUCCESS STATE -->
@@ -1672,6 +1681,15 @@ function openScopeModal(){
 function closeScopeModal(){
   document.getElementById('scope-modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function cancelToContact(e){
+  e.preventDefault();
+  // Save the plain-text scope so contact.html can pre-fill the message field
+  var scopeText = getScopePlainText();
+  try { sessionStorage.setItem('gh4h_scope_prefill', scopeText); } catch(err){}
+  closeScopeModal();
+  window.location.href = 'contact.html?from=scope-builder';
 }
 
 function getScopePlainText(){

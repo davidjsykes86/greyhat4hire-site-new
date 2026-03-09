@@ -856,9 +856,14 @@
                 <div style="font-size:.75rem;color:rgba(255,255,255,.3);margin-top:10px;text-align:center;">Or just fill in the form and we'll guide you on the call ↓</div>
               </div>
             </div>
+            <!-- Scope builder pre-fill banner (hidden by default, shown via JS) -->
+            <div id="scope-prefill-banner" style="display:none;margin-bottom:16px;padding:12px 16px;background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.25);border-radius:0;">
+              <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.15em;color:rgba(0,255,136,.7);margin-bottom:5px;">◈ SCOPE BUILDER DATA LOADED</div>
+              <div style="font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.5;">Your tailored scope summary has been pasted into the message field below. Add any extra context and hit send.</div>
+            </div>
             <div>
               <label class="form-label">Tell Us About Your Needs</label>
-              <textarea name="message" rows="5"
+              <textarea name="message" id="contact-message" rows="5"
                 placeholder="Describe your environment, what you're worried about, any deadlines or compliance requirements..." required
                 class="form-input w-full px-5 py-4 rounded-xl resize-none"></textarea>
             </div>
@@ -1255,6 +1260,34 @@
   draw();
   });
 
+</script>
+
+<script>
+// ── Scope Builder pre-fill ──────────────────────────────────────────
+(function(){
+  try {
+    var scope = sessionStorage.getItem('gh4h_scope_prefill');
+    if(!scope) return;
+
+    // Only fire when arriving from the scope builder
+    var fromBuilder = window.location.search.indexOf('from=scope-builder') !== -1;
+    if(!fromBuilder) return;
+
+    var ta = document.getElementById('contact-message');
+    var banner = document.getElementById('scope-prefill-banner');
+    if(ta){ ta.value = scope; ta.rows = 12; }
+    if(banner){ banner.style.display = 'block'; }
+
+    // Scroll smoothly to the form
+    setTimeout(function(){
+      var form = document.getElementById('contact-form');
+      if(form) form.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 400);
+
+    // Clear so refresh doesn't re-inject stale data
+    sessionStorage.removeItem('gh4h_scope_prefill');
+  } catch(e){}
+})();
 </script>
 </body>
 </html>
