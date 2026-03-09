@@ -291,6 +291,73 @@
   .copy-btn:hover{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.7);color:var(--green);}
   .copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.12);}
 
+  /* SCOPE SEND MODAL */
+  #scope-modal-overlay{
+    display:none;position:fixed;inset:0;z-index:999;
+    background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
+    align-items:center;justify-content:center;padding:20px;
+  }
+  #scope-modal-overlay.open{display:flex;}
+  #scope-modal{
+    background:#0d0d0d;border:1px solid rgba(255,20,147,.35);
+    max-width:480px;width:100%;padding:36px 32px;position:relative;
+    box-shadow:0 0 80px rgba(255,20,147,.18);
+    animation:fadeUp .35s ease both;
+  }
+  #scope-modal .modal-tag{
+    font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.2em;
+    color:rgba(255,20,147,.6);text-transform:uppercase;margin-bottom:12px;
+  }
+  #scope-modal h3{
+    font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:800;
+    color:#fff;margin-bottom:6px;line-height:1.3;
+  }
+  #scope-modal p.modal-sub{
+    font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:24px;line-height:1.6;
+  }
+  #scope-modal .modal-field{margin-bottom:16px;}
+  #scope-modal .modal-label{
+    font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.14em;
+    color:rgba(255,20,147,.7);text-transform:uppercase;display:block;margin-bottom:7px;
+  }
+  #scope-modal .modal-input{
+    width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);
+    color:#e0e0e0;padding:12px 16px;font-family:'Rajdhani',sans-serif;font-size:.9rem;
+    outline:none;transition:border-color .25s;border-radius:0;
+  }
+  #scope-modal .modal-input:focus{border-color:rgba(255,20,147,.6);}
+  #scope-modal .modal-input::placeholder{color:rgba(255,255,255,.25);}
+  #scope-modal .modal-submit{
+    width:100%;margin-top:8px;padding:14px;
+    background:linear-gradient(135deg,#ff1493,#c0006e);border:none;
+    font-family:'Orbitron',monospace;font-size:.68rem;letter-spacing:.18em;
+    color:#fff;cursor:pointer;font-weight:700;text-transform:uppercase;
+    transition:all .3s;box-shadow:0 6px 32px rgba(255,20,147,.4);
+  }
+  #scope-modal .modal-submit:hover{transform:translateY(-2px);box-shadow:0 10px 44px rgba(255,20,147,.6);}
+  #scope-modal .modal-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  #scope-modal .modal-close{
+    position:absolute;top:14px;right:18px;background:none;border:none;
+    color:rgba(255,255,255,.3);font-size:1.2rem;cursor:pointer;transition:color .2s;
+  }
+  #scope-modal .modal-close:hover{color:rgba(255,20,147,.8);}
+  #scope-modal-success{display:none;text-align:center;padding:12px 0;}
+  #scope-modal-success .ok-icon{
+    width:56px;height:56px;border-radius:50%;
+    background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.4);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;font-size:1.4rem;color:var(--green);
+  }
+  #scope-modal-success h4{
+    font-family:'Orbitron',monospace;font-size:.95rem;color:#fff;margin-bottom:10px;
+  }
+  #scope-modal-success p{font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.7;}
+  #scope-modal-error{
+    display:none;margin-top:12px;padding:10px 14px;
+    background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);
+    font-size:.75rem;color:#f87171;font-family:'Rajdhani',sans-serif;
+  }
+
   /* ANIMATIONS */
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
   @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
@@ -1088,9 +1155,9 @@
         <button class="copy-btn" id="copy-btn" onclick="copyResult()">
           <i class="fas fa-copy mr-2"></i>Copy to Clipboard
         </button>
-        <a href="contact.html" class="btn-primary" style="font-size:.72rem;">
+        <button class="btn-primary" id="open-scope-modal-btn" onclick="openScopeModal()" style="font-size:.72rem;border:none;cursor:pointer;">
           <i class="fas fa-paper-plane"></i> Send to Greyhat4Hire
-        </a>
+        </button>
         <button class="btn-ghost" onclick="resetBuilder()" style="font-size:.7rem;">
           <i class="fas fa-rotate-left text-xs"></i> Start Over
         </button>
@@ -1540,6 +1607,125 @@ window.addEventListener('load',function(){
     window.addEventListener('load', runScan);
   }
 })();
+
+<!-- ══════════════════════════════════════════
+     SCOPE SEND MODAL
+══════════════════════════════════════════ -->
+<div id="scope-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="scope-modal-title">
+  <div id="scope-modal">
+    <button class="modal-close" onclick="closeScopeModal()" aria-label="Close">&times;</button>
+
+    <!-- FORM STATE -->
+    <div id="scope-modal-form">
+      <div class="modal-tag">◈ Scope Submission</div>
+      <h3 id="scope-modal-title">Send Your Scope to Greyhat4Hire</h3>
+      <p class="modal-sub">We'll attach your tailored scope summary and get back to you within the hour. No commitment required.</p>
+
+      <div class="modal-field">
+        <label class="modal-label" for="modal-name">Full Name</label>
+        <input class="modal-input" id="modal-name" type="text" placeholder="John Smith" autocomplete="name" required>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="modal-company">Company / Organisation</label>
+        <input class="modal-input" id="modal-company" type="text" placeholder="Acme Corp" autocomplete="organization">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="modal-email">Email Address</label>
+        <input class="modal-input" id="modal-email" type="email" placeholder="you@company.com" autocomplete="email" required>
+      </div>
+
+      <div id="scope-modal-error">Unable to send — please check your connection and try again, or email us directly at info@greyhat4hire.com</div>
+
+      <button class="modal-submit" id="modal-submit-btn" onclick="submitScopeModal()">
+        <i class="fas fa-paper-plane" style="margin-right:8px;"></i> SEND SCOPE REQUEST
+      </button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="scope-modal-success">
+      <div class="ok-icon"><i class="fas fa-check"></i></div>
+      <h4>Scope Request Sent!</h4>
+      <p>We've received your tailored scope summary and will be in touch within the hour.<br>Check your inbox for a confirmation shortly.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  // Close on overlay click
+  document.getElementById('scope-modal-overlay').addEventListener('click', function(e){
+    if(e.target === this) closeScopeModal();
+  });
+  // Close on Escape key
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeScopeModal();
+  });
+})();
+
+function openScopeModal(){
+  document.getElementById('scope-modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('modal-name').focus(); }, 100);
+}
+
+function closeScopeModal(){
+  document.getElementById('scope-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function getScopePlainText(){
+  var el = document.getElementById('result-text');
+  return el ? (el.innerText || el.textContent) : '';
+}
+
+function submitScopeModal(){
+  var name    = document.getElementById('modal-name').value.trim();
+  var company = document.getElementById('modal-company').value.trim();
+  var email   = document.getElementById('modal-email').value.trim();
+  var errBox  = document.getElementById('scope-modal-error');
+  var btn     = document.getElementById('modal-submit-btn');
+
+  errBox.style.display = 'none';
+
+  if(!name){ alert('Please enter your name.'); return; }
+  if(!email || !email.includes('@')){ alert('Please enter a valid email address.'); return; }
+
+  var scopeText = getScopePlainText();
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> SENDING…';
+
+  var payload = {
+    name:    name,
+    company: company || '—',
+    email:   email,
+    service: 'Engagement Scope Builder Submission',
+    message: '── SCOPE BUILDER SUBMISSION ──\n\n' + scopeText,
+    _subject: 'Scope Request from ' + name + (company ? ' (' + company + ')' : ''),
+    source:  'Engagement Scope Builder — our-process.html'
+  };
+
+  fetch('https://formspree.io/f/mjgevzda', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body:    JSON.stringify(payload)
+  })
+  .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+  .then(function(result){
+    if(result.ok){
+      document.getElementById('scope-modal-form').style.display    = 'none';
+      document.getElementById('scope-modal-success').style.display = 'block';
+    } else {
+      throw new Error(result.data.error || 'Submission failed');
+    }
+  })
+  .catch(function(){
+    errBox.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right:8px;"></i> SEND SCOPE REQUEST';
+  });
+}
 </script>
 </body>
 </html>
