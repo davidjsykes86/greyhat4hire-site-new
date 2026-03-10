@@ -1234,7 +1234,7 @@
 <script>
 // ── CURSOR ──
 var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});
+if(cur&&cur2){document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';});}
 
 // ── NAV ──
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
