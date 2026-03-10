@@ -975,7 +975,14 @@ function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){m
 hamburger.addEventListener('click',openMenu);
 closeMenuBtn.addEventListener('click',closeMenu);
 document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
-var mobileToolsToggle=docume
+
+// FREE TOOLS ACCORDION
+var toolsToggle=document.getElementById('mobile-tools-toggle'),toolsAccordion=toolsToggle?toolsToggle.closest('.mobile-tools-accordion'):null;
+if(toolsToggle&&toolsAccordion){
+  toolsToggle.addEventListener('click',function(){
+    toolsAccordion.classList.toggle('open');
+  });
+}
 </script>
 </body>
 </html>
