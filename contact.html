@@ -177,7 +177,7 @@
     .mobile-tools-chevron{font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease;}
     .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
     .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
-    .mobile-tools-accordion.open .mobile-tools-panel{max-height:300px;}
+    .mobile-tools-accordion.open .mobile-tools-panel{max-height:400px;}
 
     /* ── BUTTONS ── */
     .btn-primary {
@@ -550,8 +550,8 @@
 </nav>
 
 <!-- ══ MOBILE MENU ══ -->
-<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-center gap-0">
-  <button id="close-menu" class="absolute top-8 right-8 text-5xl text-pink-400"><i class="fas fa-times"></i></button>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="z-index:110;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html"             class="mobile-link desktop-link text-white">Home</a>
     <a href="about.html"             class="mobile-link desktop-link text-white">About</a>
@@ -566,31 +566,16 @@
         <i class="fas fa-chevron-down mobile-tools-chevron"></i>
       </button>
       <div id="mobile-tools-panel" class="mobile-tools-panel">
-        <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;">
-          <span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span>
-          <span>Risk Self-Assessment</span>
-        </a>
-        <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;">
-          <span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>
-          <span>Hacker's Dossier</span>
-        </a>
-        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;">
-          <span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span>
-          <span>Breach Cost Clock</span>
-        </a>
-        <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;">
-          <span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span>
-          <span>Vulnerability Intelligence</span>
-        </a>
-        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;">
+        <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+        <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+        <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
         <a href="downloads.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
-          <span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span>
-          <span>Reverse Image Search</span>
-        </a>
       </div>
     </div>
     <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="our-process.html"      class="mobile-link desktop-link text-white">Our Process</a>
     <a href="pricing.html"          class="mobile-link desktop-link text-white">Pricing</a>
     <a href="blog.html"             class="mobile-link desktop-link text-white">Blog</a>
     <a href="contact.html"          class="mobile-link desktop-link neon-pink">Contact</a>
