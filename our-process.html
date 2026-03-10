@@ -629,7 +629,7 @@
       <i class="fas fa-shield-alt"></i> Get a Quote
     </a>
 
-    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:pointer;">
+    <button id="hamburger" onclick="openMobileMenu()" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="cursor:pointer;">
       <i class="fas fa-bars"></i>
     </button>
   </div>
@@ -637,7 +637,7 @@
 
 <!-- MOBILE MENU -->
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
-  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
+  <button id="close-menu" onclick="closeMobileMenu()" class="fixed top-6 right-8 text-4xl text-pink-400" style="cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
     <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
     <a href="about.html" class="mobile-link desktop-link text-white">About</a>
@@ -1238,12 +1238,9 @@ if(cur&&cur2){document.addEventListener('mousemove',function(e){cur.style.left=e
 
 // ── NAV ──
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
-const hamburger=document.getElementById('hamburger');
-const mobileMenu=document.getElementById('mobile-menu');
-const closeMenuBtn=document.getElementById('close-menu');
-hamburger.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');setTimeout(()=>mobileMenu.classList.add('open'),10);});
-closeMenuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);});
-document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(l=>l.addEventListener('click',()=>{mobileMenu.classList.remove('open');setTimeout(()=>mobileMenu.classList.add('hidden'),400);}));
+function openMobileMenu(){var m=document.getElementById('mobile-menu');m.classList.remove('hidden');setTimeout(()=>m.classList.add('open'),10);}
+function closeMobileMenu(){var m=document.getElementById('mobile-menu');m.classList.remove('open');setTimeout(()=>m.classList.add('hidden'),400);}
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMobileMenu);});
 var mobileToolsToggle=document.getElementById('mobile-tools-toggle');
 if(mobileToolsToggle){mobileToolsToggle.addEventListener('click',function(){mobileToolsToggle.closest('.mobile-tools-accordion').classList.toggle('open');});}
 
