@@ -237,6 +237,32 @@
     .share-btn:hover{border-color:rgba(255,20,147,.35);color:#ff69b4;background:rgba(255,20,147,.06);}
 
     ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
+
+    /* ── MOBILE OVERFLOW FIX ── */
+    *{max-width:100%;}
+    img,canvas,svg,video{max-width:100%;height:auto;}
+    .code-block{max-width:100%;overflow:hidden;}
+    .code-body{overflow-x:auto;word-break:normal;white-space:pre;max-width:100%;}
+    .article-body p,.article-body li,.callout-body p,.timeline-card-body,.fix-desc{word-break:break-word;overflow-wrap:break-word;}
+    .network-map{overflow-x:auto;}
+    @media(max-width:640px){
+      .net-node{white-space:normal;}
+      .net-row{flex-wrap:wrap;}
+      .net-line{min-width:20px;}
+      [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+      .finding-header{flex-wrap:wrap;}
+      .mitre-tag{font-size:.46rem;padding:3px 7px;}
+      .threat-badge{font-size:.5rem;}
+      .article-hero{padding-left:0;padding-right:0;}
+      .share-btn{font-size:.5rem;padding:8px 12px;}
+      .timeline::before{left:20px;}
+      .timeline-dot-wrap{width:44px;}
+      .timeline-card{padding:14px 16px;}
+      .callout{padding:14px 16px;}
+      .finding-body{padding:14px 16px;}
+      .fix-item{padding:12px 16px;}
+      pre,code{white-space:pre-wrap;word-break:break-all;}
+    }
   </style>
 </head>
 <body>
