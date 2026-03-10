@@ -1088,7 +1088,15 @@ function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){
 function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
 hamburger.addEventListener('click',openMenu);
 closeMenuBtn.addEventListener('click',closeMenu);
-document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEv
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+
+// FREE TOOLS ACCORDION
+var toolsToggle=document.getElementById('mobile-tools-toggle'),toolsAccordion=toolsToggle?toolsToggle.closest('.mobile-tools-accordion'):null;
+if(toolsToggle&&toolsAccordion){
+  toolsToggle.addEventListener('click',function(){
+    toolsAccordion.classList.toggle('open');
+  });
+}
 </script>
 </body>
 </html>
