@@ -35,8 +35,8 @@
 
     <!-- ── Contact strip ── -->
     <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2rem;">
-      <a href="mailto:david@greyhat4hire.com" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
-        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i>david@greyhat4hire.com
+      <a href="mailto:info@greyhat4hire.com" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
+        <i class="fas fa-envelope" style="color:#ff1493;font-size:.7rem;"></i>info@greyhat4hire.com
       </a>
       <a href="tel:+27846353581" style="display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:.8rem;text-decoration:none;background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.12);border-radius:8px;padding:8px 14px;transition:border-color .2s;">
         <i class="fas fa-phone" style="color:#ff1493;font-size:.7rem;"></i>+27 84 635 3581
