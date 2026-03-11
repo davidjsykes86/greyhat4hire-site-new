@@ -334,6 +334,14 @@
   }
 }
   </script>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-25RRREVHRP');
+  </script>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
@@ -1076,7 +1084,7 @@
       const prompt=`You are a senior cybersecurity threat intelligence analyst at Greyhat4Hire. You have just completed live OSINT reconnaissance on a target. Here are the REAL findings:\n\nTARGET: ${RECON.domain} (${RECON.company})\nINDUSTRY: ${RECON.industry}\nSIZE: ${RECON.size}\n\nREAL OSINT FINDINGS:\n${reconSummary}\n\nBased SPECIFICALLY on these real findings, generate sections IV, V, and VI of the classified intelligence dossier. Tailor every sentence to the actual data above — reference specific ports found, CVEs, subdomains, mail provider, SPF/DMARC status. Do NOT be generic.\n\nRespond ONLY with valid JSON, no preamble, no markdown backticks:\n\n{\n  "vectors": [\n    { "title": "Short attack vector title referencing real findings", "description": "2 sentences using specific findings from the recon above.", "severity": "CRITICAL|HIGH|MEDIUM" },\n    { "title": "...", "description": "...", "severity": "..." },\n    { "title": "...", "description": "...", "severity": "..." }\n  ],\n  "actor": {\n    "codename": "Creative threat actor codename (APT-style, 2 words in caps)",\n    "type": "Ransomware affiliate | Nation-state | Opportunistic cybercriminal | Insider threat | BEC group",\n    "motivation": "Primary motivation",\n    "ttps": "2 sentences of TTPs specific to this industry and the actual services exposed.",\n    "dwell_time": "Realistic average dwell time e.g. 34 days"\n  },\n  "narrative": "Write 5 sentences in past tense as if a breach occurred 6 months from now. Reference SPECIFIC findings: use the actual mail provider found, reference actual subdomains or ports discovered, mention actual CVEs if present. Make it viscerally specific and alarming. Include how they got in, how long undetected, what was taken, financial impact in ZAR. End on the human cost."\n}`;
 
       try{
-        const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+        const r=await fetch('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
         const data=await r.json();
         const text=data.content.map(b=>b.text||'').join('');
         const clean=text.replace(/```json|```/g,'').trim();

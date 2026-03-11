@@ -5,9 +5,9 @@ const DAILY_LIMIT    = 5;   // requests per IP per day — change if you want
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // CORS headers — lock to your domain in production if you want
+  // CORS headers — locked to production domain
   const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'https://greyhat4hire.com',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
@@ -66,7 +66,7 @@ export async function onRequestPost(context) {
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
-      'Access-Control-Allow-Origin':  '*',
+      'Access-Control-Allow-Origin':  'https://greyhat4hire.com',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },
