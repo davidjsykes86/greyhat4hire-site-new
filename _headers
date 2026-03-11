@@ -22,7 +22,7 @@
   # Connect: all external APIs called by free tools + Formspree contact form + Anthropic (AI tools)
   # Note:    'unsafe-inline' required — site uses heavy inline JS/CSS across all pages.
   #          Migrate to CSP nonces in a future refactor to tighten further.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; font-src cdnjs.cloudflare.com fonts.gstatic.com; img-src 'self' data: raw.githubusercontent.com; connect-src 'self' api.anthropic.com formspree.io services.nvd.nist.gov api.osv.dev ipinfo.io crt.sh rdap.org internetdb.shodan.io haveibeenpwned.com api.first.org dns.google raw.githubusercontent.com http-observatory.security.mozilla.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self' formspree.io;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com challenges.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; font-src cdnjs.cloudflare.com fonts.gstatic.com; img-src 'self' data: raw.githubusercontent.com; connect-src 'self' api.anthropic.com formspree.io services.nvd.nist.gov api.osv.dev ipinfo.io crt.sh rdap.org internetdb.shodan.io haveibeenpwned.com api.first.org dns.google raw.githubusercontent.com http-observatory.security.mozilla.org; frame-src challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' formspree.io;
 
 # Cache static assets aggressively
 /styles.css

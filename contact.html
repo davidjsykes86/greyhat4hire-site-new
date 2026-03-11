@@ -8,6 +8,16 @@
   <title>Contact — Greyhat4Hire | Independent Security Assurance</title>
   <meta name="description" content="Get in touch with Greyhat4Hire for penetration testing, risk assessments, and security consulting. South Africa's independent cybersecurity experts."/>
   <link rel="canonical" href="https://greyhat4hire.com/contact.html"/>
+  <meta property="og:type"         content="website"/>
+  <meta property="og:url"          content="https://greyhat4hire.com/contact.html"/>
+  <meta property="og:title"        content="Contact — Greyhat4Hire | Independent Security Assurance"/>
+  <meta property="og:description"  content="Get in touch with Greyhat4Hire for penetration testing, risk assessments, and security consulting. South Africa's independent cybersecurity experts."/>
+  <meta property="og:image"        content="https://greyhat4hire.com/og-image.png"/>
+  <meta name="twitter:card"        content="summary_large_image"/>
+  <meta name="twitter:url"         content="https://greyhat4hire.com/contact.html"/>
+  <meta name="twitter:title"       content="Contact — Greyhat4Hire | Independent Security Assurance"/>
+  <meta name="twitter:description" content="Get in touch with Greyhat4Hire for penetration testing, risk assessments, and security consulting. South Africa's independent cybersecurity experts."/>
+  <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>
   <meta name="robots" content="index, follow"/>
   <meta name="geo.region" content="ZA"/>
 
@@ -42,6 +52,8 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <!-- ══ CLOUDFLARE TURNSTILE ══ -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <!-- ══ FONT AWESOME (split load — solid sync, brands+regular async) ══ -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
@@ -424,16 +436,6 @@
       #cur, #cur2 { display: none !important; }
     }
   </style>
-  <meta property="og:type"         content="website"/>
-  <meta property="og:url"          content="https://greyhat4hire.com/contact.html"/>
-  <meta property="og:title"        content="Contact — Greyhat4Hire | Independent Security Assurance"/>
-  <meta property="og:description"  content="Get in touch with Greyhat4Hire for penetration testing, risk assessments, and security consulting. South Africa's independent cybersecurity experts."/>
-  <meta property="og:image"        content="https://greyhat4hire.com/og-image.png"/>
-  <meta name="twitter:card"        content="summary_large_image"/>
-  <meta name="twitter:url"         content="https://greyhat4hire.com/contact.html"/>
-  <meta name="twitter:title"       content="Contact — Greyhat4Hire | Independent Security Assurance"/>
-  <meta name="twitter:description" content="Get in touch with Greyhat4Hire for penetration testing, risk assessments, and security consulting. South Africa's independent cybersecurity experts."/>
-  <meta name="twitter:image"       content="https://greyhat4hire.com/og-image.png"/>
 </head>
 <body>
 <canvas id="three-canvas"></canvas>
@@ -864,6 +866,8 @@
             <button type="submit" class="submit-btn w-full py-5 rounded-2xl font-display text-sm tracking-widest" id="submit-btn">
               <i class="fas fa-paper-plane mr-3"></i> SEND SECURE MESSAGE
             </button>
+            <!-- Cloudflare Turnstile — bot protection -->
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACpNRoXZkqfZO1xF" data-theme="dark" data-size="flexible" style="margin-bottom:1rem;"></div>
             <div class="flex items-center justify-center gap-2 text-xs text-gray-500 font-mono">
               <i class="fas fa-lock text-pink-400/50"></i>
               Encrypted &nbsp;•&nbsp; Strictly confidential &nbsp;•&nbsp; No spam
@@ -1071,6 +1075,17 @@
   if (form && successPane) {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
+      // Validate Turnstile token before submitting
+      var turnstileToken = form.querySelector('[name="cf-turnstile-response"]');
+      if (!turnstileToken || !turnstileToken.value) {
+        submitBtn.innerHTML = '<i class="fas fa-shield-alt mr-3"></i> COMPLETE THE CAPTCHA';
+        submitBtn.style.background = 'linear-gradient(135deg,#f59e0b,#b45309)';
+        setTimeout(function () {
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-3"></i> SEND SECURE MESSAGE';
+          submitBtn.style.background = '';
+        }, 2500);
+        return;
+      }
       // Loading state
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-3"></i> SENDING...';
