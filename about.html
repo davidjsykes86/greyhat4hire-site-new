@@ -149,7 +149,7 @@
     /* ── MOBILE TOOL LINKS ── */
     .mobile-tool-link {
       display:flex;align-items:center;gap:10px;
-      padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+      padding:10px 0;font-size:1rem;width:100%;text-align:left;max-width:300px;
       border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
       text-decoration:none;color:#e0e0e0;
     }
@@ -159,8 +159,8 @@
     .mobile-tools-toggle:hover{color:#ff69b4;}
     .mobile-tools-chevron{font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease;}
     .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
-    .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
-    .mobile-tools-accordion.open .mobile-tools-panel{max-height:280px;}
+    .mobile-tools-panel{display:none;}
+    .mobile-tools-accordion.open .mobile-tools-panel{display:block;}
 
     /* ── BUTTONS ── */
     .btn-primary {
