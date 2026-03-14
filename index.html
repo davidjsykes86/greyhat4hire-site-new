@@ -3333,11 +3333,11 @@
   function makePts(){
     pts=[];
     // Reduce particle count from 200 to 120 for better performance
-    for(var i=0;i<120;i++){
+    for(var i=0;i<180;i++){
       pts.push({x:Math.random()*W,y:Math.random()*H,
         vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
         r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,
-        pink:Math.random()>.4});
+        red:Math.random()>.5});
     }
   }
   resize();makePts();
@@ -3358,7 +3358,7 @@
       if(p.x<0)p.x=W;if(p.x>W)p.x=0;
       if(p.y<0)p.y=H;if(p.y>H)p.y=0;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';
+      ctx.fillStyle=p.red?'rgba(255,20,147,'+p.a+')':'rgba(255,255,255,'+(p.a*.75)+')';
       ctx.fill();
     }
     animId=requestAnimationFrame(draw);
