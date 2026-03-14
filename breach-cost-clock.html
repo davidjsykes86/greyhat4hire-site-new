@@ -112,7 +112,7 @@
     @keyframes ringPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(239,68,68,.6))} 50%{filter:drop-shadow(0 0 28px rgba(239,68,68,1))}}
     .ring-pulsing{animation:ringPulse 1.5s infinite;}
     .ring-paused{animation:none;filter:drop-shadow(0 0 6px rgba(239,68,68,.3));}
-    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(1.1rem,2.8vw,2rem);font-weight:900;color:#ef4444;text-shadow:0 0 40px rgba(239,68,68,.9),0 0 80px rgba(239,68,68,.4);letter-spacing:-.02em;line-height:1;}
+    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(.9rem,2.4vw,1.6rem);font-weight:900;color:#fff;text-shadow:0 0 20px rgba(239,68,68,.8),0 0 50px rgba(239,68,68,.35);letter-spacing:-.02em;line-height:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
     @keyframes costFlicker{0%,97%,100%{opacity:1} 98%{opacity:.85} 99%{opacity:.92}}
     .cost-flicker{animation:costFlicker 3s infinite;}
     .dmg-bar-track{background:rgba(255,255,255,.07);border-radius:3px;height:6px;overflow:hidden;flex:1;}
