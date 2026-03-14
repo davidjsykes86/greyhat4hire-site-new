@@ -1202,6 +1202,9 @@
     @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
 
     /* Disable expensive canvas on mobile */
+    @media (max-width: 768px) {
+      #three-canvas { display: none !important; }
+    }
 
     /* Remove backdrop-filter on mobile - huge GPU cost */
     @media (max-width: 768px) {
@@ -1243,6 +1246,7 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
+      #three-canvas { display: none !important; }
       .marquee { animation: none !important; }
     }
 
@@ -1417,7 +1421,7 @@
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
     <a href="index.html">
-      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" style="width:auto;" fetchpriority="high"
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" width="160" height="40" fetchpriority="high"
         onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
 
@@ -3320,6 +3324,8 @@
   }); // end DOMContentLoaded
 
   window.addEventListener('load',function(){
+  // Skip canvas on mobile/tablet to save CPU and battery
+  if(window.innerWidth <= 768 || window.matchMedia('(max-width:768px)').matches) return;
   // Skip if user prefers reduced motion
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -3333,11 +3339,11 @@
   function makePts(){
     pts=[];
     // Reduce particle count from 200 to 120 for better performance
-    for(var i=0;i<180;i++){
+    for(var i=0;i<120;i++){
       pts.push({x:Math.random()*W,y:Math.random()*H,
         vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
         r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,
-        red:Math.random()>.5});
+        pink:Math.random()>.4});
     }
   }
   resize();makePts();
@@ -3358,7 +3364,7 @@
       if(p.x<0)p.x=W;if(p.x>W)p.x=0;
       if(p.y<0)p.y=H;if(p.y>H)p.y=0;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.red?'rgba(255,20,147,'+p.a+')':'rgba(255,255,255,'+(p.a*.75)+')';
+      ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';
       ctx.fill();
     }
     animId=requestAnimationFrame(draw);
