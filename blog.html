@@ -55,19 +55,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 
-  <!-- ══ FONT AWESOME — non-blocking ══ -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" media="print" onload="this.media='all'"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" media="print" onload="this.media='all'"/>
+  <!-- ══ FONT AWESOME (split load — solid sync, brands+regular async) ══ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css" media="print" onload="this.media='all'"/>
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/>
-  </noscript>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" media="print" onload="this.media='all'"/>
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"/></noscript>
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="tw.css"/>
 <style>
     :root{--pink:#ff1493;}
@@ -239,42 +233,14 @@ body{cursor:auto!important;}}
     .recent-post-link:hover{transform:translateX(4px);}
 
     .gsap-hidden{opacity:0;transform:translateY(40px);}
-  
-    /* ══ MOBILE PERFORMANCE ══ */
-    @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
-    @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
-    @media (max-width: 768px) {
-      #three-canvas { display: none !important; }
-      .glass, .glass-strong, nav, #mobile-menu {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-      }
-      .pulse-glow { animation: none !important; }
-      .animate-pulse { animation-duration: 4s !important; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    /* ══ END MOBILE PERFORMANCE ══ */
-</style>
-  <!-- Google Analytics 4 — deferred -->
+  </style>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP"></script>
   <script>
-    function loadGA(){
-      if(window._gaLoaded)return;window._gaLoaded=true;
-      var s=document.createElement('script');
-      s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP';
-      document.head.appendChild(s);
-      window.dataLayer=window.dataLayer||[];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag=gtag;gtag('js',new Date());gtag('config','G-25RRREVHRP');
-    }
-    ['click','keydown','scroll','touchstart'].forEach(function(e){
-      document.addEventListener(e,loadGA,{once:true,passive:true});
-    });
-    setTimeout(loadGA,5000);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-25RRREVHRP');
   </script>
 </head>
 <body>

@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" media="print" onload="this.media='all'"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" media="print" onload="this.media='all'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css" media="print" onload="this.media='all'"/>
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/></noscript>
@@ -226,42 +226,14 @@
     .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
     .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
     .mobile-tools-accordion.open .mobile-tools-panel{max-height:400px;}
-  
-    /* ══ MOBILE PERFORMANCE ══ */
-    @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
-    @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
-    @media (max-width: 768px) {
-      #three-canvas { display: none !important; }
-      .glass, .glass-strong, nav, #mobile-menu {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-      }
-      .pulse-glow { animation: none !important; }
-      .animate-pulse { animation-duration: 4s !important; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    /* ══ END MOBILE PERFORMANCE ══ */
-</style>
-  <!-- Google Analytics 4 — deferred -->
+  </style>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP"></script>
   <script>
-    function loadGA(){
-      if(window._gaLoaded)return;window._gaLoaded=true;
-      var s=document.createElement('script');
-      s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP';
-      document.head.appendChild(s);
-      window.dataLayer=window.dataLayer||[];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag=gtag;gtag('js',new Date());gtag('config','G-25RRREVHRP');
-    }
-    ['click','keydown','scroll','touchstart'].forEach(function(e){
-      document.addEventListener(e,loadGA,{once:true,passive:true});
-    });
-    setTimeout(loadGA,5000);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-25RRREVHRP');
   </script>
 </head>
 <body>
@@ -400,7 +372,7 @@
             <h2 id="s1">01 — Flipper Zero</h2>
             <div class="device-card">
               <div class="device-card-img-wrap">
-                <img loading="lazy" decoding="async" src="images/blog/flipper-zero.webp" alt="Flipper Zero portable multi-tool hacking device" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+                <img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/flipper-zero.jpg" alt="Flipper Zero portable multi-tool hacking device" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
                 <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;"><i class="fas fa-mobile-screen-button" style="font-size:3rem;color:rgba(255,20,147,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(255,20,147,.4);letter-spacing:.15em;">FLIPPER ZERO</span></div>
               </div>
               <div class="device-card-img-caption">Flipper Zero — the multi-tool that looks like a toy and acts like a skeleton key</div>
@@ -431,7 +403,7 @@
             <h2 id="s2">02 — The O.MG Cable</h2>
             <div class="device-card">
               <div class="device-card-img-wrap">
-                <img loading="lazy" decoding="async" src="images/blog/omg-cable.webp" alt="O.MG malicious charging cable with hidden computer inside" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+                <img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/omg-cable.jpg" alt="O.MG malicious charging cable with hidden computer inside" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
                 <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;"><i class="fas fa-plug" style="font-size:3rem;color:rgba(239,68,68,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(239,68,68,.4);letter-spacing:.15em;">O.MG CABLE</span></div>
               </div>
               <div class="device-card-img-caption">The O.MG Cable — visually identical to a standard Lightning or USB-C cable, with a full computer hidden in the connector head</div>
@@ -461,7 +433,7 @@
             <h2 id="s3">03 — USB Rubber Ducky</h2>
             <div class="device-card">
               <div class="device-card-img-wrap">
-                <img loading="lazy" decoding="async" src="images/blog/usb-rubber-ducky.webp" alt="Hak5 USB Rubber Ducky keystroke injection tool" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+                <img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/usb-rubber-ducky.jpg" alt="Hak5 USB Rubber Ducky keystroke injection tool" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
                 <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;"><i class="fas fa-usb" style="font-size:3rem;color:rgba(245,158,11,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(245,158,11,.4);letter-spacing:.15em;">USB RUBBER DUCKY</span></div>
               </div>
               <div class="device-card-img-caption">Hak5 USB Rubber Ducky — looks like a standard flash drive, acts like a keyboard typing at 1,000 keystrokes per second</div>
@@ -500,7 +472,7 @@
             <h2 id="s4">04 — WiFi Pineapple</h2>
             <div class="device-card">
               <div class="device-card-img-wrap">
-                <img loading="lazy" decoding="async" src="images/blog/wifi-pineapple.webp" alt="Hak5 WiFi Pineapple wireless network auditing device" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+                <img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/wifi-pineapple.jpg" alt="Hak5 WiFi Pineapple wireless network auditing device" class="device-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
                 <div style="display:none;width:100%;height:260px;background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:12px;"><i class="fas fa-wifi" style="font-size:3rem;color:rgba(34,197,94,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:rgba(34,197,94,.4);letter-spacing:.15em;">WIFI PINEAPPLE</span></div>
               </div>
               <div class="device-card-img-caption">Hak5 WiFi Pineapple Mark VII — a purpose-built rogue access point that intercepts wireless traffic at scale</div>
@@ -527,7 +499,7 @@
             <h2 id="s5">05 — Four More You Should Know About</h2>
             <h3>Bash Bunny</h3>
             <div class="device-card" style="margin-bottom:1.5rem;">
-              <div class="device-card-img-wrap"><img loading="lazy" decoding="async" src="images/blog/bash-bunny.webp" alt="Hak5 Bash Bunny USB attack platform" class="device-card-img" style="height:200px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;"><i class="fas fa-usb" style="font-size:2.5rem;color:rgba(168,85,247,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(168,85,247,.4);letter-spacing:.15em;">BASH BUNNY</span></div></div>
+              <div class="device-card-img-wrap"><img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/bash-bunny.jpg" alt="Hak5 Bash Bunny USB attack platform" class="device-card-img" style="height:200px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;"><i class="fas fa-usb" style="font-size:2.5rem;color:rgba(168,85,247,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(168,85,247,.4);letter-spacing:.15em;">BASH BUNNY</span></div></div>
               <div class="device-card-img-caption">Hak5 Bash Bunny — a more powerful USB attack platform that can emulate multiple devices simultaneously</div>
               <div class="device-card-body" style="padding:20px 24px 22px;">
                 <div class="device-name" style="font-size:1rem;">Bash Bunny (~$120 USD)</div>
@@ -538,7 +510,7 @@
             </div>
             <h3>Proxmark 3</h3>
             <div class="device-card" style="margin-bottom:1.5rem;">
-              <div class="device-card-img-wrap"><img loading="lazy" decoding="async" src="images/blog/proxmark3.webp" alt="Proxmark 3 RFID NFC card cloning research device" class="device-card-img" style="height:200px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;"><i class="fas fa-id-card" style="font-size:2.5rem;color:rgba(59,130,246,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(59,130,246,.4);letter-spacing:.15em;">PROXMARK 3</span></div></div>
+              <div class="device-card-img-wrap"><img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/proxmark3.jpg" alt="Proxmark 3 RFID NFC card cloning research device" class="device-card-img" style="height:200px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;"><i class="fas fa-id-card" style="font-size:2.5rem;color:rgba(59,130,246,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(59,130,246,.4);letter-spacing:.15em;">PROXMARK 3</span></div></div>
               <div class="device-card-img-caption">Proxmark 3 RDv4 — the professional tool for RFID and NFC security research, capable of cloning most access cards</div>
               <div class="device-card-body" style="padding:20px 24px 22px;">
                 <div class="device-name" style="font-size:1rem;">Proxmark 3 (~$300 USD)</div>
@@ -549,7 +521,7 @@
             </div>
             <h3>LAN Turtle</h3>
             <div class="device-card" style="margin-bottom:1.5rem;">
-              <div class="device-card-img-wrap"><img loading="lazy" decoding="async" src="images/blog/lan-turtle.webp" alt="Hak5 LAN Turtle covert network tap" class="device-card-img" style="height:200px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;"><i class="fas fa-ethernet" style="font-size:2.5rem;color:rgba(245,158,11,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(245,158,11,.4);letter-spacing:.15em;">LAN TURTLE</span></div></div>
+              <div class="device-card-img-wrap"><img src="https://raw.githubusercontent.com/davidjsykes86/greyhat4hire-site-new/main/images/blog/lan-turtle.jpg" alt="Hak5 LAN Turtle covert network tap" class="device-card-img" style="height:200px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div style="display:none;width:100%;height:200px;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(0,0,0,.9));align-items:center;justify-content:center;flex-direction:column;gap:10px;"><i class="fas fa-ethernet" style="font-size:2.5rem;color:rgba(245,158,11,.4);"></i><span style="font-family:'Orbitron',monospace;font-size:.55rem;color:rgba(245,158,11,.4);letter-spacing:.15em;">LAN TURTLE</span></div></div>
               <div class="device-card-img-caption">Hak5 LAN Turtle — plugs between your Ethernet port and cable, providing persistent covert network access</div>
               <div class="device-card-body" style="padding:20px 24px 22px;">
                 <div class="device-name" style="font-size:1rem;">LAN Turtle (~$60 USD)</div>

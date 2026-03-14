@@ -139,22 +139,15 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <!-- Preload LCP assets -->
-  <link rel="preload" href="logo.png" as="image" type="image/png"/>
 
   <!-- ══ FONT AWESOME (split load — solid sync, brands+regular async) ══ -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" media="print" onload="this.media='all'"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" media="print" onload="this.media='all'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css" media="print" onload="this.media='all'"/>
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/>
-  </noscript>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" media="print" onload="this.media='all'"/>
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"/></noscript>
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" as="style"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
   <style>
     :root {
@@ -1195,89 +1188,14 @@
       .hud-module { padding: 10px 14px; }
     }
 
-  
-    /* ══ MOBILE PERFORMANCE OVERRIDES ══ */
-    /* Force font-display:swap for all custom fonts to prevent invisible text (FOIT) */
-    @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
-    @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
-
-    /* Disable expensive canvas on mobile */
-    @media (max-width: 768px) {
-      #three-canvas { display: none !important; }
-    }
-
-    /* Remove backdrop-filter on mobile - huge GPU cost */
-    @media (max-width: 768px) {
-      .glass, .glass-strong, nav,
-      #mobile-menu, #emergency-panel,
-      .tools-dropdown-panel, .n-fact-panel,
-      #cookie-banner, .numbers-wrap {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-      }
-    }
-
-    /* Reduce continuous animations on mobile to cut CPU/battery usage */
-    @media (max-width: 768px) {
-      .pulse-glow { animation: none !important; }
-      .animate-pulse { animation-duration: 4s !important; }
-      .marquee { animation-duration: 30s !important; }
-      @keyframes toolsDotPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-      .emg-panel-stripe { animation: none !important; }
-    }
-
-    /* Contain paint for animated sections */
-    @media (max-width: 768px) {
-      .hero-reticle, .hero-watermark-wrap { display: none !important; }
-      .hero-grid { display: none !important; }
-      /* Simplify neon effects on mobile */
-      .neon-pink { text-shadow: 0 0 12px rgba(255,20,147,.5) !important; }
-      .neon-text { text-shadow: none !important; }
-      /* Reduce box-shadow complexity on mobile */
-      .glass { box-shadow: none !important; }
-      .service-card:hover { box-shadow: none !important; }
-      .stat-card:hover { box-shadow: none !important; }
-    }
-
-    /* Respect user preference for reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      #three-canvas { display: none !important; }
-      .marquee { animation: none !important; }
-    }
-
-    /* content-visibility: auto for major below-fold sections to defer rendering */
-    #tools, #the-numbers, #services, #methodology,
-    #industries, #blog, #faq {
-      content-visibility: auto;
-      contain-intrinsic-size: 0 800px;
-    }
-    /* ══ END MOBILE PERFORMANCE OVERRIDES ══ */
-</style>
-  <!-- Google Analytics 4 — deferred to avoid blocking LCP -->
+  </style>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP"></script>
   <script>
-    // Defer GA until after page is interactive
-    function loadGA(){
-      if(window._gaLoaded) return; window._gaLoaded=true;
-      var s=document.createElement('script');
-      s.async=true;
-      s.src='https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP';
-      document.head.appendChild(s);
-      window.dataLayer=window.dataLayer||[];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag=gtag;
-      gtag('js',new Date());
-      gtag('config','G-25RRREVHRP');
-    }
-    // Load after first user interaction or 5s timeout — whichever comes first
-    ['click','keydown','scroll','touchstart'].forEach(function(e){
-      document.addEventListener(e, loadGA, {once:true, passive:true});
-    });
-    setTimeout(loadGA, 5000);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-25RRREVHRP');
   </script>
 </head>
 <body>
@@ -1421,7 +1339,7 @@
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
     <a href="index.html">
-      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" width="160" height="40" fetchpriority="high"
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
         onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
 
@@ -2661,7 +2579,7 @@
   <div class="max-w-5xl mx-auto">
     <a href="about.html" class="glass rounded-3xl p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-8 hover:border-pink-500/40 transition-all duration-300 group block" style="text-decoration:none;">
       <img src="portrait.webp" alt="Greyhat4Hire lead security consultant" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover object-top flex-shrink-0 border border-pink-500/20 group-hover:border-pink-500/50 transition-all"
-        width="144" height="144" loading="lazy" decoding="async" onerror="this.style.display='none'">
+        loading="lazy" onerror="this.style.display='none'">
       <div class="flex-1 text-center sm:text-left">
         <div class="section-tag mb-2">Independent. Accountable. Effective.</div>
         <h3 class="font-display font-black text-white text-2xl sm:text-3xl mb-3 group-hover:text-pink-400 transition-colors">Who Is Greyhat4Hire?</h3>
@@ -3093,7 +3011,7 @@
 
 <!-- ══ FOOTER ══ -->
 <div id="gh4h-footer"></div>
-<script src="footer.js" defer></script>
+<script src="footer.js"></script>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -3324,22 +3242,15 @@
   }); // end DOMContentLoaded
 
   window.addEventListener('load',function(){
-  // Skip canvas on mobile/tablet to save CPU and battery
-  if(window.innerWidth <= 768 || window.matchMedia('(max-width:768px)').matches) return;
-  // Skip if user prefers reduced motion
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
   var canvas=document.getElementById('three-canvas');
   if(!canvas) return;
   var ctx=canvas.getContext('2d');
   if(!ctx) return;
-  var W,H,pts,animId,paused=false;
-
+  var W,H,pts;
   function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
   function makePts(){
     pts=[];
-    // Reduce particle count from 200 to 120 for better performance
-    for(var i=0;i<120;i++){
+    for(var i=0;i<200;i++){
       pts.push({x:Math.random()*W,y:Math.random()*H,
         vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
         r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,
@@ -3348,15 +3259,7 @@
   }
   resize();makePts();
   window.addEventListener('resize',function(){resize();makePts();});
-
-  // Pause when tab is hidden to save CPU
-  document.addEventListener('visibilitychange',function(){
-    paused = document.hidden;
-    if(!paused) draw();
-  });
-
   function draw(){
-    if(paused){animId=null;return;}
     ctx.clearRect(0,0,W,H);
     for(var i=0;i<pts.length;i++){
       var p=pts[i];
@@ -3367,7 +3270,7 @@
       ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';
       ctx.fill();
     }
-    animId=requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
   draw();
 });
