@@ -101,18 +101,19 @@
     .whatsapp-btn{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;}
     .whatsapp-btn:hover{transform:scale(1.15);}
     .page-section{display:none;}.page-section.active{display:block;}
-    .form-input{background:rgba(0,0,0,.65);border:2px solid rgba(255,20,147,.22);border-radius:14px;padding:15px 20px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;width:100%;transition:all .3s ease;}
+    .form-input{background:rgba(0,0,0,.65);border:2px solid rgba(255,20,147,.22);border-radius:14px;padding:15px 20px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;width:100%;transition:all .3s ease;min-height:52px;}
     .form-input:focus{outline:none;border-color:var(--pink);box-shadow:0 0 28px rgba(255,20,147,.28);}
     .form-input::placeholder{color:rgba(255,255,255,.25);}
     select.form-input option{background:#0a0a0a;color:#fff;}
     .trust-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.55);}
 
-    .clock-ring-wrap{position:relative;width:180px;height:180px;flex-shrink:0;}
-    #clock-svg{transform:rotate(-90deg);}
+    /* === CLOCK RING — responsive === */
+    .clock-ring-wrap{position:relative;width:clamp(140px,30vw,180px);height:clamp(140px,30vw,180px);flex-shrink:0;margin:0 auto;}
+    #clock-svg{width:100%;height:100%;transform:rotate(-90deg);}
     @keyframes ringPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(239,68,68,.6))} 50%{filter:drop-shadow(0 0 28px rgba(239,68,68,1))}}
     .ring-pulsing{animation:ringPulse 1.5s infinite;}
     .ring-paused{animation:none;filter:drop-shadow(0 0 6px rgba(239,68,68,.3));}
-    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#ef4444;text-shadow:0 0 40px rgba(239,68,68,.9),0 0 80px rgba(239,68,68,.4);letter-spacing:-.02em;line-height:1;}
+    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(1.1rem,2.8vw,2rem);font-weight:900;color:#ef4444;text-shadow:0 0 40px rgba(239,68,68,.9),0 0 80px rgba(239,68,68,.4);letter-spacing:-.02em;line-height:1;}
     @keyframes costFlicker{0%,97%,100%{opacity:1} 98%{opacity:.85} 99%{opacity:.92}}
     .cost-flicker{animation:costFlicker 3s infinite;}
     .dmg-bar-track{background:rgba(255,255,255,.07);border-radius:3px;height:6px;overflow:hidden;flex:1;}
@@ -138,34 +139,35 @@
     .cat-label{flex:1;font-size:.78rem;font-weight:600;color:#d0d0d0;}
     .cat-amount{font-family:'Orbitron',monospace;font-size:.68rem;font-weight:700;color:#ef4444;min-width:70px;text-align:right;}
 
+    /* === KILL CHAIN — horizontal scroll on mobile === */
     .kc-bar-container{display:flex;gap:2px;height:32px;border-radius:8px;overflow:hidden;}
-    .kc-segment{flex:1;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Orbitron',monospace;font-weight:700;color:rgba(255,255,255,.2);background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.06);transition:all .6s ease;cursor:default;position:relative;}
+    .kc-segment{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Orbitron',monospace;font-weight:700;color:rgba(255,255,255,.2);background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.06);transition:all .6s ease;cursor:default;position:relative;}
     .kc-segment.reached{background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.35);color:#fff;}
     .kc-segment.reached i{color:var(--pink);}
     .kc-segment i{font-size:.6rem;color:rgba(255,20,147,.2);transition:color .6s ease;}
     .kc-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(0,0,0,.95);border:1px solid rgba(255,20,147,.3);border-radius:8px;padding:8px 12px;white-space:nowrap;font-family:'Rajdhani',sans-serif;font-size:.75rem;color:#fff;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:50;}
     .kc-segment:hover .kc-tooltip{opacity:1;}
 
-    .mit-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);transition:all .25s ease;cursor:pointer;user-select:none;}
+    .mit-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);transition:all .25s ease;cursor:pointer;user-select:none;min-height:44px;}
     .mit-row:hover{background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.15);}
     .mit-row.on{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);}
     .mit-row .toggle-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12);flex-shrink:0;transition:all .25s ease;}
     .mit-row.on .toggle-dot{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.5);}
     .mit-row .mit-label{font-size:.78rem;font-weight:600;color:#b0b0b0;flex:1;transition:color .25s ease;}
     .mit-row.on .mit-label{color:#e0e0e0;}
-    .mit-row .mit-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;color:rgba(34,197,94,.35);transition:color .25s ease;}
+    .mit-row .mit-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;color:rgba(34,197,94,.35);transition:color .25s ease;flex-shrink:0;}
     .mit-row.on .mit-pct{color:#22c55e;}
 
     .savings-bar{height:8px;border-radius:4px;overflow:hidden;background:rgba(239,68,68,.12);}
     .savings-bar-green{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:4px;transition:width .6s ease;}
 
-    .speed-btn{padding:4px 10px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);transition:all .25s ease;cursor:pointer;}
+    .speed-btn{padding:4px 10px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);transition:all .25s ease;cursor:pointer;min-height:32px;min-width:32px;display:inline-flex;align-items:center;justify-content:center;}
     .speed-btn:hover{border-color:rgba(255,20,147,.3);color:rgba(255,255,255,.6);}
     .speed-btn.active{background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5);color:var(--pink);}
-    .pause-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;padding:6px 14px;border-radius:8px;transition:all .3s ease;cursor:pointer;}
+    .pause-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;padding:6px 14px;border-radius:8px;transition:all .3s ease;cursor:pointer;min-height:36px;}
     .pause-btn:hover{background:rgba(245,158,11,.18);}
 
-    .tab-btn{padding:5px 12px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;border:1px solid transparent;background:transparent;color:rgba(255,255,255,.3);transition:all .25s ease;cursor:pointer;}
+    .tab-btn{padding:5px 12px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;border:1px solid transparent;background:transparent;color:rgba(255,255,255,.3);transition:all .25s ease;cursor:pointer;min-height:36px;}
     .tab-btn:hover{color:rgba(255,255,255,.6);}
     .tab-btn.active{background:rgba(255,20,147,.1);border-color:rgba(255,20,147,.3);color:var(--pink);}
     .tab-panel{display:none;}.tab-panel.active{display:block;}
@@ -181,12 +183,83 @@
     .fu-1{animation-delay:.05s}.fu-2{animation-delay:.15s}.fu-3{animation-delay:.28s}.fu-4{animation-delay:.42s}.fu-5{animation-delay:.58s}
 
     ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.3);border-radius:2px;}
-    @media(max-width:768px){.clock-ring-wrap{width:150px;height:150px;}.cost-display{font-size:1.2rem;}}
+
+    /* === DASHBOARD HEADER — clean 2-row on mobile === */
+    .dash-header{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+    .dash-header-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+    .dash-header-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    @media(max-width:639px){
+      .dash-header-controls{justify-content:center;width:100%;}
+      .dash-header-top{justify-content:center;}
+    }
+
+    /* === DASHBOARD GRID — responsive panel heights === */
+    .dash-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+    @media(min-width:768px){.dash-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(min-width:1024px){.dash-grid{grid-template-columns:5fr 4fr 4fr;}}
+
+    .dash-panel{display:flex;flex-direction:column;min-height:0;}
+    .dash-scroll{overflow-y:auto;flex:1;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
+    /* On mobile, don't constrain heights — let panels be natural */
+    @media(max-width:767px){
+      .dash-scroll{max-height:300px;}
+    }
+    @media(min-width:768px){
+      .dash-scroll{max-height:420px;}
+    }
+    @media(min-width:1024px){
+      .dash-scroll{max-height:460px;}
+    }
+
+    /* === ENTRY STATS — 2-col on tiny, 3-col on sm+ === */
+    .entry-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    @media(min-width:480px){.entry-stats{grid-template-columns:repeat(3,1fr);}}
+    .entry-stats .stat-card:last-child{grid-column:1/-1;}
+    @media(min-width:480px){.entry-stats .stat-card:last-child{grid-column:auto;}}
+
+    /* === ALARM CTA — stack on mobile === */
+    .cta-buttons{display:flex;flex-direction:column;gap:10px;align-items:stretch;}
+    @media(min-width:640px){.cta-buttons{flex-direction:row;gap:12px;justify-content:center;align-items:center;}}
+    .cta-buttons>*{justify-content:center;text-align:center;}
+
+    /* === TRUST BADGES — wrap nicely === */
+    .trust-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
+
+    /* === MOBILE-SPECIFIC === */
+    @media(max-width:768px){
+      #three-canvas{display:none!important;}
+      .glass,.glass-strong,.glass-red,.glass-green,nav,#mobile-menu{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+      .pulse-glow{animation:none!important;}
+      .alarm-panel{padding:20px 16px;}
+      .btn-red{padding:14px 24px;font-size:.72rem;letter-spacing:.08em;}
+    }
     @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}}
     @font-face{font-family:'Font Awesome 6 Free';font-display:swap;}
     @font-face{font-family:'Font Awesome 6 Brands';font-display:swap;}
-    @media(max-width:768px){#three-canvas{display:none!important;}.glass,.glass-strong,.glass-red,.glass-green,nav,#mobile-menu{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}.pulse-glow{animation:none!important;}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+
+    /* === COMPARISON / ROI on mobile — give room to breathe === */
+    .compare-card{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+    @media(max-width:380px){
+      .compare-card{flex-direction:column;text-align:center;gap:4px;}
+    }
+
+    /* === KILL CHAIN — overflow scroll on tiny === */
+    @media(max-width:480px){
+      .kc-bar-container{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;}
+      .kc-segment{min-width:44px;flex:0 0 auto;scroll-snap-align:start;}
+    }
+
+    /* === CLOCK MINI STATS — always fit === */
+    .clock-mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:12px;}
+
+    /* === SCENARIO LABEL — truncate on mobile === */
+    #scenario-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
+    @media(min-width:640px){#scenario-label{max-width:400px;}}
+
+    /* === FORM speed buttons — grid on mobile for even sizing === */
+    .speed-select{display:flex;gap:8px;flex-wrap:wrap;}
+    .speed-select .speed-btn{flex:1;min-width:0;text-align:center;padding:10px 12px;min-height:44px;}
   </style>
 
   <link rel="canonical" href="https://greyhat4hire.com/breach-cost-clock.html"/>
@@ -256,25 +329,26 @@
     <div class="relative mb-10"><div class="hero-grid rounded-3xl" style="position:absolute;inset:-40px;"></div><div style="position:absolute;width:600px;height:400px;background:radial-gradient(circle,rgba(239,68,68,.06) 0%,transparent 70%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
       <div class="relative z-10 pt-8">
         <div class="inline-flex items-center gap-2 px-5 py-2 glass-red rounded-full mb-6 fu fu-1"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span><span class="font-display text-xs tracking-widest text-red-400">LIVE FINANCIAL IMPACT SIMULATOR</span></div>
-        <h1 class="font-display font-black mb-5 leading-tight fu fu-2" style="font-size:clamp(2.8rem,8vw,5rem);"><span class="neon-red">THE BREACH</span><br><span class="text-white">COST CLOCK</span></h1>
+        <h1 class="font-display font-black mb-5 leading-tight fu fu-2" style="font-size:clamp(2.4rem,7vw,5rem);"><span class="neon-red">THE BREACH</span><br><span class="text-white">COST CLOCK</span></h1>
         <p class="text-gray-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed mb-3 fu fu-3" style="font-weight:300;">The average attacker spends <span class="text-red-400 font-bold">194 days</span> inside a network before detection. Every second costs money. <strong class="text-white">See yours tick away — then toggle the controls that stop it.</strong></p>
         <div class="font-mono text-red-400/40 text-sm mb-8 tracking-widest fu fu-3">IBM CDR 2025 &middot; SOPHOS STATE OF RANSOMWARE 2024 &middot; POPIA</div>
       </div>
     </div>
     <div class="py-4 border-y border-red-500/10 overflow-hidden mb-8 fu fu-3"><div class="marquee-wrap"><div class="marquee flex whitespace-nowrap"><span class="marquee-item"><i class="fas fa-clock"></i> 194 DAYS AVG DWELL TIME</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-biohazard"></i> R44.1M AVG SA BREACH COST</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-skull-crossbones"></i> 69% OF SA FIRMS HIT BY RANSOMWARE</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-lock-open"></i> POPIA FINES UP TO R10M</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-clock"></i> 194 DAYS AVG DWELL TIME</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-biohazard"></i> R44.1M AVG SA BREACH COST</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-skull-crossbones"></i> 69% OF SA FIRMS HIT BY RANSOMWARE</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-lock-open"></i> POPIA FINES UP TO R10M</span><span class="marquee-sep">&diams;</span></div></div></div>
-    <div class="grid grid-cols-3 gap-4 mb-8 fu fu-3">
-      <div class="glass rounded-2xl p-4 text-center"><div class="font-display font-black text-2xl sm:text-3xl text-red-400 mb-1">R44.1M</div><div class="text-gray-500 text-xs leading-snug font-mono">Avg. breach cost<br>in South Africa</div></div>
-      <div class="glass rounded-2xl p-4 text-center"><div class="font-display font-black text-2xl sm:text-3xl text-amber-400 mb-1">194</div><div class="text-gray-500 text-xs leading-snug font-mono">Days to detect<br>a breach (avg.)</div></div>
-      <div class="glass rounded-2xl p-4 text-center"><div class="font-display font-black text-2xl sm:text-3xl text-pink-400 mb-1">69%</div><div class="text-gray-500 text-xs leading-snug font-mono">SA organisations<br>hit by ransomware</div></div>
+    <!-- STATS — responsive 2→3 col -->
+    <div class="entry-stats mb-8 fu fu-3">
+      <div class="glass rounded-2xl p-4 text-center stat-card"><div class="font-display font-black text-2xl sm:text-3xl text-red-400 mb-1">R44.1M</div><div class="text-gray-500 text-xs leading-snug font-mono">Avg. breach cost<br>in South Africa</div></div>
+      <div class="glass rounded-2xl p-4 text-center stat-card"><div class="font-display font-black text-2xl sm:text-3xl text-amber-400 mb-1">194</div><div class="text-gray-500 text-xs leading-snug font-mono">Days to detect<br>a breach (avg.)</div></div>
+      <div class="glass rounded-2xl p-4 text-center stat-card"><div class="font-display font-black text-2xl sm:text-3xl text-pink-400 mb-1">69%</div><div class="text-gray-500 text-xs leading-snug font-mono">SA organisations<br>hit by ransomware</div></div>
     </div>
-    <div class="glass-strong rounded-3xl p-8 sm:p-10 text-left fu fu-4">
+    <div class="glass-strong rounded-3xl p-6 sm:p-10 text-left fu fu-4">
       <div class="section-tag mb-6 text-center tracking-widest">CONFIGURE YOUR SIMULATION</div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-5">
         <div><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Industry</label><select id="inp-industry" class="form-input"><option value="">Select industry&hellip;</option><option value="healthcare">Healthcare / Medical</option><option value="financial">Financial Services / Banking</option><option value="legal">Legal / Law Firm</option><option value="retail">Retail / eCommerce</option><option value="manufacturing">Manufacturing</option><option value="government">Government / Public Sector</option><option value="technology">Technology / SaaS</option><option value="education">Education</option><option value="professional">Professional Services</option><option value="energy">Energy / Utilities</option><option value="other">Other</option></select></div>
         <div><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Employees</label><select id="inp-size" class="form-input"><option value="">Select size&hellip;</option><option value="micro">1 &ndash; 10 employees</option><option value="small">11 &ndash; 50 employees</option><option value="medium">51 &ndash; 250 employees</option><option value="large">251 &ndash; 1 000 employees</option><option value="enterprise">1 000+ employees</option></select></div>
       </div>
       <div class="mb-5"><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Customer / Patient Records <span class="text-gray-600">(optional)</span></label><input type="number" id="inp-records" class="form-input" placeholder="e.g. 5000" min="0" step="100"/></div>
-      <div class="mb-6"><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-3">Simulation Speed</label><div class="flex gap-3 flex-wrap"><button type="button" class="speed-btn" data-speed="quick" onclick="selectSpeed('quick')"><i class="fas fa-forward-fast mr-1"></i>Quick (~90s)</button><button type="button" class="speed-btn active" data-speed="standard" onclick="selectSpeed('standard')"><i class="fas fa-play mr-1"></i>Standard (~5 min)</button><button type="button" class="speed-btn" data-speed="deep" onclick="selectSpeed('deep')"><i class="fas fa-magnifying-glass mr-1"></i>Deep (~12 min)</button></div></div>
+      <div class="mb-6"><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-3">Simulation Speed</label><div class="speed-select"><button type="button" class="speed-btn" data-speed="quick" onclick="selectSpeed('quick')"><i class="fas fa-forward-fast mr-1"></i>Quick (~90s)</button><button type="button" class="speed-btn active" data-speed="standard" onclick="selectSpeed('standard')"><i class="fas fa-play mr-1"></i>Standard (~5 min)</button><button type="button" class="speed-btn" data-speed="deep" onclick="selectSpeed('deep')"><i class="fas fa-magnifying-glass mr-1"></i>Deep (~12 min)</button></div></div>
       <div id="form-err" class="hidden mb-4 p-3 rounded-lg text-red-400 text-sm" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);"><i class="fas fa-triangle-exclamation mr-2"></i>Please select your industry and employee count.</div>
       <div class="text-center"><button onclick="startClock()" class="btn-primary pulse-glow w-full sm:w-auto justify-center" style="font-size:.9rem;padding:20px 48px;"><i class="fas fa-clock"></i> START THE CLOCK <i class="fas fa-chevron-right text-xs"></i></button><p class="mt-4 text-xs text-gray-600 font-mono">IBM CDR 2025 &middot; Sophos State of Ransomware 2024 &middot; POPIA</p></div>
     </div>
@@ -285,61 +359,63 @@
 <!-- SECTION 2: COMMAND CENTRE -->
 <section id="clock-section" class="page-section pt-20 pb-12 px-3 sm:px-5" style="position:relative;z-index:2;">
   <div class="max-w-7xl mx-auto">
-    <!-- HEADER BAR -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4" id="clock-anchor">
-      <div class="flex items-center gap-3 flex-wrap">
-        <div class="live-chip" id="live-chip"><div class="dot"></div><span>DAY <span id="current-day-display">1</span> / <span id="dwell-display">194</span></span></div>
-        <div class="paused-chip" id="paused-chip"><i class="fas fa-pause text-xs"></i><span>PAUSED</span></div>
-        <span class="text-gray-500 text-xs font-mono" id="scenario-label"></span>
+    <!-- HEADER BAR — structured 2-row mobile layout -->
+    <div class="dash-header" id="clock-anchor">
+      <div class="dash-header-top">
+        <div class="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
+          <div class="live-chip" id="live-chip"><div class="dot"></div><span>DAY <span id="current-day-display">1</span> / <span id="dwell-display">194</span></span></div>
+          <div class="paused-chip" id="paused-chip"><i class="fas fa-pause text-xs"></i><span>PAUSED</span></div>
+          <span class="text-gray-500 text-xs font-mono" id="scenario-label"></span>
+        </div>
       </div>
-      <div class="flex items-center gap-2 flex-wrap">
+      <div class="dash-header-controls">
         <button id="pause-btn" onclick="togglePause()" class="pause-btn"><i class="fas fa-pause text-xs" id="pause-icon"></i><span id="pause-label">PAUSE</span></button>
-        <button onclick="skipToEnd()" class="btn-ghost" style="padding:6px 14px;font-size:.6rem;"><i class="fas fa-forward-step text-xs"></i> SKIP</button>
-        <button onclick="resetClock()" class="btn-ghost" style="padding:6px 14px;font-size:.6rem;"><i class="fas fa-rotate-right text-xs"></i> RESET</button>
-        <div class="flex gap-1 ml-1" id="sim-speed-controls"><button type="button" class="speed-btn" data-speed="quick" onclick="changeSpeed('quick')">1&times;</button><button type="button" class="speed-btn active" data-speed="standard" onclick="changeSpeed('standard')">5&times;</button><button type="button" class="speed-btn" data-speed="deep" onclick="changeSpeed('deep')">10&times;</button></div>
-        <button onclick="generatePDF()" class="btn-pdf" style="padding:6px 14px;font-size:.6rem;"><i class="fas fa-file-pdf text-xs"></i> PDF</button>
+        <button onclick="skipToEnd()" class="btn-ghost" style="padding:6px 14px;font-size:.6rem;min-height:36px;"><i class="fas fa-forward-step text-xs"></i> SKIP</button>
+        <button onclick="resetClock()" class="btn-ghost" style="padding:6px 14px;font-size:.6rem;min-height:36px;"><i class="fas fa-rotate-right text-xs"></i> RESET</button>
+        <div class="flex gap-1" id="sim-speed-controls"><button type="button" class="speed-btn" data-speed="quick" onclick="changeSpeed('quick')">1&times;</button><button type="button" class="speed-btn active" data-speed="standard" onclick="changeSpeed('standard')">5&times;</button><button type="button" class="speed-btn" data-speed="deep" onclick="changeSpeed('deep')">10&times;</button></div>
+        <button onclick="generatePDF()" class="btn-pdf" style="padding:6px 14px;font-size:.6rem;min-height:36px;"><i class="fas fa-file-pdf text-xs"></i> PDF</button>
       </div>
     </div>
     <!-- KILL CHAIN BAR -->
     <div class="mb-4"><div class="kc-bar-container" id="kill-chain"></div></div>
-    <!-- 3-COL DASHBOARD -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <!-- 3-COL DASHBOARD — responsive grid -->
+    <div class="dash-grid">
       <!-- COL 1: Clock + Comparison + ROI -->
-      <div class="lg:col-span-4 flex flex-col gap-4">
+      <div class="dash-panel flex flex-col gap-4">
         <div class="glass-red rounded-2xl p-4 flex flex-col items-center">
-          <div class="clock-ring-wrap" style="margin:0 auto;">
-            <svg id="clock-svg" width="180" height="180" viewBox="0 0 180 180" class="ring-pulsing"><circle cx="90" cy="90" r="80" fill="none" stroke="rgba(239,68,68,.08)" stroke-width="10"/><circle id="clock-arc" cx="90" cy="90" r="80" fill="none" stroke="url(#rGrad)" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:502.65;stroke-dashoffset:502.65;"/><defs><linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef4444"/><stop offset="60%" stop-color="#f97316"/><stop offset="100%" stop-color="#ff1493"/></linearGradient></defs></svg>
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:150px;"><div class="cost-display cost-flicker" id="total-cost-display">R 0</div><div class="font-display text-red-400 tracking-widest mt-1 opacity-60" style="font-size:.5rem;" id="cost-label-ring">BREACH COST</div></div>
+          <div class="clock-ring-wrap">
+            <svg id="clock-svg" width="100%" height="100%" viewBox="0 0 180 180" class="ring-pulsing"><circle cx="90" cy="90" r="80" fill="none" stroke="rgba(239,68,68,.08)" stroke-width="10"/><circle id="clock-arc" cx="90" cy="90" r="80" fill="none" stroke="url(#rGrad)" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:502.65;stroke-dashoffset:502.65;"/><defs><linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef4444"/><stop offset="60%" stop-color="#f97316"/><stop offset="100%" stop-color="#ff1493"/></linearGradient></defs></svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:80%;"><div class="cost-display cost-flicker" id="total-cost-display">R 0</div><div class="font-display text-red-400 tracking-widest mt-1 opacity-60" style="font-size:.5rem;" id="cost-label-ring">BREACH COST</div></div>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full mt-3">
+          <div class="clock-mini-stats">
             <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-red-400" id="days-elapsed">0</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">Days</div></div>
             <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-amber-400" id="hours-elapsed">00</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">Hours</div></div>
             <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-pink-400" id="cost-per-min">R0</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">/min</div></div>
           </div>
         </div>
         <div class="glass rounded-2xl p-4">
-          <div class="flex items-center justify-between mb-2"><div><div class="text-red-400 font-mono" style="font-size:.55rem;">UNMITIGATED</div><div class="font-display font-black text-red-400" style="font-size:.9rem;" id="proj-unmitigated">&mdash;</div></div><div class="text-gray-700 font-display text-xs">VS</div><div class="text-right"><div class="text-green-400 font-mono" style="font-size:.55rem;">MITIGATED</div><div class="font-display font-black text-green-400" style="font-size:.9rem;" id="proj-mitigated">&mdash;</div></div></div>
+          <div class="compare-card mb-2"><div><div class="text-red-400 font-mono" style="font-size:.55rem;">UNMITIGATED</div><div class="font-display font-black text-red-400" style="font-size:.9rem;" id="proj-unmitigated">&mdash;</div></div><div class="text-gray-700 font-display text-xs">VS</div><div class="text-right"><div class="text-green-400 font-mono" style="font-size:.55rem;">MITIGATED</div><div class="font-display font-black text-green-400" style="font-size:.9rem;" id="proj-mitigated">&mdash;</div></div></div>
           <div class="savings-bar mb-2"><div class="savings-bar-green" id="savings-bar-fill" style="width:100%"></div></div>
           <div class="flex items-center justify-between"><span class="font-mono text-green-400" style="font-size:.6rem;" id="savings-display">Toggle controls &rarr;</span><span class="font-mono text-gray-600" style="font-size:.6rem;" id="savings-pct"></span></div>
         </div>
         <div class="roi-card"><div class="flex items-center justify-between"><div><div class="font-mono text-gray-500" style="font-size:.5rem;">PENTEST</div><div class="font-display font-black text-green-400 text-sm" id="roi-pentest">&mdash;</div></div><div class="text-center"><div class="font-display font-black text-green-400 text-lg" id="roi-ratio">&mdash;</div><div class="font-mono text-gray-500" style="font-size:.5rem;">ROI</div></div><div class="text-right"><div class="font-mono text-gray-500" style="font-size:.5rem;">BREACH</div><div class="font-display font-black text-red-400 text-sm" id="roi-breach">&mdash;</div></div></div></div>
       </div>
       <!-- COL 2: Mitigation Controls -->
-      <div class="lg:col-span-4"><div class="glass-green rounded-2xl p-4 h-full flex flex-col">
+      <div class="dash-panel"><div class="glass-green rounded-2xl p-4 h-full flex flex-col">
         <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><i class="fas fa-shield-check text-green-400" style="font-size:.7rem;"></i><span class="section-tag" style="color:#22c55e;font-size:.55rem;">MITIGATION CONTROLS</span></div><span class="font-display font-black text-green-400 text-sm" id="total-reduction">0%</span></div>
-        <div class="space-y-1.5 flex-1 overflow-y-auto" id="mitigation-toggles" style="max-height:420px;"></div>
+        <div class="dash-scroll space-y-1.5" id="mitigation-toggles"></div>
         <div class="mt-3 pt-2 border-t border-white/5 text-center"><span class="font-mono text-gray-600" style="font-size:.55rem;">Reductions compound (IBM CDR 2025)</span></div>
       </div></div>
       <!-- COL 3: Tabbed Panel -->
-      <div class="lg:col-span-4"><div class="glass rounded-2xl p-4 h-full flex flex-col">
-        <div class="flex gap-1 mb-3"><button class="tab-btn active" onclick="switchTab('timeline')"><i class="fas fa-timeline mr-1"></i>Timeline</button><button class="tab-btn" onclick="switchTab('breakdown')"><i class="fas fa-chart-pie mr-1"></i>Breakdown</button><button class="tab-btn" onclick="switchTab('intel')"><i class="fas fa-scale-balanced mr-1"></i>Intel</button></div>
-        <div class="tab-panel active flex-1 overflow-y-auto" id="tab-timeline" style="max-height:440px;"><div class="space-y-1.5" id="day-timeline"></div></div>
-        <div class="tab-panel flex-1 overflow-y-auto" id="tab-breakdown" style="max-height:440px;">
+      <div class="dash-panel"><div class="glass rounded-2xl p-4 h-full flex flex-col">
+        <div class="flex gap-1 mb-3 flex-wrap"><button class="tab-btn active" onclick="switchTab('timeline')"><i class="fas fa-timeline mr-1"></i>Timeline</button><button class="tab-btn" onclick="switchTab('breakdown')"><i class="fas fa-chart-pie mr-1"></i>Breakdown</button><button class="tab-btn" onclick="switchTab('intel')"><i class="fas fa-scale-balanced mr-1"></i>Intel</button></div>
+        <div class="tab-panel active dash-scroll" id="tab-timeline"><div class="space-y-1.5" id="day-timeline"></div></div>
+        <div class="tab-panel dash-scroll" id="tab-breakdown">
           <div class="space-y-0" id="cost-breakdown"></div>
           <div class="mt-4 pt-3 border-t border-white/5"><div class="font-mono text-gray-500" style="font-size:.55rem;">PROJECTED (<span id="dwell-label2">194</span> days)</div><div class="font-display font-black text-red-400 text-lg" id="projected-total">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.55rem;" id="industry-note">IBM CDR 2025</div></div>
           <div id="record-panel" class="hidden mt-3 p-3 rounded-xl" style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);"><div class="font-mono text-blue-400 mb-2" style="font-size:.55rem;"><i class="fas fa-database mr-1"></i>PER-RECORD ANALYSIS</div><div class="grid grid-cols-2 gap-2"><div><div class="font-display font-black text-blue-400 text-sm" id="rec-count">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">Records</div></div><div><div class="font-display font-black text-blue-400 text-sm" id="rec-per-cost">R1 842</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">Per record</div></div><div><div class="font-display font-black text-blue-400 text-sm" id="rec-total">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">Record est.</div></div><div><div class="font-display font-black text-blue-400 text-sm" id="rec-vs-model">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">vs size model</div></div></div></div>
         </div>
-        <div class="tab-panel flex-1 overflow-y-auto" id="tab-intel" style="max-height:440px;">
+        <div class="tab-panel dash-scroll" id="tab-intel">
           <div class="p-3 rounded-xl mb-3" style="background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);"><div class="font-display text-amber-400 tracking-widest uppercase mb-2" style="font-size:.6rem;font-weight:700;">POPIA EXPOSURE</div><p class="text-gray-400 leading-relaxed mb-3" style="font-size:.72rem;">Under POPIA, a breach can trigger fines of up to <strong class="text-amber-400">R10M</strong> and up to <strong class="text-amber-400">10 years imprisonment</strong>. The Information Regulator must be notified as soon as reasonably possible.</p><div class="grid grid-cols-3 gap-2"><div class="text-center p-2 rounded-lg" style="background:rgba(245,158,11,.05);"><div class="font-display font-black text-amber-400 text-sm">R10M</div><div class="text-gray-600 font-mono" style="font-size:.45rem;">Max fine</div></div><div class="text-center p-2 rounded-lg" style="background:rgba(245,158,11,.05);"><div class="font-display font-black text-amber-400 text-sm">10 yrs</div><div class="text-gray-600 font-mono" style="font-size:.45rem;">Max prison</div></div><div class="text-center p-2 rounded-lg" style="background:rgba(245,158,11,.05);"><div class="font-display font-black text-amber-400 text-sm" id="popia-pct">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.45rem;">Fine vs breach</div></div></div></div>
           <div class="p-3 rounded-xl" style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);"><div class="font-mono text-gray-600 tracking-widest uppercase mb-2" style="font-size:.5rem;"><i class="fas fa-book-open mr-1"></i>DATA SOURCES</div><div class="text-gray-500 leading-relaxed" style="font-size:.62rem;"><p class="mb-1"><strong class="text-gray-400">[1]</strong> IBM CDR 2025 &mdash; SA avg: R44.1M</p><p class="mb-1"><strong class="text-gray-400">[2]</strong> Sophos 2024 &mdash; 69% SA ransomware rate</p><p class="mb-1"><strong class="text-gray-400">[3]</strong> POPIA Act 2013 &mdash; Sections 22, 107</p><p class="text-gray-600 italic mt-2">Projections are estimates. Not financial advice.</p></div></div>
         </div>
@@ -350,9 +426,9 @@
       <div class="font-mono text-red-400 tracking-widest uppercase mb-3 opacity-80" style="font-size:.6rem;"><i class="fas fa-triangle-exclamation mr-2"></i>The simulation ended. Your risk hasn't.</div>
       <h3 class="font-display font-black text-white text-xl sm:text-2xl mb-2">Every day you wait, the cost goes <span class="neon-red">up.</span></h3>
       <div class="inline-block px-4 py-2 rounded-lg mb-4 font-mono text-xs" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);"><span class="text-gray-400">Breach: </span><span class="text-red-400 font-black font-display" id="cta-breach-cost">&mdash;</span><span class="text-gray-600 mx-2">vs</span><span class="text-gray-400">Pentest: </span><span class="text-green-400 font-black font-display" id="cta-pentest-cost">&mdash;</span></div>
-      <div class="flex flex-col sm:flex-row gap-3 justify-center mb-4"><a href="contact.html" class="btn-red pulse-red justify-center" style="text-decoration:none;padding:14px 32px;font-size:.78rem;"><i class="fas fa-hand"></i> STOP THE CLOCK &mdash; GET A PENTEST</a><button onclick="generatePDF()" class="btn-pdf justify-center"><i class="fas fa-file-pdf"></i> DOWNLOAD PDF REPORT</button><button onclick="resetClock()" class="btn-ghost justify-center"><i class="fas fa-rotate-right"></i> RESET</button></div>
+      <div class="cta-buttons mb-4"><a href="contact.html" class="btn-red pulse-red" style="text-decoration:none;padding:14px 24px;font-size:.72rem;"><i class="fas fa-hand"></i> STOP THE CLOCK &mdash; GET A PENTEST</a><button onclick="generatePDF()" class="btn-pdf"><i class="fas fa-file-pdf"></i> DOWNLOAD PDF REPORT</button><button onclick="resetClock()" class="btn-ghost"><i class="fas fa-rotate-right"></i> RESET</button></div>
       <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-500 mb-4"><a href="tel:+27846353581" class="hover:text-pink-400 transition font-mono"><i class="fas fa-phone text-pink-400 mr-1"></i>+27 84 635 3581</a><a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition font-mono" rel="noopener noreferrer"><i class="fab fa-whatsapp text-pink-400 mr-1"></i>WhatsApp</a><span class="font-mono"><i class="fas fa-envelope text-pink-400 mr-1"></i>info@greyhat4hire.com</span></div>
-      <div class="flex flex-wrap justify-center gap-2"><span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span><span class="trust-badge"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</span><span class="trust-badge"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</span><span class="trust-badge"><i class="fas fa-shield-check text-pink-400/50"></i> POPIA Compliant</span></div>
+      <div class="trust-badges"><span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span><span class="trust-badge"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</span><span class="trust-badge"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</span><span class="trust-badge"><i class="fas fa-shield-check text-pink-400/50"></i> POPIA Compliant</span></div>
     </div></div>
   </div>
 </section>
