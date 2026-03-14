@@ -15,14 +15,14 @@
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 
   # Content Security Policy
-  # Scripts: self + Cloudflare CDN (GSAP, Font Awesome, jsPDF) + Cloudflare edge scripts (/cdn-cgi/)
+  # Scripts: self + Cloudflare CDN (GSAP, Font Awesome, jsPDF) + Cloudflare edge scripts (/cdn-cgi/) + Cloudflare Web Analytics
   # Styles:  self + Cloudflare CDN + Google Fonts
   # Fonts:   Cloudflare CDN + Google Fonts static
   # Images:  self + data URIs + GitHub raw (used by tool pages)
-  # Connect: all external APIs called by free tools + Formspree contact form + Anthropic (AI tools)
+  # Connect: all external APIs called by free tools + Formspree contact form + Anthropic (AI tools) + Cloudflare Analytics
   # Note:    'unsafe-inline' required — site uses heavy inline JS/CSS across all pages.
   #          Migrate to CSP nonces in a future refactor to tighten further.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com challenges.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; font-src cdnjs.cloudflare.com fonts.gstatic.com; img-src 'self' data: raw.githubusercontent.com; connect-src 'self' api.anthropic.com formspree.io services.nvd.nist.gov api.osv.dev ipinfo.io crt.sh rdap.org internetdb.shodan.io haveibeenpwned.com api.first.org dns.google raw.githubusercontent.com http-observatory.security.mozilla.org; frame-src challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' formspree.io;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com challenges.cloudflare.com static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; font-src cdnjs.cloudflare.com fonts.gstatic.com; img-src 'self' data: raw.githubusercontent.com; connect-src 'self' api.anthropic.com formspree.io services.nvd.nist.gov api.osv.dev ipinfo.io crt.sh rdap.org internetdb.shodan.io haveibeenpwned.com api.first.org dns.google raw.githubusercontent.com http-observatory.security.mozilla.org cloudflareinsights.com; frame-src challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' formspree.io;
 
 # Cache static assets aggressively
 /styles.css
@@ -35,6 +35,12 @@
   Cache-Control: public, max-age=86400
 
 /logo.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/logo-nav.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/logo-watermark.webp
   Cache-Control: public, max-age=31536000, immutable
 
 /og-image.png
