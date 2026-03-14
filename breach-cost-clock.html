@@ -4,15 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-
   <title>The Breach Cost Clock — Greyhat4Hire</title>
   <meta name="description" content="Interactive breach cost simulator for South African businesses. See real-time financial impact, toggle mitigation controls, and download a PDF risk report. Based on IBM CDR 2025."/>
   <link rel="stylesheet" href="tw.css"/>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-
-  <!-- Font Awesome — non-blocking -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" media="print" onload="this.media='all'"/>
@@ -31,59 +28,45 @@
     *{box-sizing:border-box;margin:0;padding:0;}
     html{overflow-x:hidden;scroll-behavior:smooth;}
     body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;}
-
     body::before{content:'';position:fixed;inset:0;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.033'/%3E%3C/svg%3E");pointer-events:none;}
-
     #cur{position:fixed;width:18px;height:18px;border:2px solid #ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 10px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #cur2{position:fixed;width:5px;height:5px;background:#ff1493;border-radius:50%;pointer-events:none;z-index:999999;box-shadow:0 0 6px #ff1493;transform:translate(-50%,-50%);top:-100px;left:-100px;}
     #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
-
-    .font-display{font-family:'Orbitron',monospace;}
-    .font-mono{font-family:'Share Tech Mono',monospace;}
-
+    .font-display{font-family:'Orbitron',monospace;}.font-mono{font-family:'Share Tech Mono',monospace;}
     .glass{background:rgba(8,8,8,.78);backdrop-filter:blur(20px);border:1px solid rgba(255,20,147,.16);}
     .glass-red{background:rgba(8,4,4,.88);backdrop-filter:blur(24px);border:1px solid rgba(239,68,68,.28);}
     .glass-strong{background:rgba(4,4,4,.94);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.28);}
-
+    .glass-green{background:rgba(4,8,4,.88);backdrop-filter:blur(20px);border:1px solid rgba(34,197,94,.2);}
     .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
     .neon-red{color:#ef4444;text-shadow:0 0 24px rgba(239,68,68,.9);}
 
-    /* NAV */
-    nav{transition:all .4s ease;z-index:100;}
-    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    nav{transition:all .4s ease;z-index:100;}.nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
     .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
     .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
     .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
-    .desktop-link:hover::after{width:100%;}
-    .desktop-link.active{color:#ff1493;}
-    .desktop-link.active::after{width:100%;}
+    .desktop-link:hover::after{width:100%;}.desktop-link.active{color:#ff1493;}.desktop-link.active::after{width:100%;}
     #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
     #mobile-menu.open{transform:translateY(0);}
     .mobile-link{padding:12px 0;font-size:1.1rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;}
-
-    /* Tools dropdown */
     .tools-dropdown-wrap{position:relative;}
     .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;transition:all .3s ease;padding:0;position:relative;}
     .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
-    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
-    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}.tools-dropdown-btn:hover::after{width:100%;}
     .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
     .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
     .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
     @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
-    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2);}
     .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
     .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);}
     .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
     .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
     .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
-    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);}
     .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
     .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
     .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
     .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
-
-    /* Mobile tools */
     .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;text-decoration:none;color:#e0e0e0;}
     .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
     .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
@@ -94,191 +77,116 @@
     .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
     .mobile-tools-accordion.open .mobile-tools-panel{max-height:400px;}
 
-    /* Buttons */
     .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:14px;border:none;transition:all .3s ease;text-decoration:none;cursor:pointer;}
     .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
-    .btn-primary:disabled{opacity:.4;transform:none;box-shadow:none;cursor:not-allowed;}
-    .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;background:transparent;transition:all .3s ease;text-decoration:none;cursor:pointer;}
-    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
-    .btn-red{display:inline-flex;align-items:center;gap:12px;background:#ef4444;color:#fff;font-family:'Orbitron',monospace;font-size:.88rem;font-weight:900;letter-spacing:.12em;padding:22px 50px;border-radius:16px;border:none;transition:all .3s ease;text-decoration:none;cursor:pointer;}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;padding:10px 20px;border-radius:10px;background:transparent;transition:all .3s ease;text-decoration:none;cursor:pointer;}
+    .btn-ghost:hover{background:rgba(255,20,147,.1);}
+    .btn-red{display:inline-flex;align-items:center;gap:12px;background:#ef4444;color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:900;letter-spacing:.12em;padding:18px 40px;border-radius:14px;border:none;transition:all .3s ease;text-decoration:none;cursor:pointer;}
     .btn-red:hover{transform:translateY(-4px);box-shadow:0 16px 60px rgba(239,68,68,.7);}
+    .btn-pdf{display:inline-flex;align-items:center;gap:8px;background:rgba(168,85,247,.12);border:2px solid rgba(168,85,247,.4);color:#a855f7;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;padding:10px 20px;border-radius:10px;transition:all .3s ease;cursor:pointer;}
+    .btn-pdf:hover{background:rgba(168,85,247,.2);}
 
     @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
     .pulse-glow{animation:pulseGlow 2.8s infinite;}
     @keyframes redPulse{0%,100%{box-shadow:0 0 40px rgba(239,68,68,.5)} 50%{box-shadow:0 0 80px rgba(239,68,68,.9)}}
     .pulse-red{animation:redPulse 2s infinite;}
-
-    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
-
-    /* Hero grid */
+    .section-tag{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
     .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,20,147,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,20,147,.035) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
     .hero-grid::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 30%,#000 100%);}
-
-    /* Marquee */
     .marquee-wrap{overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);}
     .marquee{animation:marqueeScroll 50s linear infinite;}
     @keyframes marqueeScroll{0%{transform:translateX(0)} 100%{transform:translateX(-50%)}}
     .marquee-item{display:inline-flex;align-items:center;gap:8px;padding:0 28px;font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.15em;color:rgba(239,68,68,.55);white-space:nowrap;}
     .marquee-sep{color:rgba(239,68,68,.2);}
-
-    /* WhatsApp */
     .whatsapp-btn{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;}
-    .whatsapp-btn:hover{transform:scale(1.15);box-shadow:0 14px 40px rgba(37,211,102,.8);}
-
-    /* Sections */
-    .page-section{display:none;}
-    .page-section.active{display:block;}
-
-    /* Form */
+    .whatsapp-btn:hover{transform:scale(1.15);}
+    .page-section{display:none;}.page-section.active{display:block;}
     .form-input{background:rgba(0,0,0,.65);border:2px solid rgba(255,20,147,.22);border-radius:14px;padding:15px 20px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;width:100%;transition:all .3s ease;}
     .form-input:focus{outline:none;border-color:var(--pink);box-shadow:0 0 28px rgba(255,20,147,.28);}
     .form-input::placeholder{color:rgba(255,255,255,.25);}
     select.form-input option{background:#0a0a0a;color:#fff;}
-
-    /* Trust badge */
     .trust-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.18);border-radius:50px;font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.1em;color:rgba(224,224,224,.55);}
 
-    /* Clock visuals */
-    .clock-ring-wrap{position:relative;width:240px;height:240px;flex-shrink:0;}
+    .clock-ring-wrap{position:relative;width:180px;height:180px;flex-shrink:0;}
     #clock-svg{transform:rotate(-90deg);}
-    #clock-arc{transition:stroke-dashoffset .8s ease;stroke-dasharray:753;stroke-dashoffset:753;}
-
     @keyframes ringPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(239,68,68,.6))} 50%{filter:drop-shadow(0 0 28px rgba(239,68,68,1))}}
     .ring-pulsing{animation:ringPulse 1.5s infinite;}
     .ring-paused{animation:none;filter:drop-shadow(0 0 6px rgba(239,68,68,.3));}
-
-    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:900;color:#ef4444;text-shadow:0 0 40px rgba(239,68,68,.9),0 0 80px rgba(239,68,68,.4);letter-spacing:-.02em;line-height:1;}
+    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#ef4444;text-shadow:0 0 40px rgba(239,68,68,.9),0 0 80px rgba(239,68,68,.4);letter-spacing:-.02em;line-height:1;}
     @keyframes costFlicker{0%,97%,100%{opacity:1} 98%{opacity:.85} 99%{opacity:.92}}
     .cost-flicker{animation:costFlicker 3s infinite;}
+    .dmg-bar-track{background:rgba(255,255,255,.07);border-radius:3px;height:6px;overflow:hidden;flex:1;}
+    .dmg-bar-fill{height:100%;border-radius:3px;transition:width .8s ease;width:0%;}
 
-    /* Damage bars */
-    .dmg-bar-track{background:rgba(255,255,255,.07);border-radius:4px;height:8px;overflow:hidden;flex:1;}
-    .dmg-bar-fill{height:100%;border-radius:4px;transition:width .8s ease;width:0%;}
-
-    /* Day timeline */
-    .day-card{background:rgba(15,5,5,.85);border-left:3px solid rgba(239,68,68,.3);border-radius:0 12px 12px 0;padding:14px 18px;position:relative;transition:all .5s ease;overflow:hidden;}
-    .day-card::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(239,68,68,.03),transparent);opacity:0;transition:opacity .5s ease;}
-    .day-card.active{border-color:var(--pink);background:rgba(255,20,147,.05);box-shadow:0 0 20px rgba(255,20,147,.12);}
-    .day-card.active::before{opacity:1;}
-    .day-card.past{border-color:rgba(239,68,68,.2);opacity:.45;}
-    .day-num{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.18em;color:rgba(239,68,68,.6);margin-bottom:3px;}
-    .day-title{font-weight:700;font-size:.95rem;color:#e0e0e0;margin-bottom:3px;}
-    .day-desc{font-size:.83rem;color:rgba(255,255,255,.45);line-height:1.5;}
+    .day-card{background:rgba(15,5,5,.85);border-left:3px solid rgba(239,68,68,.15);border-radius:0 8px 8px 0;padding:8px 12px;position:relative;transition:all .5s ease;overflow:hidden;}
+    .day-card.active{border-color:var(--pink);background:rgba(255,20,147,.05);box-shadow:0 0 14px rgba(255,20,147,.1);}
+    .day-card.past{border-color:rgba(239,68,68,.15);opacity:.35;}
+    .day-num{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(239,68,68,.5);margin-bottom:1px;}
+    .day-title{font-weight:700;font-size:.82rem;color:#e0e0e0;line-height:1.2;}
+    .day-desc{font-size:.72rem;color:rgba(255,255,255,.35);line-height:1.4;display:none;}
     .day-card.active .day-num{color:var(--pink);}
-    .day-card.active .day-title{color:#fff;}
-    .day-card.active .day-desc{color:rgba(255,255,255,.7);}
-    .day-card.active::after{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:12px;height:12px;background:var(--pink);border-radius:50%;box-shadow:0 0 12px var(--pink);animation:dotPulse 1.2s infinite;}
-    @keyframes dotPulse{0%,100%{opacity:1;transform:translateY(-50%) scale(1)} 50%{opacity:.6;transform:translateY(-50%) scale(1.4)}}
+    .day-card.active .day-title{color:#fff;font-size:.85rem;}
+    .day-card.active .day-desc{display:block;color:rgba(255,255,255,.6);}
 
-    /* Live / paused chips */
-    .live-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);border-radius:8px;padding:5px 12px;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#ef4444;}
-    .live-chip .dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:dotPulse2 1.2s infinite;}
-    @keyframes dotPulse2{0%,100%{opacity:1} 50%{opacity:.4}}
-    .paused-chip{display:none;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);border-radius:8px;padding:5px 12px;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#f59e0b;}
+    .live-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:4px 10px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:#ef4444;}
+    .live-chip .dot{width:5px;height:5px;border-radius:50%;background:#ef4444;animation:dp2 1.2s infinite;}
+    @keyframes dp2{0%,100%{opacity:1} 50%{opacity:.4}}
+    .paused-chip{display:none;align-items:center;gap:5px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:4px 10px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:#f59e0b;}
 
-    /* Category rows */
-    .cat-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
-    .cat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem;}
-    .cat-label{flex:1;font-size:.88rem;font-weight:600;color:#d0d0d0;}
-    .cat-amount{font-family:'Orbitron',monospace;font-size:.8rem;font-weight:700;color:#ef4444;min-width:88px;text-align:right;}
+    .cat-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .cat-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;}
+    .cat-label{flex:1;font-size:.78rem;font-weight:600;color:#d0d0d0;}
+    .cat-amount{font-family:'Orbitron',monospace;font-size:.68rem;font-weight:700;color:#ef4444;min-width:70px;text-align:right;}
 
-    /* Kill chain */
-    .kc-phase{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(255,20,147,.07);opacity:.35;transition:all .6s ease;}
-    .kc-phase.reached{opacity:1;}
-    .kc-num{font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(255,20,147,.4);width:24px;flex-shrink:0;padding-top:4px;}
-    .kc-phase.reached .kc-num{color:var(--pink);}
-    .kc-icon-wrap{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;background:rgba(255,20,147,.05);border:1px solid rgba(255,20,147,.12);transition:all .6s ease;}
-    .kc-phase.reached .kc-icon-wrap{background:rgba(255,20,147,.14);border-color:rgba(255,20,147,.4);box-shadow:0 0 14px rgba(255,20,147,.2);}
-    .kc-body{flex:1;}
-    .kc-title{font-weight:700;font-size:.93rem;color:#666;margin-bottom:2px;transition:color .6s ease;}
-    .kc-phase.reached .kc-title{color:#fff;}
-    .kc-desc{font-size:.8rem;color:rgba(255,255,255,.3);line-height:1.5;transition:color .6s ease;}
-    .kc-phase.reached .kc-desc{color:rgba(255,255,255,.6);}
-    .kc-bar{height:3px;background:rgba(255,20,147,.1);border-radius:2px;margin-top:8px;overflow:hidden;}
-    .kc-bar-fill{height:100%;background:linear-gradient(90deg,var(--pink),#ff69b4);border-radius:2px;width:0%;transition:width 2s ease;}
-    .kc-phase.reached .kc-bar-fill{width:100%;}
+    .kc-bar-container{display:flex;gap:2px;height:32px;border-radius:8px;overflow:hidden;}
+    .kc-segment{flex:1;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Orbitron',monospace;font-weight:700;color:rgba(255,255,255,.2);background:rgba(255,20,147,.04);border:1px solid rgba(255,20,147,.06);transition:all .6s ease;cursor:default;position:relative;}
+    .kc-segment.reached{background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.35);color:#fff;}
+    .kc-segment.reached i{color:var(--pink);}
+    .kc-segment i{font-size:.6rem;color:rgba(255,20,147,.2);transition:color .6s ease;}
+    .kc-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(0,0,0,.95);border:1px solid rgba(255,20,147,.3);border-radius:8px;padding:8px 12px;white-space:nowrap;font-family:'Rajdhani',sans-serif;font-size:.75rem;color:#fff;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:50;}
+    .kc-segment:hover .kc-tooltip{opacity:1;}
 
-    /* ROI card */
-    .roi-card{background:rgba(4,4,4,.94);backdrop-filter:blur(28px);border:2px solid rgba(34,197,94,.25);border-radius:20px;padding:24px;position:relative;overflow:hidden;}
-    .roi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#22c55e,transparent);}
+    .mit-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);transition:all .25s ease;cursor:pointer;user-select:none;}
+    .mit-row:hover{background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.15);}
+    .mit-row.on{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);}
+    .mit-row .toggle-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12);flex-shrink:0;transition:all .25s ease;}
+    .mit-row.on .toggle-dot{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.5);}
+    .mit-row .mit-label{font-size:.78rem;font-weight:600;color:#b0b0b0;flex:1;transition:color .25s ease;}
+    .mit-row.on .mit-label{color:#e0e0e0;}
+    .mit-row .mit-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;color:rgba(34,197,94,.35);transition:color .25s ease;}
+    .mit-row.on .mit-pct{color:#22c55e;}
 
-    /* Alarm panel */
-    @keyframes alarmPulse{0%,100%{background:rgba(239,68,68,.06)} 50%{background:rgba(239,68,68,.18)}}
-    .alarm-panel{animation:alarmPulse 2s infinite;border:2px solid rgba(239,68,68,.4);border-radius:24px;padding:40px;text-align:center;position:relative;overflow:hidden;}
-    .alarm-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.04),transparent 60%);pointer-events:none;}
+    .savings-bar{height:8px;border-radius:4px;overflow:hidden;background:rgba(239,68,68,.12);}
+    .savings-bar-green{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:4px;transition:width .6s ease;}
 
-    /* Pause button */
-    .pause-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.1);border:2px solid rgba(245,158,11,.4);color:#f59e0b;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;padding:10px 20px;border-radius:10px;transition:all .3s ease;cursor:pointer;}
+    .speed-btn{padding:4px 10px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);transition:all .25s ease;cursor:pointer;}
+    .speed-btn:hover{border-color:rgba(255,20,147,.3);color:rgba(255,255,255,.6);}
+    .speed-btn.active{background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5);color:var(--pink);}
+    .pause-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;padding:6px 14px;border-radius:8px;transition:all .3s ease;cursor:pointer;}
     .pause-btn:hover{background:rgba(245,158,11,.18);}
 
-    /* Speed selector */
-    .speed-btn{padding:6px 14px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.62rem;font-weight:700;letter-spacing:.08em;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.4);transition:all .25s ease;cursor:pointer;}
-    .speed-btn:hover{border-color:rgba(255,20,147,.4);color:rgba(255,255,255,.7);}
-    .speed-btn.active{background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.5);color:var(--pink);}
+    .tab-btn{padding:5px 12px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;border:1px solid transparent;background:transparent;color:rgba(255,255,255,.3);transition:all .25s ease;cursor:pointer;}
+    .tab-btn:hover{color:rgba(255,255,255,.6);}
+    .tab-btn.active{background:rgba(255,20,147,.1);border-color:rgba(255,20,147,.3);color:var(--pink);}
+    .tab-panel{display:none;}.tab-panel.active{display:block;}
 
-    /* ═══ MITIGATION TOGGLES ═══ */
-    .mit-toggle{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.06);transition:all .3s ease;cursor:pointer;user-select:none;}
-    .mit-toggle:hover{background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.2);}
-    .mit-toggle.on{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3);}
-    .mit-toggle .toggle-track{width:44px;height:24px;border-radius:12px;background:rgba(255,255,255,.1);position:relative;flex-shrink:0;transition:background .3s ease;}
-    .mit-toggle.on .toggle-track{background:rgba(34,197,94,.5);}
-    .mit-toggle .toggle-thumb{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:transform .25s ease;box-shadow:0 1px 4px rgba(0,0,0,.3);}
-    .mit-toggle.on .toggle-thumb{transform:translateX(20px);}
-    .mit-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e;transition:all .3s ease;}
-    .mit-toggle.on .mit-icon{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.45);box-shadow:0 0 12px rgba(34,197,94,.2);}
-    .mit-label{font-weight:700;font-size:.9rem;color:#d0d0d0;line-height:1.2;}
-    .mit-detail{font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.4;margin-top:2px;}
-    .mit-pct{font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;color:rgba(34,197,94,.5);min-width:44px;text-align:right;flex-shrink:0;transition:color .3s ease;}
-    .mit-toggle.on .mit-pct{color:#22c55e;}
+    @keyframes alarmPulse{0%,100%{background:rgba(239,68,68,.06)} 50%{background:rgba(239,68,68,.18)}}
+    .alarm-panel{animation:alarmPulse 2s infinite;border:2px solid rgba(239,68,68,.4);border-radius:20px;padding:28px;text-align:center;position:relative;overflow:hidden;}
+    .alarm-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.04),transparent 60%);pointer-events:none;}
+    .roi-card{background:rgba(4,4,4,.94);border:1px solid rgba(34,197,94,.2);border-radius:14px;padding:14px;position:relative;overflow:hidden;}
+    .roi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#22c55e,transparent);}
 
-    /* Savings display */
-    .savings-bar{height:10px;border-radius:5px;overflow:hidden;background:rgba(239,68,68,.15);position:relative;}
-    .savings-bar-green{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:5px;transition:width .6s ease;}
-    .savings-bar-red{position:absolute;top:0;right:0;height:100%;background:rgba(239,68,68,.4);border-radius:0 5px 5px 0;transition:width .6s ease;}
-
-    /* PDF button */
-    .btn-pdf{display:inline-flex;align-items:center;gap:8px;background:rgba(168,85,247,.12);border:2px solid rgba(168,85,247,.4);color:#a855f7;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;padding:12px 24px;border-radius:10px;transition:all .3s ease;cursor:pointer;}
-    .btn-pdf:hover{background:rgba(168,85,247,.2);box-shadow:0 0 24px rgba(168,85,247,.3);}
-
-    /* Fade up */
     @keyframes fadeUp{from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)}}
-    .fu{opacity:0;}
-    .fu.vis{animation:fadeUp .55s ease forwards;}
-    .fu-1{animation-delay:.05s}.fu-2{animation-delay:.15s}.fu-3{animation-delay:.28s}
-    .fu-4{animation-delay:.42s}.fu-5{animation-delay:.58s}.fu-6{animation-delay:.74s}
+    .fu{opacity:0;}.fu.vis{animation:fadeUp .55s ease forwards;}
+    .fu-1{animation-delay:.05s}.fu-2{animation-delay:.15s}.fu-3{animation-delay:.28s}.fu-4{animation-delay:.42s}.fu-5{animation-delay:.58s}
 
-    /* CTA panel */
-    .cta-panel{background:linear-gradient(135deg,rgba(255,20,147,.07),rgba(255,20,147,.02));border:2px solid rgba(255,20,147,.28);border-radius:24px;position:relative;overflow:hidden;}
-
-    /* Scrollbar */
-    ::-webkit-scrollbar{width:4px;}
-    ::-webkit-scrollbar-track{background:#000;}
-    ::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
-
-    @media(max-width:768px){
-      .clock-ring-wrap{width:200px;height:200px;}
-      .cost-display{font-size:1.6rem;}
-    }
-    @media (hover: none), (pointer: coarse) {
-      #cur, #cur2 { display: none !important; }
-    }
-    @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
-    @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
-    @media (max-width: 768px) {
-      #three-canvas { display: none !important; }
-      .glass, .glass-strong, nav, #mobile-menu {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-      }
-      .pulse-glow { animation: none !important; }
-      .animate-pulse { animation-duration: 4s !important; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+    ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.3);border-radius:2px;}
+    @media(max-width:768px){.clock-ring-wrap{width:150px;height:150px;}.cost-display{font-size:1.2rem;}}
+    @media(hover:none),(pointer:coarse){#cur,#cur2{display:none!important;}}
+    @font-face{font-family:'Font Awesome 6 Free';font-display:swap;}
+    @font-face{font-family:'Font Awesome 6 Brands';font-display:swap;}
+    @media(max-width:768px){#three-canvas{display:none!important;}.glass,.glass-strong,.glass-red,.glass-green,nav,#mobile-menu{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}.pulse-glow{animation:none!important;}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
   </style>
 
   <link rel="canonical" href="https://greyhat4hire.com/breach-cost-clock.html"/>
@@ -292,131 +200,33 @@
   <meta name="twitter:title" content="The Breach Cost Clock — Greyhat4Hire"/>
   <meta name="twitter:description" content="Interactive breach cost simulator for SA businesses. Toggle mitigation controls, see real-time impact, download a PDF risk report. IBM CDR 2025 data."/>
   <meta name="twitter:image" content="https://greyhat4hire.com/og-image.png"/>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebApplication",
-    "name":"Breach Cost Clock",
-    "description":"Interactive simulator showing the real-time financial impact of a data breach on South African businesses, with mitigation controls and PDF reporting.",
-    "url":"https://greyhat4hire.com/breach-cost-clock.html",
-    "applicationCategory":"SecurityApplication",
-    "operatingSystem":"Web Browser",
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"ZAR"},
-    "provider":{"@id":"https://greyhat4hire.com/#org"}
-  }
-  </script>
-
-  <!-- Google Analytics 4 — deferred -->
-  <script>
-    function loadGA(){
-      if(window._gaLoaded)return;window._gaLoaded=true;
-      var s=document.createElement('script');
-      s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP';
-      document.head.appendChild(s);
-      window.dataLayer=window.dataLayer||[];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag=gtag;gtag('js',new Date());gtag('config','G-25RRREVHRP');
-    }
-    ['click','keydown','scroll','touchstart'].forEach(function(e){
-      document.addEventListener(e,loadGA,{once:true,passive:true});
-    });
-    setTimeout(loadGA,5000);
-  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Breach Cost Clock","description":"Interactive simulator showing the real-time financial impact of a data breach on South African businesses.","url":"https://greyhat4hire.com/breach-cost-clock.html","applicationCategory":"SecurityApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"ZAR"},"provider":{"@id":"https://greyhat4hire.com/#org"}}</script>
+  <script>function loadGA(){if(window._gaLoaded)return;window._gaLoaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP';document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','G-25RRREVHRP');}['click','keydown','scroll','touchstart'].forEach(function(e){document.addEventListener(e,loadGA,{once:true,passive:true});});setTimeout(loadGA,5000);</script>
 </head>
 <body>
-<canvas id="three-canvas"></canvas>
-<div id="cur"></div>
-<div id="cur2"></div>
+<canvas id="three-canvas"></canvas><div id="cur"></div><div id="cur2"></div>
+<a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
 
-<!-- WhatsApp Float -->
-<a href="https://wa.me/27846353581" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp" rel="noopener noreferrer">
-  <i class="fab fa-whatsapp"></i>
-</a>
-
-<!-- ══ NAV ══ -->
+<!-- NAV -->
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
-    <a href="index.html">
-      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10"
-        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-    </a>
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
     <div class="hidden lg:flex items-center gap-7 text-sm">
-      <a href="index.html" class="desktop-link">Home</a>
-      <a href="about.html" class="desktop-link">About</a>
-      <a href="services.html" class="desktop-link">Services</a>
-      <div class="tools-dropdown-wrap">
-        <button class="tools-dropdown-btn" type="button">
-          <span class="tools-live-dot"></span>
-          Free Tools
-          <i class="fas fa-chevron-down chevron"></i>
-        </button>
-        <div class="tools-dropdown-panel">
-          <div class="tools-panel-header">
-            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div>
-          </div>
-          <a href="risk-assessment.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div>
-            <div>
-              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
-              <div class="tool-nav-name">Risk Self-Assessment</div>
-              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
-            </div>
-          </a>
-          <a href="hackers-dossier.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div>
-            <div>
-              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
-              <div class="tool-nav-name">The Hacker's Dossier</div>
-              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
-            </div>
-          </a>
-          <a href="breach-cost-clock.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div>
-            <div>
-              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
-              <div class="tool-nav-name">Breach Cost Clock</div>
-              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
-            </div>
-          </a>
-          <a href="vuln-lookup.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div>
-            <div>
-              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
-              <div class="tool-nav-name">Vulnerability Intelligence</div>
-              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
-            </div>
-          </a>
-          <a href="reverse-image-search.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div>
-            <div>
-              <div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div>
-              <div class="tool-nav-name">Reverse Image Search</div>
-              <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
-            </div>
-          </a>
-          <a href="downloads.html" class="tool-nav-item">
-            <div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);"><i class="fas fa-vault"></i></div>
-            <div>
-              <div class="tool-nav-label" style="color:rgba(168,85,247,.7);">FREE DOWNLOADS</div>
-              <div class="tool-nav-name">The Arsenal</div>
-              <div class="tool-nav-desc">31 free templates, policies, checklists &amp; frameworks</div>
-            </div>
-          </a>
+      <a href="index.html" class="desktop-link">Home</a><a href="about.html" class="desktop-link">About</a><a href="services.html" class="desktop-link">Services</a>
+      <div class="tools-dropdown-wrap"><button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel"><div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score across 12 controls</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick up in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">AI vision + live web search to trace image origins</div></div></a>
+          <a href="downloads.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;"><i class="fas fa-vault"></i></div><div><div class="tool-nav-label" style="color:rgba(168,85,247,.7);">FREE DOWNLOADS</div><div class="tool-nav-name">The Arsenal</div><div class="tool-nav-desc">31 free templates, policies, checklists &amp; frameworks</div></div></a>
         </div>
       </div>
-      <a href="cyber-awareness.html" class="desktop-link">Cyber Awareness</a>
-      <a href="our-process.html" class="desktop-link">Our Process</a>
-      <a href="pricing.html" class="desktop-link">Pricing</a>
-      <a href="blog.html" class="desktop-link">Blog</a>
-      <a href="contact.html" class="desktop-link">Contact</a>
+      <a href="cyber-awareness.html" class="desktop-link">Cyber Awareness</a><a href="our-process.html" class="desktop-link">Our Process</a><a href="pricing.html" class="desktop-link">Pricing</a><a href="blog.html" class="desktop-link">Blog</a><a href="contact.html" class="desktop-link">Contact</a>
     </div>
-    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
-      <i class="fas fa-shield-alt"></i> Get a Quote
-    </a>
-    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition">
-      <i class="fas fa-bars"></i>
-    </button>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
 
@@ -424,16 +234,8 @@
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="background:rgba(0,0,0,0.97);padding-top:80px;padding-bottom:32px;">
   <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
   <div class="flex flex-col items-center w-full max-w-xs">
-    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
-    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
-    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
-    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
-      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
-        <span style="display:flex;align-items:center;gap:8px;">
-          <span class="tools-live-dot"></span><span>Free Tools</span>
-        </span>
-        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
-      </button>
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a><a href="about.html" class="mobile-link desktop-link text-white">About</a><a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;"><button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle"><span style="display:flex;align-items:center;gap:8px;"><span class="tools-live-dot"></span><span>Free Tools</span></span><i class="fas fa-chevron-down mobile-tools-chevron"></i></button>
       <div id="mobile-tools-panel" class="mobile-tools-panel">
         <a href="risk-assessment.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
         <a href="hackers-dossier.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
@@ -443,1126 +245,218 @@
         <a href="downloads.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
       </div>
     </div>
-    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
-    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
-    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
-    <a href="blog.html" class="mobile-link desktop-link text-white">Blog</a>
-    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a><a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a><a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a><a href="blog.html" class="mobile-link desktop-link text-white">Blog</a><a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
   </div>
   <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
 </div>
 
-<!-- ════════════════════════════════════════════
-     SECTION 1 — ENTRY
-════════════════════════════════════════════ -->
+<!-- SECTION 1: ENTRY -->
 <section id="entry-section" class="page-section active min-h-screen flex flex-col justify-center pt-20 pb-16 px-4 sm:px-6" style="position:relative;z-index:2;">
   <div class="max-w-2xl mx-auto w-full text-center">
-
-    <div class="relative mb-10">
-      <div class="hero-grid rounded-3xl" style="position:absolute;inset:-40px;"></div>
-      <div style="position:absolute;width:600px;height:400px;background:radial-gradient(circle,rgba(239,68,68,.06) 0%,transparent 70%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
-
+    <div class="relative mb-10"><div class="hero-grid rounded-3xl" style="position:absolute;inset:-40px;"></div><div style="position:absolute;width:600px;height:400px;background:radial-gradient(circle,rgba(239,68,68,.06) 0%,transparent 70%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
       <div class="relative z-10 pt-8">
-        <div class="inline-flex items-center gap-2 px-5 py-2 glass-red rounded-full mb-6 fu fu-1">
-          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-          <span class="font-display text-xs tracking-widest text-red-400">LIVE FINANCIAL IMPACT SIMULATOR</span>
-        </div>
-
-        <h1 class="font-display font-black mb-5 leading-tight fu fu-2" style="font-size:clamp(2.8rem,8vw,5rem);">
-          <span class="neon-red">THE BREACH</span><br>
-          <span class="text-white">COST CLOCK</span>
-        </h1>
-
-        <p class="text-gray-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed mb-3 fu fu-3" style="font-weight:300;">
-          The average attacker spends <span class="text-red-400 font-bold">194 days</span> inside a network before detection. Every second costs money. <strong class="text-white">See yours tick away — then toggle the controls that stop it.</strong>
-        </p>
-        <div class="font-mono text-red-400/40 text-sm mb-8 tracking-widest fu fu-3">
-          IBM CDR 2025 · SOPHOS STATE OF RANSOMWARE 2024 · POPIA
-        </div>
+        <div class="inline-flex items-center gap-2 px-5 py-2 glass-red rounded-full mb-6 fu fu-1"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span><span class="font-display text-xs tracking-widest text-red-400">LIVE FINANCIAL IMPACT SIMULATOR</span></div>
+        <h1 class="font-display font-black mb-5 leading-tight fu fu-2" style="font-size:clamp(2.8rem,8vw,5rem);"><span class="neon-red">THE BREACH</span><br><span class="text-white">COST CLOCK</span></h1>
+        <p class="text-gray-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed mb-3 fu fu-3" style="font-weight:300;">The average attacker spends <span class="text-red-400 font-bold">194 days</span> inside a network before detection. Every second costs money. <strong class="text-white">See yours tick away — then toggle the controls that stop it.</strong></p>
+        <div class="font-mono text-red-400/40 text-sm mb-8 tracking-widest fu fu-3">IBM CDR 2025 &middot; SOPHOS STATE OF RANSOMWARE 2024 &middot; POPIA</div>
       </div>
     </div>
-
-    <!-- Marquee -->
-    <div class="py-4 border-y border-red-500/10 overflow-hidden mb-8 fu fu-3">
-      <div class="marquee-wrap">
-        <div class="marquee flex whitespace-nowrap">
-          <span class="marquee-item"><i class="fas fa-clock"></i> 194 DAYS AVG DWELL TIME</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-biohazard"></i> R44.1M AVG SA BREACH COST</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-skull-crossbones"></i> 69% OF SA FIRMS HIT BY RANSOMWARE</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-lock-open"></i> POPIA FINES UP TO R10M</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-clock"></i> 194 DAYS AVG DWELL TIME</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-biohazard"></i> R44.1M AVG SA BREACH COST</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-skull-crossbones"></i> 69% OF SA FIRMS HIT BY RANSOMWARE</span>
-          <span class="marquee-sep">&#9670;</span>
-          <span class="marquee-item"><i class="fas fa-lock-open"></i> POPIA FINES UP TO R10M</span>
-          <span class="marquee-sep">&#9670;</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stats row -->
+    <div class="py-4 border-y border-red-500/10 overflow-hidden mb-8 fu fu-3"><div class="marquee-wrap"><div class="marquee flex whitespace-nowrap"><span class="marquee-item"><i class="fas fa-clock"></i> 194 DAYS AVG DWELL TIME</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-biohazard"></i> R44.1M AVG SA BREACH COST</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-skull-crossbones"></i> 69% OF SA FIRMS HIT BY RANSOMWARE</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-lock-open"></i> POPIA FINES UP TO R10M</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-clock"></i> 194 DAYS AVG DWELL TIME</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-biohazard"></i> R44.1M AVG SA BREACH COST</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-skull-crossbones"></i> 69% OF SA FIRMS HIT BY RANSOMWARE</span><span class="marquee-sep">&diams;</span><span class="marquee-item"><i class="fas fa-lock-open"></i> POPIA FINES UP TO R10M</span><span class="marquee-sep">&diams;</span></div></div></div>
     <div class="grid grid-cols-3 gap-4 mb-8 fu fu-3">
-      <div class="glass rounded-2xl p-4 text-center">
-        <div class="font-display font-black text-2xl sm:text-3xl text-red-400 mb-1">R44.1M</div>
-        <div class="text-gray-500 text-xs leading-snug font-mono">Avg. breach cost<br>in South Africa</div>
-      </div>
-      <div class="glass rounded-2xl p-4 text-center">
-        <div class="font-display font-black text-2xl sm:text-3xl text-amber-400 mb-1">194</div>
-        <div class="text-gray-500 text-xs leading-snug font-mono">Days to detect<br>a breach (avg.)</div>
-      </div>
-      <div class="glass rounded-2xl p-4 text-center">
-        <div class="font-display font-black text-2xl sm:text-3xl text-pink-400 mb-1">69%</div>
-        <div class="text-gray-500 text-xs leading-snug font-mono">SA organisations<br>hit by ransomware</div>
-      </div>
+      <div class="glass rounded-2xl p-4 text-center"><div class="font-display font-black text-2xl sm:text-3xl text-red-400 mb-1">R44.1M</div><div class="text-gray-500 text-xs leading-snug font-mono">Avg. breach cost<br>in South Africa</div></div>
+      <div class="glass rounded-2xl p-4 text-center"><div class="font-display font-black text-2xl sm:text-3xl text-amber-400 mb-1">194</div><div class="text-gray-500 text-xs leading-snug font-mono">Days to detect<br>a breach (avg.)</div></div>
+      <div class="glass rounded-2xl p-4 text-center"><div class="font-display font-black text-2xl sm:text-3xl text-pink-400 mb-1">69%</div><div class="text-gray-500 text-xs leading-snug font-mono">SA organisations<br>hit by ransomware</div></div>
     </div>
-
-    <!-- Form -->
     <div class="glass-strong rounded-3xl p-8 sm:p-10 text-left fu fu-4">
       <div class="section-tag mb-6 text-center tracking-widest">CONFIGURE YOUR SIMULATION</div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-        <div>
-          <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Industry</label>
-          <select id="inp-industry" class="form-input">
-            <option value="">Select industry…</option>
-            <option value="healthcare">Healthcare / Medical</option>
-            <option value="financial">Financial Services / Banking</option>
-            <option value="legal">Legal / Law Firm</option>
-            <option value="retail">Retail / eCommerce</option>
-            <option value="manufacturing">Manufacturing</option>
-            <option value="government">Government / Public Sector</option>
-            <option value="technology">Technology / SaaS</option>
-            <option value="education">Education</option>
-            <option value="professional">Professional Services</option>
-            <option value="energy">Energy / Utilities</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div>
-          <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Employees</label>
-          <select id="inp-size" class="form-input">
-            <option value="">Select size…</option>
-            <option value="micro">1 – 10 employees</option>
-            <option value="small">11 – 50 employees</option>
-            <option value="medium">51 – 250 employees</option>
-            <option value="large">251 – 1 000 employees</option>
-            <option value="enterprise">1 000+ employees</option>
-          </select>
-        </div>
+        <div><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Industry</label><select id="inp-industry" class="form-input"><option value="">Select industry&hellip;</option><option value="healthcare">Healthcare / Medical</option><option value="financial">Financial Services / Banking</option><option value="legal">Legal / Law Firm</option><option value="retail">Retail / eCommerce</option><option value="manufacturing">Manufacturing</option><option value="government">Government / Public Sector</option><option value="technology">Technology / SaaS</option><option value="education">Education</option><option value="professional">Professional Services</option><option value="energy">Energy / Utilities</option><option value="other">Other</option></select></div>
+        <div><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Employees</label><select id="inp-size" class="form-input"><option value="">Select size&hellip;</option><option value="micro">1 &ndash; 10 employees</option><option value="small">11 &ndash; 50 employees</option><option value="medium">51 &ndash; 250 employees</option><option value="large">251 &ndash; 1 000 employees</option><option value="enterprise">1 000+ employees</option></select></div>
       </div>
-
-      <!-- Optional: record count -->
-      <div class="mb-5">
-        <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Customer / Patient Records Held <span class="text-gray-600">(optional — improves accuracy)</span></label>
-        <input type="number" id="inp-records" class="form-input" placeholder="e.g. 5000" min="0" step="100"/>
-      </div>
-
-      <!-- Simulation speed -->
-      <div class="mb-6">
-        <label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-3">Simulation Speed</label>
-        <div class="flex gap-3 flex-wrap">
-          <button type="button" class="speed-btn" data-speed="quick" onclick="selectSpeed('quick')">
-            <i class="fas fa-forward-fast mr-1"></i> Quick Demo <span class="text-gray-600 ml-1">(~90s)</span>
-          </button>
-          <button type="button" class="speed-btn active" data-speed="standard" onclick="selectSpeed('standard')">
-            <i class="fas fa-play mr-1"></i> Standard <span class="text-gray-600 ml-1">(~5 min)</span>
-          </button>
-          <button type="button" class="speed-btn" data-speed="deep" onclick="selectSpeed('deep')">
-            <i class="fas fa-magnifying-glass mr-1"></i> Deep Walkthrough <span class="text-gray-600 ml-1">(~12 min)</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="form-err" class="hidden mb-4 p-3 rounded-lg text-red-400 text-sm" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);">
-        <i class="fas fa-triangle-exclamation mr-2"></i>Please select your industry and employee count.
-      </div>
-
-      <div class="text-center">
-        <button onclick="startClock()" class="btn-primary pulse-glow w-full sm:w-auto justify-center" style="font-size:.9rem;padding:20px 48px;">
-          <i class="fas fa-clock"></i> START THE CLOCK <i class="fas fa-chevron-right text-xs"></i>
-        </button>
-        <p class="mt-4 text-xs text-gray-600 font-mono">All figures derived from IBM Cost of a Data Breach Report 2025 · Sophos State of Ransomware 2024 · POPIA</p>
-      </div>
+      <div class="mb-5"><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-2">Customer / Patient Records <span class="text-gray-600">(optional)</span></label><input type="number" id="inp-records" class="form-input" placeholder="e.g. 5000" min="0" step="100"/></div>
+      <div class="mb-6"><label class="font-display text-xs text-pink-400 tracking-widest uppercase block mb-3">Simulation Speed</label><div class="flex gap-3 flex-wrap"><button type="button" class="speed-btn" data-speed="quick" onclick="selectSpeed('quick')"><i class="fas fa-forward-fast mr-1"></i>Quick (~90s)</button><button type="button" class="speed-btn active" data-speed="standard" onclick="selectSpeed('standard')"><i class="fas fa-play mr-1"></i>Standard (~5 min)</button><button type="button" class="speed-btn" data-speed="deep" onclick="selectSpeed('deep')"><i class="fas fa-magnifying-glass mr-1"></i>Deep (~12 min)</button></div></div>
+      <div id="form-err" class="hidden mb-4 p-3 rounded-lg text-red-400 text-sm" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);"><i class="fas fa-triangle-exclamation mr-2"></i>Please select your industry and employee count.</div>
+      <div class="text-center"><button onclick="startClock()" class="btn-primary pulse-glow w-full sm:w-auto justify-center" style="font-size:.9rem;padding:20px 48px;"><i class="fas fa-clock"></i> START THE CLOCK <i class="fas fa-chevron-right text-xs"></i></button><p class="mt-4 text-xs text-gray-600 font-mono">IBM CDR 2025 &middot; Sophos State of Ransomware 2024 &middot; POPIA</p></div>
     </div>
-
-    <div class="mt-6 p-4 rounded-2xl fu fu-5" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);">
-      <p class="text-amber-400 text-sm flex items-start gap-2 font-mono">
-        <i class="fas fa-triangle-exclamation flex-shrink-0 mt-0.5"></i>
-        <span><strong>New in v2:</strong> Toggle mitigation controls mid-simulation to see how an IR plan, encryption, training and more reduce your projected breach cost — with IBM-sourced reduction percentages. Export a branded PDF report when you're done.</span>
-      </p>
-    </div>
-
+    <div class="mt-6 p-4 rounded-2xl fu fu-5" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);"><p class="text-amber-400 text-sm flex items-start gap-2 font-mono"><i class="fas fa-triangle-exclamation flex-shrink-0 mt-0.5"></i><span><strong>New in v2:</strong> Toggle mitigation controls mid-simulation to see how an IR plan, encryption, training and more reduce your projected breach cost &mdash; with IBM-sourced reduction percentages. Export a branded PDF report when done.</span></p></div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════
-     SECTION 2 — THE CLOCK IS RUNNING
-════════════════════════════════════════════ -->
-<section id="clock-section" class="page-section pt-24 pb-24 px-4 sm:px-6" style="position:relative;z-index:2;">
-  <div class="max-w-6xl mx-auto">
-
-    <!-- Header + controls -->
-    <div class="text-center mb-8" id="clock-anchor">
-      <div class="flex items-center justify-center gap-3 mb-4 flex-wrap">
-        <div class="live-chip" id="live-chip">
-          <div class="dot"></div>
-          <span>BREACH IN PROGRESS — DAY <span id="current-day-display">1</span> OF <span id="dwell-display">194</span></span>
-        </div>
-        <div class="paused-chip" id="paused-chip">
-          <i class="fas fa-pause text-xs"></i>
-          <span>SIMULATION PAUSED</span>
-        </div>
+<!-- SECTION 2: COMMAND CENTRE -->
+<section id="clock-section" class="page-section pt-20 pb-12 px-3 sm:px-5" style="position:relative;z-index:2;">
+  <div class="max-w-7xl mx-auto">
+    <!-- HEADER BAR -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4" id="clock-anchor">
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="live-chip" id="live-chip"><div class="dot"></div><span>DAY <span id="current-day-display">1</span> / <span id="dwell-display">194</span></span></div>
+        <div class="paused-chip" id="paused-chip"><i class="fas fa-pause text-xs"></i><span>PAUSED</span></div>
+        <span class="text-gray-500 text-xs font-mono" id="scenario-label"></span>
       </div>
-      <h2 class="font-display font-black text-white text-3xl sm:text-4xl mb-2">
-        Your Breach. <span class="neon-red">Right Now.</span>
-      </h2>
-      <p class="text-gray-500 text-sm font-mono" id="scenario-label">Calculating for your organisation…</p>
-
-      <div class="mt-4 flex items-center justify-center gap-3 flex-wrap">
-        <button id="pause-btn" onclick="togglePause()" class="pause-btn">
-          <i class="fas fa-pause text-xs" id="pause-icon"></i>
-          <span id="pause-label">PAUSE</span>
-        </button>
-        <button onclick="resetClock()" class="btn-ghost" style="padding:10px 20px;font-size:.72rem;">
-          <i class="fas fa-rotate-right text-xs"></i> RESET
-        </button>
-        <button onclick="skipToEnd()" class="btn-ghost" style="padding:10px 20px;font-size:.72rem;">
-          <i class="fas fa-forward-step text-xs"></i> SKIP TO END
-        </button>
-
-        <!-- Speed controls (in-sim) -->
-        <div class="flex gap-2 ml-2" id="sim-speed-controls">
-          <button type="button" class="speed-btn" data-speed="quick" onclick="changeSpeed('quick')"><i class="fas fa-forward-fast"></i> 1×</button>
-          <button type="button" class="speed-btn active" data-speed="standard" onclick="changeSpeed('standard')">5×</button>
-          <button type="button" class="speed-btn" data-speed="deep" onclick="changeSpeed('deep')">10×</button>
-        </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <button id="pause-btn" onclick="togglePause()" class="pause-btn"><i class="fas fa-pause text-xs" id="pause-icon"></i><span id="pause-label">PAUSE</span></button>
+        <button onclick="skipToEnd()" class="btn-ghost" style="padding:6px 14px;font-size:.6rem;"><i class="fas fa-forward-step text-xs"></i> SKIP</button>
+        <button onclick="resetClock()" class="btn-ghost" style="padding:6px 14px;font-size:.6rem;"><i class="fas fa-rotate-right text-xs"></i> RESET</button>
+        <div class="flex gap-1 ml-1" id="sim-speed-controls"><button type="button" class="speed-btn" data-speed="quick" onclick="changeSpeed('quick')">1&times;</button><button type="button" class="speed-btn active" data-speed="standard" onclick="changeSpeed('standard')">5&times;</button><button type="button" class="speed-btn" data-speed="deep" onclick="changeSpeed('deep')">10&times;</button></div>
+        <button onclick="generatePDF()" class="btn-pdf" style="padding:6px 14px;font-size:.6rem;"><i class="fas fa-file-pdf text-xs"></i> PDF</button>
       </div>
     </div>
-
-    <!-- MAIN DASHBOARD: Clock + Mitigation -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-
-      <!-- LEFT: Clock ring + stats (2 cols) -->
-      <div class="lg:col-span-2">
-        <div class="glass-red rounded-3xl p-6 sm:p-8">
-          <div class="flex flex-col md:flex-row items-center gap-6">
-            <!-- Ring -->
-            <div class="clock-ring-wrap" style="margin:0 auto;">
-              <svg id="clock-svg" width="240" height="240" viewBox="0 0 240 240" class="ring-pulsing">
-                <circle cx="120" cy="120" r="108" fill="none" stroke="rgba(239,68,68,.08)" stroke-width="12"/>
-                <circle id="clock-arc" cx="120" cy="120" r="108" fill="none" stroke="url(#rGrad)" stroke-width="12" stroke-linecap="round"/>
-                <defs>
-                  <linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#ef4444"/>
-                    <stop offset="60%" stop-color="#f97316"/>
-                    <stop offset="100%" stop-color="#ff1493"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:190px;">
-                <div class="cost-display cost-flicker" id="total-cost-display">R 0</div>
-                <div class="font-display text-xs text-red-400 tracking-widest mt-1 opacity-70" id="cost-label-ring">UNMITIGATED COST</div>
-              </div>
-            </div>
-
-            <!-- Stats + comparison -->
-            <div class="flex-1 w-full">
-              <div class="grid grid-cols-3 gap-3 mb-5">
-                <div class="glass rounded-xl p-3 text-center">
-                  <div class="font-display font-black text-xl text-red-400" id="days-elapsed">0</div>
-                  <div class="text-gray-500 text-xs font-mono">Days</div>
-                </div>
-                <div class="glass rounded-xl p-3 text-center">
-                  <div class="font-display font-black text-xl text-amber-400" id="hours-elapsed">00</div>
-                  <div class="text-gray-500 text-xs font-mono">Hours</div>
-                </div>
-                <div class="glass rounded-xl p-3 text-center">
-                  <div class="font-display font-black text-xl text-pink-400" id="cost-per-min">R0</div>
-                  <div class="text-gray-500 text-xs font-mono">Per min</div>
-                </div>
-              </div>
-
-              <!-- Mitigated vs Unmitigated comparison -->
-              <div class="p-4 rounded-2xl" style="background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.06);">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="font-mono text-xs text-gray-500">PROJECTED COST COMPARISON</span>
-                </div>
-                <div class="flex items-center justify-between gap-4 mb-3">
-                  <div>
-                    <div class="text-xs text-red-400 font-mono mb-1">Without controls</div>
-                    <div class="font-display font-black text-lg text-red-400" id="proj-unmitigated">—</div>
-                  </div>
-                  <div class="text-gray-600 font-display text-sm">VS</div>
-                  <div class="text-right">
-                    <div class="text-xs text-green-400 font-mono mb-1">With your controls</div>
-                    <div class="font-display font-black text-lg text-green-400" id="proj-mitigated">—</div>
-                  </div>
-                </div>
-                <div class="savings-bar">
-                  <div class="savings-bar-green" id="savings-bar-fill" style="width:100%"></div>
-                </div>
-                <div class="flex items-center justify-between mt-2">
-                  <span class="font-mono text-xs text-green-400" id="savings-display">Select controls to see savings →</span>
-                  <span class="font-mono text-xs text-gray-600" id="savings-pct"></span>
-                </div>
-              </div>
-            </div>
+    <!-- KILL CHAIN BAR -->
+    <div class="mb-4"><div class="kc-bar-container" id="kill-chain"></div></div>
+    <!-- 3-COL DASHBOARD -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <!-- COL 1: Clock + Comparison + ROI -->
+      <div class="lg:col-span-4 flex flex-col gap-4">
+        <div class="glass-red rounded-2xl p-4 flex flex-col items-center">
+          <div class="clock-ring-wrap" style="margin:0 auto;">
+            <svg id="clock-svg" width="180" height="180" viewBox="0 0 180 180" class="ring-pulsing"><circle cx="90" cy="90" r="80" fill="none" stroke="rgba(239,68,68,.08)" stroke-width="10"/><circle id="clock-arc" cx="90" cy="90" r="80" fill="none" stroke="url(#rGrad)" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:502.65;stroke-dashoffset:502.65;"/><defs><linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef4444"/><stop offset="60%" stop-color="#f97316"/><stop offset="100%" stop-color="#ff1493"/></linearGradient></defs></svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:150px;"><div class="cost-display cost-flicker" id="total-cost-display">R 0</div><div class="font-display text-red-400 tracking-widest mt-1 opacity-60" style="font-size:.5rem;" id="cost-label-ring">BREACH COST</div></div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 w-full mt-3">
+            <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-red-400" id="days-elapsed">0</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">Days</div></div>
+            <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-amber-400" id="hours-elapsed">00</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">Hours</div></div>
+            <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-pink-400" id="cost-per-min">R0</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">/min</div></div>
           </div>
         </div>
-      </div>
-
-      <!-- RIGHT: Mitigation Simulator (1 col) -->
-      <div class="glass rounded-3xl p-5 sm:p-6" style="border-color:rgba(34,197,94,.2);">
-        <div class="flex items-center gap-2 mb-4">
-          <i class="fas fa-shield-check text-green-400 text-sm"></i>
-          <span class="section-tag" style="color:#22c55e;">Mitigation Controls</span>
+        <div class="glass rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-2"><div><div class="text-red-400 font-mono" style="font-size:.55rem;">UNMITIGATED</div><div class="font-display font-black text-red-400" style="font-size:.9rem;" id="proj-unmitigated">&mdash;</div></div><div class="text-gray-700 font-display text-xs">VS</div><div class="text-right"><div class="text-green-400 font-mono" style="font-size:.55rem;">MITIGATED</div><div class="font-display font-black text-green-400" style="font-size:.9rem;" id="proj-mitigated">&mdash;</div></div></div>
+          <div class="savings-bar mb-2"><div class="savings-bar-green" id="savings-bar-fill" style="width:100%"></div></div>
+          <div class="flex items-center justify-between"><span class="font-mono text-green-400" style="font-size:.6rem;" id="savings-display">Toggle controls &rarr;</span><span class="font-mono text-gray-600" style="font-size:.6rem;" id="savings-pct"></span></div>
         </div>
-        <p class="text-gray-500 text-xs font-mono mb-4">Toggle controls to reduce your projected breach cost. Reductions compound (not additive).</p>
-        <div class="space-y-2" id="mitigation-toggles"></div>
-        <div class="mt-4 pt-3 border-t border-white/5">
-          <div class="flex items-center justify-between">
-            <span class="font-mono text-xs text-gray-500">Total reduction</span>
-            <span class="font-display font-black text-green-400 text-sm" id="total-reduction">0%</span>
-          </div>
-        </div>
+        <div class="roi-card"><div class="flex items-center justify-between"><div><div class="font-mono text-gray-500" style="font-size:.5rem;">PENTEST</div><div class="font-display font-black text-green-400 text-sm" id="roi-pentest">&mdash;</div></div><div class="text-center"><div class="font-display font-black text-green-400 text-lg" id="roi-ratio">&mdash;</div><div class="font-mono text-gray-500" style="font-size:.5rem;">ROI</div></div><div class="text-right"><div class="font-mono text-gray-500" style="font-size:.5rem;">BREACH</div><div class="font-display font-black text-red-400 text-sm" id="roi-breach">&mdash;</div></div></div></div>
       </div>
+      <!-- COL 2: Mitigation Controls -->
+      <div class="lg:col-span-4"><div class="glass-green rounded-2xl p-4 h-full flex flex-col">
+        <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><i class="fas fa-shield-check text-green-400" style="font-size:.7rem;"></i><span class="section-tag" style="color:#22c55e;font-size:.55rem;">MITIGATION CONTROLS</span></div><span class="font-display font-black text-green-400 text-sm" id="total-reduction">0%</span></div>
+        <div class="space-y-1.5 flex-1 overflow-y-auto" id="mitigation-toggles" style="max-height:420px;"></div>
+        <div class="mt-3 pt-2 border-t border-white/5 text-center"><span class="font-mono text-gray-600" style="font-size:.55rem;">Reductions compound (IBM CDR 2025)</span></div>
+      </div></div>
+      <!-- COL 3: Tabbed Panel -->
+      <div class="lg:col-span-4"><div class="glass rounded-2xl p-4 h-full flex flex-col">
+        <div class="flex gap-1 mb-3"><button class="tab-btn active" onclick="switchTab('timeline')"><i class="fas fa-timeline mr-1"></i>Timeline</button><button class="tab-btn" onclick="switchTab('breakdown')"><i class="fas fa-chart-pie mr-1"></i>Breakdown</button><button class="tab-btn" onclick="switchTab('intel')"><i class="fas fa-scale-balanced mr-1"></i>Intel</button></div>
+        <div class="tab-panel active flex-1 overflow-y-auto" id="tab-timeline" style="max-height:440px;"><div class="space-y-1.5" id="day-timeline"></div></div>
+        <div class="tab-panel flex-1 overflow-y-auto" id="tab-breakdown" style="max-height:440px;">
+          <div class="space-y-0" id="cost-breakdown"></div>
+          <div class="mt-4 pt-3 border-t border-white/5"><div class="font-mono text-gray-500" style="font-size:.55rem;">PROJECTED (<span id="dwell-label2">194</span> days)</div><div class="font-display font-black text-red-400 text-lg" id="projected-total">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.55rem;" id="industry-note">IBM CDR 2025</div></div>
+          <div id="record-panel" class="hidden mt-3 p-3 rounded-xl" style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);"><div class="font-mono text-blue-400 mb-2" style="font-size:.55rem;"><i class="fas fa-database mr-1"></i>PER-RECORD ANALYSIS</div><div class="grid grid-cols-2 gap-2"><div><div class="font-display font-black text-blue-400 text-sm" id="rec-count">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">Records</div></div><div><div class="font-display font-black text-blue-400 text-sm" id="rec-per-cost">R1 842</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">Per record</div></div><div><div class="font-display font-black text-blue-400 text-sm" id="rec-total">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">Record est.</div></div><div><div class="font-display font-black text-blue-400 text-sm" id="rec-vs-model">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.5rem;">vs size model</div></div></div></div>
+        </div>
+        <div class="tab-panel flex-1 overflow-y-auto" id="tab-intel" style="max-height:440px;">
+          <div class="p-3 rounded-xl mb-3" style="background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);"><div class="font-display text-amber-400 tracking-widest uppercase mb-2" style="font-size:.6rem;font-weight:700;">POPIA EXPOSURE</div><p class="text-gray-400 leading-relaxed mb-3" style="font-size:.72rem;">Under POPIA, a breach can trigger fines of up to <strong class="text-amber-400">R10M</strong> and up to <strong class="text-amber-400">10 years imprisonment</strong>. The Information Regulator must be notified as soon as reasonably possible.</p><div class="grid grid-cols-3 gap-2"><div class="text-center p-2 rounded-lg" style="background:rgba(245,158,11,.05);"><div class="font-display font-black text-amber-400 text-sm">R10M</div><div class="text-gray-600 font-mono" style="font-size:.45rem;">Max fine</div></div><div class="text-center p-2 rounded-lg" style="background:rgba(245,158,11,.05);"><div class="font-display font-black text-amber-400 text-sm">10 yrs</div><div class="text-gray-600 font-mono" style="font-size:.45rem;">Max prison</div></div><div class="text-center p-2 rounded-lg" style="background:rgba(245,158,11,.05);"><div class="font-display font-black text-amber-400 text-sm" id="popia-pct">&mdash;</div><div class="text-gray-600 font-mono" style="font-size:.45rem;">Fine vs breach</div></div></div></div>
+          <div class="p-3 rounded-xl" style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);"><div class="font-mono text-gray-600 tracking-widest uppercase mb-2" style="font-size:.5rem;"><i class="fas fa-book-open mr-1"></i>DATA SOURCES</div><div class="text-gray-500 leading-relaxed" style="font-size:.62rem;"><p class="mb-1"><strong class="text-gray-400">[1]</strong> IBM CDR 2025 &mdash; SA avg: R44.1M</p><p class="mb-1"><strong class="text-gray-400">[2]</strong> Sophos 2024 &mdash; 69% SA ransomware rate</p><p class="mb-1"><strong class="text-gray-400">[3]</strong> POPIA Act 2013 &mdash; Sections 22, 107</p><p class="text-gray-600 italic mt-2">Projections are estimates. Not financial advice.</p></div></div>
+        </div>
+      </div></div>
     </div>
-
-    <!-- COST BREAKDOWN + TIMELINE -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-
-      <!-- Cost breakdown -->
-      <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="section-tag mb-5">Cost Breakdown — Running Total</div>
-        <div class="space-y-1" id="cost-breakdown"></div>
-        <div class="mt-6 pt-4 border-t border-white/10">
-          <div class="font-mono text-gray-500 text-xs tracking-widest uppercase mb-3">Projected Final Cost (<span id="dwell-label2">194</span> days)</div>
-          <div class="font-display font-black text-2xl text-red-400" id="projected-total">Calculating…</div>
-          <div class="text-gray-500 text-xs mt-1 font-mono" id="industry-note">Based on IBM CDR 2025</div>
-        </div>
-        <!-- ROI panel -->
-        <div class="roi-card mt-5">
-          <div class="font-mono text-green-400 text-xs tracking-widest uppercase mb-3 flex items-center gap-2">
-            <i class="fas fa-shield-check text-xs"></i> Prevention vs Breach Cost
-          </div>
-          <div class="flex items-center justify-between gap-4 mb-3">
-            <div class="text-center">
-              <div class="font-display text-lg font-black text-red-400" id="roi-breach">—</div>
-              <div class="font-mono text-gray-500 text-xs mt-0.5">Breach Cost</div>
-            </div>
-            <div class="text-center text-gray-600 font-display text-lg">VS</div>
-            <div class="text-center">
-              <div class="font-display text-lg font-black text-green-400" id="roi-pentest">—</div>
-              <div class="font-mono text-gray-500 text-xs mt-0.5">Pentest Cost</div>
-            </div>
-          </div>
-          <div class="text-center p-2 rounded-xl" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);">
-            <span class="font-display text-green-400 text-sm font-black" id="roi-ratio">—</span>
-            <span class="text-gray-400 text-xs font-mono ml-2">return on investment</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Timeline -->
-      <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="font-display text-xs text-red-400 tracking-widest uppercase mb-5 flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Attacker Activity Timeline
-        </div>
-        <div class="space-y-3 max-h-96 overflow-y-auto pr-2" id="day-timeline"></div>
-      </div>
-    </div>
-
-    <!-- KILL CHAIN -->
-    <div class="glass rounded-3xl p-6 sm:p-8 mb-8">
-      <div class="section-tag mb-5">Kill Chain Progress</div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="kill-chain"></div>
-    </div>
-
-    <!-- POPIA IMPACT PANEL -->
-    <div class="glass rounded-3xl p-6 sm:p-8 mb-8" style="border-color:rgba(245,158,11,.25);">
-      <div class="flex flex-col sm:flex-row items-start gap-6">
-        <div class="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);">&#9878;&#65039;</div>
-        <div class="flex-1">
-          <div class="font-display text-amber-400 text-sm font-bold tracking-widest uppercase mb-2">POPIA Regulatory Exposure</div>
-          <p class="text-gray-300 text-sm leading-relaxed mb-4" style="font-weight:300;">Under South Africa's Protection of Personal Information Act, a breach exposing personal data can trigger fines of <strong class="text-amber-400">up to R10 million</strong> and up to <strong class="text-amber-400">10 years imprisonment</strong> for responsible parties. The Information Regulator must be notified as soon as reasonably possible after discovery of a compromise.</p>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="text-center p-3 rounded-xl" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);">
-              <div class="font-display font-black text-amber-400 text-base">R10M</div>
-              <div class="font-mono text-gray-500 text-xs mt-0.5">Max fine</div>
-            </div>
-            <div class="text-center p-3 rounded-xl" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);">
-              <div class="font-display font-black text-amber-400 text-base">10 yrs</div>
-              <div class="font-mono text-gray-500 text-xs mt-0.5">Max prison</div>
-            </div>
-            <div class="text-center p-3 rounded-xl" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);">
-              <div class="font-display font-black text-amber-400 text-base">ASAP</div>
-              <div class="font-mono text-gray-500 text-xs mt-0.5">Notification duty</div>
-            </div>
-            <div class="text-center p-3 rounded-xl" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);">
-              <div class="font-display font-black text-amber-400 text-base" id="popia-pct">—</div>
-              <div class="font-mono text-gray-500 text-xs mt-0.5">Fine vs breach cost</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PER-RECORD DETAIL (shown if records entered) -->
-    <div id="record-panel" class="hidden glass rounded-3xl p-6 sm:p-8 mb-8" style="border-color:rgba(59,130,246,.25);">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);">
-          <i class="fas fa-database text-blue-400"></i>
-        </div>
-        <div>
-          <div class="font-display text-blue-400 text-sm font-bold tracking-widest uppercase">Per-Record Analysis</div>
-          <div class="text-gray-500 text-xs font-mono">Based on IBM CDR 2025 per-record cost for South Africa</div>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div class="text-center p-3 rounded-xl" style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);">
-          <div class="font-display font-black text-blue-400 text-base" id="rec-count">—</div>
-          <div class="font-mono text-gray-500 text-xs mt-0.5">Records at risk</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);">
-          <div class="font-display font-black text-blue-400 text-base" id="rec-per-cost">R1 842</div>
-          <div class="font-mono text-gray-500 text-xs mt-0.5">Cost per record</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);">
-          <div class="font-display font-black text-blue-400 text-base" id="rec-total">—</div>
-          <div class="font-mono text-gray-500 text-xs mt-0.5">Record-based est.</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);">
-          <div class="font-display font-black text-blue-400 text-base" id="rec-vs-model">—</div>
-          <div class="font-mono text-gray-500 text-xs mt-0.5">vs. size model</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA + PDF -->
-    <div class="alarm-panel">
-      <div class="relative z-10">
-        <div class="font-mono text-red-400 text-xs tracking-widest uppercase mb-4 opacity-80">
-          <i class="fas fa-triangle-exclamation mr-2"></i>The simulation ended. Your risk hasn't.
-        </div>
-        <h3 class="font-display font-black text-white text-2xl sm:text-3xl mb-3">
-          Every day you wait,<br>the cost goes <span class="neon-red">up.</span>
-        </h3>
-        <p class="text-gray-400 max-w-xl mx-auto mb-4 leading-relaxed" style="font-weight:300;">
-          This simulation used your industry's <em>real breach statistics</em>. A Greyhat4Hire penetration test costs a fraction of your projected breach — and it stops this clock <strong class="text-white">before it ever starts.</strong>
-        </p>
-        <div class="inline-block px-5 py-3 rounded-xl mb-6 font-mono text-sm" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);">
-          <span class="text-gray-400">Projected breach: </span><span class="text-red-400 font-black font-display" id="cta-breach-cost">—</span>
-          <span class="text-gray-500 mx-3">vs</span>
-          <span class="text-gray-400">Pentest: </span><span class="text-green-400 font-black font-display" id="cta-pentest-cost">—</span>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-          <a href="contact.html" class="btn-red pulse-red justify-center" style="text-decoration:none;">
-            <i class="fas fa-hand"></i> STOP THE CLOCK — GET A PENTEST
-          </a>
-          <button onclick="generatePDF()" class="btn-pdf justify-center">
-            <i class="fas fa-file-pdf"></i> DOWNLOAD PDF REPORT
-          </button>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <button onclick="resetClock()" class="btn-ghost justify-center">
-            <i class="fas fa-rotate-right"></i> RESET &amp; RECONFIGURE
-          </button>
-        </div>
-        <div class="flex flex-wrap justify-center gap-6 text-xs text-gray-500 mb-6">
-          <a href="tel:+27846353581" class="hover:text-pink-400 transition font-mono"><i class="fas fa-phone text-pink-400 mr-1.5"></i>+27 84 635 3581</a>
-          <a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition font-mono" rel="noopener noreferrer"><i class="fab fa-whatsapp text-pink-400 mr-1.5"></i>WhatsApp</a>
-          <span class="font-mono"><i class="fas fa-envelope text-pink-400 mr-1.5"></i>info@greyhat4hire.com</span>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3">
-          <span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span>
-          <span class="trust-badge"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</span>
-          <span class="trust-badge"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</span>
-          <span class="trust-badge"><i class="fas fa-shield-check text-pink-400/50"></i> POPIA Compliant</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sources -->
-    <div class="mt-8 p-5 rounded-2xl" style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);">
-      <div class="font-mono text-xs text-gray-600 tracking-widest uppercase mb-3"><i class="fas fa-book-open mr-2"></i>DATA SOURCES</div>
-      <div class="text-xs text-gray-500 leading-relaxed space-y-1">
-        <p><strong class="text-gray-400">[1]</strong> IBM Security. <em>Cost of a Data Breach Report 2025.</em> South Africa average: R44.1 million. Per-record cost, industry multipliers, and mitigation factor reductions derived from the same report.</p>
-        <p><strong class="text-gray-400">[2]</strong> Sophos. <em>The State of Ransomware 2024.</em> 69% of South African organisations reported being hit by ransomware.</p>
-        <p><strong class="text-gray-400">[3]</strong> POPIA — Protection of Personal Information Act, 2013. Section 107: Penalties of up to R10 million and/or 10 years imprisonment. Section 22: Notification duty to Information Regulator.</p>
-        <p><strong class="text-gray-400">[4]</strong> IBM CDR 2025 mean time to identify a breach: 194 days (SA-specific estimate). Organisation-size scaling derived from IBM CDR small-business analysis (&lt;500 employees: avg. $3.31M globally).</p>
-        <p class="text-gray-600 mt-2 italic">Note: Organisation-size projections are estimates scaled from IBM CDR enterprise baselines. Actual costs vary by security posture, data volume, and response readiness. This tool is for educational purposes — not financial advice.</p>
-      </div>
-    </div>
-
+    <!-- CTA -->
+    <div class="alarm-panel mt-6"><div class="relative z-10">
+      <div class="font-mono text-red-400 tracking-widest uppercase mb-3 opacity-80" style="font-size:.6rem;"><i class="fas fa-triangle-exclamation mr-2"></i>The simulation ended. Your risk hasn't.</div>
+      <h3 class="font-display font-black text-white text-xl sm:text-2xl mb-2">Every day you wait, the cost goes <span class="neon-red">up.</span></h3>
+      <div class="inline-block px-4 py-2 rounded-lg mb-4 font-mono text-xs" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);"><span class="text-gray-400">Breach: </span><span class="text-red-400 font-black font-display" id="cta-breach-cost">&mdash;</span><span class="text-gray-600 mx-2">vs</span><span class="text-gray-400">Pentest: </span><span class="text-green-400 font-black font-display" id="cta-pentest-cost">&mdash;</span></div>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center mb-4"><a href="contact.html" class="btn-red pulse-red justify-center" style="text-decoration:none;padding:14px 32px;font-size:.78rem;"><i class="fas fa-hand"></i> STOP THE CLOCK &mdash; GET A PENTEST</a><button onclick="generatePDF()" class="btn-pdf justify-center"><i class="fas fa-file-pdf"></i> DOWNLOAD PDF REPORT</button><button onclick="resetClock()" class="btn-ghost justify-center"><i class="fas fa-rotate-right"></i> RESET</button></div>
+      <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-500 mb-4"><a href="tel:+27846353581" class="hover:text-pink-400 transition font-mono"><i class="fas fa-phone text-pink-400 mr-1"></i>+27 84 635 3581</a><a href="https://wa.me/27846353581" target="_blank" class="hover:text-pink-400 transition font-mono" rel="noopener noreferrer"><i class="fab fa-whatsapp text-pink-400 mr-1"></i>WhatsApp</a><span class="font-mono"><i class="fas fa-envelope text-pink-400 mr-1"></i>info@greyhat4hire.com</span></div>
+      <div class="flex flex-wrap justify-center gap-2"><span class="trust-badge"><i class="fas fa-clock text-pink-400/50"></i> 24h Response</span><span class="trust-badge"><i class="fas fa-file-signature text-pink-400/50"></i> NDA First</span><span class="trust-badge"><i class="fas fa-hand-holding-usd text-pink-400/50"></i> Fixed Pricing</span><span class="trust-badge"><i class="fas fa-shield-check text-pink-400/50"></i> POPIA Compliant</span></div>
+    </div></div>
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
 <div id="gh4h-footer"></div>
 <script src="footer.js"></script>
-
 <script>
-// ── CURSOR ──────────────────────────────────
-(function(){
-  var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-  if(cur&&cur2&&window.matchMedia('(pointer: fine)').matches){
-    document.addEventListener('mousemove',function(e){
-      cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
-      cur2.style.left=e.clientX+'px';cur2.style.top=e.clientY+'px';
-    });
-  }
-})();
-
-// ── NAV ─────────────────────────────────────
+(function(){var c=document.getElementById('cur'),c2=document.getElementById('cur2');if(c&&c2&&window.matchMedia('(pointer: fine)').matches){document.addEventListener('mousemove',function(e){c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';c2.style.left=e.clientX+'px';c2.style.top=e.clientY+'px';});}})();
 window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
 var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
 function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
 function closeMenuFn(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
-hamburger.addEventListener('click',openMenu);
-closeMenuBtn.addEventListener('click',closeMenuFn);
-document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenuFn);});
-var mtt=document.getElementById('mobile-tools-toggle');
-if(mtt){mtt.addEventListener('click',function(){mtt.closest('.mobile-tools-accordion').classList.toggle('open');});}
-
-// ── ENTRY ANIMATIONS ────────────────────────
+hamburger.addEventListener('click',openMenu);closeMenuBtn.addEventListener('click',closeMenuFn);
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenuFn);});
+var mtt=document.getElementById('mobile-tools-toggle');if(mtt){mtt.addEventListener('click',function(){mtt.closest('.mobile-tools-accordion').classList.toggle('open');});}
 setTimeout(function(){document.querySelectorAll('#entry-section .fu').forEach(function(el){el.classList.add('vis');});},100);
 
-// ════════════════════════════════════════════════════════════════
-// DATA MODEL — IBM CDR 2025
-// ════════════════════════════════════════════════════════════════
+function switchTab(name){document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',(i===0&&name==='timeline')||(i===1&&name==='breakdown')||(i===2&&name==='intel'));});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.toggle('active',p.id==='tab-'+name);});}
 
-// SA average breach cost: R44.1M (IBM CDR 2025) [1]
-var SA_AVG_BREACH = 44100000;
-var AVG_DWELL_DAYS = 194;
-var PER_RECORD_COST = 1842; // Derived from IBM CDR 2025 SA data
+var SA_AVG=44100000,AVG_DWELL=194,PER_REC=1842;
+var IND={healthcare:{name:'Healthcare',mult:1.35,rank:'#1 most-targeted globally',dwell:194},financial:{name:'Financial Services',mult:1.28,rank:'Highest regulatory exposure',dwell:194},legal:{name:'Legal',mult:1.08,rank:'High-privilege client data',dwell:194},retail:{name:'Retail',mult:0.92,rank:'Card data & PII exposure',dwell:194},manufacturing:{name:'Manufacturing',mult:0.88,rank:'OT/IT convergence risk',dwell:194},government:{name:'Government',mult:0.95,rank:'Nation-state threats',dwell:194},technology:{name:'Technology',mult:1.15,rank:'Supply-chain vector',dwell:194},education:{name:'Education',mult:0.78,rank:'Under-resourced',dwell:194},professional:{name:'Professional Svcs',mult:1.05,rank:'Privileged client data',dwell:194},energy:{name:'Energy',mult:1.22,rank:'Critical infrastructure',dwell:194},other:{name:'Organisation',mult:1.0,rank:'SA baseline',dwell:194}};
+var SZ={micro:{label:'1-10',mult:.027,pt:8000},small:{label:'11-50',mult:.086,pt:15000},medium:{label:'51-250',mult:.27,pt:25000},large:{label:'251-1K',mult:.56,pt:40000},enterprise:{label:'1K+',mult:1.0,pt:65000}};
+var CATS=[{key:'detect',label:'Detection & Escalation',icon:'fa-magnifying-glass',pct:.295,color:'#ef4444',bg:'rgba(239,68,68,.1)'},{key:'notify',label:'Notification',icon:'fa-bell',pct:.064,color:'#f97316',bg:'rgba(249,115,22,.1)'},{key:'response',label:'Post-Breach Response',icon:'fa-shield-halved',pct:.277,color:'#ff1493',bg:'rgba(255,20,147,.1)'},{key:'revenue',label:'Lost Business',icon:'fa-chart-line-down',pct:.364,color:'#f59e0b',bg:'rgba(245,158,11,.1)'}];
+var MITS=[{key:'irPlan',label:'Incident Response Plan',icon:'fa-clipboard-check',r:.11,d:'Tested IR plan with tabletop exercises'},{key:'aiSec',label:'AI & Security Automation',icon:'fa-robot',r:.22,d:'AI-powered detection, SOAR, auto-response'},{key:'training',label:'Security Awareness Training',icon:'fa-chalkboard-user',r:.08,d:'Phishing simulations & awareness'},{key:'encrypt',label:'Encryption (rest & transit)',icon:'fa-lock',r:.08,d:'Encrypt sensitive data everywhere'},{key:'ztna',label:'Zero Trust / MFA',icon:'fa-fingerprint',r:.06,d:'Multi-factor + zero trust architecture'},{key:'devops',label:'DevSecOps',icon:'fa-code-branch',r:.05,d:'Security in development lifecycle'}];
+var TL=[{days:1,icon:'fa-binoculars',title:'Initial Compromise',desc:'Phishing bypasses gateway. Credential harvested.'},{days:3,icon:'fa-door-open',title:'Persistence Established',desc:'Backdoor installed. Attacker can return anytime.'},{days:8,icon:'fa-plug-circle-check',title:'C2 Beacon Active',desc:'C2 traffic blends into HTTPS. Fully operational.'},{days:18,icon:'fa-user-secret',title:'Privilege Escalation',desc:'Domain admin captured via pass-the-hash.'},{days:35,icon:'fa-arrows-left-right',title:'Lateral Movement',desc:'Moving through HR, accounting, CRM. No alerts.'},{days:60,icon:'fa-database',title:'Data Staging',desc:'Records compressed and encrypted for exfil.'},{days:90,icon:'fa-cloud-arrow-up',title:'Silent Exfiltration',desc:'Data leaving over HTTPS. POPIA clock ticking.'},{days:130,icon:'fa-hard-drive',title:'Backups Compromised',desc:'Last line of defence in attacker hands.'},{days:165,icon:'fa-lock',title:'Ransomware Staged',desc:'Payload distributed. Waiting for max impact.'},{days:194,icon:'fa-explosion',title:'Detonation',desc:'Every system encrypts. Started 194 days ago.'}];
+var KC=[{icon:'fa-binoculars',title:'Recon',t:1},{icon:'fa-arrow-down-to-arc',title:'Access',t:3},{icon:'fa-plug',title:'Persist',t:8},{icon:'fa-arrow-up-right-dots',title:'PrivEsc',t:18},{icon:'fa-diagram-next',title:'Lateral',t:35},{icon:'fa-box-archive',title:'Stage',t:60},{icon:'fa-cloud-arrow-up',title:'Exfil',t:90},{icon:'fa-skull-crossbones',title:'Impact',t:165}];
+var SPD={quick:{dps:2.16},standard:{dps:.647},deep:{dps:.27}};
 
-// Industry multipliers (relative to SA average, derived from IBM CDR industry rankings)
-var INDUSTRIES = {
-  healthcare:    { name:'Healthcare / Medical',     mult:1.35, rank:'#1 most-targeted globally — IBM CDR 2025', dwell:194 },
-  financial:     { name:'Financial Services',       mult:1.28, rank:'Highest regulatory exposure',              dwell:194 },
-  legal:         { name:'Legal / Law Firm',         mult:1.08, rank:'High-privilege client data risk',          dwell:194 },
-  retail:        { name:'Retail / eCommerce',       mult:0.92, rank:'Card data & PII exposure',                 dwell:194 },
-  manufacturing: { name:'Manufacturing',            mult:0.88, rank:'OT/IT convergence risk',                   dwell:194 },
-  government:    { name:'Government / Public',      mult:0.95, rank:'Nation-state threat actors',               dwell:194 },
-  technology:    { name:'Technology / SaaS',        mult:1.15, rank:'Supply-chain attack vector',               dwell:194 },
-  education:     { name:'Education',                mult:0.78, rank:'Under-resourced, high record volume',      dwell:194 },
-  professional:  { name:'Professional Services',    mult:1.05, rank:'Privileged client data',                   dwell:194 },
-  energy:        { name:'Energy / Utilities',       mult:1.22, rank:'Critical infrastructure target',           dwell:194 },
-  other:         { name:'Your Organisation',        mult:1.00, rank:'SA cross-industry baseline',               dwell:194 }
-};
+var ci=null,es=0,ip=false,ss='standard',cInd=null,cSz=null,cDw=AVG_DWELL,bp=0,mp=0,cps=0,am={},ctb=[],ur=0,pc=0,sc=false;
 
-// Organisation size scaling (by employee count)
-// Derived from IBM CDR 2025: <500 employees avg. $3.31M vs $4.88M global avg = ~68%
-// Micro/small extrapolated proportionally
-var ORG_SIZES = {
-  micro:      { label:'1–10 employees',       mult:0.027, pentest:8000  },
-  small:      { label:'11–50 employees',      mult:0.086, pentest:15000 },
-  medium:     { label:'51–250 employees',     mult:0.27,  pentest:25000 },
-  large:      { label:'251–1 000 employees',  mult:0.56,  pentest:40000 },
-  enterprise: { label:'1 000+ employees',     mult:1.00,  pentest:65000 }
-};
+function fZ(n){if(n>=1e6)return'R '+(n/1e6).toFixed(2)+'M';if(n>=1e3)return'R '+Math.round(n/1e3).toLocaleString('en-ZA')+'K';return'R '+Math.round(n).toLocaleString('en-ZA');}
+function fF(n){return'R '+Math.round(n).toLocaleString('en-ZA');}
+function showS(id){document.querySelectorAll('.page-section').forEach(function(s){s.classList.remove('active');});document.getElementById(id).classList.add('active');}
+function selectSpeed(m){ss=m;document.querySelectorAll('#entry-section .speed-btn').forEach(function(b){b.classList.toggle('active',b.dataset.speed===m);});}
+function changeSpeed(m){ss=m;document.querySelectorAll('#sim-speed-controls .speed-btn').forEach(function(b){b.classList.toggle('active',b.dataset.speed===m);});}
 
-// Cost breakdown categories (IBM CDR 2025 proportions)
-var COST_CATEGORIES = [
-  { key:'detect',   label:'Detection & Escalation', icon:'fa-magnifying-glass', pct:0.295, color:'#ef4444', bg:'rgba(239,68,68,.12)' },
-  { key:'notify',   label:'Notification Costs',     icon:'fa-bell',            pct:0.064, color:'#f97316', bg:'rgba(249,115,22,.12)' },
-  { key:'response', label:'Post-Breach Response',   icon:'fa-shield-halved',   pct:0.277, color:'#ff1493', bg:'rgba(255,20,147,.12)' },
-  { key:'revenue',  label:'Lost Business / Revenue', icon:'fa-chart-line-down', pct:0.364, color:'#f59e0b', bg:'rgba(245,158,11,.12)' }
-];
+function cMM(){var m=1;MITS.forEach(function(x){if(am[x.key])m*=(1-x.r);});return m;}
+function uMit(){var mult=cMM();mp=Math.round(bp*mult);document.getElementById('proj-unmitigated').textContent=fZ(bp);document.getElementById('proj-mitigated').textContent=fZ(mp);var sv=bp-mp,pct=bp>0?Math.round((sv/bp)*100):0;document.getElementById('savings-display').textContent=sv>0?'Saving '+fZ(sv):'Toggle controls \u2192';document.getElementById('savings-pct').textContent=sv>0?'\u2212'+pct+'%':'';document.getElementById('total-reduction').textContent=pct+'%';document.getElementById('savings-bar-fill').style.width=(bp>0?(mp/bp)*100:100)+'%';document.getElementById('roi-breach').textContent=fZ(mp);document.getElementById('roi-ratio').textContent=(pc>0?Math.round(mp/pc):0)+'\u00d7';document.getElementById('cta-breach-cost').textContent=fZ(mp);document.getElementById('cost-label-ring').textContent=pct>0?'MITIGATED COST':'BREACH COST';}
+function tMit(k){am[k]=!am[k];var el=document.getElementById('mit-'+k);if(el)el.classList.toggle('on',am[k]);uMit();}
 
-// Mitigation controls — IBM CDR 2025 cost-reducing factors
-// Reductions are compounding (multiplied, not added)
-var MITIGATIONS = [
-  { key:'irPlan',   label:'Incident Response Plan (tested)',  icon:'fa-clipboard-check',       reduction:0.11, desc:'Documented IR plan with regular tabletop exercises', source:'IBM CDR 2024: tested IR plan saved avg $473K' },
-  { key:'aiSec',    label:'AI & Security Automation',         icon:'fa-robot',                 reduction:0.22, desc:'AI-powered threat detection, SOAR, auto-response',   source:'IBM CDR 2024: AI/automation saved avg $2.22M' },
-  { key:'training', label:'Security Awareness Training',      icon:'fa-chalkboard-user',       reduction:0.08, desc:'Regular phishing simulations & awareness programmes', source:'IBM CDR 2024: employee training — top 5 cost reducer' },
-  { key:'encrypt',  label:'Encryption (at rest & in transit)',icon:'fa-lock',                  reduction:0.08, desc:'Encrypt sensitive data everywhere it lives or moves',  source:'IBM CDR 2024: encryption saved avg $332K' },
-  { key:'ztna',     label:'Zero Trust / MFA',                 icon:'fa-fingerprint',           reduction:0.06, desc:'Multi-factor auth + zero-trust network architecture', source:'IBM CDR 2024: zero-trust architecture reduces cost' },
-  { key:'devops',   label:'DevSecOps',                        icon:'fa-code-branch',           reduction:0.05, desc:'Security integrated into development lifecycle',      source:'IBM CDR 2024: DevSecOps saved avg $249K' }
-];
+function rMits(){document.getElementById('mitigation-toggles').innerHTML=MITS.map(function(m){return'<div class="mit-row" id="mit-'+m.key+'" onclick="tMit(\''+m.key+'\')" title="'+m.d+'"><div class="toggle-dot"></div><i class="fas '+m.icon+'" style="color:rgba(34,197,94,.4);font-size:.7rem;"></i><div class="mit-label">'+m.label+'</div><div class="mit-pct">\u2212'+Math.round(m.r*100)+'%</div></div>';}).join('');}
 
-// Timeline events
-var TIMELINE_EVENTS = [
-  { days:1,   icon:'fa-binoculars',        title:'Day 1 — Initial Compromise',     desc:'A phishing email bypasses your gateway. Credential harvested. Attacker has a foothold. You have no idea.' },
-  { days:3,   icon:'fa-door-open',         title:'Day 3 — Persistence Established',desc:'Backdoor installed. Registry Run key added. Attacker can return any time — even after the entry point is patched.' },
-  { days:8,   icon:'fa-plug-circle-check', title:'Day 8 — C2 Beacon Active',       desc:'Command-and-control traffic blends into HTTPS. Your firewall sees nothing unusual. Attacker is fully operational.' },
-  { days:18,  icon:'fa-user-secret',       title:'Day 18 — Privilege Escalation',  desc:'Admin credentials captured via pass-the-hash. Attacker now has domain admin — keys to everything.' },
-  { days:35,  icon:'fa-arrows-left-right', title:'Day 35 — Lateral Movement',      desc:'Moving through HR, accounting, CRM and file shares. Disguised as legitimate user behaviour. No alerts.' },
-  { days:60,  icon:'fa-database',          title:'Day 60 — Data Staging',          desc:'Customer records, contracts, financials compressed and encrypted for exfiltration. Growing every day.' },
-  { days:90,  icon:'fa-cloud-arrow-up',    title:'Day 90 — Silent Exfiltration',   desc:'Data leaving over HTTPS — indistinguishable from normal web traffic. POPIA notification clock now ticking.' },
-  { days:130, icon:'fa-hard-drive',        title:'Day 130 — Backups Compromised',  desc:'Attacker locates and gains access to backup systems. Your last line of defence is in their hands.' },
-  { days:165, icon:'fa-lock',              title:'Day 165 — Ransomware Staged',    desc:'Payload distributed across all systems. Attacker waits for maximum disruption timing.' },
-  { days:194, icon:'fa-explosion',         title:'Day 194 — Detonation',           desc:'Every system encrypts simultaneously. Staff arrive to locked screens and ransom notes. This started 194 days ago.' }
-];
-
-// Kill chain phases
-var KILL_CHAIN = [
-  { icon:'fa-binoculars',        title:'Reconnaissance',       desc:'OSINT, subdomain enum, LinkedIn harvesting',  trigger:1   },
-  { icon:'fa-arrow-down-to-arc', title:'Initial Access',       desc:'Phishing, credential stuffing, VPN exploit',  trigger:3   },
-  { icon:'fa-plug',              title:'Persistence',          desc:'Backdoors, scheduled tasks, Run keys',         trigger:8   },
-  { icon:'fa-arrow-up-right-dots',title:'Privilege Escalation',desc:'Pass-the-hash, Kerberoasting, UAC bypass',    trigger:18  },
-  { icon:'fa-diagram-next',      title:'Lateral Movement',     desc:'PSExec, WMI, RDP pivoting, SMB relay',        trigger:35  },
-  { icon:'fa-box-archive',       title:'Collection',           desc:'Data staged, compressed, encrypted',           trigger:60  },
-  { icon:'fa-cloud-arrow-up',    title:'Exfiltration',         desc:'HTTPS/DNS tunnelling bypasses perimeter',      trigger:90  },
-  { icon:'fa-skull-crossbones',  title:'Impact',               desc:'Ransomware detonates. Demands issued.',        trigger:165 }
-];
-
-// Speed modes: breach days per real second
-var SPEED_MODES = {
-  quick:    { daysPerSec: 2.16,  label:'Quick Demo (~90s)' },
-  standard: { daysPerSec: 0.647, label:'Standard (~5 min)' },
-  deep:     { daysPerSec: 0.27,  label:'Deep (~12 min)' }
-};
-
-// ════════════════════════════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════════════════════════════
-var clockInterval = null;
-var elapsedSeconds = 0;
-var isPaused = false;
-var selectedSpeed = 'standard';
-var currentIndustry = null;
-var currentSize = null;
-var currentDwell = AVG_DWELL_DAYS;
-var baseProjected = 0;   // Unmitigated projected total
-var mitigatedProjected = 0;
-var costPerSecBase = 0;
-var costPerSecMit = 0;
-var activeMitigations = {};
-var catTotalsBase = [];
-var catTotalsMit = [];
-var userRecords = 0;
-var pentestCost = 0;
-var simulationComplete = false;
-
-// ── FORMAT HELPERS ──────────────────────────
-function fmtZAR(n){
-  if(n>=1000000) return 'R '+( n/1000000).toFixed(2)+'M';
-  if(n>=1000)    return 'R '+Math.round(n/1000).toLocaleString('en-ZA')+'K';
-  return 'R '+Math.round(n).toLocaleString('en-ZA');
-}
-function fmtZARFull(n){ return 'R '+Math.round(n).toLocaleString('en-ZA'); }
-
-// ── SECTIONS ────────────────────────────────
-function showSection(id){
-  document.querySelectorAll('.page-section').forEach(function(s){s.classList.remove('active');});
-  document.getElementById(id).classList.add('active');
-}
-
-// ── SPEED SELECTION (entry form) ─────────────
-function selectSpeed(mode){
-  selectedSpeed=mode;
-  document.querySelectorAll('#entry-section .speed-btn').forEach(function(b){
-    b.classList.toggle('active',b.dataset.speed===mode);
-  });
-}
-
-// ── SPEED CHANGE (in-sim) ────────────────────
-function changeSpeed(mode){
-  selectedSpeed=mode;
-  document.querySelectorAll('#sim-speed-controls .speed-btn').forEach(function(b){
-    b.classList.toggle('active',b.dataset.speed===mode);
-  });
-}
-
-// ── MITIGATION CALC ──────────────────────────
-function calcMitigationMultiplier(){
-  var mult = 1;
-  MITIGATIONS.forEach(function(m){
-    if(activeMitigations[m.key]) mult *= (1 - m.reduction);
-  });
-  return mult;
-}
-
-function updateMitigatedCost(){
-  var mult = calcMitigationMultiplier();
-  mitigatedProjected = Math.round(baseProjected * mult);
-  costPerSecMit = mitigatedProjected / (currentDwell * 86400);
-
-  // Update displays
-  document.getElementById('proj-unmitigated').textContent = fmtZAR(baseProjected);
-  document.getElementById('proj-mitigated').textContent = fmtZAR(mitigatedProjected);
-
-  var savings = baseProjected - mitigatedProjected;
-  var savPct = baseProjected > 0 ? Math.round((savings / baseProjected) * 100) : 0;
-  document.getElementById('savings-display').textContent = savings > 0 ? 'You\'d save ' + fmtZAR(savings) : 'Select controls to see savings →';
-  document.getElementById('savings-pct').textContent = savings > 0 ? '−' + savPct + '%' : '';
-  document.getElementById('total-reduction').textContent = savPct + '%';
-
-  // Savings bar
-  var greenPct = baseProjected > 0 ? (mitigatedProjected / baseProjected) * 100 : 100;
-  document.getElementById('savings-bar-fill').style.width = greenPct + '%';
-
-  // ROI uses mitigated cost
-  document.getElementById('roi-breach').textContent = fmtZAR(mitigatedProjected);
-  var roi = pentestCost > 0 ? Math.round(mitigatedProjected / pentestCost) : 0;
-  document.getElementById('roi-ratio').textContent = roi + '× ROI';
-  document.getElementById('cta-breach-cost').textContent = fmtZAR(mitigatedProjected);
-
-  // Ring label
-  var label = savPct > 0 ? 'MITIGATED COST' : 'UNMITIGATED COST';
-  document.getElementById('cost-label-ring').textContent = label;
-}
-
-function toggleMitigation(key){
-  activeMitigations[key] = !activeMitigations[key];
-  var el = document.getElementById('mit-'+key);
-  if(el) el.classList.toggle('on', activeMitigations[key]);
-  updateMitigatedCost();
-}
-
-// ── RENDER MITIGATIONS ───────────────────────
-function renderMitigations(){
-  var container = document.getElementById('mitigation-toggles');
-  container.innerHTML = MITIGATIONS.map(function(m){
-    return '<div class="mit-toggle" id="mit-'+m.key+'" onclick="toggleMitigation(\''+m.key+'\')" title="'+m.source+'">'+
-      '<div class="mit-icon"><i class="fas '+m.icon+'"></i></div>'+
-      '<div class="flex-1">'+
-        '<div class="mit-label">'+m.label+'</div>'+
-        '<div class="mit-detail">'+m.desc+'</div>'+
-      '</div>'+
-      '<div class="mit-pct">−'+Math.round(m.reduction*100)+'%</div>'+
-      '<div class="toggle-track"><div class="toggle-thumb"></div></div>'+
-    '</div>';
-  }).join('');
-}
-
-// ── START CLOCK ──────────────────────────────
 function startClock(){
-  var indKey = document.getElementById('inp-industry').value;
-  var sizeKey = document.getElementById('inp-size').value;
-  var errEl = document.getElementById('form-err');
-
-  if(!indKey || !sizeKey){ errEl.classList.remove('hidden'); return; }
-  errEl.classList.add('hidden');
-
-  var ind = INDUSTRIES[indKey] || INDUSTRIES.other;
-  var sz = ORG_SIZES[sizeKey] || ORG_SIZES.micro;
-  currentIndustry = ind;
-  currentSize = sz;
-  currentDwell = ind.dwell;
-  pentestCost = sz.pentest;
-
-  // Calculate base projected cost
-  baseProjected = Math.round(SA_AVG_BREACH * ind.mult * sz.mult);
-  mitigatedProjected = baseProjected;
-  costPerSecBase = baseProjected / (currentDwell * 86400);
-  costPerSecMit = costPerSecBase;
-
-  // Reset mitigations
-  activeMitigations = {};
-
-  // User records
-  userRecords = parseInt(document.getElementById('inp-records').value) || 0;
-
-  // Populate static UI
-  document.getElementById('scenario-label').textContent = ind.name + ' · ' + sz.label + ' — ' + ind.rank;
-  document.getElementById('projected-total').textContent = fmtZAR(baseProjected);
-  document.getElementById('industry-note').textContent = 'IBM CDR 2025 · ' + ind.name + ' · ' + currentDwell + '-day dwell';
-  document.getElementById('cost-per-min').textContent = fmtZAR(costPerSecBase * 60);
-  document.getElementById('dwell-display').textContent = currentDwell;
-  document.getElementById('dwell-label2').textContent = currentDwell;
-
-  document.getElementById('proj-unmitigated').textContent = fmtZAR(baseProjected);
-  document.getElementById('proj-mitigated').textContent = fmtZAR(baseProjected);
-  document.getElementById('savings-display').textContent = 'Select controls to see savings →';
-  document.getElementById('savings-pct').textContent = '';
-  document.getElementById('savings-bar-fill').style.width = '100%';
-
-  // ROI
-  document.getElementById('roi-breach').textContent = fmtZAR(baseProjected);
-  document.getElementById('roi-pentest').textContent = fmtZAR(pentestCost);
-  document.getElementById('roi-ratio').textContent = Math.round(baseProjected / pentestCost) + '× ROI';
-  document.getElementById('cta-breach-cost').textContent = fmtZAR(baseProjected);
-  document.getElementById('cta-pentest-cost').textContent = fmtZAR(pentestCost);
-
-  // POPIA
-  var popiaPct = baseProjected > 0 ? Math.round((10000000 / baseProjected) * 100) : 0;
-  document.getElementById('popia-pct').textContent = popiaPct > 100 ? popiaPct + '%' : '<100%';
-
-  // Per-record panel
-  if(userRecords > 0){
-    document.getElementById('record-panel').classList.remove('hidden');
-    document.getElementById('rec-count').textContent = userRecords.toLocaleString('en-ZA');
-    document.getElementById('rec-per-cost').textContent = 'R ' + PER_RECORD_COST.toLocaleString('en-ZA');
-    var recTotal = userRecords * PER_RECORD_COST;
-    document.getElementById('rec-total').textContent = fmtZAR(recTotal);
-    var diff = recTotal > baseProjected ? '+' + Math.round(((recTotal - baseProjected) / baseProjected) * 100) + '% higher' : Math.round(((baseProjected - recTotal) / baseProjected) * 100) + '% lower';
-    document.getElementById('rec-vs-model').textContent = diff;
-  } else {
-    document.getElementById('record-panel').classList.add('hidden');
-  }
-
-  // Init category trackers
-  catTotalsBase = COST_CATEGORIES.map(function(c){
-    return { key:c.key, label:c.label, icon:c.icon, pct:c.pct, color:c.color, bg:c.bg, total:0, projected:baseProjected*c.pct };
-  });
-
-  renderCostBreakdown();
-  renderTimeline();
-  renderKillChain();
-  renderMitigations();
-  showSection('clock-section');
-
-  setTimeout(function(){
-    var anchor = document.getElementById('clock-anchor');
-    if(anchor) anchor.scrollIntoView({behavior:'smooth',block:'start'});
-  },100);
-
-  // Sync in-sim speed buttons
-  document.querySelectorAll('#sim-speed-controls .speed-btn').forEach(function(b){
-    b.classList.toggle('active', b.dataset.speed===selectedSpeed);
-  });
-
-  elapsedSeconds = 0; isPaused = false; simulationComplete = false;
-  document.getElementById('pause-icon').className = 'fas fa-pause text-xs';
-  document.getElementById('pause-label').textContent = 'PAUSE';
-  document.getElementById('clock-svg').classList.add('ring-pulsing');
-  document.getElementById('clock-svg').classList.remove('ring-paused');
-  document.getElementById('live-chip').style.display = 'inline-flex';
-  document.getElementById('paused-chip').style.display = 'none';
-
-  if(clockInterval) clearInterval(clockInterval);
-  clockInterval = setInterval(tick, 1000);
+  var ik=document.getElementById('inp-industry').value,sk=document.getElementById('inp-size').value;
+  if(!ik||!sk){document.getElementById('form-err').classList.remove('hidden');return;}
+  document.getElementById('form-err').classList.add('hidden');
+  var ind=IND[ik]||IND.other,sz=SZ[sk]||SZ.micro;cInd=ind;cSz=sz;cDw=ind.dwell;pc=sz.pt;
+  bp=Math.round(SA_AVG*ind.mult*sz.mult);mp=bp;cps=bp/(cDw*86400);am={};
+  ur=parseInt(document.getElementById('inp-records').value)||0;
+  document.getElementById('scenario-label').textContent=ind.name+' \u00b7 '+sz.label+' emp \u00b7 '+ind.rank;
+  document.getElementById('projected-total').textContent=fZ(bp);
+  document.getElementById('industry-note').textContent='IBM CDR 2025 \u00b7 '+ind.name+' \u00b7 '+cDw+'-day dwell';
+  document.getElementById('cost-per-min').textContent=fZ(cps*60);
+  document.getElementById('dwell-display').textContent=cDw;document.getElementById('dwell-label2').textContent=cDw;
+  document.getElementById('proj-unmitigated').textContent=fZ(bp);document.getElementById('proj-mitigated').textContent=fZ(bp);
+  document.getElementById('savings-display').textContent='Toggle controls \u2192';document.getElementById('savings-pct').textContent='';document.getElementById('savings-bar-fill').style.width='100%';
+  document.getElementById('roi-breach').textContent=fZ(bp);document.getElementById('roi-pentest').textContent=fZ(pc);document.getElementById('roi-ratio').textContent=Math.round(bp/pc)+'\u00d7';
+  document.getElementById('cta-breach-cost').textContent=fZ(bp);document.getElementById('cta-pentest-cost').textContent=fZ(pc);
+  var pp=bp>0?Math.round((1e7/bp)*100):0;document.getElementById('popia-pct').textContent=pp>100?pp+'%':'<100%';
+  if(ur>0){document.getElementById('record-panel').classList.remove('hidden');document.getElementById('rec-count').textContent=ur.toLocaleString('en-ZA');document.getElementById('rec-per-cost').textContent='R '+PER_REC.toLocaleString('en-ZA');var rt=ur*PER_REC;document.getElementById('rec-total').textContent=fZ(rt);document.getElementById('rec-vs-model').textContent=rt>bp?'+'+Math.round(((rt-bp)/bp)*100)+'%':Math.round(((bp-rt)/bp)*100)+'% lower';}else{document.getElementById('record-panel').classList.add('hidden');}
+  ctb=CATS.map(function(c){return{key:c.key,label:c.label,icon:c.icon,pct:c.pct,color:c.color,bg:c.bg,total:0,proj:bp*c.pct};});
+  rCB();rTL();rKC();rMits();showS('clock-section');
+  setTimeout(function(){var a=document.getElementById('clock-anchor');if(a)a.scrollIntoView({behavior:'smooth',block:'start'});},100);
+  document.querySelectorAll('#sim-speed-controls .speed-btn').forEach(function(b){b.classList.toggle('active',b.dataset.speed===ss);});
+  es=0;ip=false;sc=false;
+  document.getElementById('pause-icon').className='fas fa-pause text-xs';document.getElementById('pause-label').textContent='PAUSE';
+  document.getElementById('clock-svg').classList.add('ring-pulsing');document.getElementById('clock-svg').classList.remove('ring-paused');
+  document.getElementById('live-chip').style.display='inline-flex';document.getElementById('paused-chip').style.display='none';
+  if(ci)clearInterval(ci);ci=setInterval(tick,1000);
 }
 
-// ── PAUSE / RESUME ───────────────────────────
-function togglePause(){
-  isPaused = !isPaused;
-  if(isPaused){
-    clearInterval(clockInterval);
-    document.getElementById('pause-icon').className = 'fas fa-play text-xs';
-    document.getElementById('pause-label').textContent = 'RESUME';
-    document.getElementById('clock-svg').classList.remove('ring-pulsing');
-    document.getElementById('clock-svg').classList.add('ring-paused');
-    document.getElementById('live-chip').style.display = 'none';
-    document.getElementById('paused-chip').style.display = 'inline-flex';
-  } else {
-    document.getElementById('pause-icon').className = 'fas fa-pause text-xs';
-    document.getElementById('pause-label').textContent = 'PAUSE';
-    document.getElementById('clock-svg').classList.remove('ring-paused');
-    document.getElementById('clock-svg').classList.add('ring-pulsing');
-    document.getElementById('live-chip').style.display = 'inline-flex';
-    document.getElementById('paused-chip').style.display = 'none';
-    if(!simulationComplete) clockInterval = setInterval(tick, 1000);
-  }
-}
+function togglePause(){ip=!ip;if(ip){clearInterval(ci);document.getElementById('pause-icon').className='fas fa-play text-xs';document.getElementById('pause-label').textContent='RESUME';document.getElementById('clock-svg').classList.remove('ring-pulsing');document.getElementById('clock-svg').classList.add('ring-paused');document.getElementById('live-chip').style.display='none';document.getElementById('paused-chip').style.display='inline-flex';}else{document.getElementById('pause-icon').className='fas fa-pause text-xs';document.getElementById('pause-label').textContent='PAUSE';document.getElementById('clock-svg').classList.remove('ring-paused');document.getElementById('clock-svg').classList.add('ring-pulsing');document.getElementById('live-chip').style.display='inline-flex';document.getElementById('paused-chip').style.display='none';if(!sc)ci=setInterval(tick,1000);}}
+function skipToEnd(){if(ci)clearInterval(ci);es=Math.ceil(cDw/SPD[ss].dps)+1;tick();}
 
-// ── SKIP TO END ──────────────────────────────
-function skipToEnd(){
-  if(clockInterval) clearInterval(clockInterval);
-  // Set elapsed to exactly the end
-  var neededSec = currentDwell / SPEED_MODES[selectedSpeed].daysPerSec;
-  elapsedSeconds = Math.ceil(neededSec) + 1;
-  tick(); // One final tick to render end state
-}
-
-// ── TICK ─────────────────────────────────────
 function tick(){
-  elapsedSeconds++;
-  var dps = SPEED_MODES[selectedSpeed].daysPerSec;
-  var breachDays = elapsedSeconds * dps;
-  var cappedDays = Math.min(breachDays, currentDwell);
-  var breachSec = cappedDays * 86400;
-
-  // Use mitigated cost for display
-  var mitMult = calcMitigationMultiplier();
-  var totalCostMit = Math.min(costPerSecBase * mitMult * breachSec, baseProjected * mitMult);
-  var totalCostBase = Math.min(costPerSecBase * breachSec, baseProjected);
-
-  // Update main display — show mitigated if controls active, else base
-  var displayCost = Object.keys(activeMitigations).some(function(k){return activeMitigations[k];}) ? totalCostMit : totalCostBase;
-  document.getElementById('total-cost-display').textContent = fmtZARFull(displayCost);
-
-  // Time displays
-  document.getElementById('days-elapsed').textContent = Math.floor(cappedDays);
-  document.getElementById('hours-elapsed').textContent = String(Math.floor((cappedDays % 1) * 24)).padStart(2, '0');
-  document.getElementById('current-day-display').textContent = Math.min(Math.floor(cappedDays) + 1, currentDwell);
-
-  // Ring arc
-  var r = 108;
-  var arcLen = 2 * Math.PI * r;
-  var pct = cappedDays / currentDwell;
-  document.getElementById('clock-arc').style.strokeDasharray = arcLen;
-  document.getElementById('clock-arc').style.strokeDashoffset = arcLen - (arcLen * pct);
-
-  // Category breakdown (base cost)
-  catTotalsBase.forEach(function(c){
-    c.total = Math.min(costPerSecBase * c.pct * breachSec, c.projected);
-  });
-  updateCostBreakdown();
-  updateTimeline(cappedDays);
-  updateKillChain(cappedDays);
-
-  // End check
-  if(breachDays >= currentDwell){
-    clearInterval(clockInterval);
-    simulationComplete = true;
-    document.getElementById('total-cost-display').textContent = fmtZARFull(Object.keys(activeMitigations).some(function(k){return activeMitigations[k];}) ? mitigatedProjected : baseProjected);
-    document.getElementById('clock-svg').classList.remove('ring-pulsing');
-    document.getElementById('live-chip').style.display = 'none';
-  }
+  es++;var dps=SPD[ss].dps,bD=es*dps,cD=Math.min(bD,cDw),bS=cD*86400;
+  var mm=cMM(),any=Object.keys(am).some(function(k){return am[k];});
+  var cB=Math.min(cps*bS,bp),cM=Math.min(cps*mm*bS,bp*mm);
+  document.getElementById('total-cost-display').textContent=fF(any?cM:cB);
+  document.getElementById('days-elapsed').textContent=Math.floor(cD);
+  document.getElementById('hours-elapsed').textContent=String(Math.floor((cD%1)*24)).padStart(2,'0');
+  document.getElementById('current-day-display').textContent=Math.min(Math.floor(cD)+1,cDw);
+  var r=80,al=2*Math.PI*r;document.getElementById('clock-arc').style.strokeDasharray=al;document.getElementById('clock-arc').style.strokeDashoffset=al-(al*(cD/cDw));
+  ctb.forEach(function(c){c.total=Math.min(cps*c.pct*bS,c.proj);});uCB();uTL(cD);uKC(cD);
+  if(bD>=cDw){clearInterval(ci);sc=true;document.getElementById('total-cost-display').textContent=fF(any?mp:bp);document.getElementById('clock-svg').classList.remove('ring-pulsing');document.getElementById('live-chip').style.display='none';}
 }
 
-// ── COST BREAKDOWN ───────────────────────────
-function renderCostBreakdown(){
-  document.getElementById('cost-breakdown').innerHTML = catTotalsBase.map(function(c){
-    return '<div class="cat-row">'+
-      '<div class="cat-icon" style="background:'+c.bg+'"><i class="fas '+c.icon+'" style="color:'+c.color+'"></i></div>'+
-      '<div class="flex-1">'+
-        '<div class="cat-label">'+c.label+'</div>'+
-        '<div class="dmg-bar-track mt-1.5"><div class="dmg-bar-fill" id="bar-'+c.key+'" style="background:'+c.color+'"></div></div>'+
-      '</div>'+
-      '<div class="cat-amount" id="amt-'+c.key+'">R 0</div>'+
-    '</div>';
-  }).join('');
-}
-function updateCostBreakdown(){
-  catTotalsBase.forEach(function(c){
-    var el=document.getElementById('amt-'+c.key);
-    var bar=document.getElementById('bar-'+c.key);
-    if(el) el.textContent=fmtZAR(c.total);
-    if(bar) bar.style.width=Math.min((c.total/c.projected)*100,100)+'%';
-  });
-}
+function rCB(){document.getElementById('cost-breakdown').innerHTML=ctb.map(function(c){return'<div class="cat-row"><div class="cat-icon" style="background:'+c.bg+'"><i class="fas '+c.icon+'" style="color:'+c.color+';font-size:.6rem;"></i></div><div class="flex-1"><div class="cat-label">'+c.label+'</div><div class="dmg-bar-track mt-1"><div class="dmg-bar-fill" id="bar-'+c.key+'" style="background:'+c.color+'"></div></div></div><div class="cat-amount" id="amt-'+c.key+'">R 0</div></div>';}).join('');}
+function uCB(){ctb.forEach(function(c){var e=document.getElementById('amt-'+c.key),b=document.getElementById('bar-'+c.key);if(e)e.textContent=fZ(c.total);if(b)b.style.width=Math.min((c.total/c.proj)*100,100)+'%';});}
 
-// ── TIMELINE ─────────────────────────────────
-function renderTimeline(){
-  document.getElementById('day-timeline').innerHTML = TIMELINE_EVENTS.map(function(e,i){
-    return '<div class="day-card" id="tl-'+i+'">'+
-      '<div class="day-num"><i class="fas '+e.icon+' mr-1"></i> DAY '+e.days+'</div>'+
-      '<div class="day-title">'+e.title+'</div>'+
-      '<div class="day-desc">'+e.desc+'</div>'+
-    '</div>';
-  }).join('');
-}
-var lastTLIdx = -1;
-function updateTimeline(days){
-  var activeIdx = -1;
-  TIMELINE_EVENTS.forEach(function(e,i){ if(days >= e.days) activeIdx = i; });
-  if(activeIdx === lastTLIdx) return;
-  lastTLIdx = activeIdx;
-  TIMELINE_EVENTS.forEach(function(_,i){
-    var el = document.getElementById('tl-'+i);
-    if(!el) return;
-    el.classList.remove('active','past');
-    if(i === activeIdx){ el.classList.add('active'); el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
-    else if(i < activeIdx){ el.classList.add('past'); }
-  });
-}
+function rTL(){document.getElementById('day-timeline').innerHTML=TL.map(function(e,i){return'<div class="day-card" id="tl-'+i+'"><div class="day-num"><i class="fas '+e.icon+' mr-1"></i>DAY '+e.days+'</div><div class="day-title">'+e.title+'</div><div class="day-desc">'+e.desc+'</div></div>';}).join('');}
+var ltl=-1;
+function uTL(d){var ai=-1;TL.forEach(function(e,i){if(d>=e.days)ai=i;});if(ai===ltl)return;ltl=ai;TL.forEach(function(_,i){var el=document.getElementById('tl-'+i);if(!el)return;el.classList.remove('active','past');if(i===ai){el.classList.add('active');var ct=document.getElementById('tab-timeline');if(ct){var tp=el.offsetTop-ct.offsetTop-10;ct.scrollTo({top:tp,behavior:'smooth'});}}else if(i<ai)el.classList.add('past');});}
 
-// ── KILL CHAIN ───────────────────────────────
-function renderKillChain(){
-  document.getElementById('kill-chain').innerHTML = KILL_CHAIN.map(function(p,i){
-    return '<div class="kc-phase" id="kc-'+i+'" style="flex-direction:column;align-items:center;text-align:center;padding:16px 12px;">'+
-      '<div class="kc-icon-wrap mb-2"><i class="fas '+p.icon+' text-pink-400"></i></div>'+
-      '<div class="kc-num mb-1">'+String(i+1).padStart(2,'0')+'</div>'+
-      '<div class="kc-title" style="font-size:.82rem;">'+p.title+'</div>'+
-      '<div class="kc-desc" style="font-size:.72rem;">'+p.desc+'</div>'+
-      '<div class="kc-bar mt-2 w-full"><div class="kc-bar-fill" id="kcb-'+i+'"></div></div>'+
-    '</div>';
-  }).join('');
-}
-var lastKCIdx = -1;
-function updateKillChain(days){
-  var activeIdx = -1;
-  KILL_CHAIN.forEach(function(p,i){ if(days >= p.trigger) activeIdx = i; });
-  if(activeIdx === lastKCIdx) return;
-  lastKCIdx = activeIdx;
-  KILL_CHAIN.forEach(function(_,i){
-    var el = document.getElementById('kc-'+i);
-    if(el) el.classList.toggle('reached', i <= activeIdx);
-  });
-}
+function rKC(){document.getElementById('kill-chain').innerHTML=KC.map(function(p,i){return'<div class="kc-segment" id="kc-'+i+'"><i class="fas '+p.icon+'"></i><div class="kc-tooltip"><strong>'+p.title+'</strong> \u2014 Day '+p.t+'</div></div>';}).join('');}
+var lkc=-1;
+function uKC(d){var ai=-1;KC.forEach(function(p,i){if(d>=p.t)ai=i;});if(ai===lkc)return;lkc=ai;KC.forEach(function(_,i){document.getElementById('kc-'+i).classList.toggle('reached',i<=ai);});}
 
-// ── RESET ────────────────────────────────────
-function resetClock(){
-  if(clockInterval) clearInterval(clockInterval);
-  elapsedSeconds=0;lastTLIdx=-1;lastKCIdx=-1;isPaused=false;simulationComplete=false;
-  activeMitigations={};
-  document.getElementById('inp-industry').value='';
-  document.getElementById('inp-size').value='';
-  document.getElementById('inp-records').value='';
-  showSection('entry-section');
-  window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(function(){document.querySelectorAll('#entry-section .fu').forEach(function(el){el.classList.add('vis');});},100);
-}
+function resetClock(){if(ci)clearInterval(ci);es=0;ltl=-1;lkc=-1;ip=false;sc=false;am={};document.getElementById('inp-industry').value='';document.getElementById('inp-size').value='';document.getElementById('inp-records').value='';showS('entry-section');window.scrollTo({top:0,behavior:'smooth'});setTimeout(function(){document.querySelectorAll('#entry-section .fu').forEach(function(el){el.classList.add('vis');});},100);}
 
-// ════════════════════════════════════════════════════════════════
-// PDF REPORT GENERATION
-// ════════════════════════════════════════════════════════════════
-function generatePDF(){
-  // Load jsPDF dynamically
-  if(window.jspdf){
-    buildPDF();
-    return;
-  }
-  var s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-  s.onload = function(){ buildPDF(); };
-  s.onerror = function(){ alert('Could not load PDF library. Please check your internet connection and try again.'); };
-  document.head.appendChild(s);
-}
+function generatePDF(){if(window.jspdf){buildPDF();return;}var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=function(){buildPDF();};s.onerror=function(){alert('Could not load PDF library.');};document.head.appendChild(s);}
+function buildPDF(){var doc=new window.jspdf.jsPDF('p','mm','a4'),W=210,M=20,CW=W-2*M,y=M;function aL(t,sz,st,col,mw){doc.setFontSize(sz||10);if(st)doc.setFont('helvetica',st);if(col)doc.setTextColor(col[0],col[1],col[2]);else doc.setTextColor(60,60,60);var l=doc.splitTextToSize(t,mw||CW);if(y+l.length*sz*.5>280){doc.addPage();y=M;}doc.text(l,M,y);y+=l.length*(sz*.45)+2;}function sep(){doc.setDrawColor(200);doc.line(M,y,W-M,y);y+=5;}doc.setFillColor(10,10,10);doc.rect(0,0,W,35,'F');doc.setFontSize(18);doc.setFont('helvetica','bold');doc.setTextColor(255,20,147);doc.text('GREYHAT4HIRE',M,16);doc.setFontSize(9);doc.setTextColor(180,180,180);doc.text('Breach Cost Risk Assessment',M,23);doc.text('Generated: '+new Date().toLocaleDateString('en-ZA',{year:'numeric',month:'long',day:'numeric'}),M,28);y=45;aL('ORGANISATION PROFILE',12,'bold',[255,20,147]);y+=2;aL('Industry: '+(cInd?cInd.name:'N/A'),10,'normal');aL('Size: '+(cSz?cSz.label+' employees':'N/A'),10,'normal');if(ur>0)aL('Records: '+ur.toLocaleString('en-ZA'),10,'normal');aL('Risk: '+(cInd?cInd.rank:''),10,'normal');y+=3;sep();aL('PROJECTED BREACH COST',12,'bold',[239,68,68]);y+=2;aL('Unmitigated: '+fZ(bp),11,'bold',[200,40,40]);aL('IBM CDR 2025, scaled for size/industry.',9,'normal',[120,120,120]);y+=2;aL('Dwell: '+cDw+' days | Cost/min: '+fZ(cps*60),10,'normal');y+=2;aL('Breakdown:',10,'bold');CATS.forEach(function(c){aL('  '+c.label+': '+fZ(bp*c.pct)+' ('+Math.round(c.pct*100)+'%)',9,'normal');});y+=3;sep();aL('MITIGATION ANALYSIS',12,'bold',[34,197,94]);y+=2;var anyOn=false;MITS.forEach(function(m){if(am[m.key]){anyOn=true;aL('  [ON] '+m.label+' (-'+Math.round(m.r*100)+'%)',9,'normal',[34,160,80]);}else{aL('  [OFF] '+m.label+' (-'+Math.round(m.r*100)+'%)',9,'normal',[160,160,160]);}});y+=2;var mc=Math.round(bp*cMM()),sv=bp-mc,sp=bp>0?Math.round((sv/bp)*100):0;aL('Mitigated: '+fZ(mc),11,'bold',anyOn?[34,160,80]:[200,40,40]);if(anyOn)aL('Savings: '+fZ(sv)+' (-'+sp+'%)',10,'normal',[34,160,80]);y+=3;sep();aL('POPIA EXPOSURE',12,'bold',[245,158,11]);y+=2;aL('Max fine: R10M | Max prison: 10yrs | Notification: ASAP (s22)',10,'normal');y+=3;sep();aL('ROI',12,'bold',[34,197,94]);y+=2;aL('Pentest: '+fZ(pc)+' | Breach: '+fZ(mc)+' | ROI: '+Math.round(mc/pc)+'x',10,'bold',[34,160,80]);y+=5;sep();aL('NEXT STEPS',12,'bold',[255,20,147]);y+=2;aL('1. Schedule a penetration test.',10,'normal');aL('2. Activate inactive controls above.',10,'normal');aL('3. Develop & test an Incident Response Plan.',10,'normal');aL('4. Review POPIA compliance.',10,'normal');y+=5;sep();aL('Greyhat4Hire | +27 84 635 3581 | info@greyhat4hire.com | greyhat4hire.com',9,'bold',[255,20,147]);aL('Sources: IBM CDR 2025, Sophos 2024, POPIA Act 2013. Not financial advice.',8,'normal',[160,160,160]);doc.save('GH4H-Breach-Cost-Report-'+new Date().toISOString().slice(0,10)+'.pdf');}
 
-function buildPDF(){
-  var doc = new window.jspdf.jsPDF('p','mm','a4');
-  var W = 210, M = 20, CW = W - 2*M;
-  var y = M;
-
-  // Helpers
-  function addLine(text,size,style,color,maxW){
-    doc.setFontSize(size||10);
-    if(style) doc.setFont('helvetica',style);
-    if(color) doc.setTextColor(color[0],color[1],color[2]);
-    else doc.setTextColor(60,60,60);
-    var lines = doc.splitTextToSize(text, maxW||CW);
-    if(y + lines.length*size*0.5 > 280){ doc.addPage(); y = M; }
-    doc.text(lines, M, y);
-    y += lines.length * (size * 0.45) + 2;
-    return lines.length;
-  }
-  function addSep(){ doc.setDrawColor(200,200,200); doc.line(M,y,W-M,y); y+=5; }
-
-  // Header
-  doc.setFillColor(10,10,10);
-  doc.rect(0,0,W,35,'F');
-  doc.setFontSize(18); doc.setFont('helvetica','bold'); doc.setTextColor(255,20,147);
-  doc.text('GREYHAT4HIRE', M, 16);
-  doc.setFontSize(9); doc.setTextColor(180,180,180);
-  doc.text('Breach Cost Risk Assessment', M, 23);
-  doc.text('Generated: ' + new Date().toLocaleDateString('en-ZA',{year:'numeric',month:'long',day:'numeric'}), M, 28);
-  y = 45;
-
-  // Organisation profile
-  addLine('ORGANISATION PROFILE', 12, 'bold', [255,20,147]);
-  y += 2;
-  addLine('Industry: ' + (currentIndustry ? currentIndustry.name : 'N/A'), 10, 'normal');
-  addLine('Size: ' + (currentSize ? currentSize.label : 'N/A'), 10, 'normal');
-  if(userRecords > 0) addLine('Records held: ' + userRecords.toLocaleString('en-ZA'), 10, 'normal');
-  addLine('Industry risk profile: ' + (currentIndustry ? currentIndustry.rank : ''), 10, 'normal');
-  y += 3; addSep();
-
-  // Projected costs
-  addLine('PROJECTED BREACH COST', 12, 'bold', [239,68,68]);
-  y += 2;
-  addLine('Unmitigated projected cost: ' + fmtZAR(baseProjected), 11, 'bold', [200,40,40]);
-  addLine('Based on IBM Cost of a Data Breach Report 2025, scaled for organisation size and industry.', 9, 'normal', [120,120,120]);
-  y += 2;
-  addLine('Average dwell time: ' + currentDwell + ' days', 10, 'normal');
-  addLine('Cost per minute: ' + fmtZAR(costPerSecBase * 60), 10, 'normal');
-  y += 2;
-
-  // Cost breakdown
-  addLine('Cost Breakdown:', 10, 'bold');
-  COST_CATEGORIES.forEach(function(c){
-    addLine('  • ' + c.label + ': ' + fmtZAR(baseProjected * c.pct) + ' (' + Math.round(c.pct*100) + '%)', 9, 'normal');
-  });
-  y += 3; addSep();
-
-  // Mitigation analysis
-  addLine('MITIGATION ANALYSIS', 12, 'bold', [34,197,94]);
-  y += 2;
-  var anyActive = false;
-  MITIGATIONS.forEach(function(m){
-    if(activeMitigations[m.key]){
-      anyActive = true;
-      addLine('  ✓ ' + m.label + ' (−' + Math.round(m.reduction*100) + '%) — ' + m.source, 9, 'normal', [34,160,80]);
-    } else {
-      addLine('  ✗ ' + m.label + ' (−' + Math.round(m.reduction*100) + '%) — NOT ACTIVE', 9, 'normal', [160,160,160]);
-    }
-  });
-  y += 2;
-  var mitMult = calcMitigationMultiplier();
-  var mitCost = Math.round(baseProjected * mitMult);
-  var savings = baseProjected - mitCost;
-  var savPct = baseProjected > 0 ? Math.round((savings/baseProjected)*100) : 0;
-
-  addLine('Mitigated projected cost: ' + fmtZAR(mitCost), 11, 'bold', anyActive ? [34,160,80] : [200,40,40]);
-  if(anyActive){
-    addLine('Projected savings: ' + fmtZAR(savings) + ' (−' + savPct + '%)', 10, 'normal', [34,160,80]);
-  }
-  y += 3; addSep();
-
-  // POPIA
-  addLine('POPIA REGULATORY EXPOSURE', 12, 'bold', [245,158,11]);
-  y += 2;
-  addLine('Maximum fine: R10 million (Section 107)', 10, 'normal');
-  addLine('Maximum imprisonment: 10 years', 10, 'normal');
-  addLine('Notification duty: As soon as reasonably possible (Section 22)', 10, 'normal');
-  y += 3; addSep();
-
-  // ROI
-  addLine('RETURN ON INVESTMENT', 12, 'bold', [34,197,94]);
-  y += 2;
-  addLine('Estimated penetration test cost: ' + fmtZAR(pentestCost), 10, 'normal');
-  addLine('Projected breach cost (mitigated): ' + fmtZAR(mitCost), 10, 'normal');
-  addLine('ROI: ' + Math.round(mitCost/pentestCost) + '× — every R1 spent on testing prevents R' + Math.round(mitCost/pentestCost) + ' in breach costs.', 10, 'bold', [34,160,80]);
-  y += 5; addSep();
-
-  // Recommendation
-  addLine('RECOMMENDED NEXT STEPS', 12, 'bold', [255,20,147]);
-  y += 2;
-  addLine('1. Schedule a penetration test to identify exploitable vulnerabilities before attackers do.', 10, 'normal');
-  addLine('2. Implement the mitigation controls marked as inactive above.', 10, 'normal');
-  addLine('3. Develop and test an Incident Response Plan with tabletop exercises.', 10, 'normal');
-  addLine('4. Review POPIA compliance — ensure breach notification procedures are documented.', 10, 'normal');
-  y += 5;
-
-  // Footer
-  addSep();
-  addLine('Greyhat4Hire — Cybersecurity for South African Business', 10, 'bold', [255,20,147]);
-  addLine('Phone: +27 84 635 3581  |  WhatsApp: wa.me/27846353581  |  Email: info@greyhat4hire.com', 9, 'normal', [120,120,120]);
-  addLine('Web: greyhat4hire.com', 9, 'normal', [120,120,120]);
-  y += 3;
-  addLine('Data sources: IBM Cost of a Data Breach Report 2025, Sophos State of Ransomware 2024, POPIA Act 2013.', 8, 'normal', [160,160,160]);
-  addLine('Disclaimer: This report is for educational purposes. Projections are estimates based on industry averages and may not reflect your specific risk profile. This is not financial or legal advice.', 8, 'normal', [160,160,160]);
-
-  // Save
-  var fname = 'GH4H-Breach-Cost-Report-' + new Date().toISOString().slice(0,10) + '.pdf';
-  doc.save(fname);
-}
-
-// ════════════════════════════════════════════════════════════════
-// BACKGROUND PARTICLES
-// ════════════════════════════════════════════════════════════════
-window.addEventListener('load',function(){
-  var canvas=document.getElementById('three-canvas');
-  if(!canvas) return;
-  var ctx=canvas.getContext('2d');
-  if(!ctx) return;
-  var W,H,pts;
-  function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
-  function makePts(){
-    pts=[];
-    for(var i=0;i<200;i++){
-      pts.push({x:Math.random()*W,y:Math.random()*H,
-        vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
-        r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,
-        pink:Math.random()>.4});
-    }
-  }
-  resize();makePts();
-  window.addEventListener('resize',function(){resize();makePts();});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    for(var i=0;i<pts.length;i++){
-      var p=pts[i];
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
-      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';
-      ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-});
+window.addEventListener('load',function(){var cv=document.getElementById('three-canvas');if(!cv)return;var ctx=cv.getContext('2d');if(!ctx)return;var W,H,pts;function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}function make(){pts=[];for(var i=0;i<200;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.8+.5,a:Math.random()*.3+.1,pk:Math.random()>.4});}resize();make();window.addEventListener('resize',function(){resize();make();});(function draw(){ctx.clearRect(0,0,W,H);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.pk?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';ctx.fill();}requestAnimationFrame(draw);})();});
 </script>
 </body>
 </html>
