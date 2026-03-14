@@ -112,7 +112,7 @@
     @keyframes ringPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(239,68,68,.6))} 50%{filter:drop-shadow(0 0 28px rgba(239,68,68,1))}}
     .ring-pulsing{animation:ringPulse 1.5s infinite;}
     .ring-paused{animation:none;filter:drop-shadow(0 0 6px rgba(239,68,68,.3));}
-    .cost-display{font-family:'Orbitron',monospace;font-size:clamp(.9rem,2.4vw,1.6rem);font-weight:900;color:#fff;text-shadow:0 0 20px rgba(239,68,68,.8),0 0 50px rgba(239,68,68,.35);letter-spacing:-.02em;line-height:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
+    .cost-display{font-family:'Orbitron',monospace;font-weight:900;color:#fff;text-shadow:0 0 20px rgba(239,68,68,.8),0 0 50px rgba(239,68,68,.35);letter-spacing:-.02em;line-height:1;white-space:nowrap;transition:font-size .15s ease;}
     @keyframes costFlicker{0%,97%,100%{opacity:1} 98%{opacity:.85} 99%{opacity:.92}}
     .cost-flicker{animation:costFlicker 3s infinite;}
     .dmg-bar-track{background:rgba(255,255,255,.07);border-radius:3px;height:6px;overflow:hidden;flex:1;}
@@ -384,7 +384,7 @@
         <div class="glass-red rounded-2xl p-4 flex flex-col items-center">
           <div class="clock-ring-wrap">
             <svg id="clock-svg" width="100%" height="100%" viewBox="0 0 180 180" class="ring-pulsing"><circle cx="90" cy="90" r="80" fill="none" stroke="rgba(239,68,68,.08)" stroke-width="10"/><circle id="clock-arc" cx="90" cy="90" r="80" fill="none" stroke="url(#rGrad)" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:502.65;stroke-dashoffset:502.65;"/><defs><linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef4444"/><stop offset="60%" stop-color="#f97316"/><stop offset="100%" stop-color="#ff1493"/></linearGradient></defs></svg>
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:80%;"><div class="cost-display cost-flicker" id="total-cost-display">R 0</div><div class="font-display text-red-400 tracking-widest mt-1 opacity-60" style="font-size:.5rem;" id="cost-label-ring">BREACH COST</div></div>
+            <div id="ring-inner" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:70%;"><div class="cost-display cost-flicker" id="total-cost-display" style="font-size:1.5rem;">R 0</div><div class="font-display tracking-widest mt-1 opacity-60" style="font-size:.5rem;color:rgba(239,68,68,.7);" id="cost-label-ring">BREACH COST</div></div>
           </div>
           <div class="clock-mini-stats">
             <div class="glass rounded-lg p-2 text-center"><div class="font-display font-black text-base text-red-400" id="days-elapsed">0</div><div class="text-gray-600 font-mono" style="font-size:.55rem;">Days</div></div>
@@ -437,6 +437,7 @@
 <script>
 
 window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+window.addEventListener('resize',function(){fitCost();});
 var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
 function openMenu(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
 function closeMenuFn(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
@@ -460,6 +461,8 @@ var ci=null,es=0,ip=false,ss='standard',cInd=null,cSz=null,cDw=AVG_DWELL,bp=0,mp
 
 function fZ(n){if(n>=1e6)return'R '+(n/1e6).toFixed(2)+'M';if(n>=1e3)return'R '+Math.round(n/1e3).toLocaleString('en-ZA')+'K';return'R '+Math.round(n).toLocaleString('en-ZA');}
 function fF(n){return'R '+Math.round(n).toLocaleString('en-ZA');}
+function fRing(n){if(n>=1e6)return'R'+(n/1e6).toFixed(2)+'M';if(n>=1e5)return'R'+Math.round(n/1e3)+'K';return'R'+Math.round(n).toLocaleString('en-ZA');}
+function fitCost(){var el=document.getElementById('total-cost-display'),wrap=document.getElementById('ring-inner');if(!el||!wrap)return;var maxW=wrap.offsetWidth,sz=28;el.style.fontSize=sz+'px';while(el.scrollWidth>maxW&&sz>10){sz-=1;el.style.fontSize=sz+'px';}}
 function showS(id){document.querySelectorAll('.page-section').forEach(function(s){s.classList.remove('active');});document.getElementById(id).classList.add('active');}
 function selectSpeed(m){ss=m;document.querySelectorAll('#entry-section .speed-btn').forEach(function(b){b.classList.toggle('active',b.dataset.speed===m);});}
 function changeSpeed(m){ss=m;document.querySelectorAll('#sim-speed-controls .speed-btn').forEach(function(b){b.classList.toggle('active',b.dataset.speed===m);});}
@@ -506,13 +509,13 @@ function tick(){
   es++;var dps=SPD[ss].dps,bD=es*dps,cD=Math.min(bD,cDw),bS=cD*86400;
   var mm=cMM(),any=Object.keys(am).some(function(k){return am[k];});
   var cB=Math.min(cps*bS,bp),cM=Math.min(cps*mm*bS,bp*mm);
-  document.getElementById('total-cost-display').textContent=fF(any?cM:cB);
+  document.getElementById('total-cost-display').textContent=fRing(any?cM:cB);fitCost();
   document.getElementById('days-elapsed').textContent=Math.floor(cD);
   document.getElementById('hours-elapsed').textContent=String(Math.floor((cD%1)*24)).padStart(2,'0');
   document.getElementById('current-day-display').textContent=Math.min(Math.floor(cD)+1,cDw);
   var r=80,al=2*Math.PI*r;document.getElementById('clock-arc').style.strokeDasharray=al;document.getElementById('clock-arc').style.strokeDashoffset=al-(al*(cD/cDw));
   ctb.forEach(function(c){c.total=Math.min(cps*c.pct*bS,c.proj);});uCB();uTL(cD);uKC(cD);
-  if(bD>=cDw){clearInterval(ci);sc=true;document.getElementById('total-cost-display').textContent=fF(any?mp:bp);document.getElementById('clock-svg').classList.remove('ring-pulsing');document.getElementById('live-chip').style.display='none';}
+  if(bD>=cDw){clearInterval(ci);sc=true;document.getElementById('total-cost-display').textContent=fRing(any?mp:bp);fitCost();document.getElementById('clock-svg').classList.remove('ring-pulsing');document.getElementById('live-chip').style.display='none';}
 }
 
 function rCB(){document.getElementById('cost-breakdown').innerHTML=ctb.map(function(c){return'<div class="cat-row"><div class="cat-icon" style="background:'+c.bg+'"><i class="fas '+c.icon+'" style="color:'+c.color+';font-size:.6rem;"></i></div><div class="flex-1"><div class="cat-label">'+c.label+'</div><div class="dmg-bar-track mt-1"><div class="dmg-bar-fill" id="bar-'+c.key+'" style="background:'+c.color+'"></div></div></div><div class="cat-amount" id="amt-'+c.key+'">R 0</div></div>';}).join('');}
