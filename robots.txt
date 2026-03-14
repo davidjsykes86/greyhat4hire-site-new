@@ -1,7 +1,5 @@
 User-agent: *
-Allow: /
-
-# Block internal/verification files from indexing
 Disallow: /googleccab8135c2e5ec2c.html
+Disallow: /greyhat4hire-badge.html
 
 Sitemap: https://greyhat4hire.com/sitemap.xml
