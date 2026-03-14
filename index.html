@@ -140,16 +140,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <!-- Preload LCP assets -->
-  <link rel="preload" href="logo.webp" as="image" type="image/webp"/>
+  <link rel="preload" href="logo.png" as="image" type="image/png"/>
 
   <!-- ══ FONT AWESOME (split load — solid sync, brands+regular async) ══ -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" media="print" onload="this.media='all'"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" media="print" onload="this.media='all'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css" media="print" onload="this.media='all'"/>
   <noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/>
   </noscript>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" media="print" onload="this.media='all'"/>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"/></noscript>
@@ -1225,7 +1227,6 @@
     @media (max-width: 768px) {
       .hero-reticle, .hero-watermark-wrap { display: none !important; }
       .hero-grid { display: none !important; }
-      .hero-blob { display: none !important; }
       /* Simplify neon effects on mobile */
       .neon-pink { text-shadow: 0 0 12px rgba(255,20,147,.5) !important; }
       .neon-text { text-shadow: none !important; }
@@ -1416,11 +1417,8 @@
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
     <a href="index.html">
-      <picture>
-        <source srcset="logo.webp" type="image/webp">
-        <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" style="width:auto;" width="261" height="260" fetchpriority="high"
-          onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
-      </picture>
+      <img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" style="width:auto;" fetchpriority="high"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
     </a>
 
     <!-- Desktop Nav -->
@@ -1564,8 +1562,8 @@
 <section class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-28 pb-16 overflow-hidden" style="position:relative;z-index:2;">
 
   <div class="hero-grid"></div>
-  <div class="hero-blob" style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,20,147,.06) 0%,transparent 65%);top:-160px;right:-260px;pointer-events:none;contain:layout;"></div>
-  <div class="hero-blob" style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.04) 0%,transparent 65%);bottom:-80px;left:-180px;pointer-events:none;contain:layout;"></div>
+  <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,20,147,.06) 0%,transparent 65%);top:-160px;right:-260px;pointer-events:none;"></div>
+  <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.04) 0%,transparent 65%);bottom:-80px;left:-180px;pointer-events:none;"></div>
 
   <!-- Ghost logo watermark -->
   <div class="hero-watermark-wrap" aria-hidden="true">
@@ -1586,7 +1584,7 @@
       <div class="reticle-corner rc-br"></div>
     </div>
 
-    <div id="hero-eyebrow" style="opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;margin-bottom:1.8rem;will-change:transform,opacity;">
+    <div id="hero-eyebrow" style="opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;margin-bottom:1.8rem;">
       <div class="operator-hud" style="position:relative;">
 
         <!-- Module 1: System status -->
@@ -1628,7 +1626,7 @@
       </div>
     </div>
 
-    <div id="hero-h1-wrap" style="opacity:1;margin-bottom:1.5rem;position:relative;will-change:transform,opacity;">
+    <div id="hero-h1-wrap" style="opacity:1;margin-bottom:1.5rem;position:relative;">
       <!-- Laser sweep line -->
       <div id="draw-laser"></div>
       <h1 class="font-display font-black leading-none tracking-tight hero-headline" id="draw-headline">
@@ -1642,7 +1640,7 @@
     </div>
 
     <p id="hero-sub" class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-5"
-       style="font-weight:300;opacity:0;transform:translateY(20px);will-change:transform,opacity;transition:opacity .7s ease,transform .7s ease;">
+       style="font-weight:300;opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;">
      Based in Umhlanga, Durban — expert penetration testing in South Africa for healthcare practices, dental clinics, and SMEs. Executive-ready reports. Actionable remediation that actually works.
     </p>
 
@@ -3091,7 +3089,7 @@
 
 <!-- ══ FOOTER ══ -->
 <div id="gh4h-footer"></div>
-<script src="footer.js?v=2" defer></script>
+<script src="footer.js" defer></script>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
