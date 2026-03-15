@@ -327,6 +327,11 @@
     @keyframes termBlink { 0%,100%{opacity:1} 50%{opacity:0} }
     .term-cursor { display:inline-block;animation:termBlink .85s infinite;color:#a855f7; }
 
+    @keyframes gapSlideIn { 
+      0% { opacity:0; transform:translateX(-12px); } 
+      100% { opacity:1; transform:translateX(0); } 
+    }
+
     /* ── STATS STRIP ── */
     .stat-num { font-family:'Orbitron',monospace;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(168,85,247,.7); }
 
@@ -1513,7 +1518,7 @@ var GAP_CONTROLS = [
 ];
 
 var GAP_MAP = {
-  'has-irp':      { docId:'ir-plan-template', urgency:'CRITICAL', label:'Incident Response Plan Template', icon:'fa-file-shield', color:'#ef4444' },
+  'has-irp':      { docId:'ir-framework', urgency:'CRITICAL', label:'Incident Response Plan Template', icon:'fa-file-shield', color:'#ef4444' },
   'has-aup':      { docId:'acceptable-use-policy', urgency:'HIGH', label:'Acceptable Use Policy', icon:'fa-gavel', color:'#a78bfa' },
   'has-password': { docId:'password-policy', urgency:'HIGH', label:'Password & MFA Policy', icon:'fa-key', color:'#a78bfa' },
   'has-data-cls': { docId:'data-classification-policy', urgency:'MEDIUM', label:'Data Classification Policy', icon:'fa-layer-group', color:'#a78bfa' },
