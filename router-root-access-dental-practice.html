@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+
+  <title>CVSS 9.8: The Router That Could Have Taken Down the Entire Practice | Greyhat4Hire</title>
+  <meta name="description" content="A real Nessus assessment found a dental practice router running SSH from 2012 — a CVSS 9.8 vulnerability giving any attacker unauthenticated root access from the internet. Here's what that actually means."/>
+  <link rel="canonical" href="https://greyhat4hire.com/router-root-access-dental-practice.html"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Dr David Sykes — Greyhat4Hire"/>
+  <meta name="geo.region" content="ZA"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://greyhat4hire.com/router-root-access-dental-practice.html"/>
+  <meta property="og:title" content="CVSS 9.8: The Router That Could Have Taken Down the Entire Practice"/>
+  <meta property="og:description" content="A real vulnerability assessment found a dental practice router still running SSH software from 2012. A CVSS 9.8 flaw. Unauthenticated root access from the internet. Nobody had touched it in years."/>
+  <meta property="og:image" content="https://greyhat4hire.com/og-image.png"/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="og:site_name" content="Greyhat4Hire"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="CVSS 9.8: The Router That Could Have Taken Down the Entire Practice"/>
+  <meta name="twitter:description" content="A dental practice router running SSH from 2012. CVSS 9.8. Unauthenticated root. No one knew."/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "CVSS 9.8: The Router That Could Have Taken Down the Entire Practice",
+    "description": "A real Nessus vulnerability assessment uncovered a KZN dental practice router running Dropbear SSH from 2012 — a CVSS 9.8 flaw allowing unauthenticated remote code execution as root. This is what that finding means, what else was on the network, and why it almost certainly exists on yours too.",
+    "author": {"@type": "Person", "name": "Dr David Sykes", "url": "https://greyhat4hire.com/about.html"},
+    "publisher": {"@type": "Organization", "name": "Greyhat4Hire", "url": "https://greyhat4hire.com"},
+    "datePublished": "2026-03-22",
+    "dateModified": "2026-03-22",
+    "url": "https://greyhat4hire.com/router-root-access-dental-practice.html",
+    "inLanguage": "en-ZA",
+    "keywords": "dental practice cybersecurity, router vulnerability, Dropbear SSH, CVSS 9.8, remote code execution, network security assessment, POPIA dental, KZN practice, Nessus scan, vulnerability assessment healthcare"
+  }
+  </script>
+  <!-- Preconnect hints -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
+  <!-- ══ FONT AWESOME — non-blocking ══ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" media="print" onload="this.media='all'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" media="print" onload="this.media='all'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" media="print" onload="this.media='all'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css" media="print" onload="this.media='all'"/>
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css"/>
+  </noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" media="print" onload="this.media='all'"/>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"/></noscript>
+  <link rel="stylesheet" href="tw.css"/>
+<style>
+    :root{--pink:#ff1493;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',system-ui,sans-serif;background:#000;color:#e0e0e0;overflow-x:hidden;cursor:auto;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
+    #three-canvas{position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%;pointer-events:none;}
+    .font-display{font-family:'Orbitron',monospace;}
+    .font-mono{font-family:'Share Tech Mono',monospace;}
+    .neon-pink{color:var(--pink);text-shadow:0 0 28px rgba(255,20,147,.85);}
+    .section-tag{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--pink);text-transform:uppercase;}
+    nav{transition:all .4s ease;}
+    .nav-scrolled{background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,20,147,.1);}
+    .desktop-link{position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;}
+    .desktop-link:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .desktop-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .desktop-link:hover::after{width:100%;}
+    .desktop-link.active{color:#ff1493;}
+    .desktop-link.active::after{width:100%;}
+    #mobile-menu{background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease;}
+    #mobile-menu.open{transform:translateY(0);}
+    .mobile-link{padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);}
+    .tools-dropdown-wrap{position:relative;}
+    .tools-dropdown-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.875rem;color:#e0e0e0;background:transparent;border:none;transition:all .3s ease;padding:0;position:relative;}
+    .tools-dropdown-btn::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#ff1493;transition:width .3s ease;}
+    .tools-dropdown-btn:hover{color:#ff69b4;text-shadow:0 0 20px #ff1493;}
+    .tools-dropdown-btn:hover::after{width:100%;}
+    .tools-dropdown-btn .chevron{transition:transform .3s ease;font-size:.65rem;}
+    .tools-dropdown-wrap:hover .tools-dropdown-btn .chevron{transform:rotate(180deg);}
+    .tools-dropdown-btn .tools-live-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:toolsDotPulse 1.8s infinite;flex-shrink:0;}
+    @keyframes toolsDotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,20,147,.6)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(255,20,147,0)}}
+    .tools-dropdown-panel{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);width:360px;background:rgba(4,4,4,.97);backdrop-filter:blur(28px);border:1px solid rgba(255,20,147,.35);border-radius:20px;padding:12px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 24px 80px rgba(255,20,147,.2);}
+    .tools-dropdown-wrap:hover .tools-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+    .tools-dropdown-panel::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;background:rgba(4,4,4,.97);border-left:1px solid rgba(255,20,147,.35);border-top:1px solid rgba(255,20,147,.35);transform:translateX(-50%) rotate(45deg);}
+    .tool-nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;text-decoration:none;transition:all .25s ease;border:1px solid transparent;}
+    .tool-nav-item:hover{background:rgba(255,20,147,.08);border-color:rgba(255,20,147,.25);transform:translateX(4px);}
+    .tool-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease;}
+    .tool-nav-item:hover .tool-nav-icon{transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(255,20,147,.5));}
+    .tool-nav-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px;}
+    .tool-nav-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px;}
+    .tool-nav-desc{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3;}
+    .tools-panel-header{padding:10px 16px 8px;margin-bottom:4px;border-bottom:1px solid rgba(255,20,147,.12);}
+    .mobile-tool-link{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:1.1rem;width:100%;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:#e0e0e0;}
+    .mobile-tool-link .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;padding:16px 32px;border-radius:14px;border:none;transition:all .3s ease;text-decoration:none;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:2px solid var(--pink);color:var(--pink);font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;padding:16px 32px;border-radius:14px;background:transparent;transition:all .3s ease;text-decoration:none;}
+    .btn-ghost:hover{background:rgba(255,20,147,.1);box-shadow:0 0 30px rgba(255,20,147,.3);}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)}50%{box-shadow:0 0 65px rgba(255,20,147,.85)}}
+    .pulse-glow{animation:pulseGlow 2.8s infinite;}
+
+    #read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#ff1493,#ff69b4);z-index:99999;transition:width .1s linear;box-shadow:0 0 12px rgba(255,20,147,.8);}
+
+    /* SCANNER */
+    #threat-scanner{position:fixed;right:18px;top:50%;transform:translateY(-50%);width:52px;z-index:400;display:flex;flex-direction:column;align-items:center;}
+    .scanner-track{width:2px;height:340px;background:rgba(255,20,147,.1);border-radius:1px;position:relative;overflow:hidden;}
+    .scanner-fill{position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,#ff1493,#ff69b4);border-radius:1px;transition:height .3s ease;box-shadow:0 0 10px rgba(255,20,147,.6);}
+    .scanner-beam{position:absolute;left:-4px;width:10px;height:3px;background:#ff1493;border-radius:2px;box-shadow:0 0 12px 4px rgba(255,20,147,.6);transition:top .3s ease;}
+    .scanner-label{font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(255,20,147,.5);writing-mode:vertical-rl;margin-top:10px;text-transform:uppercase;}
+    .scanner-pct{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:900;color:#ff1493;text-shadow:0 0 8px rgba(255,20,147,.8);margin-bottom:10px;}
+    .scanner-threat-level{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.35);border-radius:10px;padding:8px 6px;text-align:center;margin-bottom:8px;min-width:52px;}
+    .scanner-threat-label{font-family:'Orbitron',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(255,20,147,.5);text-transform:uppercase;display:block;margin-bottom:3px;}
+    .scanner-threat-value{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;display:block;transition:color .5s ease,text-shadow .5s ease;}
+    .scanner-section-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,20,147,.25);background:transparent;margin:3px 0;transition:all .4s ease;}
+    .scanner-section-dot.active{background:#ff1493;box-shadow:0 0 8px rgba(255,20,147,.8);border-color:#ff1493;}
+    .scanner-section-dot.passed{background:rgba(255,20,147,.3);border-color:rgba(255,20,147,.4);}
+    @media(max-width:1100px){#threat-scanner{display:none;}}
+
+    /* HERO */
+    .article-hero{background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.97));border-bottom:1px solid rgba(255,20,147,.2);padding:80px 0 50px;}
+
+    /* BADGES */
+    .threat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;position:relative;overflow:hidden;}
+    .threat-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:scanLine 2s linear infinite;}
+    @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+    .threat-critical{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.5);color:#ef4444;}
+    .threat-high{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:#f59e0b;}
+    .threat-dot{width:5px;height:5px;border-radius:50%;animation:threatPulse 1.4s infinite;}
+    @keyframes threatPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+    /* BODY TEXT */
+    .article-body h2{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;padding-top:1rem;position:relative;}
+    .article-body h2::before{content:'//';color:rgba(255,20,147,.5);margin-right:10px;font-size:.9rem;}
+    .article-body h3{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#ff69b4;margin:1.8rem 0 .8rem;}
+    .article-body p{color:rgba(220,220,220,.85);line-height:1.88;margin-bottom:1.25rem;font-size:1.02rem;}
+    .article-body strong{color:#fff;font-weight:700;}
+    .article-body em{color:#ff69b4;font-style:italic;}
+    .article-body ul{margin:1rem 0 1.5rem 0;}
+    .article-body ul li{color:rgba(220,220,220,.8);line-height:1.72;padding-left:1.4rem;position:relative;font-size:.97rem;margin-bottom:.5rem;}
+    .article-body ul li::before{content:'▸';position:absolute;left:0;color:#ff1493;font-size:.75rem;}
+
+    /* CALLOUTS */
+    .callout{border-radius:14px;padding:20px 22px;margin:1.5rem 0;display:flex;gap:14px;align-items:flex-start;}
+    .callout-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);}
+    .callout-info{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.3);}
+    .callout-tip{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.3);}
+    .callout-key{background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.25);}
+    .callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .callout-body p{margin:0;font-size:.92rem;line-height:1.68;}
+    .callout-body p+p{margin-top:8px;}
+    .callout-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.12em;font-weight:700;margin-bottom:6px;}
+
+    /* FINDING CARDS */
+    .finding-card{background:rgba(6,6,6,.9);border-radius:20px;overflow:hidden;margin:1.5rem 0;transition:border-color .3s ease;}
+    .finding-card:hover{border-color:rgba(255,20,147,.4)!important;}
+    .finding-header{padding:16px 22px 14px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(255,255,255,.05);}
+    .finding-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .finding-body{padding:18px 22px 20px;}
+    .finding-body p{color:rgba(200,200,200,.8);font-size:.95rem;line-height:1.75;margin-bottom:.9rem;}
+    .finding-body p:last-child{margin-bottom:0;}
+    .finding-pills{display:flex;flex-wrap:wrap;gap:7px;padding-top:12px;border-top:1px solid rgba(255,20,147,.08);}
+    .pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.1em;font-weight:700;}
+    .pill-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+    .pill-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#f97316;}
+    .pill-yellow{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;}
+    .pill-green{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+    .pill-purple{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;}
+    .pill-pink{background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff69b4;}
+    .pill-blue{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;}
+
+    /* CVSS METER */
+    .cvss-meter{background:rgba(0,0,0,.9);border:1px solid rgba(239,68,68,.3);border-radius:18px;padding:24px 28px;margin:1.5rem 0;}
+    .cvss-score{font-family:'Orbitron',monospace;font-size:3.5rem;font-weight:900;color:#ef4444;text-shadow:0 0 40px rgba(239,68,68,.7);line-height:1;}
+    .cvss-bar-bg{height:10px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;margin:14px 0 6px;}
+    .cvss-bar-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:5px;box-shadow:0 0 12px rgba(239,68,68,.6);}
+
+    /* CODE BLOCK */
+    .code-block{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.2);border-radius:14px;overflow:hidden;margin:1.5rem 0;}
+    .code-header{background:rgba(255,20,147,.06);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,20,147,.12);}
+    .code-lang{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(255,20,147,.6);}
+    .code-dots{display:flex;gap:6px;}
+    .code-dot{width:9px;height:9px;border-radius:50%;}
+    .code-body{padding:20px 22px;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.9;color:#a0d0b0;overflow-x:auto;}
+    .c-pink{color:#ff69b4;}.c-red{color:#ef4444;}.c-yellow{color:#f59e0b;}.c-dim{color:rgba(255,255,255,.28);}.c-green{color:#22c55e;}.c-white{color:#fff;}
+
+    /* FIX LIST */
+    .fix-list{background:rgba(6,6,6,.9);border:1px solid rgba(34,197,94,.2);border-radius:18px;overflow:hidden;margin:2rem 0;}
+    .fix-header{background:rgba(34,197,94,.05);padding:14px 22px;border-bottom:1px solid rgba(34,197,94,.12);font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.15em;color:rgba(34,197,94,.7);}
+    .fix-item{display:flex;align-items:flex-start;gap:14px;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.04);}
+    .fix-item:last-child{border-bottom:none;}
+    .fix-box{width:22px;height:22px;border-radius:6px;border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:rgba(34,197,94,.06);}
+    .fix-box i{font-size:.55rem;color:#22c55e;}
+    .fix-label{font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;color:#22c55e;letter-spacing:.06em;margin-bottom:4px;}
+    .fix-desc{font-size:.9rem;color:rgba(200,200,200,.7);line-height:1.58;}
+
+    /* MITRE */
+    .mitre-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.08em;color:rgba(168,85,247,.9);margin:3px;}
+
+    /* NETWORK MAP */
+    .network-map{background:rgba(0,0,0,.9);border:1px solid rgba(255,20,147,.2);border-radius:18px;padding:28px;margin:2rem 0;font-family:'Share Tech Mono',monospace;}
+    .net-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;color:rgba(255,20,147,.6);margin-bottom:18px;}
+    .net-node{padding:8px 14px;border-radius:10px;font-size:.75rem;border:1px solid;white-space:nowrap;}
+    .net-badge{font-family:'Orbitron',monospace;font-size:.45rem;padding:2px 7px;border-radius:4px;letter-spacing:.08em;font-weight:700;white-space:nowrap;}
+
+    /* SIDEBAR */
+    .toc-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;transition:all .3s ease;text-decoration:none;}
+    .toc-item:hover,.toc-item.active{background:rgba(255,20,147,.08);}
+    .toc-num{font-family:'Orbitron',monospace;font-size:.52rem;color:rgba(255,20,147,.4);width:20px;flex-shrink:0;}
+    .toc-text{font-size:.82rem;color:#888;transition:color .3s ease;}
+    .toc-item:hover .toc-text,.toc-item.active .toc-text{color:#ff69b4;}
+    .sidebar-widget{background:rgba(8,8,8,.72);border:1px solid rgba(255,20,147,.14);border-radius:18px;padding:24px;margin-bottom:20px;}
+    .read-more{display:inline-flex;align-items:center;gap:6px;color:var(--pink);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.1em;text-decoration:none;transition:all .3s ease;border:none;background:transparent;padding:0;}
+    .read-more:hover{text-shadow:0 0 12px rgba(255,20,147,.8);}
+    .read-more:hover .arrow{transform:translateX(4px);}
+    .read-more .arrow{transition:transform .3s ease;}
+    .topic-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.08em;background:rgba(255,20,147,.06);border:1px solid rgba(255,20,147,.15);color:rgba(255,20,147,.7);transition:all .3s ease;text-decoration:none;}
+    .topic-tag:hover{background:rgba(255,20,147,.14);border-color:rgba(255,20,147,.4);color:#ff1493;}
+    .author-card{background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border:1px solid rgba(255,20,147,.25);border-radius:22px;padding:32px;}
+    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#888;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.08em;transition:all .3s ease;text-decoration:none;}
+    .share-btn:hover{border-color:rgba(255,20,147,.35);color:#ff69b4;background:rgba(255,20,147,.06);}
+
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#000;}::-webkit-scrollbar-thumb{background:rgba(255,20,147,.4);border-radius:2px;}
+
+    *{max-width:100%;}
+    img,canvas,svg,video{max-width:100%;height:auto;}
+    .code-block{max-width:100%;overflow:hidden;}
+    .code-body{overflow-x:auto;word-break:normal;white-space:pre;max-width:100%;}
+    .article-body p,.article-body li,.callout-body p,.fix-desc{word-break:break-word;overflow-wrap:break-word;}
+    .network-map{overflow-x:auto;}
+    @media(max-width:640px){
+      .finding-header{flex-wrap:wrap;}
+      .mitre-tag{font-size:.46rem;padding:3px 7px;}
+      .threat-badge{font-size:.5rem;}
+      .article-hero{padding-left:0;padding-right:0;}
+      .share-btn{font-size:.5rem;padding:8px 12px;}
+      .callout{padding:14px 16px;}
+      .finding-body{padding:14px 16px;}
+      .fix-item{padding:12px 16px;}
+      pre,code{white-space:pre-wrap;word-break:break-all;}
+    }
+    .mobile-tools-accordion{border-bottom:1px solid rgba(255,255,255,.08);}
+    .mobile-tools-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;}
+    .mobile-tools-toggle:hover{color:#67e8f9;}
+    .mobile-tools-chevron{font-size:.8rem;color:rgba(34,211,238,.7);transition:transform .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-chevron{transform:rotate(180deg);}
+    .mobile-tools-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+    .mobile-tools-accordion.open .mobile-tools-panel{max-height:400px;}
+
+    @media (max-width: 768px) {
+      #three-canvas { display: none !important; }
+      .glass, .glass-strong, nav, #mobile-menu { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+      .pulse-glow { animation: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+</style>
+  <script>
+    function loadGA(){
+      if(window._gaLoaded)return;window._gaLoaded=true;
+      var s=document.createElement('script');
+      s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-25RRREVHRP';
+      document.head.appendChild(s);
+      window.dataLayer=window.dataLayer||[];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag=gtag;gtag('js',new Date());gtag('config','G-25RRREVHRP');
+    }
+    ['click','keydown','scroll','touchstart'].forEach(function(e){
+      document.addEventListener(e,loadGA,{once:true,passive:true});
+    });
+    setTimeout(loadGA,5000);
+  </script>
+</head>
+<body>
+<div id="read-progress-bar"></div>
+<canvas id="three-canvas"></canvas>
+<a href="https://wa.me/27846353581" target="_blank" style="position:fixed;bottom:24px;right:90px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:998;transition:all .4s ease;text-decoration:none;" aria-label="Chat on WhatsApp" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+
+<!-- SCANNER -->
+<div id="threat-scanner">
+  <div class="scanner-pct" id="scan-pct">0%</div>
+  <div class="scanner-threat-level">
+    <span class="scanner-threat-label">PHASE</span>
+    <span class="scanner-threat-value" id="scan-level" style="font-size:.55rem;">RECON</span>
+  </div>
+  <div class="scanner-track">
+    <div class="scanner-fill" id="scan-fill" style="height:0%;"></div>
+    <div class="scanner-beam" id="scan-beam" style="top:0%;"></div>
+  </div>
+  <div class="scanner-label">READ</div>
+  <div style="margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div class="scanner-section-dot" id="dot-0"></div>
+    <div class="scanner-section-dot" id="dot-1"></div>
+    <div class="scanner-section-dot" id="dot-2"></div>
+    <div class="scanner-section-dot" id="dot-3"></div>
+    <div class="scanner-section-dot" id="dot-4"></div>
+    <div class="scanner-section-dot" id="dot-5"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html"><img src="logo.png" alt="Greyhat4Hire" class="h-8 sm:h-10" onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'"></a>
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html" class="desktop-link text-white">Home</a>
+      <a href="about.html" class="desktop-link text-white">About</a>
+      <a href="services.html" class="desktop-link text-white">Services</a>
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button"><span class="tools-live-dot"></span>Free Tools<i class="fas fa-chevron-down chevron"></i></button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header"><div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,20,147,.6);">FREE INTELLIGENCE TOOLS</div></div>
+          <a href="risk-assessment.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div><div><div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div><div class="tool-nav-name">Risk Self-Assessment</div><div class="tool-nav-desc">90-second breach exposure score</div></div></a>
+          <a href="hackers-dossier.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div><div><div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div><div class="tool-nav-name">The Hacker's Dossier</div><div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel</div></div></a>
+          <a href="breach-cost-clock.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div><div><div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div><div class="tool-nav-name">Breach Cost Clock</div><div class="tool-nav-desc">Watch your breach cost tick in real time</div></div></a>
+          <a href="vuln-lookup.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div><div><div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div><div class="tool-nav-name">Vulnerability Intelligence</div><div class="tool-nav-desc">Real-time CVE lookup</div></div></a>
+          <a href="reverse-image-search.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div><div><div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div><div class="tool-nav-name">Reverse Image Search</div><div class="tool-nav-desc">Trace image origins &amp; detect fakes</div></div></a>
+          <a href="downloads.html" class="tool-nav-item"><div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);"><i class="fas fa-vault"></i></div><div><div class="tool-nav-label" style="color:rgba(168,85,247,.7);">FREE DOWNLOADS</div><div class="tool-nav-name">The Arsenal</div><div class="tool-nav-desc">31 free templates, policies &amp; checklists</div></div></a>
+        </div>
+      </div>
+      <a href="cyber-awareness.html" class="desktop-link text-white">Cyber Awareness</a>
+      <a href="our-process.html" class="desktop-link text-white">Our Process</a>
+      <a href="pricing.html" class="desktop-link text-white">Pricing</a>
+      <a href="blog.html" class="desktop-link active">Blog</a>
+      <a href="contact.html" class="desktop-link text-white">Contact</a>
+    </div>
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;width:auto;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+    <button id="hamburger" class="lg:hidden text-3xl hover:opacity-75 transition" style="color:var(--pink);"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl" style="color:var(--pink);cursor:pointer;z-index:110;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html" class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html" class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html" class="mobile-link desktop-link text-white">Services</a>
+    <div class="mobile-tools-accordion w-full" style="max-width:300px;">
+      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;"><span class="tools-live-dot"></span><span>Free Tools</span></span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div class="mobile-tools-panel">
+        <a href="risk-assessment.html" class="mobile-tool-link"><span class="dot" style="background:#22d3ee;"></span>Risk Self-Assessment</a>
+        <a href="hackers-dossier.html" class="mobile-tool-link"><span class="dot" style="background:#ef4444;"></span>Hacker's Dossier</a>
+        <a href="breach-cost-clock.html" class="mobile-tool-link"><span class="dot" style="background:#f59e0b;"></span>Breach Cost Clock</a>
+        <a href="vuln-lookup.html" class="mobile-tool-link"><span class="dot" style="background:#3b82f6;"></span>Vulnerability Intelligence</a>
+        <a href="reverse-image-search.html" class="mobile-tool-link"><span class="dot" style="background:#00ff88;"></span>Reverse Image Search</a>
+        <a href="downloads.html" class="mobile-tool-link"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span>The Arsenal</a>
+      </div>
+    </div>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html" class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html" class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html" class="mobile-link desktop-link" style="color:var(--pink);">Blog</a>
+    <a href="contact.html" class="mobile-link desktop-link text-white">Contact</a>
+    <a href="contact.html" class="btn-primary mt-6" style="padding:14px 28px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="article-hero pt-28" style="position:relative;z-index:2">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center gap-2 mb-6 font-mono text-xs text-gray-600">
+      <a href="index.html" class="hover:text-pink-400 transition">HOME</a>
+      <span>›</span>
+      <a href="blog.html" class="hover:text-pink-400 transition">INTEL BRIEFING</a>
+      <span>›</span>
+      <span class="text-gray-500">VULNERABILITY ASSESSMENT · CASE STUDY</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 mb-5">
+      <div class="threat-badge threat-critical"><span class="threat-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span>CRITICAL · CVSS 9.8</div>
+      <span class="font-mono text-xs text-gray-500">NETWORK SECURITY · REAL FINDINGS · DENTAL</span>
+      <span class="font-mono text-xs text-gray-600">· 12 min read</span>
+    </div>
+    <h1 class="font-display font-black text-white leading-tight mb-5" style="font-size:clamp(1.8rem,5vw,3rem)">
+      The Router That Could Have<br>Taken Down the <span class="neon-pink">Entire Practice.</span>
+    </h1>
+    <p class="text-gray-300 text-lg leading-relaxed mb-8 max-w-2xl">Nobody in the practice knew it was there. The router in the corner — the one nobody touches, the one the IT guy set up years ago — was running SSH software from 2012. A publicly known vulnerability. CVSS score of 9.8 out of 10. Unauthenticated. Remote. Root access. From the internet. This is what we found, what it meant, and what came after it.</p>
+    <div class="flex flex-wrap items-center gap-5 mb-6">
+      <div class="flex items-center gap-3">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:700;font-size:.7rem;color:#fff;flex-shrink:0;">DS</div>
+        <div><div class="text-white font-bold text-sm">Dr David Sykes</div><div class="text-gray-500 text-xs font-mono">Dentist &amp; Cybersecurity Practitioner · Umhlanga, ZA</div></div>
+      </div>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <span class="text-gray-500 text-xs font-mono">22 MAR 2026</span>
+      <div class="h-4 w-px bg-gray-800"></div>
+      <span class="text-gray-500 text-xs font-mono">12 MIN READ</span>
+    </div>
+    <div class="flex flex-wrap gap-1 mb-8">
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1190 · Exploit Public-Facing App</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1133 · External Remote Services</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1068 · Exploitation for Privilege Escalation</span>
+      <span class="mitre-tag"><i class="fas fa-crosshairs text-xs"></i>T1595 · Active Scanning</span>
+    </div>
+    <div class="flex flex-wrap gap-3 pb-8 border-b border-gray-900">
+      <a href="https://www.linkedin.com/shareArticle?url=https://greyhat4hire.com/router-root-access-dental-practice.html" target="_blank" class="share-btn" rel="noopener noreferrer"><i class="fab fa-linkedin text-blue-400"></i> Share</a>
+      <a href="https://twitter.com/intent/tweet?url=https://greyhat4hire.com/router-root-access-dental-practice.html" target="_blank" class="share-btn" rel="noopener noreferrer"><i class="fab fa-twitter text-sky-400"></i> Tweet</a>
+      <button id="copy-link-btn" class="share-btn"><i class="fas fa-link"></i> Copy Link</button>
+    </div>
+  </div>
+</header>
+
+<!-- BODY -->
+<main class="py-14 px-4 sm:px-6" style="position:relative;z-index:2">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid xl:grid-cols-4 gap-10">
+      <article class="xl:col-span-3 max-w-3xl">
+        <div class="article-body">
+
+          <!-- SECTION 1: INTRO -->
+          <div id="section-intro">
+
+            <div class="callout callout-warn">
+              <span class="callout-icon">🔒</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ef4444;">REAL ENGAGEMENT · CLIENT ANONYMISED</div>
+                <p>This article is based on a live Nessus vulnerability assessment conducted on a KwaZulu-Natal dental practice in March 2026. All findings are real. The client has been fully anonymised. The practice has since remediated the critical and high-severity findings. This is published with client consent for the purpose of raising awareness in the healthcare sector.</p>
+              </div>
+            </div>
+
+            <h2 id="s0">The Device Nobody Thinks About</h2>
+
+            <p>In almost every small practice I assess, there is a piece of network equipment in a corner or on a shelf that has not been touched since the day it was installed. It hums quietly. It connects everyone to the internet. Nobody logs into it. Nobody patches it. Nobody even knows what version of software it's running — because why would they? It just works.</p>
+
+            <p>That device is usually the most dangerous thing on the network.</p>
+
+            <p>In this engagement — a full internal network vulnerability assessment of a KZN dental practice — the most severe finding wasn't a rogue application or a compromised workstation. It was the router. A TP-Link access point that had been doing its job faithfully, and invisibly, for years. When we ran the Nessus scan, it reported back a single line that stopped everything:</p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-lang">NESSUS OUTPUT · 192.168.0.1</span>
+                <div class="code-dots"><div class="code-dot" style="background:#ef4444;"></div><div class="code-dot" style="background:#f59e0b;"></div><div class="code-dot" style="background:#22c55e;"></div></div>
+              </div>
+              <div class="code-body"><span class="c-red">CRITICAL</span> · Plugin 93650
+<span class="c-yellow">Dropbear SSH Server &lt; 2016.72 Multiple Vulnerabilities</span>
+
+Version source    : <span class="c-pink">SSH-2.0-dropbear_2012.55</span>
+Installed version : <span class="c-red">2012.55</span>
+Fixed version     : <span class="c-green">2016.74</span>
+
+<span class="c-dim">CVE-2016-7406 · CVSS v3.0 Base Score: 9.8</span>
+<span class="c-dim">AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</span></div>
+            </div>
+
+            <p>The router was running SSH software released in <strong>2012</strong>. The vulnerability allowing unauthenticated remote code execution as root was disclosed in <strong>2016</strong>. It was <strong>2026</strong> when we found it. That is a decade of exposure, sitting on the network edge of a practice holding thousands of patient records.</p>
+
+          </div>
+
+          <!-- SECTION 2: THE ROUTER FINDING -->
+          <div id="section-router">
+            <h2 id="s1">What CVSS 9.8 Actually Means</h2>
+
+            <p>CVSS — the Common Vulnerability Scoring System — rates vulnerabilities on a scale from 0 to 10. A score of 9.8 sits just below the maximum possible. To understand what that means in practice, look at the vector string:</p>
+
+            <!-- CVSS METER -->
+            <div class="cvss-meter">
+              <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:16px;">
+                <div>
+                  <div style="font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.18em;color:rgba(239,68,68,.6);margin-bottom:6px;">CVSS v3.0 BASE SCORE</div>
+                  <div class="cvss-score">9.8</div>
+                </div>
+                <div style="flex:1;min-width:200px;">
+                  <div class="cvss-bar-bg"><div class="cvss-bar-fill" style="width:98%;"></div></div>
+                  <div style="font-family:'Orbitron',monospace;font-size:.45rem;letter-spacing:.1em;color:rgba(239,68,68,.5);">CVE-2016-7406 · Dropbear SSH &lt; 2016.74</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
+                <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:10px 12px;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.42rem;color:rgba(239,68,68,.5);margin-bottom:3px;">ATTACK VECTOR</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#ef4444;font-size:.9rem;">NETWORK</div>
+                  <div style="font-size:.75rem;color:rgba(200,200,200,.5);">Exploitable remotely</div>
+                </div>
+                <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:10px 12px;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.42rem;color:rgba(239,68,68,.5);margin-bottom:3px;">ATTACK COMPLEXITY</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#ef4444;font-size:.9rem;">LOW</div>
+                  <div style="font-size:.75rem;color:rgba(200,200,200,.5);">No special conditions</div>
+                </div>
+                <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:10px 12px;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.42rem;color:rgba(239,68,68,.5);margin-bottom:3px;">PRIVILEGES REQUIRED</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#ef4444;font-size:.9rem;">NONE</div>
+                  <div style="font-size:.75rem;color:rgba(200,200,200,.5);">No authentication needed</div>
+                </div>
+                <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:10px 12px;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.42rem;color:rgba(239,68,68,.5);margin-bottom:3px;">IMPACT</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#ef4444;font-size:.9rem;">C:H / I:H / A:H</div>
+                  <div style="font-size:.75rem;color:rgba(200,200,200,.5);">Full compromise</div>
+                </div>
+              </div>
+            </div>
+
+            <p>Breaking that down: this vulnerability can be exploited <strong>from the internet, with no prior authentication, with low technical complexity, and results in full compromise of the device</strong> — confidentiality, integrity, and availability, all rated High. The attacker needs nothing except internet access and knowledge of the vulnerability. Both are free.</p>
+
+            <p>The specific flaw (CVE-2016-7406) is a format string vulnerability in the way Dropbear SSH handles usernames. By sending a crafted login attempt with format string specifiers in the username field, an unauthenticated attacker can execute arbitrary code — and because SSH on this router runs as root, that code executes with full root-level privileges. The fix has been available since 2016. The router just never got it.</p>
+
+            <div class="finding-card" style="border:1px solid rgba(239,68,68,.3);">
+              <div class="finding-header" style="background:rgba(239,68,68,.06);">
+                <div class="finding-icon" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-network-wired"></i></div>
+                <div>
+                  <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;">192.168.0.1 — TP-Link TL-WA901ND 4.0</div>
+                  <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(239,68,68,.6);margin-top:3px;">Edge Router · Network Gateway · Internet-Facing</div>
+                </div>
+                <span class="pill pill-red" style="margin-left:auto;">CVSS 9.8</span>
+              </div>
+              <div class="finding-body">
+                <p>The router sits at the perimeter of the entire practice network. Every device in the building routes its traffic through it. Its SSH management interface was enabled and running Dropbear version 2012.55 — a version that predates the security patch by four years. Any internet-connected attacker who scanned for SSH on this IP address would immediately receive a banner advertisement of its vulnerable version. Shodan indexes devices like this automatically. It is not necessary to actively hunt for them.</p>
+                <p>With root access to the router, an attacker can: intercept and inspect all network traffic passing through the device (including unencrypted internal communications), reroute traffic to attacker-controlled infrastructure, install persistent backdoors that survive router reboots, map the entire internal network, and pivot to attack every device behind the router from a trusted internal position. The router is not just a vulnerable endpoint — it is the keys to every other device on the network.</p>
+                <div class="finding-pills">
+                  <span class="pill pill-red"><i class="fas fa-globe"></i> INTERNET-REACHABLE</span>
+                  <span class="pill pill-red"><i class="fas fa-user-slash"></i> NO AUTH REQUIRED</span>
+                  <span class="pill pill-red"><i class="fas fa-crown"></i> ROOT EXECUTION</span>
+                  <span class="pill pill-orange"><i class="fas fa-calendar"></i> UNPATCHED SINCE 2016</span>
+                  <span class="pill pill-yellow"><i class="fas fa-search"></i> INDEXED ON SHODAN</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="callout callout-warn">
+              <span class="callout-icon">⚠️</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ef4444;">THE SECONDARY ROUTER FINDING</div>
+                <p>The same router also carried a second vulnerability: CVE-2016-6255, an arbitrary file write flaw in the libupnp library. An unauthenticated attacker could send a crafted HTTP POST request to write arbitrary files to the router's filesystem. The CVSS score on this one was 7.5. On the same device. Running simultaneously. Two independent paths to full compromise of the network edge.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: THE REST OF THE NETWORK -->
+          <div id="section-network">
+            <h2 id="s2">The Router Was Not the Only Problem</h2>
+
+            <p>Eleven devices were scanned. The router was the most immediately alarming single finding, but the pattern it revealed — equipment running old software, never updated, never checked — repeated itself across the network.</p>
+
+            <!-- NETWORK MAP -->
+            <div class="network-map">
+              <div class="net-title"><i class="fas fa-diagram-project" style="margin-right:8px;"></i>ASSESSMENT SUMMARY — 11 HOSTS SCANNED</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
+                <div class="net-node" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.35);color:#ef4444;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;margin-bottom:5px;">192.168.0.1 — TP-LINK ROUTER</div>
+                  <div style="font-size:.72rem;color:rgba(200,200,200,.6);margin-bottom:6px;">1 Critical · 2 High · 3 Medium</div>
+                  <span class="net-badge" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;">CVSS 9.8 · ROOT RCE · INTERNET-FACING</span>
+                </div>
+                <div class="net-node" style="background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.25);color:#ef4444;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;margin-bottom:5px;">192.168.0.110 — LINUX WEB SERVER</div>
+                  <div style="font-size:.72rem;color:rgba(200,200,200,.6);margin-bottom:6px;">3 Critical · 7 High · 8 Medium</div>
+                  <span class="net-badge" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;">PHP 7.3.9 EOL · MULTIPLE RCE PATHS</span>
+                </div>
+                <div class="net-node" style="background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2);color:#f59e0b;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;margin-bottom:5px;">192.168.0.102 / .106 — SSL HOSTS</div>
+                  <div style="font-size:.72rem;color:rgba(200,200,200,.6);margin-bottom:6px;">1 High each · Deprecated TLS</div>
+                  <span class="net-badge" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b;">ANON CIPHER SUITES · UNTRUSTED CERT</span>
+                </div>
+                <div class="net-node" style="background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2);color:#f59e0b;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;margin-bottom:5px;">WINDOWS HOSTS — MULTIPLE</div>
+                  <div style="font-size:.72rem;color:rgba(200,200,200,.6);margin-bottom:6px;">SMB Signing Off · Passwords Never Expire</div>
+                  <span class="net-badge" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b;">UNQUOTED SERVICE PATHS · LATERAL MOVEMENT READY</span>
+                </div>
+                <div class="net-node" style="background:rgba(59,130,246,.05);border-color:rgba(59,130,246,.2);color:#60a5fa;">
+                  <div style="font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;margin-bottom:5px;">DNS — ZONE TRANSFER ENABLED</div>
+                  <div style="font-size:.72rem;color:rgba(200,200,200,.6);margin-bottom:6px;">Internal network map disclosed on request</div>
+                  <span class="net-badge" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#60a5fa;">AXFR UNRESTRICTED · RECON GOLDMINE</span>
+                </div>
+              </div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(255,20,147,.4);text-align:center;padding-top:14px;border-top:1px solid rgba(255,20,147,.1);margin-top:14px;">
+                Total: 4 Critical · 11 High · 29 Medium across 11 hosts
+              </div>
+            </div>
+
+            <!-- PHP SERVER -->
+            <div class="finding-card" style="border:1px solid rgba(239,68,68,.25);">
+              <div class="finding-header" style="background:rgba(239,68,68,.06);">
+                <div class="finding-icon" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;"><i class="fas fa-server"></i></div>
+                <div>
+                  <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;">192.168.0.110 — The Web Server</div>
+                  <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(239,68,68,.6);margin-top:3px;">Linux · PHP 7.3.9 · End of Life December 2021</div>
+                </div>
+                <span class="pill pill-red" style="margin-left:auto;">3 CRITICAL</span>
+              </div>
+              <div class="finding-body">
+                <p>While the router was the single most dangerous finding, this server came back with three critical vulnerabilities and seven high-severity vulnerabilities — the highest combined count of any host on the network. It was running PHP 7.3.9, a version that has not received security patches since December 2021. The Nessus scan identified multiple independent paths to unauthenticated remote code execution, including a heap-based buffer overflow in <span style="font-family:'Share Tech Mono',monospace;color:#ff69b4;">phar_extract_file()</span> (CVE-2020-7061, CVSS 9.1) and a remote code execution vulnerability via a malformed <span style="font-family:'Share Tech Mono',monospace;color:#ff69b4;">fastcgi_split_path_info</span> directive (CVE-2019-11043, CVSS 9.8). An outdated jQuery library added cross-site scripting exposure on top.</p>
+                <p>Like the router, this server had not been patched or updated since it was deployed. It was simply running — doing whatever it was set up to do — while accumulating years of publicly known, publicly exploitable vulnerabilities.</p>
+                <div class="finding-pills">
+                  <span class="pill pill-red"><i class="fas fa-code"></i> PHP 7.3.9 — EOL</span>
+                  <span class="pill pill-red"><i class="fas fa-bug"></i> HEAP BUFFER OVERFLOW</span>
+                  <span class="pill pill-red"><i class="fas fa-terminal"></i> REMOTE CODE EXECUTION</span>
+                  <span class="pill pill-orange"><i class="fas fa-js"></i> JQUERY XSS</span>
+                  <span class="pill pill-yellow"><i class="fas fa-rotate-left"></i> UNPATCHED SINCE 2021</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DNS + WINDOWS -->
+            <div class="finding-card" style="border:1px solid rgba(245,158,11,.2);">
+              <div class="finding-header" style="background:rgba(245,158,11,.04);">
+                <div class="finding-icon" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:#f59e0b;"><i class="fas fa-windows"></i></div>
+                <div>
+                  <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;">Windows Hosts + DNS — The Supporting Cast</div>
+                  <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(245,158,11,.6);margin-top:3px;">Lateral Movement Infrastructure · Active Directory Recon</div>
+                </div>
+              </div>
+              <div class="finding-body">
+                <p>Across the Windows workstations, three findings combined to create a clear lateral movement path. SMB signing was not required, opening the door to NTLM relay attacks — an attacker who has already gained a network foothold can intercept authentication traffic and relay it to other hosts without ever cracking a password. Unquoted service paths on multiple hosts provide a privilege escalation vector once an attacker has local access. User account passwords were set to never expire, meaning credentials that were compromised last year — or five years ago — are still valid today.</p>
+                <p>DNS was configured to allow unrestricted zone transfers (AXFR). Anyone who asked the DNS server for a complete list of internal hostnames received one, with no authentication required. This is reconnaissance as a service — the internal network map handed directly to an attacker doing pre-exploitation information gathering.</p>
+                <div class="finding-pills">
+                  <span class="pill pill-yellow"><i class="fas fa-handshake-slash"></i> SMB SIGNING DISABLED</span>
+                  <span class="pill pill-yellow"><i class="fas fa-sitemap"></i> DNS ZONE TRANSFER OPEN</span>
+                  <span class="pill pill-orange"><i class="fas fa-key"></i> NON-EXPIRING PASSWORDS</span>
+                  <span class="pill pill-orange"><i class="fas fa-arrow-up-right-dots"></i> UNQUOTED SERVICE PATHS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 4: POPIA -->
+          <div id="section-popia">
+            <h2 id="s3">The POPIA Exposure</h2>
+
+            <p>A dental practice holds some of the most sensitive personal information in the South African healthcare system. Patient records contain names, ID numbers, contact details, medical histories, medication information, chronic conditions, and treatment records. Under POPIA, this is <strong>special personal information</strong> — the category afforded the highest level of protection under the Act, covered specifically by Section 26.</p>
+
+            <p>The CVSS 9.8 router vulnerability means that any attacker with internet access had a credible, low-effort, unauthenticated path to the network edge — and from there, via the DNS zone transfer, a complete internal map. Via the unpatched PHP server, a direct path to the web-facing infrastructure. Via the disabled SMB signing and non-expiring passwords, a lateral movement path across Windows workstations. None of these attack paths required chaining zero-days. Every single one was documented, patched, and publicly known for years.</p>
+
+            <p>Under Section 19 of POPIA, a responsible party must take "appropriate, reasonable, technical and organisational measures" to secure personal information against unauthorised access. A router running a CVSS 9.8 vulnerability disclosed in 2016, unpatched for a decade, on a network holding thousands of patient records — that is a difficult posture to characterise as appropriate or reasonable.</p>
+
+            <div class="callout callout-key">
+              <span class="callout-icon">⚖️</span>
+              <div class="callout-body">
+                <div class="callout-title" style="color:#ff69b4;">SECTION 22 NOTIFICATION OBLIGATIONS</div>
+                <p>If these vulnerabilities had been exploited and patient data accessed, Section 22 would have required notification to the Information Regulator and to every affected data subject — potentially thousands of individuals. The IBM Cost of a Data Breach Report 2025 puts the average South African breach cost at R44.1 million. Section 107 provides for fines up to R10 million and imprisonment for responsible parties who fail to comply with the Act. The router firmware update was free. The difference between those two outcomes was a firmware update.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 5: FIXES -->
+          <div id="section-fixes">
+            <h2 id="s4">What Was Done — and What You Should Do</h2>
+
+            <p>The client received a prioritised remediation plan on the day findings were reported. Critical items were addressed within two weeks. Here is what was done, and what every practice with similar infrastructure should check immediately.</p>
+
+            <div class="fix-list">
+              <div class="fix-header"><i class="fas fa-screwdriver-wrench" style="margin-right:8px;"></i>REMEDIATION CHECKLIST — NETWORK INFRASTRUCTURE</div>
+
+              <div class="fix-item">
+                <div class="fix-box"><i class="fas fa-check"></i></div>
+                <div>
+                  <div class="fix-label"><i class="fas fa-router" style="margin-right:6px;"></i>Update Router Firmware — Check It Now, Today</div>
+                  <div class="fix-desc">Log into your router's admin interface and check the firmware version. If you don't know how to do this, call your IT provider today — not next week. For TP-Link and most consumer-grade routers, firmware updates are free downloads from the manufacturer's website. The patch for the Dropbear SSH vulnerability on this device has been available since 2016. If your router is more than two or three years old and has never been updated, assume it needs attention. If it is so old the manufacturer no longer provides updates, replace it. A business-grade router suitable for a small practice costs under R2,000.</div>
+                </div>
+              </div>
+
+              <div class="fix-item">
+                <div class="fix-box"><i class="fas fa-check"></i></div>
+                <div>
+                  <div class="fix-label"><i class="fas fa-lock" style="margin-right:6px;"></i>Disable SSH Access on the Router Unless Actively Needed</div>
+                  <div class="fix-desc">The SSH management interface on a small practice router almost certainly does not need to be enabled. Your IT provider almost certainly manages the router via its web interface, not SSH. Disabling SSH entirely removes the attack surface for the Dropbear vulnerability completely — even before firmware is updated. In the router admin panel, look for "Remote Management," "SSH," or "Telnet" settings and disable any remote access options that are not actively required. If your IT provider needs SSH access, ensure it is restricted to their specific IP address only.</div>
+                </div>
+              </div>
+
+              <div class="fix-item">
+                <div class="fix-box"><i class="fas fa-check"></i></div>
+                <div>
+                  <div class="fix-label"><i class="fas fa-code" style="margin-right:6px;"></i>Migrate Off End-of-Life Software</div>
+                  <div class="fix-desc">PHP 7.3.x reached end of life on December 6, 2021. Any server still running it has not received a security patch in over four years. If you have a web server, web application, or practice portal, ask your developer or IT provider what PHP version it runs. Upgrading to a supported version (PHP 8.2 or later) requires testing for compatibility with existing applications but is a standard migration that any competent PHP developer can perform. Running end-of-life software is not a minor oversight — it is a known, documented, exploitable risk.</div>
+                </div>
+              </div>
+
+              <div class="fix-item">
+                <div class="fix-box"><i class="fas fa-check"></i></div>
+                <div>
+                  <div class="fix-label"><i class="fas fa-shield-halved" style="margin-right:6px;"></i>Enable SMB Signing and Restrict DNS Zone Transfers</div>
+                  <div class="fix-desc">SMB signing should be required on all Windows hosts — this closes the NTLM relay attack path. DNS zone transfers (AXFR) should be restricted to authorised secondary DNS servers only, or disabled entirely if you are not running secondary DNS replication. Both of these are configuration changes your IT provider can implement in under an hour. Neither requires any hardware changes or software purchases. Password expiry policies should also be configured — accounts that never expire create a permanent credential exposure window.</div>
+                </div>
+              </div>
+
+              <div class="fix-item">
+                <div class="fix-box"><i class="fas fa-check"></i></div>
+                <div>
+                  <div class="fix-label"><i class="fas fa-file-shield" style="margin-right:6px;"></i>Run a Vulnerability Assessment — Then Run One Annually</div>
+                  <div class="fix-desc">The router in this engagement had been running a CVSS 9.8 vulnerability for the better part of a decade because nobody had ever looked. A Nessus-based vulnerability assessment of an 11-device network takes a few hours and produces a prioritised finding list you can hand directly to your IT provider. This should not be a one-off exercise — the threat landscape changes, software versions age, new vulnerabilities are disclosed. Annual assessment is the minimum cycle for a practice holding special personal information under POPIA. It is also the most direct evidence that you are meeting your Section 19 obligations.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 6: CLOSE -->
+          <div id="section-close">
+            <h2 id="s5">The Quiet Hum in the Corner</h2>
+
+            <p>Somewhere in your practice, right now, there is a device that nobody thinks about. It hums. It does its job. No one has logged into it in years. Maybe it's the router. Maybe it's a network switch, a NAS drive, a print server. Maybe it's the PC running the X-ray software that the vendor said "just leave it on Windows 7 for compatibility." Maybe it's a camera system with a web interface that ships with a default password that has never been changed.</p>
+
+            <p>The practice in this case study was not negligent. They were not reckless. They had IT support. They had a working network. They had backups. They just had never had anyone look at what was actually on that network, and what state it was in — because why would they? It just worked.</p>
+
+            <p>A vulnerability assessment is not an accusation. It is a flashlight. It shows you what is in the corners so you can deal with it before someone else finds it first — someone with less constructive intentions.</p>
+
+            <p>In this engagement, the client found out before a breach. The findings were reported, the critical items were remediated within two weeks, and a patch management cycle was put in place. They now have a documented security baseline and a repeatable annual assessment schedule. That is what the process looks like when it works.</p>
+
+            <div style="background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.85));border:1px solid rgba(255,20,147,.3);border-radius:22px;padding:36px;text-align:center;margin:2.5rem 0;">
+              <div class="section-tag mb-3">FIND OUT BEFORE THEY DO</div>
+              <h3 style="font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:12px;">Book a Dental Practice Vulnerability Assessment</h3>
+              <p style="color:rgba(220,220,220,.75);margin-bottom:24px;max-width:520px;margin-left:auto;margin-right:auto;">We assess dental and healthcare practices specifically — network infrastructure, patch status, configuration weaknesses, and POPIA alignment. Conducted by a dentist who understands your clinical environment. You get a written findings report and a prioritised remediation plan. Conducted under strict NDA.</p>
+              <div class="flex flex-wrap gap-4 justify-center">
+                <a href="contact.html" class="btn-primary pulse-glow"><i class="fas fa-shield-alt"></i> Book an Assessment</a>
+                <a href="risk-assessment.html" class="btn-ghost"><i class="fas fa-search"></i> Free Self-Assessment</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUTHOR -->
+          <div class="author-card mt-10">
+            <div class="flex items-start gap-5 flex-wrap sm:flex-nowrap">
+              <img src="portrait.webp" alt="Dr David Sykes" loading="lazy" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,20,147,.4);flex-shrink:0;" onerror="this.outerHTML='<div style=\'width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#ff1493,#ff69b4);display:flex;align-items:center;justify-content:center;font-family:Orbitron,monospace;font-weight:700;font-size:1rem;color:#fff;flex-shrink:0;\'>DS</div>'">
+              <div>
+                <div class="section-tag mb-1">AUTHOR</div>
+                <div class="font-bold text-white text-lg mb-1" style="font-family:'Orbitron',monospace;">Dr David Sykes</div>
+                <p style="color:rgba(200,200,200,.7);font-size:.9rem;line-height:1.65;margin:0;">Practicing dentist and independent cybersecurity practitioner based in Umhlanga, South Africa. Founder of Greyhat4Hire. Specialises in penetration testing and vulnerability assessments of healthcare and dental practices — with the unique advantage of understanding the clinical environment from the inside.</p>
+                <a href="about.html" class="read-more mt-3">About Dr Sykes <span class="arrow">→</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAGS -->
+          <div class="flex flex-wrap gap-2 mt-8 pt-8 border-t border-gray-900">
+            <span class="topic-tag"><i class="fas fa-tag"></i>Router Security</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Vulnerability Assessment</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Dropbear SSH</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>CVSS 9.8</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>POPIA Healthcare</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Dental Practice Security</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Patch Management</span>
+            <span class="topic-tag"><i class="fas fa-tag"></i>Network Infrastructure</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIDEBAR -->
+      <aside class="hidden xl:block xl:col-span-1 space-y-5">
+        <div class="sidebar-widget sticky top-28">
+          <div class="section-tag mb-4">Contents</div>
+          <nav>
+            <a href="#s0" class="toc-item"><span class="toc-num">01</span><span class="toc-text">The Forgotten Device</span></a>
+            <a href="#s1" class="toc-item"><span class="toc-num">02</span><span class="toc-text">What CVSS 9.8 Means</span></a>
+            <a href="#s2" class="toc-item"><span class="toc-num">03</span><span class="toc-text">The Rest of the Network</span></a>
+            <a href="#s3" class="toc-item"><span class="toc-num">04</span><span class="toc-text">POPIA Exposure</span></a>
+            <a href="#s4" class="toc-item"><span class="toc-num">05</span><span class="toc-text">The Fixes</span></a>
+            <a href="#s5" class="toc-item"><span class="toc-num">06</span><span class="toc-text">The Quiet Hum</span></a>
+          </nav>
+        </div>
+
+        <div class="sidebar-widget" style="background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2);">
+          <div style="font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.15em;color:rgba(239,68,68,.6);margin-bottom:12px;"><i class="fas fa-chart-simple" style="margin-right:6px;"></i>THIS ENGAGEMENT</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);border-radius:8px;">
+              <span style="font-size:.8rem;color:rgba(200,200,200,.7);">Critical</span>
+              <span style="font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;color:#ef4444;text-shadow:0 0 12px rgba(239,68,68,.5);">4</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.12);border-radius:8px;">
+              <span style="font-size:.8rem;color:rgba(200,200,200,.7);">High</span>
+              <span style="font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;color:#f59e0b;text-shadow:0 0 12px rgba(245,158,11,.4);">11</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.1);border-radius:8px;">
+              <span style="font-size:.8rem;color:rgba(200,200,200,.7);">Medium</span>
+              <span style="font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;color:#60a5fa;text-shadow:0 0 12px rgba(59,130,246,.3);">29</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;">
+              <span style="font-size:.8rem;color:rgba(200,200,200,.7);">Hosts Scanned</span>
+              <span style="font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;color:rgba(255,255,255,.5);">11</span>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(239,68,68,.1);font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(34,197,94,.6);">
+            <i class="fas fa-check" style="margin-right:5px;"></i>All critical items remediated
+          </div>
+        </div>
+
+        <div class="sidebar-widget" style="background:linear-gradient(135deg,rgba(255,20,147,.08),rgba(0,0,0,.6));border-color:rgba(255,20,147,.25);">
+          <div class="section-tag mb-3">Is Your Router Exposed?</div>
+          <p style="font-size:.85rem;color:rgba(200,200,200,.7);margin-bottom:16px;line-height:1.6;">Get your practice risk score in 90 seconds. No signup required.</p>
+          <a href="risk-assessment.html" class="btn-primary w-full" style="font-size:.65rem;padding:12px 16px;"><i class="fas fa-shield-halved"></i> Check My Exposure</a>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="section-tag mb-4">Related Reading</div>
+          <a href="hacked-dental-practice-11-minutes.html" class="block mb-3" style="background:rgba(6,6,6,.9);border:1px solid rgba(255,20,147,.12);border-radius:16px;overflow:hidden;text-decoration:none;transition:all .3s ease;" onmouseover="this.style.borderColor='rgba(255,20,147,.4)'" onmouseout="this.style.borderColor='rgba(255,20,147,.12)'">
+            <div style="height:80px;background:linear-gradient(135deg,rgba(255,20,147,.12),rgba(0,0,0,.9));display:flex;align-items:center;justify-content:center;font-size:1.6rem;">🦷</div>
+            <div style="padding:12px 14px;">
+              <div style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(255,20,147,.6);margin-bottom:4px;">PHYSICAL PENTEST</div>
+              <div style="font-weight:700;color:#fff;font-size:.82rem;margin-bottom:6px;">Hacked in 11 Minutes — USB to Full Access</div>
+              <span class="read-more" style="font-size:.55rem;">Read post <span class="arrow">→</span></span>
+            </div>
+          </a>
+          <a href="popia-pentest-compliance.html" class="block" style="background:rgba(6,6,6,.9);border:1px solid rgba(255,20,147,.12);border-radius:16px;overflow:hidden;text-decoration:none;transition:all .3s ease;" onmouseover="this.style.borderColor='rgba(255,20,147,.4)'" onmouseout="this.style.borderColor='rgba(255,20,147,.12)'">
+            <div style="height:80px;background:linear-gradient(135deg,rgba(255,20,147,.1),rgba(0,0,0,.9));display:flex;align-items:center;justify-content:center;font-size:1.6rem;">⚖️</div>
+            <div style="padding:12px 14px;">
+              <div style="font-family:'Orbitron',monospace;font-size:.5rem;color:rgba(255,20,147,.6);margin-bottom:4px;">COMPLIANCE</div>
+              <div style="font-weight:700;color:#fff;font-size:.82rem;margin-bottom:6px;">Does a Pentest Make You POPIA Compliant?</div>
+              <span class="read-more" style="font-size:.55rem;">Read post <span class="arrow">→</span></span>
+            </div>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- Arsenal CTA -->
+<div style="max-width:48rem;margin:2rem auto 0;padding:0 1.5rem;position:relative;z-index:2;">
+  <a href="downloads.html" style="display:flex;align-items:center;gap:16px;padding:18px 24px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:16px;text-decoration:none;transition:all .3s ease;" onmouseover="this.style.borderColor='rgba(168,85,247,.5)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(168,85,247,.2)';this.style.transform='none'">
+    <div style="width:44px;height:44px;border-radius:12px;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#a855f7;font-size:1.1rem;"><i class="fas fa-vault"></i></div>
+    <div style="flex:1;">
+      <div style="font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(168,85,247,.7);margin-bottom:2px;">FREE DOWNLOADS</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#fff;font-size:.95rem;">The Arsenal — 31 free security templates &amp; frameworks</div>
+    </div>
+    <i class="fas fa-arrow-right" style="color:rgba(168,85,247,.5);font-size:.85rem;"></i>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div id="gh4h-footer"></div>
+<script src="footer.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50);});
+var hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobile-menu'),closeMenuBtn=document.getElementById('close-menu');
+function openMen(){mobileMenu.classList.remove('hidden');setTimeout(function(){mobileMenu.classList.add('open');},10);}
+function closeMenu(){mobileMenu.classList.remove('open');setTimeout(function(){mobileMenu.classList.add('hidden');},400);}
+hamburger.addEventListener('click',openMen);closeMenuBtn.addEventListener('click',closeMenu);
+var toolsToggle=document.getElementById('mobile-tools-toggle'),toolsAccordion=toolsToggle?toolsToggle.closest('.mobile-tools-accordion'):null;
+if(toolsToggle&&toolsAccordion){toolsToggle.addEventListener('click',function(){toolsAccordion.classList.toggle('open');});}
+document.querySelectorAll('.mobile-link,.mobile-tool-link').forEach(function(l){l.addEventListener('click',closeMenu);});
+
+var sections=['section-intro','section-router','section-network','section-popia','section-fixes','section-close'];
+var phases=[
+  {label:'RECON',  color:'#22c55e',glow:'rgba(34,197,94,.7)'},
+  {label:'BREACH', color:'#ef4444',glow:'rgba(239,68,68,.9)'},
+  {label:'ASSESS', color:'#f59e0b',glow:'rgba(245,158,11,.7)'},
+  {label:'IMPACT', color:'#ff1493',glow:'rgba(255,20,147,.9)'},
+  {label:'DEFEND', color:'#22c55e',glow:'rgba(34,197,94,.7)'},
+  {label:'DEFEND', color:'#22c55e',glow:'rgba(34,197,94,.7)'}
+];
+function updateScanner(){
+  var scrollTop=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round((scrollTop/docH)*100));
+  document.getElementById('read-progress-bar').style.width=pct+'%';
+  document.getElementById('scan-pct').textContent=pct+'%';
+  document.getElementById('scan-fill').style.height=pct+'%';
+  document.getElementById('scan-beam').style.top='calc('+pct+'% - 3px)';
+  var cur=0;
+  sections.forEach(function(id,i){var el=document.getElementById(id);if(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight*.5)cur=i;}});
+  var ph=phases[cur];
+  var lv=document.getElementById('scan-level');
+  lv.textContent=ph.label;lv.style.color=ph.color;lv.style.textShadow='0 0 10px '+ph.glow;
+  sections.forEach(function(_,i){
+    var d=document.getElementById('dot-'+i);if(!d)return;
+    d.classList.remove('active','passed');
+    if(i===cur)d.classList.add('active');else if(i<cur)d.classList.add('passed');
+  });
+  document.querySelectorAll('.toc-item').forEach(function(item,i){item.classList.toggle('active',i===cur);});
+}
+window.addEventListener('scroll',updateScanner,{passive:true});
+updateScanner();
+
+document.getElementById('copy-link-btn').addEventListener('click',function(){
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    var btn=document.getElementById('copy-link-btn');
+    btn.innerHTML='<i class="fas fa-check text-green-400"></i> Copied!';
+    setTimeout(function(){btn.innerHTML='<i class="fas fa-link"></i> Copy Link';},2000);
+  });
+});
+
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.finding-card').forEach(function(el){
+  gsap.fromTo(el,{y:35,opacity:0},{y:0,opacity:1,duration:.65,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.callout').forEach(function(el){
+  gsap.fromTo(el,{y:20,opacity:0},{y:0,opacity:1,duration:.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+});
+document.querySelectorAll('.fix-list').forEach(function(el){
+  gsap.fromTo(el,{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true}});
+});
+gsap.fromTo('.cvss-meter',{y:25,opacity:0},{y:0,opacity:1,duration:.6,ease:'power2.out',scrollTrigger:{trigger:'.cvss-meter',start:'top 92%',once:true}});
+gsap.fromTo('.network-map',{y:25,opacity:0},{y:0,opacity:1,duration:.6,ease:'power2.out',scrollTrigger:{trigger:'.network-map',start:'top 92%',once:true}});
+
+window.addEventListener('load',function(){
+  var canvas=document.getElementById('three-canvas');
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  if(!ctx) return;
+  var W,H,pts;
+  function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
+  function makePts(){pts=[];for(var i=0;i<200;i++){pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.8+0.5,a:Math.random()*.3+.1,pink:Math.random()>.4});}}
+  resize();makePts();
+  window.addEventListener('resize',function(){resize();makePts();});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.pink?'rgba(255,20,147,'+p.a+')':'rgba(255,105,180,'+(p.a*.7)+')';ctx.fill();}
+    requestAnimationFrame(draw);
+  }
+  draw();
+});
+</script>
+</body>
+</html>
