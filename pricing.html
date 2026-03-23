@@ -491,14 +491,14 @@
     .trust-badge:hover { border-color:rgba(255,20,147,.35);background:rgba(255,20,147,.05); }
 
     /* COMPARE TABLE */
-    .compare-row { display:grid;grid-template-columns:1fr repeat(4,75px);gap:0;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .3s ease;align-items:center; }
+    .compare-row { display:grid;grid-template-columns:1fr 68px repeat(4,75px);gap:0;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .3s ease;align-items:center; }
     .compare-row:hover { background:rgba(255,20,147,.035); }
     .compare-row.header { border-bottom:2px solid rgba(255,20,147,.25);padding-bottom:14px; }
     .compare-tick  { text-align:center;font-size:.85rem; }
     .compare-label { font-size:.85rem;color:#ccc; }
     .compare-label strong { color:#fff; }
     @media(max-width:768px) {
-      .compare-row { grid-template-columns:1fr repeat(4,52px);padding:8px 10px; }
+      .compare-row { grid-template-columns:1fr 48px repeat(4,48px);padding:8px 10px; }
       .compare-tick  { font-size:.6rem; }
       .compare-label { font-size:.72rem; }
     }
@@ -1105,10 +1105,10 @@
             <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Nessus Pro authenticated scan — up to 20 devices</span></div>
             <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>CVSS-scored findings, ranked by real-world severity</span></div>
             <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>1-page Executive Summary — plain language, no jargon</span></div>
-            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>POPIA risk overlay — patient data exposure flagged</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>POPIA-relevant network findings highlighted in report</span></div>
             <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Top 10 remediation priorities ordered by breach impact</span></div>
-            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Practice management system included in scope</span></div>
-            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Guest WiFi network included in scan</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Network and server hosting your practice software assessed</span></div>
+            <div class="feature-row" style="border-color:rgba(34,197,94,.2);background:rgba(34,197,94,.04);border-radius:8px;padding-left:8px;padding-right:8px;margin-left:-8px;margin-right:-8px;"><i class="fas fa-wifi" style="color:#22c55e;min-width:14px;"></i><span>Guest WiFi included — <strong style="color:#22c55e;">FREE</strong> <span style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(34,197,94,.7);">patient data off your public network</span></span></div>
             <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Full PDF report delivered within 5 business days</span></div>
             <div class="feature-row expose-feature"><i class="fas fa-minus" style="color:rgba(255,255,255,.18);min-width:14px;"></i><span>No manual exploit chaining — see SCOUT for full pentest</span></div>
             <div class="feature-row expose-feature"><i class="fas fa-minus" style="color:rgba(255,255,255,.18);min-width:14px;"></i><span>No retest or compliance letter included</span></div>
@@ -1579,34 +1579,38 @@
     <div class="glass rounded-2xl overflow-hidden">
       <div class="compare-row header" style="background:rgba(255,20,147,.04)">
         <div class="compare-label"><strong>Feature</strong></div>
+        <div class="compare-tick font-display" style="font-size:.5rem;letter-spacing:.08em;color:#f59e0b;">EXPOSE</div>
         <div class="compare-tick font-display text-gray-500" style="font-size:.55rem;letter-spacing:.1em">SCOUT</div>
         <div class="compare-tick font-display text-gray-500" style="font-size:.55rem;letter-spacing:.1em">INFILTRATE</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.55rem;letter-spacing:.1em">SENTINEL</div>
         <div class="compare-tick font-display text-gray-500" style="font-size:.55rem;letter-spacing:.1em">PHANTOM</div>
       </div>
-      <div class="compare-row"><div class="compare-label">Nessus Pro automated scan</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
-      <div class="compare-row"><div class="compare-label">Manual penetration testing</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
-      <div class="compare-row"><div class="compare-label">Burp Suite Pro exploitation</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Executive report</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Technical findings + PoC evidence</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Remediation roadmap</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Retest / verification</div><div class="compare-tick text-pink-400" style="font-size:.65rem">✓ Recheck</div><div class="compare-tick text-pink-400">✓ ×1</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Per test</div></div>
-      <div class="compare-row"><div class="compare-label">POPIA / PCI-DSS compliance support</div><div class="compare-tick text-pink-400">Notes</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ Full</div><div class="compare-tick text-pink-400">✓ Custom</div></div>
-      <div class="compare-row"><div class="compare-label">WiFi security assessment</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
-      <div class="compare-row"><div class="compare-label">Dedicated security advisor</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
-      <div class="compare-row"><div class="compare-label">Incident response support</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ 24/7</div></div>
-      <div class="compare-row"><div class="compare-label">Phishing &amp; social engineering</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
-      <div class="compare-row"><div class="compare-label">Security awareness training</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Included</div></div>
-      <div class="compare-row"><div class="compare-label">NDA &amp; confidentiality</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Nessus Pro vulnerability scan</div><div class="compare-tick" style="color:#f59e0b;">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
+      <div class="compare-row"><div class="compare-label">Manual penetration testing</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Monthly</div></div>
+      <div class="compare-row"><div class="compare-label">Burp Suite Pro exploitation</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">CVSS-scored findings report</div><div class="compare-tick" style="color:#f59e0b;">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Executive summary</div><div class="compare-tick" style="color:#f59e0b;font-size:.65rem">✓ 1-page</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Technical findings + PoC evidence</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Remediation roadmap</div><div class="compare-tick" style="color:#f59e0b;font-size:.6rem">Top 10</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Retest / verification</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400" style="font-size:.65rem">✓ Recheck</div><div class="compare-tick text-pink-400">✓ ×1</div><div class="compare-tick text-pink-400">✓ ×4/yr</div><div class="compare-tick text-pink-400">✓ Per test</div></div>
+      <div class="compare-row"><div class="compare-label">POPIA-relevant findings flagged</div><div class="compare-tick" style="color:#f59e0b;">✓</div><div class="compare-tick text-pink-400">Notes</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓ Full</div><div class="compare-tick text-pink-400">✓ Custom</div></div>
+      <div class="compare-row"><div class="compare-label">Guest WiFi assessment</div><div class="compare-tick" style="color:#22c55e;font-size:.65rem;font-weight:700;">✓ FREE</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Incl.</div></div>
+      <div class="compare-row"><div class="compare-label">Dedicated security advisor</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
+      <div class="compare-row"><div class="compare-label">Incident response support</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-pink-400">✓ 24/7</div></div>
+      <div class="compare-row"><div class="compare-label">Phishing &amp; social engineering</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Incl.</div></div>
+      <div class="compare-row"><div class="compare-label">Security awareness training</div><div class="compare-tick text-gray-600">—</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-cyan-400" style="font-size:.6rem">+Add-on</div><div class="compare-tick text-pink-400">✓ Incl.</div></div>
+      <div class="compare-row"><div class="compare-label">NDA &amp; confidentiality</div><div class="compare-tick" style="color:#f59e0b;">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div><div class="compare-tick text-pink-400">✓</div></div>
       <div class="compare-row" style="background:rgba(255,20,147,.04);border-bottom:none">
         <div class="compare-label"><strong class="text-white">Price</strong></div>
+        <div class="compare-tick font-display" style="font-size:.65rem;color:#f59e0b;">R9,500</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R18k</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R32k</div>
-        <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R94,000/yr</div>
+        <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">R94k/yr</div>
         <div class="compare-tick font-display text-pink-400" style="font-size:.7rem">POA</div>
       </div>
     </div>
     <div class="mt-6 flex flex-wrap items-center justify-center gap-6 text-xs">
+      <div class="flex items-center gap-2"><span style="color:#f59e0b;">✓</span> <span class="text-gray-500">EXPOSE scan</span></div>
       <div class="flex items-center gap-2"><span class="text-pink-400">✓</span> <span class="text-gray-500">Included</span></div>
       <div class="flex items-center gap-2"><span class="text-cyan-400">+Add-on</span> <span class="text-gray-500">Available — <a href="#addons-section" class="text-pink-400 hover:text-pink-300 underline">see add-ons</a></span></div>
       <div class="flex items-center gap-2"><span class="text-gray-600">—</span> <span class="text-gray-500">Not available</span></div>
