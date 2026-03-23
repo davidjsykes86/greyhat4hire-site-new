@@ -279,6 +279,125 @@
       box-shadow: 0 8px 32px rgba(255,20,147,.25);
     }
     .addon-card.selected::before { opacity: 1; background: linear-gradient(90deg, transparent, #ff1493, transparent); }
+
+    /* ── TIER GATING SYSTEM ── */
+    .addon-tier-status {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 10px 20px; margin-bottom: 20px;
+      background: rgba(8,8,8,.7); border: 1px solid rgba(255,20,147,.12);
+      border-radius: 12px; font-family: 'Orbitron', monospace;
+      font-size: .56rem; letter-spacing: .12em; color: rgba(255,255,255,.3);
+      transition: all .4s ease;
+    }
+    .addon-tier-status .tier-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,.2); flex-shrink: 0;
+      transition: all .4s ease;
+    }
+    .addon-tier-status .tier-name {
+      color: #ff1493; font-weight: 700;
+      text-shadow: 0 0 14px rgba(255,20,147,.6);
+      transition: all .4s ease;
+    }
+    .addon-tier-status .tier-count-avail { color: #22c55e; }
+    .addon-tier-status .tier-count-locked { color: rgba(255,255,255,.3); }
+    .addon-tier-status .tier-sep { color: rgba(255,255,255,.1); margin: 0 4px; }
+
+    .addon-min-tier-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: 'Orbitron', monospace; font-size: .42rem;
+      letter-spacing: .1em; padding: 3px 7px; border-radius: 5px;
+      position: absolute; top: 10px; right: 10px; z-index: 2;
+      transition: all .3s ease;
+    }
+    .addon-min-tier-badge.tier-pulse {
+      background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.25);
+      color: rgba(34,197,94,.7);
+    }
+    .addon-min-tier-badge.tier-shield {
+      background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.25);
+      color: rgba(59,130,246,.7);
+    }
+    .addon-card.locked .addon-min-tier-badge.tier-shield {
+      background: rgba(59,130,246,.18); border-color: rgba(59,130,246,.5);
+      color: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,.2);
+    }
+
+    .addon-lock-overlay {
+      position: absolute; inset: 0; border-radius: 18px;
+      background: rgba(0,0,0,.6);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; z-index: 5; pointer-events: none;
+      opacity: 0; backdrop-filter: blur(0px);
+      transition: opacity .35s ease, backdrop-filter .35s ease;
+    }
+    .addon-card.locked .addon-lock-overlay {
+      opacity: 1; backdrop-filter: blur(3px); pointer-events: none;
+    }
+    .addon-lock-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(0,0,0,.75); border: 1px solid rgba(59,130,246,.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: rgba(59,130,246,.8);
+      box-shadow: 0 0 20px rgba(59,130,246,.2);
+      transform: translateY(4px); transition: transform .35s ease;
+    }
+    .addon-card.locked .addon-lock-overlay .addon-lock-icon { transform: translateY(0); }
+    .addon-lock-label {
+      font-family: 'Orbitron', monospace; font-size: .46rem;
+      letter-spacing: .14em; color: rgba(255,255,255,.55);
+      background: rgba(0,0,0,.6); padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(59,130,246,.25);
+      transform: translateY(4px); transition: transform .35s ease .05s;
+    }
+    .addon-card.locked .addon-lock-overlay .addon-lock-label { transform: translateY(0); }
+    .addon-lock-hint {
+      font-family: 'Rajdhani', sans-serif; font-size: .72rem;
+      color: rgba(255,255,255,.3); letter-spacing: .04em;
+      transform: translateY(4px); transition: transform .35s ease .1s, color .2s ease;
+    }
+    .addon-card.locked .addon-lock-overlay .addon-lock-hint { transform: translateY(0); }
+    .addon-card.locked:hover .addon-lock-overlay .addon-lock-hint { color: rgba(59,130,246,.8); }
+    .addon-card.locked:hover .addon-lock-overlay { background: rgba(0,0,0,.68); }
+
+    .addon-card.locked { cursor: pointer; filter: saturate(0.15) brightness(0.7); }
+    .addon-card.locked:hover { transform: translateY(-2px); filter: saturate(0.25) brightness(0.8);
+      border-color: rgba(59,130,246,.3); box-shadow: 0 8px 30px rgba(59,130,246,.1); }
+    .addon-card.locked:hover::before { opacity: 1; background: linear-gradient(90deg, transparent, rgba(59,130,246,.3), transparent); }
+    .addon-card.locked.selected { filter: none; }
+
+    @keyframes addonShake {
+      0%,100% { transform: translateX(0); }
+      15%      { transform: translateX(-5px) rotate(-0.5deg); }
+      30%      { transform: translateX(5px)  rotate(0.5deg); }
+      45%      { transform: translateX(-4px); }
+      60%      { transform: translateX(4px); }
+      75%      { transform: translateX(-2px); }
+      90%      { transform: translateX(2px); }
+    }
+    .addon-card.tier-shake { animation: addonShake .45s ease; }
+
+    @keyframes addonUnlock {
+      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+      40%  { box-shadow: 0 0 0 8px rgba(34,197,94,.25); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+    .addon-card.just-unlocked { animation: addonUnlock .55s ease; }
+
+    @keyframes pkgBtnPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); border-color: rgba(255,20,147,.3); }
+      35%      { box-shadow: 0 0 0 8px rgba(59,130,246,.35); border-color: rgba(59,130,246,.8); }
+      70%      { box-shadow: 0 0 0 4px rgba(59,130,246,.15); }
+    }
+    .pkg-btn-tier-pulse { animation: pkgBtnPulse .7s ease 2; }
+
+    .addon-category-count {
+      font-family: 'Share Tech Mono', monospace; font-size: .6rem;
+      color: rgba(255,255,255,.25); margin-left: 8px; transition: all .35s ease;
+    }
+    .addon-category-count .avail { color: #22c55e; }
+    .addon-category-count .locked-ct { color: rgba(255,255,255,.2); }
+
     .addon-checkbox {
       width: 22px; height: 22px;
       border: 2px solid rgba(255,255,255,.2);
@@ -1202,10 +1321,14 @@
      ══════════════════════════════════════════════════════════════════════════ -->
 <section class="py-16 sm:py-20 px-4 sm:px-6" style="position:relative;z-index:2" id="addons-section">
   <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-12">
+    <div class="text-center mb-8">
       <div class="section-tag mb-3">Customise Your Engagement</div>
       <h2 class="font-display font-black neon-pink text-3xl sm:text-4xl mb-3">Enhance Your Package</h2>
-      <p class="text-gray-400 text-sm max-w-xl mx-auto">Add specialised services to any package. Select what you need — see your quote update in real time.</p>
+      <p class="text-gray-400 text-sm max-w-xl mx-auto">Add-ons are gated to the package that makes them meaningful. Select your base package — watch what unlocks.</p>
+    </div>
+    <div class="addon-tier-status max-w-lg mx-auto mb-10" id="addon-tier-status">
+      <span class="tier-dot" id="tier-dot"></span>
+      <span id="tier-status-text">Select a package in the quote builder to see available add-ons</span>
     </div>
 
     <div class="grid lg:grid-cols-3 gap-8">
@@ -1214,11 +1337,17 @@
 
         <!-- CATEGORY: OFFENSIVE TESTING -->
         <div>
-          <div class="addon-category"><i class="fas fa-crosshairs mr-2"></i>OFFENSIVE TESTING</div>
+          <div class="addon-category"><i class="fas fa-crosshairs mr-2"></i>OFFENSIVE TESTING<span class="addon-category-count" id="cat-count-offensive"></span></div>
           <div class="grid sm:grid-cols-2 gap-4">
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="webapp" data-price="8000" data-name="Web App Deep Dive">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="webapp" data-price="8000" data-name="Web App Deep Dive" data-min-tier="shield">
               <span class="addon-popular">POPULAR</span>
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(59,130,246,.15);color:#3b82f6;border:1px solid rgba(59,130,246,.25);">
                   <i class="fas fa-globe"></i>
@@ -1234,7 +1363,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="api" data-price="6000" data-name="API Security Testing">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="api" data-price="6000" data-name="API Security Testing" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.25);">
                   <i class="fas fa-code"></i>
@@ -1250,7 +1385,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="wireless" data-price="5000" data-name="Wireless Assessment">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="wireless" data-price="5000" data-name="Wireless Assessment" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(34,211,238,.15);color:#22d3ee;border:1px solid rgba(34,211,238,.25);">
                   <i class="fas fa-wifi"></i>
@@ -1266,7 +1407,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="cloud" data-price="10000" data-name="Cloud Security Review">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="cloud" data-price="10000" data-name="Cloud Security Review" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.25);">
                   <i class="fas fa-cloud"></i>
@@ -1287,11 +1434,17 @@
 
         <!-- CATEGORY: SOCIAL ENGINEERING -->
         <div>
-          <div class="addon-category"><i class="fas fa-user-secret mr-2"></i>SOCIAL ENGINEERING</div>
+          <div class="addon-category"><i class="fas fa-user-secret mr-2"></i>SOCIAL ENGINEERING<span class="addon-category-count" id="cat-count-social"></span></div>
           <div class="grid sm:grid-cols-2 gap-4">
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="phishing" data-price="5000" data-name="Phishing Simulation">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="phishing" data-price="3500" data-name="Phishing Simulation" data-min-tier="pulse">
               <span class="addon-popular">POPULAR</span>
+              <span class="addon-min-tier-badge tier-pulse"><i class="fas fa-unlock" style="font-size:.55rem"></i> ALL TIERS</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.25);">
                   <i class="fas fa-envelope-open-text"></i>
@@ -1302,12 +1455,18 @@
                     <div class="addon-checkbox"><i class="fas fa-check"></i></div>
                   </div>
                   <p class="text-gray-500 text-xs mb-3">Custom phishing campaign targeting up to 50 employees with tracking, credential capture, and detailed report.</p>
-                  <div class="addon-price">R5,000</div>
+                  <div class="addon-price">R3,500</div>
                 </div>
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="vishing" data-price="4000" data-name="Vishing Test">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="vishing" data-price="4000" data-name="Vishing Test" data-min-tier="pulse">
+              <span class="addon-min-tier-badge tier-pulse"><i class="fas fa-unlock" style="font-size:.55rem"></i> ALL TIERS</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.25);">
                   <i class="fas fa-phone-volume"></i>
@@ -1323,8 +1482,14 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="evilginx" data-price="7500" data-name="Evilginx2 MFA Bypass Simulation">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="evilginx" data-price="7500" data-name="Evilginx2 MFA Bypass Simulation" data-min-tier="shield">
               <span class="addon-popular" style="background:linear-gradient(135deg,#ef4444,#b91c1c);">ADVANCED</span>
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.35);">
                   <i class="fas fa-fish-fins"></i>
@@ -1345,11 +1510,17 @@
 
         <!-- CATEGORY: TRAINING & AWARENESS -->
         <div>
-          <div class="addon-category"><i class="fas fa-graduation-cap mr-2"></i>TRAINING & AWARENESS</div>
+          <div class="addon-category"><i class="fas fa-graduation-cap mr-2"></i>TRAINING & AWARENESS<span class="addon-category-count" id="cat-count-training"></span></div>
           <div class="grid sm:grid-cols-2 gap-4">
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="training" data-price="3500" data-name="Staff Security Training">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="training" data-price="3500" data-name="Staff Security Training" data-min-tier="pulse">
               <span class="addon-popular">POPULAR</span>
+              <span class="addon-min-tier-badge tier-pulse"><i class="fas fa-unlock" style="font-size:.55rem"></i> ALL TIERS</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.25);">
                   <i class="fas fa-chalkboard-user"></i>
@@ -1365,7 +1536,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="executive" data-price="5000" data-name="Executive Briefing">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="executive" data-price="5000" data-name="Executive Briefing" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(139,92,246,.15);color:#8b5cf6;border:1px solid rgba(139,92,246,.25);">
                   <i class="fas fa-user-tie"></i>
@@ -1386,10 +1563,16 @@
 
         <!-- CATEGORY: COMPLIANCE & CONTINUITY -->
         <div>
-          <div class="addon-category"><i class="fas fa-clipboard-check mr-2"></i>COMPLIANCE & CONTINUITY</div>
+          <div class="addon-category"><i class="fas fa-clipboard-check mr-2"></i>COMPLIANCE & CONTINUITY<span class="addon-category-count" id="cat-count-compliance"></span></div>
           <div class="grid sm:grid-cols-2 gap-4">
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="popia" data-price="8000" data-name="POPIA Compliance Pack">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="popia" data-price="8000" data-name="POPIA Compliance Pack" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(255,20,147,.15);color:#ff1493;border:1px solid rgba(255,20,147,.25);">
                   <i class="fas fa-scale-balanced"></i>
@@ -1405,7 +1588,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="backup" data-price="4500" data-name="Backup & DR Validation">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="backup" data-price="4500" data-name="Backup & DR Validation" data-min-tier="pulse">
+              <span class="addon-min-tier-badge tier-pulse"><i class="fas fa-unlock" style="font-size:.55rem"></i> ALL TIERS</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(14,165,233,.15);color:#0ea5e9;border:1px solid rgba(14,165,233,.25);">
                   <i class="fas fa-database"></i>
@@ -1421,7 +1610,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="darkweb" data-price="6000" data-name="Dark Web Monitoring">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="darkweb" data-price="6000" data-name="Dark Web Monitoring" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(100,116,139,.15);color:#64748b;border:1px solid rgba(100,116,139,.25);">
                   <i class="fas fa-mask"></i>
@@ -1437,7 +1632,13 @@
               </div>
             </div>
 
-            <div class="addon-card" onclick="toggleAddon(this)" data-addon="ir" data-price="7500" data-name="IR Plan Development">
+            <div class="addon-card" onclick="toggleAddon(this)" data-addon="ir" data-price="7500" data-name="IR Plan Development" data-min-tier="shield">
+              <span class="addon-min-tier-badge tier-shield"><i class="fas fa-shield-halved" style="font-size:.55rem"></i> SHIELD+</span>
+              <div class="addon-lock-overlay">
+                <div class="addon-lock-icon"><i class="fas fa-lock"></i></div>
+                <div class="addon-lock-label">REQUIRES SHIELD+</div>
+                <div class="addon-lock-hint">Click to upgrade</div>
+              </div>
               <div class="flex items-start gap-4">
                 <div class="addon-icon" style="background:rgba(220,38,38,.15);color:#dc2626;border:1px solid rgba(220,38,38,.25);">
                   <i class="fas fa-fire-extinguisher"></i>
@@ -1919,6 +2120,89 @@
     phantom: { name: 'PHANTOM', price: 0, display: 'POA' }
   };
 
+  // Tier hierarchy for gating logic
+  var tierRank = { pulse: 1, shield: 2, guardian: 3, phantom: 4 };
+
+  function isAddonUnlocked(card) {
+    var minTier = card.dataset.minTier || 'pulse';
+    var currentTier = basePackage.key;
+    return (tierRank[currentTier] || 0) >= (tierRank[minTier] || 1);
+  }
+
+  function updateTierGating() {
+    var currentKey = basePackage.key;
+    var allCards = document.querySelectorAll('.addon-card');
+    var totalAvail = 0, totalLocked = 0;
+
+    // Category counters
+    var cats = {
+      offensive: { avail: 0, locked: 0 },
+      social: { avail: 0, locked: 0 },
+      training: { avail: 0, locked: 0 },
+      compliance: { avail: 0, locked: 0 }
+    };
+    var catMap = {
+      webapp: 'offensive', api: 'offensive', wireless: 'offensive', cloud: 'offensive',
+      phishing: 'social', vishing: 'social', evilginx: 'social',
+      training: 'training', executive: 'training',
+      popia: 'compliance', backup: 'compliance', darkweb: 'compliance', ir: 'compliance'
+    };
+
+    allCards.forEach(function(card, idx) {
+      var unlocked = isAddonUnlocked(card);
+      var cat = catMap[card.dataset.addon] || 'offensive';
+
+      setTimeout(function() {
+        if (unlocked) {
+          if (card.classList.contains('locked')) {
+            card.classList.remove('locked');
+            card.classList.add('just-unlocked');
+            setTimeout(function() { card.classList.remove('just-unlocked'); }, 600);
+          }
+        } else {
+          card.classList.add('locked');
+          // Deselect if previously selected
+          if (card.classList.contains('selected')) {
+            card.classList.remove('selected');
+            selectedAddons = selectedAddons.filter(function(a) { return a.key !== card.dataset.addon; });
+            updateQuoteDisplay();
+          }
+        }
+      }, idx * 40);
+
+      if (unlocked) { totalAvail++; cats[cat].avail++; }
+      else { totalLocked++; cats[cat].locked++; }
+    });
+
+    // Update tier status bar
+    var statusEl = document.getElementById('tier-status-text');
+    var dotEl = document.getElementById('tier-dot');
+    var tierNames = { pulse: 'PULSE', shield: 'SHIELD', guardian: 'GUARDIAN', phantom: 'PHANTOM' };
+    var tierColors = { pulse: '#22c55e', shield: '#3b82f6', guardian: '#ff1493', phantom: '#ff1493' };
+    var col = tierColors[currentKey] || '#ff1493';
+    dotEl.style.background = col;
+    dotEl.style.boxShadow = '0 0 8px ' + col;
+    statusEl.innerHTML =
+      '<span class="tier-name" style="color:' + col + ';text-shadow:0 0 14px ' + col + '40">' + tierNames[currentKey] + '</span>' +
+      '<span class="tier-sep">·</span>' +
+      '<span class="tier-count-avail">' + totalAvail + ' available</span>' +
+      '<span class="tier-sep">·</span>' +
+      '<span class="tier-count-locked">' + totalLocked + ' locked</span>';
+
+    // Update category counts
+    var catIds = { offensive: 'cat-count-offensive', social: 'cat-count-social', training: 'cat-count-training', compliance: 'cat-count-compliance' };
+    Object.keys(catIds).forEach(function(cat) {
+      var el = document.getElementById(catIds[cat]);
+      if (!el) return;
+      var c = cats[cat];
+      if (c.locked > 0) {
+        el.innerHTML = '— <span class="avail">' + c.avail + '</span> available · <span class="locked-ct">' + c.locked + ' locked</span>';
+      } else {
+        el.innerHTML = '— <span class="avail">all ' + (c.avail) + ' available</span>';
+      }
+    });
+  }
+
   function selectPackage(key, price, btn) {
     basePackage = { name: packages[key].name, price: price, key: key };
     
@@ -1930,7 +2214,23 @@
     document.getElementById('quote-package-name').textContent = packages[key].name + ' Package';
     document.getElementById('quote-package-price').textContent = price > 0 ? formatRand(price) : 'POA';
     
+    // Run tier gating
+    updateTierGating();
     updateQuoteTotal();
+  }
+
+  function pulseUpgradeButton(requiredTier) {
+    // Flash the required package button in the quote builder
+    var buttons = document.querySelectorAll('.package-select-btn');
+    buttons.forEach(function(btn) {
+      if (btn.textContent.trim().toLowerCase().startsWith(requiredTier)) {
+        btn.classList.add('pkg-btn-tier-pulse');
+        setTimeout(function() { btn.classList.remove('pkg-btn-tier-pulse'); }, 1500);
+      }
+    });
+    // Scroll quote builder into view
+    var qb = document.getElementById('quote-builder');
+    if (qb) qb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function selectExposeAndScroll() {
@@ -1947,7 +2247,6 @@
   }
 
   function selectPackageAndScroll(key, price) {
-    // Find and click the corresponding button in the quote builder
     var buttons = document.querySelectorAll('.package-select-btn');
     buttons.forEach(function(btn) {
       if (btn.textContent.toLowerCase().includes(key)) {
@@ -1958,8 +2257,6 @@
     });
     
     selectPackage(key, price, null);
-    
-    // Smooth scroll to add-ons section
     document.getElementById('addons-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -1967,13 +2264,20 @@
     var addonKey = card.dataset.addon;
     var addonPrice = parseInt(card.dataset.price);
     var addonName = card.dataset.name;
+
+    // Locked card: shake it + pulse the required upgrade button
+    if (card.classList.contains('locked')) {
+      card.classList.add('tier-shake');
+      setTimeout(function() { card.classList.remove('tier-shake'); }, 500);
+      var minTier = card.dataset.minTier || 'shield';
+      pulseUpgradeButton(minTier);
+      return;
+    }
     
     if (card.classList.contains('selected')) {
-      // Remove addon
       card.classList.remove('selected');
       selectedAddons = selectedAddons.filter(function(a) { return a.key !== addonKey; });
     } else {
-      // Add addon
       card.classList.add('selected');
       selectedAddons.push({ key: addonKey, name: addonName, price: addonPrice });
     }
@@ -2034,6 +2338,11 @@
       totalEl.textContent = formatRand(total);
     }
   }
+
+  // Initialise tier gating on page load (GUARDIAN is default)
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() { updateTierGating(); }, 200);
+  });
 
   function formatRand(amount) {
     if (amount >= 1000) {
