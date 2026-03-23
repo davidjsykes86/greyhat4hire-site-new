@@ -178,6 +178,75 @@
     @keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
     .pulse-glow { animation:pulseGlow 2.8s infinite; }
 
+    /* ══ EXPOSE INTRO OFFER CARD ══ */
+    .expose-card {
+      background: linear-gradient(135deg, rgba(245,158,11,.07), rgba(8,8,8,.92));
+      border: 1px solid rgba(245,158,11,.3);
+      border-radius: 24px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: all .4s cubic-bezier(.4,0,.2,1);
+    }
+    .expose-card:hover {
+      border-color: rgba(245,158,11,.55);
+      box-shadow: 0 20px 60px rgba(245,158,11,.14), 0 0 0 1px rgba(245,158,11,.08);
+      transform: translateY(-3px);
+    }
+    @keyframes exposeScan {
+      0%   { left:-60%; opacity:0; }
+      8%   { opacity:1; }
+      92%  { opacity:1; }
+      100% { left:160%; opacity:0; }
+    }
+    .expose-card::after {
+      content:'';
+      position:absolute;
+      top:0; left:-60%; width:40%; height:100%;
+      background:linear-gradient(90deg,transparent,rgba(245,158,11,.06),rgba(255,255,255,.025),transparent);
+      animation:exposeScan 5s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .expose-badge {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:.12em;
+      background:linear-gradient(135deg,rgba(245,158,11,.22),rgba(245,158,11,.08));
+      border:1px solid rgba(245,158,11,.5);color:#f59e0b;
+      padding:4px 10px;border-radius:6px;
+    }
+    .expose-price-was {
+      font-family:'Orbitron',monospace;font-size:1rem;
+      color:rgba(255,255,255,.22);text-decoration:line-through;letter-spacing:.05em;
+    }
+    .expose-price-now {
+      font-family:'Orbitron',monospace;font-size:2.6rem;font-weight:900;
+      color:#ff1493;text-shadow:0 0 32px rgba(255,20,147,.75);
+      line-height:1;letter-spacing:.03em;
+    }
+    .expose-save {
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:'Orbitron',monospace;font-size:.54rem;letter-spacing:.1em;
+      background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.05));
+      border:1px solid rgba(34,197,94,.35);color:#22c55e;
+      padding:5px 12px;border-radius:8px;margin-top:8px;
+    }
+    .expose-divider {
+      width:1px;align-self:stretch;
+      background:linear-gradient(180deg,transparent,rgba(245,158,11,.22),transparent);
+    }
+    .expose-feature { color:rgba(255,255,255,.3);font-size:.78rem;font-style:italic; }
+    .expose-btn {
+      display:inline-flex;align-items:center;gap:10px;justify-content:center;
+      background:linear-gradient(135deg,#f59e0b,#d97706);
+      color:#000;font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;letter-spacing:.1em;
+      padding:16px 32px;border-radius:14px;border:none;width:100%;
+      transition:all .3s ease;text-decoration:none;position:relative;overflow:hidden;cursor:pointer;
+    }
+    .expose-btn::before {content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.2);transform:translate(-50%,-50%);transition:width .6s ease,height .6s ease;z-index:0;}
+    .expose-btn:hover::before{width:500px;height:500px;}
+    .expose-btn:hover{transform:translateY(-3px);box-shadow:0 12px 44px rgba(245,158,11,.55);}
+    .expose-btn span,.expose-btn i{position:relative;z-index:1;}
+
     /* ══ ADD-ONS SECTION ══ */
     .addon-card {
       background: rgba(8,8,8,.75);
@@ -801,6 +870,7 @@
 
 <!-- PAGE NAV DOTS -->
 <div id="page-nav">
+  <div class="page-dot" data-label="EXPOSE" data-section="expose-section" onclick="scrollToSection('expose-section')" style="border-color:rgba(245,158,11,.4);"></div>
   <div class="page-dot active" data-label="PACKAGES" data-section="pricing-grid" onclick="scrollToSection('pricing-grid')"></div>
   <div class="page-dot" data-label="ADD-ONS" data-section="addons-section" onclick="scrollToSection('addons-section')"></div>
   <div class="page-dot" data-label="COMPARE" data-section="compare-section" onclick="scrollToSection('compare-section')"></div>
@@ -1002,6 +1072,66 @@
       <div class="trust-badge"><i class="fas fa-rotate text-pink-400 text-xl flex-shrink-0"></i><div><div class="font-bold text-white text-sm">Retest Included</div><div class="text-gray-500 text-xs">Every plan</div></div></div>
       <div class="trust-badge"><i class="fas fa-clock text-pink-400 text-xl flex-shrink-0"></i><div><div class="font-bold text-white text-sm">24hr Response</div><div class="text-gray-500 text-xs">Consultation guaranteed</div></div></div>
       <div class="trust-badge"><i class="fas fa-file-invoice text-pink-400 text-xl flex-shrink-0"></i><div><div class="font-bold text-white text-sm">Fixed Scope</div><div class="text-gray-500 text-xs">No scope-creep fees</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPOSE: FEATURED INTRO OFFER ══ -->
+<section class="pb-6 sm:pb-10 px-4 sm:px-6" style="position:relative;z-index:2" id="expose-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-6 reveal">
+      <div class="section-tag mb-2"><i class="fas fa-bolt mr-1"></i> New Service · Limited Intro Pricing</div>
+      <p class="text-gray-500 text-sm max-w-md mx-auto">Not ready for a full pentest? This is where smart practices start.</p>
+    </div>
+    <div class="expose-card reveal">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-14 items-start lg:items-center">
+
+        <!-- LEFT: Identity + Features -->
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center gap-3 mb-5">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:#f59e0b;">
+              <i class="fas fa-magnifying-glass-chart"></i>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <h3 class="font-display font-black text-white" style="font-size:1.6rem;letter-spacing:.06em;">EXPOSE</h3>
+                <span class="expose-badge"><i class="fas fa-tag"></i>&nbsp;INTRO OFFER</span>
+              </div>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:.78rem;color:rgba(255,255,255,.4);">Vulnerability Scan &nbsp;·&nbsp; Up to 20 devices &nbsp;·&nbsp; Report in 5 business days</p>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-0">
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Nessus Pro authenticated scan — up to 20 devices</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>CVSS-scored findings, ranked by real-world severity</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>1-page Executive Summary — plain language, no jargon</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>POPIA risk overlay — patient data exposure flagged</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Top 10 remediation priorities ordered by breach impact</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Practice management system included in scope</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Guest WiFi network included in scan</span></div>
+            <div class="feature-row"><i class="fas fa-check" style="color:#f59e0b;min-width:14px;"></i><span>Full PDF report delivered within 5 business days</span></div>
+            <div class="feature-row expose-feature"><i class="fas fa-minus" style="color:rgba(255,255,255,.18);min-width:14px;"></i><span>No manual exploit chaining — see SCOUT for full pentest</span></div>
+            <div class="feature-row expose-feature"><i class="fas fa-minus" style="color:rgba(255,255,255,.18);min-width:14px;"></i><span>No retest or compliance letter included</span></div>
+          </div>
+        </div>
+
+        <!-- VERTICAL DIVIDER (desktop only) -->
+        <div class="expose-divider hidden lg:block flex-shrink-0"></div>
+
+        <!-- RIGHT: Price + CTA -->
+        <div class="w-full lg:w-52 flex flex-col items-center lg:items-center text-center flex-shrink-0">
+          <div class="mb-0"><span class="expose-price-was">R15,000</span></div>
+          <div class="expose-price-now">R9,500</div>
+          <div class="expose-save"><i class="fas fa-bolt"></i>&nbsp;You save R5,500</div>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.25);margin:14px 0 18px;">Once-off &nbsp;·&nbsp; Limited intro pricing</p>
+          <button class="expose-btn" onclick="selectExposeAndScroll()">
+            <i class="fas fa-magnifying-glass-chart"></i>
+            <span>Get EXPOSE Scan</span>
+          </button>
+          <p style="font-size:.68rem;color:rgba(255,255,255,.25);margin-top:10px;font-family:'Share Tech Mono',monospace;">NDA signed before any work begins</p>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -1400,6 +1530,9 @@
           <!-- Package Selector -->
           <div class="text-xs text-gray-500 mb-2">Select base package:</div>
           <div class="package-selector" style="grid-template-columns:repeat(3,1fr);">
+            <button class="package-select-btn" onclick="selectPackage('expose', 9500, this)" style="border-color:rgba(245,158,11,.4);color:#f59e0b;">
+              EXPOSE<span class="pkg-price">R9,500</span>
+            </button>
             <button class="package-select-btn" onclick="selectPackage('scout', 18000, this)">
               SCOUT<span class="pkg-price">R18K</span>
             </button>
@@ -1853,6 +1986,7 @@
 
   // Package definitions
   var packages = {
+    expose: { name: 'EXPOSE', price: 9500, display: 'R9,500' },
     scout: { name: 'SCOUT', price: 18000, display: 'R18,000' },
     infiltrate: { name: 'INFILTRATE', price: 32000, display: 'R32,000' },
     clinic: { name: 'CLINIC', price: 28000, display: 'R28,000' },
@@ -1872,6 +2006,19 @@
     document.getElementById('quote-package-price').textContent = price > 0 ? formatRand(price) : 'POA';
     
     updateQuoteTotal();
+  }
+
+  function selectExposeAndScroll() {
+    var buttons = document.querySelectorAll('.package-select-btn');
+    buttons.forEach(function(btn) {
+      if (btn.textContent.toLowerCase().includes('expose')) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    selectPackage('expose', 9500, null);
+    document.getElementById('addons-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function selectPackageAndScroll(key, price) {
@@ -2194,7 +2341,7 @@
 
   // PAGE NAV DOTS — highlight on scroll
   (function() {
-    var sections = ['pricing-grid','addons-section','compare-section','roi-section','faq-section'];
+    var sections = ['expose-section','pricing-grid','addons-section','compare-section','roi-section','faq-section'];
     var dots = document.querySelectorAll('.page-dot');
     function scrollToSection(id) {
       var el = document.getElementById(id);
@@ -2208,7 +2355,23 @@
         var el = document.getElementById(id);
         if (el && el.offsetTop <= scrollY) active = i;
       });
-      dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+      dots.forEach(function(d, i) {
+        d.classList.toggle('active', i === active);
+        // amber glow for expose dot when active
+        if (i === 0 && i === active) {
+          d.style.background = '#f59e0b';
+          d.style.borderColor = '#f59e0b';
+          d.style.boxShadow = '0 0 10px rgba(245,158,11,.8)';
+        } else if (i === 0) {
+          d.style.background = '';
+          d.style.borderColor = 'rgba(245,158,11,.4)';
+          d.style.boxShadow = '';
+        } else {
+          d.style.background = '';
+          d.style.borderColor = '';
+          d.style.boxShadow = '';
+        }
+      });
     }
     window.addEventListener('scroll', updateDots, {passive:true});
     updateDots();
