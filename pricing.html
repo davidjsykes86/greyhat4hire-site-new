@@ -2110,7 +2110,7 @@
   // MODAL
   var currentPlan = '', currentPrice = '';
   var selectedAddons = [];
-  var basePackage = { name: 'GUARDIAN', price: 84000, key: 'guardian' };
+  var basePackage = { name: 'PULSE', price: 9500, key: 'pulse' };
 
   // Package definitions
   var packages = {
@@ -2339,9 +2339,20 @@
     }
   }
 
-  // Initialise tier gating on page load (GUARDIAN is default)
+  // Initialise tier gating on page load (PULSE is default)
   document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() { updateTierGating(); }, 200);
+    setTimeout(function() {
+      document.querySelectorAll('.package-select-btn').forEach(function(b) {
+        if (b.textContent.trim().toLowerCase().startsWith('pulse')) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+      document.getElementById('quote-package-name').textContent = 'PULSE Package';
+      document.getElementById('quote-package-price').textContent = 'R9,500';
+      updateTierGating();
+    }, 200);
   });
 
   function formatRand(amount) {
