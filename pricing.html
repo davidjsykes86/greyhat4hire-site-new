@@ -1091,15 +1091,18 @@
           <div class="w-10 h-10 rounded-xl glass flex items-center justify-center flex-shrink-0 ml-2"><i class="fas fa-magnifying-glass-chart text-pink-400"></i></div>
         </div>
         <div class="price-display mb-1" data-text="R9,500">R9,500</div>
-        <p class="text-gray-500 text-xs mb-4">once-off · scan + manual validation · <span style="color:rgba(255,20,147,.5);">know where you stand</span></p>
+        <p class="text-gray-500 text-xs mb-4">once-off · automated scan, human-verified · <span style="color:rgba(255,20,147,.5);">know where you stand</span></p>
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Nessus Pro authenticated scan — up to 20 devices</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>Manual validation — no false-positive noise</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>Automated scan, human-verified — no false-positive noise</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>1-page Executive Summary in plain language</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>POPIA-relevant findings highlighted</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Top 10 remediation priorities by breach impact</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>NDA signed before any work begins</span></li>
-          <li class="feature-row"><i class="fas fa-minus minus"></i><span style="color:rgba(255,255,255,.3);font-style:italic;">No exploit chaining — see SHIELD</span></li>
+          <li class="feature-row" style="margin-top:10px;border-top:1px solid rgba(255,20,147,.15);padding-top:10px;">
+            <i class="fas fa-arrow-right" style="color:#ff1493;font-size:.7rem;margin-top:2px;flex-shrink:0;"></i>
+            <span style="color:#ff1493;font-size:.78rem;">Want us to actually exploit what we find? <a onclick="selectPackageAndScroll('shield', 24000)" style="text-decoration:underline;cursor:pointer;font-weight:700;">Upgrade to SHIELD</a></span>
+          </li>
         </ul>
         <button class="btn-ghost" onclick="selectPackageAndScroll('pulse', 9500)">
           <i class="fas fa-arrow-right text-xs"></i> <span>Select & Customise</span>
@@ -1117,11 +1120,11 @@
         <p class="text-gray-500 text-xs mb-4">once-off · manual pentest + retest · <span style="color:rgba(255,20,147,.5);">compliance-ready</span></p>
         <ul class="space-y-0 mb-8 flex-1">
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Everything in PULSE</span></li>
+          <li class="feature-row"><i class="fas fa-check chk"></i><span>1× Full retest of remediated findings — included</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Human testers chain vulnerabilities — like real attackers</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Burp Suite Pro exploitation across web apps &amp; APIs</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Screen recordings your board can actually follow</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>Executive summary + fix-by-fix remediation roadmap</span></li>
-          <li class="feature-row"><i class="fas fa-check chk"></i><span>1× Full retest of remediated findings</span></li>
           <li class="feature-row"><i class="fas fa-check chk"></i><span>POPIA compliance notes; PCI DSS findings referenced</span></li>
         </ul>
         <button class="btn-ghost" onclick="selectPackageAndScroll('shield', 24000)">
