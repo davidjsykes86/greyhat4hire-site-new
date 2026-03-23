@@ -472,6 +472,16 @@
     }
     @keyframes badgePulse { 0%,100%{box-shadow:0 6px 24px rgba(255,20,147,.6)} 50%{box-shadow:0 6px 40px rgba(255,20,147,.9)} }
 
+    .entry-badge {
+      position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+      background:linear-gradient(135deg,#f59e0b,#fbbf24);
+      padding:6px 22px;border-radius:0 0 14px 14px;
+      font-family:'Orbitron',monospace;font-size:.62rem;font-weight:700;letter-spacing:.12em;
+      color:#000;white-space:nowrap;box-shadow:0 6px 24px rgba(245,158,11,.55);
+      animation:entryBadgePulse 2.5s infinite;
+    }
+    @keyframes entryBadgePulse { 0%,100%{box-shadow:0 6px 24px rgba(245,158,11,.55)} 50%{box-shadow:0 6px 40px rgba(245,158,11,.9)} }
+
     .price-display {
       font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(1.8rem,3.5vw,2.6rem);
       background:linear-gradient(135deg,#ff1493,#ff69b4);
@@ -1085,6 +1095,7 @@
 
       <!-- PULSE -->
       <div class="price-card" id="card-0">
+        <div class="entry-badge">⚡ BEST STARTING POINT</div>
         <div class="card-tier-tag">Entry Level</div>
         <div class="flex items-start justify-between mb-4">
           <h3 class="font-display font-bold text-white text-base leading-tight">PULSE<br><span style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.05em;font-weight:400">Is My Practice Exposed?</span></h3>
