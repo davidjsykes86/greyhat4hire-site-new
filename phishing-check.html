@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phishing Link Scanner | GreyHat4Hire</title>
+<meta name="description" content="Free phishing link scanner for dental and healthcare practices. Powered by heuristic analysis, Google Safe Browsing, and VirusTotal.">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #ff1493;
+  --pink-dim: rgba(255,20,147,0.12);
+  --pink-glow: rgba(255,20,147,0.35);
+  --bg: #050508;
+  --bg2: #0c0c14;
+  --bg3: #121220;
+  --text: #dde0ee;
+  --text-dim: #7a7a9a;
+  --safe: #00e87a;
+  --warn: #f5c518;
+  --orange: #ff6622;
+  --danger: #ff2244;
+  --border: rgba(255,20,147,0.18);
+  --border-dim: rgba(255,255,255,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,20,147,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,20,147,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+/* Ambient glow top-left */
+body::after {
+  content:'';
+  position:fixed;
+  top:-200px; left:-200px;
+  width:600px; height:600px;
+  background: radial-gradient(circle, rgba(255,20,147,0.06) 0%, transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── NAV ─────────────────────────────────────────── */
+nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:200;
+  height:62px;
+  background: rgba(5,5,8,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 0 2.5rem;
+}
+.nav-logo {
+  font-family:'Orbitron',sans-serif;
+  font-size:.95rem;
+  font-weight:900;
+  color:var(--pink);
+  text-decoration:none;
+  letter-spacing:.08em;
+  text-shadow: 0 0 20px var(--pink-glow);
+}
+.nav-right { display:flex; align-items:center; gap:1.5rem; }
+.nav-tag {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.68rem;
+  color:var(--text-dim);
+  letter-spacing:.15em;
+}
+.nav-back {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.72rem;
+  color:var(--text-dim);
+  text-decoration:none;
+  border:1px solid var(--border);
+  padding:.38rem 1rem;
+  letter-spacing:.1em;
+  transition:all .2s;
+}
+.nav-back:hover { color:var(--pink); border-color:var(--pink); box-shadow: 0 0 12px var(--pink-glow); }
+
+/* ── MAIN ────────────────────────────────────────── */
+main {
+  position:relative;
+  z-index:1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 110px 1.5rem 5rem;
+}
+
+/* ── HERO ────────────────────────────────────────── */
+.hero { text-align:center; margin-bottom:3.5rem; }
+.hero-eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:.75rem;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.7rem;
+  color:var(--pink);
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  margin-bottom:1.4rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content:'';
+  display:inline-block;
+  width:30px;
+  height:1px;
+  background:var(--pink);
+  opacity:.5;
+}
+.hero h1 {
+  font-family:'Orbitron',sans-serif;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight:900;
+  color:#fff;
+  letter-spacing:.04em;
+  line-height:1.05;
+  margin-bottom:1.2rem;
+  text-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+.hero h1 em {
+  font-style:normal;
+  color:var(--pink);
+  text-shadow: 0 0 30px var(--pink-glow);
+}
+.hero-sub {
+  font-size:1.05rem;
+  color:var(--text-dim);
+  max-width:580px;
+  margin:0 auto;
+  line-height:1.65;
+  font-weight:400;
+}
+.hero-badges {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:.6rem;
+  margin-top:1.5rem;
+}
+.badge {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.65rem;
+  letter-spacing:.12em;
+  color:var(--text-dim);
+  border:1px solid var(--border-dim);
+  padding:.3rem .8rem;
+  border-radius:2px;
+}
+
+/* ── CARD ────────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border:1px solid var(--border);
+  border-radius:3px;
+  padding:2rem 2.2rem;
+  margin-bottom:1.4rem;
+  position:relative;
+  overflow:hidden;
+}
+.card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background: linear-gradient(90deg, transparent 0%, var(--pink) 50%, transparent 100%);
+  opacity:.7;
+}
+
+.card-label {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.67rem;
+  color:var(--pink);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  margin-bottom:1.4rem;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.card-label::after {
+  content:'';
+  flex:1;
+  height:1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ── INPUT ───────────────────────────────────────── */
+.input-row { display:flex; gap:.75rem; }
+.url-input {
+  flex:1;
+  background:var(--bg3);
+  border:1px solid var(--border-dim);
+  color:var(--text);
+  font-family:'Share Tech Mono',monospace;
+  font-size:.88rem;
+  padding:.9rem 1.1rem;
+  outline:none;
+  border-radius:2px;
+  transition:border-color .2s, box-shadow .2s;
+  min-width:0;
+}
+.url-input:focus {
+  border-color:var(--pink);
+  box-shadow: 0 0 0 1px var(--pink), 0 0 20px var(--pink-dim);
+}
+.url-input::placeholder { color:var(--text-dim); opacity:.7; }
+
+.scan-btn {
+  flex-shrink:0;
+  background:var(--pink);
+  color:#000;
+  border:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  padding: 0 2rem;
+  cursor:pointer;
+  border-radius:2px;
+  transition:all .2s;
+  white-space:nowrap;
+  position:relative;
+  overflow:hidden;
+}
+.scan-btn::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+  pointer-events:none;
+}
+.scan-btn:hover {
+  background:#fff;
+  box-shadow: 0 0 30px var(--pink-glow), 0 4px 20px rgba(0,0,0,.5);
+  transform:translateY(-1px);
+}
+.scan-btn:disabled { opacity:.35; cursor:not-allowed; transform:none; }
+
+/* ── API KEYS PANEL ──────────────────────────────── */
+.api-toggle {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  margin-top:1.2rem;
+  cursor:pointer;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.68rem;
+  color:var(--text-dim);
+  letter-spacing:.15em;
+  transition:color .2s;
+  user-select:none;
+}
+.api-toggle:hover { color:var(--pink); }
+.toggle-arrow {
+  display:inline-block;
+  transition:transform .25s;
+  font-size:.6rem;
+  color:var(--pink);
+}
+.api-toggle.open .toggle-arrow { transform:rotate(90deg); }
+
+.api-panel {
+  display:none;
+  margin-top:1rem;
+  padding:1.3rem 1.5rem;
+  background:var(--bg3);
+  border:1px solid var(--border-dim);
+  border-radius:2px;
+}
+.api-panel.open { display:block; }
+
+.api-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:600px){ .api-grid{ grid-template-columns:1fr; } }
+
+.api-field-label {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.65rem;
+  color:var(--text-dim);
+  letter-spacing:.12em;
+  margin-bottom:.45rem;
+}
+.api-field-label span {
+  color:var(--pink);
+  margin-left:.4rem;
+}
+.api-key-input {
+  width:100%;
+  background:var(--bg2);
+  border:1px solid var(--border-dim);
+  color:var(--text);
+  font-family:'Share Tech Mono',monospace;
+  font-size:.8rem;
+  padding:.6rem .8rem;
+  outline:none;
+  border-radius:2px;
+  transition:border-color .2s;
+}
+.api-key-input:focus { border-color:var(--pink); }
+.api-key-input::placeholder { color:var(--text-dim); opacity:.5; }
+
+.api-note {
+  margin-top:1rem;
+  padding:.8rem 1rem;
+  background:rgba(255,20,147,0.05);
+  border:1px solid rgba(255,20,147,0.12);
+  border-radius:2px;
+  font-size:.8rem;
+  color:var(--text-dim);
+  line-height:1.6;
+}
+.api-note a { color:var(--pink); text-decoration:none; }
+.api-note a:hover { text-decoration:underline; }
+
+/* ── RESULTS ─────────────────────────────────────── */
+.results-section { display:none; }
+.results-section.visible { display:block; }
+
+/* Verdict banner */
+.verdict-banner {
+  display:flex;
+  align-items:center;
+  gap:1.8rem;
+  padding:1.6rem 2rem;
+  border-radius:3px;
+  margin-bottom:1.4rem;
+  border:1px solid;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s;
+}
+.verdict-banner::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(255,255,255,.02) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+.verdict-banner.v-safe    { background:rgba(0,232,122,.05); border-color:rgba(0,232,122,.25); }
+.verdict-banner.v-low     { background:rgba(245,197,24,.05); border-color:rgba(245,197,24,.25); }
+.verdict-banner.v-suspicious { background:rgba(255,102,34,.06); border-color:rgba(255,102,34,.3); }
+.verdict-banner.v-dangerous  { background:rgba(255,34,68,.07); border-color:rgba(255,34,68,.35); }
+.verdict-banner.v-scanning   { background:var(--bg2); border-color:var(--border); }
+
+.verdict-icon-wrap {
+  font-size:2.8rem;
+  line-height:1;
+  flex-shrink:0;
+}
+.verdict-info { min-width:0; }
+.verdict-status {
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(1rem,3vw,1.35rem);
+  font-weight:700;
+  letter-spacing:.06em;
+}
+.v-safe    .verdict-status { color:var(--safe); }
+.v-low     .verdict-status { color:var(--warn); }
+.v-suspicious .verdict-status { color:var(--orange); }
+.v-dangerous  .verdict-status { color:var(--danger); }
+.v-scanning   .verdict-status { color:var(--text-dim); }
+
+.verdict-url-display {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.72rem;
+  color:var(--text-dim);
+  margin-top:.4rem;
+  word-break:break-all;
+  opacity:.8;
+}
+
+/* Checks grid */
+.checks-grid {
+  display:grid;
+  gap:1rem;
+}
+
+.check-card {
+  background:var(--bg2);
+  border:1px solid var(--border-dim);
+  border-radius:3px;
+  padding:1.3rem 1.6rem;
+  transition:border-color .3s;
+}
+.check-card.has-threat { border-color:rgba(255,34,68,.3); }
+.check-card.is-clean   { border-color:rgba(0,232,122,.2); }
+
+.check-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:.9rem;
+  gap:1rem;
+}
+.check-name {
+  font-family:'Orbitron',sans-serif;
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  color:var(--text);
+}
+.check-pill {
+  font-family:'Share Tech Mono',monospace;
+  font-size:.65rem;
+  letter-spacing:.12em;
+  padding:.22rem .75rem;
+  border-radius:2px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.pill-scanning    { color:var(--text-dim); border:1px solid var(--border-dim); animation:blink 1.6s infinite; }
+.pill-safe        { color:var(--safe); border:1px solid rgba(0,232,122,.3); background:rgba(0,232,122,.06); }
+.pill-low         { color:var(--warn); border:1px solid rgba(245,197,24,.3); background:rgba(245,197,24,.06); }
+.pill-suspicious  { color:var(--orange); border:1px solid rgba(255,102,34,.3); background:rgba(255,102,34,.06); }
+.pill-dangerous   { color:var(--danger); border:1px solid rgba(255,34,68,.3); background:rgba(255,34,68,.06); }
+.pill-skipped     { color:var(--text-dim); border:1px solid var(--border-dim); }
+.pill-error       { color:#ff9900; border:1px solid rgba(255,153,0,.3); }
+
+@keyframes blink {
+  0%,100%{ opacity:1; }
+  50%{ opacity:.35; }
+}
+
+.check-findings { list-style:none; display:flex; flex-direction:column; gap:.35rem; }
+.check-findings li {
+  font-size:.88rem;
+  color:var(--text-dim);
+  display:flex;
+  align-items:baseline;
+  gap:.6rem;
+  line-height:1.5;
+}
+.check-findings li::before { content:'›'; color:var(--pink); flex-shrink:0; }
+.fi-bad  { color:var(--danger) !important; }
+.fi-warn { color:var(--warn)   !important; }
+.fi-good { color:var(--safe)   !important; }
+.fi-dim  { color:var(--text-dim) !important; }
+
+/* ── DISCLAIMER ──────────────────────────────────── */
+.disclaimer {
+  margin-top:1.4rem;
+  padding:1rem 1.4rem;
+  background:rgba(255,20,147,.04);
+  border:1px solid var(--border);
+  border-radius:2px;
+  font-size:.82rem;
+  color:var(--text-dim);
+  line-height:1.6;
+}
+.disclaimer strong { color:var(--pink); }
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer {
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:2.5rem 1.5rem;
+  border-top:1px solid var(--border);
+  font-family:'Share Tech Mono',monospace;
+  font-size:.72rem;
+  color:var(--text-dim);
+  letter-spacing:.08em;
+}
+footer a { color:var(--pink); text-decoration:none; }
+footer a:hover { text-decoration:underline; }
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:560px){
+  nav { padding:0 1.2rem; }
+  .nav-tag { display:none; }
+  main { padding-top:90px; }
+  .card { padding:1.4rem 1.2rem; }
+  .input-row { flex-direction:column; }
+  .scan-btn { padding:.9rem; }
+  .verdict-banner { gap:1rem; padding:1.2rem 1.4rem; }
+  .verdict-icon-wrap { font-size:2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">GREYHAT4HIRE</a>
+  <div class="nav-right">
+    <span class="nav-tag">// FREE SECURITY TOOL</span>
+    <a class="nav-back" href="/">← BACK TO SITE</a>
+  </div>
+</nav>
+
+<main>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Free Security Tool</div>
+    <h1>PHISHING LINK<br><em>SCANNER</em></h1>
+    <p class="hero-sub">
+      Paste any suspicious URL to check it against heuristic analysis,
+      Google Safe Browsing, and VirusTotal threat intelligence — before you click.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">HEURISTIC ANALYSIS</span>
+      <span class="badge">GOOGLE SAFE BROWSING</span>
+      <span class="badge">VIRUSTOTAL · 90+ ENGINES</span>
+      <span class="badge">FREE · NO SIGN-UP</span>
+    </div>
+  </div>
+
+  <!-- Scanner card -->
+  <div class="card">
+    <div class="card-label">SCAN TARGET URL</div>
+    <div class="input-row">
+      <input
+        id="urlInput"
+        class="url-input"
+        type="text"
+        placeholder="https://suspicious-link.example.com/verify-account"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+      />
+      <button class="scan-btn" id="scanBtn" onclick="startScan()">SCAN URL</button>
+    </div>
+
+    <div class="api-toggle" id="apiToggle" onclick="toggleApiPanel()">
+      <span class="toggle-arrow">▶</span>
+      API KEYS — ENABLE FULL SCAN
+    </div>
+
+    <div class="api-panel" id="apiPanel">
+      <div class="api-grid">
+        <div>
+          <div class="api-field-label">GOOGLE SAFE BROWSING<span>FREE KEY</span></div>
+          <input class="api-key-input" id="gsbKey" type="password" placeholder="AIzaSyAok8PkIpnkPCBEbEN9Wzt0DMDdMprsV80" autocomplete="off"/>
+        </div>
+        <div>
+          <div class="api-field-label">VIRUSTOTAL<span>FREE KEY</span></div>
+          <input class="api-key-input" id="vtKey" type="password" placeholder="fe55ffbda5d1ab9468d29a94b472a5015447b48e3e656eed14c351eefffb2f7e" autocomplete="off"/>
+        </div>
+      </div>
+      <div class="api-note">
+        Keys are used only in your browser — never sent to GreyHat4Hire servers. Restrict your Google key to this domain in the Google Cloud Console.<br>
+        <a href="https://developers.google.com/safe-browsing/v4/get-started" target="_blank" rel="noopener">→ Get Google Safe Browsing key</a> &nbsp;·&nbsp;
+        <a href="https://www.virustotal.com/gui/my-apikey" target="_blank" rel="noopener">→ Get VirusTotal free key</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results section -->
+  <div class="results-section" id="resultsSection">
+
+    <div class="verdict-banner v-scanning" id="verdictBanner">
+      <div class="verdict-icon-wrap" id="verdictIcon">⏳</div>
+      <div class="verdict-info">
+        <div class="verdict-status" id="verdictStatus">ANALYSING…</div>
+        <div class="verdict-url-display" id="verdictUrlDisplay"></div>
+      </div>
+    </div>
+
+    <div class="checks-grid">
+
+      <div class="check-card" id="heurCard">
+        <div class="check-header">
+          <div class="check-name">HEURISTIC ANALYSIS</div>
+          <div class="check-pill pill-scanning" id="heurPill">SCANNING</div>
+        </div>
+        <ul class="check-findings" id="heurFindings"></ul>
+      </div>
+
+      <div class="check-card" id="gsbCard">
+        <div class="check-header">
+          <div class="check-name">GOOGLE SAFE BROWSING</div>
+          <div class="check-pill pill-scanning" id="gsbPill">SCANNING</div>
+        </div>
+        <ul class="check-findings" id="gsbFindings"></ul>
+      </div>
+
+      <div class="check-card" id="vtCard">
+        <div class="check-header">
+          <div class="check-name">VIRUSTOTAL · 90+ ENGINES</div>
+          <div class="check-pill pill-scanning" id="vtPill">SCANNING</div>
+        </div>
+        <ul class="check-findings" id="vtFindings"></ul>
+      </div>
+
+    </div>
+
+    <div class="disclaimer">
+      <strong>DISCLAIMER:</strong> This tool provides threat intelligence to support your decision-making.
+      It does not guarantee a URL is safe or dangerous. When in doubt, do not click — contact your
+      IT support or a cybersecurity professional. Provided free by
+      <a href="https://greyhat4hire.com" style="color:var(--pink)">GreyHat4Hire</a> as a public service for healthcare practices.
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  &copy; 2025 <a href="https://greyhat4hire.com">GreyHat4Hire</a> — Cybersecurity for Dental &amp; Medical Practices &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#5b32353d341b3c293e22333a2f6f3332293e75383436"><span class="__cf_email__" data-cfemail="543d3a323b143326312d3c3520603c3d26317a373b39">[email&#160;protected]</span></a>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══════════════════════════════════════════════════════════════════════════════
+//  OPTIONAL: Hardcode your API keys here so visitors don't need to enter them.
+//  Restrict your Google key to this domain in Google Cloud Console.
+// ═══════════════════════════════════════════════════════════════════════════════
+const HARDCODED_GSB = '';   // e.g. 'AIzaSy...'
+// VT key is server-side in the Cloudflare Worker — do not add it here
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  HEURISTICS
+// ═══════════════════════════════════════════════════════════════════════════════
+const SUSPICIOUS_TLDS = new Set([
+  'xyz','tk','ml','ga','cf','gq','top','click','link','win','bid','loan',
+  'work','date','racing','download','accountant','science','faith','party',
+  'review','trade','webcam','cricket','stream','buzz','country','kim',
+  'men','ninja','ooo','pw','rest','rocks','space','website'
+]);
+
+const URL_SHORTENERS = new Set([
+  'bit.ly','tinyurl.com','t.co','ow.ly','goo.gl','is.gd','buff.ly',
+  'adf.ly','bc.vc','j.mp','lnkd.in','dlvr.it','tiny.cc','rb.gy',
+  'cutt.ly','shorturl.at','tr.im','snip.ly','v.gd','qr.ae','s.id',
+  'shorturl.at','clck.ru','t2m.io','tinycc.com','tly.so'
+]);
+
+const BRANDS = [
+  'paypal','microsoft','apple','google','amazon','facebook','instagram',
+  'netflix','spotify','dropbox','linkedin','twitter','chase','wellsfargo',
+  'bankofamerica','capitalone','barclays','hsbc','fnb','standardbank',
+  'nedbank','absa','sanlam','discovery','vodacom','mtn','cellc','telkom',
+  'sars','dhl','fedex','ups','usps','docusign','adobe','office365',
+  'outlook','onedrive','sharepoint','icloud','netflix','disney',
+  'cryptowallet','metamask','binance','coinbase'
+];
+
+const SUSP_PATHS = [
+  'login','signin','sign-in','verify','account','secure','update','confirm',
+  'banking','wallet','password','credential','authenticate','validation',
+  'suspended','limited','alert','urgent','support','helpdesk','webscr',
+  'recover','reset','authorize','oauth','authenticate'
+];
+
+const FREE_HOSTS = [
+  '000webhostapp.com','weebly.com','firebaseapp.com','web.app',
+  'glitch.me','replit.dev','surge.sh','biz.nf','esy.es',
+  'infinityfreeapp.com','epizy.com'
+];
+
+function runHeuristics(rawUrl) {
+  const findings = [];
+  let score = 0;
+
+  let url, hostname, pathname, protocol, port;
+  try {
+    let full = rawUrl.trim();
+    if (!/^https?:\/\//i.test(full)) full = 'https://' + full;
+    url = new URL(full);
+    hostname = url.hostname.toLowerCase();
+    pathname = url.pathname.toLowerCase();
+    protocol = url.protocol;
+    port = url.port;
+  } catch(e) {
+    return { score:60, findings:[{cls:'fi-bad',txt:'Unable to parse URL — may be malformed or obfuscated'}] };
+  }
+
+  const domainNoWww = hostname.replace(/^www\./, '');
+  const parts = hostname.split('.');
+  const tld = parts[parts.length - 1];
+  const registeredDomain = parts.slice(-2).join('.');
+  const ipRx = /^(\d{1,3}\.){3}\d{1,3}$/;
+
+  // 1. IP address as host
+  if (ipRx.test(hostname)) {
+    score += 40;
+    findings.push({cls:'fi-bad', txt:'IP address used instead of domain name — phishing hallmark'});
+  }
+
+  // 2. HTTP (unencrypted)
+  if (protocol === 'http:' && !hostname.includes('localhost')) {
+    score += 12;
+    findings.push({cls:'fi-warn', txt:'No HTTPS — connection is unencrypted'});
+  } else if (protocol === 'https:') {
+    findings.push({cls:'fi-good', txt:'HTTPS detected — encrypted transport (though phishing sites also use HTTPS)'});
+  }
+
+  // 3. Suspicious TLD
+  if (SUSPICIOUS_TLDS.has(tld)) {
+    score += 22;
+    findings.push({cls:'fi-bad', txt:`.${tld} — high-risk TLD, commonly abused in phishing campaigns`});
+  }
+
+  // 4. URL shortener
+  if (URL_SHORTENERS.has(domainNoWww)) {
+    score += 18;
+    findings.push({cls:'fi-warn', txt:'URL shortener detected — real destination is hidden'});
+  }
+
+  // 5. Excessive subdomain depth
+  if (parts.length > 4) {
+    score += 22;
+    findings.push({cls:'fi-bad', txt:`${parts.length}-level subdomain chain — common obfuscation technique`});
+  } else if (parts.length <= 3) {
+    findings.push({cls:'fi-good', txt:'Clean domain structure — no subdomain stacking'});
+  }
+
+  // 6. @ symbol in URL (credential bypass trick)
+  if (rawUrl.includes('@')) {
+    score += 35;
+    findings.push({cls:'fi-bad', txt:'@ symbol in URL — can force browser to load a completely different host'});
+  }
+
+  // 7. Non-standard port
+  if (port && !['','80','443','8080','8443'].includes(port)) {
+    score += 22;
+    findings.push({cls:'fi-warn', txt:`Non-standard port ${port} — legitimate services rarely use unusual ports`});
+  }
+
+  // 8. Hyphens in domain (typosquatting indicator)
+  const domainBody = parts.slice(0, -1).join('.');
+  const hyphens = (domainBody.match(/-/g) || []).length;
+  if (hyphens >= 3) {
+    score += 16;
+    findings.push({cls:'fi-warn', txt:`${hyphens} hyphens in domain — typical of typosquatting domains`});
+  }
+
+  // 9. Brand name in URL but not on real domain
+  const brandHit = BRANDS.find(b => {
+    const inHost = hostname.includes(b);
+    const isActualDomain =
+      hostname.endsWith(b + '.com') || hostname.endsWith(b + '.co.za') ||
+      hostname.endsWith(b + '.org') || hostname.endsWith(b + '.net') ||
+      hostname.endsWith(b + '.gov') || hostname.endsWith(b + '.io') ||
+      registeredDomain === b + '.' + tld;
+    return inHost && !isActualDomain;
+  });
+  if (brandHit) {
+    score += 35;
+    findings.push({cls:'fi-bad', txt:`Brand keyword "${brandHit}" in URL but not on its official domain — likely impersonation`});
+  }
+
+  // 10. Suspicious path keywords
+  const pathHit = SUSP_PATHS.find(k => pathname.includes(k));
+  if (pathHit) {
+    score += 10;
+    findings.push({cls:'fi-warn', txt:`Sensitive keyword in path: "/${pathHit}" — common in credential-harvest pages`});
+  }
+
+  // 11. Very long URL
+  if (rawUrl.length > 160) {
+    score += 10;
+    findings.push({cls:'fi-warn', txt:`Long URL (${rawUrl.length} chars) — often used to bury the real destination`});
+  }
+
+  // 12. Encoded characters in domain
+  if (hostname.includes('%')) {
+    score += 28;
+    findings.push({cls:'fi-bad', txt:'Encoded characters in domain — obfuscation to evade filters'});
+  }
+
+  // 13. Double-slash redirect
+  if (pathname.includes('//')) {
+    score += 15;
+    findings.push({cls:'fi-warn', txt:'Double-slash in path — possible open redirect abuse'});
+  }
+
+  // 14. Punycode / internationalized domain (IDN homograph attack)
+  if (hostname.startsWith('xn--') || hostname.includes('.xn--')) {
+    score += 28;
+    findings.push({cls:'fi-bad', txt:'Punycode/IDN domain detected — may be homograph attack using lookalike characters'});
+  }
+
+  // 15. Free hosting (phishing favourite)
+  const freeHit = FREE_HOSTS.find(h => hostname.endsWith(h));
+  if (freeHit) {
+    score += 10;
+    findings.push({cls:'fi-warn', txt:`Hosted on free platform (${freeHit}) — commonly abused to stand up phishing pages quickly`});
+  }
+
+  // 16. Multiple query parameters with suspicious keys
+  const params = [...url.searchParams.keys()].map(k => k.toLowerCase());
+  const suspParams = ['redirect','return','next','url','goto','dest','target','ref','returnto'];
+  const suspParam = suspParams.find(p => params.includes(p));
+  if (suspParam) {
+    score += 12;
+    findings.push({cls:'fi-warn', txt:`Redirect parameter "${suspParam}" in URL — possible open redirect or phishing chain`});
+  }
+
+  return { score, findings };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  GOOGLE SAFE BROWSING
+// ═══════════════════════════════════════════════════════════════════════════════
+async function checkGSB(url, key) {
+  if (!key) return { level:'skipped', findings:['No API key — enter your free Google Safe Browsing key above'] };
+  try {
+    const r = await fetch(
+      `https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${key}`,
+      {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          client:{ clientId:'greyhat4hire', clientVersion:'1.0.0' },
+          threatInfo:{
+            threatTypes:['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],
+            platformTypes:['ANY_PLATFORM'],
+            threatEntryTypes:['URL'],
+            threatEntries:[{ url }]
+          }
+        })
+      }
+    );
+    if (r.status === 400) return { level:'error', findings:['Bad request — check API key format'] };
+    if (r.status === 403) return { level:'error', findings:['API key rejected — verify key and domain restrictions in Google Cloud Console'] };
+    if (!r.ok) return { level:'error', findings:[`HTTP ${r.status} error from Google API`] };
+
+    const data = await r.json();
+    if (data.matches?.length > 0) {
+      const types = [...new Set(data.matches.map(m => m.threatType))];
+      return {
+        level:'dangerous',
+        findings:[
+          `Google flags this URL as: ${types.join(', ')}`,
+          'This URL is in Google\'s active threat database',
+          'Do NOT visit this link'
+        ]
+      };
+    }
+    return { level:'safe', findings:['Not found in Google\'s threat database', 'No known malware or phishing activity'] };
+  } catch(e) {
+    return { level:'error', findings:[`Request failed: ${e.message}`] };
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  VIRUSTOTAL
+// ═══════════════════════════════════════════════════════════════════════════════
+async function checkVT(url) {
+  try {
+    // Submit via proxy worker
+    const form = new FormData();
+    form.append('url', url);
+    const sub = await fetch('/api/vt/urls', {
+      method:'POST', body:form
+    });
+    if (sub.status === 401) return { level:'error', findings:['VirusTotal API key error — contact site admin'] };
+    if (sub.status === 429) return { level:'error', findings:['Rate limit reached — VirusTotal free tier: 4 req/min, 500/day'] };
+    if (!sub.ok) return { level:'error', findings:[`VirusTotal error: HTTP ${sub.status}`] };
+    const subData = await sub.json();
+    const id = subData.data?.id;
+    if (!id) return { level:'error', findings:['No analysis ID returned'] };
+
+    // Poll via proxy worker (up to ~30s)
+    for (let i = 0; i < 10; i++) {
+      await sleep(3000);
+      const res = await fetch(`/api/vt/analyses/${id}`);
+      if (!res.ok) break;
+      const rd = await res.json();
+      if (rd.data?.attributes?.status === 'completed') {
+        const s = rd.data.attributes.stats;
+        const total = Object.values(s).reduce((a,b)=>a+b,0);
+        const malicious  = s.malicious  || 0;
+        const suspicious = s.suspicious || 0;
+        const undetected = s.undetected || 0;
+
+        if (malicious > 0) {
+          return {
+            level: 'dangerous',
+            findings: [
+              `${malicious} of ${total} engines flagged as MALICIOUS`,
+              suspicious > 0 ? `${suspicious} additional engines flagged suspicious` : null,
+              `${undetected} engines reported clean`,
+              'Known malicious URL — do not visit'
+            ].filter(Boolean)
+          };
+        }
+        if (suspicious > 0) {
+          return {
+            level: 'suspicious',
+            findings: [
+              `${suspicious} of ${total} engines flagged as suspicious`,
+              `${undetected} engines reported clean`,
+              'Treat with caution — avoid clicking'
+            ]
+          };
+        }
+        return {
+          level: 'safe',
+          findings: [
+            `Scanned by ${total} security engines`,
+            'No engines detected threats',
+            malicious === 0 && suspicious === 0 ? 'All clear from VirusTotal database' : null
+          ].filter(Boolean)
+        };
+      }
+    }
+    return { level:'error', findings:['Analysis timed out — VT may still be processing. Try again shortly.'] };
+  } catch(e) {
+    return { level:'error', findings:[`Request failed: ${e.message}`] };
+  }
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  UI
+// ═══════════════════════════════════════════════════════════════════════════════
+function toggleApiPanel() {
+  document.getElementById('apiPanel').classList.toggle('open');
+  document.getElementById('apiToggle').classList.toggle('open');
+}
+
+function setPill(id, level) {
+  const el = document.getElementById(id);
+  const labels = {
+    scanning:'SCANNING', safe:'CLEAN', low:'LOW RISK',
+    suspicious:'SUSPICIOUS', dangerous:'THREAT DETECTED',
+    skipped:'NO KEY', error:'ERROR'
+  };
+  el.className = `check-pill pill-${level}`;
+  el.textContent = labels[level] || level.toUpperCase();
+}
+
+function setCardClass(id, level) {
+  const el = document.getElementById(id);
+  el.className = 'check-card';
+  if (level === 'dangerous' || level === 'suspicious') el.classList.add('has-threat');
+  if (level === 'safe') el.classList.add('is-clean');
+}
+
+function renderList(id, items) {
+  document.getElementById(id).innerHTML = items
+    .map(item => {
+      const cls = item.cls || 'fi-dim';
+      const txt = item.txt || item;
+      return `<li class="${cls}">${txt}</li>`;
+    }).join('');
+}
+
+const LEVEL_ORDER = ['safe','low','suspicious','dangerous'];
+function worstLevel(levels) {
+  return levels.filter(l => LEVEL_ORDER.includes(l))
+               .reduce((a,b) => LEVEL_ORDER.indexOf(b) > LEVEL_ORDER.indexOf(a) ? b : a, 'safe');
+}
+
+function setVerdict(level, url) {
+  const banner = document.getElementById('verdictBanner');
+  const status = document.getElementById('verdictStatus');
+  const icon   = document.getElementById('verdictIcon');
+  const urlEl  = document.getElementById('verdictUrlDisplay');
+
+  banner.className = `verdict-banner v-${level}`;
+  urlEl.textContent = url;
+  const map = {
+    safe:       { txt:'NO THREATS DETECTED',        icon:'✅' },
+    low:        { txt:'LOW RISK — PROCEED WITH CAUTION', icon:'⚠️' },
+    suspicious: { txt:'SUSPICIOUS — DO NOT CLICK',   icon:'🚨' },
+    dangerous:  { txt:'THREAT DETECTED — DANGER',    icon:'☠️' },
+    scanning:   { txt:'ANALYSING…',                  icon:'⏳' }
+  };
+  status.textContent = map[level]?.txt || level.toUpperCase();
+  icon.textContent   = map[level]?.icon || '🔍';
+}
+
+function scoreToLevel(score) {
+  if (score >= 45) return 'dangerous';
+  if (score >= 22) return 'suspicious';
+  if (score >= 10) return 'low';
+  return 'safe';
+}
+
+function findingClass(level, finding) {
+  if (typeof finding === 'object') return finding;
+  if (level === 'safe') return { cls:'fi-good', txt:finding };
+  if (level === 'dangerous') return { cls:'fi-bad', txt:finding };
+  if (level === 'suspicious') return { cls:'fi-warn', txt:finding };
+  return { cls:'fi-dim', txt:finding };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  MAIN
+// ═══════════════════════════════════════════════════════════════════════════════
+async function startScan() {
+  const raw = document.getElementById('urlInput').value.trim();
+  if (!raw) return;
+
+  const gsbKey = document.getElementById('gsbKey').value.trim() || HARDCODED_GSB;
+
+  let url = raw;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+  // Show/reset results
+  const section = document.getElementById('resultsSection');
+  section.classList.add('visible');
+  document.getElementById('scanBtn').disabled = true;
+
+  setVerdict('scanning', url);
+  setPill('heurPill', 'scanning');
+  setPill('gsbPill',  'scanning');
+  setPill('vtPill',   'scanning');
+  ['heurCard','gsbCard','vtCard'].forEach(id => {
+    document.getElementById(id).className = 'check-card';
+  });
+  ['heurFindings','gsbFindings','vtFindings'].forEach(id => {
+    document.getElementById(id).innerHTML = '';
+  });
+
+  section.scrollIntoView({ behavior:'smooth', block:'start' });
+
+  // 1 — Heuristics (instant)
+  const heur = runHeuristics(url);
+  const heurLevel = scoreToLevel(heur.score);
+  setPill('heurPill', heurLevel);
+  setCardClass('heurCard', heurLevel);
+  renderList('heurFindings', heur.findings);
+
+  // Intermediate verdict from heuristics only
+  setVerdict(heurLevel, url);
+
+  // 2 — APIs in parallel
+  const [gsb, vt] = await Promise.all([
+    checkGSB(url, gsbKey),
+    checkVT(url)
+  ]);
+
+  // GSB results
+  setPill('gsbPill', gsb.level);
+  setCardClass('gsbCard', gsb.level);
+  renderList('gsbFindings', gsb.findings.map(f => findingClass(gsb.level, f)));
+
+  // VT results
+  setPill('vtPill', vt.level);
+  setCardClass('vtCard', vt.level);
+  renderList('vtFindings', vt.findings.map(f => findingClass(vt.level, f)));
+
+  // Final verdict
+  const apiLevels = [gsb.level, vt.level].filter(l => LEVEL_ORDER.includes(l));
+  const overall = worstLevel([heurLe
