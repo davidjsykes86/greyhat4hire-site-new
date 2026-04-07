@@ -259,80 +259,6 @@ main {
 }
 .scan-btn:disabled { opacity:.35; cursor:not-allowed; transform:none; }
 
-/* ── API KEYS PANEL ──────────────────────────────── */
-.api-toggle {
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  margin-top:1.2rem;
-  cursor:pointer;
-  font-family:'Share Tech Mono',monospace;
-  font-size:.68rem;
-  color:var(--text-dim);
-  letter-spacing:.15em;
-  transition:color .2s;
-  user-select:none;
-}
-.api-toggle:hover { color:var(--pink); }
-.toggle-arrow {
-  display:inline-block;
-  transition:transform .25s;
-  font-size:.6rem;
-  color:var(--pink);
-}
-.api-toggle.open .toggle-arrow { transform:rotate(90deg); }
-
-.api-panel {
-  display:none;
-  margin-top:1rem;
-  padding:1.3rem 1.5rem;
-  background:var(--bg3);
-  border:1px solid var(--border-dim);
-  border-radius:2px;
-}
-.api-panel.open { display:block; }
-
-.api-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-@media(max-width:600px){ .api-grid{ grid-template-columns:1fr; } }
-
-.api-field-label {
-  font-family:'Share Tech Mono',monospace;
-  font-size:.65rem;
-  color:var(--text-dim);
-  letter-spacing:.12em;
-  margin-bottom:.45rem;
-}
-.api-field-label span {
-  color:var(--pink);
-  margin-left:.4rem;
-}
-.api-key-input {
-  width:100%;
-  background:var(--bg2);
-  border:1px solid var(--border-dim);
-  color:var(--text);
-  font-family:'Share Tech Mono',monospace;
-  font-size:.8rem;
-  padding:.6rem .8rem;
-  outline:none;
-  border-radius:2px;
-  transition:border-color .2s;
-}
-.api-key-input:focus { border-color:var(--pink); }
-.api-key-input::placeholder { color:var(--text-dim); opacity:.5; }
-
-.api-note {
-  margin-top:1rem;
-  padding:.8rem 1rem;
-  background:rgba(255,20,147,0.05);
-  border:1px solid rgba(255,20,147,0.12);
-  border-radius:2px;
-  font-size:.8rem;
-  color:var(--text-dim);
-  line-height:1.6;
-}
-.api-note a { color:var(--pink); text-decoration:none; }
-.api-note a:hover { text-decoration:underline; }
 
 /* ── RESULTS ─────────────────────────────────────── */
 .results-section { display:none; }
@@ -541,28 +467,6 @@ footer a:hover { text-decoration:underline; }
       <button class="scan-btn" id="scanBtn" onclick="startScan()">SCAN URL</button>
     </div>
 
-    <div class="api-toggle" id="apiToggle" onclick="toggleApiPanel()">
-      <span class="toggle-arrow">▶</span>
-      API KEYS — ENABLE FULL SCAN
-    </div>
-
-    <div class="api-panel" id="apiPanel">
-      <div class="api-grid">
-        <div>
-          <div class="api-field-label">GOOGLE SAFE BROWSING<span>FREE KEY</span></div>
-          <input class="api-key-input" id="gsbKey" type="password" placeholder="AIzaSy..." autocomplete="off"/>
-        </div>
-        <div>
-          <div class="api-field-label">VIRUSTOTAL<span>FREE KEY</span></div>
-          <input class="api-key-input" id="vtKey" type="password" placeholder="fe55ffbd..." autocomplete="off"/>
-        </div>
-      </div>
-      <div class="api-note">
-        Keys are used only in your browser — never sent to GreyHat4Hire servers. Restrict your Google key to this domain in the Google Cloud Console.<br>
-        <a href="https://developers.google.com/safe-browsing/v4/get-started" target="_blank" rel="noopener">→ Get Google Safe Browsing key</a> &nbsp;·&nbsp;
-        <a href="https://www.virustotal.com/gui/my-apikey" target="_blank" rel="noopener">→ Get VirusTotal free key</a>
-      </div>
-    </div>
   </div>
 
   <!-- Results section -->
@@ -620,12 +524,7 @@ footer a:hover { text-decoration:underline; }
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ═══════════════════════════════════════════════════════════════════════════════
-//  OPTIONAL: Hardcode your API keys here so visitors don't need to enter them.
-//  Restrict your Google key to this domain in Google Cloud Console.
-// ═══════════════════════════════════════════════════════════════════════════════
-const HARDCODED_GSB = '';   // e.g. 'AIzaSy...'
-// VT key is server-side in the Cloudflare Worker — do not add it here
+// GSB and VT both proxied via Cloudflare Worker — no client-side keys needed
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  HEURISTICS
@@ -812,35 +711,31 @@ function runHeuristics(rawUrl) {
 // ═══════════════════════════════════════════════════════════════════════════════
 //  GOOGLE SAFE BROWSING
 // ═══════════════════════════════════════════════════════════════════════════════
-async function checkGSB(url, key) {
-  if (!key) return { level:'skipped', findings:['No API key — enter your free Google Safe Browsing key above'] };
+async function checkGSB(url) {
   try {
-    const r = await fetch(
-      `https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${key}`,
-      {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({
-          client:{ clientId:'greyhat4hire', clientVersion:'1.0.0' },
-          threatInfo:{
-            threatTypes:['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],
-            platformTypes:['ANY_PLATFORM'],
-            threatEntryTypes:['URL'],
-            threatEntries:[{ url }]
-          }
-        })
-      }
-    );
-    if (r.status === 400) return { level:'error', findings:['Bad request — check API key format'] };
-    if (r.status === 403) return { level:'error', findings:['API key rejected — verify key and domain restrictions in Google Cloud Console'] };
-    if (!r.ok) return { level:'error', findings:[`HTTP ${r.status} error from Google API`] };
+    const r = await fetch('/api/gsb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client: { clientId: 'greyhat4hire', clientVersion: '1.0.0' },
+        threatInfo: {
+          threatTypes: ['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],
+          platformTypes: ['ANY_PLATFORM'],
+          threatEntryTypes: ['URL'],
+          threatEntries: [{ url }]
+        }
+      })
+    });
+    if (r.status === 400) return { level:'error', findings:['Bad request — proxy error'] };
+    if (r.status === 403) return { level:'error', findings:['GSB API key rejected — check Worker secret in Cloudflare dashboard'] };
+    if (!r.ok) return { level:'error', findings:[`HTTP ${r.status} from GSB proxy`] };
 
     const data = await r.json();
     if (data.matches?.length > 0) {
       const types = [...new Set(data.matches.map(m => m.threatType))];
       return {
-        level:'dangerous',
-        findings:[
+        level: 'dangerous',
+        findings: [
           `Google flags this URL as: ${types.join(', ')}`,
           'This URL is in Google\'s active threat database',
           'Do NOT visit this link'
@@ -926,11 +821,6 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 // ═══════════════════════════════════════════════════════════════════════════════
 //  UI
 // ═══════════════════════════════════════════════════════════════════════════════
-function toggleApiPanel() {
-  document.getElementById('apiPanel').classList.toggle('open');
-  document.getElementById('apiToggle').classList.toggle('open');
-}
-
 function setPill(id, level) {
   const el = document.getElementById(id);
   const labels = {
@@ -1005,8 +895,6 @@ async function startScan() {
   const raw = document.getElementById('urlInput').value.trim();
   if (!raw) return;
 
-  const gsbKey = document.getElementById('gsbKey').value.trim() || HARDCODED_GSB;
-
   let url = raw;
   if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
@@ -1040,7 +928,7 @@ async function startScan() {
 
   // 2 — APIs in parallel
   const [gsb, vt] = await Promise.all([
-    checkGSB(url, gsbKey),
+    checkGSB(url),
     checkVT(url)
   ]);
 

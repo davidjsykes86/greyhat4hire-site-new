@@ -334,20 +334,6 @@ body {
       <button class="w-btn" id="wBtn" onclick="wScan()">SCAN</button>
     </div>
 
-    <div class="w-api-toggle" id="wApiToggle" onclick="wToggleApi()">
-      <span class="w-arrow">▶</span>
-      API KEYS (OPTIONAL)
-    </div>
-    <div class="w-api-area" id="wApiArea">
-      <div>
-        <div class="w-api-label">GOOGLE SAFE BROWSING</div>
-        <input class="w-api-input" id="wGsbKey" type="password" placeholder="AIzaSy..." autocomplete="off"/>
-      </div>
-      <div>
-        <div class="w-api-label">VIRUSTOTAL</div>
-        <input class="w-api-input" id="wVtKey" type="password" placeholder="VT API key..." autocomplete="off"/>
-      </div>
-    </div>
   </div>
 
   <!-- Results -->
@@ -398,9 +384,7 @@ body {
 </div>
 
 <script>
-// ── CONFIGURE: hardcode your keys here for seamless experience ─────────────
-const W_GSB = '';
-// VT key is server-side in the Cloudflare Worker
+// GSB proxied via Cloudflare Worker — no client-side key needed
 
 // ── HEURISTICS (same engine as standalone page) ────────────────────────────
 const BAD_TLDS = new Set(['xyz','tk','ml','ga','cf','gq','top','click','link','win','bid','loan','work','date','racing','download','accountant','science','faith','party','review','trade','webcam','cricket','stream','buzz','pw','rocks','space','website']);
@@ -446,19 +430,25 @@ function heur(rawUrl) {
   return { score:s, findings:f };
 }
 
-async function apiGSB(url, key) {
-  if (!key) return { level:'skipped', findings:['No Google Safe Browsing key'] };
+async function apiGSB(url) {
   try {
-    const r = await fetch(`https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${key}`,{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ client:{clientId:'greyhat4hire',clientVersion:'1.0'},
-        threatInfo:{ threatTypes:['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],
-          platformTypes:['ANY_PLATFORM'], threatEntryTypes:['URL'], threatEntries:[{url}] }})
+    const r = await fetch('/api/gsb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client: { clientId: 'greyhat4hire', clientVersion: '1.0' },
+        threatInfo: {
+          threatTypes: ['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],
+          platformTypes: ['ANY_PLATFORM'],
+          threatEntryTypes: ['URL'],
+          threatEntries: [{ url }]
+        }
+      })
     });
-    if (!r.ok) return { level:'error', findings:[`GSB API error: HTTP ${r.status}`] };
+    if (!r.ok) return { level:'error', findings:[`GSB proxy error: HTTP ${r.status}`] };
     const d = await r.json();
     if (d.matches?.length) {
-      const t = [...new Set(d.matches.map(m=>m.threatType))];
+      const t = [...new Set(d.matches.map(m => m.threatType))];
       return { level:'dangerous', findings:[`Google flags as: ${t.join(', ')}`, 'Do NOT visit this URL'] };
     }
     return { level:'safe', findings:['Not in Google threat database'] };
@@ -526,15 +516,9 @@ function verdict(level, url) {
   const m={ safe:{t:'NO THREATS DETECTED',i:'✅'}, low:{t:'LOW RISK',i:'⚠️'}, suspicious:{t:'SUSPICIOUS — PROCEED WITH CAUTION',i:'🚨'}, dangerous:{t:'THREAT DETECTED — DO NOT CLICK',i:'☠️'}, scanning:{t:'ANALYSING…',i:'⏳'} };
   lv.textContent=m[level]?.t||level.toUpperCase(); ic.textContent=m[level]?.i||'🔍';
 }
-function wToggleApi() {
-  document.getElementById('wApiArea').classList.toggle('open');
-  document.getElementById('wApiToggle').classList.toggle('open');
-}
-
 async function wScan() {
   const raw = document.getElementById('wUrl').value.trim();
   if (!raw) return;
-  const gsbKey = document.getElementById('wGsbKey').value.trim()||W_GSB;
 
   let url = raw;
   if (!/^https?:\/\//i.test(url)) url='https://'+url;
@@ -552,7 +536,7 @@ async function wScan() {
   const hl = toLevel(h.score);
   pill('wpHeur', hl); card('wcHeur', hl); list('wfHeur', h.findings); verdict(hl, url);
 
-  const [gsb, vt] = await Promise.all([apiGSB(url, gsbKey), apiVT(url)]);
+  const [gsb, vt] = await Promise.all([apiGSB(url), apiVT(url)]);
 
   pill('wpGsb', gsb.level); card('wcGsb', gsb.level);
   list('wfGsb', gsb.findings.map(t=>fmap(gsb.level, t)));
