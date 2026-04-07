@@ -432,7 +432,7 @@ function heur(rawUrl) {
 
 async function apiGSB(url) {
   try {
-    const r = await fetch('/api/gsb', {
+    const r = await fetch('/api/vt/gsb', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
