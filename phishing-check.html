@@ -1056,4 +1056,14 @@ async function startScan() {
 
   // Final verdict
   const apiLevels = [gsb.level, vt.level].filter(l => LEVEL_ORDER.includes(l));
-  const overall = worstLevel([heurLe
+  const overall = worstLevel([heurLevel, ...apiLevels]);
+  setVerdict(overall, url);
+  document.getElementById('scanBtn').disabled = false;
+}
+
+document.getElementById('urlInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startScan();
+});
+</script>
+</body>
+</html>
