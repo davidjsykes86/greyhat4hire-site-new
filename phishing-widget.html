@@ -446,7 +446,9 @@ async function apiGSB(url) {
       })
     });
     if (!r.ok) return { level:'error', findings:[`GSB proxy error: HTTP ${r.status}`] };
-    const d = await r.json();
+    const text = await r.text();
+    let d;
+    try { d = JSON.parse(text); } catch(e) { return { level:'error', findings:[`Unexpected GSB response: ${text.slice(0,120)}`] }; }
     if (d.matches?.length) {
       const t = [...new Set(d.matches.map(m => m.threatType))];
       return { level:'dangerous', findings:[`Google flags as: ${t.join(', ')}`, 'Do NOT visit this URL'] };
