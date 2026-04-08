@@ -249,9 +249,11 @@
       transition:all .28s cubic-bezier(.4,0,.2,1);
       z-index:200;
       box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+      max-height:70vh;overflow-y:auto;
     }
     .tools-dropdown-wrap:hover .tools-dropdown-panel {
       opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+      max-height:70vh;overflow-y:auto;
     }
     .tools-dropdown-panel::before {
       content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
@@ -295,7 +297,7 @@
     .mobile-tools-chevron { font-size:.8rem;color:rgba(255,20,147,.7);transition:transform .35s ease; }
     .mobile-tools-accordion.open .mobile-tools-chevron { transform:rotate(180deg); }
     .mobile-tools-panel { max-height:0;overflow:hidden;transition:max-height .35s ease; }
-    .mobile-tools-accordion.open .mobile-tools-panel { max-height:340px; }
+    .mobile-tools-accordion.open .mobile-tools-panel { max-height:420px; }
 
     /* ── BUTTONS ── */
     .btn-primary {
@@ -1499,7 +1501,17 @@
               <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
             </div>
           </a>
-          <a href="downloads.html" class="tool-nav-item">
+                    <a href="phishing-check.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(32,214,214,.1);border:1px solid rgba(32,214,214,.3);color:#20d6d6;--glow-color:rgba(32,214,214,.5);">
+              <i class="fas fa-fish-fins"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(32,214,214,.7);">LINK SCANNER</div>
+              <div class="tool-nav-name">Phishing Link Checker</div>
+              <div class="tool-nav-desc">Scan URLs with heuristics, Google Safe Browsing &amp; VirusTotal</div>
+            </div>
+          </a>
+<a href="downloads.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);">
               <i class="fas fa-vault"></i>
             </div>
@@ -1551,7 +1563,8 @@
         <a href="breach-cost-clock.html"    class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
         <a href="vuln-lookup.html"          class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
         <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
-        <a href="downloads.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
+                <a href="phishing-check.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#20d6d6;box-shadow:0 0 6px #20d6d6;"></span><span>Phishing Link Checker</span></a>
+<a href="downloads.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
       </div>
     </div>
     <a href="cyber-awareness.html"  class="mobile-link desktop-link text-white">Cyber Awareness</a>
@@ -1725,7 +1738,7 @@
     <div class="text-center mb-16 gsap-hidden">
       <div class="section-tag mb-3">Free Intelligence Tools</div>
       <h2 class="font-display font-black neon-pink text-4xl sm:text-5xl mb-4">See Your Exposure. For Free.</h2>
-      <p class="text-gray-400 max-w-xl mx-auto">Five live tools that show you exactly what attackers already see — plus a full arsenal of free templates and frameworks. Before you spend a rand.</p>
+      <p class="text-gray-400 max-w-xl mx-auto">Six live tools that show you exactly what attackers already see — plus a full arsenal of free templates and frameworks. Before you spend a rand.</p>
     </div>
     <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
@@ -1776,6 +1789,16 @@
         <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Upload, paste, or extract a video frame. Claude's AI reads the image, runs multiple live web searches, and delivers a full OSINT report — original source, earliest known date, stolen art matches, meme variants, and propaganda trails.</p>
         <a href="reverse-image-search.html" class="btn-ghost text-sm justify-center" style="border-color:#00ff88;color:#00ff88;">
           <i class="fas fa-magnifying-glass-chart text-xs"></i> TRACE THIS IMAGE
+        </a>
+      </div>
+
+      <div class="tool-card flex flex-col" style="border-color:rgba(32,214,214,.25);background:linear-gradient(135deg,rgba(32,214,214,.04),rgba(0,0,0,0));">
+        <div class="tool-badge" style="background:rgba(32,214,214,.1);border-color:rgba(32,214,214,.4);color:#20d6d6"><span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:#20d6d6;box-shadow:0 0 6px #20d6d6;"></span>LINK SCANNER</div>
+        <div class="text-4xl mb-4"><i class="fas fa-fish-fins" style="color:#20d6d6;filter:drop-shadow(0 0 10px rgba(32,214,214,.6));"></i></div>
+        <h3 class="font-display font-bold text-white text-lg mb-3">Phishing Link Checker</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">Paste any suspicious URL. We run 16-point heuristic analysis, query Google Safe Browsing's threat database, and scan with VirusTotal's 90+ security engines — all in real time. Know before you click.</p>
+        <a href="phishing-check.html" class="btn-ghost text-sm justify-center" style="border-color:#20d6d6;color:#20d6d6;">
+          <i class="fas fa-shield-virus text-xs"></i> SCAN A LINK
         </a>
       </div>
 

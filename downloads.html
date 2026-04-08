@@ -144,9 +144,11 @@
       transition:all .28s cubic-bezier(.4,0,.2,1);
       z-index:200;
       box-shadow:0 24px 80px rgba(168,85,247,.2),0 0 0 1px rgba(168,85,247,.08);
+      max-height:70vh;overflow-y:auto;
     }
     .tools-dropdown-wrap:hover .tools-dropdown-panel {
       opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+      max-height:70vh;overflow-y:auto;
     }
     .tools-dropdown-panel::before {
       content:'';position:absolute;top:-6px;left:50%;
@@ -518,7 +520,17 @@
               <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
             </div>
           </a>
-          <a href="downloads.html" class="tool-nav-item">
+                    <a href="phishing-check.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(32,214,214,.1);border:1px solid rgba(32,214,214,.3);color:#20d6d6;--glow-color:rgba(32,214,214,.5);">
+              <i class="fas fa-fish-fins"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(32,214,214,.7);">LINK SCANNER</div>
+              <div class="tool-nav-name">Phishing Link Checker</div>
+              <div class="tool-nav-desc">Scan URLs with heuristics, Google Safe Browsing &amp; VirusTotal</div>
+            </div>
+          </a>
+<a href="downloads.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);">
               <i class="fas fa-vault"></i>
             </div>

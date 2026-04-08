@@ -109,9 +109,11 @@
       transition:all .28s cubic-bezier(.4,0,.2,1);
       z-index:200;
       box-shadow:0 24px 80px rgba(255,20,147,.2),0 0 0 1px rgba(255,20,147,.08);
+      max-height:70vh;overflow-y:auto;
     }
     .tools-dropdown-wrap:hover .tools-dropdown-panel {
       opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+      max-height:70vh;overflow-y:auto;
     }
     .tools-dropdown-panel::before {
       content:'';position:absolute;top:-6px;left:50%;
@@ -570,7 +572,17 @@
               <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
             </div>
           </a>
-          <a href="downloads.html" class="tool-nav-item">
+                    <a href="phishing-check.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(32,214,214,.1);border:1px solid rgba(32,214,214,.3);color:#20d6d6;--glow-color:rgba(32,214,214,.5);">
+              <i class="fas fa-fish-fins"></i>
+            </div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(32,214,214,.7);">LINK SCANNER</div>
+              <div class="tool-nav-name">Phishing Link Checker</div>
+              <div class="tool-nav-desc">Scan URLs with heuristics, Google Safe Browsing &amp; VirusTotal</div>
+            </div>
+          </a>
+<a href="downloads.html" class="tool-nav-item">
             <div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);">
               <i class="fas fa-vault"></i>
             </div>
@@ -623,7 +635,8 @@
         <a href="breach-cost-clock.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
         <a href="vuln-lookup.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
         <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
-        <a href="downloads.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
+                <a href="phishing-check.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#20d6d6;box-shadow:0 0 6px #20d6d6;"></span><span>Phishing Link Checker</span></a>
+<a href="downloads.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
       </div>
     </div>
     <a href="cyber-awareness.html"   class="mobile-link desktop-link neon-pink">Cyber Awareness</a>
@@ -1226,6 +1239,21 @@
       <div class="flex-shrink-0">
         <span style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;border:2px solid rgba(168,85,247,.4);color:#a855f7;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;transition:all .3s ease;" class="group-hover:bg-purple-500/10">
           <i class="fas fa-download"></i> OPEN ARSENAL
+        </span>
+      </div>
+    </a>
+    <a href="phishing-check.html" class="glass rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 hover:border-pink-500/40 transition-all duration-300 group mt-4" style="border-color:rgba(32,214,214,.25);text-decoration:none;">
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 group-hover:scale-110 transition-transform" style="background:rgba(32,214,214,.1);border:1px solid rgba(32,214,214,.3);color:#20d6d6;">
+        <i class="fas fa-fish-fins"></i>
+      </div>
+      <div class="flex-1 text-center sm:text-left">
+        <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(32,214,214,.7);margin-bottom:4px;">FREE LINK SCANNER</div>
+        <h3 class="font-display font-bold text-white text-lg sm:text-xl mb-1">Phishing Link Checker</h3>
+        <p class="text-gray-400 text-sm">Got a suspicious URL? Scan it with 16-point heuristic analysis, Google Safe Browsing, and VirusTotal's 90+ engines before you click.</p>
+      </div>
+      <div class="flex-shrink-0">
+        <span style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;border:2px solid rgba(32,214,214,.4);color:#20d6d6;font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;transition:all .3s ease;" class="group-hover:bg-cyan-500/10">
+          <i class="fas fa-shield-virus"></i> CHECK A LINK
         </span>
       </div>
     </a>
