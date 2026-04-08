@@ -5,22 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Phishing Link Scanner | GreyHat4Hire</title>
 <meta name="description" content="Free phishing link scanner for dental and healthcare practices. Powered by heuristic analysis, Google Safe Browsing, and VirusTotal.">
+<link rel="icon" href="favicon.ico">
+<link rel="preload" href="logo-nav.webp" as="image" type="image/webp"/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
 :root {
   --pink: #ff1493;
-  --pink-dim: rgba(255,20,147,0.12);
-  --pink-glow: rgba(255,20,147,0.35);
+  --teal: #20d6d6;
+  --teal-dim: rgba(32,214,214,0.12);
+  --teal-glow: rgba(32,214,214,0.35);
+  --teal-border: rgba(32,214,214,0.22);
+  --teal-border-dim: rgba(32,214,214,0.10);
   --bg: #050508;
-  --bg2: #0c0c14;
-  --bg3: #121220;
-  --text: #dde0ee;
-  --text-dim: #7a7a9a;
+  --bg2: #080d10;
+  --bg3: #0d1618;
+  --text: #cde8e8;
+  --text-dim: #6a8a8a;
   --safe: #00e87a;
   --warn: #f5c518;
   --orange: #ff6622;
   --danger: #ff2244;
-  --border: rgba(255,20,147,0.18);
+  --border: rgba(32,214,214,0.18);
   --border-dim: rgba(255,255,255,0.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -35,70 +43,131 @@ body {
   overflow-x: hidden;
 }
 
-/* Grid background */
+/* Grid background — teal tint */
 body::before {
   content:'';
   position:fixed;
   inset:0;
   background-image:
-    linear-gradient(rgba(255,20,147,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,20,147,0.025) 1px, transparent 1px);
+    linear-gradient(rgba(32,214,214,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32,214,214,0.03) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events:none;
   z-index:0;
 }
-/* Ambient glow top-left */
+/* Ambient glow top-right */
 body::after {
   content:'';
   position:fixed;
-  top:-200px; left:-200px;
+  top:-200px; right:-200px;
   width:600px; height:600px;
-  background: radial-gradient(circle, rgba(255,20,147,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(32,214,214,0.07) 0%, transparent 70%);
   pointer-events:none;
   z-index:0;
 }
 
-/* ── NAV ─────────────────────────────────────────── */
-nav {
-  position:fixed;
-  top:0; left:0; right:0;
+/* ── NAV (site-standard) ─────────────────────── */
+nav { transition:all .4s ease; }
+.nav-scrolled { background:rgba(0,0,0,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(32,214,214,.12); }
+.desktop-link { position:relative;transition:all .3s ease;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em; }
+.desktop-link:hover { color:#5ef0f0;text-shadow:0 0 20px var(--teal); }
+.desktop-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--teal);transition:width .3s ease; }
+.desktop-link:hover::after { width:100%; }
+.desktop-link.active { color:var(--teal); }
+.desktop-link.active::after { width:100%; }
+#mobile-menu { background:rgba(0,0,0,0.97);transform:translateY(-100%);transition:transform .4s ease; }
+#mobile-menu.open { transform:translateY(0); }
+.mobile-link { padding:16px 0;font-size:1.25rem;width:100%;text-align:center;max-width:300px;border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease; }
+
+/* ── TOOLS DROPDOWN ── */
+.tools-dropdown-wrap { position:relative; }
+.tools-dropdown-btn {
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;
+  font-size:.875rem;color:#e0e0e0;background:transparent;border:none;
+  transition:all .3s ease;padding:0;position:relative;
+}
+.tools-dropdown-btn::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--teal);transition:width .3s ease; }
+.tools-dropdown-btn:hover { color:#5ef0f0;text-shadow:0 0 20px var(--teal); }
+.tools-dropdown-btn:hover::after { width:100%; }
+.tools-dropdown-btn .chevron { transition:transform .3s ease;font-size:.65rem; }
+.tools-dropdown-wrap:hover .tools-dropdown-btn .chevron { transform:rotate(180deg); }
+.tools-dropdown-btn .tools-live-dot, .tools-live-dot {
+  width:6px;height:6px;border-radius:50%;background:var(--teal);
+  animation:toolsDotPulse 1.8s infinite;flex-shrink:0;
+}
+@keyframes toolsDotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(32,214,214,.6)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(32,214,214,0)} }
+
+.tools-dropdown-panel {
+  position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-8px);
+  width:360px;
+  background:rgba(4,4,4,.97);backdrop-filter:blur(28px);
+  border:1px solid rgba(32,214,214,.3);border-radius:20px;
+  padding:12px;
+  opacity:0;pointer-events:none;
+  transition:all .28s cubic-bezier(.4,0,.2,1);
   z-index:200;
-  height:62px;
-  background: rgba(5,5,8,0.88);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding: 0 2.5rem;
+  box-shadow:0 24px 80px rgba(32,214,214,.18),0 0 0 1px rgba(32,214,214,.06);
+  max-height:70vh;overflow-y:auto;
 }
-.nav-logo {
-  font-family:'Orbitron',sans-serif;
-  font-size:.95rem;
-  font-weight:900;
-  color:var(--pink);
+.tools-dropdown-wrap:hover .tools-dropdown-panel {
+  opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);
+}
+.tools-dropdown-panel::before {
+  content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  width:12px;height:12px;background:rgba(4,4,4,.97);
+  border-left:1px solid rgba(32,214,214,.3);border-top:1px solid rgba(32,214,214,.3);
+  transform:translateX(-50%) rotate(45deg);
+}
+.tool-nav-item {
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:14px;
   text-decoration:none;
-  letter-spacing:.08em;
-  text-shadow: 0 0 20px var(--pink-glow);
+  transition:all .25s ease;
+  border:1px solid transparent;
 }
-.nav-right { display:flex; align-items:center; gap:1.5rem; }
-.nav-tag {
-  font-family:'Share Tech Mono',monospace;
-  font-size:.68rem;
-  color:var(--text-dim);
-  letter-spacing:.15em;
+.tool-nav-item:hover { background:rgba(32,214,214,.06);border-color:rgba(32,214,214,.2);transform:translateX(4px); }
+.tool-nav-icon {
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  transition:all .3s ease;
 }
-.nav-back {
-  font-family:'Share Tech Mono',monospace;
-  font-size:.72rem;
-  color:var(--text-dim);
-  text-decoration:none;
-  border:1px solid var(--border);
-  padding:.38rem 1rem;
-  letter-spacing:.1em;
-  transition:all .2s;
+.tool-nav-item:hover .tool-nav-icon { transform:scale(1.1);box-shadow:0 0 20px var(--glow-color,rgba(32,214,214,.5)); }
+.tool-nav-label { font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.15em;margin-bottom:2px; }
+.tool-nav-name { font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:#fff;line-height:1.2;margin-bottom:2px; }
+.tool-nav-desc { font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.3; }
+.tools-panel-header {
+  padding:10px 16px 8px;margin-bottom:4px;
+  border-bottom:1px solid rgba(32,214,214,.12);
 }
-.nav-back:hover { color:var(--pink); border-color:var(--pink); box-shadow: 0 0 12px var(--pink-glow); }
+
+/* ── MOBILE TOOL LINKS ── */
+.mobile-tool-link {
+  display:flex;align-items:center;gap:10px;
+  padding:14px 0;font-size:1.1rem;width:100%;text-align:left;max-width:300px;
+  border-bottom:1px solid rgba(255,255,255,.08);transition:all .3s ease;
+  text-decoration:none;color:#e0e0e0;
+}
+.mobile-tool-link .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+.mobile-tools-accordion { border-bottom:1px solid rgba(255,255,255,.08);width:100%;max-width:300px; }
+.mobile-tools-toggle { display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 0;font-size:1.1rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:#e0e0e0;background:transparent;border:none;transition:color .3s ease;cursor:pointer; }
+.mobile-tools-toggle:hover { color:#5ef0f0; }
+.mobile-tools-chevron { font-size:.8rem;color:rgba(32,214,214,.7);transition:transform .35s ease; }
+.mobile-tools-accordion.open .mobile-tools-chevron { transform:rotate(180deg); }
+.mobile-tools-panel { max-height:0;overflow:hidden;transition:max-height .35s ease; }
+.mobile-tools-accordion.open .mobile-tools-panel { max-height:420px; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#ff1493,#ff69b4);
+  color:#fff;font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:.1em;
+  padding:18px 40px;border-radius:14px;border:none;
+  transition:all .3s ease;text-decoration:none;
+}
+.btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 44px rgba(255,20,147,.6); }
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 30px rgba(255,20,147,.45)} 50%{box-shadow:0 0 65px rgba(255,20,147,.85)} }
+.pulse-glow { animation:pulseGlow 2.8s infinite; }
 
 /* ── MAIN ────────────────────────────────────────── */
 main {
@@ -117,7 +186,7 @@ main {
   gap:.75rem;
   font-family:'Share Tech Mono',monospace;
   font-size:.7rem;
-  color:var(--pink);
+  color:var(--teal);
   letter-spacing:.35em;
   text-transform:uppercase;
   margin-bottom:1.4rem;
@@ -127,7 +196,7 @@ main {
   display:inline-block;
   width:30px;
   height:1px;
-  background:var(--pink);
+  background:var(--teal);
   opacity:.5;
 }
 .hero h1 {
@@ -142,8 +211,8 @@ main {
 }
 .hero h1 em {
   font-style:normal;
-  color:var(--pink);
-  text-shadow: 0 0 30px var(--pink-glow);
+  color:var(--teal);
+  text-shadow: 0 0 30px var(--teal-glow);
 }
 .hero-sub {
   font-size:1.05rem;
@@ -185,14 +254,14 @@ main {
   position:absolute;
   top:0; left:0; right:0;
   height:2px;
-  background: linear-gradient(90deg, transparent 0%, var(--pink) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--teal) 50%, transparent 100%);
   opacity:.7;
 }
 
 .card-label {
   font-family:'Share Tech Mono',monospace;
   font-size:.67rem;
-  color:var(--pink);
+  color:var(--teal);
   letter-spacing:.28em;
   text-transform:uppercase;
   margin-bottom:1.4rem;
@@ -223,14 +292,14 @@ main {
   min-width:0;
 }
 .url-input:focus {
-  border-color:var(--pink);
-  box-shadow: 0 0 0 1px var(--pink), 0 0 20px var(--pink-dim);
+  border-color:var(--teal);
+  box-shadow: 0 0 0 1px var(--teal), 0 0 20px var(--teal-dim);
 }
 .url-input::placeholder { color:var(--text-dim); opacity:.7; }
 
 .scan-btn {
   flex-shrink:0;
-  background:var(--pink);
+  background:var(--teal);
   color:#000;
   border:none;
   font-family:'Orbitron',sans-serif;
@@ -254,7 +323,7 @@ main {
 }
 .scan-btn:hover {
   background:#fff;
-  box-shadow: 0 0 30px var(--pink-glow), 0 4px 20px rgba(0,0,0,.5);
+  box-shadow: 0 0 30px var(--teal-glow), 0 4px 20px rgba(0,0,0,.5);
   transform:translateY(-1px);
 }
 .scan-btn:disabled { opacity:.35; cursor:not-allowed; transform:none; }
@@ -379,7 +448,7 @@ main {
   gap:.6rem;
   line-height:1.5;
 }
-.check-findings li::before { content:'›'; color:var(--pink); flex-shrink:0; }
+.check-findings li::before { content:'›'; color:var(--teal); flex-shrink:0; }
 .fi-bad  { color:var(--danger) !important; }
 .fi-warn { color:var(--warn)   !important; }
 .fi-good { color:var(--safe)   !important; }
@@ -389,34 +458,17 @@ main {
 .disclaimer {
   margin-top:1.4rem;
   padding:1rem 1.4rem;
-  background:rgba(255,20,147,.04);
+  background:rgba(32,214,214,.04);
   border:1px solid var(--border);
   border-radius:2px;
   font-size:.82rem;
   color:var(--text-dim);
   line-height:1.6;
 }
-.disclaimer strong { color:var(--pink); }
-
-/* ── FOOTER ──────────────────────────────────────── */
-footer {
-  position:relative;
-  z-index:1;
-  text-align:center;
-  padding:2.5rem 1.5rem;
-  border-top:1px solid var(--border);
-  font-family:'Share Tech Mono',monospace;
-  font-size:.72rem;
-  color:var(--text-dim);
-  letter-spacing:.08em;
-}
-footer a { color:var(--pink); text-decoration:none; }
-footer a:hover { text-decoration:underline; }
+.disclaimer strong { color:var(--teal); }
 
 /* ── RESPONSIVE ──────────────────────────────────── */
 @media(max-width:560px){
-  nav { padding:0 1.2rem; }
-  .nav-tag { display:none; }
   main { padding-top:90px; }
   .card { padding:1.4rem 1.2rem; }
   .input-row { flex-direction:column; }
@@ -428,14 +480,143 @@ footer a:hover { text-decoration:underline; }
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="/">GREYHAT4HIRE</a>
-  <div class="nav-right">
-    <span class="nav-tag">// FREE SECURITY TOOL</span>
-    <a class="nav-back" href="/">← BACK TO SITE</a>
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 py-4 sm:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="logo-nav.webp" alt="Greyhat4Hire" class="h-8 sm:h-10" width="80" height="80" style="width:auto;" fetchpriority="high"
+        onerror="this.outerHTML='<span style=\'font-family:Orbitron,monospace;font-weight:900;font-size:1.05rem;color:#ff1493;text-shadow:0 0 18px rgba(255,20,147,.8)\'>GREY<span style=\'color:#fff\'>HAT</span>4HIRE</span>'">
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-7 text-sm">
+      <a href="index.html"           class="desktop-link text-gray-300">Home</a>
+      <a href="about.html"           class="desktop-link text-gray-300">About</a>
+      <a href="services.html"        class="desktop-link text-gray-300">Services</a>
+
+      <!-- FREE TOOLS DROPDOWN -->
+      <div class="tools-dropdown-wrap">
+        <button class="tools-dropdown-btn" type="button">
+          <span class="tools-live-dot"></span>
+          Free Tools
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="tools-dropdown-panel">
+          <div class="tools-panel-header">
+            <div style="font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(32,214,214,.6);">FREE INTELLIGENCE TOOLS</div>
+          </div>
+          <a href="risk-assessment.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(255,20,147,.1);border:1px solid rgba(255,20,147,.3);color:#ff1493;--glow-color:rgba(255,20,147,.5);"><i class="fas fa-shield-halved"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(255,20,147,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Risk Self-Assessment</div>
+              <div class="tool-nav-desc">90-second breach exposure score across 12 controls</div>
+            </div>
+          </a>
+          <a href="hackers-dossier.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#ef4444;--glow-color:rgba(239,68,68,.5);"><i class="fas fa-file-circle-exclamation"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(239,68,68,.7);">LIVE OSINT</div>
+              <div class="tool-nav-name">The Hacker's Dossier</div>
+              <div class="tool-nav-desc">Live DNS, cert scans &amp; Shodan intel on your domain</div>
+            </div>
+          </a>
+          <a href="breach-cost-clock.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#f59e0b;--glow-color:rgba(245,158,11,.5);"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(245,158,11,.7);">FINANCIAL IMPACT</div>
+              <div class="tool-nav-name">Breach Cost Clock</div>
+              <div class="tool-nav-desc">Watch your breach cost tick up in real time</div>
+            </div>
+          </a>
+          <a href="vuln-lookup.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:#3b82f6;--glow-color:rgba(59,130,246,.5);"><i class="fas fa-bug-slash"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(59,130,246,.7);">FREE TOOL</div>
+              <div class="tool-nav-name">Vulnerability Intelligence</div>
+              <div class="tool-nav-desc">Real-time CVE lookup across NVD, CISA KEV &amp; Exploit-DB</div>
+            </div>
+          </a>
+          <a href="reverse-image-search.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;--glow-color:rgba(0,255,136,.5);"><i class="fas fa-image"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(0,255,136,.7);">AI · OSINT</div>
+              <div class="tool-nav-name">Reverse Image Search</div>
+              <div class="tool-nav-desc">AI vision + live web search to trace image origins &amp; fakes</div>
+            </div>
+          </a>
+          <a href="phishing-check.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(32,214,214,.1);border:1px solid rgba(32,214,214,.3);color:#20d6d6;--glow-color:rgba(32,214,214,.5);"><i class="fas fa-fish-fins"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(32,214,214,.7);">LINK SCANNER</div>
+              <div class="tool-nav-name">Phishing Link Checker</div>
+              <div class="tool-nav-desc">Scan URLs with heuristics, Google Safe Browsing &amp; VirusTotal</div>
+            </div>
+          </a>
+          <a href="downloads.html" class="tool-nav-item">
+            <div class="tool-nav-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#a855f7;--glow-color:rgba(168,85,247,.5);"><i class="fas fa-vault"></i></div>
+            <div>
+              <div class="tool-nav-label" style="color:rgba(168,85,247,.7);">FREE DOWNLOADS</div>
+              <div class="tool-nav-name">The Arsenal</div>
+              <div class="tool-nav-desc">31 free templates, policies, checklists &amp; frameworks</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END FREE TOOLS DROPDOWN -->
+
+      <a href="cyber-awareness.html" class="desktop-link text-gray-300">Cyber Awareness</a>
+      <a href="our-process.html"     class="desktop-link text-gray-300">Our Process</a>
+      <a href="pricing.html"         class="desktop-link text-gray-300">Pricing</a>
+      <a href="blog.html"            class="desktop-link text-gray-300">Blog</a>
+      <a href="contact.html"         class="desktop-link text-gray-300">Contact</a>
+    </div>
+
+    <a href="contact.html" class="hidden lg:inline-flex btn-primary pulse-glow" style="padding:12px 24px;font-size:.72rem;">
+      <i class="fas fa-shield-alt"></i> Get a Quote
+    </a>
+
+    <button id="hamburger" class="lg:hidden text-3xl text-pink-400 hover:text-pink-300 transition" style="border:none;outline:none;background:none;">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </nav>
 
+<!-- ══ MOBILE MENU ══ -->
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[100] flex flex-col items-center justify-start gap-0 overflow-y-auto" style="padding-top:80px;padding-bottom:32px;">
+  <button id="close-menu" class="fixed top-6 right-8 text-4xl text-pink-400" style="z-index:110;border:none;outline:none;background:none;"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col items-center w-full max-w-xs">
+    <a href="index.html"           class="mobile-link desktop-link text-white">Home</a>
+    <a href="about.html"           class="mobile-link desktop-link text-white">About</a>
+    <a href="services.html"        class="mobile-link desktop-link text-white">Services</a>
+    <div class="mobile-tools-accordion" id="mobile-tools-accordion">
+      <button id="mobile-tools-toggle" type="button" class="mobile-tools-toggle">
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span class="tools-live-dot"></span>
+          <span>Free Tools</span>
+        </span>
+        <i class="fas fa-chevron-down mobile-tools-chevron"></i>
+      </button>
+      <div class="mobile-tools-panel">
+        <a href="risk-assessment.html"      class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ff1493;box-shadow:0 0 6px #ff1493;"></span><span>Risk Self-Assessment</span></a>
+        <a href="hackers-dossier.html"      class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span><span>Hacker's Dossier</span></a>
+        <a href="breach-cost-clock.html"    class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span><span>Breach Cost Clock</span></a>
+        <a href="vuln-lookup.html"          class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#3b82f6;box-shadow:0 0 6px #3b82f6;"></span><span>Vulnerability Intelligence</span></a>
+        <a href="reverse-image-search.html" class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#00ff88;box-shadow:0 0 6px #00ff88;"></span><span>Reverse Image Search</span></a>
+        <a href="phishing-check.html"       class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#20d6d6;box-shadow:0 0 6px #20d6d6;"></span><span>Phishing Link Checker</span></a>
+        <a href="downloads.html"            class="mobile-tool-link" style="padding-left:12px;"><span class="dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span><span>The Arsenal</span></a>
+      </div>
+    </div>
+    <a href="cyber-awareness.html" class="mobile-link desktop-link text-white">Cyber Awareness</a>
+    <a href="our-process.html"     class="mobile-link desktop-link text-white">Our Process</a>
+    <a href="pricing.html"         class="mobile-link desktop-link text-white">Pricing</a>
+    <a href="blog.html"            class="mobile-link desktop-link text-white">Blog</a>
+    <a href="contact.html"         class="mobile-link desktop-link text-white">Contact</a>
+  </div>
+  <a href="contact.html" class="btn-primary mt-8 pulse-glow" style="width:auto;padding:14px 32px;"><i class="fas fa-shield-alt"></i> Get a Quote</a>
+</div>
+
+<!-- ══ MAIN ══ -->
 <main>
 
   <div class="hero">
@@ -466,7 +647,6 @@ footer a:hover { text-decoration:underline; }
       />
       <button class="scan-btn" id="scanBtn" onclick="startScan()">SCAN URL</button>
     </div>
-
   </div>
 
   <!-- Results section -->
@@ -512,19 +692,38 @@ footer a:hover { text-decoration:underline; }
       <strong>DISCLAIMER:</strong> This tool provides threat intelligence to support your decision-making.
       It does not guarantee a URL is safe or dangerous. When in doubt, do not click — contact your
       IT support or a cybersecurity professional. Provided free by
-      <a href="https://greyhat4hire.com" style="color:var(--pink)">GreyHat4Hire</a> as a public service for healthcare practices.
+      <a href="https://greyhat4hire.com" style="color:var(--teal)">GreyHat4Hire</a> as a public service for healthcare practices.
     </div>
 
   </div>
 
 </main>
 
-<footer>
-  &copy; 2025 <a href="https://greyhat4hire.com">GreyHat4Hire</a> — Cybersecurity for Dental &amp; Medical Practices &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#5b32353d341b3c293e22333a2f6f3332293e75383436"><span class="__cf_email__" data-cfemail="543d3a323b143326312d3c3520603c3d26317a373b39">[email&#160;protected]</span></a>
-</footer>
+<!-- ══ FOOTER ══ -->
+<div id="gh4h-footer"></div>
+<script src="footer.js"></script>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// GSB and VT both proxied via Cloudflare Worker — no client-side keys needed
+<script>
+// ── NAV JS ──────────────────────────────────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('nav-scrolled',scrollY>50));
+
+const hamburger   = document.getElementById('hamburger');
+const mobileMenu  = document.getElementById('mobile-menu');
+const closeMenu   = document.getElementById('close-menu');
+
+function openMenu(){ mobileMenu.classList.remove('hidden'); setTimeout(()=>mobileMenu.classList.add('open'),10); }
+function closeMenuFn(){ mobileMenu.classList.remove('open'); setTimeout(()=>mobileMenu.classList.add('hidden'),400); }
+
+hamburger.addEventListener('click', openMenu);
+closeMenu.addEventListener('click', closeMenuFn);
+document.querySelectorAll('.mobile-link, .mobile-tool-link').forEach(l=>l.addEventListener('click', closeMenuFn));
+
+const mobileToolsToggle = document.getElementById('mobile-tools-toggle');
+if(mobileToolsToggle){
+  mobileToolsToggle.addEventListener('click', function(){
+    mobileToolsToggle.closest('.mobile-tools-accordion').classList.toggle('open');
+  });
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  HEURISTICS
@@ -569,7 +768,6 @@ const FREE_HOSTS = [
 function runHeuristics(rawUrl) {
   const findings = [];
   let score = 0;
-
   let url, hostname, pathname, protocol, port;
   try {
     let full = rawUrl.trim();
@@ -589,121 +787,36 @@ function runHeuristics(rawUrl) {
   const registeredDomain = parts.slice(-2).join('.');
   const ipRx = /^(\d{1,3}\.){3}\d{1,3}$/;
 
-  // 1. IP address as host
-  if (ipRx.test(hostname)) {
-    score += 40;
-    findings.push({cls:'fi-bad', txt:'IP address used instead of domain name — phishing hallmark'});
-  }
-
-  // 2. HTTP (unencrypted)
-  if (protocol === 'http:' && !hostname.includes('localhost')) {
-    score += 12;
-    findings.push({cls:'fi-warn', txt:'No HTTPS — connection is unencrypted'});
-  } else if (protocol === 'https:') {
-    findings.push({cls:'fi-good', txt:'HTTPS detected — encrypted transport (though phishing sites also use HTTPS)'});
-  }
-
-  // 3. Suspicious TLD
-  if (SUSPICIOUS_TLDS.has(tld)) {
-    score += 22;
-    findings.push({cls:'fi-bad', txt:`.${tld} — high-risk TLD, commonly abused in phishing campaigns`});
-  }
-
-  // 4. URL shortener
-  if (URL_SHORTENERS.has(domainNoWww)) {
-    score += 18;
-    findings.push({cls:'fi-warn', txt:'URL shortener detected — real destination is hidden'});
-  }
-
-  // 5. Excessive subdomain depth
-  if (parts.length > 4) {
-    score += 22;
-    findings.push({cls:'fi-bad', txt:`${parts.length}-level subdomain chain — common obfuscation technique`});
-  } else if (parts.length <= 3) {
-    findings.push({cls:'fi-good', txt:'Clean domain structure — no subdomain stacking'});
-  }
-
-  // 6. @ symbol in URL (credential bypass trick)
-  if (rawUrl.includes('@')) {
-    score += 35;
-    findings.push({cls:'fi-bad', txt:'@ symbol in URL — can force browser to load a completely different host'});
-  }
-
-  // 7. Non-standard port
-  if (port && !['','80','443','8080','8443'].includes(port)) {
-    score += 22;
-    findings.push({cls:'fi-warn', txt:`Non-standard port ${port} — legitimate services rarely use unusual ports`});
-  }
-
-  // 8. Hyphens in domain (typosquatting indicator)
+  if (ipRx.test(hostname)) { score += 40; findings.push({cls:'fi-bad', txt:'IP address used instead of domain name — phishing hallmark'}); }
+  if (protocol === 'http:' && !hostname.includes('localhost')) { score += 12; findings.push({cls:'fi-warn', txt:'No HTTPS — connection is unencrypted'}); }
+  else if (protocol === 'https:') { findings.push({cls:'fi-good', txt:'HTTPS detected — encrypted transport (though phishing sites also use HTTPS)'}); }
+  if (SUSPICIOUS_TLDS.has(tld)) { score += 22; findings.push({cls:'fi-bad', txt:`.${tld} — high-risk TLD, commonly abused in phishing campaigns`}); }
+  if (URL_SHORTENERS.has(domainNoWww)) { score += 18; findings.push({cls:'fi-warn', txt:'URL shortener detected — real destination is hidden'}); }
+  if (parts.length > 4) { score += 22; findings.push({cls:'fi-bad', txt:`${parts.length}-level subdomain chain — common obfuscation technique`}); }
+  else if (parts.length <= 3) { findings.push({cls:'fi-good', txt:'Clean domain structure — no subdomain stacking'}); }
+  if (rawUrl.includes('@')) { score += 35; findings.push({cls:'fi-bad', txt:'@ symbol in URL — can force browser to load a completely different host'}); }
+  if (port && !['','80','443','8080','8443'].includes(port)) { score += 22; findings.push({cls:'fi-warn', txt:`Non-standard port ${port} — legitimate services rarely use unusual ports`}); }
   const domainBody = parts.slice(0, -1).join('.');
   const hyphens = (domainBody.match(/-/g) || []).length;
-  if (hyphens >= 3) {
-    score += 16;
-    findings.push({cls:'fi-warn', txt:`${hyphens} hyphens in domain — typical of typosquatting domains`});
-  }
-
-  // 9. Brand name in URL but not on real domain
+  if (hyphens >= 3) { score += 16; findings.push({cls:'fi-warn', txt:`${hyphens} hyphens in domain — typical of typosquatting domains`}); }
   const brandHit = BRANDS.find(b => {
     const inHost = hostname.includes(b);
-    const isActualDomain =
-      hostname.endsWith(b + '.com') || hostname.endsWith(b + '.co.za') ||
-      hostname.endsWith(b + '.org') || hostname.endsWith(b + '.net') ||
-      hostname.endsWith(b + '.gov') || hostname.endsWith(b + '.io') ||
-      registeredDomain === b + '.' + tld;
+    const isActualDomain = hostname.endsWith(b+'.com')||hostname.endsWith(b+'.co.za')||hostname.endsWith(b+'.org')||hostname.endsWith(b+'.net')||hostname.endsWith(b+'.gov')||hostname.endsWith(b+'.io')||registeredDomain===b+'.'+tld;
     return inHost && !isActualDomain;
   });
-  if (brandHit) {
-    score += 35;
-    findings.push({cls:'fi-bad', txt:`Brand keyword "${brandHit}" in URL but not on its official domain — likely impersonation`});
-  }
-
-  // 10. Suspicious path keywords
+  if (brandHit) { score += 35; findings.push({cls:'fi-bad', txt:`Brand keyword "${brandHit}" in URL but not on its official domain — likely impersonation`}); }
   const pathHit = SUSP_PATHS.find(k => pathname.includes(k));
-  if (pathHit) {
-    score += 10;
-    findings.push({cls:'fi-warn', txt:`Sensitive keyword in path: "/${pathHit}" — common in credential-harvest pages`});
-  }
-
-  // 11. Very long URL
-  if (rawUrl.length > 160) {
-    score += 10;
-    findings.push({cls:'fi-warn', txt:`Long URL (${rawUrl.length} chars) — often used to bury the real destination`});
-  }
-
-  // 12. Encoded characters in domain
-  if (hostname.includes('%')) {
-    score += 28;
-    findings.push({cls:'fi-bad', txt:'Encoded characters in domain — obfuscation to evade filters'});
-  }
-
-  // 13. Double-slash redirect
-  if (pathname.includes('//')) {
-    score += 15;
-    findings.push({cls:'fi-warn', txt:'Double-slash in path — possible open redirect abuse'});
-  }
-
-  // 14. Punycode / internationalized domain (IDN homograph attack)
-  if (hostname.startsWith('xn--') || hostname.includes('.xn--')) {
-    score += 28;
-    findings.push({cls:'fi-bad', txt:'Punycode/IDN domain detected — may be homograph attack using lookalike characters'});
-  }
-
-  // 15. Free hosting (phishing favourite)
+  if (pathHit) { score += 10; findings.push({cls:'fi-warn', txt:`Sensitive keyword in path: "/${pathHit}" — common in credential-harvest pages`}); }
+  if (rawUrl.length > 160) { score += 10; findings.push({cls:'fi-warn', txt:`Long URL (${rawUrl.length} chars) — often used to bury the real destination`}); }
+  if (hostname.includes('%')) { score += 28; findings.push({cls:'fi-bad', txt:'Encoded characters in domain — obfuscation to evade filters'}); }
+  if (pathname.includes('//')) { score += 15; findings.push({cls:'fi-warn', txt:'Double-slash in path — possible open redirect abuse'}); }
+  if (hostname.startsWith('xn--') || hostname.includes('.xn--')) { score += 28; findings.push({cls:'fi-bad', txt:'Punycode/IDN domain detected — may be homograph attack using lookalike characters'}); }
   const freeHit = FREE_HOSTS.find(h => hostname.endsWith(h));
-  if (freeHit) {
-    score += 10;
-    findings.push({cls:'fi-warn', txt:`Hosted on free platform (${freeHit}) — commonly abused to stand up phishing pages quickly`});
-  }
-
-  // 16. Multiple query parameters with suspicious keys
+  if (freeHit) { score += 10; findings.push({cls:'fi-warn', txt:`Hosted on free platform (${freeHit}) — commonly abused to stand up phishing pages quickly`}); }
   const params = [...url.searchParams.keys()].map(k => k.toLowerCase());
   const suspParams = ['redirect','return','next','url','goto','dest','target','ref','returnto'];
   const suspParam = suspParams.find(p => params.includes(p));
-  if (suspParam) {
-    score += 12;
-    findings.push({cls:'fi-warn', txt:`Redirect parameter "${suspParam}" in URL — possible open redirect or phishing chain`});
-  }
+  if (suspParam) { score += 12; findings.push({cls:'fi-warn', txt:`Redirect parameter "${suspParam}" in URL — possible open redirect or phishing chain`}); }
 
   return { score, findings };
 }
@@ -729,20 +842,12 @@ async function checkGSB(url) {
     if (r.status === 400) return { level:'error', findings:['Bad request — proxy error'] };
     if (r.status === 403) return { level:'error', findings:['GSB API key rejected — check Worker secret in Cloudflare dashboard'] };
     if (!r.ok) return { level:'error', findings:[`HTTP ${r.status} from GSB proxy`] };
-
     const text = await r.text();
     let data;
     try { data = JSON.parse(text); } catch(e) { return { level:'error', findings:[`Unexpected GSB response: ${text.slice(0,120)}`] }; }
     if (data.matches?.length > 0) {
       const types = [...new Set(data.matches.map(m => m.threatType))];
-      return {
-        level: 'dangerous',
-        findings: [
-          `Google flags this URL as: ${types.join(', ')}`,
-          'This URL is in Google\'s active threat database',
-          'Do NOT visit this link'
-        ]
-      };
+      return { level:'dangerous', findings:[`Google flags this URL as: ${types.join(', ')}`, 'This URL is in Google\'s active threat database', 'Do NOT visit this link'] };
     }
     return { level:'safe', findings:['Not found in Google\'s threat database', 'No known malware or phishing activity'] };
   } catch(e) {
@@ -755,20 +860,15 @@ async function checkGSB(url) {
 // ═══════════════════════════════════════════════════════════════════════════════
 async function checkVT(url) {
   try {
-    // Submit via proxy worker
     const form = new FormData();
     form.append('url', url);
-    const sub = await fetch('/api/vt/urls', {
-      method:'POST', body:form
-    });
+    const sub = await fetch('/api/vt/urls', { method:'POST', body:form });
     if (sub.status === 401) return { level:'error', findings:['VirusTotal API key error — contact site admin'] };
     if (sub.status === 429) return { level:'error', findings:['Rate limit reached — VirusTotal free tier: 4 req/min, 500/day'] };
     if (!sub.ok) return { level:'error', findings:[`VirusTotal error: HTTP ${sub.status}`] };
     const subData = await sub.json();
     const id = subData.data?.id;
     if (!id) return { level:'error', findings:['No analysis ID returned'] };
-
-    // Poll via proxy worker (up to ~30s)
     for (let i = 0; i < 10; i++) {
       await sleep(3000);
       const res = await fetch(`/api/vt/analyses/${id}`);
@@ -780,36 +880,13 @@ async function checkVT(url) {
         const malicious  = s.malicious  || 0;
         const suspicious = s.suspicious || 0;
         const undetected = s.undetected || 0;
-
         if (malicious > 0) {
-          return {
-            level: 'dangerous',
-            findings: [
-              `${malicious} of ${total} engines flagged as MALICIOUS`,
-              suspicious > 0 ? `${suspicious} additional engines flagged suspicious` : null,
-              `${undetected} engines reported clean`,
-              'Known malicious URL — do not visit'
-            ].filter(Boolean)
-          };
+          return { level:'dangerous', findings:[`${malicious} of ${total} engines flagged as MALICIOUS`, suspicious>0?`${suspicious} additional engines flagged suspicious`:null, `${undetected} engines reported clean`, 'Known malicious URL — do not visit'].filter(Boolean) };
         }
         if (suspicious > 0) {
-          return {
-            level: 'suspicious',
-            findings: [
-              `${suspicious} of ${total} engines flagged as suspicious`,
-              `${undetected} engines reported clean`,
-              'Treat with caution — avoid clicking'
-            ]
-          };
+          return { level:'suspicious', findings:[`${suspicious} of ${total} engines flagged as suspicious`, `${undetected} engines reported clean`, 'Treat with caution — avoid clicking'] };
         }
-        return {
-          level: 'safe',
-          findings: [
-            `Scanned by ${total} security engines`,
-            'No engines detected threats',
-            malicious === 0 && suspicious === 0 ? 'All clear from VirusTotal database' : null
-          ].filter(Boolean)
-        };
+        return { level:'safe', findings:[`Scanned by ${total} security engines`, 'No engines detected threats', malicious===0&&suspicious===0?'All clear from VirusTotal database':null].filter(Boolean) };
       }
     }
     return { level:'error', findings:['Analysis timed out — VT may still be processing. Try again shortly.'] };
@@ -821,67 +898,42 @@ async function checkVT(url) {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  UI
+//  UI HELPERS
 // ═══════════════════════════════════════════════════════════════════════════════
 function setPill(id, level) {
   const el = document.getElementById(id);
-  const labels = {
-    scanning:'SCANNING', safe:'CLEAN', low:'LOW RISK',
-    suspicious:'SUSPICIOUS', dangerous:'THREAT DETECTED',
-    skipped:'NO KEY', error:'ERROR'
-  };
+  const labels = { scanning:'SCANNING', safe:'CLEAN', low:'LOW RISK', suspicious:'SUSPICIOUS', dangerous:'THREAT DETECTED', skipped:'NO KEY', error:'ERROR' };
   el.className = `check-pill pill-${level}`;
   el.textContent = labels[level] || level.toUpperCase();
 }
-
 function setCardClass(id, level) {
   const el = document.getElementById(id);
   el.className = 'check-card';
   if (level === 'dangerous' || level === 'suspicious') el.classList.add('has-threat');
   if (level === 'safe') el.classList.add('is-clean');
 }
-
 function renderList(id, items) {
   document.getElementById(id).innerHTML = items
-    .map(item => {
-      const cls = item.cls || 'fi-dim';
-      const txt = item.txt || item;
-      return `<li class="${cls}">${txt}</li>`;
-    }).join('');
+    .map(item => { const cls=item.cls||'fi-dim'; const txt=item.txt||item; return `<li class="${cls}">${txt}</li>`; }).join('');
 }
-
 const LEVEL_ORDER = ['safe','low','suspicious','dangerous'];
 function worstLevel(levels) {
-  return levels.filter(l => LEVEL_ORDER.includes(l))
-               .reduce((a,b) => LEVEL_ORDER.indexOf(b) > LEVEL_ORDER.indexOf(a) ? b : a, 'safe');
+  return levels.filter(l=>LEVEL_ORDER.includes(l)).reduce((a,b)=>LEVEL_ORDER.indexOf(b)>LEVEL_ORDER.indexOf(a)?b:a,'safe');
 }
-
 function setVerdict(level, url) {
-  const banner = document.getElementById('verdictBanner');
-  const status = document.getElementById('verdictStatus');
-  const icon   = document.getElementById('verdictIcon');
-  const urlEl  = document.getElementById('verdictUrlDisplay');
-
-  banner.className = `verdict-banner v-${level}`;
-  urlEl.textContent = url;
-  const map = {
-    safe:       { txt:'NO THREATS DETECTED',        icon:'✅' },
-    low:        { txt:'LOW RISK — PROCEED WITH CAUTION', icon:'⚠️' },
-    suspicious: { txt:'SUSPICIOUS — DO NOT CLICK',   icon:'🚨' },
-    dangerous:  { txt:'THREAT DETECTED — DANGER',    icon:'☠️' },
-    scanning:   { txt:'ANALYSING…',                  icon:'⏳' }
-  };
-  status.textContent = map[level]?.txt || level.toUpperCase();
-  icon.textContent   = map[level]?.icon || '🔍';
+  const banner=document.getElementById('verdictBanner'),status=document.getElementById('verdictStatus'),icon=document.getElementById('verdictIcon'),urlEl=document.getElementById('verdictUrlDisplay');
+  banner.className=`verdict-banner v-${level}`;
+  urlEl.textContent=url;
+  const map={ safe:{txt:'NO THREATS DETECTED',icon:'✅'}, low:{txt:'LOW RISK — PROCEED WITH CAUTION',icon:'⚠️'}, suspicious:{txt:'SUSPICIOUS — DO NOT CLICK',icon:'🚨'}, dangerous:{txt:'THREAT DETECTED — DANGER',icon:'☠️'}, scanning:{txt:'ANALYSING…',icon:'⏳'} };
+  status.textContent=map[level]?.txt||level.toUpperCase();
+  icon.textContent=map[level]?.icon||'🔍';
 }
-
 function scoreToLevel(score) {
   if (score >= 45) return 'dangerous';
   if (score >= 22) return 'suspicious';
   if (score >= 10) return 'low';
   return 'safe';
 }
-
 function findingClass(level, finding) {
   if (typeof finding === 'object') return finding;
   if (level === 'safe') return { cls:'fi-good', txt:finding };
@@ -891,30 +943,22 @@ function findingClass(level, finding) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  MAIN
+//  MAIN SCAN
 // ═══════════════════════════════════════════════════════════════════════════════
 async function startScan() {
   const raw = document.getElementById('urlInput').value.trim();
   if (!raw) return;
-
   let url = raw;
   if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
-  // Show/reset results
   const section = document.getElementById('resultsSection');
   section.classList.add('visible');
   document.getElementById('scanBtn').disabled = true;
 
   setVerdict('scanning', url);
-  setPill('heurPill', 'scanning');
-  setPill('gsbPill',  'scanning');
-  setPill('vtPill',   'scanning');
-  ['heurCard','gsbCard','vtCard'].forEach(id => {
-    document.getElementById(id).className = 'check-card';
-  });
-  ['heurFindings','gsbFindings','vtFindings'].forEach(id => {
-    document.getElementById(id).innerHTML = '';
-  });
+  setPill('heurPill','scanning'); setPill('gsbPill','scanning'); setPill('vtPill','scanning');
+  ['heurCard','gsbCard','vtCard'].forEach(id=>{ document.getElementById(id).className='check-card'; });
+  ['heurFindings','gsbFindings','vtFindings'].forEach(id=>{ document.getElementById(id).innerHTML=''; });
 
   section.scrollIntoView({ behavior:'smooth', block:'start' });
 
@@ -924,36 +968,23 @@ async function startScan() {
   setPill('heurPill', heurLevel);
   setCardClass('heurCard', heurLevel);
   renderList('heurFindings', heur.findings);
-
-  // Intermediate verdict from heuristics only
   setVerdict(heurLevel, url);
 
   // 2 — APIs in parallel
-  const [gsb, vt] = await Promise.all([
-    checkGSB(url),
-    checkVT(url)
-  ]);
+  const [gsb, vt] = await Promise.all([ checkGSB(url), checkVT(url) ]);
 
-  // GSB results
-  setPill('gsbPill', gsb.level);
-  setCardClass('gsbCard', gsb.level);
-  renderList('gsbFindings', gsb.findings.map(f => findingClass(gsb.level, f)));
+  setPill('gsbPill', gsb.level); setCardClass('gsbCard', gsb.level);
+  renderList('gsbFindings', gsb.findings.map(f=>findingClass(gsb.level,f)));
 
-  // VT results
-  setPill('vtPill', vt.level);
-  setCardClass('vtCard', vt.level);
-  renderList('vtFindings', vt.findings.map(f => findingClass(vt.level, f)));
+  setPill('vtPill', vt.level); setCardClass('vtCard', vt.level);
+  renderList('vtFindings', vt.findings.map(f=>findingClass(vt.level,f)));
 
-  // Final verdict
-  const apiLevels = [gsb.level, vt.level].filter(l => LEVEL_ORDER.includes(l));
-  const overall = worstLevel([heurLevel, ...apiLevels]);
-  setVerdict(overall, url);
+  const apiLevels = [gsb.level, vt.level].filter(l=>LEVEL_ORDER.includes(l));
+  setVerdict(worstLevel([heurLevel,...apiLevels]), url);
   document.getElementById('scanBtn').disabled = false;
 }
 
-document.getElementById('urlInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') startScan();
-});
+document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key==='Enter') startScan(); });
 </script>
 </body>
 </html>
