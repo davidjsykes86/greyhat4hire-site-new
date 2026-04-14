@@ -493,7 +493,7 @@
   "jobTitle": "Independent Cybersecurity Practitioner & Founder",
   "description": "Independent cybersecurity practitioner and practicing dentist based in Umhlanga, South Africa. Founder of Greyhat4Hire. 25 years in security research, 13 years in clinical dentistry.",
   "url": "https://greyhat4hire.com/about.html",
-  "image": "https://greyhat4hire.com/portrait.webp",
+  "image": "https://greyhat4hire.com/hero-split.webp",
   "sameAs": [
     "https://www.linkedin.com/in/david-sykes-8058383b2"
   ],
@@ -760,8 +760,9 @@
       <!-- Portrait side -->
       <div id="hero-portrait" class="relative">
         <div class="portrait-wrap">
-          <img src="portrait.webp" alt="Dr David Sykes"
-            onerror="this.parentElement.innerHTML='<div style=\'width:100%;padding-bottom:115%;background:rgba(255,20,147,.06);display:flex;align-items:center;justify-content:center;\'><i class=\'fas fa-user-secret\' style=\'font-size:6rem;color:rgba(255,20,147,.3);\'></i></div>'"/>
+          <img src="hero-split.webp" alt="Dr David Sykes — half hacker, half dentist"
+            onerror="this.src='hero-split.png'; this.onerror=function(){this.parentElement.innerHTML='<div style=\'width:100%;padding-bottom:130%;background:rgba(255,20,147,.06);display:flex;align-items:center;justify-content:center;\'><i class=\'fas fa-user-secret\' style=\'font-size:6rem;color:rgba(255,20,147,.3);\'></i></div>';}"
+          />
         </div>
         <!-- floating badge -->
         <div class="absolute -bottom-5 -left-5 glass rounded-2xl p-4 flex items-center gap-3">
@@ -1069,8 +1070,14 @@
         </div>
       </div>
 
-      <!-- Right column: what this means for clients -->
+      <!-- Right column: formal portrait + what this means for clients -->
       <div class="gsap-hidden">
+        <!-- Formal portrait -->
+        <div class="portrait-wrap mb-10 max-w-sm mx-auto md:mx-0" style="border-radius:20px;">
+          <img src="portrait.webp" alt="Dr David Sykes — Founder, Greyhat4Hire" style="display:block;width:100%;height:auto;border-radius:20px;"
+            onerror="this.parentElement.style.display='none'"/>
+        </div>
+
         <div class="font-mono text-xs text-pink-400/50 tracking-widest mb-6">// WHAT THIS MEANS FOR YOU</div>
 
         <div class="space-y-4">
